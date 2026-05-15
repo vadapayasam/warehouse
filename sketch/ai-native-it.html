@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Native IT | SuperOps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F5F3EE;
+      --bg-dark: #E8E5DF;
+      --text: #1A1A1A;
+      --text-muted: #6B6B6B;
+      /* SuperOps violet/pink theme */
+      --accent: #8B5CF6;
+      --accent-light: #A78BFA;
+      --accent-dark: #7C3AED;
+      --border: #D4D0C8;
+      --white: #FFFFFF;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    
+    /* Hero */
+    .hero {
+      padding: 6rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .hero-badge {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 3rem;
+      font-weight: 500;
+    }
+    
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      max-width: 900px;
+    }
+    
+    h1 .accent {
+      color: var(--accent-dark);
+      font-style: italic;
+    }
+    
+    .hero-subtext {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    
+    /* Why It Exists Section */
+    .why-exists {
+      background: var(--text);
+      color: var(--bg);
+      padding: 6rem 4rem;
+    }
+    
+    .why-exists-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    
+    .why-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent-light);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    
+    .why-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1.3;
+    }
+    
+    .why-content {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: rgba(245, 243, 238, 0.85);
+    }
+    
+    .why-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .why-content strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+    
+    /* USP Section - Layman Style */
+    .usp-section {
+      padding: 6rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .section-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 400;
+      color: var(--text);
+    }
+    
+    .usp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+    
+    @media (max-width: 900px) {
+      .usp-grid {
+        grid-template-columns: 1fr;
+      }
+      .why-exists-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+    
+    .usp-card {
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      background: var(--white);
+      transition: all 0.3s ease;
+    }
+    
+    .usp-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 10px 40px rgba(139, 92, 246, 0.1);
+    }
+    
+    .usp-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: var(--accent);
+      opacity: 0.5;
+      margin-bottom: 1rem;
+    }
+    
+    .usp-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    
+    .usp-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    
+    /* Example Section - How It Works */
+    .example-section {
+      padding: 6rem 4rem;
+      background: var(--bg-dark);
+    }
+    
+    .example-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .example-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .example-scenario {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .scenario-alert {
+      background: #FEE2E2;
+      border-left: 4px solid #EF4444;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .alert-icon {
+      width: 40px;
+      height: 40px;
+      background: #EF4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .alert-text {
+      flex: 1;
+    }
+    
+    .alert-title {
+      font-weight: 600;
+      color: #991B1B;
+      margin-bottom: 0.25rem;
+    }
+    
+    .alert-time {
+      font-size: 0.85rem;
+      color: #7F1D1D;
+    }
+    
+    .scenario-flow {
+      padding: 2rem;
+    }
+    
+    .flow-step {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    
+    .flow-step:last-child {
+      margin-bottom: 0;
+    }
+    
+    .flow-step::before {
+      content: "";
+      position: absolute;
+      left: 20px;
+      top: 50px;
+      width: 2px;
+      height: calc(100% - 30px);
+      background: var(--border);
+    }
+    
+    .flow-step:last-child::before {
+      display: none;
+    }
+    
+    .step-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    
+    .step-badge.agent {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .step-badge.human {
+      background: var(--bg-dark);
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+    
+    .step-content {
+      flex: 1;
+      padding-top: 0.5rem;
+    }
+    
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .step-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    .step-meta {
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .scenario-result {
+      background: #ECFDF5;
+      border-left: 4px solid #10B981;
+      padding: 1.5rem 2rem;
+      margin: 0 2rem 2rem;
+      border-radius: 4px;
+    }
+    
+    .result-title {
+      font-weight: 600;
+      color: #065F46;
+      margin-bottom: 0.5rem;
+    }
+    
+    .result-text {
+      color: #047857;
+      font-size: 0.95rem;
+    }
+    
+    /* Testimonial Quote Section */
+    .testimonial {
+      padding: 6rem 4rem;
+      background: var(--white);
+    }
+    
+    .testimonial-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .quote-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      font-weight: 500;
+    }
+    
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 6rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: -2rem;
+      opacity: 0.8;
+    }
+    
+    blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      line-height: 1.5;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+    
+    blockquote .highlight {
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+    
+    blockquote .italic {
+      font-style: italic;
+      color: var(--accent);
+    }
+    
+    .quote-attribution {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .quote-attribution strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    
+    /* The Comparison */
+    .comparison {
+      padding: 6rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .comparison-card {
+      padding: 3rem;
+      border: 1px solid var(--border);
+    }
+    
+    .comparison-card.aI-native {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+    
+    .comparison-card.assisted {
+      background: var(--white);
+    }
+    
+    .card-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    .comparison-card.aI-native .card-label {
+      color: var(--accent-light);
+    }
+    
+    .comparison-card.assisted .card-label {
+      color: var(--accent);
+    }
+    
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+    
+    .comparison-card.assisted .card-title {
+      color: var(--text);
+    }
+    
+    .card-desc {
+      font-size: 1rem;
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+    
+    .card-features {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid;
+      opacity: 0.6;
+    }
+    
+    .comparison-card.aI-native .card-features {
+      border-color: rgba(245, 243, 238, 0.2);
+    }
+    
+    .comparison-card.assisted .card-features {
+      border-color: var(--border);
+    }
+    
+    .card-features li {
+      list-style: none;
+      padding: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+    
+    .card-features li::before {
+      content: "→";
+      margin-right: 0.8rem;
+      color: var(--accent);
+    }
+    
+    /* Taglines Grid */
+    .taglines {
+      padding: 6rem 4rem;
+      background: var(--text);
+      color: var(--bg);
+    }
+    
+    .taglines-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .taglines-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+      background: rgba(255,255,255,0.1);
+      margin-top: 3rem;
+    }
+    
+    .tagline-cell {
+      background: var(--text);
+      padding: 2.5rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    .tagline-cell strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+    
+    .tagline-cell em {
+      color: var(--accent-light);
+      font-style: normal;
+    }
+    
+    /* Footer */
+    .footer {
+      padding: 4rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .footer-brand {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 1rem 1.5rem;
+      }
+      
+      .hero, .why-exists, .usp-section, .testimonial, .comparison, .taglines, .example-section {
+        padding: 3rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <span>06 STATIC → INTERACTIVE</span>
+    <span>AI-NATIVE IT INFRASTRUCTURE</span>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-badge">The Problem With IT Today</span>
+    <h1>
+      Sleep through<br>
+      <span class="accent">the next outage.</span>
+    </h1>
+    <p class="hero-subtext">
+      AI-Native IT doesn't assist your team. It <em>is</em> your team. While others bolt chatbots onto legacy RMMs, we rebuilt the entire stack around autonomous agents.
+    </p>
+  </section>
+
+  <!-- Why MSPclaw Exists -->
+  <section class="why-exists">
+    <div class="why-exists-inner">
+      <div>
+        <div class="why-label">Why This Exists</div>
+        <h2 class="why-title">The 3 AM Problem Nobody Talks About</h2>
+      </div>
+      <div class="why-content">
+        <p>
+          Every MSP has been there: an alert fires at 3 AM. Your on-call engineer wakes up, VPNs in, runs the same diagnostic script they've run a hundred times. <strong>20 minutes later:</strong> disk space issue. Delete logs. Back to bed.
+        </p>
+        <p>
+          The real cost isn't the alert. It's the <strong>interrupted sleep, the context switching, the repetitive work</strong> that burns through engineers until they quit.
+        </p>
+        <p>
+          <strong>MSPclaw exists because that entire workflow is ridiculous.</strong> An AI-native agent can see the alert, run diagnostics, check playbooks, take corrective action, and only wake a human when judgment is actually needed. Not for disk cleanup. For the weird stuff.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USP Section - Layman Style -->
+  <section class="usp-section">
+    <div class="section-header">
+      <div class="section-label">What Makes It Different</div>
+      <h2 class="section-title">Three things no other IT platform does</h2>
+    </div>
+    
+    <div class="usp-grid">
+      <div class="usp-card">
+        <div class="usp-number">01</div>
+        <h3 class="usp-title">It Actually Thinks First</h3>
+        <p class="usp-desc">
+          Most "AI" tools just pattern-match and guess. Our agent <strong>reasons through problems</strong> — plans steps, asks clarifying questions, then acts. Like a senior engineer who reads the ticket carefully before touching anything.
+        </p>
+      </div>
+      
+      <div class="usp-card">
+        <div class="usp-number">02</div>
+        <h3 class="usp-title">Knowledge Lives in Code, Not Docs</h3>
+        <p class="usp-desc">
+          Your team's expertise gets trapped in Confluence and Slack. We turn it into <strong>version-controlled playbooks</strong> that the AI understands natively. No more "I would've fixed it if I'd seen that doc."
+        </p>
+      </div>
+      
+      <div class="usp-card">
+        <div class="usp-number">03</div>
+        <h3 class="usp-title">Picks Up Where It Left Off</h3>
+        <p class="usp-desc">
+          Agent gets stuck on something complex? It pauses, asks for help, then <strong>resumes exactly where it stopped</strong> when your engineer responds. Full context intact. No starting over from scratch.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How the Brain Thinks -->
+  <section class="example-section" style="background: var(--white);">
+    <div class="example-inner">
+      <div class="example-header">
+        <div class="section-label">The Architecture</div>
+        <h2 class="section-title">How the brain actually thinks</h2>
+      </div>
+      
+      <div class="example-scenario" style="border: none; box-shadow: 0 2px 20px rgba(0,0,0,0.05);">
+        <div style="padding: 2.5rem; border-bottom: 1px solid var(--border);">
+          <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+            <strong>The ReAct Loop:</strong> Think → Ask/Act → Verify. Not a script. A conversation the agent has with itself.
+          </p>
+          
+          <div class="flow-step">
+            <div class="step-badge agent" style="background: #1E293B;">1</div>
+            <div class="step-content">
+              <div class="step-title">What does the user need?</div>
+              <div class="step-desc">
+                Parses the ticket: "printer not working" → user needs working print function. Not a specific printer.
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step">
+            <div class="step-badge agent" style="background: #1E293B;">2</div>
+            <div class="step-content">
+              <div class="step-title">What do I already know?</div>
+              <div class="step-desc">
+                "I know their floor. I don't know which printer. I don't get to guess — that's how you print to the wrong printer."
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step">
+            <div class="step-badge agent" style="background: #1E293B;">3</div>
+            <div class="step-content">
+              <div class="step-title">Can I discover it with a tool?</div>
+              <div class="step-desc">
+                Checks available tools. No tool returns "user's preferred printer." That's tribal knowledge only the user knows.
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step" style="margin-bottom: 0;">
+            <div class="step-badge agent" style="background: var(--accent);">4</div>
+            <div class="step-content">
+              <div class="step-title">Decision: Ask the user</div>
+              <div class="step-desc">
+                "Which floor is the printer on?" → Agent collects info, resumes loop, now has everything to execute.
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="padding: 2rem 2.5rem; background: var(--bg);">
+          <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem;">
+            Contrast: "my mac is slow"
+          </div>
+          <p style="font-size: 1rem; color: var(--text);">
+            Same loop. But this time: <em>get_system_info</em> and <em>list_top_processes</em> exist. Agent discovers everything needed. <strong class="accent">Acts immediately, no questions asked.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Playbooks Explained -->
+  <section class="example-section">
+    <div class="example-inner">
+      <div class="example-header">
+        <div class="section-label">Knowledge Engineering</div>
+        <h2 class="section-title">Playbooks: machine-legible, human-editable</h2>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+        <div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 1rem; font-weight: 600;">Why YAML?</h3>
+          <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem;">
+            Playbooks aren't scripts. They're <strong>intent definitions</strong>. The AI reads the description, understands what tools are allowed, and figures out the steps.
+          </p>
+          <ul style="list-style: none; color: var(--text-muted);">
+            <li style="padding: 0.5rem 0;">→ Version controlled (git history)</li>
+            <li style="padding: 0.5rem 0;">→ Human-readable without a manual</li>
+            <li style="padding: 0.5rem 0;">→ LLM-native structure</li>
+            <li style="padding: 0.5rem 0;">→ No proprietary vendor lock-in</li>
+          </ul>
+        </div>
+        
+        <div style="background: #1E293B; border-radius: 8px; padding: 1.5rem; font-family: 'SF Mono', monospace; font-size: 0.85rem; color: #94A3B8;">
+          <div style="color: #64748B; margin-bottom: 0.5rem;"># playbook: disk_cleanup.yml</div>
+          <div><span style="color: #F472B6;">name</span>: <span style="color: #A5F3FC;">"Low disk space remediation"</span></div>
+          <div><span style="color: #F472B6;">description</span>: |</div>
+          <div style="padding-left: 1rem; color: #A5F3FC;">Diagnose disk usage, identify large</div>
+          <div style="padding-left: 1rem; color: #A5F3FC;">files, rotate old logs safely.</div>
+          <div style="margin-top: 1rem;"><span style="color: #F472B6;">trigger</span>:</div>
+          <div style="padding-left: 1rem;"><span style="color: #F472B6;">keywords</span>: [<span style="color: #A5F3FC;">"disk full"</span>, <span style="color: #A5F3FC;">"low space"</span>]</div>
+          <div style="padding-left: 1rem;"><span style="color: #F472B6;">threshold_pct</span>: <span style="color: #FBBF24;">90</span></div>
+          <div style="margin-top: 1rem;"><span style="color: #F472B6;">tools_allowed</span>:</div>
+          <div style="padding-left: 1rem;">- <span style="color: #A5F3FC;">get_disk_usage</span></div>
+          <div style="padding-left: 1rem;">- <span style="color: #A5F3FC;">find_large_files</span></div>
+          <div style="padding-left: 1rem;">- <span style="color: #A5F3FC;">rotate_logs</span></div>
+          <div style="margin-top: 1rem;"><span style="color: #F472B6;">approval_required</span>: <span style="color: #FBBF24;">false</span></div>
+          <div style="padding-left: 1rem; color: #64748B;"># Agent decides execution order</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 3rem; padding: 2rem; background: var(--white); border-radius: 8px; border: 1px solid var(--border);">
+        <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; font-weight: 600;">
+          The Shift
+        </div>
+        <p style="font-size: 1.15rem; line-height: 1.7;">
+          <strong>Old way:</strong> Write step-by-step scripts. Breaks when anything unexpected happens. <br>
+          <strong>New way:</strong> Describe the goal. <em>The agent figures out the steps.</em> "I need disk space back" is enough.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Error Handling & Retry -->
+  <section class="example-section" style="background: var(--white);">
+    <div class="example-inner">
+      <div class="example-header">
+        <div class="section-label">Resilience</div>
+        <h2 class="section-title">When things break, it doesn't just die</h2>
+      </div>
+      
+      <div class="example-scenario" style="border: none; box-shadow: 0 2px 20px rgba(0,0,0,0.05);">
+        <div style="padding: 2.5rem;">
+          <div class="flow-step">
+            <div class="step-badge agent" style="background: var(--accent);">◇</div>
+            <div class="step-content">
+              <div class="step-title">Detect failure</div>
+              <div class="step-desc">
+                Tool returns non-zero exit. Agent doesn't panic. It asks: was this expected? Is there a fallback in the playbook?
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step">
+            <div class="step-badge agent" style="background: #F59E0B;">↻</div>
+            <div class="step-content">
+              <div class="step-title">Retry with backoff</div>
+              <div class="step-desc">
+                Network hiccup? Retries up to 3x with exponential delay. Transient failures fix themselves. No 3 AM wake-up for temporary blips.
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step">
+            <div class="step-badge agent" style="background: #EF4444;">!</div>
+            <div class="step-content">
+              <div class="step-title">Escalate if needed</div>
+              <div class="step-desc">
+                Retry exhausted? No matching playbook? <strong>Pauses and asks.</strong> Stores full context. Engineer resumes with single command: <code>mspclaw reply &lt;job_id&gt; "try sudo"</code>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step" style="margin-bottom: 0;">
+            <div class="step-badge agent" style="background: #10B981;">✓</div>
+            <div class="step-content">
+              <div class="step-title">Resumes where it stopped</div>
+              <div class="step-desc">
+                WebSocket dropped? Conversation persists to SQLite. Reconnect and it's like nothing happened. No "start over from the beginning."
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="background: #FEF3C7; padding: 1.5rem 2.5rem; border-top: 1px solid #FDE68A;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 1.5rem;">💡</div>
+            <div>
+              <div style="font-weight: 600; color: #92400E; margin-bottom: 0.25rem;">The Philosophy</div>
+              <div style="color: #B45309; font-size: 0.95rem;">
+                <strong>Fail graceful, not silent.</strong> Agents should get stuck <em>loudly</em> — with full context — not fail quietly and leave you guessing.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example: How It Works -->
+  <section class="example-section">
+    <div class="example-inner">
+      <div class="example-header">
+        <div class="section-label">Simple Example</div>
+        <h2 class="section-title">3 AM. Server disk full. Here's what happens.</h2>
+      </div>
+      
+      <div class="example-scenario">
+        <div class="scenario-alert">
+          <div class="alert-icon">⚠</div>
+          <div class="alert-text">
+            <div class="alert-title">ALERT: disk_usage > 90% on prod-web-03</div>
+            <div class="alert-time">3:14 AM — PagerDuty > MSPclaw Agent</div>
+          </div>
+        </div>
+        
+        <div class="scenario-flow">
+          <div class="flow-step">
+            <div class="step-badge agent">AI</div>
+            <div class="step-content">
+              <div class="step-title">Reads the alert</div>
+              <div class="step-desc">
+                "Disk usage at 94%. This matches the 'disk_cleanup' playbook pattern. I've seen this before on web servers."
+              </div>
+              <div class="step-meta">T + 0 seconds</div>
+            </div>
+          </div>
+          
+          <div class="flow-step">
+            <div class="step-badge agent">AI</div>
+            <div class="step-content">
+              <div class="step-title">Checks what's eating space</div>
+              <div class="step-desc">
+                Runs du -sh /var/log/*. Finds 47GB of old nginx logs. Checks playbook: "Safe to rotate logs older than 7 days."
+              </div>
+              <div class="step-meta">T + 8 seconds</div>
+            </div>
+          </div>
+          
+          <div class="flow-step">
+            <div class="step-badge agent">AI</div>
+            <div class="step-content">
+              <div class="step-title">Takes action</div>
+              <div class="step-desc">
+                Rotates logs > 7 days. Disk usage drops to 62%. Sends confirmation to Slack. Creates incident log.
+              </div>
+              <div class="step-meta">T + 15 seconds</div>
+            </div>
+          </div>
+          
+          <div class="flow-step">
+            <div class="step-badge human">👤</div>
+            <div class="step-content">
+              <div class="step-title">Human reviews in the morning</div>
+              <div class="step-desc">
+                Engineer sees "Resolved: disk_cleanup on prod-web-03" with full logs. No wake-up call. No context loss.
+              </div>
+              <div class="step-meta">9:00 AM — Next business day</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="scenario-result">
+          <div class="result-title">✓ Resolved automatically</div>
+          <div class="result-text">
+            <strong>Time saved:</strong> 20 minutes of engineer work + uninterrupted sleep.<br>
+            <strong>What the engineer did:</strong> Nothing. They slept through it.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial Quote -->
+  <section class="testimonial">
+    <div class="testimonial-inner">
+      <div class="quote-label">Direct Quote — Platform Comparison</div>
+      <div class="quote-mark">"</div>
+      <blockquote>
+        The most complex incident workflows, which took <span class="highlight">20+ manual steps</span> across <span class="italic">three different tools</span>, now resolve with <span class="highlight">2 agent commands.</span>
+      </blockquote>
+      <div class="quote-attribution">
+        — Senior Platform Engineer, <strong>Fortune 500 Retailer</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Comparison -->
+  <section class="comparison">
+    <div class="section-header">
+      <div class="section-label">The Architecture Gap</div>
+      <h2 class="section-title">Assisted vs. Native</h2>
+    </div>
+    
+    <div class="comparison-grid">
+      <div class="comparison-card assisted">
+        <div class="card-label">AI-Assisted (Everyone Else)</div>
+        <h3 class="card-title">Copilots bolted onto legacy</h3>
+        <p class="card-desc">
+          Traditional RMMs with AI features added later. The human drives; AI suggests. Same workflows, slightly faster. Still needs someone watching the screen.
+        </p>
+        <ul class="card-features">
+          <li>AI suggests scripts, human executes</li>
+          <li>Workflows defined in their UI</li>
+          <li>Per-seat licensing</li>
+          <li>Black-box AI you don't control</li>
+        </ul>
+      </div>
+      
+      <div class="comparison-card aI-native">
+        <div class="card-label">AI-Native (MSPclaw)</div>
+        <h3 class="card-title">Rebuilt for agents first</h3>
+        <p class="card-desc">
+          LLM reasoning is the core orchestrator. Agents handle the first 80% of incidents autonomously. Humans review ambiguity and edge cases. The system scales without scaling headcount.
+        </p>
+        <ul class="card-features">
+          <li>Agent diagnoses, acts, verifies</li>
+          <li>Playbooks in version-controlled YAML</li>
+          <li>Usage-based pricing</li>
+          <li>Open source, self-hostable</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Competitive Taglines -->
+  <section class="taglines">
+    <div class="taglines-inner">
+      <div class="section-header">
+        <div class="section-label" style="color: var(--accent-light);">The 10X Claim</div>
+        <h2 class="section-title" style="color: var(--bg);">Built for the 3 AM incident. Not the demo deck.</h2>
+      </div>
+      
+      <div class="taglines-grid">
+        <div class="tagline-cell">
+          One MSP. <strong>Zero people</strong> watching <em>alerts.</em>
+        </div>
+        <div class="tagline-cell">
+          Serval <strong>raised millions.</strong> MSPclaw <em>raised the bar.</em>
+        </div>
+        <div class="tagline-cell">
+          Your AI assistant <em>takes tickets.</em> Our AI agent <strong>takes action.</strong>
+        </div>
+        <div class="tagline-cell">
+          IT doesn't sleep. <strong>Neither do we.</strong> <em>Literally.</em>
+        </div>
+        <div class="tagline-cell">
+          Open source. <strong>Closed for business</strong> with <em>vendor lock-in.</em>
+        </div>
+        <div class="tagline-cell">
+          SuperOps <strong>solved</strong> what Atera <em>spec'd out.</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-brand">MSPclaw × SuperOps</div>
+    <p>Open source AI-native IT infrastructure. Built different.</p>
+  </footer>
+
+</body>
+</html>

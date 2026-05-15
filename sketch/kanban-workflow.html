@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanban — How Agent Tina Runs Work</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+  :root{
+    --paper:#fdfbf7;
+    --ink:#2a2a2a;
+    --blue:#3b82f6;
+    --green:#22c55e;
+    --amber:#f59e0b;
+    --red:#ef4444;
+    --purple:#a855f7;
+    --gray:#9ca3af;
+    --line:rgba(0,0,0,0.06);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Patrick Hand',cursive,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,var(--line) 31px,var(--line) 32px);
+    background-attachment:local;
+  }
+
+  .page{
+    max-width:880px;
+    margin:0 auto;
+    padding:48px 28px 80px;
+  }
+
+  h1{
+    font-size:2.4rem;
+    margin-bottom:4px;
+    transform:rotate(-1deg);
+    display:inline-block;
+  }
+  .subtitle{
+    font-size:1.1rem;
+    color:var(--gray);
+    margin-bottom:32px;
+    transform:rotate(0.5deg);
+  }
+
+  .sticky{
+    background:#fef08a;
+    padding:18px 22px;
+    border-radius:2px 18px 2px 18px;
+    box-shadow:3px 3px 0 rgba(0,0,0,0.08);
+    margin-bottom:28px;
+    transform:rotate(-1.2deg);
+    font-size:1.05rem;
+  }
+  .sticky.blue{background:#bfdbfe;transform:rotate(0.8deg)}
+  .sticky.green{background:#bbf7d0;transform:rotate(-0.6deg)}
+  .sticky.pink{background:#fecaca;transform:rotate(1deg)}
+
+  h2{
+    font-size:1.6rem;
+    margin:36px 0 14px;
+    border-bottom:2px solid var(--ink);
+    display:inline-block;
+    padding-bottom:2px;
+    transform:rotate(-0.3deg);
+  }
+
+  .board{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin:18px 0 28px;
+  }
+  .col{
+    background:#fff;
+    border:2px solid var(--ink);
+    border-radius:6px;
+    padding:12px;
+    min-height:140px;
+  }
+  .col h3{
+    font-size:1.05rem;
+    text-align:center;
+    margin-bottom:10px;
+    padding-bottom:6px;
+    border-bottom:1px dashed var(--gray);
+  }
+  .card{
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    border-radius:4px;
+    padding:10px 12px;
+    margin-bottom:8px;
+    font-size:0.95rem;
+    box-shadow:2px 2px 0 rgba(0,0,0,0.05);
+    position:relative;
+  }
+  .card::before{
+    content:'';
+    position:absolute;
+    top:-3px;right:10px;
+    width:18px;height:6px;
+    background:rgba(0,0,0,0.15);
+    border-radius:2px;
+  }
+  .card.ready{border-left:4px solid var(--amber)}
+  .card.todo{border-left:4px solid var(--blue)}
+  .card.blocked{border-left:4px solid var(--red)}
+  .card.done{border-left:4px solid var(--green);opacity:.7}
+  .card .meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem;
+    color:var(--gray);
+    margin-top:4px;
+    display:block;
+  }
+
+  .flow{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:18px 0;
+    font-size:1.05rem;
+  }
+  .flow .step{
+    background:#fff;
+    border:2px solid var(--ink);
+    border-radius:6px;
+    padding:10px 16px;
+    box-shadow:2px 2px 0 rgba(0,0,0,0.06);
+  }
+  .flow .arrow{
+    font-size:1.4rem;
+    color:var(--gray);
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:16px 0 28px;
+    font-size:0.95rem;
+  }
+  th,td{
+    border:2px solid var(--ink);
+    padding:10px 12px;
+    text-align:left;
+  }
+  th{background:#fff;font-size:1.05rem}
+  tr:nth-child(even){background:rgba(0,0,0,0.02)}
+
+  .cmd{
+    font-family:'IBM Plex Mono',monospace;
+    background:#fff;
+    border:2px solid var(--ink);
+    border-radius:6px;
+    padding:14px 18px;
+    margin:14px 0;
+    box-shadow:2px 2px 0 rgba(0,0,0,0.05);
+    overflow-x:auto;
+  }
+  .cmd code{
+    color:var(--purple);
+    font-weight:600;
+  }
+
+  .note{
+    border-left:4px solid var(--amber);
+    padding:10px 16px;
+    margin:16px 0;
+    background:rgba(245,158,11,0.06);
+    border-radius:0 8px 8px 0;
+  }
+
+  .scribble{
+    font-size:0.85rem;
+    color:var(--gray);
+    margin-top:6px;
+    font-style:italic;
+  }
+
+  footer{
+    margin-top:60px;
+    text-align:center;
+    color:var(--gray);
+    font-size:0.9rem;
+  }
+  footer a{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Kanban — How Agent Tina Runs Work</h1>
+<p class="subtitle">Sketch notes on multi-agent pipelines vs. human task queues</p>
+
+<div class="sticky blue">
+  <strong>Quick answer:</strong> Kanban inside Hermes is a <em>multi-agent work queue</em>. Not your todo list. It's where autonomous workers claim tasks, run research, and build deliverables while you sleep. Todoist is for <em>your</em> actions. Kanban is for <em>Tina's</em> pipeline.
+</div>
+
+<h2>What It Is</h2>
+<p>Hermes has a built-in Kanban board (SQLite-backed) that lives alongside sessions and cron jobs. Tasks are not reminders — they are <strong>units of work</strong> assigned to agent profiles:</p>
+
+<div class="flow">
+  <div class="step">orchestrator</div>
+  <span class="arrow">→</span>
+  <div class="step">researcher</div>
+  <span class="arrow">→</span>
+  <div class="step">analyst</div>
+  <span class="arrow">→</span>
+  <div class="step">writer</div>
+  <span class="arrow">→</span>
+  <div class="step">deploy</div>
+</div>
+
+<p class="scribble">Each worker is a separate Hermes profile with its own context and toolset. The orchestrator breaks work into cards. Workers claim them, execute, and mark done.</p>
+
+<h2>Live Board (Right Now)</h2>
+<div class="board">
+  <div class="col">
+    <h3 style="color:var(--amber)">Ready</h3>
+    <div class="card ready">
+      Synthesize: Agentic SaaS research findings
+      <span class="meta">t_fcccbeae · analyst</span>
+    </div>
+  </div>
+  <div class="col">
+    <h3 style="color:var(--blue)">Todo</h3>
+    <div class="card todo">
+      Draft: Agentic SaaS research brief
+      <span class="meta">t_82ae71da · writer</span>
+    </div>
+  </div>
+  <div class="col">
+    <h3 style="color:var(--red)">Blocked</h3>
+    <div class="card blocked">
+      Overnight Planning — 6PM Orchestrator
+      <span class="meta">t_26d47fa3</span>
+    </div>
+    <div class="card blocked">
+      Research competitor pricing changes
+      <span class="meta">t_b616a578</span>
+    </div>
+  </div>
+  <div class="col">
+    <h3 style="color:var(--green)">Done</h3>
+    <div class="card done">
+      Research: ServiceNow AI agents
+      <span class="meta">researcher</span>
+    </div>
+    <div class="card done">
+      Research: Atera agentic features
+      <span class="meta">researcher</span>
+    </div>
+    <div class="card done">
+      Research: SuperOps.ai agentic
+      <span class="meta">researcher</span>
+    </div>
+    <div class="card done">
+      + 12 more ITSM tasks...
+    </div>
+  </div>
+</div>
+
+<div class="note">
+  This is real data from the board as of today. The ITSM/MSP weekly research pipeline feeds into this queue every week.
+</div>
+
+<h2>Kanban vs. Todoist vs. Cron vs. Manual</h2>
+<table>
+  <tr>
+    <th>System</th>
+    <th>What it holds</th>
+    <th>Who acts</th>
+    <th>Trigger</th>
+  </tr>
+  <tr>
+    <td><strong>Kanban</strong></td>
+    <td>Agent work units (research, synthesis, draft, deploy)</td>
+    <td>Agent profiles (orchestrator, researcher, writer)</td>
+    <td>Cron or manual kickoff</td>
+  </tr>
+  <tr>
+    <td><strong>Todoist</strong></td>
+    <td>Human action items, deadlines, approvals</td>
+    <td>You (Prabha)</td>
+    <td>You add tasks manually</td>
+  </tr>
+  <tr>
+    <td><strong>Cron</strong></td>
+    <td>Scheduled triggers (6PM scan, 3AM run)</td>
+    <td>System clock</td>
+    <td>Time-based</td>
+  </tr>
+  <tr>
+    <td><strong>Manual chat</strong></td>
+    <td>One-off requests, quick questions</td>
+    <td>You + Agent Tina</td>
+    <td>Direct message</td>
+  </tr>
+</table>
+
+<p class="scribble">Kanban does not replace Todoist. They are layers. Todoist = operational truth for human work. Kanban = execution truth for agent pipelines.</p>
+
+<h2>My 4 Boards</h2>
+
+<div class="sticky green">
+  <strong>Tina Board</strong> — Auto-run everything. Optimization, error logs, setup fixes, model memory issues. No approval gate. If it's broken, Tina fixes it.
+</div>
+
+<div class="sticky blue">
+  <strong>Professional</strong> — Auto-research is allowed. Auto-build design/code needs approval. Research flows into HTML artifacts or Google Docs. Design tasks wait for your thumbs-up.
+</div>
+
+<div class="sticky pink">
+  <strong>App Work</strong> — Auto-plan and research. Builds and App Store releases need explicit approval. WhatPay screenshots, ASC pushes, metadata updates live here.
+</div>
+
+<div class="sticky" style="background:#e5e7eb;transform:rotate(0.4deg)">
+  <strong>Personal</strong> — Manual/dormant. No auto-execution. You add what you want, when you want.
+</div>
+
+<h2>How to Use It</h2>
+
+<div class="cmd">
+  <code>hermes kanban list</code> — Show all tasks and states
+</div>
+<div class="cmd">
+  <code>hermes kanban show t_fcccbeae</code> — Inspect one task
+</div>
+<div class="cmd">
+  <code>hermes kanban create "Research: New ITSM player" --role researcher</code> — Add a task
+</div>
+<div class="cmd">
+  <code>hermes kanban complete t_fcccbeae</code> — Mark done
+</div>
+
+<div class="note">
+  Tasks in Kanban are not cron jobs. They are <em>durable work units</em> that survive across sessions. A cron can kick off a Kanban task; a Kanban task can spawn a cron. But they are separate systems.
+</div>
+
+<h2>Why This Exists</h2>
+<p>Before Kanban, everything was either:</p>
+<ul>
+  <li><strong>Cron-only</strong> — rigid time slots, hard to chain dependent work</li>
+  <li><strong>Delegate-only</strong> — subagents die when parent session ends</li>
+  <li><strong>Manual-only</strong> — you had to babysit every step</li>
+</ul>
+<p>Kanban adds a <strong>stateful middle layer</strong>: work is decomposed into cards, cards wait in queues, agents claim and execute them independently, and the board tracks what's ready, what's stuck, and what's shipped.</p>
+
+<div class="sticky" style="transform:rotate(-0.8deg)">
+  For ITSM/MSP weekly research, the orchestrator creates research cards → researchers run in parallel → analyst synthesizes → writer drafts the HTML brief → deploy pushes to thisisprabha.com/sketch/. The whole pipeline runs without waking you up.
+</div>
+
+<h2>Current Status</h2>
+<p>The Kanban system is <strong>live and working</strong>. The ITSM research pipeline has completed 15+ tasks across ServiceNow, Atera, HaloPSA, Freshworks, SuperOps.ai, and emerging players. Two tasks are blocked (likely due to the old overnight orchestrator still being referenced). One synthesis task is ready to claim. One draft task is waiting behind it.</p>
+
+<div class="note">
+  If you want the weekly ITSM research to actually produce the HTML brief, claim the ready synthesis task or unblock the orchestrator.
+</div>
+
+<footer>
+  <p>Built by Agent Tina · <a href="/">thisisprabha.com</a></p>
+  <p class="scribble">Last updated: May 2026 · Board data is live from hermes kanban list</p>
+</footer>
+
+</div>
+</body>
+</html>
