@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily - Prabha's Running Notes</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="article">
+  <a href="../" class="back">← Back</a>
+  
+  <header>
+    <h1>Daily Updates</h1>
+    <p class="meta">Auto-generated from cron/kanban outputs</p>
+  </header>
+  
+  <nav id="file-list"><p class="empty">No entries yet.</p></nav>
+
+  <script>
+    (async () => {
+      const response = await fetch('.');
+      const text = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      const files = [...doc.querySelectorAll('a[href$=".html"]')]
+        .map(a => ({name: a.textContent, href: a.getAttribute('href')}))
+        .sort((a,b) => b.name.localeCompare(a.name));
+      
+      document.getElementById('file-list').innerHTML = files.length 
+        ? '<ul>' + files.map(f => `<li><a href="${f.href}">${f.name.replace('.html','')}</a></li>`).join('') + '</ul>'
+        : '<p class="empty">No entries yet.</p>';
+    })();
+  </script>
+</body>
+</html>
