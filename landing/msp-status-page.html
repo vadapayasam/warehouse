@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSP Status Page - Professional Status Pages Without Enterprise Pricing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(255, 255, 255, 0.1);
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.25rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(2%, 2%) scale(1.05); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--success);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .problem-highlight {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            display: inline-block;
+        }
+
+        .problem-highlight span {
+            color: var(--warning);
+            font-weight: 700;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Demo Preview */
+        .demo-preview {
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .browser-frame {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 0 100px rgba(99, 102, 241, 0.1);
+        }
+
+        .browser-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.25rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-dot:nth-child(1) { background: #ef4444; }
+        .browser-dot:nth-child(2) { background: #f59e0b; }
+        .browser-dot:nth-child(3) { background: #22c55e; }
+
+        .browser-address {
+            flex: 1;
+            margin-left: 1rem;
+            background: var(--bg-primary);
+            padding: 0.35rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .demo-content {
+            padding: 2rem;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-primary) 100%);
+        }
+
+        .demo-status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-status-header h3 {
+            font-size: 1.25rem;
+        }
+
+        .demo-status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .demo-status-badge::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .service-name {
+            font-weight: 500;
+        }
+
+        .service-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--success);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 5%;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--accent-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 5%;
+            position: relative;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent-primary);
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, var(--bg-card) 100%);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-gradient);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .price-period {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .compare-price {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-decoration: line-through;
+            margin-top: 0.5rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            width: 20px;
+            height: 20px;
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .pricing-card.featured .btn-primary {
+            width: 100%;
+            text-align: center;
+            display: block;
+        }
+
+        .pricing-card:not(.featured) .btn-secondary {
+            width: 100%;
+            text-align: center;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 7rem 5% 4rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">MSP Status</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#" class="btn-primary">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="status-badge">All Systems Operational</div>
+            <h1>Your Status Page, Without the Enterprise Price Tag</h1>
+            <p class="hero-subtitle">
+                Beautiful, embeddable status pages for managed service providers. Keep your clients informed without breaking the bank.
+            </p>
+            <div class="problem-highlight">
+                <span>Stop overpaying:</span> Most status pages cost $200+/month. Ours start at $29.
+            </div>
+            <div class="hero-cta">
+                <a href="#pricing" class="btn-primary">Start Free Trial</a>
+                <a href="#features" class="btn-secondary">See Features</a>
+            </div>
+
+            <!-- Demo Preview -->
+            <div class="demo-preview">
+                <div class="browser-frame">
+                    <div class="browser-header">
+                        <div class="browser-dot"></div>
+                        <div class="browser-dot"></div>
+                        <div class="browser-dot"></div>
+                        <div class="browser-address">status.yourmsp.com</div>
+                    </div>
+                    <div class="demo-content">
+                        <div class="demo-status-header">
+                            <h3>System Status</h3>
+                            <div class="demo-status-badge">All Systems Operational</div>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item">
+                                <span class="service-name">Cloud Infrastructure</span>
+                                <span class="service-status">Operational</span>
+                            </div>
+                            <div class="service-item">
+                                <span class="service-name">Email Services</span>
+                                <span class="service-status">Operational</span>
+                            </div>
+                            <div class="service-item">
+                                <span class="service-name">VPN Access</span>
+                                <span class="service-status">Operational</span>
+                            </div>
+                            <div class="service-item">
+                                <span class="service-name">Backup Systems</span>
+                                <span class="service-status">Operational</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <span class="section-tag">Features</span>
+            <h2>Everything You Need</h2>
+            <p class="section-subtitle">Built specifically for MSPs who need professional status pages without enterprise complexity.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Embeddable Widget</h3>
+                <p>Add a real-time status widget to your existing website or client portal with a simple code snippet. Works with any platform.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Instant Notifications</h3>
+                <p>Alert clients via email, SMS, or webhook when incidents occur. Keep everyone informed without the manual work.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Client Portal</h3>
+                <p>Give clients a branded status page they can check anytime. Custom domain support for a seamless experience.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Integrations</h3>
+                <p>Connect with your existing RMM and PSA tools. Automate incident reporting from your monitoring stack.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <span class="section-tag">Pricing</span>
+            <h2>Simple, Transparent Pricing</h2>
+            <p class="section-subtitle">No hidden fees. No enterprise sales calls. Just fair pricing that scales with your business.</p>
+        </div>
+        <div class="pricing-grid">
+            <!-- Starter Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <div class="plan-name">Starter</div>
+                    <div class="plan-description">Perfect for small MSPs just getting started</div>
+                    <div class="plan-price">
+                        <span class="price-amount">$29</span>
+                        <span class="price-period">/month</span>
+                    </div>
+                    <div class="compare-price">vs $200+/mo elsewhere</div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Up to 10 services monitored</li>
+                    <li>1 status page</li>
+                    <li>Email notifications</li>
+                    <li>Custom branding</li>
+                    <li>7-day incident history</li>
+                </ul>
+                <a href="#" class="btn-secondary">Get Started</a>
+            </div>
+
+            <!-- Professional Plan -->
+            <div class="pricing-card featured">
+                <div class="popular-badge">Most Popular</div>
+                <div class="pricing-header">
+                    <div class="plan-name">Professional</div>
+                    <div class="plan-description">For growing MSPs with multiple clients</div>
+                    <div class="plan-price">
+                        <span class="price-amount">$59</span>
+                        <span class="price-period">/month</span>
+                    </div>
+                    <div class="compare-price">vs $400+/mo elsewhere</div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Unlimited services monitored</li>
+                    <li>5 status pages</li>
+                    <li>Email & SMS notifications</li>
+                    <li>Custom domain & branding</li>
+                    <li>90-day incident history</li>
+                    <li>Client portal access</li>
+                    <li>API access</li>
+                </ul>
+                <a href="#" class="btn-primary">Get Started</a>
+            </div>
+
+            <!-- Business Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <div class="plan-name">Business</div>
+                    <div class="plan-description">For established MSPs with complex needs</div>
+                    <div class="plan-price">
+                        <span class="price-amount">$99</span>
+                        <span class="price-period">/month</span>
+                    </div>
+                    <div class="compare-price">vs $800+/mo elsewhere</div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Unlimited everything</li>
+                    <li>Unlimited status pages</li>
+                    <li>Priority notifications</li>
+                    <li>Advanced customization</li>
+                    <li>1-year incident history</li>
+                    <li>SSO & team management</li>
+                    <li>SLA reporting</li>
+                    <li>White-label option</li>
+                </ul>
+                <a href="#" class="btn-secondary">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-brand">MSP Status</div>
+        <p class="footer-text">Professional status pages without the enterprise price tag. © 2025 MSP Status.</p>
+    </footer>
+</body>
+</html>
