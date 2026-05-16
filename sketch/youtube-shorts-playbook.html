@@ -3,876 +3,1140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Shorts for Build-in-Public Devs | Complete Playbook</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>YouTube Shorts Playbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --color-bg: #ffffff;
-            --color-text: #0d0d0d;
-            --color-text-secondary: #333333;
-            --color-text-muted: #666666;
-            --color-text-tertiary: #888888;
-            --color-brand: #18E299;
-            --color-brand-light: #d4fae8;
-            --color-brand-deep: #0fa76e;
-            --color-border: rgba(0,0,0,0.05);
-            --color-border-medium: rgba(0,0,0,0.08);
-            --color-surface: #fafafa;
-            --color-card: #ffffff;
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --radius-pill: 9999px;
+            --bg-primary: #F5F4F0;
+            --bg-secondary: #FAFAF8;
+            --bg-tertiary: #FFFFFF;
+            --text-primary: #0a0a0a;
+            --text-secondary: #444444;
+            --text-muted: #737373;
+            --text-tertiary: #999999;
+            --accent: #E85C3A;
+            --accent-subtle: rgba(232, 92, 58, 0.08);
+            --border: rgba(0, 0, 0, 0.06);
+            --border-strong: rgba(0, 0, 0, 0.12);
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            color: var(--color-text);
-            background: var(--color-bg);
-            line-height: 1.5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
             -webkit-font-smoothing: antialiased;
         }
-        
-        /* Navigation */
-        .nav {
-            position: sticky;
+
+        /* Navigation — minimal */
+        nav {
+            position: fixed;
             top: 0;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--color-border);
+            left: 0;
+            right: 0;
             z-index: 100;
-            padding: 1rem 2rem;
-        }
-        
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 24px 48px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: transparent;
         }
-        
-        .nav-brand {
-            font-size: 1.25rem;
-            font-weight: 600;
-            letter-spacing: -0.2px;
-            color: var(--color-text);
+
+        nav.scrolled {
+            background: rgba(245, 244, 240, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
         }
-        
-        .nav-links {
+
+        .nav-left {
             display: flex;
-            gap: 2rem;
             align-items: center;
-        }
-        
-        .nav-link {
+            gap: 8px;
             font-size: 14px;
             font-weight: 500;
-            color: var(--color-text);
+            color: var(--text-primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-muted);
             text-decoration: none;
             transition: color 0.2s;
         }
-        
+
         .nav-link:hover {
-            color: var(--color-brand);
+            color: var(--text-primary);
         }
-        
-        .btn-pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 24px;
-            border-radius: var(--radius-pill);
-            font-size: 15px;
-            font-weight: 500;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            font-family: inherit;
-        }
-        
-        .btn-primary {
-            background: var(--color-text);
-            color: var(--color-bg);
-            box-shadow: rgba(0,0,0,0.06) 0px 1px 2px;
-        }
-        
-        .btn-primary:hover {
-            opacity: 0.9;
-        }
-        
-        .btn-ghost {
-            background: var(--color-bg);
-            color: var(--color-text);
-            border: 1px solid var(--color-border-medium);
-        }
-        
-        .btn-ghost:hover {
-            border-color: var(--color-brand);
-            color: var(--color-brand);
-        }
-        
-        .btn-brand {
-            background: var(--color-brand);
-            color: var(--color-text);
-            font-weight: 500;
-        }
-        
-        /* Hero */
-        .hero {
-            position: relative;
-            padding: 96px 2rem 72px;
-            overflow: hidden;
-        }
-        
-        .hero-gradient {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,250,232,0.6) 0%, rgba(255,255,255,0) 60%);
-            pointer-events: none;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-label {
+
+        .nav-cta {
             font-size: 13px;
             font-weight: 500;
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border: 1px solid var(--border-strong);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        .wide {
+            max-width: 960px;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 180px 0 120px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            letter-spacing: 0.65px;
-            color: var(--color-brand-deep);
-            margin-bottom: 1.5rem;
+            color: var(--text-tertiary);
+            margin-bottom: 32px;
         }
-        
+
         .hero h1 {
-            font-size: 64px;
-            font-weight: 600;
-            line-height: 1.15;
-            letter-spacing: -1.28px;
-            color: var(--color-text);
-            margin-bottom: 1.5rem;
+            font-size: 56px;
+            font-weight: 500;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 32px;
         }
-        
-        .hero-subtitle {
+
+        .hero-description {
             font-size: 20px;
             font-weight: 400;
             line-height: 1.5;
-            color: var(--color-text-muted);
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            color: var(--text-secondary);
+            max-width: 560px;
         }
-        
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-        
-        /* Content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        .section {
-            padding: 96px 0;
-            border-top: 1px solid var(--color-border);
-        }
-        
-        .section:first-of-type {
-            border-top: none;
-        }
-        
+
+        /* Section Header */
         .section-header {
-            max-width: 700px;
-            margin-bottom: 3rem;
+            padding: 80px 0 48px;
         }
-        
+
         .section-label {
-            display: inline-block;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 500;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            letter-spacing: 0.65px;
-            color: var(--color-brand-deep);
-            margin-bottom: 1rem;
-            padding: 4px 12px;
-            background: var(--color-brand-light);
-            border-radius: var(--radius-pill);
+            color: var(--text-tertiary);
+            margin-bottom: 16px;
         }
-        
-        .section h2 {
-            font-size: 40px;
-            font-weight: 600;
-            line-height: 1.1;
-            letter-spacing: -0.8px;
-            color: var(--color-text);
-            margin-bottom: 1rem;
+
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 500;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 16px;
         }
-        
-        .section-description {
-            font-size: 18px;
-            line-height: 1.5;
-            color: var(--color-text-muted);
+
+        .section-header p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 560px;
         }
-        
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
+
+        /* Content */
+        .content {
+            padding-bottom: 64px;
         }
-        
-        .card {
-            background: var(--color-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            padding: 28px;
-            transition: border-color 0.2s, transform 0.2s;
-            box-shadow: rgba(0,0,0,0.03) 0px 2px 4px;
-        }
-        
-        .card:hover {
-            border-color: var(--color-border-medium);
-            transform: translateY(-2px);
-        }
-        
-        .card-featured {
-            border-radius: var(--radius-lg);
-            padding: 32px;
-        }
-        
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--color-brand-light);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 18px;
-        }
-        
-        .card h3 {
-            font-size: 20px;
-            font-weight: 600;
+
+        h3 {
+            font-size: 24px;
+            font-weight: 500;
             line-height: 1.3;
-            letter-spacing: -0.2px;
-            color: var(--color-text);
-            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin: 64px 0 20px;
         }
-        
-        .card p, .card-description {
+
+        h4 {
             font-size: 15px;
-            line-height: 1.6;
-            color: var(--color-text-muted);
-            margin-bottom: 1rem;
-        }
-        
-        .card-meta {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--color-text-tertiary);
-            font-family: 'Geist Mono', ui-monospace, monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            margin: 48px 0 16px;
         }
-        
-        /* Tables */
-        .table-container {
-            overflow-x: auto;
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            margin: 1.5rem 0;
+
+        p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
         }
-        
+
+        strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Blockquote / Pull quote */
+        .pull-quote {
+            border-left: 2px solid var(--accent);
+            padding: 8px 0 8px 24px;
+            margin: 32px 0;
+        }
+
+        .pull-quote p {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* Tables — minimal */
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 15px;
+            margin: 32px 0;
+            font-size: 14px;
         }
-        
+
         th {
-            background: var(--color-surface);
-            padding: 14px 20px;
             text-align: left;
-            font-weight: 600;
-            font-size: 13px;
+            padding: 12px 0;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            letter-spacing: 0.65px;
-            color: var(--color-text);
-            border-bottom: 1px solid var(--color-border);
+            color: var(--text-tertiary);
+            border-bottom: 1px solid var(--border-strong);
         }
-        
+
         td {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--color-border);
-            color: var(--color-text-secondary);
+            padding: 16px 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
         }
-        
+
         tr:last-child td {
             border-bottom: none;
         }
-        
-        tr:hover {
-            background: var(--color-surface);
-        }
-        
-        /* Badges */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 12px;
-            border-radius: var(--radius-pill);
-            font-size: 13px;
+
+        td:first-child {
             font-weight: 500;
-            font-family: 'Geist Mono', ui-monospace, monospace;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
+            color: var(--text-primary);
         }
-        
-        .badge-primary {
-            background: var(--color-brand-light);
-            color: var(--color-brand-deep);
+
+        /* Lists */
+        ul, ol {
+            margin: 24px 0;
+            padding-left: 20px;
         }
-        
-        .badge-ghost {
-            background: var(--color-surface);
-            color: var(--color-text-muted);
-            border: 1px solid var(--color-border);
-        }
-        
-        /* Code Blocks */
-        .code-block {
-            background: var(--color-text);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            margin: 1.5rem 0;
-            overflow-x: auto;
-        }
-        
-        .code-block pre {
-            color: #ededed;
-            font-family: 'Geist Mono', ui-monospace, monospace;
-            font-size: 14px;
+
+        li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
             line-height: 1.6;
-            white-space: pre-wrap;
         }
-        
-        .code-block .code-label {
+
+        /* Definition list pattern */
+        .definition-list {
+            margin: 32px 0;
+        }
+
+        .definition-item {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 24px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .definition-item:last-child {
+            border-bottom: none;
+        }
+
+        .definition-term {
             font-size: 12px;
             font-weight: 500;
-            font-family: 'Geist Mono', ui-monospace, monospace;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            color: var(--color-brand);
-            margin-bottom: 12px;
-            display: block;
+            color: var(--text-tertiary);
+            padding-top: 2px;
         }
-        
-        /* Lists */
-        ul.clean {
-            list-style: none;
-            margin: 1rem 0;
-        }
-        
-        ul.clean li {
-            position: relative;
-            padding-left: 24px;
-            margin-bottom: 0.75rem;
-            color: var(--color-text-secondary);
+
+        .definition-desc {
             font-size: 15px;
             line-height: 1.6;
+            color: var(--text-secondary);
         }
-        
-        ul.clean li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--color-brand);
-            font-weight: 600;
+
+        /* Formula block */
+        .formula {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
         }
-        
-        /* Callouts */
-        .callout {
-            border-left: 3px solid var(--color-brand);
-            padding: 20px 24px;
-            background: var(--color-surface);
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-            margin: 1.5rem 0;
+
+        .formula-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
         }
-        
-        .callout-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: 0.5rem;
-        }
-        
-        .callout p {
+
+        .formula-content {
             font-size: 15px;
-            color: var(--color-text-muted);
-            margin: 0;
+            line-height: 1.7;
+            color: var(--text-primary);
         }
-        
-        /* Hook Formula */
-        .hook-formula {
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            margin: 1rem 0;
-            font-family: 'Geist Mono', ui-monospace, monospace;
+
+        .formula-content code {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            background: var(--accent-subtle);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent);
+        }
+
+        /* Inline code */
+        code {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.9em;
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--text-primary);
+        }
+
+        pre {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 24px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 24px 0;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Length guide — the "Goldilocks" section */
+        .length-guide {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 32px 0;
+        }
+
+        .length-item {
+            background: var(--bg-tertiary);
+            padding: 28px 24px;
+        }
+
+        .length-item.warning {
+            background: var(--bg-secondary);
+        }
+
+        .length-time {
+            font-size: 28px;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .length-item.warning .length-time {
+            color: var(--accent);
+        }
+
+        .length-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+
+        .length-desc {
             font-size: 14px;
             line-height: 1.5;
-            color: var(--color-text);
+            color: var(--text-muted);
+            margin-top: 12px;
         }
-        
-        .hook-formula strong {
-            color: var(--color-brand-deep);
+
+        /* Framework cards — clean horizontal */
+        .framework {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
         }
-        
-        /* Footer */
-        .footer {
-            border-top: 1px solid var(--color-border);
-            padding: 48px 2rem;
-            text-align: center;
+
+        .framework-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 16px;
         }
-        
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
+
+        .framework-title {
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
         }
-        
-        .footer-title {
-            font-size: 32px;
+
+        .framework-meta {
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+
+        .framework p {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .framework-steps {
+            margin-top: 20px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .framework-steps li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .framework-steps li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* Hook formula cards */
+        .hook-card {
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hook-card:first-of-type {
+            border-top: 1px solid var(--border);
+        }
+
+        .hook-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .hook-number {
+            font-size: 11px;
             font-weight: 600;
-            letter-spacing: -0.64px;
-            color: var(--color-text);
-            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
-        .footer p {
-            font-size: 16px;
-            color: var(--color-text-muted);
-            margin-bottom: 1.5rem;
+
+        .hook-name {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
         }
-        
-        /* Responsive */
+
+        .hook-pattern {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hook-example {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Script block */
+        .script-block {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 32px;
+            margin: 24px 0;
+        }
+
+        .script-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .script-title {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .script-timing {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            padding: 4px 10px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+        }
+
+        .script-line {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .script-timestamp {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            min-width: 48px;
+            text-align: right;
+            padding-top: 2px;
+        }
+
+        .script-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Workflow timeline */
+        .workflow-step {
+            display: flex;
+            gap: 24px;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .workflow-step:last-child {
+            border-bottom: none;
+        }
+
+        .workflow-number {
+            font-size: 32px;
+            font-weight: 300;
+            color: var(--text-tertiary);
+            min-width: 48px;
+        }
+
+        .workflow-content h4 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .workflow-content p {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .workflow-meta {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        /* Tools grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 32px 0;
+        }
+
+        .tool-item {
+            background: var(--bg-tertiary);
+            padding: 24px;
+        }
+
+        .tool-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .tool-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-strong);
+            padding: 80px 0 120px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-left h3 {
+            font-size: 24px;
+            font-weight: 500;
+            margin: 0 0 8px 0;
+        }
+
+        .footer-left p {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-strong);
+            padding-bottom: 2px;
+            transition: border-color 0.2s;
+        }
+
+        .footer-link:hover {
+            border-color: var(--accent);
+        }
+
+        /* Mobile */
         @media (max-width: 768px) {
-            .hero {
-                padding: 64px 1.5rem 48px;
+            nav {
+                padding: 16px 24px;
             }
-            
-            .hero h1 {
-                font-size: 40px;
-                letter-spacing: -0.8px;
-            }
-            
-            .hero-subtitle {
-                font-size: 18px;
-            }
-            
-            .hero-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .section {
-                padding: 64px 0;
-            }
-            
-            .section h2 {
-                font-size: 32px;
-                letter-spacing: -0.64px;
-            }
-            
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-links {
+
+            .nav-right {
                 display: none;
             }
-            
+
             .container {
-                padding: 0 1.5rem;
+                padding: 0 24px;
+            }
+
+            .hero {
+                padding: 140px 0 80px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-description {
+                font-size: 18px;
+            }
+
+            .section-header h2 {
+                font-size: 28px;
+            }
+
+            .length-guide {
+                grid-template-columns: 1fr;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .definition-item {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 24px;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav-content">
-            <div class="nav-brand">📼 Shorts Playbook</div>
-            <div class="nav-links">
-                <a href="#algorithm" class="nav-link">Algorithm</a>
-                <a href="#patterns" class="nav-link">Patterns</a>
-                <a href="#scripts" class="nav-link">Scripts</a>
-                <a href="#workflow" class="nav-link">Workflow</a>
-                <a href="#https://vadapayasam.github.io" class="btn-pill btn-primary">Back to Warehouse</a>
-            </div>
+    <nav id="navbar">
+        <div class="nav-left">
+            <span>Shorts Playbook</span>
+        </div>
+        <div class="nav-right">
+            <a href="#algorithm" class="nav-link">Algorithm</a>
+            <a href="#patterns" class="nav-link">Patterns</a>
+            <a href="#scripts" class="nav-link">Scripts</a>
+            <a href="#workflow" class="nav-link">Workflow</a>
+            <a href="https://vadapayasam.github.io/warehouse/sketch/" class="nav-cta">Warehouse</a>
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-gradient"></div>
-        <div class="hero-content">
-            <div class="hero-label">Complete Strategy Guide</div>
-            <h1>YouTube Shorts for Build-in-Public Devs</h1>
-            <p class="hero-subtitle">Algorithm mechanics, proven content patterns, and automation workflows for indie developers documenting with Agent Tina</p>
-            <div class="hero-actions">
-                <a href="#algorithm" class="btn-pill btn-primary">Start Reading</a>
-                <a href="#workflow" class="btn-pill btn-ghost">View Automation Setup</a>
+    <div class="hero container">
+        <p class="hero-label">Build-in-Public Strategy</p>
+        <h1>YouTube Shorts for developers who ship</h1>
+        <p class="hero-description">Algorithm mechanics, proven content patterns, and workflows for indie developers documenting the real process.</p>
+    </div>
+
+    <div class="container">
+        <div class="section-header" id="algorithm">
+            <p class="section-label">01 / How It Works</p>
+            <h2>Algorithm Mechanics</h2>
+            <p>Session-based distribution, test pools, and the signals that actually matter for developer content.</p>
+        </div>
+
+        <div class="content">
+            <h3>Distribution Model</h3>
+            <p>YouTube Shorts are served in <strong>infinite scroll sessions</strong>, optimizing for session retention — keeping viewers in the feed. Unlike long-form, there's no search discovery. Your video enters the "Shorts Feed" where the algorithm tests it in small pools.</p>
+
+            <div class="pull-quote">
+                <p>Videos first shown to test pools of 50-500 views. If engagement hits thresholds, distribution scales exponentially.</p>
+            </div>
+
+            <h4>Key Signals Ranked</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Signal</th>
+                        <th>Target</th>
+                        <th>Weight</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Average View Duration</td>
+                        <td>80%+ completion</td>
+                        <td>Critical</td>
+                    </tr>
+                    <tr>
+                        <td>Loop Rate</td>
+                        <td>15%+ immediate rewatches</td>
+                        <td>High</td>
+                    </tr>
+                    <tr>
+                        <td>Share/Save Rate</td>
+                        <td>1%+ per impression</td>
+                        <td>High</td>
+                    </tr>
+                    <tr>
+                        <td>Engagement Velocity</td>
+                        <td>5%+ in first 24hrs</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td>CTR</td>
+                        <td>4-10% from browse</td>
+                        <td>Medium</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><strong>Developer content advantage:</strong> Tutorials get higher share/save rates than entertainment. Developers save for later. YouTube treats saves as high-intent signals — more valuable than likes.</p>
+
+            <h3>Duration Matters</h3>
+            <div class="length-guide">
+                <div class="length-item">
+                    <div class="length-time">15-22s</div>
+                    <div class="length-label">Simple Tips</div>
+                    <div class="length-desc">Highest completion rates. Quick hacks, "did you know" content.</div>
+                </div>
+                <div class="length-item">
+                    <div class="length-time">25-34s</div>
+                    <div class="length-label">Mini Tutorials</div>
+                    <div class="length-desc">Sweet spot for problem → solution narratives.</div>
+                </div>
+                <div class="length-item">
+                    <div class="length-time">45-58s</div>
+                    <div class="length-label">Build Breakdowns</div>
+                    <div class="length-desc">Maximum for complex explanations. Risk of drop-off increases.</div>
+                </div>
+            </div>
+
+            <p style="font-size: 14px; color: var(--text-tertiary);"><strong>Avoid 30-44s.</strong> The algorithm dead zone — long enough to lose attention, short enough to feel rushed.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-header" id="patterns">
+            <p class="section-label">02 / Content Models</p>
+            <h2>Proven Patterns</h2>
+            <p>Three models — Fireship, Primeagen, and Build-in-Public — each with different tradeoffs.</p>
+        </div>
+
+        <div class="content">
+            <div class="framework">
+                <div class="framework-header">
+                    <span class="framework-title">The Fireship Model</span>
+                    <span class="framework-meta">Pattern 01</span>
+                </div>
+                <p>One concept → One code snippet → Immediate takeaway. Information density + shareability. Developers send these to team chats.</p>
+                <ul class="framework-steps">
+                    <li><strong>Length:</strong> 15-25 seconds</li>
+                    <li><strong>Posting:</strong> 1-3x daily</li>
+                    <li><strong>Visual:</strong> Screen recording + text overlays, no face</li>
+                    <li><strong>Content:</strong> Language tricks, hidden features, "did you know"</li>
+                </ul>
+            </div>
+
+            <div class="framework">
+                <div class="framework-header">
+                    <span class="framework-title">The Primeagen Model</span>
+                    <span class="framework-meta">Pattern 02</span>
+                </div>
+                <p>Strong opinion → Explanation → Call to action. Comment bait through controversy. Hot takes drive 10x more engagement than tutorials.</p>
+                <ul class="framework-steps">
+                    <li><strong>Length:</strong> 30-45 seconds</li>
+                    <li><strong>Posting:</strong> 5-10x weekly</li>
+                    <li><strong>Visual:</strong> Face-first + screen B-roll, high energy</li>
+                    <li><strong>Content:</strong> Hot takes, industry commentary, workflow reveals</li>
+                </ul>
+            </div>
+
+            <div class="framework">
+                <div class="framework-header">
+                    <span class="framework-title">The Build-in-Public Playbook</span>
+                    <span class="framework-meta">Your Model</span>
+                </div>
+                <p>Problem → Build process → Result/Demo. Document the messy middle. Show constraints, tradeoffs, failures. This is the hardest pattern but creates the strongest connection.</p>
+                <ul class="framework-steps">
+                    <li><strong>Length:</strong> 25-40 seconds</li>
+                    <li><strong>Posting:</strong> 1-2x daily</li>
+                    <li><strong>Visual:</strong> Screen recordings + code + Hermes outputs</li>
+                    <li><strong>Content:</strong> Feature builds, bug fixes, design iterations, real metrics</li>
+                </ul>
             </div>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <!-- Section 1: Algorithm -->
-        <section class="section" id="algorithm">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-label">How It Works</span>
-                    <h2>YouTube Shorts Algorithm Mechanics</h2>
-                    <p class="section-description">Understanding the recommendation system — session-based distribution, test pools, and the signals that actually matter.</p>
-                </div>
-                
-                <div class="cards-grid">
-                    <div class="card card-featured">
-                        <div class="card-icon">📊</div>
-                        <h3>Session-Based Recommendations</h3>
-                        <p class="card-description">Shorts are served in infinite scroll sessions, optimizing for <strong>session retention</strong> — keeping viewers in the feed. Unlike long-form, there's no search discovery here.</p>
-                        <div class="card-meta">Primary Traffic Source</div>
-                    </div>
-                    
-                    <div class="card card-featured">
-                        <div class="card-icon">🧪</div>
-                        <h3>SWF Test Pools</h3>
-                        <p class="card-description">Videos are first shown to small test pools (50-500 views). If engagement passes thresholds, the algorithm scales distribution exponentially.</p>
-                        <div class="card-meta">Distribution Mechanism</div>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="section-header">
+            <p class="section-label">03 / Attention Capture</p>
+            <h2>Hook Formulas</h2>
+            <p>First 3 seconds determine 80%+ of performance. Patterns that work for dev content.</p>
+        </div>
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Signal</th>
-                                <th>How It's Measured</th>
-                                <th>Target</th>
-                                <th>Weight</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="badge badge-primary">AVD%</span> Average View Duration</td>
-                                <td>Percentage of video watched</td>
-                                <td>80%+ completion</td>
-                                <td>Critical</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge badge-primary">Loop Rate</span></td>
-                                <td>Immediate rewatches</td>
-                                <td>15%+ loop rate</td>
-                                <td>High</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge badge-ghost">Engagement Velocity</span></td>
-                                <td>Likes/comments in first 24hrs</td>
-                                <td>5%+ engagement rate</td>
-                                <td>Medium</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge badge-ghost">Share Rate</span></td>
-                                <td>Saves/shares per impression</td>
-                                <td>1%+ share rate</td>
-                                <td>High</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge badge-ghost">CTR</span></td>
-                                <td>Thumbnail/title clicks</td>
-                                <td>4-10% from browse</td>
-                                <td>Medium</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="content">
+            <div class="hook-card">
+                <div class="hook-header">
+                    <span class="hook-number">1</span>
+                    <span class="hook-name">The Contrarian</span>
                 </div>
+                <div class="hook-pattern">[Common practice] is wrong because [specific reason]</div>
+                <p class="hook-example">"Stop using useEffect for data fetching. Here's why 90% of React devs get this wrong."</p>
+            </div>
 
-                <div class="callout">
-                    <div class="callout-title">💡 Dev-Specific Insight</div>
-                    <p>Developer content often has higher share rates than entertainment because developers save tutorials for later. YouTube treats saves as high-intent signals — more valuable than likes.</p>
+            <div class="hook-card">
+                <div class="hook-header">
+                    <span class="hook-number">2</span>
+                    <span class="hook-name">The Specific Number</span>
                 </div>
+                <div class="hook-pattern">I [achieved result] in [time] with [specific thing]</div>
+                <p class="hook-example">"I shipped 47 app updates in 3 months using this one automation."</p>
+            </div>
 
-                <h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.24px; margin: 3rem 0 1.5rem; color: var(--color-text);">The Goldilocks Zone for Shorts Length</h3>
-                
-                <div class="cards-grid">
-                    <div class="card">
-                        <h3>15-22 Seconds</h3>
-                        <p class="card-description">Highest completion rates. Best for simple tips, quick hacks, "did you know" content.</p>
-                        <div class="card-meta">Simple Tips</div>
-                    </div>
-                    <div class="card">
-                        <h3>25-34 Seconds</h3>
-                        <p class="card-description"><strong>Sweet spot</strong> for mini-tutorials and problem→solution narratives.</p>
-                        <div class="card-meta">Mini Tutorials</div>
-                    </div>
-                    <div class="card">
-                        <h3>45-58 Seconds</h3>
-                        <p class="card-description">Maximum for complex explanations and build breakdowns.</p>
-                        <div class="card-meta">Build Breakdowns</div>
-                    </div>
-                    <div class="card" style="border-color: rgba(212,26,26,0.2);">
-                        <h3>30-44 Seconds ⚠️</h3>
-                        <p class="card-description"><strong>Algorithm dead zone</strong> — long enough to lose attention, short enough to feel rushed.</p>
-                        <div class="card-meta" style="color: #c45656;">Avoid This Range</div>
-                    </div>
+            <div class="hook-card">
+                <div class="hook-header">
+                    <span class="hook-number">3</span>
+                    <span class="hook-name">The Process Reveal</span>
+                </div>
+                <div class="hook-pattern">How I [did thing] in [timeframe] — full process</div>
+                <p class="hook-example">"How I built an iOS widget that tracks coding time — from idea to App Store in 48 hours."</p>
+            </div>
+
+            <div class="hook-card">
+                <div class="hook-header">
+                    <span class="hook-number">4</span>
+                    <span class="hook-name">The Hot Take</span>
+                </div>
+                <div class="hook-pattern">[Strong opinion] — and here's why</div>
+                <p class="hook-example">"SwiftUI is broken for production apps and Apple won't admit it."</p>
+            </div>
+
+            <div class="hook-card">
+                <div class="hook-header">
+                    <span class="hook-number">5</span>
+                    <span class="hook-name">The Discovery</span>
+                </div>
+                <div class="hook-pattern">I discovered [surprising thing] by [unexpected method]</div>
+                <p class="hook-example">"I discovered YouTube's algorithm favors this ONE format by analyzing 10,000 dev Shorts."</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-header" id="scripts">
+            <p class="section-label">04 / Templates</p>
+            <h2>Narration Frameworks</h2>
+            <p>Ready-to-use scripts adapted for developer content. Keep the rhythm, modify specifics.</p>
+        </div>
+
+        <div class="content">
+            <div class="script-block">
+                <div class="script-header">
+                    <span class="script-title">The Contrarian Reveal</span>
+                    <span class="script-timing">40s</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">0-5s</span>
+                    <span class="script-text"><strong>Hook:</strong> "Stop doing [common practice]."</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">5-15s</span>
+                    <span class="script-text"><strong>Problem:</strong> "Here's why it fails: [specific reason]"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">15-25s</span>
+                    <span class="script-text"><strong>Solution:</strong> "Instead, do [your approach]"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">25-35s</span>
+                    <span class="script-text"><strong>Proof:</strong> "I [result] in [timeframe] using this"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">35-40s</span>
+                    <span class="script-text"><strong>CTA:</strong> "Follow for more unpopular truths"</span>
                 </div>
             </div>
-        </section>
 
-        <!-- Section 2: Content Patterns -->
-        <section class="section" id="patterns">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-label">Content Models</span>
-                    <h2>Build-in-Public Content Patterns</h2>
-                    <p class="section-description">Three proven models — Fireship, Primeagen, and the Indie Dev Playbook — each with different tradeoffs.</p>
+            <div class="script-block">
+                <div class="script-header">
+                    <span class="script-title">The Build Process</span>
+                    <span class="script-timing">40s</span>
                 </div>
-
-                <div class="cards-grid" style="grid-template-columns: 1fr;">
-                    <div class="card card-featured">
-                        <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
-                            <div class="card-icon" style="width: 48px; height: 48px; font-size: 24px; flex-shrink: 0;">🔥</div>
-                            <div style="flex: 1;">
-                                <span class="badge badge-primary" style="margin-bottom: 0.75rem;">Pattern 1</span>
-                                <h3 style="margin-top: 0.5rem;">The Fireship Model</h3>
-                                <p class="card-description" style="font-size: 16px;">One concept → One code snippet → Immediate takeaway. Information density + shareability. Developers send these to team chats.</p>
-                                <ul class="clean">
-                                    <li><strong>Length:</strong> 15-25 seconds</li>
-                                    <li><strong>Posting:</strong> 1-3x daily</li>
-                                    <li><strong>Visual:</strong> Screen recording + text overlays, no face</li>
-                                    <li><strong>Content:</strong> Language tricks, hidden features, "did you know"</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-featured">
-                        <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
-                            <div class="card-icon" style="width: 48px; height: 48px; font-size: 24px; flex-shrink: 0;">⚡</div>
-                            <div style="flex: 1;">
-                                <span class="badge badge-primary" style="margin-bottom: 0.75rem;">Pattern 2</span>
-                                <h3 style="margin-top: 0.5rem;">The Primeagen Model</h3>
-                                <p class="card-description" style="font-size: 16px;">Strong opinion → Explanation → Call to action. Comment bait through controversy. Hot takes drive 10x more engagement than tutorials.</p>
-                                <ul class="clean">
-                                    <li><strong>Length:</strong> 30-45 seconds</li>
-                                    <li><strong>Posting:</strong> 5-10x weekly</li>
-                                    <li><strong>Visual:</strong> Face-first + screen B-roll, high energy</li>
-                                    <li><strong>Content:</strong> Hot takes, industry commentary, workflow reveals</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-featured" style="border: 2px solid var(--color-brand);">
-                        <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
-                            <div class="card-icon" style="width: 48px; height: 48px; font-size: 24px; flex-shrink: 0; background: var(--color-brand);">🛠️</div>
-                            <div style="flex: 1;">
-                                <span class="badge badge-primary" style="margin-bottom: 0.75rem; background: var(--color-brand); color: white;">Pattern 3 — Your Model</span>
-                                <h3 style="margin-top: 0.5rem;">The Build-in-Public Playbook</h3>
-                                <p class="card-description" style="font-size: 16px;">Problem → Build process → Result/Demo. Document the messy middle. Show constraints, tradeoffs, failures.</p>
-                                <ul class="clean">
-                                    <li><strong>Length:</strong> 25-40 seconds</li>
-                                    <li><strong>Posting:</strong> 1-2x daily</li>
-                                    <li><strong>Visual:</strong> Screen recordings + code + Hermes outputs</li>
-                                    <li><strong>Content:</strong> Feature builds, bug fixes, design iterations, real metrics</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <div class="script-line">
+                    <span class="script-timestamp">0-5s</span>
+                    <span class="script-text"><strong>Hook:</strong> "Building [feature] for [app]. Here's what I learned"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">5-15s</span>
+                    <span class="script-text"><strong>Constraint:</strong> "The challenge: [technical problem]"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">15-28s</span>
+                    <span class="script-text"><strong>Solution:</strong> Walkthrough (show code/process)</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">28-35s</span>
+                    <span class="script-text"><strong>Result:</strong> Screen recording of working feature</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">35-40s</span>
+                    <span class="script-text"><strong>CTA:</strong> "Shipped [X] in [time]. What should I build next?"</span>
                 </div>
             </div>
-        </section>
 
-        <!-- Section 3: Hook Formulas -->
-        <section class="section" id="hooks">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-label">Attention Capture</span>
-                    <h2>5 Proven Hook Formulas</h2>
-                    <p class="section-description">First 3 seconds determine 80%+ of performance. These are the patterns that actually work for dev content.</p>
+            <div class="script-block">
+                <div class="script-header">
+                    <span class="script-title">The Metrics Update</span>
+                    <span class="script-timing">40s</span>
                 </div>
-
-                <div class="cards-grid" style="grid-template-columns: 1fr;">
-                    <div class="card">
-                        <div class="badge badge-primary">Formula 1</div>
-                        <h3 style="margin-top: 1rem;">The Contrarian Hook</h3>
-                        <div class="hook-formula">[Conventional wisdom] <strong>is wrong because</strong> [counterintuitive reason]</div>
-                        <p style="color: var(--color-text-muted);">Example: "Stop using useEffect for data fetching. Here's why 90% of React devs get this wrong."</p>
-                    </div>
-
-                    <div class="card">
-                        <div class="badge badge-primary">Formula 2</div>
-                        <h3 style="margin-top: 1rem;">The Specific Number Hook</h3>
-                        <div class="hook-formula">I [achieved result] in [time] with [specific thing]</div>
-                        <p style="color: var(--color-text-muted);">Example: "I shipped 47 app updates in 3 months using this one automation."</p>
-                    </div>
-
-                    <div class="card">
-                        <div class="badge badge-primary">Formula 3</div>
-                        <h3 style="margin-top: 1rem;">The Process Hook</h3>
-                        <div class="hook-formula">How I [did thing] in [timeframe] — full process</div>
-                        <p style="color: var(--color-text-muted);">Example: "How I built an iOS widget that tracks my coding time — from idea to App Store in 48 hours."</p>
-                    </div>
-
-                    <div class="card">
-                        <div class="badge badge-primary">Formula 4</div>
-                        <h3 style="margin-top: 1rem;">The Hot Take Hook</h3>
-                        <div class="hook-formula">[Strong opinion] — and here's why</div>
-                        <p style="color: var(--color-text-muted);">Example: "SwiftUI is broken for production apps and Apple won't admit it. Here's what they don't tell you."</p>
-                    </div>
-
-                    <div class="card">
-                        <div class="badge badge-primary">Formula 5</div>
-                        <h3 style="margin-top: 1rem;">The Mystery Hook</h3>
-                        <div class="hook-formula">I discovered [surprising thing] by [unexpected method]</div>
-                        <p style="color: var(--color-text-muted);">Example: "I discovered YouTube's algorithm favors this ONE format by analyzing 10,000 dev Shorts."</p>
-                    </div>
+                <div class="script-line">
+                    <span class="script-timestamp">0-5s</span>
+                    <span class="script-text"><strong>Hook:</strong> "Day [X] building [app] — here's where we are"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">5-15s</span>
+                    <span class="script-text"><strong>Numbers:</strong> downloads, revenue, users on screen</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">15-25s</span>
+                    <span class="script-text"><strong>What changed:</strong> "Since last update: [specific wins/failures]"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">25-35s</span>
+                    <span class="script-text"><strong>Next move:</strong> "This week: focusing on [specific thing]"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">35-40s</span>
+                    <span class="script-text"><strong>CTA:</strong> "Subscribe to watch [outcome]"</span>
                 </div>
             </div>
-        </section>
 
-        <!-- Section 4: Scripts -->
-        <section class="section" id="scripts">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-label">Templates</span>
-                    <h2>4 Narration Frameworks</h2>
-                    <p class="section-description">Ready-to-use scripts adapted for build-in-public developer content. Modify the specifics, keep the rhythm.</p>
+            <div class="script-block">
+                <div class="script-header">
+                    <span class="script-title">The Quick Win</span>
+                    <span class="script-timing">20s</span>
                 </div>
-
-                <div style="max-width: 800px;">
-                    <div class="code-block">
-                        <span class="code-label">Framework 1: The Contrarian Reveal</span>
-                        <pre>[0-5s] Hook: "Stop doing [common practice]." 
-[5-15s] Problem: "Here's why it fails: [specific reason]"
-[15-25s] Solution: "Instead, do [your approach]"
-[25-35s] Proof: "I [result] in [timeframe] using this"
-[35-40s] CTA: "Follow for more [thing] unpopular truths"</pre>
-                    </div>
-
-                    <div class="code-block">
-                        <span class="code-label">Framework 2: The Build Process</span>
-                        <pre>[0-5s] Hook: "Building [feature] for [app]. Here's what I learned"
-[5-15s] Constraint: "The challenge: [technical problem]"
-[15-28s] Solution walkthrough (show code/process)
-[28-35s] Result: Screen recording of working feature
-[35-40s] CTA: "Shipped [X] in [time]. What should I build next?"</pre>
-                    </div>
-
-                    <div class="code-block">
-                        <span class="code-label">Framework 3: The Metrics/Update</span>
-                        <pre>[0-5s] Hook: "Day [X] building [app] — here's where we are"
-[5-15s] Numbers on screen: downloads, revenue, users
-[15-25s] What changed: "Since last update: [specific wins/failures]"
-[25-35s] Next move: "This week: focusing on [specific thing]"
-[35-40s] CTA: "Subscribe to watch [outcome]"</pre>
-                    </div>
-
-                    <div class="code-block">
-                        <span class="code-label">Framework 4: The Quick Win</span>
-                        <pre>[0-5s] Hook: "Here's the [thing] nobody taught you about [topic]"
-[5-12s] Show the thing (code, technique, hidden feature)
-[12-20s] Use case: "Perfect for [specific scenario]"
-[20-28s] Deeper cut: "And if you [advanced tip], you get [better result]"
-[28-34s] CTA: "Save this. You'll need it."</pre>
-                    </div>
+                <div class="script-line">
+                    <span class="script-timestamp">0-3s</span>
+                    <span class="script-text"><strong>Hook:</strong> "I just saved [X] hours with this one [thing]"</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">3-15s</span>
+                    <span class="script-text"><strong>Demonstration:</strong> Quick screen recording of the thing</span>
+                </div>
+                <div class="script-line">
+                    <span class="script-timestamp">15-20s</span>
+                    <span class="script-text"><strong>CTA:</strong> "Link in bio if you want the same"</span>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <!-- Section 5: Workflow -->
-        <section class="section" id="workflow">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-label">Automation</span>
-                    <h2>Hermes Automation Workflow</h2>
-                    <p class="section-description">End-to-end pipeline for creating Shorts using Agent Tina — from raw session to published video.</p>
-                </div>
+    <div class="container">
+        <div class="section-header" id="workflow">
+            <p class="section-label">05 / Operations</p>
+            <h2>Production Workflow</h2>
+            <p>From raw footage to published Short. The actual process for consistent output.</p>
+        </div>
 
-                <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
-                    <div class="card">
-                        <span class="badge badge-ghost" style="margin-bottom: 0.75rem;">Step 1</span>
-                        <h3>Record Raw Session</h3>
-                        <ul class="clean">
-                            <li>Screen recording of build/feature demo</li>
-                            <li>Vietnam voiceover via iOS Voice Memo</li>
-                            <li>Export to Files app, move to Dropbox/whatever</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <span class="badge badge-ghost" style="margin-bottom: 0.75rem;">Step 2</span>
-                        <h3>Hermes Processing</h3>
-                        <ul class="clean">
-                            <li>Trigger: Scheduled or manual cron</li>
-                            <li>Transcribe with Whisper</li>
-                            <li>Extract key moments (auto/Claude)</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <span class="badge badge-ghost" style="margin-bottom: 0.75rem;">Step 3</span>
-                        <h3>Edit & Package</h3>
-                        <ul class="clean">
-                            <li>FFmpeg cut to 25-40 seconds</li>
-                            <li>Add text overlays/burn captions</li>
-                            <li>Export MP4 + thumbnail frame</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <span class="badge badge-ghost" style="margin-bottom: 0.75rem;">Step 4</span>
-                        <h3>Metadata & Upload</h3>
-                        <ul class="clean">
-                            <li>Generate title from hook formula</li>
-                            <li>Write description + tags</li>
-                            <li>Upload to YouTube via API</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="code-block" style="margin-top: 2rem;">
-                    <span class="code-label">Cron Config (~/.hermes/config.yaml)</span>
-                    <pre>shorts_pipeline:
-  enabled: true
-  schedule: "0 18 * * *"  # Daily at 6 PM IST
-  raw_path: ~/.hermes/raw/
-  output_path: ~/.hermes/output/shorts/
-  min_duration: 25
-  max_duration: 40</pre>
+        <div class="content">
+            <div class="workflow-step">
+                <span class="workflow-number">01</span>
+                <div class="workflow-content">
+                    <h4>Capture</h4>
+                    <p>Screen recordings, code demos, Hermes outputs. Record in 9:16 vertical. Capture in segments — don't try to record perfect takes.</p>
+                    <p class="workflow-meta">Tools: OBS, Screen Studio, iPhone screen recordings</p>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <footer class="footer">
+            <div class="workflow-step">
+                <span class="workflow-number">02</span>
+                <div class="workflow-content">
+                    <h4>Edit</h4>
+                    <p>Tight cuts. Remove dead air. Jump cuts between key moments. Add captions (80% watch with sound off).</p>
+                    <p class="workflow-meta">Tools: CapCut, Descript, Screen Studio</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <span class="workflow-number">03</span>
+                <div class="workflow-content">
+                    <h4>Caption</h4>
+                    <p>Word-by-word captions, not full sentences. Synchronized to audio. High contrast text (white on dark or black on light).</p>
+                    <p class="workflow-meta">Style: Bold, sans-serif, 48-72pt on mobile</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <span class="workflow-number">04</span>
+                <div class="workflow-content">
+                    <h4>Thumbnail</h4>
+                    <p>Bright backgrounds. One focal element. Text minimal but readable. Faces help if using them.</p>
+                    <p class="workflow-meta">Format: 1280x720, but Shorts uses first frame from vertical</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <span class="workflow-number">05</span>
+                <div class="workflow-content">
+                    <h4>Schedule</h4>
+                    <p>Prime time: 8-11am and 7-11pm in your audience's timezone. Post when you can reply to comments in the first hour.</p>
+                    <p class="workflow-meta">Frequency: 1-3x daily for growth, 1x daily for maintenance</p>
+                </div>
+            </div>
+        </div>
+
+        <h4 style="margin-top: 64px;">Automation Tools</h4>
+        <div class="tools-grid">
+            <div class="tool-item">
+                <div class="tool-name">Agent Tina / Hermes</div>
+                <div class="tool-desc">Script generation, hook ideation, caption formatting</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-name">Notion Database</div>
+                <div class="tool-desc">Content calendar, idea backlog, performance tracking</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-name">Screen Studio</div>
+                <div class="tool-desc">Automated zooms, smooth cursor, auto-edits</div>
+            </div>
+            <div class="tool-item">
+                <div class="tool-name">CapCut API</div>
+                <div class="tool-desc">Batch captioning, template-based editing</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container">
         <div class="footer-content">
-            <div class="footer-title">Build in public. Ship daily.</div>
-            <p>Documentation by <a href="https://twitter.com/thisisprabha" style="color: var(--color-brand); text-decoration: none;">@thisisprabha</a> • <a href="https://vadapayasam.github.io" style="color: var(--color-brand); text-decoration: none;">vadapayasam.github.io</a></p>
+            <div class="footer-left">
+                <h3>Warehouse</h3>
+                <p>A playbook from Agent Tina</p>
+            </div>
+            <a href="https://vadapayasam.github.io/warehouse/sketch/" class="footer-link">All Sketches</a>
         </div>
     </footer>
+
+    <script>
+        // Nav scroll state
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>
