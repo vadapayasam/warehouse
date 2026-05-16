@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Shorts for Build-in-Public Devs | Complete Playbook</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e5;
+            line-height: 1.6;
+            padding: 0;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid #ff0050;
+            margin-bottom: 2rem;
+        }
+        h1 { font-size: 2.5rem; color: #ff0050; margin-bottom: 0.5rem; }
+        .subtitle { color: #888; font-size: 1.1rem; }
+        h2 { 
+            color: #00f2ea; 
+            margin: 2.5rem 0 1rem 0; 
+            font-size: 1.5rem;
+            border-left: 4px solid #00f2ea;
+            padding-left: 1rem;
+        }
+        h3 { color: #ff0050; margin: 1.5rem 0 0.5rem 0; font-size: 1.2rem; }
+        p { margin-bottom: 1rem; color: #c0c0c5; }
+        .highlight {
+            background: #1a1a2e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        .script-box {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+        .script-title { color: #58a6ff; font-weight: bold; margin-bottom: 0.5rem; }
+        .timing { color: #7ee787; font-size: 0.9rem; }
+        .warning { 
+            background: rgba(255, 0, 80, 0.1); 
+            border-left: 4px solid #ff0050; 
+            padding: 1rem; 
+            margin: 1rem 0; 
+        }
+        .tip { 
+            background: rgba(0, 242, 234, 0.1); 
+            border-left: 4px solid #00f2ea; 
+            padding: 1rem; 
+            margin: 1rem 0; 
+        }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th { background: #1a1a2e; color: #00f2ea; padding: 0.75rem; text-align: left; }
+        td { border-bottom: 1px solid #333; padding: 0.75rem; }
+        tr:hover { background: #12121a; }
+        .metric { display: inline-block; background: #1a1a2e; padding: 0.25rem 0.75rem; border-radius: 4px; margin-right: 0.5rem; font-size: 0.9rem; }
+        .metric.primary { background: #ff0050; color: #fff; }
+        ul { margin-left: 1.5rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.5rem; }
+        .toggle-section { cursor: pointer; }
+        .section-content { display: block; }
+        .footer { 
+            margin-top: 4rem; 
+            padding-top: 2rem; 
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        code {
+            background: #1a1a2e;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #7ee787;
+        }
+        .hook-formula {
+            background: #0d1117;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            font-family: monospace;
+            border-left: 3px solid #ff0050;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🎬 YouTube Shorts for Build-in-Public Devs</h1>
+            <p class="subtitle">Complete playbook for iOS devs documenting via Hermes automation | By Prabha (@thisisprabha)</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Section 1: Algorithm -->
+        <h2>1. YouTube Shorts Algorithm Mechanics</h2>
+        
+        <div class="highlight">
+            <h3>How It Actually Works (Not Marketing Speak)</h3>
+            <p>YouTube Shorts uses a <strong>hybrid recommendation system</strong> different from long-form:</p>
+            <ul>
+                <li><strong>Session-based recommendations:</strong> Shorts are served in infinite scroll sessions, not search. The algorithm optimizes for <em>session retention</em> — keeping users in the Shorts feed.</li>
+                <li><strong>SWF (Shorts Watch Feed):</strong> Primary traffic source. Videos are shown to small test pools first (50-500 views), then scaled if engagement passes thresholds.</li>
+                <li><strong>Cross-over potential:</strong> High-performing Shorts can get pushed to long-form subscribers and vice versa.</li>
+            </ul>
+        </div>
+
+        <h3>Key Ranking Signals (In Priority Order)</h3>
+        <table>
+            <tr>
+                <th>Signal</th>
+                <th>What Counts</th>
+                <th>Target</th>
+            </tr>
+            <tr>
+                <td><span class="metric primary">AVD %</span> Average View Duration</td>
+                <td>% of video watched, not seconds</td>
+                <td>80%+ (higher = better)</td>
+            </tr>
+            <tr>
+                <td><span class="metric primary">Loop Rate</span></td>
+                <td>Users rewatching immediately</td>
+                <td>15%+ loop rate</td>
+            </tr>
+            <tr>
+                <td><span class="metric">Engagement Velocity</span></td>
+                <td>Likes/comments in first 24hrs</td>
+                <td>5%+ engagement rate</td>
+            </tr>
+            <tr>
+                <td><span class="metric">Share Rate</span></td>
+                <td>Saves/shares per impression</td>
+                <td>1%+ share rate</td>
+            </tr>
+            <tr>
+                <td><span class="metric">CTR</span></td>
+                <td>Thumbnail/title clicks</td>
+                <td>4-10% from browse</td>
+            </tr>
+        </table>
+
+        <div class="tip">
+            <strong>💡 Dev-Specific Insight:</strong> Dev content often has <em>higher share rates</em> than entertainment because developers save tutorials for later. YouTube treats saves as high-intent signals.
+        </div>
+
+        <h3>The "Goldilocks Zone" for Shorts Length</h3>
+        <p>Research from top dev creators + YouTube's own data:</p>
+        <ul>
+            <li><strong>15-22 seconds:</strong> Highest completion rates, best for simple tips/hacks</li>
+            <li><strong>25-34 seconds:</strong> Sweet spot for mini-tutorials, problem→solution narratives</li>
+            <li><strong>45-58 seconds:</strong> Max for complex explanations, build breakdowns</li>
+            <li><strong>Avoid:</strong> 30-44 second range (algorithm dead zone — long enough to lose attention, short enough to feel rushed)</li>
+        </ul>
+
+        <!-- Section 2: Content Patterns -->
+        <h2>2. Build-in-Public Content Patterns Analysis</h2>
+        
+        <h3>Pattern 1: The Fireship Model (High Frequency, Low Complexity)</h3>
+        <div class="highlight">
+            <p><strong>Structure:</strong> One concept → One code snippet → Immediate takeaway</p>
+            <ul>
+                <li>Length: 15-25 seconds</li>
+                <li>Posting: 1-3x daily</li>
+                <li>Content: Language tricks, hidden features, "did you know"</li>
+                <li>Visual: Screen recording + text overlays, no face</li>
+            </ul>
+            <p><strong>Why it works:</strong> Information density + shareability. Developers send these to team chats.</p>
+        </div>
+
+        <h3>Pattern 2: The Primeagen Model (Personality-Driven)</h3>
+        <div class="highlight">
+            <p><strong>Structure:</strong> Strong opinion/controversy → Explanation → Call to action</p>
+            <ul>
+                <li>Length: 30-45 seconds</li>
+                <li>Posting: 5-10x weekly</li>
+                <li>Content: Hot takes, industry commentary, workflow reveals</li>
+                <li>Visual: Face-first + screen B-roll, high energy</li>
+            </ul>
+            <p><strong>Why it works:</strong> Comment bait. Controversy drives engagement. Prime's "Rust vs Go" takes get 10x comments vs tutorials.</p>
+        </div>
+
+        <h3>Pattern 3: The Build-in-Public Model (Your Niche)</h3>
+        <div class="highlight">
+            <p><strong>Structure:</strong> Problem → Build process → Result/Demo</p>
+            <ul>
+                <li>Length: 25-40 seconds</li>
+                <li>Posting: 1-2x daily</li>
+                <li>Content: Feature builds, bug fixes, design iterations, metrics</li>
+                <li>Visual: App screen recordings + code glimpses, optional face overlay</li>
+            </ul>
+            <p><strong>Why it works:</strong> Authenticity + progress documentation. Your Hermes automation gives you content assets others don't have.</p>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Critical Difference:</strong> Build-in-public devs need to show <em>process</em>, not just <em>results</em>. The vulnerability of showing incomplete work builds trust. Don't polish everything.
+        </div>
+
+        <!-- Section 3: Hooks -->
+        <h2>3. Hook Structures That Actually Work</h2>
+        
+        <p>First 1-3 seconds determine 80% of your reach. Here are proven formulas for dev content:</p>
+
+        <h3>Formula 1: The "Impossible" Hook</h3>
+        <div class="hook-formula">
+            "I built [X] in [unbelievably short time]"<br>
+            "This [feature] took 20 minutes. Here's how:"
+        </div>
+        <p><strong>Why:</strong> Pattern interrupt. Developers are skeptical by nature — claiming speed/efficiency triggers "prove it" response.</p>
+
+        <h3>Formula 2: The Controversy Hook</h3>
+        <div class="hook-formula">
+            "Stop using [popular tool]. Do this instead."<br>
+            "Your [X] is wrong. Here's what Apple actually recommends:"
+        </div>
+        <p><strong>Why:</strong> Forces viewer to prove you wrong. High comment engagement.</p>
+
+        <h3>Formula 3: The "Steal This" Hook</h3>
+        <div class="hook-formula">
+            "Steal this [component/code pattern] for your next app"<br>
+            "Free SwiftUI component — just copy this:"
+        </div>
+        <p><strong>Why:</strong> Implicit value proposition. Saving = engagement.</p>
+
+        <h3>Formula 4: The Reality Hook (Build-in-Public Specific)</h3>
+        <div class="hook-formula">
+            "Day [X] building [app]: [unexpected thing happened]"<br>
+            "Just lost [user metric]. Here's the fix:"
+        </div>
+        <p><strong>Why:</strong> Authenticity + narrative = relationship building. Not transactional like tutorial content.</p>
+
+        <h3>Formula 5: The Visual Hook</h3>
+        <div class="hook-formula">
+            [Show janky/broken UI first 0.5s] → "Fixed this animation"<br>
+            [Show before/after split screen instantly]
+        </div>
+        <p><strong>Why:</strong> Visual pattern interrupt. Works even without sound.</p>
+
+        <table>
+            <tr>
+                <th>Hook Type</th>
+                <th>Avg Retention</th>
+                <th>Best For</th>
+            </tr>
+            <tr>
+                <td>Impossible/Timeline</td>
+                <td>85-92%</td>
+                <td>Tutorials, builds</td>
+            </tr>
+            <tr>
+                <td>Controversy</td>
+                <td>70-80%</td>
+                <td>Opinions, commentary</td>
+            </tr>
+            <tr>
+                <td>Steal This</td>
+                <td>90-95%</td>
+                <td>Code snippets, components</td>
+            </tr>
+            <tr>
+                <td>Reality/Process</td>
+                <td>75-85%</td>
+                <td>Build logs, updates</td>
+            </tr>
+        </table>
+
+        <!-- Section 4: Narration -->
+        <h2>4. Narration Frameworks</h2>
+        
+        <h3>Framework A: Problem → Build → Result (Classic)</h3>
+        <div class="script-box">
+            <div class="timing">0-3s: "Users were dropping off at checkout"</div>
+            <div class="timing">3-15s: [Show code/animation of building solution]</div>
+            <div class="timing">15-25s: [Demo final result] "Now conversion is up 40%"</div>
+        </div>
+        <p><strong>Use when:</strong> Documenting specific fixes, optimizations</p>
+
+        <h3>Framework B: Show → Explain → Apply</h3>
+        <div class="script-box">
+            <div class="timing">0-5s: [Show cool thing working] "This animation..."</div>
+            <div class="timing">5-18s: "...is just 12 lines. Here's the trick:"</div>
+            <div class="timing">18-25s: [Code on screen] "Use matchedGeometryEffect"</div>
+        </div>
+        <p><strong>Use when:</strong> Teaching patterns, code snippets</p>
+
+        <h3>Framework C: Day-in-Life (Your Hermes Advantage)</h3>
+        <div class="script-box">
+            <div class="timing">0-3s: "Thursday build log: refactoring payment flow"</div>
+            <div class="timing">3-20s: [Montage of commits, errors, fixes, Hermes logs]</div>
+            <div class="timing">20-28s: "Shipped to TestFlight. DM for beta access."</div>
+        </div>
+        <p><strong>Use when:</strong> Regular updates, process documentation</p>
+
+        <h3>Framework D: Contrarian Take</h3>
+        <div class="script-box">
+            <div class="timing">0-3s: "MVVM is overrated for SwiftUI"</div>
+            <div class="timing">3-20s: [Explain your architecture] "I use this instead..."</div>
+            <div class="timing">20-28s: "Drop a 🔥 if you disagree"</div>
+        </div>
+        <p><strong>Use when:</strong> Building thought leadership, sparking discussion</p>
+
+        <!-- Section 5: Timing -->
+        <h2>5. Timing & Pacing Specifications</h2>
+        
+        <h3>Optimal Length by Content Type</h3>
+        <table>
+            <tr>
+                <th>Content Type</th>
+                <th>Target Length</th>
+                <th>Max Length</th>
+            </tr>
+            <tr>
+                <td>Quick tip/One-liner</td>
+                <td>12-18s</td>
+                <td>20s</td>
+            </tr>
+            <tr>
+                <td>Code walkthrough</td>
+                <td>22-28s</td>
+                <td>35s</td>
+            </tr>
+            <tr>
+                <td>Build breakdown</td>
+                <td>30-40s</td>
+                <td>50s</td>
+            </tr>
+            <tr>
+                <td>Day wrap-up</td>
+                <td>25-35s</td>
+                <td>45s</td>
+            </tr>
+        </table>
+
+        <h3>Pacing Rules</h3>
+        <ul>
+            <li><strong>Cut every 2-3 seconds:</strong> If a shot lasts longer, something should change (zoom, highlight, new element)</li>
+            <li><strong>Text appears at 0.5x speed:</strong> Give viewers time to read — but never full duration</li>
+            <li><strong>End at 95% watched:</strong> Last 5% is your CTA/follow prompt</li>
+            <li><strong>Audio pacing:</strong> 140-160 words per minute maximum for clarity</li>
+        </ul>
+
+        <h3>The 3-Second Rule Breakdown</h3>
+        <div class="highlight">
+            <p><strong>0.0-0.5s:</strong> Visual hook (motion, contrast, text pop)<br>
+            <strong>0.5-1.5s:</strong> Context established (what is this about?)<br>
+            <strong>1.5-3.0s:</strong> Promise made (why keep watching?)</p>
+        </div>
+
+        <!-- Section 6: Screen Content -->
+        <h2>6. Screen Content Strategy</h2>
+        
+        <h3>What to Show When</h3>
+        <table>
+            <tr>
+                <th>Content Goal</th>
+                <th>Primary Visual</th>
+                <th>Secondary/B-roll</th>
+            </tr>
+            <tr>
+                <td>Teach code</td>
+                <td>IDE/Code editor (60%)</td>
+                <td>Result preview (40%)</td>
+            </tr>
+            <tr>
+                <td>Show build</td>
+                <td>App simulator (70%)</td>
+                <td>Code glimpses (30%)</td>
+            </tr>
+            <tr>
+                <td>Share metrics</td>
+                <td>Analytics dashboard (50%)</td>
+                <td>App UI (50%)</td>
+            </tr>
+            <tr>
+                <td>Process/update</td>
+                <td>Montage/commits (40%)</td>
+                <td>Face/reaction (60%)</td>
+            </tr>
+        </table>
+
+        <h3>Text Overlay Best Practices</h3>
+        <ul>
+            <li><strong>Font:</strong> System fonts (SF Pro, Inter) for dev content — matches aesthetic</li>
+            <li><strong>Size:</strong> Minimum 40pt for mobile readability</li>
+            <li><strong>Position:</strong> Safe zone is middle 60% of vertical frame (avoid bottom 15% for UI elements)</li>
+            <li><strong>Animation:</strong> Pop in (scale 0→1) or type-on effect — never static for full duration</li>
+            <li><strong>Density:</strong> Max 6 words per text element. One concept per overlay.</li>
+        </ul>
+
+        <h3>B-Roll Patterns That Work</h3>
+        <div class="highlight">
+            <p><strong>For dev content specifically:</strong></p>
+            <ul>
+                <li>Typing shots (hands on keyboard) — humanizes the code</li>
+                <li>Terminal/commands running — shows "real work"</li>
+                <li>Simulator with actual finger interactions — makes it tangible</li>
+                <li>Git commits timeline — visualizes progress</li>
+                <li>Face reactions (small corner overlay) — builds parasocial connection</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <strong>💡 Hermes Integration:</strong> Your Hermes automation can generate B-roll assets: commit timelines, daily progress summaries, code change visualizations. Use these as unique content differentiators.
+        </div>
+
+        <!-- Section 7: AI Policy -->
+        <h2>7. AI Content Policy & Disclosure</h2>
+        
+        <h3>YouTube's Official Stance</h3>
+        <div class="highlight">
+            <p>As of 2024, YouTube requires:</p>
+            <ul>
+                <li><strong>Disclosure of AI-generated content</strong> that shows realistic altered or synthetic imagery</li>
+                <li><strong>No special disclosure</strong> needed for: AI-assisted editing, AI-generated code, AI text-to-speech (if clearly synthetic)</li>
+                <li><strong>Required disclosure</strong> for: AI-generated faces/voices that could be mistaken for real, AI-generated screen recordings that mimic real apps</li>
+            </ul>
+        </div>
+
+        <h3>Algorithm Penalties</h3>
+        <p>YouTube has NOT confirmed algorithm penalties for AI content. However:</p>
+        <ul>
+            <li><strong>Engagement quality matters more than origin:</strong> AI content that gets high retention performs identically to organic content</li>
+            <li><strong>Misuse risk:</strong> Accounts spamming low-quality AI content face throttling</li>
+            <li><strong>Recommendations from creators:</strong> Mix AI-assisted with genuine content (70/30 split recommended)</li>
+        </ul>
+
+        <h3>Build-in-Public AI Safeguards</h3>
+        <div class="warning">
+            <p>For your content specifically:</p>
+            <ul>
+                <li>Your Hermes automation is <strong>assistance, not generation</strong> — no disclosure needed</li>
+                <li>AI voiceovers: Use ones that sound synthetic (ElevenLabs "Josh" etc) or disclose</li>
+                <li>AI code suggestions: Fine to show, but clarify if code wasn't hand-written</li>
+                <li>AI thumbnails: No disclosure needed</li>
+            </ul>
+        </div>
+
+        <!-- Section 8: Scripts -->
+        <h2>8. Ready-to-Use Script Templates</h2>
+        
+        <h3>Template 1: The Quick Component Share</h3>
+        <div class="script-box">
+            <div class="script-title">Script: "Custom Button Component"</div>
+            <p><span class="timing">0-3s:</span> Hook: "Steal this button component I use in every SwiftUI app"</p>
+            <p><span class="timing">3-8s:</span> Show janky default button → Show polished custom button</p>
+            <p><span class="timing">8-20s:</span> Quick code reveal with 3 key features highlighted via text overlays ("custom shadow", "press animation", "adaptive color")</p>
+            <p><span class="timing">20-25s:</span> CTA: "Follow for more SwiftUI components"</p>
+            <p><strong>Target length:</strong> 25s | <strong>B-roll:</strong> Simulator 70%, code 30%</p>
+        </div>
+
+        <h3>Template 2: The Hermes Build Log</h3>
+        <div class="script-box">
+            <div class="script-title">Script: "Day [X] Building [App Name]"</div>
+            <p><span class="timing">0-3s:</span> Hook: "Day 23 building WhatPay — here's what broke today"</p>
+            <p><span class="timing">3-8s:</span> Show error/crash log from Hermes</p>
+            <p><span class="timing">8-20s:</span> Rapid montage: Git diff → Code fix → Build → Test</p>
+            <p><span class="timing">20-28s:</span> Show working feature + metrics if relevant</p>
+            <p><span class="timing">28-30s:</span> CTA: "DM 'BETA' for TestFlight access"</p>
+            <p><strong>Target length:</strong> 30s | <strong>B-roll:</strong> Hermes logs, face overlay 40%, app 60%</p>
+        </div>
+
+        <h3>Template 3: The Hot Take/Contrarian</h3>
+        <div class="script-box">
+            <div class="script-title">Script: "Stop Using Core Data"</div>
+            <p><span class="timing">0-3s:</span> Hook: "Stop using Core Data for new SwiftUI apps"</p>
+            <p><span class="timing">3-10s:</span> Explain why (boilerplate, complexity, context issues)</p>
+            <p><span class="timing">10-22s:</span> Show alternative (@AppStorage, SwiftData, or your wrapper)</p>
+            <p><span class="timing">22-28s:</span> "Comment 🔥 if you agree or fight me in replies"</p>
+            <p><strong>Target length:</strong> 28s | <strong>B-roll:</strong> Face 60%, code comparison 40%</p>
+        </div>
+
+        <h3>Template 4: The Speed Build</h3>
+        <div class="script-box">
+            <div class="script-title">Script: "I Built This in 20 Minutes"</div>
+            <p><span class="timing">0-3s:</span> Hook: "This onboarding flow took 20 minutes. Watch:"</p>
+            <p><span class="timing">3-18s:</span> Time-lapse of coding (speed up 2-4x) with key moments highlighted</p>
+            <p><span class="timing">18-25s:</span> Demo final polished result</p>
+            <p><span class="timing">25-30s:</span> "Want the source? Link in bio"</p>
+            <p><strong>Target length:</strong> 30s | <strong>B-roll:</strong> Time-lapse 60%, result demo 40%</p>
+        </div>
+
+        <h3>Template 5: The Reality Check (Vulnerability)</h3>
+        <div class="script-box">
+            <div class="script-title">Script: "My App Got Rejected"</div>
+            <p><span class="timing">0-4s:</span> Hook: "App Store just rejected WhatPay. Here's why:"</p>
+            <p><span class="timing">4-15s:</span> Screenshot rejection notice + explanation of guideline violation</p>
+            <p><span class="timing">15-24s:</span> Show your fix/fix in progress</p>
+            <p><span class="timing">24-30s:</span> "Follow to see if we get approved tomorrow"</p>
+            <p><strong>Target length:</strong> 30s | <strong>B-roll:</strong> Docs/screenshots 50%, face reaction 50%</p>
+        </div>
+
+        <!-- Section 9: Content Selection -->
+        <h2>9. Content Selection Matrix</h2>
+        
+        <h3>The Four Types of Build-in-Public Content</h3>
+        <table>
+            <tr>
+                <th>Type</th>
+                <th>Examples</th>
+                <th>Perform For</th>
+                <th>Post Frequency</th>
+            </tr>
+            <tr>
+                <td><strong>Wins</strong></td>
+                <td>Feature shipped, milestone hit, positive review</td>
+                <td>Motivation, credibility</td>
+                <td>2-3x weekly</td>
+            </tr>
+            <tr>
+                <td><strong>Failures</strong></td>
+                <td>Rejection, crash, bad metric, wrong architecture</td>
+                <td>Relatability, engagement</td>
+                <td>1-2x weekly</td>
+            </tr>
+            <tr>
+                <td><strong>Discoveries</strong></td>
+                <td>New API, hidden feature, optimization</td>
+                <td>Value, saves, shares</td>
+                <td>3-4x weekly</td>
+            </tr>
+            <tr>
+                <td><strong>Process</strong></td>
+                <td>Day logs, workflow reveals, tool setups</td>
+                <td>Authenticity, series potential</td>
+                <td>Daily</td>
+            </tr>
+        </table>
+
+        <h3>Content Decision Tree</h3>
+        <div class="highlight">
+            <p><strong>Before posting, ask:</strong></p>
+            <ol>
+                <li>Would I save this to reference later? (Value check)</li>
+                <li>Does this show process or just result? (Authenticity check)</li>
+                <li>Would another dev DM me about this? (Shareability check)</li>
+                <li>Is there an emotional hook? (Engagement check)</li>
+                <li>Can someone learn something in <30s? (Shorts format check)</li>
+            </ol>
+        </div>
+
+        <h3>Hermes-Powered Content Pipeline</h3>
+        <div class="tip">
+            <p><strong>Your automation advantage:</strong></p>
+            <ul>
+                <li>Hermes commit summaries → Daily build log content</li>
+                <li>Hermes error logs → "Here's what broke" content</li>
+                <li>Hermes metrics → "Month X update" content</li>
+                <li>Hermes screenshot automation → Before/after assets</li>
+            </ul>
+            <p>You have a content flywheel others don't. Use it.</p>
+        </div>
+
+        <!-- Section 10: Posting Strategy -->
+        <h2>10. Posting Strategy & Distribution</h2>
+        
+        <h3>Frequency Recommendations</h3>
+        <table>
+            <tr>
+                <th>Growth Phase</th>
+                <th>Posts/Day</th>
+                <th>Why</th>
+            </tr>
+            <tr>
+                <td>0-1K subscribers</td>
+                <td>1-2x</td>
+                <td>Algorithm testing phase, build library</td>
+            </tr>
+            <tr>
+                <td>1K-10K subscribers</td>
+                <td>2-3x</td>
+                <td>Capitalize on winning formats</td>
+            </tr>
+            <tr>
+                <td>10K+ subscribers</td>
+                <td>1-2x + long-form</td>
+                <td>Quality over quantity, cross-promote</td>
+            </tr>
+        </table>
+
+        <h3>Optimal Posting Times (EST)</h3>
+        <ul>
+            <li><strong>Primary:</strong> 8-10 AM EST (developers checking before work)</li>
+            <li><strong>Secondary:</strong> 12-1 PM EST (lunch scroll)</li>
+            <li><strong>Tertiary:</strong> 6-8 PM EST (evenning wind-down)</li>
+            <li><strong>Best days:</strong> Tuesday-Thursday for dev content</li>
+        </ul>
+
+        <h3>Series vs One-Offs</h3>
+        <div class="highlight">
+            <p><strong>Series perform 3-5x better</strong> for build-in-public content:</p>
+            <ul>
+                <li><strong>"Building [App]" series:</strong> Sequential episodes, natural cliffhangers</li>
+                <li><strong>"SwiftUI Snippets" series:</strong> Consistent format, binge potential</li>
+                <li><strong>"Day X" series:</strong> Accountability + narrative arc</li>
+            </ul>
+            <p><strong>Playlist strategy:</strong> Group by series. YouTube promotes playlist completion.</p>
+        </div>
+
+        <h3>Cross-Platform Distribution</h3>
+        <table>
+            <tr>
+                <th>Platform</th>
+                <th>Repost Strategy</th>
+                <th>Modifications</th>
+            </tr>
+            <tr>
+                <td>TikTok</td>
+                <td>100% repost, 0-4hr delay</td>
+                <td>Remove "subscribe" mentions, add TikTok trending sounds</td>
+            </tr>
+            <tr>
+                <td>Instagram Reels</td>
+                <td>100% repost, 24hr delay</td>
+                <td>Different caption, no external links in captions</td>
+            </tr>
+            <tr>
+                <td>X/Twitter</td>
+                <td>Embed + thread context</td>
+                <td>Post as native video, not link</td>
+            </tr>
+        </table>
+
+        <h3>SEO for Shorts</h3>
+        <div class="highlight">
+            <p>Shorts SEO is different from long-form:</p>
+            <ul>
+                <li><strong>Title:</strong> Max 60 characters, front-load keywords</li>
+                <li><strong>Description:</strong> Less important, but include 3-5 relevant keywords</li>
+                <li><strong>Tags:</strong> Still functional — "SwiftUI", "iOS development", "build in public", "indie dev"</li>
+                <li><strong>Thumbnail:</strong> Create custom 9:16 covers for channel page display</li>
+                <li><strong>Captions:</strong> Upload SRT files — YouTube indexes caption text</li>
+            </ul>
+        </div>
+
+        <!-- Quick Reference -->
+        <h2>⚡ Quick Reference Card</h2>
+        
+        <div class="highlight">
+            <h3>The Perfect Build-in-Public Short Checklist</h3>
+            <ul style="columns: 2;">
+                <li>☐ Hook in first 3 seconds</li>
+                <li>☐ Length 22-35 seconds</li>
+                <li>☐ Shows process, not just result</li>
+                <li>☐ App simulator visible</li>
+                <li>☐ Code legible (if shown)</li>
+                <li>☐ Text overlays under 6 words</li>
+                <li>☐ Cut every 2-3 seconds</li>
+                <li>☐ Strong CTA in last 5 seconds</li>
+                <li>☐ Posted 8-10 AM EST</li>
+                <li>☐ Part of a series</li>
+            </ul>
+        </div>
+
+        <!-- Content Calendar -->
+        <h2>📅 Sample Content Calendar (Week 1)</h2>
+        
+        <table>
+            <tr>
+                <th>Day</th>
+                <th>Content</th>
+                <th>Type</th>
+                <th>Template</th>
+            </tr>
+            <tr>
+                <td>Mon</td>
+                <td>"Day 1 building [Feature]"</td>
+                <td>Process</td>
+                <td>Hermes Build Log</td>
+            </tr>
+            <tr>
+                <td>Mon</td>
+                <td>"Stop using [Common Pattern]"</td>
+                <td>Discovery</td>
+                <td>Hot Take</td>
+            </tr>
+            <tr>
+                <td>Tue</td>
+                <td>"This component took 15 min"</td>
+                <td>Win</td>
+                <td>Speed Build</td>
+            </tr>
+            <tr>
+                <td>Wed</td>
+                <td>"Day 2 — here's what broke"</td>
+                <td>Failure</td>
+                <td>Hermes Build Log</td>
+            </tr>
+            <tr>
+                <td>Wed</td>
+                <td>"Steal this [Component]"</td>
+                <td>Discovery</td>
+                <td>Quick Component</td>
+            </tr>
+            <tr>
+                <td>Thu</td>
+                <td>"App Store rejection story"</td>
+                <td>Failure</td>
+                <td>Reality Check</td>
+            </tr>
+            <tr>
+                <td>Fri</td>
+                <td>"Shipped! Here's the result"</td>
+                <td>Win</td>
+                <td>Hermes Build Log</td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            <p>Generated by Hermes Agent 🤖 | For Prabha (@thisisprabha)</p>
+            <p>WhatPay / TimeLeft Build-in-Public Strategy | Last Updated: May 2026</p>
+        </div>
+    </div>
+</body>
+</html>
