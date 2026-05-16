@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP Decision: AssetBeacon for Monday.com</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface-light: #21262d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent-soft: #388bfd;
+            --success: #3fb950;
+            --warning: #d29922;
+            --danger: #f85149;
+            --border: #30363d;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            --font-mono: "SF Mono", Monaco, Inconsolata, "Fira Code", monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .badge {
+            display: inline-block;
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .badge.picked {
+            background: rgba(63, 185, 80, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+        h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.25rem; font-weight: 600; margin: 2rem 0 1rem; color: var(--accent); }
+        h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--text); }
+        .oneline {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            font-style: italic;
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        ul, ol { padding-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        code {
+            font-family: var(--font-mono);
+            background: var(--surface-light);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.875em;
+            color: var(--accent);
+        }
+        pre {
+            background: var(--surface-light);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: var(--text);
+        }
+        .highlight-box {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .decision-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .decision-matrix th,
+        .decision-matrix td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .decision-matrix th {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        .decision-matrix .picked {
+            background: rgba(63, 185, 80, 0.1);
+        }
+        .decision-matrix .rejected {
+            opacity: 0.6;
+        }
+        .score {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .score.high {
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--success);
+        }
+        .score.medium {
+            background: rgba(211, 153, 34, 0.2);
+            color: var(--warning);
+        }
+        .score.low {
+            background: rgba(248, 81, 73, 0.2);
+            color: var(--danger);
+        }
+        .wireframe {
+            background: var(--bg);
+            border: 2px dashed var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .wireframe-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+        .day-plan {
+            display: grid;
+            gap: 1rem;
+        }
+        .time-block {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .time-block .hour {
+            flex-shrink: 0;
+            width: 80px;
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .time-block .task {
+            flex: 1;
+        }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.5rem; }
+            .time-block { flex-direction: column; gap: 0.25rem; }
+            .time-block .hour { width: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="badge picked">Decision Made</span>
+            <h1>AssetBeacon</h1>
+            <p class="oneline">IT asset tracking that lives inside monday.com — no context switching, no data silos.</p>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                Generated: May 17, 2026 &bull; Target: 8 AM Build Session
+            </p>
+        </header>
+
+        <div class="section">
+            <h2>The Decision</h2>
+            <p>After analyzing Monday.com marketplace gaps and Prabha's domain expertise at SuperOps, I'm selecting <strong>AssetBeacon</strong> as the MVP to build.</p>
+            
+            <div class="highlight-box">
+                <strong>What it is:</strong> A monday.com app that turns any board into a live IT asset registry with automated discovery, lifecycle tracking, and maintenance scheduling — purpose-built for MSPs who use monday.com for project delivery but lack professional asset management.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Why AssetBeacon Over Alternatives</h2>
+            
+            <table class="decision-matrix">
+                <thead>
+                    <tr>
+                        <th>Opportunity</th>
+                        <th>Domain Expertise</th>
+                        <th>1-Day Feasible</th>
+                        <th>Monday.com Fit</th>
+                        <th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rejected">
+                        <td>PSA Connector (SuperOps bi-sync)</td>
+                        <td><span class="score high">High</span></td>
+                        <td><span class="score low">No</span></td>
+                        <td><span class="score high">Strong</span></td>
+                        <td>Requi es complex OAuth + field mapping UI</td>
+                    </tr>
+                    <tr class="rejected">
+                        <td>RMM Integration Layer</td>
+                        <td><span class="score high">High</span></td>
+                        <td><span class="score low">No</span></td>
+                        <td><span class="score high">Strong</span></td>
+                        <td>Multi-RMM APIs, webhook infra too heavy</td>
+                    </tr>
+                    <tr class="picked">
+                        <td><strong>AssetBeacon (Asset Mgmt)</strong></td>
+                        <td><span class="score high">High</span></td>
+                        <td><span class="score high">Yes</span></td>
+                        <td><span class="score high">Strong</span></td>
+                        <td>MVP uses board as database, custom columns</td>
+                    </tr>
+                    <tr class="rejected">
+                        <td>IT Documentation Bridge</td>
+                        <td><span class="score medium">Medium</span></td>
+                        <td><span class="score medium">Maybe</span></td>
+                        <td><span class="score medium">Weak</span></td>
+                        <td>IT Glue/Hudu APIs are fragmented</td>
+                    </tr>
+                    <tr class="rejected">
+                        <td>NOC Dashboard Widget</td>
+                        <td><span class="score high">High</span></td>
+                        <td><span class="score medium">Maybe</span></td>
+                        <td><span class="score high">Strong</span></td>
+                        <td>Requires Alert source (chicken/egg problem)</td>
+                    </tr>
+                    <tr class="rejected">
+                        <td>Client Portal Integration</td>
+                        <td><span class="score medium">Medium</span></td>
+                        <td><span class="score low">No</span></td>
+                        <td><span class="score medium">Medium</span></td>
+                        <td>Needs standalone auth + hosting</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Key Differentiators</h3>
+            <ul>
+                <li><strong>Leverages Monday.com's data model:</strong> Board = asset registry, items = devices, columns = attributes. No external DB needed for MVP.</li>
+                <li><strong>Solves immediate pain:</strong> MSPs currently track assets in spreadsheets or expensive tools (Snipe-IT, AssetTiger). They want it alongside their project work.</li>
+                <li><strong>Clear path to paid:</strong> AssetBeacon is the wedge. Asset discovery agent, lifecycle automation, and PSA sync are future paid tiers.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Core Features (MVP Scope Only)</h2>
+            
+            <ol>
+                <li><strong>Asset Board Template</strong>
+                    <ul>
+                        <li>Pre-configured board with columns: Asset Type, Serial, Purchase Date, Warranty Expiry, Status, Assigned User, Location</li>
+                        <li>One-click deploy from monday.com apps marketplace</li>
+                    </ul>
+                </li>
+                <li><strong>Custom Asset Columns</strong>
+                    <ul>
+                        <li>Asset ID column (auto-generated with format prefix)</li>
+                        <li>Warranty countdown column (visual widget showing days remaining)</li>
+                        <li>Asset type picker with icons (laptop, server, printer, etc.)</li>
+                    </ul>
+                </li>
+                <li><strong>Asset Detail View</strong>
+                    <ul>
+                        <li>Item view extension showing asset specs inline</li>
+                        <li>Quick actions: "Mark for disposal", "Request maintenance"</li>
+                    </ul>
+                </li>
+                <li><strong>Bulk Import (CSV/JSON)</strong>
+                    <ul>
+                        <li>Upload existing asset lists</li>
+                        <li>Field mapping UI (map CSV columns to monday columns)</li>
+                    </ul>
+                </li>
+                <li><strong>Maintenance Reminder Automation</strong>
+                    <ul>
+                        <li>Custom recipe: "When warranty expires in 30 days, notify owner"</li>
+                        <li>Integration with monday.com native notifications</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="highlight-box">
+                <strong>Explicitly OUT of MVP:</strong> Real-time asset discovery (SNMP/scanner), PSA sync, external API integrations, multi-tenant client portals, advanced reporting dashboards. These are v2 revenue features.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Technical Approach</h2>
+            
+            <h3>Stack</h3>
+            <ul>
+                <li><strong>Frontend:</strong> React + Monday.com Design System (<code>monday-ui-react-core</code>)</li>
+                <li><strong>Backend:</strong> Node.js + Express (minimal — mostly passthrough to monday.com GraphQL)</li>
+                <li><strong>S DK:</strong> <code>@mondaydotcomorg/api</code> for TypeScript/GraphQL</li>
+                <li><strong>Auth:</strong> OAuth 2.0 flow via monday.com Apps Framework</li>
+                <li><strong>Hosting:</strong> Render / Vercel (free tier sufficient for MVP)</li>
+            </ul>
+
+            <h3>Architecture Diagram (MVP)</h3>
+            <pre><code>┌─────────────────────────────────────────────────────────────┐
+│                    Monday.com Platform                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌─────────────────────┐ │
+│  │ Asset Board  │  │ Custom View  │  │ Automation Recipes  │ │
+│  │ (stores data)│  │ (Item details│  │ (Warranty alerts)   │ │
+│  └──────┬───────┘  └──────┬───────┘  └─────────────────────┘ │
+└───────┬─────────────────┬─────────────────────────────────────┘
+        │                 │
+        │ GraphQL API     │ OAuth / Webhooks
+        │                 │
+┌───────┴─────────────────┴──────────────┐
+│         AssetBeacon App Backend        │
+│  ┌──────────────┐  ┌────────────────┐  │
+│  │ Board Setup  │  │ Import Handler │  │
+│  │ Service      │  │ (CSV/JSON)     │  │
+│  └──────────────┘  └────────────────┘  │
+│  ┌──────────────┐  ┌────────────────┐  │
+│  │ Custom Col   │  │ Recipe Trigger │  │
+│  │ Handlers     │  │ Service        │  │
+│  └──────────────┘  └────────────────┘  │
+└──────────────────────────────────────────┘
+        │
+        │ (v2: Discovery Agent)
+        ▼
+   Future: SNMP/Nmap scanner
+   container for live discovery</code></pre>
+
+            <h3>Key Technical Decisions</h3>
+            <ol>
+                <li><strong>Use monday.com as the database:</strong> Asset records are items. Avoids spinning up Postgres for MVP. Rate limits are generous (10K/day on Pro).</li>
+                <li><strong>Custom columns over settings:</strong> Extending column types means assets feel native, not bolted-on.</li>
+                <li><strong>Recipe-based automation:</strong> Hooks into monday.com's existing notification system rather than building alerts from scratch.</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Monday.com Integration Points</h2>
+            
+            <table class="decision-matrix">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Integration Type</th>
+                        <th>API/Component</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Asset Board Template</td>
+                        <td>Board Template</td>
+                        <td><code>create_board</code> mutation with template</td>
+                    </tr>
+                    <tr>
+                        <td>Asset ID Column</td>
+                        <td>Custom Column Type</td>
+                        <td>Column Apps Framework API</td>
+                    </tr>
+                    <tr>
+                        <td>Warranty Countdown</td>
+                        <td>Custom Cell Renderer</td>
+                        <td>View SDK (React component)</td>
+                    </tr>
+                    <tr>
+                        <td>Asset Detail View</td>
+                        <td>Item View Extension</td>
+                        <td>Item View SDK (iframe)</td>
+                    </tr>
+                    <tr>
+                        <td>Import Handler</td>
+                        <td>Integration Recipe</td>
+                        <td>Custom Action Block</td>
+                    </tr>
+                    <tr>
+                        <td>Warranty Alerts</td>
+                        <td>Automation Recipe</td>
+                        <td>Integration Recipe + Webhook</td>
+                    </tr>
+                    <tr>
+                        <td>Notifications</td>
+                        <td>Native Notifications</td>
+                        <td><code>create_notification</code> mutation</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Build Plan: Single Day Execution</h2>
+            <p>Designed for an 8 AM start. Each block assumes focus, no rabbit holes.</p>
+            
+            <div class="day-plan">
+                <div class="time-block">
+                    <div class="hour">8:00 AM</div>
+                    <div class="task"><strong>Project scaffold</strong> — Initialize React app, add <code>@mondaydotcomorg/api</code>, set up OAuth boilerplate, deploy empty shell to Vercel.</div>
+                </div>
+                <div class="time-block">
+                    <div class="hour">9:30 AM</div>
+                    <div class="task"><strong>Board template</strong> — Create JSON structure for asset board (columns, groups), build "Create Asset Registry" button that provisions via API.</div>
+                </div>
+                <div class="time-block">
+                    <div class="hour">11:00 AM</div>
+                    <div class="task"><strong>Asset ID column</strong> — Implement custom column type (Asset ID with auto-prefix like <code>AST-#####</code>), test on live board.</div>
+                </div>
+                <div class="time-block">
+                    <div class="hour">12:30 PM</div>
+                    <div class="task"><em>Lunch / Buffer</em></div>
+                </div>
+                <div class="time-block">
+                    <div class="hour">1:30 PM</div>
+                    <div class="task"><strong>Item detail view</strong> — Build React component for asset details pane, integrate with Item View SDK, show specs + quick actions.</div>
+                </div>
+                <div class="time-block">
+                    <div class="hour">3:00 PM</div>
+                    <div class="task"><strong>Bulk import</strong> — CSV upload endpoint, field mapping UI (drag-to-match columns), bulk mutation to <code>create_item</code>.</div>
+                </div>
+                <div class="time-block">
+                    <div class="hour">4:30 PM</div>
+                    <div class="task"><strong>Automation recipe</strong> — "Warranty expiry alert" custom recipe, webhook handler, notification trigger.</div>
+                </div>
+                <div class="time-block">
+                    <div class="hour">6:00 PM</div>
+                    <div class="task"><strong>Polish & Package</strong> — UI pass, error handling, README with screenshots, deploy final build, update artifact HTML.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Wireframe Descriptions</h2>
+            
+            <div class="wireframe">
+                <pre style="text-align: left; display: inline-block;">
+┌─────────────────────────────────────────────────────────────┐
+│  🏢 AssetBeacon v0.1                          [Help] [Settings│
+├─────────────────────────────────────────────────────────────┤
+│  Create Asset Registry                                      │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │ Board Name: [Asset Registry - Acme Corp    ]          ││
+│  │ Client:     [Dropdown: Select client      v]          ││
+│  │                                                      ││
+│  │ [?] Include warranty columns                          ││
+│  │ [?] Include assignment tracking                       ││
+│  │                                                      ││
+│  │         [Create Board]                                ││
+│  └─────────────────────────────────────────────────────────┘│
+│                                                             │
+│  Import Existing Assets                                     │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │ 📁 Drop CSV/Excel file here                           ││
+│  │ or click to browse                                      ││
+│  └─────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────┘
+                </pre>
+                <p class="wireframe-desc"><strong>Setup View:</strong> First-time user sees template creation + import options</p>
+            </div>
+
+            <div class="wireframe">
+                <pre style="text-align: left; display: inline-block;">
+┌─────────────────────────────────────────────────────────────┐
+│  Asset Details                     ⚡ Laptop - Dell XPS    │
+├─────────────────────────────────────────────────────────────┤
+│  ┌────────────┐ ┌──────────────┐ ┌──────────────┐         │
+│  │ 💻         │ │ Asset ID     │ │ Status       │         │
+│  │            │ │ AST-00042    │ │ Active   v   │         │
+│  └────────────┘ └──────────────┘ └──────────────┘         │
+│                                                             │
+│  Specs                      Assignment                     │
+│  ├─ Model: XPS 15 9520     ├─ Assigned: John Smith       │
+│  ├─ Serial: 5CD1234          ├─ Dept: Engineering          │
+│  ├— CPU: i7-12700H          └— Location: Chennai Office   │
+│  └─ RAM: 32GB                                             │
+│                                                             │
+│  Warranty 🔔                                              │
+│  ├─ Purchased: Jan 15, 2024                               │
+│  ├─ Expires: Jan 15, 2027  [████████░░░░░ 68%]            │
+│  └─ Alert: 30 days before expiry ✓                        │
+│                                                             │
+│  [Log Maintenance]  [Mark Disposed]  [Refresh Data]         │
+└─────────────────────────────────────────────────────────────┘
+                </pre>
+                <p class="wireframe-desc"><strong>Item Detail View:</strong> Inline asset card with quick actions and warranty visualization</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Success Metrics</h2>
+            
+            <h3>MVP Success (Week 1 Post-Build)</h3>
+            <ul>
+                <li>✓ App deploys from Monday.com Developer Center without errors</li>
+                <li>✓ Can create asset board with all custom columns in &lt; 60 seconds</li>
+                <li>✓ Bulk import processes 100 assets in &lt; 30 seconds</li>
+                <li>✓ Warranty alert automation triggers correctly 24h before expiry</li>
+            </ul>
+
+            <h3>Marketplace Success (Month 1-3)</h3>
+            <ul>
+                <li>10+ active installations (free tier)</li>
+                <li>3+ paying conversions at $5/user/month (or $50/workspace)</li>
+                <li>Average of 50 assets tracked per workspace</li>
+                <li>Feature requests for discovery agent ( validates v2 roadmap )</li>
+            </ul>
+
+            <h3>Signals to Kill/Pivot</h3>
+            <ul>
+                <li>Zero installs after 2 weeks of marketplace listing</li>
+                <li>Users asking for PSA sync before asset tracking (means wrong problem )</li>
+                <li>Custom column API limitations make experience feel clunky</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Risk Mitigation</h2>
+            
+            <table class="decision-matrix">
+                <thead>
+                    <tr>
+                        <th>Risk</th>
+                        <th>Probability</th>
+                        <th>Mitigation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Monday.com custom column API too limited</td>
+                        <td><span class="score medium">Medium</span></td>
+                        <td>Fallback to standard columns + dashboard view for calculations</td>
+                    </tr>
+                    <tr>
+                        <td>Users expect real-time discovery (not in MVP)</td>
+                        <td><span class="score high">High</span></td>
+                        <td>Clear "Manual Import → Auto Discovery" messaging in v2 teaser</td>
+                    </tr>
+                    <tr>
+                        <td>Rate limits during bulk import</td>
+                        <td><span class="score medium">Medium</span></td>
+                        <td> Implement batching with complexity tracking; show progress bar</td>
+                    </tr>
+                    <tr>
+                        <td>Similar app exists by build time</td>
+                        <td><span class="score low">Low</span></td>
+                        <td>Position as MSP-specific (not generic ITAM) with SuperOps integration tease</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>What To Code First</h2>
+            
+            <ol>
+                <li><strong>If stuck on custom columns:</strong> Pivot to "Dashboard Widget" view showing asset summary cards instead. Less native-feeling but ships faster.</li>
+                <li><strong>If OAuth is fighting you:</strong> Use Personal API Token mode for MVP; add OAuth in v1.1.</li>
+                <li><strong>If bulk import breaks:</strong> Cap at 50 assets for MVP, add pagination for v2.</li>
+            </ol>
+            
+            <div class="highlight-box">
+                <strong>Golden rule:</strong> A working board template + import + warranty alerts is shippable. Item detail views and custom columns are polish — don't block on them.
+            </div>
+        </div>
+
+        <footer>
+            <p>Research source: <code>~/.hermes/raw/monday-marketplace-deep-dive-2025-01-16.md</code></p>
+            <p>Decision criteria: Leverages Prabha's MSP domain expertise, technically feasible in 1 day, validated by Monday.com IT/MSP gaps.</p>
+            <p style="margin-top: 0.5rem;">Generated by Agent Tina's overnight synthesis agent &bull; No user review required — execute or archive.</p>
+        </footer>
+    </div>
+</body>
+</html>
