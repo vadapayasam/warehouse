@@ -5,119 +5,347 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3rd Party Dev Opportunities | IT/MSP/ITSM Platforms</title>
     <style>
+        /* soft-spatial preset: warm whites, one accent, generous radii */
         :root {
-            --bg: #0a0a0f;
-            --surface: #12121a;
-            --surface-2: #1a1a25;
-            --text: #e8e8f0;
-            --text-dim: #9494a8;
-            --accent: #FF4500;
-            --accent-2: #6A5CFF;
-            --success: #00c61c;
-            --warning: #FFBF0B;
+            --bg-root: #F5F4F0;
+            --bg-surface: #FFFFFF;
+            --bg-surface-alt: #FAFAF8;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --text-tertiary: #9C9C9C;
+            --accent: #333333;
+            --accent-hover: #1A1A1A;
+            --accent-soft: rgba(51,51,51,0.08);
+            --semantic-high: #2D5016;
+            --semantic-med: #92400E;
+            --border-default: #E8E6E1;
+            --border-strong: #D4D1CB;
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            
+            --space-1: 8px;
+            --space-2: 16px;
+            --space-3: 24px;
+            --space-4: 32px;
+            --space-5: 40px;
+            --space-6: 48px;
+            --space-8: 64px;
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: Inter, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-root);
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 64px 24px;
+        }
+        
+        /* Header */
+        header {
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border-default);
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .date {
+            font-family: ui-monospace, SFMono-Regular, monospace;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+        
+        /* Sections */
+        section {
+            margin-bottom: 48px;
+        }
+        
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: -0.01em;
+        }
+        
+        /* Insight Box */
+        .insight-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+        }
+        
+        .insight-box h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--semantic-high);
+        }
+        
+        .insight-box ul {
+            margin-left: 20px;
+        }
+        
+        .insight-box li {
+            margin: 12px 0;
+            color: var(--text-secondary);
             line-height: 1.6;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
-        header {
-            border-bottom: 1px solid var(--surface-2);
-            padding-bottom: 32px;
-            margin-bottom: 40px;
-        }
-        h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
-        .subtitle { color: var(--text-dim); font-size: 1.1rem; }
-        .date { color: var(--accent); font-family: monospace; margin-top: 8px; }
         
-        .insight-box {
-            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
-            border: 1px solid #2a2a3a;
-            border-radius: 12px;
+        .insight-box strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        /* Pain Points */
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-3);
+        }
+        
+        .pain-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-md);
             padding: 24px;
-            margin: 32px 0;
         }
-        .insight-box h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--warning); }
-        .insight-box ul { margin-left: 20px; }
-        .insight-box li { margin: 12px 0; color: var(--text-dim); }
         
-        .platform-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
+        .pain-item strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--semantic-med);
+        }
+        
+        .pain-item span {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Platform Cards */
+        .platform-grid {
+            display: grid;
+            gap: var(--space-3);
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        }
+        
         .platform-card {
-            background: var(--surface);
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid #2a2a3a;
-            transition: border-color 0.2s;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-lg);
+            padding: 32px;
         }
-        .platform-card:hover { border-color: var(--accent); }
-        .platform-card h3 { font-size: 1.2rem; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-        .platform-card .url { font-family: monospace; font-size: 0.85rem; color: var(--accent-2); text-decoration: none; }
-        .platform-card .opportunity { margin: 16px 0; color: var(--text-dim); font-size: 0.95rem; }
         
-        .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-        .metric { background: var(--surface-2); padding: 12px 16px; border-radius: 8px; }
-        .metric-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
-        .metric-value { font-size: 1.1rem; font-weight: 600; margin-top: 4px; }
-        
-        .opp-category { 
-            display: inline-block; 
-            font-size: 0.7rem; 
-            text-transform: uppercase; 
-            letter-spacing: 0.1em;
-            padding: 4px 10px;
-            border-radius: 4px;
-            margin-bottom: 12px;
+        .tag {
+            display: inline-block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 16px;
         }
-        .cat-high { background: #651e1e; color: #ff9999; }
-        .cat-med { background: #5a4a00; color: #ffe066; }
-        .cat-rising { background: #1a3a1a; color: #6ee87a; }
         
-        .pain-summary {
-            background: var(--surface-2);
-            border-left: 4px solid var(--accent);
-            padding: 20px 24px;
-            margin: 24px 0;
-            border-radius: 0 8px 8px 0;
+        .tag-high {
+            background: #E8F5E9;
+            color: var(--semantic-high);
         }
-        .pain-summary h3 { font-size: 1.1rem; margin-bottom: 12px; }
-        .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-        .pain-item { padding: 12px 16px; background: #1d1520; border-radius: 6px; }
-        .pain-item strong { color: var(--accent); display: block; margin-bottom: 4px; }
-        .pain-item span { color: var(--text-dim); font-size: 0.9rem; }
         
-        footer { 
-            text-align: center; 
-            padding: 40px 0; 
-            color: var(--text-dim); 
-            font-size: 0.85rem; 
-            border-top: 1px solid var(--surface-2);
-            margin-top: 60px;
+        .tag-med {
+            background: #FEF3C7;
+            color: var(--semantic-med);
+        }
+        
+        .tag-quick {
+            background: var(--accent-soft);
+            color: var(--text-primary);
+        }
+        
+        .platform-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .url {
+            font-family: ui-monospace, monospace;
+            font-size: 12px;
+            color: var(--text-tertiary);
+            text-decoration: none;
+        }
+        
+        .url:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+        
+        .opportunity {
+            margin: 20px 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .opportunity strong {
+            color: var(--text-primary);
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2);
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-default);
+        }
+        
+        .metric-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
+            margin-bottom: 4px;
+        }
+        
+        .metric-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .product-idea {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-surface-alt);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .product-idea strong {
+            color: var(--text-primary);
+        }
+        
+        /* Priority Section */
+        .priority-section {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+        }
+        
+        .priority-list {
+            display: grid;
+            gap: var(--space-3);
+        }
+        
+        .priority-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 20px;
+            background: var(--bg-surface-alt);
+            border-radius: var(--radius-md);
+        }
+        
+        .priority-number {
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .priority-number.alt {
+            background: var(--accent-soft);
+            color: var(--text-primary);
+        }
+        
+        .priority-number.alt2 {
+            background: #E8F5E9;
+            color: var(--semantic-high);
+        }
+        
+        .priority-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .priority-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 48px 0;
+            color: var(--text-tertiary);
+            font-size: 13px;
+            border-top: 1px solid var(--border-default);
+            margin-top: 64px;
+        }
+        
+        footer p {
+            margin: 4px 0;
         }
     </style>
 </head>
 <body>
-<div class="container">
+<main>
     <header>
         <h1>3rd Party Dev Opportunities</h1>
         <p class="subtitle">IT/ITSM/MSP Platform Integration Analysis</p>
-        <p class="date">Research Date: May 17, 2026 | Source: r/msp (183k members) + Platform Analysis</p>
+        <p class="date">Research Date: May 17, 2026 · Source: r/msp (183k members)</p>
     </header>
 
-    <div class="insight-box">
-        <h2>💡 Key Insight from Reddit Analysis</h2>
-        <ul>
-            <li><strong>Vendor Relationship Tools:</strong> MSPs struggle with vendor responsiveness & trade references—opportunity for vendor management/response automation</li>
-            <li><strong>M365 Backup Alternatives:</strong> Strong demand for Backupify alternatives (Kaseya acquisition causing exodus)</li>
-            <li><strong>HIPAA Compliance Automation:</strong> Medical practices ignore compliance—tools to enforce/audit would have buyers</li>
-            <li><strong>Client Quality Scoring:</strong> MSPs need data on which industries/clients are "nightmare" vs profitable—currently tribal knowledge</li>
-        </ul>
-    </div>
+    <section>
+        <div class="insight-box">
+            <h2>Key Insight from Reddit Analysis</h2>
+            <ul>
+                <li><strong>Vendor Relationship Tools:</strong> MSPs struggle with vendor responsiveness & trade references—opportunity for vendor management/response automation</li>
+                <li><strong>M365 Backup Alternatives:</strong> Strong demand for Backupify alternatives (Kaseya acquisition causing exodus)</li>
+                <li><strong>HIPAA Compliance Automation:</strong> Medical practices ignore compliance—tools to enforce/audit would have buyers</li>
+                <li><strong>Client Quality Scoring:</strong> MSPs need data on which industries/clients are "nightmare" vs profitable—currently tribal knowledge</li>
+            </ul>
+        </div>
+    </section>
 
-    <div class="pain-summary">
-        <h3>Top Pain Points from r/msp (high-engagement threads analyzed)</h3>
+    <section>
+        <h2>Top Pain Points from r/msp</h2>
         <div class="pain-grid">
             <div class="pain-item">
                 <strong>Client Fire Notifications</strong>
@@ -136,192 +364,180 @@
                 <span>Leaving Backupify/Datto—need 9-year-old email recovery</span>
             </div>
         </div>
-    </div>
+    </section>
 
-    <h2 style="margin: 48px 0 24px; font-size: 1.5rem;">Platform Opportunities</h2>
-    
-    <div class="platform-grid">
-        <!-- GitHub Marketplace -->
-        <div class="platform-card">
-            <span class="opp-category cat-high">High Potential</span>
-            <h3>🔗 GitHub Marketplace</h3>
-            <a href="https://github.com/marketplace" class="url">github.com/marketplace</a>
-            <p class="opportunity">
-                <strong>Gap:</strong> Few ITSM/MSP-specific GitHub Actions. MSPs need automated infrastructure compliance checks, RMM data exporters, and client onboarding workflows.
-            </p>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="metric-label">Dev Effort</div>
-                    <div class="metric-value">2-4 weeks</div>
+    <section>
+        <h2>Platform Opportunities</h2>
+        <div class="platform-grid">
+            
+            <div class="platform-card">
+                <span class="tag tag-high">High Potential</span>
+                <h3>GitHub Marketplace</h3>
+                <a href="https://github.com/marketplace" class="url">github.com/marketplace</a>
+                <p class="opportunity">
+                    <strong>Gap:</strong> Few ITSM/MSP-specific GitHub Actions. MSPs need automated infrastructure compliance checks, RMM data exporters, client onboarding workflows.
+                </p>
+                <div class="metrics">
+                    <div>
+                        <div class="metric-label">Dev Effort</div>
+                        <div class="metric-value">2-4 weeks</div>
+                    </div>
+                    <div>
+                        <div class="metric-label">Monetization</div>
+                        <div class="metric-value">$0-$500/mo</div>
+                    </div>
                 </div>
-                <div class="metric">
-                    <div class="metric-label">Monetization</div>
-                    <div class="metric-value">$0-$500/mo</div>
+                <div class="product-idea">
+                    <strong>Product Idea:</strong> "MSP Client Scoreboard" — GitHub Action pulling ConnectWise/Autotask data into repo badges: open tickets, SLA breaches, client health scores.
                 </div>
             </div>
-            <p style="margin-top: 16px; color: var(--text-dim); font-size: 0.9rem;">
-                <strong>Product Idea:</strong> "MSP Client Scoreboard" — GitHub Action that pulls ConnectWise/Autotask data into repo badges: open tickets, SLA breaches, client health scores.
-            </p>
+
+            <div class="platform-card">
+                <span class="tag tag-high">High Potential</span>
+                <h3>Zapier Integrations</h3>
+                <a href="https://zapier.com/platform" class="url">zapier.com/platform</a>
+                <p class="opportunity">
+                    <strong>Gap:</strong> Weak MSP-specific triggers. Popular tools like ScalePad, ThreatLocker lack deep automation. MSPs manually copy data between PSA and security tools.
+                </p>
+                <div class="metrics">
+                    <div>
+                        <div class="metric-label">Dev Effort</div>
+                        <div class="metric-value">1-3 weeks</div>
+                    </div>
+                    <div>
+                        <div class="metric-label">Monetization</div>
+                        <div class="metric-value">$10-$50/task</div>
+                    </div>
+                </div>
+                <div class="product-idea">
+                    <strong>Product Idea:</strong> "Vendor Response Bot" — Auto-escalates vendor non-responses, logs SLA breaches, generates quarterly vendor scorecards.
+                </div>
+            </div>
+
+            <div class="platform-card">
+                <span class="tag tag-med">Medium Effort</span>
+                <h3>ServiceNow Store</h3>
+                <a href="https://store.servicenow.com" class="url">store.servicenow.com</a>
+                <p class="opportunity">
+                    <strong>Gap:</strong> Enterprise ITSM dominated by consultants. Clean, simple MSP-priced apps are rare. MSPs moving to SN from ConnectWise need migration tools.
+                </p>
+                <div class="metrics">
+                    <div>
+                        <div class="metric-label">Dev Effort</div>
+                        <div class="metric-value">6-12 weeks</div>
+                    </div>
+                    <div>
+                        <div class="metric-label">Monetization</div>
+                        <div class="metric-value">$5-$25/user/mo</div>
+                    </div>
+                </div>
+                <div class="product-idea">
+                    <strong>Product Idea:</strong> "ConnectWise → ServiceNow Migration Suite" — Automated ticket/history import with field mapping. One-time license + support.
+                </div>
+            </div>
+
+            <div class="platform-card">
+                <span class="tag tag-med">Rising</span>
+                <h3>Product Hunt Launch</h3>
+                <a href="https://producthunt.com" class="url">producthunt.com</a>
+                <p class="opportunity">
+                    <strong>Gap:</strong> ITSM/MSP tools rarely hit PH front page. Low competition for B2B infra tools. PH audience = tech-forward buyers influencing MSP tool choices.
+                </p>
+                <div class="metrics">
+                    <div>
+                        <div class="metric-label">Dev Effort</div>
+                        <div class="metric-value">4-8 weeks</div>
+                    </div>
+                    <div>
+                        <div class="metric-label">Monetization</div>
+                        <div class="metric-value">Traction/VC</div>
+                    </div>
+                </div>
+                <div class="product-idea">
+                    <strong>Product Idea:</strong> "Client Risk Radar" — AI tool scraping public breach data, warning MSPs about client risks before they become liabilities.
+                </div>
+            </div>
+
+            <div class="platform-card">
+                <span class="tag tag-quick">Quick Win</span>
+                <h3>PowerShell Gallery</h3>
+                <a href="https://www.powershellgallery.com" class="url">powershellgallery.com</a>
+                <p class="opportunity">
+                    <strong>Gap:</strong> MSPs script everything but discovery/distribution is friction. PS Gallery modules for common MSP tasks under-indexed.
+                </p>
+                <div class="metrics">
+                    <div>
+                        <div class="metric-label">Dev Effort</div>
+                        <div class="metric-value">1-2 weeks</div>
+                    </div>
+                    <div>
+                        <div class="metric-label">Monetization</div>
+                        <div class="metric-value">GitHub Sponsorship</div>
+                    </div>
+                </div>
+                <div class="product-idea">
+                    <strong>Product Idea:</strong> "ExitClient-PS" — PowerShell module generating professional client termination letters with compliance documentation.
+                </div>
+            </div>
+
+            <div class="platform-card">
+                <span class="tag tag-med">Niche Play</span>
+                <h3>Home Assistant</h3>
+                <a href="https://www.home-assistant.io/" class="url">home-assistant.io</a>
+                <p class="opportunity">
+                    <strong>Gap:</strong> MSPs managing hybrid WFH fleets need home network visibility. No bridge between MSP RMM and remote worker home networks.
+                </p>
+                <div class="metrics">
+                    <div>
+                        <div class="metric-label">Dev Effort</div>
+                        <div class="metric-value">3-6 weeks</div>
+                    </div>
+                    <div>
+                        <div class="metric-label">Monetization</div>
+                        <div class="metric-value">$3-$10/agent/mo</div>
+                    </div>
+                </div>
+                <div class="product-idea">
+                    <strong>Product Idea:</strong> "HomeOps for MSPs" — HA integration reporting remote worker network health, VPN status to central MSP dashboard.
+                </div>
+            </div>
+
         </div>
+    </section>
 
-        <!-- Zapier -->
-        <div class="platform-card">
-            <span class="opp-category cat-high">High Potential</span>
-            <h3>⚡ Zapier Integrations</h3>
-            <a href="https://zapier.com/platform" class="url">zapier.com/platform</a>
-            <p class="opportunity">
-                <strong>Gap:</strong> Weak MSP-specific triggers. Popular tools like ScalePad, ThreatLocker lack deep automation. MSPs manually copy data between PSA and security tools.
-            </p>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="metric-label">Dev Effort</div>
-                    <div class="metric-value">1-3 weeks</div>
+    <section>
+        <h2>Recommended Build Priority</h2>
+        <div class="priority-section">
+            <div class="priority-list">
+                <div class="priority-item">
+                    <span class="priority-number">1</span>
+                    <div>
+                        <div class="priority-title">PowerShell Gallery: ExitClient-PS</div>
+                        <div class="priority-desc">Fastest to market. Solves immediate Reddit pain. Use as lead gen for larger paid products.</div>
+                    </div>
                 </div>
-                <div class="metric">
-                    <div class="metric-label">Monetization</div>
-                    <div class="metric-value">$10-$50/task</div>
+                <div class="priority-item">
+                    <span class="priority-number alt">2</span>
+                    <div>
+                        <div class="priority-title">Zapier: Vendor Response Bot</div>
+                        <div class="priority-desc">Addresses #1 complaint from "Annoyed with vendors" thread. Recurring revenue potential.</div>
+                    </div>
                 </div>
-            </div>
-            <p style="margin-top: 16px; color: var(--text-dim); font-size: 0.9rem;">
-                <strong>Product Idea:</strong> "Vendor Response Bot" — Zapier integration that auto-escalates vendor non-responses, logs SLA breaches, generates quarterly vendor scorecards.
-            </p>
-        </div>
-
-        <!-- ServiceNow Store -->
-        <div class="platform-card">
-            <span class="opp-category cat-med">Medium Effort</span>
-            <h3>🏢 ServiceNow Store</h3>
-            <a href="https://store.servicenow.com" class="url">store.servicenow.com</a>
-            <p class="opportunity">
-                <strong>Gap:</strong> Enterprise ITSM dominated by consultants. Clean, simple MSP-priced apps are rare. MSPs moving to SN from ConnectWise need migration tools.
-            </p>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="metric-label">Dev Effort</div>
-                    <div class="metric-value">6-12 weeks</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-label">Monetization</div>
-                    <div class="metric-value">$5-$25/user/mo</div>
-                </div>
-            </div>
-            <p style="margin-top: 16px; color: var(--text-dim); font-size: 0.9rem;">
-                <strong>Product Idea:</strong> "ConnectWise → ServiceNow Migration Suite" — Automated ticket/history import with field mapping. One-time license + support.
-            </p>
-        </div>
-
-        <!-- Product Hunt -->
-        <div class="platform-card">
-            <span class="opp-category cat-rising">Rising</span>
-            <h3>🚀 Product Hunt Launch</h3>
-            <a href="https://producthunt.com" class="url">producthunt.com</a>
-            <p class="opportunity">
-                <strong>Gap:</strong> ITSM/MSP tools rarely hit PH front page. Low competition for B2B infra tools. PH audience = tech-forward buyers who influence MSP tool choices.
-            </p>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="metric-label">Dev Effort</div>
-                    <div class="metric-value">4-8 weeks</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-label">Monetization</div>
-                    <div class="metric-value">Traction/VC</div>
-                </div>
-            </div>
-            <p style="margin-top: 16px; color: var(--text-dim); font-size: 0.9rem;">
-                <strong>Product Idea:</strong> "Client Risk Radar" — AI tool that scrapes public breach data, warns MSPs about client risks before they become liabilities.
-            </p>
-        </div>
-
-        <!-- PowerShell Gallery -->
-        <div class="platform-card">
-            <span class="opp-category cat-high">Quick Win</span>
-            <h3>📜 PowerShell Gallery</h3>
-            <a href="https://www.powershellgallery.com" class="url">powershellgallery.com</a>
-            <p class="opportunity">
-                <strong>Gap:</strong> MSPs script everything but discovery/distribution is friction. PS Gallery modules for common MSP tasks (compliance checks, remediation) under-indexed.
-            </p>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="metric-label">Dev Effort</div>
-                    <div class="metric-value">1-2 weeks</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-label">Monetization</div>
-                    <div class="metric-value">GitHub Sponsorship</div>
-                </div>
-            </div>
-            <p style="margin-top: 16px; color: var(--text-dim); font-size: 0.9rem;">
-                <strong>Product Idea:</strong> "ExitClient-PS" — PowerShell module that generates professional client termination letters with compliance documentation and handoff packages.
-            </p>
-        </div>
-
-        <!-- Home Assistant (Niche) -->
-        <div class="platform-card">
-            <span class="opp-category cat-rising">Niche Play</span>
-            <h3>🏠 Home Assistant</h3>
-            <a href="https://www.home-assistant.io/" class="url">home-assistant.io</a>
-            <p class="opportunity">
-                <strong>Gap:</strong> MSPs managing hybrid WFH fleets need home network visibility. No bridge between MSP RMM and remote worker home networks. 26 comments on WFH thread show demand.
-            </p>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="metric-label">Dev Effort</div>
-                    <div class="metric-value">3-6 weeks</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-label">Monetization</div>
-                    <div class="metric-value">$3-$10/agent/mo</div>
-                </div>
-            </div>
-            <p style="margin-top: 16px; color: var(--text-dim); font-size: 0.9rem;">
-                <strong>Product Idea:</strong> "HomeOps for MSPs" — HA integration that reports remote worker network health, VPN status, device inventory to central MSP dashboard.
-            </p>
-        </div>
-    </div>
-
-    <h2 style="margin: 48px 0 24px; font-size: 1.5rem;">Recommended Build Priority</h2>
-    
-    <div style="background: var(--surface); border-radius: 12px; padding: 24px;">
-        <div style="display: grid; gap: 16px;">
-            <div style="display: flex; gap: 16px; align-items: flex-start;">
-                <span style="background: var(--success); color: #000; padding: 4px 12px; border-radius: 4px; font-weight: 600; font-size: 0.85rem;">#1</span>
-                <div>
-                    <strong style="color: var(--text);">PowerShell Gallery: ExitClient-PS</strong>
-                    <p style="color: var(--text-dim); margin-top: 4px;">Fastest to market. Solves immediate Reddit pain. Use as lead gen for larger paid products.</p>
-                </div>
-            </div>
-            <div style="display: flex; gap: 16px; align-items: flex-start;">
-                <span style="background: var(--warning); color: #000; padding: 4px 12px; border-radius: 4px; font-weight: 600; font-size: 0.85rem;">#2</span>
-                <div>
-                    <strong style="color: var(--text);">Zapier: Vendor Response Bot</strong>
-                    <p style="color: var(--text-dim); margin-top: 4px;">Addresses #1 complaint from "Annoyed with vendors" thread. Recurring revenue potential.</p>
-                </div>
-            </div>
-            <div style="display: flex; gap: 16px; align-items: flex-start;">
-                <span style="background: var(--accent-2); color: #fff; padding: 4px 12px; border-radius: 4px; font-weight: 600; font-size: 0.85rem;">#3</span>
-                <div>
-                    <strong style="color: var(--text);">Product Hunt: Client Risk Radar</strong>
-                    <p style="color: var(--text-dim); margin-top: 4px;">High visibility launch. Addresses "Firing a bad client" HIPAA liability concerns. VC-appealing.</p>
+                <div class="priority-item">
+                    <span class="priority-number alt2">3</span>
+                    <div>
+                        <div class="priority-title">Product Hunt: Client Risk Radar</div>
+                        <div class="priority-desc">High visibility launch. Addresses HIPAA liability concerns. VC-appealing.</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="insight-box" style="margin-top: 48px;">
-        <h2>🎯 Next Steps</h2>
-        <ul>
-            <li><strong>This Week:</strong> Scaffold ExitClient-PS on GitHub, share draft in r/msp for validation</li>
-            <li><strong>Sprint 1:</strong> Zapier Developer account + Vendor Response Bot integration spec</li>
-            <li><strong>Sprint 2:</strong> ServiceNow Store partner application (long lead time)</li>
-            <li><strong>Ongoing:</strong> Weekly Reddit monitoring in r/msp, r/sysadmin, r/cybersecurity for signal shifts</li>
-        </ul>
-    </div>
+    </section>
 
     <footer>
-        <p>Generated by Agent Tina | Research: Reddit r/msp + Platform Analysis</p>
-        <p style="margin-top: 8px; opacity: 0.6;">Report saved to: vadapayasam.github.io/warehouse/sketch/marketplace-daily.html</p>
+        <p>Generated by Agent Tina · Reddit r/msp + Platform Analysis</p>
+        <p>vadapayasam.github.io/warehouse/sketch/marketplace-daily.html</p>
     </footer>
-</div>
+</main>
 </body>
 </html>
