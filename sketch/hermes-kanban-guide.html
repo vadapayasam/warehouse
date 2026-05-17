@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hermes Kanban Guide — Sketch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Architects+Daughter&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #FDFBF7;
+            --pencil: #2C2C2C;
+            --gray: #6B6B6B;
+            --gray-light: #E8E6E2;
+            --accent: #D4521F;
+            --shadow: rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Patrick Hand', cursive;
+            background: var(--paper);
+            color: var(--pencil);
+            line-height: 1.7;
+            font-size: 18px;
+            padding: 0;
+        }
+
+        /* Hand-drawn borders */
+        .sketch-box {
+            border: 2px solid var(--pencil);
+            border-radius: 2px 255px 3px 25px / 255px 5px 225px 5px;
+            position: relative;
+        }
+
+        .sketch-box::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: -3px;
+            bottom: -3px;
+            border: 1px solid var(--gray-light);
+            border-radius: 2px 255px 3px 25px / 255px 5px 225px 5px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        /* Header */
+        header {
+            padding: 60px 40px 40px;
+            border-bottom: 3px solid var(--pencil);
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--pencil) 0px,
+                var(--pencil) 15px,
+                transparent 15px,
+                transparent 20px
+            );
+            opacity: 0.3;
+        }
+
+        h1 {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 3.2em;
+            margin-bottom: 10px;
+            transform: rotate(-1deg);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: var(--gray);
+            transform: rotate(0.5deg);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Section styling */
+        section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: white;
+        }
+
+        h2 {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: inline-block;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 5px;
+            transform: rotate(-0.5deg);
+        }
+
+        h3 {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 1.4em;
+            margin: 30px 0 15px;
+            color: var(--gray);
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* Code blocks — hand drawn */
+        pre {
+            background: #F8F7F4;
+            border: 2px solid var(--pencil);
+            border-radius: 8px 12px 6px 10px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Menlo', 'Monaco', monospace;
+            font-size: 0.9em;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        pre::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: -4px;
+            bottom: -4px;
+            border: 1px dashed var(--gray-light);
+            border-radius: 8px 12px 6px 10px;
+            pointer-events: none;
+        }
+
+        code {
+            font-family: 'Menlo', 'Monaco', monospace;
+            background: var(--gray-light);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        ul li::marker {
+            content: '✎ ';
+            color: var(--accent);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 25px 0;
+            border: 2px solid var(--pencil);
+            border-radius: 8px 255px 6px 25px / 255px 8px 225px 6px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        th {
+            font-family: 'Architects Daughter', cursive;
+            font-weight: bold;
+            background: var(--gray-light);
+            border-bottom: 2px solid var(--pencil);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border: 1px solid var(--pencil);
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+
+        .badge-triage { background: #FFE4B5; }
+        .badge-todo { background: #E0F0FF; }
+        .badge-ready { background: #E8F5E9; }
+        .badge-running { background: #FFF3E0; }
+        .badge-blocked { background: #FFEBEE; }
+        .badge-done { background: #E8F5E9; }
+
+        /* Tips box */
+        .tip {
+            background: #FFF8E7;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+
+        .tip::before {
+            content: '✎ Tip';
+            font-family: 'Architects Daughter', cursive;
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* Workflow diagram */
+        .workflow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            padding: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 15px 20px;
+            border: 2px solid var(--pencil);
+            border-radius: 10px;
+            background: white;
+            min-width: 100px;
+        }
+
+        .arrow {
+            font-size: 1.5em;
+            color: var(--gray);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+            border-top: 2px dashed var(--gray-light);
+            margin-top: 40px;
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            main { padding: 20px; }
+            .workflow { flex-direction: column; }
+            .arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hermes Kanban Guide</h1>
+        <p class="subtitle">SQLite-backed task board shared across profiles • Hand-crafted reference</p>
+    </header>
+
+    <main>
+        <!-- What is Kanban -->
+        <section class="sketch-box">
+            <h2>What is Hermes Kanban?</h2>
+            <p>A durable task queue built into Hermes. Tasks live in SQLite, survive restarts, and can be claimed atomically by different profiles. Think of it as a shared todo list that multiple agents/workers can pull from.</p>
+            
+            <div class="tip">
+                Unlike cron (scheduled), kanban is demand-driven. Tasks sit until someone claims them.
+            </div>
+        </section>
+
+        <!-- Core Concepts -->
+        <section class="sketch-box">
+            <h2>Core Concepts</h2>
+            
+            <h3>Boards</h3>
+            <p>Each board is a separate SQLite database. One board per project or work stream.</p>
+            <pre><code>$ hermes kanban boards --create my-project</code></pre>
+
+            <h3>Task States</h3>
+            <table>
+                <tr>
+                    <th>Status</th>
+                    <th>Meaning</th>
+                    <th>Badge</th>
+                </tr>
+                <tr>
+                    <td><code>triage</code></td>
+                    <td>New task, needs specification</td>
+                    <td><span class="badge badge-triage">triage</span></td>
+                </tr>
+                <tr>
+                    <td><code>todo</code></td>
+                    <td>Specified but waiting</td>
+                    <td><span class="badge badge-todo">todo</span></td>
+                </tr>
+                <tr>
+                    <td><code>ready</code></td>
+                    <td>Unclaimed and ready to run</td>
+                    <td><span class="badge badge-ready">ready</span></td>
+                </tr>
+                <tr>
+                    <td><code>running</code></td>
+                    <td>Currently being worked on</td>
+                    <td><span class="badge badge-running">running</span></td>
+                </tr>
+                <tr>
+                    <td><code>blocked</code></td>
+                    <td>Waiting on dependency or external</td>
+                    <td><span class="badge badge-blocked">blocked</span></td>
+                </tr>
+                <tr>
+                    <td><code>done</code></td>
+                    <td>Completed</td>
+                    <td><span class="badge badge-done">done</span></td>
+                </tr>
+            </table>
+
+            <h3>Lifecycle Flow</h3>
+            <div class="workflow sketch-box">
+                <div class="step">Create</div>
+                <div class="arrow">→</div>
+                <div class="step">Triage</div>
+                <div class="arrow">→</div>
+                <div class="step">Todo</div>
+                <div class="arrow">→</div>
+                <div class="step">Ready</div>
+                <div class="arrow">→</div>
+                <div class="step">Running</div>
+                <div class="arrow">→</div>
+                <div class="step">Done</div>
+            </div>
+        </section>
+
+        <!-- Essential Commands -->
+        <section class="sketch-box">
+            <h2>Essential Commands</h2>
+
+            <h3>Create a Task</h3>
+            <pre><code># Basic task
+hermes kanban create "Fix the login bug"
+
+# With body
+hermes kanban create "Refactor auth" --body "Move JWT to utils/ folder"
+
+# Auto-assign to a profile
+hermes kanban create "Research MCP" --assignee tina
+
+# Start in triage (needs spec)
+hermes kanban create "Big feature" --triage
+
+# Set max runtime (minutes)
+hermes kanban create "Scraping job" --max-runtime 60</code></pre>
+
+            <h3>List Tasks</h3>
+            <pre><code># All tasks on current board
+hermes kanban list
+
+# Filter by status
+hermes kanban list --status ready
+hermes kanban list --status running
+
+# Just my tasks
+hermes kanban list --mine
+
+# Specific assignee
+hermes kanban list --assignee tina</code></pre>
+
+            <h3>Claim & Work</h3>
+            <pre><code># Claim next ready task (atomic - only one wins)
+hermes kanban claim
+
+# Claim specific task
+hermes kanban claim --id t_abc123
+
+# After working, mark complete
+hermes kanban complete t_abc123
+
+# Or mark blocked
+hermes kanban block t_abc123</code></pre>
+
+            <h3>Task Operations</h3>
+            <pre><code># Show task details + comments
+hermes kanban show t_abc123
+
+# Add comment
+hermes kanban comment t_abc123 "Stuck on API rate limits"
+
+# Reassign
+hermes kanban assign t_abc123 --assignee other-profile
+
+# Edit task (even after done, for recovery)
+hermes kanban edit t_abc123 --body "Updated requirements..."
+
+# Archive old tasks
+hermes kanban archive t_abc123</code></pre>
+        </section>
+
+        <!-- Worker Pattern -->
+        <section class="sketch-box">
+            <h2>Worker Pattern</h2>
+            
+            <p>The kanban dispatcher runs automatically with Hermes gateway. It:</p>
+            <ol>
+                <li>Reclaims stale tasks (workers that died)</li>
+                <li>Promotes <code>todo</code> → <code>ready</code></li>
+                <li>Spawns workers for ready tasks</li>
+            </ol>
+
+            <pre><code># Check what task worker sees (full context)
+hermes kanban context t_abc123
+
+# View worker logs
+hermes kanban log t_abc123
+
+# See all attempts/runs
+hermes kanban runs t_abc123
+
+# Watch live events
+hermes kanban watch</code></pre>
+
+            <div class="tip">
+                Run <code>hermes kanban dispatch</code> to force a dispatcher pass manually (useful for testing).
+            </div>
+        </section>
+
+        <!-- Dependencies -->
+        <section class="sketch-box">
+            <h2>Task Dependencies</h2>
+            
+            <p>Tasks can block on other tasks. Parent must complete before child becomes ready.</p>
+            
+            <pre><code># Create parent task
+PARENT=$(hermes kanban create "Setup database" --json | jq -r '.id')
+
+# Create child with dependency
+hermes kanban create "Seed data" --parent $PARENT
+
+# Link existing tasks
+hermes kanban link t_parent t_child
+
+# Remove dependency
+hermes kanban unlink t_parent t_child</code></pre>
+        </section>
+
+        <!-- Board Management -->
+        <section class="sketch-box">
+            <h2>Board Management</h2>
+            
+            <pre><code># List all boards
+hermes kanban boards
+
+# Create new board
+hermes kanban boards --create side-projects
+
+# Switch board (set env var)
+export HERMES_KANBAN_BOARD=side-projects
+
+# Or use --board flag
+hermes kanban list --board side-projects
+
+# Board stats
+hermes kanban stats</code></pre>
+        </section>
+
+        <!-- Quick Reference -->
+        <section class="sketch-box">
+            <h2>Quick Reference Card</h2>
+            
+            <table>
+                <tr>
+                    <th>Command</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban init</code></td>
+                    <td>Create kanban.db if missing</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban create "Title"</code></td>
+                    <td>New task</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban list</code></td>
+                    <td>Show all tasks</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban claim</code></td>
+                    <td>Grab next ready task</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban complete ID</code></td>
+                    <td>Mark done</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban block ID</code></td>
+                    <td>Mark blocked</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban unblock ID</code></td>
+                    <td>Resume blocked task</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban show ID</code></td>
+                    <td>Task details + comments</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban context ID</code></td>
+                    <td>What worker sees</td>
+                </tr>
+                <tr>
+                    <td><code>hermes kanban watch</code></td>
+                    <td>Live event stream</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- When to Use -->
+        <section class="sketch-box">
+            <h2>When to Use Kanban</h2>
+            
+            <p><strong>Good for:</strong></p>
+            <ul>
+                <li>Work that survives across sessions (durable queue)</li>
+                <li>Multi-step projects with dependencies</li>
+                <li>Collaborative work (multiple agents/profiles)</li>
+                <li>Jobs that need retry/archival</li>
+                <li>Tasks you want to claim on-demand vs scheduled</li>
+            </ul>
+            
+            <p><strong>Use cron instead when:</strong></p>
+            <ul>
+                <li>Time-based triggers (daily, weekly)</li>
+                <li>Monitoring/alerts</li>
+                <li>Regular maintenance (backups, git sync)</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>Sketched with ✎ by Agent Tina</p>
+        <p style="font-size: 0.85em; margin-top: 10px;">Reference: hermes-agent.nousresearch.com/docs</p>
+    </footer>
+</body>
+</html>
