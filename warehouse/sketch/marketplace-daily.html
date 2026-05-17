@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSP Dev Opportunities — Daily Research</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface-light: #1a1a25;
+            --border: #2a2a3a;
+            --text: #e8e8f0;
+            --text-muted: #8888a0;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .meta {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 1.125rem;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card-score {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .score-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .score-high { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+        .score-medium { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .score-low { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+        .card-body {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .field {
+            display: grid;
+            gap: 0.25rem;
+        }
+
+        .field-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .field-value {
+            color: var(--text);
+        }
+
+        .field-value code {
+            background: var(--surface-light);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.875rem;
+        }
+
+        .effort-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .effort-tag {
+            padding: 0.25rem 0.625rem;
+            background: var(--surface-light);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .insight {
+            background: var(--surface-light);
+            border-left: 3px solid var(--accent);
+            padding: 1rem 1rem 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .insight strong {
+            color: var(--accent);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--surface-light);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .platform-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arrow {
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+
+        .summary {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .summary-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .card-header { flex-direction: column; }
+            table { font-size: 0.875rem; }
+            th, td { padding: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MSP Dev Opportunities</h1>
+        <div class="meta">
+            <span>📅 Daily Report — May 18, 2026</span>
+            <span>📊 Sources: Reddit r/msp, r/sysadmin, GitHub, Microsoft</span>
+            <span>🎯 Focus: 3rd Party Integration Opportunities</span>
+        </div>
+    </header>
+
+    <div class="section">
+        <h2 class="section-title">Top Product Opportunities</h2>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">1. Vulnerability Management Aggregator</div>
+                <div class="card-score">
+                    <span class="score-badge score-high">High</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="field">
+                    <div class="field-label">Pain Point (r/msp, 89 upvotes)</div>
+                    <div class="field-value">No unified view across client environments; manual patching workflows; reporting hell for compliance</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Market Gap</div>
+                    <div class="field-value">Lightweight vulnerability aggregator with MSP-friendly multi-tenant reporting</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Dev Effort</div>
+                    <div class="field-value">
+                        <div class="effort-tags">
+                            <span class="effort-tag">API Integration</span>
+                            <span class="effort-tag">Data Aggregation</span>
+                            <span class="effort-tag">Reporting</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight">
+                    <strong>Opportunity:</strong> Integrate with Tenable, Qualys, Rapid7 APIs → unified dashboard with cross-client views. 
+                    <strong>Monetization:</strong> Tiered by endpoint count ($0.50-2/endpoint/month)
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">2. Documentation Backup Mirror</div>
+                <div class="card-score">
+                    <span class="score-badge score-high">High</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="field">
+                    <div class="field-label">Pain Point (r/msp, 50 upvotes)</div>
+                    <div class="field-value">ITGlue expensive, no export API for true backups; vendor lock-in fear</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Market Gap</div>
+                    <div class="field-value">Read-only mirror/backup sync tool for ITGlue/Hudu/Confluence</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Dev Effort</div>
+                    <div class="field-value">
+                        <div class="effort-tags">
+                            <span class="effort-tag">API Wrappers</span>
+                            <span class="effort-tag">Sync Engine</span>
+                            <span class="effort-tag">Storage</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight">
+                    <strong>Opportunity:</strong> Automated scheduled exports to S3/Azure with Markdown/HTML format. 
+                    <strong>Monetization:</strong> Per-client/month pricing ($50-150/client)
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">3. MSP-Specific AI Assistant</div>
+                <div class="card-score">
+                    <span class="score-badge score-high">High</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="field">
+                    <div class="field-label">Pain Point (r/msp, 71 upvotes)</div>
+                    <div class="field-value">No MSP-specific skills/workflows; security concerns with prompt data hitting public AI</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Market Gap</div>
+                    <div class="field-value">Private AI assistant with MSP knowledge base + ticket context</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Dev Effort</div>
+                    <div class="field-value">
+                        <div class="effort-tags">
+                            <span class="effort-tag">LLM Integration</span>
+                            <span class="effort-tag">RAG Pipeline</span>
+                            <span class="effort-tag">PSA Connectors</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight">
+                    <strong>Opportunity:</strong> Self-hosted Claude/GPT API with ConnectWise/Autotask ticket context, KB search. 
+                    <strong>Platform:</strong> <strong>Microsoft Copilot Studio</strong> or <strong>GitHub Marketplace</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">4. Multi-Tenant Email Security Dashboard</div>
+                <div class="card-score">
+                    <span class="score-badge score-medium">Medium</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="field">
+                    <div class="field-label">Pain Point (r/msp, multiple threads)</div>
+                    <div class="field-value">Spoofing attacks increasing; Defender gaps; no unified email security view across clients</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Market Gap</div>
+                    <div class="field-value">Dashboard aggregating M365 Defender data across all client tenants</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Dev Effort</div>
+                    <div class="field-value">
+                        <div class="effort-tags">
+                            <span class="effort-tag">Microsoft Graph API</span>
+                            <span class="effort-tag">React Dashboard</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="insight">
+                    <strong>Platform:</strong> <strong>Microsoft Commercial Marketplace</strong> - native to M365 ecosystem
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Platform Analysis</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Platform</th>
+                    <th>Dev Model</th>
+                    <th>Effort</th>
+                    <th>Monetization</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="https://appsource.microsoft.com" class="platform-link">
+                            Microsoft Commercial <span class="arrow">→</span>
+                        </a>
+                    </td>
+                    <td>M365/Azure integration; requires publisher verification</td>
+                    <td>Medium</td>
+                    <td>Transactable SaaS; Azure consumption</td>
+                    <td><span class="score-badge score-high">9/10</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://marketplace.connectwise.com" class="platform-link">
+                            ConnectWise <span class="arrow">→</span>
+                        </a>
+                    </td>
+                    <td>MSP-specific; REST API</td>
+                    <td>Low-Medium</td>
+                    <td>Premium integrations; subscriptions</td>
+                    <td><span class="score-badge score-high">9/10</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://zapier.com/platform" class="platform-link">
+                            Zapier <span class="arrow">→</span>
+                        </a>
+                    </td>
+                    <td>Platform requires approval</td>
+                    <td>Medium</td>
+                    <td>Revenue share</td>
+                    <td><span class="score-badge score-medium">8/10</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://store.servicenow.com" class="platform-link">
+                            ServiceNow Store <span class="arrow">→</span>
+                        </a>
+                    </td>
+                    <td>Enterprise-focused; partner status needed</td>
+                    <td>High</td>
+                    <td>$5-50/user/month</td>
+                    <td><span class="score-badge score-medium">7/10</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://marketplace.datto.com" class="platform-link">
+                            Datto <span class="arrow">→</span>
+                        </a>
+                    </td>
+                    <td>RMM-focused; PSA integrations</td>
+                    <td>Low</td>
+                    <td>Paid add-ons</td>
+                    <td><span class="score-badge score-medium">7/10</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://github.com/marketplace" class="platform-link">
+                            GitHub Marketplace <span class="arrow">→</span>
+                        </a>
+                    </td>
+                    <td>Open to verified devs; Actions focus</td>
+                    <td>Low</td>
+                    <td>Free/custom pricing</td>
+                    <td><span class="score-badge score-medium">6/10</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="summary">
+            <h2 class="section-title">Executive Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-number">3</div>
+                    <div class="field-label">High-Opportunity Gaps</div>
+                    <div class="field-value">Vulnerability aggregation, doc backup, AI assistant</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">2</div>
+                    <div class="field-label">Best Platforms</div>
+                    <div class="field-value">Microsoft Commercial + ConnectWise</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">6</div>
+                    <div class="field-label">Sources Analyzed</div>
+                    <div class="field-value">Reddit communities + Platform directories</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Next Steps</h2>
+        <ol style="padding-left: 1.25rem; color: var(--text-muted);">
+            <li style="margin-bottom: 0.75rem;"><strong style="color: var(--text);">Validate #1:</strong> Reach out to 5 MSPs on r/msp about vulnerability aggregation needs</li>
+            <li style="margin-bottom: 0.75rem;"><strong style="color: var(--text);">Prototype:</strong> Build ITGlue/Hudu backup MVP using their APIs</li>
+            <li style="margin-bottom: 0.75rem;"><strong style="color: var(--text);">Platform Review:</strong> Apply for Microsoft Publisher verification</li>
+            <li><strong style="color: var(--text);">Community:</strong> Post survey in MSP Discord for pricing validation</li>
+        </ol>
+    </div>
+
+</body>
+</html>
