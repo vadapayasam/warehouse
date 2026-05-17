@@ -5,71 +5,166 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Prabha's Running Notes</title>
   <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .section { margin: 2rem 0; }
+    .section h3 { margin-bottom: 0.5rem; font-size: 1.1rem; color: #666; }
+    .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
+    .file-item { padding: 0.75rem; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #0066cc; }
+    .file-item a { color: #0066cc; text-decoration: none; }
+    .file-item a:hover { text-decoration: underline; }
+    .file-meta { font-size: 0.75rem; color: #888; margin-top: 0.25rem; }
+    .tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 500; }
+    .tag-sketch { background: #e3d5f7; color: #5a4a7a; }
+    .tag-research { background: #d4edda; color: #155724; }
+    .tag-mvp { background: #f8d7da; color: #721c24; }
+    .tag-guide { background: #d1ecf1; color: #0c5460; }
+    .tag-index { background: #fff3cd; color: #856404; }
+  </style>
 </head>
 <body>
   <header>
     <h1>Running Notes</h1>
-    <p>Research updates, cron summaries, kanban outputs</p>
+    <p>Research, guides, and build artifacts</p>
   </header>
 
   <nav>
-    <a href="daily/">Daily</a> · 
-    <a href="weekly/">Weekly</a> · 
+    <a href="#sketch">Sketch</a> · 
+    <a href="#research">Research</a> · 
+    <a href="#daily">Daily</a> · 
+    <a href="#weekly">Weekly</a> · 
     <a href="https://github.com/vadapayasam/warehouse">Source</a>
   </nav>
 
-  <section>
-    <h2>Recent Entries</h2>
-    <div id="entries">Loading...</div>
+  <section class="section" id="sketch">
+    <h3>📐 Sketch Guides</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="sketch/hermes-kanban-guide.html">Hermes Kanban Guide</a>
+        <span class="tag tag-guide">Guide</span>
+        <div class="file-meta">Complete kanban workflow reference with sketch theme</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/kanban-workflow.html">Kanban Workflow</a>
+        <span class="tag tag-guide">Guide</span>
+        <div class="file-meta">Workflow patterns for kanban boards</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/youtube-shorts-playbook.html">YouTube Shorts Playbook</a>
+        <span class="tag tag-guide">Guide</span>
+        <div class="file-meta">Algorithm, hooks, and content strategy</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/revenueguard-mvp.html">RevenueGuard MVP</a>
+        <span class="tag tag-mvp">MVP</span>
+        <div class="file-meta">MCP server for revenue recognition</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="research">
+    <h3>📊 Research Archives</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="sketch/saas-agentic-weekly-index.html">SaaS Agentic Weekly Index</a>
+        <span class="tag tag-index">Index</span>
+        <div class="file-meta">Master index for agentic SaaS research</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/saas-agentic-weekly.html">SaaS Agentic Weekly</a>
+        <span class="tag tag-research">Research</span>
+        <div class="file-meta">Weekly agentic SaaS findings</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/saas-agentic-weekly-00.html">SaaS Agentic Weekly #00</a>
+        <span class="tag tag-research">Research</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/saas-agentic-weekly-01.html">SaaS Agentic Weekly #01</a>
+        <span class="tag tag-research">Research</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/saas-agentic-weekly-02.html">SaaS Agentic Weekly #02</a>
+        <span class="tag tag-research">Research</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/saas-agentic-weekly-03.html">SaaS Agentic Weekly #03</a>
+        <span class="tag tag-research">Research</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/ai-native-it.html">AI Native IT</a>
+        <span class="tag tag-research">Research</span>
+        <div class="file-meta">AI-native IT management research</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/context-engineering.html">Context Engineering</a>
+        <span class="tag tag-guide">Guide</span>
+        <div class="file-meta">Context engineering patterns</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="mvps">
+    <h3>🚀 MVP Decisions</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="landing/entry-point-v1.html">Entry Point V1</a>
+        <span class="tag tag-mvp">MVP</span>
+        <div class="file-meta">Landing MVP version 1</div>
+      </div>
+      <div class="file-item">
+        <a href="mvp-decision-2026-05-17.html">MVP Decision 2026-05-17</a>
+        <span class="tag tag-mvp">MVP</span>
+        <div class="file-meta">Weekly MVP decision log</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="daily">
+    <h3>📅 Daily</h3>
+    <div class="file-grid" id="daily-entries">
+      <div class="file-item"><a href="daily/">Browse daily folder →</a></div>
+    </div>
+  </section>
+
+  <section class="section" id="weekly">
+    <h3>🗓️ Weekly</h3>
+    <div class="file-grid" id="weekly-entries">
+      <div class="file-item"><a href="weekly/">Browse weekly folder →</a></div>
+    </div>
   </section>
 
   <script>
-    // Auto-discover and list entries
+    // Auto-discover daily and weekly files
     (async () => {
-      const sections = [
-        { name: 'Daily', path: 'daily/', files: [] },
-        { name: 'Weekly', path: 'weekly/', files: [] }
-      ];
-      
-      const container = document.getElementById('entries');
-      let html = '';
-      
-      for (const s of sections) {
+      const loadSection = async (id, path, limit = 5) => {
+        const container = document.getElementById(id + '-entries');
         try {
-          const response = await fetch(s.path);
+          const response = await fetch(path);
           const text = await response.text();
           const parser = new DOMParser();
           const doc = parser.parseFromString(text, 'text/html');
-          const links = [...doc.querySelectorAll('a[href^="20"]')];
-          s.files = links.map(a => ({
-            name: a.textContent,
-            href: s.path + a.getAttribute('href')
-          })).sort((a,b) => b.name.localeCompare(a.name)).slice(0, 10);
+          const links = [...doc.querySelectorAll('a[href^="20"], a[href$=".html"]')];
+          const files = links.map(a => ({
+            name: a.textContent.replace('.html',''),
+            href: path + a.getAttribute('href')
+          })).sort((a,b) => b.name.localeCompare(a.name)).slice(0, limit);
+          
+          if (files.length > 0) {
+            container.innerHTML = files.map(f => 
+              `<div class="file-item"><a href="${f.href}">${f.name}</a></div>`
+            ).join('') + `<div class="file-item"><a href="${path}">Browse all →</a></div>`;
+          }
         } catch(e) {}
-      }
+      };
       
-      const allFiles = [...sections[0].files, ...sections[1].files]
-        .sort((a,b) => b.name.localeCompare(a.name))
-        .slice(0, 20);
-      
-      if (allFiles.length === 0) {
-        container.innerHTML = '<p class="empty">No entries yet. Check back soon.</p>';
-        return;
-      }
-      
-      for (const file of allFiles) {
-        const dateMatch = file.name.match(/(\d{4})-(\d{2})-(\d{2})/);
-        const dateStr = dateMatch ? `${dateMatch[3]}/${dateMatch[2]}/${dateMatch[1]}` : file.name;
-        const type = file.href.includes('/daily/') ? 'Daily' : 'Weekly';
-        html += `<div class="entry"><span class="date">${dateStr}</span><span class="type">${type}</span><br><a href="${file.href}">${file.name.replace('.html','').replace(/-/g,' ')}</a></div>`;
-      }
-      
-      container.innerHTML = html;
+      loadSection('daily', 'daily/');
+      loadSection('weekly', 'weekly/');
     })();
   </script>
 
-  <noscript>
-    <p class="empty">JavaScript needed for auto-index. Browse <a href="daily/">daily</a> or <a href="weekly/">weekly</a> manually.</p>
-  </noscript>
+  <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; text-align: center; font-size: 0.85rem; color: #888;">
+    Auto-generated index · <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a>
+  </footer>
 </body>
 </html>
