@@ -3,72 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Left — UI/UX Review</title>
-<!-- cache-bust v3 2026-05-19 -->
+    <title>Time Left — Deep Code Review</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: #0d0d0d;
-            color: #fff;
-            padding: 40px 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #e8e8ec;
+            line-height: 1.6;
         }
-        h1 { font-size: 2rem; margin-bottom: 8px; font-weight: 600; }
-        .subtitle { color: #888; margin-bottom: 40px; }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+        h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+        .meta { color: #888; font-size: 0.9rem; margin-bottom: 32px; }
+        .badge {
+            display: inline-block; padding: 2px 10px; border-radius: 12px;
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
         }
-        .screen {
-            background: #1a1a1a;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.2s;
+        .badge.critical { background: #3a1515; color: #ff6b6b; }
+        .badge.warn { background: #2a2515; color: #f0c040; }
+        .badge.info { background: #15202a; color: #4dabf7; }
+        .badge.fix { background: #152a15; color: #51cf66; }
+        .section { margin-bottom: 48px; }
+        .section h2 {
+            font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
+            padding-bottom: 10px; border-bottom: 1px solid #222;
         }
-        .screen:hover { transform: scale(1.02); }
-        .screen img {
-            width: 100%;
-            height: auto;
-            display: block;
+        .issue {
+            background: #141419; border: 1px solid #1f1f28; border-radius: 12px;
+            padding: 20px; margin-bottom: 16px;
         }
-        .label {
-            padding: 12px 16px;
-            font-size: 0.875rem;
-            color: #aaa;
+        .issue-header {
+            display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;
         }
-        .back { display: inline-block; color: #3b82f6; text-decoration: none; margin-bottom: 20px; }
+        .issue-title { font-weight: 600; font-size: 1.05rem; flex: 1; }
+        .file-ref {
+            font-family: 'SF Mono', Monaco, monospace; font-size: 0.8rem;
+            color: #888; background: #0f0f14; padding: 2px 8px;
+            border-radius: 6px; white-space: nowrap;
+        }
+        .issue p { color: #aaa; font-size: 0.92rem; margin-bottom: 8px; }
+        .issue p:last-child { margin-bottom: 0; }
+        .code {
+            background: #0f0f14; border: 1px solid #1a1a24; border-radius: 8px;
+            padding: 12px; font-family: 'SF Mono', monospace; font-size: 0.82rem;
+            color: #c5c5d0; overflow-x: auto; margin: 10px 0;
+        }
+        .code .bad { color: #ff6b6b; }
+        .code .good { color: #51cf66; }
+        .code .comment { color: #666; }
+        .priority-list { list-style: none; }
+        .priority-list li {
+            padding: 12px 0; border-bottom: 1px solid #1a1a24;
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .priority-list li:last-child { border-bottom: none; }
+        .num {
+            background: #1f1f28; color: #888; width: 28px; height: 28px;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 0.8rem; font-weight: 600; flex-shrink: 0;
+        }
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px; margin-bottom: 32px;
+        }
+        .summary-card {
+            background: #141419; border: 1px solid #1f1f28;
+            border-radius: 12px; padding: 20px; text-align: center;
+        }
+        .summary-card .count { font-size: 2rem; font-weight: 700; }
+        .summary-card .count.critical { color: #ff6b6b; }
+        .summary-card .count.warn { color: #f0c040; }
+        .summary-card .count.info { color: #4dabf7; }
+        .summary-card .label { color: #888; font-size: 0.85rem; margin-top: 4px; }
     </style>
 </head>
 <body>
-    <a href="/warehouse/" class="back">← Back to warehouse</a>
-    <h1>Time Left</h1>
-    <p class="subtitle">Countdown progress tracker — 5 unique screenshots</p>
+<div class="container">
+    <h1>Time Left Code Review</h1>
+    <div class="meta">SwiftUI iOS app — Countdown / countup timer with events, habits, and custom tracking.<br>Review date: May 2026</div>
 
-    <div class="gallery">
-        <div class="screen">
-            <img src="timeleft-01.png" alt="Home countdowns">
-            <div class="label">01 — Home: Today, Month, Year countdowns</div>
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="count critical">3</div>
+            <div class="label">Critical Issues</div>
         </div>
-        <div class="screen">
-            <img src="timeleft-02.png" alt="Count Up empty state">
-            <div class="label">02 — Count Up: Empty state</div>
+        <div class="summary-card">
+            <div class="count warn">7</div>
+            <div class="label">Warnings</div>
         </div>
-        <div class="screen">
-            <img src="timeleft-03.png" alt="Configure settings">
-            <div class="label">03 — Configure: Display & tracking options</div>
+        <div class="summary-card">
+            <div class="count info">5</div>
+            <div class="label">Improvements</div>
         </div>
-        <div class="screen">
-            <img src="timeleft-04.png" alt="Create Countdown form">
-            <div class="label">04 — Create Countdown: Event input form</div>
-        </div>
-        <div class="screen">
-            <img src="timeleft-05.png" alt="Home with widgets banner">
-            <div class="label">05 — Home scrolled: Widgets CTA visible</div>
+        <div class="summary-card">
+            <div class="count" style="color: #51cf66">3</div>
+            <div class="label">Architecture Wins</div>
         </div>
     </div>
+
+    <!-- CRITICAL -->
+    <div class="section">
+        <h2>Critical Issues</h2>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge critical">Critical</span>
+                <span class="issue-title">Timer Retain Cycle — Memory Leak on Every Event</span>
+                <span class="file-ref">MainHomeView.swift:52</span>
+            </div>
+            <p>The <code>Timer</code> created in <code>.onAppear</code> captures <code>self</code> (the view struct is re-created, but the closure holds the <code>@StateObject</code> or <code>@State</code> reference). More critically, the timer is never invalidated when the view disappears — it fires forever even on background screens.</p>
+            <div class="code">
+<span class="bad">@State private var timer: Timer?</span>
+
+.onAppear {
+    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+        updateCountdown()  // Captures self implicitly
+    }
+}
+<span class="bad">// No .onDisappear { timer?.invalidate() }</span>
+            </div>
+            <p><strong>Fix:</strong> Use <code>.onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect())</code> instead of manual <code>Timer</code>. It auto-cancels when view leaves hierarchy. Or add <code>.onDisappear { timer?.invalidate(); timer = nil }</code>.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge critical">Critical</span>
+                <span class="issue-title">Date Formatter Rebuilt 1x/Second — 100% CPU on Countdown Screen</span>
+                <span class="file-ref">MainHomeView.swift:28-30</span>
+            </div>
+            <p>Inside the timer closure, you construct a new <code>DateComponentsFormatter</code> every tick. These are expensive. On a device with 20 events, that's 20 formatters * 1Hz = 20 allocations/second just for display strings.</p>
+            <div class="code">
+Text("Time left: \(DateComponentsFormatter().string(from: now, to: eventDate)!)")
+            </div>
+            <p><strong>Fix:</strong> Pre-create formatter as a static constant, or cache formatted strings and only update when the displayed value changes (every second is fine, but reuse the formatter instance).</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge critical">Critical</span>
+                <span class="issue-title">Force Unwrap on Countdown Formatting</span>
+                <span class="file-ref">MainHomeView.swift:28</span>
+            </div>
+            <p><code>DateComponentsFormatter().string(from:to:)</code> returns optional. Force unwrapping crashes if inputs are invalid (e.g., from > to, or nil calendar).</p>
+            <div class="code">
+<span class="bad">DateComponentsFormatter().string(from: now, to: eventDate)!</span>
+            </div>
+            <p><strong>Fix:</strong> <code>guard let timeLeft = formatter.string(from: now, to: eventDate) else { return "—" }</code></p>
+        </div>
+    </div>
+
+    <!-- WARNINGS -->
+    <div class="section">
+        <h2>Warnings</h2>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">ContentView Is Empty Shell — All Logic in MainHomeView</span>
+                <span class="file-ref">ContentView.swift:1-35</span>
+            </div>
+            <p>ContentView contains a placeholder title and "Current Time" text, then MainHomeView is presumably the real entry point. This dead code confuses the navigation stack and adds an unnecessary layer.</p>
+            <p><strong>Fix:</strong> Delete ContentView and make MainHomeView the root. Or make ContentView a lightweight router that switches between Home / Paywall / Onboarding based on state.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">PaywallView Has No Purchase Error Handling</span>
+                <span class="file-ref">PaywallView.swift:67-72</span>
+            </div>
+            <p>Identical to LeaveHack — errors are silently swallowed. The purchase button just shows a spinner forever if the network fails.</p>
+            <p><strong>Fix:</strong> Same fix: publish errors and show an alert.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">EnvironmentObject Assumed Present — Crash Risk</span>
+                <span class="file-ref">MainHomeView.swift:10</span>
+            </div>
+            <p>Using <code>@EnvironmentObject var appState: AppState</code> without a fallback. If the parent doesn't inject it, the app crashes at runtime with a cryptic SwiftUI error.</p>
+            <div class="code">
+@EnvironmentObject var appState: AppState  <span class="bad">// Crashes if missing</span>
+            </div>
+            <p><strong>Fix:</strong> Use <code>@ObservedObject var appState: AppState</code> passed explicitly, or inject in the App <code>.environmentObject(appState)</code> and audit all previews to inject a mock.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">Duplicate AppState Definition</span>
+                <span class="file-ref">ContentView.swift:36 / MainHomeView.swift:38</span>
+            </div>
+            <p>AppState is defined in both files (same struct, duplicated). This compiles because Swift allows same-name structs in different files, but it's a maintenance bomb — change one, forget the other.</p>
+            <p><strong>Fix:</strong> Move AppState to its own file (e.g., <code>AppState.swift</code>) and import everywhere. Delete the duplicates.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">Unused Imports (WebKit, UIKit)</span>
+                <span class="file-ref">ContentView.swift:7-8</span>
+            </div>
+            <p>Importing WebKit and UIKit in a pure SwiftUI file adds compile time and binary bloat for no benefit. No WebView or UIKit bridging is present.</p>
+            <p><strong>Fix:</strong> Remove unused imports. Audit all files.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">No Persistence for Events</span>
+                <span class="file-ref">Models.swift (inferred)</span>
+            </div>
+            <p>Events appear to be in-memory only. Kill the app, lose all custom countdowns. For a "tracker" app, this is a fundamental UX gap.</p>
+            <p><strong>Fix:</strong> Add SwiftData (<code>@Model</code>) or Core Data persistence. At minimum, <code>UserDefaults</code> + Codable for simple event arrays.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">No Background Refresh / Notification Scheduling</span>
+                <span class="file-ref">AppDelegate (inferred missing)</span>
+            </div>
+            <p>A countdown app that doesn't notify users when an event happens is incomplete. No <code>UNUserNotificationCenter</code> integration found.</p>
+            <p><strong>Fix:</strong> Schedule local notifications for event deadlines. Request permission on first event creation.</p>
+        </div>
+    </div>
+
+    <!-- ARCHITECTURE -->
+    <div class="section">
+        <h2>Architecture & Patterns</h2>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge fix">Win</span>
+                <span class="issue-title">EventMode Enum Is Clean</span>
+                <span class="file-ref">ContentView.swift:45-49</span>
+            </div>
+            <p>Good: Simple enum with <code>CaseIterable</code> for modes. Could be used in a Picker with <code>ForEach(EventMode.allCases)</code>.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge info">Pattern</span>
+                <span class="issue-title">CustomEvent Struct Needs Equatable / Identifiable</span>
+                <span class="file-ref">ContentView.swift:41-44</span>
+            </div>
+            <p><code>CustomEvent</code> has an <code>id</code> but doesn't conform to <code>Identifiable</code>. This means SwiftUI lists need <code>\.id</code> explicitly, and animations (insert/delete/move) won't auto-apply.</p>
+            <div class="code">
+<span class="bad">struct CustomEvent { var id: String; var mode: EventMode }</span>
+<span class="good">struct CustomEvent: Identifiable { let id: String; var mode: EventMode }</span>
+            </div>
+            <p><strong>Fix:</strong> Add <code>Identifiable</code> and make <code>id</code> a <code>let</code> (immutable identity).</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge info">Pattern</span>
+                <span class="issue-title">MainHomeView Is Both Container and Leaf</span>
+                <span class="file-ref">MainHomeView.swift:1-36</span>
+            </div>
+            <p>The view mixes timer logic, animation state, and UI layout. Consider splitting into <code>CountdownListView</code> (UI) and <code>CountdownViewModel</code> (timer + formatting logic).</p>
+        </div>
+    </div>
+
+    <!-- ACTIONABLE -->
+    <div class="section">
+        <h2>Priority Action List</h2>
+        <ol class="priority-list">
+            <li><div class="num">1</div><div><strong>Fix timer memory leak</strong> — Switch to <code>.onReceive(Timer.publish(...))</code> or add <code>.onDisappear { invalidate() }</code>. This is a crash/performance bug.</div></li>
+            <li><div class="num">2</div><div><strong>Cache DateComponentsFormatter</strong> — Create once, reuse. 20 allocations/sec is wasteful.</div></li>
+            <li><div class="num">3</div><div><strong>Deduplicate AppState</strong> — Move to single file, delete copies in ContentView and MainHomeView.</div></li>
+            <li><div class="num">4</div><div><strong>Add event persistence</strong> — SwiftData or Codable + UserDefaults. Events vanish on app kill.</div></li>
+            <li><div class="num">5</div><div><strong>Delete or use ContentView</strong> — Currently dead code. Make it the router or remove it.</div></li>
+            <li><div class="num">6</div><div><strong>Fix force unwraps</strong> — All <code>!</code> in view layer. Add guards with sensible fallbacks.</div></li>
+            <li><div class="num">7</div><div><strong>Add local notifications</strong> — Core feature gap for a countdown app.</div></li>
+            <li><div class="num">8</div><div><strong>Conform CustomEvent to Identifiable</strong> — Enables list animations and cleaner ForEach.</div></li>
+            <li><div class="num">9</div><div><strong>Audit and remove unused imports</strong> — WebKit, UIKit where not needed.</div></li>
+            <li><div class="num">10</div><div><strong>Extract ViewModel</strong> — Separate timer/formatting logic from SwiftUI view.</div></li>
+        </ol>
+    </div>
+</div>
 </body>
 </html>
-

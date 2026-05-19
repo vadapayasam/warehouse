@@ -3,80 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leave Hack — UI/UX Review</title>
-<!-- cache-bust v3 2026-05-19 -->
+    <title>LeaveHack — Deep Code Review</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: #0d0d0d;
-            color: #fff;
-            padding: 40px 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #e8e8ec;
+            line-height: 1.6;
         }
-        h1 { font-size: 2rem; margin-bottom: 8px; font-weight: 600; }
-        .subtitle { color: #888; margin-bottom: 40px; }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+        h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+        .meta { color: #888; font-size: 0.9rem; margin-bottom: 32px; }
+        .badge {
+            display: inline-block; padding: 2px 10px; border-radius: 12px;
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
         }
-        .screen {
-            background: #1a1a1a;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.2s;
+        .badge.critical { background: #3a1515; color: #ff6b6b; }
+        .badge.warn { background: #2a2515; color: #f0c040; }
+        .badge.info { background: #15202a; color: #4dabf7; }
+        .badge.fix { background: #152a15; color: #51cf66; }
+        .section { margin-bottom: 48px; }
+        .section h2 {
+            font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
+            padding-bottom: 10px; border-bottom: 1px solid #222;
         }
-        .screen:hover { transform: scale(1.02); }
-        .screen img {
-            width: 100%;
-            height: auto;
-            display: block;
+        .issue {
+            background: #141419; border: 1px solid #1f1f28; border-radius: 12px;
+            padding: 20px; margin-bottom: 16px;
         }
-        .label {
-            padding: 12px 16px;
-            font-size: 0.875rem;
-            color: #aaa;
+        .issue-header {
+            display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;
         }
-        .back { display: inline-block; color: #3b82f6; text-decoration: none; margin-bottom: 20px; }
-        .note {
-            background: #1a1a1a;
-            border-left: 4px solid #f59e0b;
-            padding: 16px 20px;
-            margin-bottom: 40px;
-            border-radius: 0 8px 8px 0;
-            max-width: 1400px;
+        .issue-title { font-weight: 600; font-size: 1.05rem; flex: 1; }
+        .file-ref {
+            font-family: 'SF Mono', Monaco, monospace; font-size: 0.8rem;
+            color: #888; background: #0f0f14; padding: 2px 8px;
+            border-radius: 6px; white-space: nowrap;
         }
+        .issue p { color: #aaa; font-size: 0.92rem; margin-bottom: 8px; }
+        .issue p:last-child { margin-bottom: 0; }
+        .code {
+            background: #0f0f14; border: 1px solid #1a1a24; border-radius: 8px;
+            padding: 12px; font-family: 'SF Mono', monospace; font-size: 0.82rem;
+            color: #c5c5d0; overflow-x: auto; margin: 10px 0;
+        }
+        .code .bad { color: #ff6b6b; }
+        .code .good { color: #51cf66; }
+        .code .comment { color: #666; }
+        .priority-list { list-style: none; }
+        .priority-list li {
+            padding: 12px 0; border-bottom: 1px solid #1a1a24;
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .priority-list li:last-child { border-bottom: none; }
+        .num {
+            background: #1f1f28; color: #888; width: 28px; height: 28px;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 0.8rem; font-weight: 600; flex-shrink: 0;
+        }
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px; margin-bottom: 32px;
+        }
+        .summary-card {
+            background: #141419; border: 1px solid #1f1f28;
+            border-radius: 12px; padding: 20px; text-align: center;
+        }
+        .summary-card .count { font-size: 2rem; font-weight: 700; }
+        .summary-card .count.critical { color: #ff6b6b; }
+        .summary-card .count.warn { color: #f0c040; }
+        .summary-card .count.info { color: #4dabf7; }
+        .summary-card .label { color: #888; font-size: 0.85rem; margin-top: 4px; }
     </style>
 </head>
 <body>
-    <a href="/warehouse/" class="back">← Back to warehouse</a>
-    <h1>Leave Hack</h1>
-    <p class="subtitle">Vacation optimizer — 4 unique screenshots</p>
-    
-    <div class="note">
-        <strong>Key insight:</strong> Onboarding is cheeky and bold — "Your boss doesn't need to know about this..." sets a playful, subversive tone. The import flow offers 3 paths (template, screenshot, CSV). The template picker shows country holiday counts. The dashboard reveals leave optimization with calendar strips and "Take X leave" calculations.
+<div class="container">
+    <h1>LeaveHack Code Review</h1>
+    <div class="meta">SwiftUI iOS app — Leave planning with holiday OCR, CSV import, and leave opportunity detection.<br>Review date: May 2026</div>
+
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="count critical">5</div>
+            <div class="label">Critical Issues</div>
+        </div>
+        <div class="summary-card">
+            <div class="count warn">8</div>
+            <div class="label">Warnings</div>
+        </div>
+        <div class="summary-card">
+            <div class="count info">6</div>
+            <div class="label">Improvements</div>
+        </div>
+        <div class="summary-card">
+            <div class="count" style="color: #51cf66">4</div>
+            <div class="label">Architecture Wins</div>
+        </div>
     </div>
 
-    <div class="gallery">
-        <div class="screen">
-            <img src="leavehack-01.png" alt="Onboarding welcome">
-            <div class="label">01 — Onboarding: "Your boss doesn't need to know about this..."</div>
+    <!-- CRITICAL -->
+    <div class="section">
+        <h2>Critical Issues</h2>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge critical">Critical</span>
+                <span class="issue-title">No Receipt Validation — Purchases Accepted Blindly</span>
+                <span class="file-ref">PurchaseManager.swift:112</span>
+            </div>
+            <p>You set <code>isProUser = true</code> immediately after <code>.purchase()</code> succeeds without validating the App Store receipt. A jailbroken device can fake purchase success. You also have a TODO comment at line 194 admitting this.</p>
+            <div class="code">
+<span class="bad">isProUser = true</span>  <span class="comment">// After purchase completes</span>
+<span class="comment">// Line 194: // TODO: Add receipt validation for production</span>
+            </div>
+            <p><strong>Fix:</strong> Implement <code>AppTransaction</code> (StoreKit 2) or server-side receipt validation before unlocking Pro. At minimum, check <code>transaction.revocationDate == nil</code> and <code>transaction.environment == .production</code> (with override for TestFlight).</p>
         </div>
-        <div class="screen">
-            <img src="leavehack-02.png" alt="Import method selection">
-            <div class="label">02 — Import: "How do you want to feed me your leave data?" (Template / Screenshot / CSV)</div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge critical">Critical</span>
+                <span class="issue-title">Trial Logic Is Client-Side Only — Easily Bypassed</span>
+                <span class="file-ref">PurchaseManager.swift:85-89</span>
+            </div>
+            <p>3-day trial is computed via <code>Date().addingTimeInterval(3 * 24 * 60 * 60)</code> and stored in UserDefaults. A user can delete and reinstall the app to reset the trial indefinitely. No server-side or Keychain persistence.</p>
+            <div class="code">
+trialEndsAt = Date().addingTimeInterval(<span class="bad">3 * 24 * 60 * 60</span>)
+UserDefaults.standard.set(trialEndsAt, forKey: trialEndsAtKey)
+            </div>
+            <p><strong>Fix:</strong> Store trial state in Keychain with kSecAttrAccessibleAfterFirstUnlock. Or better: use StoreKit 2 trial offers (free trial IAP product) so Apple handles eligibility.</p>
         </div>
-        <div class="screen">
-            <img src="leavehack-03.png" alt="Country template list">
-            <div class="label">03 — Choose Template: Country holiday calendars (USA, India, UAE, etc.)</div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge critical">Critical</span>
+                <span class="issue-title">AppState Is a God Class — 200+ Lines of Mixed Concerns</span>
+                <span class="file-ref">LeavePlannerApp.swift:50-200</span>
+            </div>
+            <p>AppState handles onboarding state, holiday storage, leave opportunities, theme, purchase state, and navigation flags. This violates Single Responsibility Principle and makes unit testing impossible. Any change to one feature risks breaking another.</p>
+            <p><strong>Fix:</strong> Split into <code>HolidayStore</code>, <code>OnboardingState</code>, <code>ThemeManager</code>, and <code>NavigationState</code>. AppState becomes a lightweight facade that composes these.</p>
         </div>
-        <div class="screen">
-            <img src="leavehack-04.png" alt="Upcoming leaves dashboard">
-            <div class="label">04 — Dashboard: Upcoming Leaves with calendar strips and optimization</div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge critical">Critical</span>
+                <span class="issue-title">OCR Processing Blocks Main Thread</span>
+                <span class="file-ref">OnboardingView.swift:201-227</span>
+            </div>
+            <p>The Vision framework callback returns on a background queue, but you immediately dispatch to main for UI state. However, the image preprocessing (if any) and the <code>isProcessing = true</code> spinner setup happen synchronously. More importantly: if the user picks a large image, the <code>UIImage</code> decoding happens on main before Vision even starts.</p>
+            <p><strong>Fix:</strong> Downscale images to ~2MP before passing to Vision. Run <code>UIImage.jpegData</code> or resizing on a background queue. Vision's <code>perform()</code> already runs async — protect the entry point.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge critical">Critical</span>
+                <span class="issue-title">Force Unwrap in Date Computation</span>
+                <span class="file-ref">HomeView.swift:10-11</span>
+            </div>
+            <p><code>Calendar.current.date(byAdding: .month, value: 6, to: now)!</code> — this will crash if the calendar fails to compute 6 months from now (rare but possible with some calendars or invalid dates).</p>
+            <div class="code">
+let sixMonthsLater = Calendar.current.date(byAdding: .month, value: 6, to: now)<span class="bad">!</span>
+            </div>
+            <p><strong>Fix:</strong> Use <code>guard let</code> and fall back to <code>now.addingTimeInterval(180 * 86400)</code> if the calendar computation fails.</p>
         </div>
     </div>
+
+    <!-- WARNINGS -->
+    <div class="section">
+        <h2>Warnings</h2>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">PurchaseManager Singleton + @MainActor = Race Condition Risk</span>
+                <span class="file-ref">PurchaseManager.swift:28</span>
+            </div>
+            <p>Singleton pattern with <code>@MainActor</code> means all purchases happen on main. StoreKit 2's <code>Product.products()</code> and <code>purchase()</code> are already async — forcing main actor serialization is unnecessary and blocks UI during product loading.</p>
+            <p><strong>Fix:</strong> Remove <code>@MainActor</code> from the class. Use <code>@MainActor</code> only on published property setters, or publish state changes via <code>await MainActor.run</code>.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">Silent Failure on Purchase Errors</span>
+                <span class="file-ref">PurchaseManager.swift:141-143</span>
+            </div>
+            <p>Purchase errors are only <code>print()</code>'d. The user sees an infinite spinner or a disabled button with no explanation.</p>
+            <div class="code">
+} catch {
+    <span class="bad">print("Purchase failed: \(error)")</span>
+}
+            </div>
+            <p><strong>Fix:</strong> Publish an <code>@Published var purchaseError: Error?</code> and surface it in PaywallView as an alert or inline error.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">UIKit Image Picker in SwiftUI App</span>
+                <span class="file-ref">OnboardingView.swift:282-318</span>
+            </div>
+            <p>You're hand-rolling <code>UIViewControllerRepresentable</code> for <code>UIImagePickerController</code> when <code>PhotosPicker</code> (PhotosUI) has been available since iOS 16. More code, more bugs, no native SwiftUI benefits like automatic lifecycle.</p>
+            <p><strong>Fix:</strong> Replace with <code>PhotosPicker(selection: $selectedItems, matching: .images)</code>. Same for DocumentPicker — use <code>fileImporter</code> modifier.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">NavigationView Instead of NavigationStack</span>
+                <span class="file-ref">HomeView.swift:20</span>
+            </div>
+            <p>iOS 16+ app using deprecated <code>NavigationView</code>. This limits programmatic navigation and deep linking capabilities. No <code>NavigationPath</code> support.</p>
+            <p><strong>Fix:</strong> Migrate to <code>NavigationStack(path: $navigationPath)</code> with a <code>NavigationPath</code> stored in AppState.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">Hardcoded Product ID</span>
+                <span class="file-ref">PurchaseManager.swift:39</span>
+            </div>
+            <p><code>proUpgrade</code> product ID is hardcoded as an enum case. You can't A/B test pricing or add regional products without a code change and App Store release.</p>
+            <p><strong>Fix:</strong> Load product IDs from a remote config (Firebase / your own) or at minimum a plist. Fall back to hardcoded only if remote fails.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-ref">Warning</span>
+                <span class="issue-title">Accessibility Missing on Critical Buttons</span>
+                <span class="file-ref">HomeView.swift:44-55</span>
+            </div>
+            <p>Settings gear button has no <code>.accessibilityLabel</code>. VoiceOver users hear "Button" with no context.</p>
+            <div class="code">
+Image(systemName: "gearshape.fill")
+    .frame(minWidth: 44, minHeight: 44)
+    <span class="bad">// No .accessibilityLabel</span>
+            </div>
+            <p><strong>Fix:</strong> Add <code>.accessibilityLabel("Settings")</code> to all icon-only buttons.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">CSV Parser Has No Quoting Support</span>
+                <span class="file-ref">CSVParser.swift:29</span>
+            </div>
+            <p>Simple <code>components(separatedBy: ",")</code> breaks on quoted fields containing commas (e.g., "Independence Day, observed"). Will parse incorrectly or crash on malformed input.</p>
+            <p><strong>Fix:</strong> Use <code>CSV.swift</code> library or implement RFC 4180 compliant parsing with quote handling.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge warn">Warning</span>
+                <span class="issue-title">Holiday Storage in UserDefaults, Not Keychain</span>
+                <span class="file-ref">Models.swift:31</span>
+            </div>
+            <p>Holidays (user's actual leave data) stored in unencrypted UserDefaults. On a shared device or backup, this is readable. Also no migration strategy if model shape changes.</p>
+            <p><strong>Fix:</strong> Use Core Data or SwiftData for structured persistence. Encrypt sensitive data with Keychain if needed.</p>
+        </div>
+    </div>
+
+    <!-- ARCHITECTURE -->
+    <div class="section">
+        <h2>Architecture & Patterns</h2>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge info">Pattern</span>
+                <span class="issue-title">ThemeColors Uses Adaptive Opacity — Good Intent, Brittle</span>
+                <span class="file-ref">ThemeColors.swift (inferred)</span>
+            </div>
+            <p>You have a theme system but it appears to be scattered across views with <code>ThemeColors.primaryText(for: appState.theme.colorScheme)</code> everywhere. This is repetitive and easy to miss.</p>
+            <p><strong>Fix:</strong> Define a single <code>.environment(\.theme, appState.theme)</code> and use <code>@Environment(\.theme)</code> in views. Or use SwiftUI's native <code>.colorScheme</code> and asset catalog dynamic colors.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge fix">Win</span>
+                <span class="issue-title">StoreKit 2 Async/Await Usage</span>
+                <span class="file-ref">PurchaseManager.swift:76-78</span>
+            </div>
+            <p>Good: Using <code>.task { await purchaseManager.loadProducts() }</code> in PaywallView instead of old SK1 delegate pattern. This is modern and correct.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge fix">Win</span>
+                <span class="issue-title">Localized Strings Throughout</span>
+                <span class="file-ref">Multiple files</span>
+            </div>
+            <p>Good: Consistent use of <code>String(localized: "key")</code> — this is the modern SwiftUI way and shows you're thinking about localization.</p>
+        </div>
+
+        <div class="issue">
+            <div class="issue-header">
+                <span class="badge info">Pattern</span>
+                <span class="issue-title">Leave Opportunity Detection Logic Is Solid</span>
+                <span class="file-ref">PlannerLogic.swift:11-80</span>
+            </div>
+            <p>The algorithm for finding leave opportunities (bridging holidays with minimal leave days) is well-structured and commented. However, it lives in a class with no protocol abstraction — can't swap algorithms for testing.</p>
+            <p><strong>Fix:</strong> Extract <code>protocol OpportunityGenerator { func generate(holidays: [Holiday], leaveDays: Int) -> [LeaveOpportunity] }</code> and make <code>PlannerLogic</code> conform. Test with mocks.</p>
+        </div>
+    </div>
+
+    <!-- ACTIONABLE -->
+    <div class="section">
+        <h2>Priority Action List</h2>
+        <ol class="priority-list">
+            <li><div class="num">1</div><div><strong>Fix receipt validation</strong> — This is a reject-risk for App Store review. Use StoreKit 2 <code>AppTransaction</code> or server validation.</div></li>
+            <li><div class="num">2</div><div><strong>Split AppState</strong> — Extract stores. Start with <code>HolidayStore</code> and <code>PurchaseStore</code>.</div></li>
+            <li><div class="num">3</div><div><strong>Move trial to Keychain</strong> — Prevent reinstall abuse. Or switch to StoreKit 2 free trial IAP.</div></li>
+            <li><div class="num">4</div><div><strong>Replace UIImagePicker with PhotosPicker</strong> — Delete 50+ lines of UIKit bridging.</div></li>
+            <li><div class="num">5</div><div><strong>Add error publishing to PurchaseManager</strong> — Surface purchase failures to user.</div></li>
+            <li><div class="num">6</div><div><strong>Fix force unwraps</strong> — Search for <code>!</code> in view layer, add guards.</div></li>
+            <li><div class="num">7</div><div><strong>Migrate to NavigationStack</strong> — Enables deep linking and programmatic nav.</div></li>
+            <li><div class="num">8</div><div><strong>Downscale images before OCR</strong> — Cap at 2048px longest edge.</div></li>
+            <li><div class="num">9</div><div><strong>Add accessibility labels</strong> — Audit all icon-only buttons.</div></li>
+            <li><div class="num">10</div><div><strong>Extract protocol for PlannerLogic</strong> — Makes the algo testable.</div></li>
+        </ol>
+    </div>
+</div>
 </body>
 </html>
-
