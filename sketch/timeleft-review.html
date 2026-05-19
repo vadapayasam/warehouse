@@ -4,96 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Left — UI/UX Review</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- cache-bust v2 2026-05-19 -->
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: #0d0d0d;
+            color: #fff;
+            padding: 40px 20px;
         }
-        .screenshot-grid {
+        h1 { font-size: 2rem; margin-bottom: 8px; font-weight: 600; }
+        .subtitle { color: #888; margin-bottom: 40px; }
+        .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 0.75rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        .gradient-text {
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .screen {
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s;
         }
+        .screen:hover { transform: scale(1.02); }
+        .screen img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .label {
+            padding: 12px 16px;
+            font-size: 0.875rem;
+            color: #aaa;
+        }
+        .back { display: inline-block; color: #3b82f6; text-decoration: none; margin-bottom: 20px; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200 min-h-screen">
-    <div class="max-w-4xl mx-auto px-4 py-8">
-        
-        <!-- Header -->
-        <header class="mb-10">
-            <div class="flex items-center gap-3 mb-3">
-                <span class="mono text-xs text-slate-500 uppercase tracking-widest">Bundle ID: com.prabha.timeleft</span>
-            </div>
-            <h1 class="text-3xl font-bold mb-3 gradient-text">Time Left</h1>
-            <p class="text-slate-400 max-w-2xl">
-                Countdown progress tracker with hand-drawn aesthetic. Visual "X marks through time" metaphor showing progression through days.
-            </p>
-            <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 rounded text-xs bg-slate-800 text-slate-400">SwiftUI</span>
-                <span class="px-2 py-1 rounded text-xs bg-slate-800 text-slate-400">iOS 16+</span>
-                <span class="px-2 py-1 rounded text-xs bg-slate-800 text-slate-400">Widgets</span>
-            </div>
-        </header>
-
-        <!-- Screenshots -->
-        <section class="mb-10">
-            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-violet-400"></span>
-                Screenshots — 5 frames
-            </h2>
-            <div class="screenshot-grid">
-                <div class="glass-card rounded-lg p-3 text-center">
-                    <img src="timeleft-01.png" alt="Home — Today" class="w-full rounded mb-2">
-                    <span class="text-xs text-slate-500 mono">Home — Today</span>
-                </div>
-                <div class="glass-card rounded-lg p-3 text-center">
-                    <img src="timeleft-02.png" alt="Home — Tomorrow" class="w-full rounded mb-2">
-                    <span class="text-xs text-slate-500 mono">Home — Tomorrow</span>
-                </div>
-                <div class="glass-card rounded-lg p-3 text-center">
-                    <img src="timeleft-03.png" alt="Widgets Promo" class="w-full rounded mb-2">
-                    <span class="text-xs text-slate-500 mono">Widgets Promo</span>
-                </div>
-                <div class="glass-card rounded-lg p-3 text-center">
-                    <img src="timeleft-04.png" alt="Holidays — Empty" class="w-full rounded mb-2">
-                    <span class="text-xs text-slate-500 mono">Holidays — Empty</span>
-                </div>
-                <div class="glass-card rounded-lg p-3 text-center">
-                    <img src="timeleft-05.png" alt="Settings" class="w-full rounded mb-2">
-                    <span class="text-xs text-slate-500 mono">Settings</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Observations -->
-        <section class="mb-10">
-            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                Quick Observations
-            </h2>
-            <div class="glass-card rounded-lg p-5">
-                <ul class="space-y-2 text-slate-300 text-sm">
-                    <li>• Hand-drawn tick marks with X-throughs = clever progress visualization</li>
-                    <li>• Empty state for holidays feels intentional, not broken</li>
-                    <li>• Widgets promo is native-feeling, not pushy</li>
-                    <li>• Minimal typography plays well with the scratchy aesthetic</li>
-                </ul>
-            </div>
-        </section>
-
-        <footer class="text-center text-slate-600 text-xs mono">
-            Captured via xcodebuild + xcrun simctl — May 2026
-        </footer>
+<body>
+    <a href="/warehouse/" class="back">← Back to warehouse</a>
+    <h1>Time Left</h1>
+    <p class="subtitle">Countdown progress tracker — 6 unique screenshots</p>
+    
+    <div class="gallery">
+        <div class="screen">
+            <img src="timeleft-01.png" alt="Main list view">
+            <div class="label">01 — Main Countdowns (Today, Month, Year)</div>
+        </div>
+        <div class="screen">
+            <img src="timeleft-02.png" alt="Main list alternate">
+            <div class="label">02 — Countdowns Overview</div>
+        </div>
+        <div class="screen">
+            <img src="timeleft-03.png" alt="Scrolled list">
+            <div class="label">03 — Scrolled List View</div>
+        </div>
+        <div class="screen">
+            <img src="timeleft-04.png" alt="Another scroll position">
+            <div class="label">04 — Extended Scroll Position</div>
+        </div>
+        <div class="screen">
+            <img src="timeleft-05.png" alt="Settings or add area">
+            <div class="label">05 — Settings / Navigation Area</div>
+        </div>
+        <div class="screen">
+            <img src="timeleft-06.png" alt="Add countdown view">
+            <div class="label">06 — Add Countdown View</div>
+        </div>
     </div>
 </body>
 </html>
