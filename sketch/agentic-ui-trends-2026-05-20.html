@@ -26,96 +26,84 @@
 
   <div class="hero">
     <h1>Agentic UI Trends</h1>
-    <p class="lead">What interfaces for autonomous software actually look like in 2025. Not predictions. Patterns that are shipping now.</p>
-    <p class="meta">20 May 2026 &middot; Daily Research</p>
+    <p class="lead">What interfaces for autonomous software actually look like. Not predictions. Patterns that are shipping now.</p>
+    <p class="meta">2026-05-20 &middot; Daily Research</p>
   </div>
 
   <main>
-
-    <div class="trend">
+<div class="trend">
       <h2>Generative UI</h2>
       <p class="tagline">Components that materialize mid-conversation</p>
-      <p>Vercel's AI SDK pushed <code>streamUI()</code> and <code>createStreamableUI()</code> into production this year. The idea: the LLM doesn't just return text, it returns React components directly into the chat stream. You ask about the weather, you get a live weather card. You ask about stock prices, you get an interactive chart. Not a link to a dashboard — the dashboard <em>is</em> the reply.</p>
-      <p>This kills the chatbot ceiling where everything degrades to text walls. The trade-off: you need a typed component library on the server, and the LLM needs to know what components exist. But once wired, the conversation becomes the application.</p>
-      <p class="source">Source: <a href="https://sdk.vercel.ai/docs/ai-sdk-ui/generative-user-interfaces">Vercel AI SDK — Generative User Interfaces</a></p>
+      <p>Vercel's AI SDK pushed streamUI() and createStreamableUI() into production. The idea: the LLM doesn't just return text, it returns React components directly into the chat stream. You ask about weather, you get a live weather card. The conversation becomes the application.</p>
+      <p class="source">Source: <a href="https://sdk.vercel.ai/docs/ai-sdk-ui/generative-user-interfaces">Vercel AI SDK</a></p>
     </div>
-
-    <div class="trend">
+<div class="trend">
       <h2>Reasoning UI</h2>
       <p class="tagline">Showing the work</p>
-      <p>OpenAI's o3/o4-mini and Anthropic's extended thinking models output reasoning chains before final answers. The UI pattern that stuck: a collapsible "Thinking" block nested under the assistant bubble, streaming token-by-token in muted gray. Users can expand to audit the logic or collapse to skip to the answer.</p>
-      <p>This isn't a debug feature. It's a trust feature. When an agent recommends a $50K infrastructure change, the user wants to see <em>how</em> it got there. The design problem: reasoning chains can be long and noisy. The good implementations truncate gracefully and let power users expand.</p>
-      <p class="source">Sources: <a href="https://openai.com/index/introducing-o3-and-o4-mini/">OpenAI o3/o4-mini</a>, <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic — Building Effective Agents</a></p>
+      <p>OpenAI's o3/o4-mini and Anthropic's extended thinking output reasoning chains before final answers. The UI pattern: a collapsible 'Thinking' block nested under the assistant bubble, streaming token-by-token in muted gray. Not a debug feature — a trust feature.</p>
+      <p class="source">Source: <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic</a></p>
     </div>
-
-    <div class="trend">
+<div class="trend">
       <h2>Tool-Use Cards</h2>
       <p class="tagline">Making the invisible visible</p>
-      <p>Anthropic's MCP and Claude Code expose tool calls as inline cards in the conversation. The agent calls a file search, a card appears: "Searching files for 'auth middleware'" with a spinner. When done, the card flips to show results. Destructive actions trigger a permission toast: "Allow edit to package.json?"</p>
-      <p>Before this, tool calls were invisible. The agent would pause mysteriously, then return with an answer. Users had no idea if it was thinking, broken, or calling an API. Tool cards make the agent's hands visible.</p>
-      <p class="source">Source: <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic — Building Effective Agents</a></p>
+      <p>Anthropic's MCP and Claude Code expose tool calls as inline cards. The agent calls a file search, a card appears with a spinner. When done, the card flips to show results. Destructive actions trigger a permission toast. Before this, tool calls were invisible — the agent would pause mysteriously, then return.</p>
+      <p class="source">Source: <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic</a></p>
     </div>
-
-    <div class="trend">
+<div class="trend">
       <h2>Permission Modes</h2>
       <p class="tagline">A dial, not a switch</p>
-      <p>Claude Code offers three tiers: Ask (every tool needs approval), Auto-edit (file writes ok, shell commands ask), and Auto (full autonomy with an audit log side panel). The insight is that autonomy isn't binary. Users want different trust levels for different tasks — refactoring a test file vs. running <code>rm -rf /</code>.</p>
-      <p>The audit log is the critical companion. Full auto without rewind is reckless. The UI needs a time-travel panel showing every action taken, with one-click undo.</p>
-      <p class="source">Source: <a href="https://code.claude.com/docs/en/best-practices">Claude Code Best Practices</a></p>
+      <p>Claude Code offers three tiers: Ask (every tool needs approval), Auto-edit (file writes ok, shell commands ask), and Auto (full autonomy with audit log). Autonomy isn't binary. Full auto without rewind is reckless — the UI needs a time-travel panel with one-click undo.</p>
+      <p class="source">Source: <a href="https://code.claude.com/docs/en/best-practices">Claude Code</a></p>
     </div>
-
-    <div class="trend">
-      <h2>Multi-Agent Orchestration Dashboards</h2>
+<div class="trend">
+      <h2>Multi-Agent Orchestration</h2>
       <p class="tagline">When one brain isn't enough</p>
-      <p>Anthropic's multi-agent research system uses a lead orchestrator that spawns parallel subagents. The UI shows a tree: root query at top, branches for each sub-agent, status badges (running / done / failed), token burn per branch. The final answer synthesizes outputs from all branches.</p>
-      <p>Single-context agents choke on breadth-first tasks like "list all board members of S&amp;P 500 tech companies." Parallel agents solve this, but without visualization, the user has no idea what's happening. The dashboard makes parallel execution legible.</p>
-      <p class="source">Source: <a href="https://www.anthropic.com/engineering/multi-agent-research-system">Anthropic — Multi-Agent Research System</a></p>
+      <p>Anthropic's multi-agent research system uses a lead orchestrator that spawns parallel subagents. The UI shows a tree with status badges (running / done / failed) and token burn per branch. Single-context agents choke on breadth-first tasks. The dashboard makes parallel execution legible.</p>
+      <p class="source">Source: <a href="https://www.anthropic.com/engineering/multi-agent-research-system">Anthropic</a></p>
     </div>
-
-    <div class="trend">
+<div class="trend">
       <h2>Workflow Visualization</h2>
       <p class="tagline">Code as a map</p>
-      <p>Vercel's AI SDK supports directed graphs for agent logic: prompt-chaining, routing, parallelization. The emerging UI pattern: render these as node-edge canvases where each node is an LLM call or tool. Users can trace why the router classified their intent as "billing" instead of "support."</p>
-      <p>This is less about aesthetics and more about debugging. When an agent takes a wrong turn, the map shows exactly where the decision happened. It's the stack trace for agent logic.</p>
-      <p class="source">Source: <a href="https://ai-sdk.dev/docs/agents">Vercel AI SDK — Agents</a></p>
+      <p>Vercel's AI SDK supports directed graphs for agent logic. The emerging pattern: node-edge canvases where each node is an LLM call or tool. When an agent takes a wrong turn, the map shows exactly where the decision happened. It's the stack trace for agent logic.</p>
+      <p class="source">Source: <a href="https://ai-sdk.dev/docs/agents">Vercel AI SDK</a></p>
     </div>
-
-    <div class="trend">
+<div class="trend">
       <h2>Agentic Infrastructure Observability</h2>
       <p class="tagline">Monitoring agents like services</p>
-      <p>Vercel's "Agentic Infrastructure" describes dashboards for agent workloads: traces of model calls, tool invocations, retries. Cost and token-burn graphs per deployment. Sandboxed execution logs. Human-approval queues for autonomous actions.</p>
-      <p>The shift: agents aren't just users of infrastructure, they're creators of it. An agent deploys code, then the infrastructure UI must let humans audit, approve, and roll back those deployments. The platform becomes a human-in-the-loop agent itself.</p>
-      <p class="source">Source: <a href="https://vercel.com/blog/agentic-infrastructure">Vercel — Agentic Infrastructure</a></p>
+      <p>Vercel's Agentic Infrastructure describes dashboards for agent workloads: traces of model calls, tool invocations, retries. Cost and token-burn graphs per deployment. The shift: agents aren't just users of infrastructure, they're creators of it. The platform becomes a human-in-the-loop agent itself.</p>
+      <p class="source">Source: <a href="https://vercel.com/blog/agentic-infrastructure">Vercel</a></p>
     </div>
-
-    <div class="trend">
+<div class="trend">
       <h2>Suggestion Chips</h2>
       <p class="tagline">Steering without typing</p>
-      <p>When agents hit ambiguity, the UI surfaces quick-reply actions: "Compare plans", "Show pricing", "Talk to sales." This pattern, common in ChatGPT and Copilot, reduces cognitive load. The user doesn't need to formulate a follow-up question — they tap a chip.</p>
-      <p>The design risk: too many chips feel like a decision tree from 2005. The good implementations show 2-3 contextually relevant options, not a grid of every possible action.</p>
+      <p>When agents hit ambiguity, the UI surfaces quick-reply actions: 'Compare plans', 'Show pricing', 'Talk to sales.' This reduces cognitive load. The design risk: too many chips feel like a 2005 decision tree. Good implementations show 2-3 contextually relevant options.</p>
+      
     </div>
-
-    <div class="trend">
+<div class="trend">
       <h2>Context Source Indicators</h2>
       <p class="tagline">What the agent actually knows</p>
-      <p>MCP-connected agents pull from files, APIs, and databases. The UI needs to show <em>which</em> sources are loaded. A subtle indicator — "Reading from 3 files" with an expandable list — tells the user whether the answer is grounded in their actual data or hallucinated from training.</p>
-      <p>This is the citation bar for the agentic era. Without it, users can't distinguish between "the agent read your codebase" and "the agent made a plausible guess."</p>
+      <p>MCP-connected agents pull from files, APIs, and databases. The UI needs to show which sources are loaded. A subtle indicator — 'Reading from 3 files' with an expandable list — tells the user whether the answer is grounded in actual data or hallucinated from training. This is the citation bar for the agentic era.</p>
+      
     </div>
-
-    <div class="trend">
+<div class="trend">
       <h2>Declarative Agent Builder</h2>
       <p class="tagline">No-code agent creation</p>
-      <p>Microsoft's Copilot Studio lets non-developers build agents via form UIs: pick knowledge sources, define trigger phrases, set conversational topics. The agent compiles to a JSON manifest. An evaluation pane tests against sample utterances before publish.</p>
-      <p>This democratizes agent creation but creates a governance problem: who approves the HR bot that has access to payroll data? The UI needs admin controls alongside the builder.</p>
-      <p class="source">Source: <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/">Microsoft 365 Copilot Extensibility</a></p>
+      <p>Microsoft's Copilot Studio lets non-developers build agents via form UIs: pick knowledge sources, define trigger phrases, set conversational topics. The agent compiles to a JSON manifest. This democratizes agent creation but creates governance problems: who approves the HR bot with payroll access?</p>
+      <p class="source">Source: <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/">Microsoft</a></p>
     </div>
+
+<div class="trend"><h2>Live Source Check</h2><ul>
+<li><a href="https://sdk.vercel.ai/docs/ai-sdk-ui/generative-user-interfaces">AI SDK UI: Generative User Interfaces</a></li>
+<li><a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective AI Agents \ Anthropic</a></li>
+<li><a href="https://vercel.com/blog/agentic-infrastructure">Agentic Infrastructure - Vercel</a></li>
+<li><a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system \ Anthropic</a></li>
+</ul></div>
 
     <div class="closing">
       <h2>What this means for designers</h2>
       <p>The agentic era isn't just chatbots with better CSS. It's a new interaction paradigm where conversations generate interfaces, trust requires transparency, autonomy needs guardrails, parallel work needs visualization, and debugging needs maps.</p>
       <p>The designers who get this aren't the ones adding AI sparkle to existing UIs. They're the ones rethinking what a user interface <em>is</em> when the software thinks for itself.</p>
     </div>
-
   </main>
 </body>
 </html>
