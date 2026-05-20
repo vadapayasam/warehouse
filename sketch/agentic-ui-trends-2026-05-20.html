@@ -19,6 +19,86 @@
   .trend .source a:hover { text-decoration: underline; }
   .closing { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
   .closing h2 { font-size: 1.125rem; font-weight: 600; }
+
+  /* ---- DEMOS ---- */
+  .demo-frame { background: #0f0f0f; border: 1px solid #333; border-radius: 14px; margin: 1rem 0 1.25rem; overflow: hidden; position: relative; }
+  .demo-frame-header { display: flex; gap: 6px; padding: 10px 14px; background: #1a1a1a; border-bottom: 1px solid #2a2a2a; }
+  .demo-frame-header span { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
+  .demo-frame-header span:nth-child(1){ background: #ff5f56; }
+  .demo-frame-header span:nth-child(2){ background: #ffbd2e; }
+  .demo-frame-header span:nth-child(3){ background: #27c93f; }
+  .demo-body { padding: 22px 18px; color: #c7c7c7; font-size: 0.85rem; line-height: 1.45; }
+  .demo-caption { font-size: 0.75rem; color: #666; padding: 10px 14px; border-top: 1px solid #2a2a2a; background: #1a1a1a; }
+
+  /* Chat + Card */
+  .chat-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .chat-avatar { width: 28px; height: 28px; border-radius: 50%; background: #2b6cb0; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .chat-bubble { background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 10px 14px; max-width: 320px; }
+  .card { background: #161616; border: 1px solid #333; border-radius: 10px; padding: 14px; margin-top: 6px; }
+  .card-row { display: flex; justify-content: space-between; font-size: 0.82rem; }
+  .card-row + .card-row { margin-top: 6px; padding-top: 6px; border-top: 1px solid #2a2a2a; }
+  .live-dot { display: inline-block; width: 6px; height: 6px; background: #27c93f; border-radius: 50%; animation: pulse 1.4s infinite; }
+  @keyframes pulse { 0%,100%{ opacity: 1; } 50%{ opacity: 0.4; } }
+
+  /* Thinking block */
+  .thinking { background: #111; border: 1px dashed #333; border-radius: 10px; padding: 10px 12px; color: #777; font-size: 0.82rem; }
+  .thinking .caret { display: inline-block; width: 2px; height: 13px; background: #777; animation: blink 1s step-end infinite; margin-left: 3px; vertical-align: middle; }
+  @keyframes blink { 0%,100%{ opacity: 0; } 50%{ opacity: 1; } }
+
+  /* Tool search card */
+  .tool-card { display: flex; align-items: center; gap: 10px; background: #141414; border: 1px solid #333; border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; }
+  .spinner { width: 14px; height: 14px; border: 2px solid #333; border-top-color: #4caf50; border-radius: 50%; animation: spin .8s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to{ transform: rotate(360deg); } }
+  .success-dot { width: 14px; height: 14px; background: #4caf50; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #fff; flex-shrink: 0; }
+
+  /* Permission dial */
+  .dial { display: flex; gap: 6px; flex-wrap: wrap; }
+  .dial label { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border: 1px solid #333; border-radius: 20px; font-size: 0.82rem; cursor: pointer; }
+  .dial [type="radio"]{ appearance: none; width: 12px; height: 12px; border: 2px solid #555; border-radius: 50%; margin: 0; }
+  .dial [type="radio"]:checked{ border-color: #4caf50; box-shadow: inset 0 0 0 3px #4caf50; }
+  .dial .active-dial { border-color: #4caf50; background: rgba(76,175,80,0.08); }
+
+  /* Tree */
+  .tree { display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; }
+  .tree-node { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 6px; background: #151515; border-left: 3px solid #555; }
+  .tree-node.root { border-left-color: #4caf50; background: #112211; }
+  .badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .badge-run { background: rgba(76,175,80,0.12); color: #4caf50; }
+  .badge-done { background: rgba(255,255,255,0.05); color: #888; }
+
+  /* Graph */
+  .graph { display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.82rem; }
+  .g-node { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid #444; border-radius: 6px; background: #141414; }
+  .g-edge { display: inline-flex; align-items: center; color: #555; padding: 0 4px; }
+  .g-node.llm { border-color: #2b6cb0; }
+  .g-node.tool { border-color: #b794f4; }
+
+  /* Dashboard mini */
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+  .dash-cell { background: #141414; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px; }
+  .dash-cell span { display: block; font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+  .dash-cell .label { font-size: 0.75rem; color: #666; margin-top: 4px; }
+  .trace-bar { height: 4px; border-radius: 2px; background: #333; margin-top: 8px; position: relative; }
+  .trace-fill { height: 100%; border-radius: 2px; }
+  .trace-fill.ok { background: #4caf50; width: 78%; }
+  .trace-fill.warn { background: #ffbd2e; width: 18%; }
+  .trace-fill.err { background: #ff5f56; width: 4%; }
+
+  /* Chips */
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { padding: 6px 12px; border-radius: 16px; border: 1px solid #444; background: #151515; font-size: 0.82rem; color: #ccc; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); cursor: pointer; }
+  .chip.dim { opacity: 0.35; }
+
+  /* Source indicator */
+  .src-ind { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px; border: 1px solid #333; background: #141414; font-size: 0.82rem; }
+  .src-ind .num { font-weight: 700; color: var(--accent); }
+
+  /* Builder */
+  .builder { display: flex; flex-direction: column; gap: 8px; }
+  .builder-field { background: #141414; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px 12px; font-size: 0.82rem; }
+  .builder-field strong { display: block; font-weight: 600; color: #ccc; margin-bottom: 4px; }
+  .builder-field .val { color: #777; }
 </style>
 </head>
 <body class="article">
@@ -35,60 +115,325 @@
       <h2>Generative UI</h2>
       <p class="tagline">Components that materialize mid-conversation</p>
       <p>Vercel's AI SDK pushed streamUI() and createStreamableUI() into production. The idea: the LLM doesn't just return text, it returns React components directly into the chat stream. You ask about weather, you get a live weather card. The conversation becomes the application.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <div class="chat-row">
+          <div class="chat-avatar">U</div>
+          <div class="chat-bubble">What's the weather in Chennai?</div>
+        </div>
+        <div class="chat-row">
+          <div class="chat-avatar" style="background:#b794f4;">A</div>
+          <div class="chat-bubble">
+            <p style="margin-bottom:8px;">Checking live data...</p>
+            <div class="card">
+              <div class="card-row"><b>Chennai, IN</b> <span class="live-dot"></span></div>
+              <div class="card-row">Feels like 37°C &middot; Humid</div>
+              <div class="card-row">High 39° &middot; Low 31°</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-caption">Components render in-stream. The reply isn't text - it's a live weather card.</div>
+    </div>
+
       <p class="source">Source: <a href="https://sdk.vercel.ai/docs/ai-sdk-ui/generative-user-interfaces">Vercel AI SDK</a></p>
     </div>
 <div class="trend">
       <h2>Reasoning UI</h2>
       <p class="tagline">Showing the work</p>
       <p>OpenAI's o3/o4-mini and Anthropic's extended thinking output reasoning chains before final answers. The UI pattern: a collapsible 'Thinking' block nested under the assistant bubble, streaming token-by-token in muted gray. Not a debug feature — a trust feature.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <div class="chat-row">
+          <div class="chat-avatar">U</div>
+          <div class="chat-bubble">Is this stock a buy at $180?</div>
+        </div>
+        <div class="chat-row">
+          <div class="chat-avatar" style="background:#b794f4;">A</div>
+          <div class="chat-bubble" style="max-width:380px;">
+            <div class="thinking">
+              <b>Thinking</b> <span style="color:#555;">(12s)</span>
+              <br><br>
+              Checking P/E against industry... 24.3 vs avg 21.5 &middot; slightly high.
+              <br>Revenue growth: 18% YoY. Margin expansion: +210bps.
+              <br>Competitor A trades at 22x. But revenue growth is slower.
+              <br>Risk: tariff exposure on semiconductor supply chain.
+              <br>...<span class="caret"></span>
+            </div>
+            <p style="margin-top:10px;">At $180 it's fairly valued. Buy on any dip below $170 where margin of safety opens up.</p>
+          </div>
+        </div>
+      </div>
+      <div class="demo-caption">The reasoning chain streams before the answer. Users expand to audit, collapse to skip ahead.</div>
+    </div>
+
       <p class="source">Source: <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic</a></p>
     </div>
 <div class="trend">
       <h2>Tool-Use Cards</h2>
       <p class="tagline">Making the invisible visible</p>
       <p>Anthropic's MCP and Claude Code expose tool calls as inline cards. The agent calls a file search, a card appears with a spinner. When done, the card flips to show results. Destructive actions trigger a permission toast. Before this, tool calls were invisible — the agent would pause mysteriously, then return.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <div class="chat-row">
+          <div class="chat-avatar">U</div>
+          <div class="chat-bubble">Find all TODO comments in the auth module.</div>
+        </div>
+        <div style="padding-left: 38px;">
+          <div class="tool-card">
+            <div class="spinner"></div>
+            <span>Searching <code>auth/</code> for <code>TODO</code>...</span>
+          </div>
+          <div class="tool-card" style="margin-top:6px; opacity:0.85;">
+            <div class="success-dot">&#10003;</div>
+            <span>3 found in <code>auth/session.py</code> line 42, 58, 61</span>
+          </div>
+        </div>
+        <div class="chat-row" style="margin-top:12px;">
+          <div class="chat-avatar" style="background:#b794f4;">A</div>
+          <div class="chat-bubble">Found 3 TODOs. Two of them are about the same broken retry logic.</div>
+        </div>
+      </div>
+      <div class="demo-caption">Tool calls become visible cards. The user knows what the agent is doing instead of watching a cursor blink.</div>
+    </div>
+
       <p class="source">Source: <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic</a></p>
     </div>
 <div class="trend">
       <h2>Permission Modes</h2>
       <p class="tagline">A dial, not a switch</p>
       <p>Claude Code offers three tiers: Ask (every tool needs approval), Auto-edit (file writes ok, shell commands ask), and Auto (full autonomy with audit log). Autonomy isn't binary. Full auto without rewind is reckless — the UI needs a time-travel panel with one-click undo.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <p style="color:#888;margin-bottom:12px;font-size:0.82rem;">Permission mode:</p>
+        <div class="dial">
+          <label><input type="radio" name="perm" value="ask"> Ask me</label>
+          <label class="active-dial"><input type="radio" name="perm" value="auto-edit" checked> Auto-edit</label>
+          <label><input type="radio" name="perm" value="auto"> Full auto</label>
+        </div>
+        <div style="margin-top:18px; padding:12px; background:#0f0f0f; border-radius:8px; border:1px solid #2a2a2a;">
+          <p style="color:#888; font-size:0.8rem;"><b style="color:#ccc;">Auto-edit</b> — Edits need approval. Shell commands ask.</p>
+          <p style="color:#888; font-size:0.8rem; margin-top:6px;"><b style="color:#ccc;">Recent edits:</b></p>
+          <div style="margin-top:6px; display:flex; flex-direction:column; gap:6px;">
+            <span style="font-size:0.78rem; color:#555;"><span style="color:#4caf50;">+</span> auth/session.py &middot; retryCount raised to 5</span>
+            <span style="font-size:0.78rem; color:#555;"><span style="color:#ff5f56;">-</span> auth/session.py &middot; removed dead fallback</span>
+          </div>
+          <button style="margin-top:12px; width:100%; padding:8px; border:1px solid #333; background:#1a1a1a; color:#ccc; border-radius:6px; cursor:pointer;">Undo all changes in this session</button>
+        </div>
+      </div>
+      <div class="demo-caption">Autonomy as a dial, not a switch. Rollback for every session protects users from full-auto disasters.</div>
+    </div>
+
       <p class="source">Source: <a href="https://code.claude.com/docs/en/best-practices">Claude Code</a></p>
     </div>
 <div class="trend">
       <h2>Multi-Agent Orchestration</h2>
       <p class="tagline">When one brain isn't enough</p>
       <p>Anthropic's multi-agent research system uses a lead orchestrator that spawns parallel subagents. The UI shows a tree with status badges (running / done / failed) and token burn per branch. Single-context agents choke on breadth-first tasks. The dashboard makes parallel execution legible.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <div class="tree">
+          <div class="tree-node root">
+            <span style="flex:1;"><b>Lead Agent</b> — research query: "Agentic UI trends"</span>
+            <span class="badge badge-run">Running</span>
+          </div>
+          <div class="tree-node" style="margin-left:20px;">
+            <span style="flex:1;"><b>Sub 01</b> — scrape latest docs (Vercel, Anthropic)</span>
+            <span class="badge badge-done">Done</span>
+          </div>
+          <div class="tree-node" style="margin-left:20px;">
+            <span style="flex:1;"><b>Sub 02</b> — analyze community sentiment (Reddit, HN)</span>
+            <span class="badge badge-run">Running</span>
+          </div>
+          <div class="tree-node" style="margin-left:20px;">
+            <span style="flex:1;"><b>Sub 03</b> — verify design system compatibility</span>
+            <span class="badge badge-done">Done</span>
+          </div>
+          <div class="tree-node" style="margin-left:20px;">
+            <span style="flex:1;"><b>Sub 04</b> — extract code patterns (GitHub)</span>
+            <span class="badge badge-run">Running</span>
+          </div>
+        </div>
+        <div style="margin-top:14px; display:flex; gap:16px; font-size:0.78rem; color:#666;">
+          <span>Tokens: 12.4K</span>
+          <span>Time: 3m 12s</span>
+          <span><b style="color:#888;">3 active / 1 queued</b></span>
+        </div>
+      </div>
+      <div class="demo-caption">A tree makes parallel agent execution legible. Status, token burn, and time visible at every node.</div>
+    </div>
+
       <p class="source">Source: <a href="https://www.anthropic.com/engineering/multi-agent-research-system">Anthropic</a></p>
     </div>
 <div class="trend">
       <h2>Workflow Visualization</h2>
       <p class="tagline">Code as a map</p>
       <p>Vercel's AI SDK supports directed graphs for agent logic. The emerging pattern: node-edge canvases where each node is an LLM call or tool. When an agent takes a wrong turn, the map shows exactly where the decision happened. It's the stack trace for agent logic.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <div class="graph">
+          <div class="g-node llm"><span style="display:inline-block;width:6px;height:6px;background:#2b6cb0;border-radius:50%;margin-right:4px;"></span>parse request</div>
+          <div class="g-edge">→</div>
+          <div class="g-node tool"><span style="display:inline-block;width:6px;height:6px;background:#b794f4;border-radius:50%;margin-right:4px;"></span>search files</div>
+          <div class="g-edge">→</div>
+          <div class="g-node llm"><span style="display:inline-block;width:6px;height:6px;background:#2b6cb0;border-radius:50%;margin-right:4px;"></span>classify intent</div>
+          <div class="g-edge">→</div>
+          <div class="g-node tool"><span style="display:inline-block;width:6px;height:6px;background:#b794f4;border-radius:50%;margin-right:4px;"></span>deploy to Vercel</div>
+          <div class="g-edge">→</div>
+          <div class="g-node llm"><span style="display:inline-block;width:6px;height:6px;background:#2b6cb0;border-radius:50%;margin-right:4px;"></span>return result</div>
+        </div>
+        <div style="margin-top:16px; padding:10px; background:#0f0f0f; border-radius:6px; border:1px solid #2a2a2a;">
+          <p style="font-size:0.78rem; color:#888;"><b style="color:#ccc;">Node #2 failed:</b> fileSearch returned 0 results for "auth/session.py" — likely outdated path.</p>
+          <p style="font-size:0.78rem; color:#888; margin-top:4px;">Click any node to inspect input/output payload.</p>
+        </div>
+      </div>
+      <div class="demo-caption">Agent logic as a directed graph. Errors trace to the exact node that failed, with payloads inspectable inline.</div>
+    </div>
+
       <p class="source">Source: <a href="https://ai-sdk.dev/docs/agents">Vercel AI SDK</a></p>
     </div>
 <div class="trend">
       <h2>Agentic Infrastructure Observability</h2>
       <p class="tagline">Monitoring agents like services</p>
       <p>Vercel's Agentic Infrastructure describes dashboards for agent workloads: traces of model calls, tool invocations, retries. Cost and token-burn graphs per deployment. The shift: agents aren't just users of infrastructure, they're creators of it. The platform becomes a human-in-the-loop agent itself.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <div class="dash-grid">
+          <div class="dash-cell"><span>24</span><div class="label">Requests / min</div></div>
+          <div class="dash-cell"><span>142K</span><div class="label">Tokens burned</div></div>
+          <div class="dash-cell"><span>$0.43</span><div class="label">Cost / hr</div></div>
+          <div class="dash-cell"><span>23ms</span><div class="label">Avg latency</div></div>
+        </div>
+        <div style="margin-top:16px;">
+          <p style="font-size:0.82rem; color:#888;"><b>Trace health (last hour)</b></p>
+          <div class="trace-bar"><div class="trace-fill ok"></div></div>
+          <div style="display:flex; gap:14px; margin-top:6px; font-size:0.72rem; color:#666;">
+            <span><span style="color:#4caf50;">&#9632;</span> 78% OK</span>
+            <span><span style="color:#ffbd2e;">&#9632;</span> 18% Retry</span>
+            <span><span style="color:#ff5f56;">&#9632;</span> 4% Fail</span>
+          </div>
+        </div>
+      </div>
+      <div class="demo-caption">Dashboard for agent workloads. Traces, retries, token burn, cost — agents treated like actual services.</div>
+    </div>
+
       <p class="source">Source: <a href="https://vercel.com/blog/agentic-infrastructure">Vercel</a></p>
     </div>
 <div class="trend">
       <h2>Suggestion Chips</h2>
       <p class="tagline">Steering without typing</p>
       <p>When agents hit ambiguity, the UI surfaces quick-reply actions: 'Compare plans', 'Show pricing', 'Talk to sales.' This reduces cognitive load. The design risk: too many chips feel like a 2005 decision tree. Good implementations show 2-3 contextually relevant options.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <div class="chat-row">
+          <div class="chat-avatar">U</div>
+          <div class="chat-bubble">What plan should I pick for 50 employees?</div>
+        </div>
+        <div class="chat-row">
+          <div class="chat-avatar" style="background:#b794f4;">A</div>
+          <div class="chat-bubble">
+            For 50 employees, the Business plan at $299/mo covers everything. Need to compare?
+            <div class="chips" style="margin-top:10px;">
+              <span class="chip">Compare with Enterprise</span>
+              <span class="chip">Show pricing table</span>
+              <span class="chip">Talk to sales</span>
+            </div>
+          </div>
+        </div>
+        <div class="chat-row" style="opacity:0.55;">
+          <div class="chat-avatar">U</div>
+          <div class="chat-bubble">Compare with Enterprise</div>
+        </div>
+      </div>
+      <div class="demo-caption">Contextual quick-replies steer the conversation without typing. Too many chips feels like a decision tree — 2 or 3 is the sweet spot.</div>
+    </div>
       
     </div>
 <div class="trend">
       <h2>Context Source Indicators</h2>
       <p class="tagline">What the agent actually knows</p>
       <p>MCP-connected agents pull from files, APIs, and databases. The UI needs to show which sources are loaded. A subtle indicator — 'Reading from 3 files' with an expandable list — tells the user whether the answer is grounded in actual data or hallucinated from training. This is the citation bar for the agentic era.</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <div class="chat-row">
+          <div class="chat-avatar">U</div>
+          <div class="chat-bubble">What are our top SKUs by revenue this week?</div>
+        </div>
+        <div style="padding-left: 38px;">
+          <div class="src-ind" style="margin-bottom:6px;">
+            <span style="color:#4caf50;">&#9679;</span> Reading from <span class="num">3 sources</span> <span style="color:#444;">|</span> <span style="color:#888;">&#9660;</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px; padding-left:8px;">
+            <span style="font-size:0.78rem; color:#555;"><span style="color:#4caf50;">&#9679;</span> orders.db (live)</span>
+            <span style="font-size:0.78rem; color:#555;"><span style="color:#4caf50;">&#9679;</span> pricing_api_v2.json (cached 2m)</span>
+            <span style="font-size:0.78rem; color:#555;"><span style="color:#ffbd2e;">&#9679;</span> product_catalog.csv (stale, 6h)</span>
+          </div>
+        </div>
+        <div class="chat-row" style="margin-top:10px;">
+          <div class="chat-avatar" style="background:#b794f4;">A</div>
+          <div class="chat-bubble">Top 3 SKUs: PRO-3000 ($48K), LITE-1200 ($31K), DEV-500 ($19K). Catalog data is 6h old, so check inventory before finalizing.</div>
+        </div>
+      </div>
+      <div class="demo-caption">The citation bar for agents. Green = live, yellow = stale. Tells the user whether the answer is grounded in data or training.</div>
+    </div>
       
     </div>
 <div class="trend">
       <h2>Declarative Agent Builder</h2>
       <p class="tagline">No-code agent creation</p>
       <p>Microsoft's Copilot Studio lets non-developers build agents via form UIs: pick knowledge sources, define trigger phrases, set conversational topics. The agent compiles to a JSON manifest. This democratizes agent creation but creates governance problems: who approves the HR bot with payroll access?</p>
+
+    <div class="demo-frame">
+      <div class="demo-frame-header"><span></span><span></span><span></span></div>
+      <div class="demo-body">
+        <p style="color:#888; margin-bottom:12px; font-size:0.82rem;"><b>Build an agent — 4 steps</b></p>
+        <div class="builder">
+          <div class="builder-field">
+            <strong>1. Name it</strong>
+            <div class="val">Payroll Helper</div>
+          </div>
+          <div class="builder-field">
+            <strong>2. Add knowledge</strong>
+            <div class="val">intranet://payroll-guide.pdf, intranet://leave-policy-2026.docx</div>
+          </div>
+          <div class="builder-field">
+            <strong>3. Set triggers</strong>
+            <div class="val">"Check my paystub", "Submit leave request", "Tax withholding"</div>
+          </div>
+          <div class="builder-field">
+            <strong>4. Permissions</strong>
+            <div class="val">
+              <span style="color:#ffbd2e;">&#9632; Read-only access to payroll records</span>
+              <br>
+              <span style="color:#ff5f56;">&#9632; Cannot edit or approve</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px; padding:10px; background:#0f0f0f; border-radius:6px; border:1px solid #2a2a2a;">
+          <p style="font-size:0.78rem; color:#555;"><b style="color:#888;">Manifest:</b> On publish, compiles to agent.json. Deployed to Teams. Governance review pending.</p>
+        </div>
+      </div>
+      <div class="demo-caption">Form-based agent builder. Non-devs create agents, but permissions and governance remain the bottleneck.</div>
+    </div>
+
       <p class="source">Source: <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/">Microsoft</a></p>
     </div>
 
