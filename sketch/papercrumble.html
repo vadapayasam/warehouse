@@ -30,7 +30,7 @@
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 16px;
       margin-bottom: 32px;
     }
@@ -51,8 +51,10 @@
     }
     .section { margin-bottom: 40px; }
     .section h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; color: #c0c0d0; }
+    .section h3 { font-size: 1.1rem; font-weight: 600; margin: 24px 0 12px; color: #d0d0e0; }
     .section p, .section li { color: #9a9aaa; font-size: 0.95rem; margin-bottom: 8px; }
     .section ul { padding-left: 20px; }
+    .section ul ul { margin-top: 6px; }
     code {
       background: #252530;
       padding: 2px 8px;
@@ -88,6 +90,36 @@
       flex-wrap: wrap;
       margin-bottom: 24px;
     }
+    .version-badge {
+      display: inline-block;
+      background: #3a3a55;
+      color: #c0c0e0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .phone-frame {
+      background: #18181f;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .phone-frame img {
+      max-width: 360px;
+      width: 100%;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    .two-up {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .two-up .stage-card img { height: 100%; object-fit: cover; }
   </style>
 </head>
 <body>
@@ -101,6 +133,69 @@
       <span class="tag">Shape + Canvas</span>
       <span class="tag">LeaveHack feature</span>
     </div>
+
+    <!-- ── V2 ── -->
+    <div class="version-badge">🔥 V2 — iPhone Prototype</div>
+
+    <div class="phone-frame">
+      <img src="crumplev2/v2_iphone.png" alt="V2 iPhone prototype: two paper cards in crumpled state inside device frame">
+    </div>
+
+    <div class="two-up">
+      <div class="stage-card">
+        <img src="crumplev2/v2_crumpled.png" alt="V2 crumpled state">
+        <div class="label">Crumpled — text visible, creases inside</div>
+      </div>
+      <div class="stage-card">
+        <img src="crumplev2/v2_flat.png" alt="V2 flat state">
+        <div class="label">Flat — torn paper cut-out edges</div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <img src="crumple_v2_strip.png" alt="V2 5 stages: ball, rough, warped, near flat, flat with torn edges">
+    </div>
+
+    <div class="grid">
+      <div class="stage-card">
+        <img src="crumple_v2_00.png" alt="V2 Stage 1: Crumpled ball">
+        <div class="label">Ball — "Leave" readable</div>
+      </div>
+      <div class="stage-card">
+        <img src="crumple_v2_25.png" alt="V2 Stage 2: Unfurling">
+        <div class="label">Rough — "Pending" emerging</div>
+      </div>
+      <div class="stage-card">
+        <img src="crumple_v2_50.png" alt="V2 Stage 3: Rough Rectangle">
+        <div class="label">Warped — detail lines fade in</div>
+      </div>
+      <div class="stage-card">
+        <img src="crumple_v2_75.png" alt="V2 Stage 4: Near Flat">
+        <div class="label">Near Flat — torn edges appear</div>
+      </div>
+      <div class="stage-card">
+        <img src="crumple_v2_100.png" alt="V2 Stage 5: Flat Card">
+        <div class="label">Flat — full card, cut-out edges</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>V2 What's New</h2>
+      <ul>
+        <li><strong>iPhone device frame</strong> — 393×852 iPhone 14 Pro chassis with Dynamic Island, black bezel, and shadow</li>
+        <li><strong>Two-card layout</strong> — upper-center card (Leave Request) and lower card (Pending status) per Figma spec</li>
+        <li><strong>Torn paper cut-out edges</strong> — V-shaped notches on top and bottom edges when fully flat, not straight lines</li>
+        <li><strong>Creases inside crumpled ball</strong> — Canvas-drawn primary creases + fine hatch wrinkles, denser and shorter in ball state, fading as paper expands</li>
+        <li><strong>Text visible when crumpled</strong> — "Leave" and "Pending" readable even in tight ball state via minimumScaleFactor; detail lines fade in progressively</li>
+        <li><strong>Tap to toggle</strong> — each card springs between crumpled (0) and flat (1) independently</li>
+      </ul>
+      <div class="file-path">
+        <code>~/Projects/PaperCrumblePrototype/Sources/PaperCrumblePrototype/PaperCrumbleV2App.swift</code>
+      </div>
+    </div>
+
+    <!-- ── V1 ── -->
+    <div class="version-badge">V1 — Original 5-Stage</div>
 
     <div class="strip">
       <img src="crumple_strip.png" alt="5 stages of paper crumple: from ball to flat card">
@@ -130,7 +225,7 @@
     </div>
 
     <div class="section">
-      <h2>How It Works</h2>
+      <h2>V1 How It Works</h2>
       <ul>
         <li><strong>CrumpleGeometry</strong> — single <code>Double progress</code> (0→1) drives all visual properties: size, wiggle, shadow, float offset, rotation, content opacity.</li>
         <li><strong>4 Path Generators</strong> — one for each stage band:
@@ -143,8 +238,11 @@
         </li>
         <li><strong>CreaseOverlay</strong> — Canvas-drawn diagonal creases + fine wrinkles, faded by progress. Clipped to the paper shape.</li>
         <li><strong>PaperCardContent</strong> — LeaveHack calendar UI (header, mini grid, legend, CTA) with opacity keyed to progress.</li>
-        <li><strong>InteractiveCrumpleCard> — tap toggles between progress 0 and 1 with spring animation.</li>
+        <li><strong>InteractiveCrumpleCard</strong> — tap toggles between progress 0 and 1 with spring animation.</li>
       </ul>
+      <div class="file-path">
+        <code>~/Projects/PaperCrumblePrototype/Sources/PaperCrumblePrototype/PaperCrumblePrototypeApp.swift</code>
+      </div>
     </div>
 
     <div class="section">
@@ -156,14 +254,6 @@
         <li><strong>Stage 4</strong> matches "Paper crumble 4" — near-flat, curved top/bottom, content emerging</li>
         <li><strong>Stage 5</strong> matches "Paper crumble 5" — full card with subtle waviness, all UI visible</li>
       </ul>
-    </div>
-
-    <div class="section">
-      <h2>File Location</h2>
-      <div class="file-path">
-        <code>~/Projects/PaperCrumblePrototype/Sources/PaperCrumblePrototype/PaperCrumblePrototypeApp.swift</code>
-      </div>
-      <p>Everything is in one file. Drop it into a new iOS SwiftUI project (Xcode → New Project → App) and replace ContentView.swift.</p>
     </div>
   </div>
 </body>
