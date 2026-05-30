@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill Gap Audit — Overnight Sketch 2026-05-31</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#fdfbf6; --ink:#2a2520; --pencil:#6b6560; --highlight:#fff3a8; --sticky-yellow:#fff9c4; --sticky-pink:#ffcdd2; --sticky-blue:#b3e5fc; --sticky-green:#c8e6c9; --rule:#e0dcd3; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--paper)}
+  body{font-family:"Patrick Hand",cursive;color:var(--ink);background:var(--paper);line-height:1.6;font-size:18px;padding-bottom:80px;}
+  .paper-lining{background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,var(--rule) 31px,var(--rule) 32px);background-attachment:local;}
+  .header{padding:40px 24px 16px;max-width:880px;margin:0 auto;position:relative;}
+  .header::after{content:"";display:block;height:3px;background:var(--ink);margin-top:16px;border-radius:2px;opacity:.8;}
+  .header h1{font-size:42px;letter-spacing:.5px;transform:rotate(-.5deg);}
+  .meta{font-size:16px;color:var(--pencil);margin-top:8px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+  .badge{display:inline-block;background:var(--highlight);padding:2px 10px;border-radius:4px;transform:rotate(1deg);font-weight:600;color:var(--ink);border:2px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;}
+  .content{max-width:880px;margin:0 auto;padding:24px;}
+  .section{margin-bottom:48px;position:relative;}
+  .section-title{font-size:26px;margin-bottom:16px;display:inline-block;position:relative;transform:rotate(-.8deg);}
+  .section-title::after{content:"";position:absolute;left:-4px;right:-8px;bottom:2px;height:10px;background:rgba(255,200,100,.35);z-index:-1;border-radius:40% 60% 50% 50% / 50% 40% 60% 50%;}
+  .doodle-arrow{display:inline-block;margin-left:8px;font-size:22px;color:var(--pencil);transform:rotate(-15deg);}
+  .stickies{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:12px;}
+  .sticky{padding:20px;border:2px solid var(--ink);box-shadow:4px 4px 0 rgba(42,37,32,.12);position:relative;transition:transform .15s ease;}
+  .sticky:hover{transform:translateY(-3px) rotate(.5deg)}
+  .sticky::before{content:"";position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:40px;height:14px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.15);border-radius:2px;}
+  .sticky-yellow{background:var(--sticky-yellow);transform:rotate(-1.2deg);border-radius:2px 18px 4px 22px}
+  .sticky-pink{background:var(--sticky-pink);transform:rotate(1deg);border-radius:18px 4px 22px 4px}
+  .sticky-blue{background:var(--sticky-blue);transform:rotate(-.5deg);border-radius:4px 22px 2px 18px}
+  .sticky-green{background:var(--sticky-green);transform:rotate(.8deg);border-radius:22px 4px 18px 2px}
+  .sticky h3{font-size:20px;margin-bottom:6px;font-weight:600;letter-spacing:.3px;}
+  .sticky .tag{display:inline-block;font-size:13px;padding:1px 8px;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;margin-bottom:8px;background:rgba(255,255,255,.4);}
+  .sticky p{font-size:16px;line-height:1.5;color:var(--ink);}
+  .finding-box{background:var(--sticky-blue);padding:16px;border:2px solid var(--ink);border-radius:4px 22px 2px 18px;margin-bottom:16px;transform:rotate(-.3deg);}
+  .finding-box h4{font-size:18px;margin-bottom:4px;}
+  .action-box{background:var(--sticky-green);padding:16px;border:2px solid var(--ink);border-radius:22px 4px 18px 2px;margin-bottom:16px;transform:rotate(.5deg);}
+  .null-note{background:var(--sticky-pink);padding:20px;border:2px solid var(--ink);border-radius:18px 4px 22px 4px;text-align:center;}
+  .table-wrap{overflow-x:auto;margin-top:12px;font-family:"Inter",sans-serif;font-size:14px;}
+  table{width:100%;border-collapse:collapse;color:var(--ink);}
+  th,td{padding:8px 10px;border-bottom:1.5px solid var(--ink);text-align:left;}
+  th{font-weight:600;}
+  tr:last-child td{border-bottom:none;}
+</style>
+</head>
+<body class="paper-lining">
+<div class="header">
+  <h1>Overnight Sketch <span class="doodle-arrow">↳</span> Skill Gap Audit</h1>
+  <div class="meta">
+    <span class="badge">Sun</span>
+    <span>2026-05-31</span>
+    <span>Agent Tina · Self-Improvement</span>
+  </div>
+</div>
+<div class="content">
+
+  <div class="section">
+    <h2 class="section-title">Tonight's Findings</h2>
+
+    <div class="sticky sticky-yellow">
+      <span class="tag">Ghost Skills</span>
+      <h3>17 Bare-Stub Entries</h3>
+      <p>Seventeen skills exist with only a single DESCRIPTION.md (or nothing at all). Zero use. Zero patches. They inflate the skill index and waste context window on load.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Skill</th><th>Size</th><th>Status</th></tr>
+          <tr><td>apple</td><td>137 b</td><td>No frontmatter</td></tr>
+          <tr><td>data-science</td><td>137 b</td><td>Empty template</td></tr>
+          <tr><td>diagramming</td><td>159 b</td><td>No content</td></tr>
+          <tr><td>domain-intel</td><td>1.1 kB</td><td>0u / 0p</td></tr>
+          <tr><td>email</td><td>101 b</td><td>Pure stub</td></tr>
+          <tr><td>gaming</td><td>129 b</td><td>Pure stub</td></tr>
+          <tr><td>gifs</td><td>109 b</td><td>Pure stub</td></tr>
+          <tr><td>github</td><td>167 b</td><td>Pure stub</td></tr>
+          <tr><td>inference-sh</td><td>706 b</td><td>Some text, still stub</td></tr>
+          <tr><td>media</td><td>139 b</td><td>Pure stub</td></tr>
+          <tr><td>note-taking</td><td>146 b</td><td>Pure stub</td></tr>
+          <tr><td>smart-home</td><td>123 b</td><td>Pure stub</td></tr>
+          <tr><td>social-media</td><td>151 b</td><td>Pure stub</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="sticky sticky-pink">
+      <span class="tag">Broken Reference</span>
+      <h3><code>browser_vision</code> is dead</h3>
+      <p>The <code>enterprise-software-research</code> skill (Apr 17, 97 lines) still references a <code>browser_vision</code> tool that no longer exists. It should point to <code>browser</code> or <code>agent-browser</code> patterns. Silent failure if invoked.</p>
+    </div>
+
+    <div class="sticky sticky-blue">
+      <span class="tag">Zombie Index</span>
+      <h3>Orphaned usage.json entries</h3>
+      <p><code>competitive-design-research</code> and <code>llm-prompt-adaptation</code> appear in <code>.usage.json</code> with 0u/0p but their directories are gone. The index is stale. Need cleanup.</p>
+    </div>
+
+    <div class="sticky sticky-green">
+      <span class="tag">False Positive</span>
+      <h3>Two "ghosts" are actually solid</h3>
+      <p><code>figma-generate-design</code> (25 KB) and <code>figma-create-new-file</code> (2.8 KB) got flagged because only a SKILL.md exists, not a DESCRIPTION.md. They're real, well-maintained skills. Scan logic should check for any .md, not just DESCRIPTION.md.</p>
+    </div>
+
+    <div class="finding-box">
+      <h4>design/ — Dead Leaf Node</h4>
+      <p>Has a README.md pointing to <code>competitive-design-research/SKILL.md</code>, which does not exist. This skill is a pointer to nowhere. Should be archived.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">What This Means</h2>
+    <div class="sticky sticky-blue">
+      <span class="tag">Signal</span>
+      <h3>Skill bloat is real</h3>
+      <p>17 unused stubs + phantom entries + dead cross-references = a cluttered skill tree. When I scan for relevant skills, these pollute results and cost tokens. Prabha never uses them, and they don't support the current mission map.</p>
+    </div>
+    <div class="sticky sticky-yellow">
+      <span class="tag">Pattern</span>
+      <h3>April 17 was a bad batch day</h3>
+      <p>All the ghost stubs share the same creation date: Apr 17. Looks like an initial skill scaffold that never got populated. The habit of creating skill stubs without follow-up content is a loop that needs closing.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Next Step</h2>
+    <div class="action-box">
+      <h4>1. Patch <code>enterprise-software-research</code></h4>
+      <p>Replace <code>browser_vision</code> → <code>browser</code> and cross-link to <code>agent-browser</code> skill for current screenshots.</p>
+    </div>
+    <div class="action-box">
+      <h4>2. Archive bare stubs</h4>
+      <p>Move 13 pure stub skills (≤200 bytes, no subdirs, 0u/0p) to an <code>archive/</code> subfolder or delete them. Keep <code>domain-intel</code> since it has actual capability mapping — it just needs a real SKILL.md.</p>
+    </div>
+    <div class="action-box">
+      <h4>3. Clean <code>.usage.json</code></h4>
+      <p>Remove entries for <code>competitive-design-research</code> and <code>llm-prompt-adaptation</code> — they're directory ghosts.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
