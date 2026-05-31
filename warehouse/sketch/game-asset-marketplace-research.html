@@ -3,471 +3,701 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Game Asset Markets — Research Findings</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=S&;wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Game Asset Marketplace Research — 2025/26</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0a0b;
-            --bg-secondary: #111113;
-            --surface: #1a1a1c;
-            --accent: #00d68f;
-            --accent-dim: rgba(0, 214, 143, 0.1);
-            --text-primary: #fafafa;
-            --text-secondary: #a1a1aa;
-            --text-muted: #71717a;
-            --border: rgba(255, 255, 255, 0.06);
+            --bg: #F5F3EE;
+            --surface: #EDEBE6;
+            --text: #1C1C1C;
+            --text-secondary: #6B6B6B;
+            --text-muted: #999993;
+            --accent: #CC4B2C;
+            --accent-soft: rgba(204, 75, 44, 0.08);
+            --border: #E0DDD6;
+            --radius: 8px;
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        
-        /* No em-dashes allowed per Taste Skill */
-        .no-em-dash { letter-spacing: normal; }
-        
-        /* Accents */
-        .accent { color: var(--accent); }
-        .bg-accent { background-color: var(--accent); }
-        .bg-accent-dim { background-color: var(--accent-dim); }
-        
-        /* Surfaces */
-        .surface { background-color: var(--surface); }
-        .bg-secondary { background-color: var(--bg-secondary); }
-        
-        /* Borders */
-        .border-subtle { border-color: var(--border); }
-        
-        /* Text hierarchy */
-        .text-primary { color: var(--text-primary); }
-        .text-secondary { color: var(--text-secondary); }
-        .text-muted { color: var(--text-muted); }
-        
-        /* Status indicators */
-        .status-live::before {
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header — editorial, airy */
+        .page-header {
+            padding: 96px 0 48px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .live-badge::before {
             content: '';
-            display: inline-block;
             width: 6px;
             height: 6px;
-            background-color: var(--accent);
+            background: var(--accent);
             border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: pulse 2s ease infinite;
         }
-        
+
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0.4; }
         }
-        
-        /* Quote styling - regular hyphen, not em-dash */
-        .quote-attribution::before {
-            content: '- ';
+
+        .page-header h1 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+
+        .page-header .subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 540px;
+            line-height: 1.6;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section + .section {
+            border-top: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin-bottom: 48px;
+            line-height: 1.65;
+        }
+
+        /* Metrics strip */
+        .metrics-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin-bottom: 0;
+        }
+
+        .metric {
+            padding: 40px 0;
+        }
+
+        .metric + .metric {
+            border-left: 1px solid var(--border);
+            padding-left: 32px;
+        }
+
+        .metric:first-child { padding-right: 32px; }
+        .metric:last-child { padding-left: 32px; }
+
+        .metric-number {
+            font-size: 56px;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Pain points — vertical flow, not cards */
+        .pain-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .pain-item {
+            display: flex;
+            gap: 28px;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pain-item:first-child { padding-top: 0; }
+        .pain-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .pain-num {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            min-width: 32px;
+            padding-top: 2px;
+        }
+
+        .pain-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .pain-body .pain-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .pain-body blockquote {
+            background: var(--surface);
+            padding: 14px 18px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .pain-body .quote-source {
+            font-size: 12px;
             color: var(--text-muted);
+            margin-top: 8px;
         }
-        
-        /* Clean hover states */
-        .hover-lift:hover {
-            transform: translateY(-2px);
-            transition: transform 0.2s ease;
+
+        /* Opportunities grid — clean, not card-heavy */
+        .opp-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
         }
-        
-        /* Sharp dividers */
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
+
+        .opp-item {
+            background: var(--bg);
+            padding: 28px;
+        }
+
+        .opp-tier {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .opp-tier.high { color: var(--accent); }
+        .opp-tier.medium { color: var(--text-secondary); }
+
+        .opp-item h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .opp-item .opp-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin-bottom: 16px;
+        }
+
+        .opp-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Marketplace grid */
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .market-item {
+            background: var(--bg);
+            padding: 24px;
+        }
+
+        .market-item h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .market-split {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        .market-item ul {
+            list-style: none;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .market-best {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        /* Action plan */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 48px;
+        }
+
+        .action-step .step-num {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .action-step h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .action-step p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Quick win callout */
+        .callout {
+            margin-top: 48px;
+            padding: 32px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .callout-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .callout-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .callout-detail {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .callout-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Footer */
+        .page-footer {
+            padding: 64px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .sources-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            font-size: 14px;
+        }
+
+        .sources-grid h3 {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .sources-grid ul {
+            list-style: none;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .page-header { padding: 64px 0 36px; }
+            .section { padding: 56px 0; }
+            .metrics-strip { grid-template-columns: 1fr; }
+            .metric + .metric { border-left: none; border-top: 1px solid var(--border); padding: 28px 0 28px 0; }
+            .metric { padding: 28px 0; }
+            .opp-grid { grid-template-columns: 1fr; }
+            .market-grid { grid-template-columns: 1fr 1fr; }
+            .action-grid { grid-template-columns: 1fr; gap: 32px; }
+            .callout { flex-direction: column; text-align: center; }
+            .sources-grid { grid-template-columns: 1fr; }
+            .pain-item { flex-direction: column; gap: 12px; }
+        }
+
+        @media (max-width: 480px) {
+            .market-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-    <!-- Header -->
-    <header class="border-b border-subtle">
-        <div class="max-w-6xl mx-auto px-6 py-12">
-            <div class="status-live text-sm font-mono text-secondary mb-6">
-                LIVE FORUM DATA — MAY 31, 2026
+<header class="page-header">
+    <div class="container">
+        <div class="live-badge">Live research — May 31, 2026</div>
+        <h1>Game Asset Marketplace Research</h1>
+        <p class="subtitle">
+            Pain points scraped from Unity Discussions, itch.io Community, and developer forums.
+            Real complaints from real developers.
+        </p>
+    </div>
+</header>
+
+<!-- Metrics -->
+<section class="section" style="padding-top: 0; border-top: none;">
+    <div class="container">
+        <div class="metrics-strip">
+            <div class="metric">
+                <div class="metric-number">23</div>
+                <div class="metric-label">Forum threads analyzed across Unity, itch.io, and Godot</div>
             </div>
-            <h1 class="text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-primary">
-                AI Game Asset Markets
-            </h1>
-            <p class="text-lg text-secondary max-w-2xl leading-relaxed">
-                Pain points scraped from Unity Discussions, itch.io Community, and developer forums. 
-                Real complaints from real developers.
-            </p>
+            <div class="metric">
+                <div class="metric-number">7</div>
+                <div class="metric-label">Core pain categories with direct developer quotes</div>
+            </div>
+            <div class="metric">
+                <div class="metric-number">15+</div>
+                <div class="metric-label">Identified asset gaps suitable for AI-assisted production</div>
+            </div>
         </div>
-    </header>
+    </div>
+</section>
 
-    <main class="max-w-6xl mx-auto px-6 py-12 space-y-16">
+<!-- Pain Points -->
+<section class="section">
+    <div class="container">
+        <div class="section-label">01</div>
+        <h2 class="section-title">Pain Points from Forums</h2>
+        <p class="section-desc">What developers actually complain about. Not what marketplaces say they need.</p>
 
-        <!-- Summary Metrics -->
-        <section>
-            <div class="grid md:grid-cols-3 gap-px bg-black/20 rounded-lg overflow-hidden border border-subtle">
-                <div class="bg-secondary p-6">
-                    <div class="font-mono text-3xl font-semibold accent mb-1">23</div>
-                    <div class="text-sm text-secondary">Forum threads analyzed across Unity, itch.io, Godot forums</div>
-                </div>
-                <div class="bg-secondary p-6">
-                    <div class="font-mono text-3xl font-semibold accent mb-1">7</div>
-                    <div class="text-sm text-secondary">Core pain categories with direct developer quotes</div>
-                </div>
-                <div class="bg-secondary p-6">
-                    <div class="font-mono text-3xl font-semibold accent mb-1">15+</div>
-                    <div class="text-sm text-secondary">Asset gaps suitable for AI generation</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pain Points -->
-        <section>
-            <h2 class="text-xl font-semibold text-primary mb-8 flex items-center gap-3">
-                <span class="w-8 h-8 rounded bg-accent-dim flex items-center justify-center accent text-sm">01</span>
-                Pain Points from Forums
-            </h2>
-            
-            <div class="space-y-6">
-                <!-- Pain Point 1 -->
-                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">1</div>
-                        <div class="flex-1">
-                            <h3 class="text-primary font-medium mb-2">Assets Ship Without Prefabs</h3>
-                            <p class="text-secondary text-sm mb-4">
-                                Animated characters from Asset Store arrive without prefabs or documentation. 
-                                Beginners get stuck on basic setup.
-                            </p>
-                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
-                                "Asset store animated character has no prefab, is there a simple tutorial as to how to fix?"
-                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">Unity Discussions, Getting Started</div>
-                            </blockquote>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Pain Point 2 -->
-                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">2</div>
-                        <div class="flex-1">
-                            <h3 class="text-primary font-medium mb-2">Losing Play Mode Work</h3>
-                            <p class="text-secondary text-sm mb-4">
-                                Developers repeatedly lose changes made in Unity's play mode. 
-                                Exiting play mode wipes unsaved work without warning.
-                            </p>
-                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
-                                "I built a toolkit called DevFlow after losing play mode changes one too many times. 
-                                Five small editor tools that stopped me from throwing my keyboard."
-                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">Unity Community Showcases, 1,200+ upvotes</div>
-                            </blockquote>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Pain Point 3 -->
-                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">3</div>
-                        <div class="flex-1">
-                            <h3 class="text-primary font-medium mb-2">Grey Folder Navigation Hell</h3>
-                            <p class="text-secondary text-sm mb-4">
-                                Large Unity projects become impossible to navigate with identical grey folders everywhere. 
-                                Developers waste time hunting for files.
-                            </p>
-                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
-                                "Working in large Unity projects means identical grey folders everywhere. 
-                                PieDesk 2 makes your project browser visual and fast."
-                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">Unity Community Showcases</div>
-                            </blockquote>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Pain Point 4 -->
-                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">4</div>
-                        <div class="flex-1">
-                            <h3 class="text-primary font-medium mb-2">Physics Netcode Complexity</h3>
-                            <p class="text-secondary text-sm mb-4">
-                                Multiplayer physics games have no good networking solutions. 
-                                DOTS vs GameObjects decision is painful.
-                            </p>
-                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
-                                "Multiplayer movement FPS - fast, physics-driven locomotion. 
-                                Latency and jitter are major issues. DOTS vs GameObjects decision is difficult."
-                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">Unity News & General Discussion</div>
-                            </blockquote>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Pain Point 5 -->
-                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
-                    <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">5</div>
-                        <div class="flex-1">
-                            <h3 class="text-primary font-medium mb-2">Niche Genre Assets Missing</h3>
-                            <p class="text-secondary text-sm mb-4">
-                                Developers with $200-300 budgets cannot find affordable, 
-                                high-quality assets for specific genres like horror or visual novels.
-                            </p>
-                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
-                                "Music composer looking to join indie horror or experimental games."
-                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">itch.io Forums, Help Wanted (13,708 topics)</div>
-                            </blockquote>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <div class="divider"></div>
-
-        <!-- Opportunities -->
-        <section>
-            <h2 class="text-xl font-semibold text-primary mb-8 flex items-center gap-3">
-                <span class="w-8 h-8 rounded bg-accent-dim flex items-center justify-center accent text-sm">02</span>
-                AI-Generable Opportunities
-            </h2>
-            <p class="text-secondary mb-8 max-w-2xl">
-                Gaps identified from forum demand. Products you can build with LLM assistance.
-            </p>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Tier: High Demand -->
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="font-mono text-xs text-accent mb-3">HIGH DEMAND</div>
-                    <h3 class="text-primary font-medium mb-2">Pre-Configured Templates</h3>
-                    <p class="text-sm text-secondary mb-4">
-                        Animated character packs with prefabs ready to use. Zero setup configuration.
-                    </p>
-                    <div class="font-mono text-xs text-muted">
-                        <div>Price: $15-29</div>
-                        <div>Format: .unitypackage + docs</div>
-                    </div>
-                </div>
-
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="font-mono text-xs text-accent mb-3">HIGH DEMAND</div>
-                    <h3 class="text-primary font-medium mb-2">UI Animation Presets</h3>
-                    <p class="text-sm text-secondary mb-4">
-                        DOTween preset collections for common game UI patterns. Devs avoid coding tweens.
-                    </p>
-                    <div class="font-mono text-xs text-muted">
-                        <div>Price: $9-19</div>
-                        <div>Format: Scriptable presets + demo scenes</div>
-                    </div>
-                </div>
-
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="font-mono text-xs text-accent mb-3">HIGH DEMAND</div>
-                    <h3 class="text-primary font-medium mb-2">Colored Folder Icons</h3>
-                    <p class="text-sm text-secondary mb-4">
-                        Visual hierarchy assets for Project Browser. Validated by PieDesk success.
-                    </p>
-                    <div class="font-mono text-xs text-muted">
-                        <div>Price: $5-9</div>
-                        <div>Format: Icon atlas + Editor scripts</div>
-                    </div>
-                </div>
-
-                <!-- Tier: Medium -->
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="font-mono text-xs text-secondary mb-3">MEDIUM</div>
-                    <h3 class="text-primary font-medium mb-2">NPC AI Templates</h3>
-                    <p class="text-sm text-secondary mb-4">
-                        State machines, behavior trees, basic AI controllers. Filling middleware gaps.
-                    </p>
-                    <div class="font-mono text-xs text-muted">
-                        <div>Price: $25-49</div>
-                        <div>Format: Modular scripts + samples</div>
-                    </div>
-                </div>
-
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="font-mono text-xs text-secondary mb-3">MEDIUM</div>
-                    <h3 class="text-primary font-medium mb-2">Genre VFX Packs</h3>
-                    <p class="text-sm text-secondary mb-4">
-                        Horror atmosphere, pixel art explosions, stylized magic. Niche is defensible.
-                    </p>
-                    <div class="font-mono text-xs text-muted">
-                        <div>Price: $19-29</div>
-                        <div>Format: Particle systems + shaders</div>
-                    </div>
-                </div>
-
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="font-mono text-xs text-secondary mb-3">MEDIUM</div>
-                    <h3 class="text-primary font-medium mb-2">Audio Integration Systems</h3>
-                    <p class="text-sm text-secondary mb-4">
-                        Adaptive audio managers, music composer matching tools, SFX categorization.
-                    </p>
-                    <div class="font-mono text-xs text-muted">
-                        <div>Price: $15-25</div>
-                        <div>Format: Manager scripts + docs</div>
-                    </div>
+        <div class="pain-list">
+            <div class="pain-item">
+                <div class="pain-num">1</div>
+                <div class="pain-body">
+                    <h3>Assets Ship Without Prefabs</h3>
+                    <p class="pain-desc">Animated characters from Asset Store arrive without prefabs or documentation. Beginners get stuck on basic setup.</p>
+                    <blockquote>
+                        "Asset store animated character has no prefab, is there a simple tutorial as to how to fix?"
+                        <div class="quote-source">Unity Discussions, Getting Started</div>
+                    </blockquote>
                 </div>
             </div>
-        </section>
 
-        <div class="divider"></div>
-
-        <!-- Marketplaces -->
-        <section>
-            <h2 class="text-xl font-semibold text-primary mb-8 flex items-center gap-3">
-                <span class="w-8 h-8 rounded bg-accent-dim flex items-center justify-center accent text-sm">03</span>
-                Where to Sell
-            </h2>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="text-primary font-medium mb-1">Unity Asset Store</div>
-                    <div class="font-mono text-xs accent mb-3">70/30 split</div>
-                    <ul class="text-sm text-secondary space-y-2">
-                        <li>Massive existing traffic</li>
-                        <li>Built-in discovery</li>
-                        <li>2-3 day approval process</li>
-                        <li>Quality standards enforced</li>
-                    </ul>
-                    <div class="mt-4 text-xs font-mono text-muted">BEST FOR: Full assets with polish</div>
-                </div>
-
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="text-primary font-medium mb-1">itch.io</div>
-                    <div class="font-mono text-xs accent mb-3">90/10 split</div>
-                    <ul class="text-sm text-secondary space-y-2">
-                        <li>Instant publishing</li>
-                        <li>Indie-friendly audience</li>
-                        <li>No approval process</li>
-                        <li>Lower organic traffic</li>
-                    </ul>
-                    <div class="mt-4 text-xs font-mono text-muted">BEST FOR: Rapid iteration, MVPs</div>
-                </div>
-
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="text-primary font-medium mb-1">Gumroad</div>
-                    <div class="font-mono text-xs accent mb-3">~95% after fees</div>
-                    <ul class="text-sm text-secondary space-y-2">
-                        <li>Direct fan relationships</li>
-                        <li>Email marketing built-in</li>
-                        <li>Pay-what-you-want support</li>
-                        <li>Build your own traffic</li>
-                    </ul>
-                    <div class="mt-4 text-xs font-mono text-muted">BEST FOR: Bundles and packs</div>
-                </div>
-
-                <div class="surface border border-subtle rounded-lg p-5">
-                    <div class="text-primary font-medium mb-1">Humble Bundle</div>
-                    <div class="font-mono text-xs text-amber-400 mb-3">Bundle revenue</div>
-                    <ul class="text-sm text-secondary space-y-2">
-                        <li>Massive volume potential</li>
-                        <li>Curated inclusion only</li>
-                        <li>Requires existing products</li>
-                        <li>Lower per-unit revenue</li>
-                    </ul>
-                    <div class="mt-4 text-xs font-mono text-muted">BEST FOR: Established catalogs</div>
+            <div class="pain-item">
+                <div class="pain-num">2</div>
+                <div class="pain-body">
+                    <h3>Losing Play Mode Work</h3>
+                    <p class="pain-desc">Developers repeatedly lose changes made in Unity's play mode. Exiting play mode wipes unsaved work without warning.</p>
+                    <blockquote>
+                        "I built a toolkit called DevFlow after losing play mode changes one too many times. Five small editor tools that stopped me from throwing my keyboard."
+                        <div class="quote-source">Unity Community Showcases, 1,200+ upvotes</div>
+                    </blockquote>
                 </div>
             </div>
-        </section>
 
-        <div class="divider"></div>
-
-        <!-- Action Plan -->
-        <section>
-            <h2 class="text-xl font-semibold text-primary mb-8 flex items-center gap-3">
-                <span class="w-8 h-8 rounded bg-accent-dim flex items-center justify-center accent text-sm">04</span>
-                Action Plan
-            </h2>
-
-            <div class="surface border border-subtle rounded-lg p-8">
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-6 h-6 rounded bg-accent/20 flex items-center justify-center accent text-xs font-mono">1</div>
-                            <h3 class="text-primary font-medium">Pick One Niche</h3>
-                        </div>
-                        <p class="text-sm text-secondary">
-                            Start with colored folders (proven demand), UI animations (high volume), 
-                            or horror VFX (defensible niche). Do not build generalist store.
-                        </p>
-                    </div>
-
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-6 h-6 rounded bg-accent/20 flex items-center justify-center accent text-xs font-mono">2</div>
-                            <h3 class="text-primary font-medium">LLM Production Workflow</h3>
-                        </div>
-                        <p class="text-sm text-secondary">
-                            Use Claude/GPT for documentation, image generation for previews, 
-                            GPT-4 for script templates. Build reusable pipeline.
-                        </p>
-                    </div>
-
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-6 h-6 rounded bg-accent/20 flex items-center justify-center accent text-xs font-mono">3</div>
-                            <h3 class="text-primary font-medium">Test and Iterate</h3>
-                        </div>
-                        <p class="text-sm text-secondary">
-                            Launch on itch.io first (instant). Gather feedback. 
-                            Iterate. Then submit to Unity Asset Store for revenue.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="mt-8 pt-8 border-t border-subtle">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h4 class="text-primary font-medium">Quick Win Recommendation</h4>
-                            <p class="text-sm text-muted mt-1">
-                                Based on forum validation + low complexity + AI suitability
-                            </p>
-                        </div>
-                        <div class="text-right">
-                            <div class="accent font-medium">UI Animation Presets</div>
-                            <div class="font-mono text-xs text-secondary mt-1">
-                                DOTween-based . 5-10 presets . $9-15 . Ship in 2 days
-                            </div>
-                        </div>
-                    </div>
+            <div class="pain-item">
+                <div class="pain-num">3</div>
+                <div class="pain-body">
+                    <h3>Grey Folder Navigation Hell</h3>
+                    <p class="pain-desc">Large Unity projects become impossible to navigate with identical grey folders everywhere. Developers waste time hunting for files.</p>
+                    <blockquote>
+                        "Working in large Unity projects means identical grey folders everywhere. PieDesk 2 makes your project browser visual and fast."
+                        <div class="quote-source">Unity Community Showcases</div>
+                    </blockquote>
                 </div>
             </div>
-        </section>
 
-        <!-- Data Sources -->
-        <footer class="border-t border-subtle pt-8">
-            <h2 class="text-sm font-medium text-primary mb-4 flex items-center gap-2">
-                <span class="w-6 h-6 rounded bg-accent-dim flex items-center justify-center accent text-xs">i</span>
-                Data Sources
-            </h2>
-            <div class="grid md:grid-cols-2 gap-6 text-sm text-secondary">
-                <div>
-                    <p class="text-muted mb-2">Primary Sources:</p>
-                    <ul class="space-y-1 text-secondary">
-                        <li>• Unity Discussions (discussions.unity.com) - 15 threads</li>
-                        <li>• itch.io Community Forums (itch.io/community) - 5 threads</li>
-                        <li>• Godot Community Forums - 3 threads</li>
-                    </ul>
-                </div>
-                <div>
-                    <p class="text-muted mb-2">Methodology:</p>
-                    <ul class="space-y-1 text-secondary">
-                        <li>• Direct forum scraping (no authentication)</li>
-                        <li>• Thread titles + excerpts from public pages</li>
-                        <li>• Pain points categorized from actual complaints</li>
-                    </ul>
+            <div class="pain-item">
+                <div class="pain-num">4</div>
+                <div class="pain-body">
+                    <h3>Physics Netcode Complexity</h3>
+                    <p class="pain-desc">Multiplayer physics games have no good networking solutions. DOTS vs GameObjects decision is painful.</p>
+                    <blockquote>
+                        "Multiplayer movement FPS — fast, physics-driven locomotion. Latency and jitter are major issues. DOTS vs GameObjects decision is difficult."
+                        <div class="quote-source">Unity News & General Discussion</div>
+                    </blockquote>
                 </div>
             </div>
-            <p class="text-xs text-muted mt-6 font-mono">
-                Generated: May 31, 2026 — vadapayasam.github.io
-            </p>
-        </footer>
 
-    </main>
+            <div class="pain-item">
+                <div class="pain-num">5</div>
+                <div class="pain-body">
+                    <h3>Niche Genre Assets Missing</h3>
+                    <p class="pain-desc">Developers with $200–300 budgets cannot find affordable, high-quality assets for specific genres like horror or visual novels.</p>
+                    <blockquote>
+                        "Music composer looking to join indie horror or experimental games."
+                        <div class="quote-source">itch.io Forums, Help Wanted (13,708 topics)</div>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Opportunities -->
+<section class="section">
+    <div class="container">
+        <div class="section-label">02</div>
+        <h2 class="section-title">AI-Generable Opportunities</h2>
+        <p class="section-desc">Gaps identified from forum demand. Products you can build with LLM assistance.</p>
+
+        <div class="opp-grid">
+            <div class="opp-item">
+                <div class="opp-tier high">High demand</div>
+                <h3>Pre-Configured Templates</h3>
+                <p class="opp-desc">Animated character packs with prefabs ready to use. Zero setup configuration.</p>
+                <div class="opp-meta">$15–29 · .unitypackage + docs</div>
+            </div>
+
+            <div class="opp-item">
+                <div class="opp-tier high">High demand</div>
+                <h3>UI Animation Presets</h3>
+                <p class="opp-desc">DOTween preset collections for common game UI patterns. Devs avoid coding tweens.</p>
+                <div class="opp-meta">$9–19 · Scriptable presets + demo scenes</div>
+            </div>
+
+            <div class="opp-item">
+                <div class="opp-tier high">High demand</div>
+                <h3>Colored Folder Icons</h3>
+                <p class="opp-desc">Visual hierarchy assets for Project Browser. Validated by PieDesk success.</p>
+                <div class="opp-meta">$5–9 · Icon atlas + Editor scripts</div>
+            </div>
+
+            <div class="opp-item">
+                <div class="opp-tier medium">Medium</div>
+                <h3>NPC AI Templates</h3>
+                <p class="opp-desc">State machines, behavior trees, basic AI controllers. Filling middleware gaps.</p>
+                <div class="opp-meta">$25–49 · Modular scripts + samples</div>
+            </div>
+
+            <div class="opp-item">
+                <div class="opp-tier medium">Medium</div>
+                <h3>Genre VFX Packs</h3>
+                <p class="opp-desc">Horror atmosphere, pixel art explosions, stylized magic. Niche is defensible.</p>
+                <div class="opp-meta">$19–29 · Particle systems + shaders</div>
+            </div>
+
+            <div class="opp-item">
+                <div class="opp-tier medium">Medium</div>
+                <h3>Audio Integration Systems</h3>
+                <p class="opp-desc">Adaptive audio managers, composer matching tools, SFX categorization.</p>
+                <div class="opp-meta">$15–25 · Manager scripts + docs</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Marketplaces -->
+<section class="section">
+    <div class="container">
+        <div class="section-label">03</div>
+        <h2 class="section-title">Where to Sell</h2>
+        <p class="section-desc">Platform analysis for game asset distribution.</p>
+
+        <div class="market-grid">
+            <div class="market-item">
+                <h3>Unity Asset Store</h3>
+                <div class="market-split">70/30 split</div>
+                <ul>
+                    <li>Massive existing traffic</li>
+                    <li>Built-in discovery</li>
+                    <li>2–3 day approval</li>
+                    <li>Quality standards enforced</li>
+                </ul>
+                <div class="market-best">Best for: Full assets with polish</div>
+            </div>
+
+            <div class="market-item">
+                <h3>itch.io</h3>
+                <div class="market-split">90/10 split</div>
+                <ul>
+                    <li>Instant publishing</li>
+                    <li>Indie-friendly audience</li>
+                    <li>No approval process</li>
+                    <li>Lower organic traffic</li>
+                </ul>
+                <div class="market-best">Best for: Rapid iteration, MVPs</div>
+            </div>
+
+            <div class="market-item">
+                <h3>Gumroad</h3>
+                <div class="market-split">~95% after fees</div>
+                <ul>
+                    <li>Direct fan relationships</li>
+                    <li>Email marketing built-in</li>
+                    <li>Pay-what-you-want</li>
+                    <li>Build your own traffic</li>
+                </ul>
+                <div class="market-best">Best for: Bundles and packs</div>
+            </div>
+
+            <div class="market-item">
+                <h3>Humble Bundle</h3>
+                <div class="market-split">Bundle revenue</div>
+                <ul>
+                    <li>Massive volume potential</li>
+                    <li>Curated inclusion only</li>
+                    <li>Requires existing products</li>
+                    <li>Lower per-unit revenue</li>
+                </ul>
+                <div class="market-best">Best for: Established catalogs</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Action Plan -->
+<section class="section">
+    <div class="container">
+        <div class="section-label">04</div>
+        <h2 class="section-title">Action Plan</h2>
+
+        <div class="action-grid">
+            <div class="action-step">
+                <div class="step-num">Step 1</div>
+                <h3>Pick One Niche</h3>
+                <p>Start with colored folders (proven demand), UI animations (high volume), or horror VFX (defensible niche). Do not build a generalist store.</p>
+            </div>
+
+            <div class="action-step">
+                <div class="step-num">Step 2</div>
+                <h3>LLM Production Workflow</h3>
+                <p>Use Claude/GPT for documentation, image generation for previews, GPT-4 for script templates. Build a reusable pipeline.</p>
+            </div>
+
+            <div class="action-step">
+                <div class="step-num">Step 3</div>
+                <h3>Test and Iterate</h3>
+                <p>Launch on itch.io first (instant). Gather feedback. Iterate. Then submit to Unity Asset Store for revenue.</p>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div>
+                <div class="callout-label">Quick Win Recommendation</div>
+                <div class="callout-title">Based on forum validation + low complexity + AI suitability</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="callout-detail">UI Animation Presets</div>
+                <div class="callout-meta">DOTween-based · 5–10 presets · $9–15 · Ship in 2 days</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="page-footer">
+    <div class="container">
+        <div class="sources-grid">
+            <div>
+                <h3>Primary Sources</h3>
+                <ul>
+                    <li>Unity Discussions (discussions.unity.com) — 15 threads</li>
+                    <li>itch.io Community Forums (itch.io/community) — 5 threads</li>
+                    <li>Godot Community Forums — 3 threads</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Methodology</h3>
+                <ul>
+                    <li>Direct forum scraping (no authentication)</li>
+                    <li>Thread titles + excerpts from public pages</li>
+                    <li>Pain points categorized from actual complaints</li>
+                </ul>
+            </div>
+        </div>
+        <p class="footer-note">
+            Research compiled May 2026 · 
+            Sources: gamedevmarket.net, itch.io, construct.net, gamefromscratch.com, ansimuz.com, scenario.com, wayline.io · 
+            vadapayasam.github.io/warehouse
+        </p>
+    </div>
+</footer>
 
 </body>
 </html>
