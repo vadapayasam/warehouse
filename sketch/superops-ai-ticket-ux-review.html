@@ -3,554 +3,484 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SuperOps AI Ticket Detail — UX Review 2026</title>
+  <title>SuperOps AI Ticket Detail — UX Review</title>
   <style>
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --surface-light: #21262d;
-      --text: #e6edf3;
-      --text-muted: #8b949e;
-      --accent: #58a6ff;
-      --accent-soft: #388bfd;
-      --success: #3fb950;
-      --warning: #d29922;
-      --danger: #f85149;
-      --ai: #2dd4bf;
-      --border: #30363d;
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      --font-mono: "SF Mono", Monaco, Inconsolata, "Fira Code", monospace;
+      --bg: #fafaf7;
+      --paper: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --rule: #d9d6cf;
+      --rule-soft: #ebe8e1;
+      --accent: #0c4a9e;
+      --font-serif: "Iowan Old Style", "Charter", Georgia, serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "SF Mono", Menlo, Consolas, monospace;
+      --radius: 4px;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; }
     body {
       font-family: var(--font-sans);
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      padding: 2rem 1rem;
+      line-height: 1.55;
+      padding: 4rem 1.5rem 6rem;
     }
-    .container { max-width: 960px; margin: 0 auto; }
-    header {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.5rem;
-      margin-bottom: 2.5rem;
+    .doc { max-width: 720px; margin: 0 auto; }
+
+    /* Header */
+    .doc-header { margin-bottom: 3.5rem; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
     }
-    .meta-row {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-      align-items: center;
+    .eyebrow span + span::before { content: " · "; color: var(--rule); }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+      max-width: 18ch;
     }
-    .badge {
+    .deck {
+      font-size: 1.0625rem;
+      color: var(--muted);
+      max-width: 56ch;
+      line-height: 1.5;
+    }
+    .source-link {
       display: inline-block;
-      padding: 0.2rem 0.65rem;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-weight: 600;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 1px;
+    }
+    .source-link:hover { color: var(--text); }
+
+    /* Sections */
+    section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
+    section:first-of-type { border-top: none; padding-top: 0; }
+    h2 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    h3 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+    p { font-size: 1rem; max-width: 60ch; margin-bottom: 1rem; }
+    p strong { font-weight: 600; color: var(--text); }
+    p:last-child { margin-bottom: 0; }
+
+    /* Stats — no cards, just a tight grid of value + label pairs */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem 2.5rem;
+    }
+    @media (min-width: 640px) { .stats { grid-template-columns: repeat(5, 1fr); } }
+    .stat .value {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+    .stat .label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      border: 1px solid var(--border);
-      background: var(--surface-light);
-      color: var(--text-muted);
     }
-    .badge.ai { background: rgba(45,212,191,0.1); border-color: var(--ai); color: var(--ai); }
-    .badge.ux { background: rgba(88,166,255,0.1); border-color: var(--accent); color: var(--accent); }
-    .badge.figma { background: rgba(63,185,80,0.1); border-color: var(--success); color: var(--success); }
-    h1 { font-size: 1.875rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
-    .subtitle { color: var(--text-muted); font-size: 1rem; }
-    .figma-link { color: var(--accent); font-size: 0.875rem; text-decoration: none; margin-top: 0.5rem; display: inline-block; }
-    .figma-link:hover { text-decoration: underline; }
 
-    section { margin-bottom: 3rem; }
-    h2 {
+    /* Layout structure — definition list, not cards */
+    .dl { display: grid; gap: 1.25rem; }
+    .dl-row { display: grid; grid-template-columns: 1fr; gap: 0.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule-soft); }
+    .dl-row:last-child { border-bottom: none; padding-bottom: 0; }
+    @media (min-width: 640px) { .dl-row { grid-template-columns: 14rem 1fr; gap: 1.5rem; } }
+    .dl-term {
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .dl-term .meta {
+      display: block;
+      font-family: var(--font-mono);
       font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 0.15rem;
     }
-    h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--text); }
-    p { color: var(--text-muted); margin-bottom: 0.75rem; font-size: 0.9375rem; }
-    p strong { color: var(--text); }
+    .dl-def { font-size: 0.9375rem; color: var(--text); max-width: 56ch; }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 0.875rem;
-    }
-    .card h3 { margin-top: 0; font-size: 0.9375rem; }
-    .card p { margin-bottom: 0; }
-
-    .card-grid {
+    /* AI loop — vertical numbered list */
+    .loop { counter-reset: step; margin-top: 0.5rem; }
+    .loop-step {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 0.875rem;
-    }
-
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-    }
-    .stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-      text-align: center;
-    }
-    .stat .value { font-size: 1.75rem; font-weight: 700; color: var(--accent); }
-    .stat .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; }
-
-    .section-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin-bottom: 0.625rem;
-      display: flex;
+      grid-template-columns: 3rem 1fr;
       gap: 1rem;
-      align-items: flex-start;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--rule-soft);
+      align-items: baseline;
     }
-    .section-item .tag {
+    .loop-step:last-child { border-bottom: none; }
+    .loop-step::before {
+      counter-increment: step;
+      content: "0" counter(step);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .loop-step .step-content h4 {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .loop-step .step-content p {
+      font-size: 0.9375rem;
+      color: var(--muted);
+      margin: 0;
+      max-width: 56ch;
+    }
+
+    /* Findings — status pill + heading + body, no border-left rainbow */
+    .finding {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .finding:last-child { border-bottom: none; }
+    .finding-head { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+    .status-pill {
+      font-family: var(--font-mono);
       font-size: 0.6875rem;
       font-weight: 600;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
       padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      white-space: nowrap;
-      margin-top: 0.1rem;
+      border-radius: var(--radius);
+      border: 1px solid currentColor;
     }
-    .tag-ai { background: rgba(45,212,191,0.15); color: var(--ai); }
-    .tag-layout { background: rgba(88,166,255,0.15); color: var(--accent); }
-    .tag-nav { background: rgba(63,185,80,0.15); color: var(--success); }
-    .tag-ux { background: rgba(210,153,34,0.15); color: var(--warning); }
-    .tag-data { background: rgba(248,81,73,0.15); color: var(--danger); }
+    .status-pill.works { color: #2e7d32; }
+    .status-pill.caution { color: #9b6900; }
+    .status-pill.consider { color: var(--accent); }
+    .finding h4 {
+      font-family: var(--font-serif);
+      font-size: 1.125rem;
+      font-weight: 400;
+      flex: 1;
+      min-width: 0;
+    }
+    .finding p { font-size: 0.9375rem; color: var(--text); margin: 0; max-width: 60ch; }
 
-    .section-item .content h4 { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
-    .section-item .content p { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
-
+    /* Table — no card wrapper, just rules */
+    .table-wrap { margin: 0.5rem 0 1.5rem; }
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.875rem;
-      margin-bottom: 1rem;
     }
-    th {
+    th, td {
       text-align: left;
-      padding: 0.625rem 0.875rem;
-      background: var(--surface-light);
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-bottom: 1px solid var(--border);
-    }
-    td {
-      padding: 0.625rem 0.875rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-muted);
+      padding: 0.625rem 0.75rem 0.625rem 0;
+      border-bottom: 1px solid var(--rule-soft);
       vertical-align: top;
     }
-    td:first-child { color: var(--text); font-weight: 500; }
-    tr:last-child td { border-bottom: none; }
-    .table-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 1.5rem;
+    th {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 0.5rem;
     }
+    th:not(:first-child), td:not(:first-child) { padding-left: 1rem; }
+    td:nth-child(2) {
+      font-family: var(--font-mono);
+      color: var(--muted);
+      width: 4rem;
+    }
+    td:first-child { font-weight: 500; }
 
-    .finding {
-      background: var(--surface);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      padding: 1rem 1.25rem;
-      margin-bottom: 0.75rem;
+    /* Verdict — no tinted block, just bold typography on rule */
+    .verdict {
+      padding: 0.5rem 0;
     }
-    .finding.positive { border-color: var(--success); }
-    .finding.caution { border-color: var(--warning); }
-    .finding.improvement { border-color: var(--danger); }
-    .finding h4 { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
-    .status-pill { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: var(--font-mono); }
-    .status-pill.works { background: rgba(63,185,80,0.12); color: var(--success); }
-    .status-pill.caution { background: rgba(210,153,34,0.12); color: var(--warning); }
-    .status-pill.consider { background: rgba(248,81,73,0.12); color: var(--danger); }
-    .finding p { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
+    .verdict h3 { margin-bottom: 1rem; }
+    .verdict p { font-size: 1rem; max-width: 60ch; }
 
-    .ai-cycle {
-      display: flex;
-      gap: 0;
-      margin: 1.25rem 0;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .cycle-step {
-      flex: 1;
-      padding: 1rem;
-      text-align: center;
-      border-right: 1px solid var(--border);
-      position: relative;
-    }
-    .cycle-step:last-child { border-right: none; }
-    .cycle-step .step-num { font-size: 0.6875rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.4rem; font-family: var(--font-mono); }
-    .cycle-step .step-name { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
-    .cycle-step .step-desc { font-size: 0.75rem; color: var(--text-muted); }
-
-    .verdict-box {
-      background: rgba(63,185,80,0.06);
-      border: 1px solid rgba(63,185,80,0.3);
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    .verdict-box h3 { color: var(--success); margin-top: 0; margin-bottom: 0.75rem; }
-    .verdict-box p { color: var(--text-muted); margin-bottom: 0.5rem; font-size: 0.9375rem; }
-    .verdict-box p:last-child { margin-bottom: 0; }
-
+    /* Scores — inline rows */
+    .scores { margin-top: 1.5rem; display: grid; gap: 0.75rem; }
     .score-row {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 0.75rem;
-      margin-top: 1.25rem;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dotted var(--rule);
     }
-    .score-item {
-      background: var(--surface-light);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-    }
-    .score-item .dim { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; }
-    .score-item .dots { display: flex; gap: 3px; margin-top: 0.25rem; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
-    .dot.filled { background: var(--success); }
-    .dot.filled.yellow { background: var(--warning); }
+    .score-row:last-child { border-bottom: none; }
+    .score-label { font-size: 0.9375rem; }
+    .score-bar { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); letter-spacing: 0.15em; }
+    .score-bar .on { color: var(--text); }
 
+    /* Footer */
     footer {
-      border-top: 1px solid var(--border);
+      margin-top: 4rem;
       padding-top: 1.5rem;
-      margin-top: 3rem;
-      color: var(--text-muted);
-      font-size: 0.8125rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
       display: flex;
       justify-content: space-between;
+      gap: 1rem;
       flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    @media (max-width: 600px) {
-      body { padding: 1.25rem 0.875rem; }
-      h1 { font-size: 1.4rem; }
-      .ai-cycle { flex-direction: column; }
-      .cycle-step { border-right: none; border-bottom: 1px solid var(--border); }
-      .cycle-step:last-child { border-bottom: none; }
     }
   </style>
 </head>
 <body>
-<div class="container">
+<article class="doc">
 
-  <header>
-    <div class="meta-row">
-      <span class="badge figma">Figma Review</span>
-      <span class="badge ai">AI-Native UX</span>
-      <span class="badge ux">2026</span>
-      <span class="badge">SuperOps</span>
+  <header class="doc-header">
+    <div class="eyebrow">
+      <span>UX REVIEW</span><span>SUPEROPS</span><span>AI SERVICE DESK</span><span>2026-05-31</span>
     </div>
-    <h1>AI Ticket Detail Page — UX Review</h1>
-    <p class="subtitle">Agentic Era Design Analysis · Service Desk · Monica AI Integration</p>
-    <a class="figma-link" href="https://www.figma.com/design/hJ4jh0F8cExMKVACSd2PRi/AI-Service-Desk?node-id=6770-8055" target="_blank">↗ Open in Figma: AI-Service-Desk / node 6770-8055</a>
+    <h1>An agentic-era review of the AI ticket detail page</h1>
+    <p class="deck">Where a technician investigates an IT issue, now with Monica — an AI assistant that analyzes the system, recommends fixes, drafts the plan, and asks for feedback. This review covers what the design gets right and where it leaves trust on the table.</p>
+    <a class="source-link" href="https://www.figma.com/design/hJ4jh0F8cExMKVACSd2PRi/AI-Service-Desk?node-id=6770-8055" target="_blank">View source · Figma node 6770-8055</a>
   </header>
 
-  <!-- Stats -->
   <section>
-    <h2>Design at a Glance</h2>
-    <div class="stat-row">
-      <div class="stat"><div class="value">2,233</div><div class="label">Total Elements</div></div>
-      <div class="stat"><div class="value">217</div><div class="label">AI Components</div></div>
-      <div class="stat"><div class="value">31%</div><div class="label">Reuse Ratio</div></div>
-      <div class="stat"><div class="value">511</div><div class="label">DS Instances</div></div>
-      <div class="stat"><div class="value">1800px</div><div class="label">Canvas Width</div></div>
+    <h2>At a glance</h2>
+    <div class="stats">
+      <div class="stat"><div class="value">2,233</div><div class="label">Elements</div></div>
+      <div class="stat"><div class="value">217</div><div class="label">AI components</div></div>
+      <div class="stat"><div class="value">31%</div><div class="label">DS reuse</div></div>
+      <div class="stat"><div class="value">511</div><div class="label">Instances</div></div>
+      <div class="stat"><div class="value">1800</div><div class="label">Canvas width</div></div>
     </div>
   </section>
 
-  <!-- Context -->
   <section>
     <h2>Context</h2>
-    <div class="card">
-      <h3>What is this page?</h3>
-      <p>The <strong>Ticket Detail Page</strong> is where technicians land when investigating an IT support issue. The design adds a full AI layer — an assistant named <strong>Monica</strong> — that runs alongside the ticket, providing real-time analysis, recommended solutions, and action plans.</p>
-      <p>This is the intersection of two interfaces: the traditional ITSM workflow (ticket metadata, comments, timeline) and a new <strong>agentic AI panel</strong> that actively reasons about the problem.</p>
-    </div>
+    <p>The Ticket Detail Page is where technicians land when investigating an IT support issue. The design adds a full AI layer — Monica — running alongside the ticket, providing real-time analysis, recommended solutions, and action plans.</p>
+    <p>This is the intersection of two interfaces: traditional ITSM (ticket metadata, comments, timeline) and a new agentic panel that actively reasons about the problem. The visual weight given to each is itself a design statement.</p>
   </section>
 
-  <!-- Layout Structure -->
   <section>
-    <h2>Layout Structure</h2>
-    <div class="card-grid">
-      <div class="card">
-        <h3>Header Zone — 110px</h3>
-        <p>Ticket ID, title, quick action bar. Persistent context anchor for the technician.</p>
+    <h2>Layout structure</h2>
+    <div class="dl">
+      <div class="dl-row">
+        <div class="dl-term">Header zone<span class="meta">110px tall</span></div>
+        <div class="dl-def">Ticket ID, title, quick action bar. Persistent context anchor.</div>
       </div>
-      <div class="card">
-        <h3>Navigation — 60px sidebar + 50px top bar</h3>
-        <p>Global chrome. 20 nav instances. Always-visible orientation layer.</p>
+      <div class="dl-row">
+        <div class="dl-term">Navigation<span class="meta">60px sidebar + 50px top bar</span></div>
+        <div class="dl-def">Global chrome, 20 nav instances. Always-visible orientation layer.</div>
       </div>
-      <div class="card">
-        <h3>Left Pane — Ticket Core</h3>
-        <p>Problem description, comments, conversation history. The human/reporter view.</p>
+      <div class="dl-row">
+        <div class="dl-term">Left pane<span class="meta">Ticket core</span></div>
+        <div class="dl-def">Problem description, comments, conversation history. The human/reporter view.</div>
       </div>
-      <div class="card">
-        <h3>Right Pane — AI Command Center</h3>
-        <p>Monica's workspace: analysis in progress, recommendations, action plan, feedback loop. The agent's view.</p>
+      <div class="dl-row">
+        <div class="dl-term">Right pane<span class="meta">AI command center</span></div>
+        <div class="dl-def">Monica's workspace — analysis, diagnostics, recommendations, action plan, feedback loop.</div>
       </div>
     </div>
-    <p style="margin-top:1rem;font-size:0.875rem;">Total canvas: <strong>1800 × 1484px</strong>. Two-column main content area: <strong>1740 × 1329px</strong>. The AI panel is given equal visual weight to the ticket content — a deliberate agentic-era choice.</p>
+    <p style="margin-top: 1.5rem;">Total canvas 1800 × 1484px. Main content 1740 × 1329px in a two-column split. The AI panel is given equal visual weight to the ticket content — a deliberate agentic-era choice.</p>
   </section>
 
-  <!-- AI Feature Breakdown -->
   <section>
-    <h2>AI Feature Breakdown</h2>
-    <p>Monica follows a four-stage agentic loop, each stage visually represented in the design:</p>
-    <div class="ai-cycle">
-      <div class="cycle-step">
-        <div class="step-num">01</div>
-        <div class="step-name">Analyze</div>
-        <div class="step-desc">"Analyzing the issue" progress · Live CPU/RAM/device metrics</div>
+    <h2>The Monica loop</h2>
+    <p>A four-stage agentic cycle, each stage visually represented in the design.</p>
+    <div class="loop">
+      <div class="loop-step">
+        <div class="step-content">
+          <h4>Analyze</h4>
+          <p>"Analyzing the issue" progress, live CPU/RAM/device metrics, 6 monica-executing animation instances.</p>
+        </div>
       </div>
-      <div class="cycle-step">
-        <div class="step-num">02</div>
-        <div class="step-name">Recommend</div>
-        <div class="step-desc">Quick fix vs Root cause · 19 solution card variants</div>
+      <div class="loop-step">
+        <div class="step-content">
+          <h4>Recommend</h4>
+          <p>Quick fix vs root cause split. 19 solution card variants. Brain icon as the AI metaphor.</p>
+        </div>
       </div>
-      <div class="cycle-step">
-        <div class="step-num">03</div>
-        <div class="step-name">Plan</div>
-        <div class="step-desc">Sequenced action steps · Pre-composed email templates</div>
+      <div class="loop-step">
+        <div class="step-content">
+          <h4>Plan</h4>
+          <p>Sequenced action steps, pre-composed email templates, checkmark completion tracking.</p>
+        </div>
       </div>
-      <div class="cycle-step">
-        <div class="step-num">04</div>
-        <div class="step-name">Validate</div>
-        <div class="step-desc">Thumbs up (20 instances) · Comment refinement · Re-propose</div>
-      </div>
-    </div>
-    <div class="card-grid">
-      <div class="card">
-        <h3>Real-time Issue Analysis</h3>
-        <p>"Analyzing the issue" progress indicator. Monica-executing animation (6 instances). Live CPU, RAM, Device status containers with actual process names (e.g., Chrome.exe using 8.12GB).</p>
-      </div>
-      <div class="card">
-        <h3>Dual-Path Solutions</h3>
-        <p><strong>Quick fix</strong> vs <strong>Root cause fix</strong> — technician decides based on urgency. 19 recommended solution card variants. Brain icon as the AI metaphor.</p>
-      </div>
-      <div class="card">
-        <h3>Action Planning</h3>
-        <p>plan-control component with sequenced steps. Pre-composed email templates reduce technician effort. Checkmark completion markers.</p>
-      </div>
-      <div class="card">
-        <h3>Human-AI Feedback Loop</h3>
-        <p>Thumbs Up (20 instances), comment input for refinement, "Re-propose a solution" capability. Frictionless — integrated directly into recommendation cards.</p>
+      <div class="loop-step">
+        <div class="step-content">
+          <h4>Validate</h4>
+          <p>Thumbs up (20 instances), comment refinement, re-propose capability.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Section Inventory -->
   <section>
-    <h2>Section Inventory</h2>
-    <div class="section-item">
-      <span class="tag tag-nav">Nav</span>
-      <div class="content">
-        <h4>Global Navigation — Sidebar + Top Bar</h4>
-        <p>20 nav component instances. Persistent across the page. Standard ITSM chrome.</p>
+    <h2>Findings</h2>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill works">Works</span>
+        <h4>Side-by-side layout is the right call</h4>
       </div>
+      <p>The AI panel is visible while reading the ticket. No modal, no tab switch. The technician maintains dual awareness — what the reporter said, and what the AI thinks. This is the correct pattern for cognitive augmentation, not replacement.</p>
     </div>
-    <div class="section-item">
-      <span class="tag tag-layout">Layout</span>
-      <div class="content">
-        <h4>Ticket Header</h4>
-        <p>Ticket ID, title, status, quick actions. 110px zone. Sets context immediately.</p>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill works">Works</span>
+        <h4>Dual-path solution architecture</h4>
       </div>
+      <p>Quick fix vs root cause is excellent decision architecture. It respects the technician's situational judgment — urgency of the ticket determines which path. Monica proposes; the human decides.</p>
     </div>
-    <div class="section-item">
-      <span class="tag tag-data">Data</span>
-      <div class="content">
-        <h4>Ticket Description + Comment Thread</h4>
-        <p>Left pane. Reporter/technician conversation. Traditional ITSM view.</p>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill works">Works</span>
+        <h4>Grounding the AI in observable data</h4>
       </div>
+      <p>System diagnostics — actual process names, real memory values like "Chrome.exe 8.12 GB" — anchor Monica's reasoning in verifiable reality. This builds technician trust. They can cross-check the AI against the system state.</p>
     </div>
-    <div class="section-item">
-      <span class="tag tag-ai">AI</span>
-      <div class="content">
-        <h4>Monica Analysis Panel — Active State</h4>
-        <p>"Analyzing the issue" animation. Monica-executing component (6x). Right pane entry state.</p>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill works">Works</span>
+        <h4>A genuine correction loop</h4>
       </div>
+      <p>Thumbs, comment, and re-propose form a real refinement mechanism. The AI isn't a one-shot oracle — the technician can push back. Essential for any agentic deployment that intends to survive contact with production.</p>
     </div>
-    <div class="section-item">
-      <span class="tag tag-ai">AI</span>
-      <div class="content">
-        <h4>System Diagnostics Display</h4>
-        <p>CPU / RAM / Device status containers (15 instances). Real process names and memory values. Grounds the AI's reasoning in observable reality.</p>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill works">Works</span>
+        <h4>Reducing cognitive load at the action layer</h4>
       </div>
+      <p>Pre-composed emails, sequenced action steps. Monica drafts; the technician reviews and executes. A correct allocation of human versus AI effort.</p>
     </div>
-    <div class="section-item">
-      <span class="tag tag-ai">AI</span>
-      <div class="content">
-        <h4>Recommended Solution Cards</h4>
-        <p>19 card variants. Container-1 / Container-2 (79 total instances). Quick fix vs Root cause split.</p>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill caution">Caution</span>
+        <h4>Analysis time is not communicated</h4>
       </div>
+      <p>The "Analyzing the issue" animation is present, but the design never says how long Monica will take. For a P1 ticket, the technician needs to know: three seconds, or thirty? A small time estimate or progress cue would unblock impatient triage.</p>
     </div>
-    <div class="section-item">
-      <span class="tag tag-ai">AI</span>
-      <div class="content">
-        <h4>Action Plan + Email Templates</h4>
-        <p>plan-control component with sequenced steps. Pre-written email drafts. Checkmark completion tracking.</p>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill caution">Caution</span>
+        <h4>Confidence signaling is implicit</h4>
       </div>
+      <p>Monica surfaces recommendations without showing how sure she is. Technicians will ask the question regardless. A low-confidence recommendation on a critical ticket deserves different visual treatment than a high-confidence one.</p>
     </div>
-    <div class="section-item">
-      <span class="tag tag-ux">UX</span>
-      <div class="content">
-        <h4>Feedback + Re-proposal Zone</h4>
-        <p>Thumbs Up (20 instances), comment input, "Re-propose" CTA. Validates or corrects Monica's output.</p>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill consider">Consider</span>
+        <h4>Expose the reasoning trace</h4>
       </div>
+      <p>The design shows what Monica recommends, not why. For complex tickets, technicians will want the reasoning. A collapsed "show reasoning" section gives them the option without adding visual noise.</p>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head">
+        <span class="status-pill consider">Consider</span>
+        <h4>Make the override path explicit</h4>
+      </div>
+      <p>When Monica is wrong, the correction loop handles refinement. But sometimes the right move is to escalate, not refine. A direct "escalate to L2" affordance closes the loop for the AI's failure modes — table stakes for enterprise IT.</p>
     </div>
   </section>
 
-  <!-- Design System -->
   <section>
-    <h2>Design System Component Usage</h2>
+    <h2>Design system usage</h2>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Component</th>
-            <th>Count</th>
-            <th>Purpose</th>
-          </tr>
+          <tr><th>Component</th><th>Count</th><th>Purpose</th></tr>
         </thead>
         <tbody>
-          <tr><td>Tag</td><td>71</td><td>Labels, categorization, status chips</td></tr>
-          <tr><td>Bullet-points</td><td>68</td><td>Structured list formatting in AI output</td></tr>
-          <tr><td>Container-1 / Container-2</td><td>79</td><td>Content segmentation cards</td></tr>
+          <tr><td>Tag</td><td>71</td><td>Labels and status chips</td></tr>
+          <tr><td>Bullet-points</td><td>68</td><td>Structured AI output formatting</td></tr>
+          <tr><td>Container-1 / 2</td><td>79</td><td>Content segmentation</td></tr>
           <tr><td>Button</td><td>51</td><td>Primary CTAs throughout</td></tr>
           <tr><td>Icon Button</td><td>20</td><td>Compact icon-only actions</td></tr>
-          <tr><td>Thumbs Up</td><td>20</td><td>AI response validation feedback</td></tr>
-          <tr><td>Navigation</td><td>20</td><td>Global sidebar + top bar chrome</td></tr>
-          <tr><td>CPU/RAM/Device Status</td><td>15</td><td>System health context for AI analysis</td></tr>
-          <tr><td>Tab</td><td>10</td><td>Multiple detail views in ticket pane</td></tr>
+          <tr><td>Thumbs Up</td><td>20</td><td>AI response validation</td></tr>
+          <tr><td>Navigation</td><td>20</td><td>Global sidebar and top bar</td></tr>
+          <tr><td>CPU / RAM / Device</td><td>15</td><td>System health context</td></tr>
+          <tr><td>Tab</td><td>10</td><td>Multiple detail views</td></tr>
           <tr><td>Recommended Solution</td><td>19</td><td>AI recommendation cards</td></tr>
         </tbody>
       </table>
     </div>
-    <p>Design system maturity: <strong>31% reuse ratio</strong> (511 of ~1,624 non-structural elements are DS instances). Component naming follows function-based conventions consistently.</p>
+    <p>Component reuse ratio sits at 31% — 511 design system instances out of roughly 1,624 non-structural elements. Function-based naming throughout. The system itself is mature; the question is whether the AI patterns inside it deserve their own first-class components.</p>
   </section>
 
-  <!-- UX Observations -->
   <section>
-    <h2>UX Observations — Agentic Era 2026</h2>
+    <h2>Verdict</h2>
+    <div class="verdict">
+      <h3>A strong agentic foundation, with addressable gaps.</h3>
+      <p>The design gets the hard things right — co-presence layout, decision architecture, grounding in real system data, a working correction loop. These are the four pillars of trustworthy agentic UX and all four are present.</p>
+      <p>The gaps are real but additive, not structural. Confidence signaling, analysis time clarity, reasoning transparency, and an explicit override path. None require rearchitecting the page; they're layers on a solid base.</p>
+      <p>In a 2026 design landscape where most products bolt AI onto existing workflows, this one treats the AI as an equal participant in the interface from the ground up. That is the right direction.</p>
 
-    <div class="finding positive">
-      <h4><span class="status-pill works">Works</span>Side-by-side layout — right call for agentic UX</h4>
-      <p>AI panel is visible while reading the ticket. No modal, no tab switch. The technician maintains dual awareness: what the reporter said + what the AI thinks. This is the correct pattern for cognitive augmentation, not replacement.</p>
-    </div>
-
-    <div class="finding positive">
-      <h4><span class="status-pill works">Works</span>Dual-path solution architecture</h4>
-      <p>"Quick fix vs Root cause" is excellent decision architecture. It respects the technician's situational judgment — urgency of the ticket determines which path. Monica proposes, human decides.</p>
-    </div>
-
-    <div class="finding positive">
-      <h4><span class="status-pill works">Works</span>Grounding AI in observable data</h4>
-      <p>System diagnostics (CPU, RAM, specific process names like "Chrome.exe 8.12GB") anchor Monica's analysis in verifiable reality. This builds technician trust — they can cross-check the AI's reasoning against real system state.</p>
-    </div>
-
-    <div class="finding positive">
-      <h4><span class="status-pill works">Works</span>Full feedback loop designed in</h4>
-      <p>Thumbs Up + comment + Re-propose creates a genuine correction mechanism. The AI isn't a one-shot oracle — the technician can refine it. This is essential for real-world agentic deployment.</p>
-    </div>
-
-    <div class="finding positive">
-      <h4><span class="status-pill works">Works</span>Reducing cognitive load at the action layer</h4>
-      <p>Pre-composed email templates, sequenced action steps — Monica does the drafting. Technician reviews and executes. Correct allocation of human vs. AI effort.</p>
-    </div>
-
-    <div class="finding caution">
-      <h4><span class="status-pill caution">Caution</span>Loading/analysis state needs timing clarity</h4>
-      <p>"Analyzing the issue" animation is present but the design doesn't show how long Monica takes. For time-sensitive P1 tickets, the technician needs to know: is this 3 seconds or 30? Consider a time estimate or progress cue.</p>
-    </div>
-
-    <div class="finding caution">
-      <h4><span class="status-pill caution">Caution</span>Confidence signaling is implicit</h4>
-      <p>Monica surfaces recommendations but the design doesn't show confidence levels. Technicians will naturally ask "how sure is the AI?" — a low-confidence recommendation for a critical ticket needs different visual treatment than a high-confidence one.</p>
-    </div>
-
-    <div class="finding improvement">
-      <h4><span class="status-pill consider">Consider</span>Consider: Explanation affordance</h4>
-      <p>Current design shows WHAT Monica recommends. The "why" (reasoning trace) isn't visible. For complex tickets, technicians will want to understand the reasoning — a collapsed "Show reasoning" section would increase trust without adding visual noise.</p>
-    </div>
-
-    <div class="finding improvement">
-      <h4><span class="status-pill consider">Consider</span>Consider: Escalation / override flow</h4>
-      <p>When Monica is wrong, what's the flow? The feedback loop handles correction, but an explicit "I disagree, escalate this" path would close the loop for the AI's failure modes. This is table stakes for agentic deployment in enterprise IT.</p>
-    </div>
-  </section>
-
-  <!-- Verdict -->
-  <section>
-    <h2>Overall Assessment</h2>
-    <div class="verdict-box">
-      <h3>Verdict: Strong Agentic Foundation</h3>
-      <p>This design gets the hard things right: co-presence layout, decision architecture (quick fix vs. root cause), grounding in real system data, and a correction loop. These are the four pillars of trustworthy agentic UX and all four are represented.</p>
-      <p>The gaps are real but fixable: confidence signaling, loading time clarity, reasoning transparency, and an explicit override/escalation path. None require structural changes — they're additive layers on a solid foundation.</p>
-      <p>In the context of 2026 agentic design — where most products bolt AI onto existing workflows — this design treats the AI as an equal participant in the interface from the ground up. That's the right direction.</p>
-      <div class="score-row">
-        <div class="score-item">
-          <div class="dim">Layout architecture</div>
-          <div class="dots">
-            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div>
-          </div>
+      <div class="scores">
+        <div class="score-row">
+          <div class="score-label">Layout architecture</div>
+          <div class="score-bar"><span class="on">●●●●●</span></div>
         </div>
-        <div class="score-item">
-          <div class="dim">AI decision UX</div>
-          <div class="dots">
-            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
-          </div>
+        <div class="score-row">
+          <div class="score-label">AI decision UX</div>
+          <div class="score-bar"><span class="on">●●●●</span>○</div>
         </div>
-        <div class="score-item">
-          <div class="dim">Trust & transparency</div>
-          <div class="dots">
-            <div class="dot filled yellow"></div><div class="dot filled yellow"></div><div class="dot filled yellow"></div><div class="dot"></div><div class="dot"></div>
-          </div>
+        <div class="score-row">
+          <div class="score-label">Trust and transparency</div>
+          <div class="score-bar"><span class="on">●●●</span>○○</div>
         </div>
-        <div class="score-item">
-          <div class="dim">Feedback loop</div>
-          <div class="dots">
-            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
-          </div>
+        <div class="score-row">
+          <div class="score-label">Feedback loop</div>
+          <div class="score-bar"><span class="on">●●●●</span>○</div>
         </div>
-        <div class="score-item">
-          <div class="dim">Design system health</div>
-          <div class="dots">
-            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div>
-          </div>
+        <div class="score-row">
+          <div class="score-label">Design system health</div>
+          <div class="score-bar"><span class="on">●●●●●</span></div>
         </div>
       </div>
     </div>
   </section>
 
   <footer>
-    <span>SuperOps · AI Service Desk · UX Review 2026-05-31</span>
-    <span>Figma: AI-Service-Desk · node 6770-8055 · thisisprabha</span>
+    <span>SuperOps · AI Service Desk · 2026-05-31</span>
+    <span>thisisprabha</span>
   </footer>
 
-</div>
+</article>
 </body>
 </html>
