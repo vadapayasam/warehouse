@@ -16,7 +16,7 @@
       --success: #3fb950;
       --warning: #d29922;
       --danger: #f85149;
-      --purple: #bc8cff;
+      --ai: #2dd4bf;
       --border: #30363d;
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       --font-mono: "SF Mono", Monaco, Inconsolata, "Fira Code", monospace;
@@ -54,7 +54,7 @@
       background: var(--surface-light);
       color: var(--text-muted);
     }
-    .badge.ai { background: rgba(188,140,255,0.1); border-color: var(--purple); color: var(--purple); }
+    .badge.ai { background: rgba(45,212,191,0.1); border-color: var(--ai); color: var(--ai); }
     .badge.ux { background: rgba(88,166,255,0.1); border-color: var(--accent); color: var(--accent); }
     .badge.figma { background: rgba(63,185,80,0.1); border-color: var(--success); color: var(--success); }
     h1 { font-size: 1.875rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
@@ -128,7 +128,7 @@
       white-space: nowrap;
       margin-top: 0.1rem;
     }
-    .tag-ai { background: rgba(188,140,255,0.15); color: var(--purple); }
+    .tag-ai { background: rgba(45,212,191,0.15); color: var(--ai); }
     .tag-layout { background: rgba(88,166,255,0.15); color: var(--accent); }
     .tag-nav { background: rgba(63,185,80,0.15); color: var(--success); }
     .tag-ux { background: rgba(210,153,34,0.15); color: var(--warning); }
@@ -179,7 +179,11 @@
     .finding.positive { border-color: var(--success); }
     .finding.caution { border-color: var(--warning); }
     .finding.improvement { border-color: var(--danger); }
-    .finding h4 { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+    .finding h4 { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .status-pill { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: var(--font-mono); }
+    .status-pill.works { background: rgba(63,185,80,0.12); color: var(--success); }
+    .status-pill.caution { background: rgba(210,153,34,0.12); color: var(--warning); }
+    .status-pill.consider { background: rgba(248,81,73,0.12); color: var(--danger); }
     .finding p { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
 
     .ai-cycle {
@@ -199,8 +203,8 @@
       position: relative;
     }
     .cycle-step:last-child { border-right: none; }
-    .cycle-step .icon { font-size: 1.25rem; margin-bottom: 0.3rem; }
-    .cycle-step .step-name { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
+    .cycle-step .step-num { font-size: 0.6875rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.4rem; font-family: var(--font-mono); }
+    .cycle-step .step-name { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
     .cycle-step .step-desc { font-size: 0.75rem; color: var(--text-muted); }
 
     .verdict-box {
@@ -294,19 +298,19 @@
     <h2>Layout Structure</h2>
     <div class="card-grid">
       <div class="card">
-        <h3>🗂 Header Zone — 110px</h3>
+        <h3>Header Zone — 110px</h3>
         <p>Ticket ID, title, quick action bar. Persistent context anchor for the technician.</p>
       </div>
       <div class="card">
-        <h3>🧭 Navigation — 60px sidebar + 50px top bar</h3>
+        <h3>Navigation — 60px sidebar + 50px top bar</h3>
         <p>Global chrome. 20 nav instances. Always-visible orientation layer.</p>
       </div>
       <div class="card">
-        <h3>📋 Left Pane — Ticket Core</h3>
+        <h3>Left Pane — Ticket Core</h3>
         <p>Problem description, comments, conversation history. The human/reporter view.</p>
       </div>
       <div class="card">
-        <h3>🤖 Right Panel — AI Command Center</h3>
+        <h3>Right Pane — AI Command Center</h3>
         <p>Monica's workspace: analysis in progress, recommendations, action plan, feedback loop. The agent's view.</p>
       </div>
     </div>
@@ -319,22 +323,22 @@
     <p>Monica follows a four-stage agentic loop, each stage visually represented in the design:</p>
     <div class="ai-cycle">
       <div class="cycle-step">
-        <div class="icon">🔍</div>
+        <div class="step-num">01</div>
         <div class="step-name">Analyze</div>
         <div class="step-desc">"Analyzing the issue" progress · Live CPU/RAM/device metrics</div>
       </div>
       <div class="cycle-step">
-        <div class="icon">💡</div>
+        <div class="step-num">02</div>
         <div class="step-name">Recommend</div>
         <div class="step-desc">Quick fix vs Root cause · 19 solution card variants</div>
       </div>
       <div class="cycle-step">
-        <div class="icon">📋</div>
+        <div class="step-num">03</div>
         <div class="step-name">Plan</div>
         <div class="step-desc">Sequenced action steps · Pre-composed email templates</div>
       </div>
       <div class="cycle-step">
-        <div class="icon">🔁</div>
+        <div class="step-num">04</div>
         <div class="step-name">Validate</div>
         <div class="step-desc">Thumbs up (20 instances) · Comment refinement · Re-propose</div>
       </div>
@@ -454,47 +458,47 @@
     <h2>UX Observations — Agentic Era 2026</h2>
 
     <div class="finding positive">
-      <h4>✓ Side-by-side layout — right call for agentic UX</h4>
+      <h4><span class="status-pill works">Works</span>Side-by-side layout — right call for agentic UX</h4>
       <p>AI panel is visible while reading the ticket. No modal, no tab switch. The technician maintains dual awareness: what the reporter said + what the AI thinks. This is the correct pattern for cognitive augmentation, not replacement.</p>
     </div>
 
     <div class="finding positive">
-      <h4>✓ Dual-path solution architecture</h4>
+      <h4><span class="status-pill works">Works</span>Dual-path solution architecture</h4>
       <p>"Quick fix vs Root cause" is excellent decision architecture. It respects the technician's situational judgment — urgency of the ticket determines which path. Monica proposes, human decides.</p>
     </div>
 
     <div class="finding positive">
-      <h4>✓ Grounding AI in observable data</h4>
+      <h4><span class="status-pill works">Works</span>Grounding AI in observable data</h4>
       <p>System diagnostics (CPU, RAM, specific process names like "Chrome.exe 8.12GB") anchor Monica's analysis in verifiable reality. This builds technician trust — they can cross-check the AI's reasoning against real system state.</p>
     </div>
 
     <div class="finding positive">
-      <h4>✓ Full feedback loop designed in</h4>
+      <h4><span class="status-pill works">Works</span>Full feedback loop designed in</h4>
       <p>Thumbs Up + comment + Re-propose creates a genuine correction mechanism. The AI isn't a one-shot oracle — the technician can refine it. This is essential for real-world agentic deployment.</p>
     </div>
 
     <div class="finding positive">
-      <h4>✓ Reducing cognitive load at the action layer</h4>
+      <h4><span class="status-pill works">Works</span>Reducing cognitive load at the action layer</h4>
       <p>Pre-composed email templates, sequenced action steps — Monica does the drafting. Technician reviews and executes. Correct allocation of human vs. AI effort.</p>
     </div>
 
     <div class="finding caution">
-      <h4>⚠ Loading/analysis state needs timing clarity</h4>
+      <h4><span class="status-pill caution">Caution</span>Loading/analysis state needs timing clarity</h4>
       <p>"Analyzing the issue" animation is present but the design doesn't show how long Monica takes. For time-sensitive P1 tickets, the technician needs to know: is this 3 seconds or 30? Consider a time estimate or progress cue.</p>
     </div>
 
     <div class="finding caution">
-      <h4>⚠ Confidence signaling is implicit</h4>
+      <h4><span class="status-pill caution">Caution</span>Confidence signaling is implicit</h4>
       <p>Monica surfaces recommendations but the design doesn't show confidence levels. Technicians will naturally ask "how sure is the AI?" — a low-confidence recommendation for a critical ticket needs different visual treatment than a high-confidence one.</p>
     </div>
 
     <div class="finding improvement">
-      <h4>→ Consider: Explanation affordance</h4>
+      <h4><span class="status-pill consider">Consider</span>Consider: Explanation affordance</h4>
       <p>Current design shows WHAT Monica recommends. The "why" (reasoning trace) isn't visible. For complex tickets, technicians will want to understand the reasoning — a collapsed "Show reasoning" section would increase trust without adding visual noise.</p>
     </div>
 
     <div class="finding improvement">
-      <h4>→ Consider: Escalation / override flow</h4>
+      <h4><span class="status-pill consider">Consider</span>Consider: Escalation / override flow</h4>
       <p>When Monica is wrong, what's the flow? The feedback loop handles correction, but an explicit "I disagree, escalate this" path would close the loop for the AI's failure modes. This is table stakes for agentic deployment in enterprise IT.</p>
     </div>
   </section>
