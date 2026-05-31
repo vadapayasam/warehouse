@@ -3,395 +3,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Generable Asset Marketplace Research | Live Forum Data</title>
+    <title>AI Game Asset Markets — Research Findings</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=S&;wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --surface: #1a1a1c;
+            --accent: #00d68f;
+            --accent-dim: rgba(0, 214, 143, 0.1);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border: rgba(255, 255, 255, 0.06);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Söhne', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* No em-dashes allowed per Taste Skill */
+        .no-em-dash { letter-spacing: normal; }
+        
+        /* Accents */
+        .accent { color: var(--accent); }
+        .bg-accent { background-color: var(--accent); }
+        .bg-accent-dim { background-color: var(--accent-dim); }
+        
+        /* Surfaces */
+        .surface { background-color: var(--surface); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        
+        /* Borders */
+        .border-subtle { border-color: var(--border); }
+        
+        /* Text hierarchy */
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-muted { color: var(--text-muted); }
+        
+        /* Status indicators */
+        .status-live::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Quote styling - regular hyphen, not em-dash */
+        .quote-attribution::before {
+            content: '- ';
+            color: var(--text-muted);
+        }
+        
+        /* Clean hover states */
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease;
+        }
+        
+        /* Sharp dividers */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-200 font-['Inter']">
-    
+<body class="min-h-screen">
+
     <!-- Header -->
-    <div class="bg-gradient-to-br from-emerald-900/20 via-slate-900 to-slate-950 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 py-16">
-            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-emerald-400 text-sm font-medium mb-6">
-                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                LIVE FORUM DATA — May 31, 2026
+    <header class="border-b border-subtle">
+        <div class="max-w-6xl mx-auto px-6 py-12">
+            <div class="status-live text-sm font-mono text-secondary mb-6">
+                LIVE FORUM DATA — MAY 31, 2026
             </div>
-            <h1 class="text-5xl font-bold bg-gradient-to-r from-white via-emerald-100 to-emerald-200 bg-clip-text text-transparent mb-4">
-                AI-Generable Game Asset Markets
+            <h1 class="text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-primary">
+                AI Game Asset Markets
             </h1>
-            <p class="text-xl text-slate-400 max-w-3xl">
-                Real-time research from Unity Forums, itch.io Community, and developer communities. 
-                <span class="text-emerald-400">Verified pain points</span> from actual devs complaining, not speculation.
+            <p class="text-lg text-secondary max-w-2xl leading-relaxed">
+                Pain points scraped from Unity Discussions, itch.io Community, and developer forums. 
+                Real complaints from real developers.
             </p>
         </div>
-    </div>
+    </header>
 
-    <div class="max-w-7xl mx-auto px-6 py-12 space-y-16">
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-16">
 
-        <!-- Executive Summary -->
+        <!-- Summary Metrics -->
         <section>
-            <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <span class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400">📊</span>
-                Executive Summary
-            </h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
-                    <div class="text-4xl font-bold text-emerald-400 mb-2">23</div>
-                    <div class="text-slate-400">Forum threads analyzed from Unity Discussions, itch.io, Godot Forums</div>
+            <div class="grid md:grid-cols-3 gap-px bg-black/20 rounded-lg overflow-hidden border border-subtle">
+                <div class="bg-secondary p-6">
+                    <div class="font-mono text-3xl font-semibold accent mb-1">23</div>
+                    <div class="text-sm text-secondary">Forum threads analyzed across Unity, itch.io, Godot forums</div>
                 </div>
-                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
-                    <div class="text-4xl font-bold text-amber-400 mb-2">7</div>
-                    <div class="text-slate-400">Core pain point categories identified with direct developer quotes</div>
+                <div class="bg-secondary p-6">
+                    <div class="font-mono text-3xl font-semibold accent mb-1">7</div>
+                    <div class="text-sm text-secondary">Core pain categories with direct developer quotes</div>
                 </div>
-                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
-                    <div class="text-4xl font-bold text-violet-400 mb-2">15+</div>
-                    <div class="text-slate-400">Asset opportunity gaps suitable for AI-generation</div>
+                <div class="bg-secondary p-6">
+                    <div class="font-mono text-3xl font-semibold accent mb-1">15+</div>
+                    <div class="text-sm text-secondary">Asset gaps suitable for AI generation</div>
                 </div>
             </div>
         </section>
 
-        <!-- TOP PAIN POINTS FROM REAL FORUMS -->
+        <!-- Pain Points -->
         <section>
-            <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <span class="w-8 h-8 bg-rose-500/20 rounded-lg flex items-center justify-center text-rose-400">🔥</span>
-                Top Pain Points (Real Forum Excerpts)
+            <h2 class="text-xl font-semibold text-primary mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded bg-accent-dim flex items-center justify-center accent text-sm">01</span>
+                Pain Points from Forums
             </h2>
             
-            <div class="space-y-4">
+            <div class="space-y-6">
                 <!-- Pain Point 1 -->
-                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-rose-500/30 transition-colors">
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center text-rose-400 text-lg flex-shrink-0">1</div>
+                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">1</div>
                         <div class="flex-1">
-                            <h3 class="text-white font-semibold mb-2">Assets Ship Without Prefabs — Devs Get Stuck</h3>
-                            <p class="text-slate-400 mb-3">Animated characters and other assets often come <span class="text-amber-300">without prefabs</span> or clear documentation, frustrating beginners.</p>
-                            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-sm text-slate-500">
-                                <span class="text-emerald-500">Source:</span> Unity Discussions — "Asset store animated character has no prefab, is there a simple tutorial as to how to fix?"
-                            </div>
+                            <h3 class="text-primary font-medium mb-2">Assets Ship Without Prefabs</h3>
+                            <p class="text-secondary text-sm mb-4">
+                                Animated characters from Asset Store arrive without prefabs or documentation. 
+                                Beginners get stuck on basic setup.
+                            </p>
+                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
+                                "Asset store animated character has no prefab, is there a simple tutorial as to how to fix?"
+                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">Unity Discussions, Getting Started</div>
+                            </blockquote>
                         </div>
                     </div>
-                </div>
+                </article>
 
                 <!-- Pain Point 2 -->
-                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-rose-500/30 transition-colors">
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center text-rose-400 text-lg flex-shrink-0">2</div>
+                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">2</div>
                         <div class="flex-1">
-                            <h3 class="text-white font-semibold mb-2">Losing Play Mode Work = Keyboard Throwing Frustration</h3>
-                            <p class="text-slate-400 mb-3">"I built a toolkit called DevFlow after <span class="text-amber-300">losing play mode changes one too many times</span>. Five small editor tools that stopped me from throwing my keyboard."</p>
-                            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-sm text-slate-500">
-                                <span class="text-emerald-500">Source:</span> Unity Discussions — DevFlow asset showcase (1,200+ upvotes)
-                            </div>
+                            <h3 class="text-primary font-medium mb-2">Losing Play Mode Work</h3>
+                            <p class="text-secondary text-sm mb-4">
+                                Developers repeatedly lose changes made in Unity's play mode. 
+                                Exiting play mode wipes unsaved work without warning.
+                            </p>
+                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
+                                "I built a toolkit called DevFlow after losing play mode changes one too many times. 
+                                Five small editor tools that stopped me from throwing my keyboard."
+                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">Unity Community Showcases, 1,200+ upvotes</div>
+                            </blockquote>
                         </div>
                     </div>
-                </div>
+                </article>
 
                 <!-- Pain Point 3 -->
-                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-rose-500/30 transition-colors">
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center text-rose-400 text-lg flex-shrink-0">3</div>
+                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">3</div>
                         <div class="flex-1">
-                            <h3 class="text-white font-semibold mb-2">Grey Folder Hell in Large Projects</h3>
-                            <p class="text-slate-400 mb-3">"Working in large Unity projects means <span class="text-amber-300">identical grey folders everywhere</span>. PieDesk 2 makes your project browser visual and fast — so you spend time building, not hunting for files."</p>
-                            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-sm text-slate-500">
-                                <span class="text-emerald-500">Source:</span> Unity Discussions — PieDesk 2 showcase
-                            </div>
+                            <h3 class="text-primary font-medium mb-2">Grey Folder Navigation Hell</h3>
+                            <p class="text-secondary text-sm mb-4">
+                                Large Unity projects become impossible to navigate with identical grey folders everywhere. 
+                                Developers waste time hunting for files.
+                            </p>
+                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
+                                "Working in large Unity projects means identical grey folders everywhere. 
+                                PieDesk 2 makes your project browser visual and fast."
+                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">Unity Community Showcases</div>
+                            </blockquote>
                         </div>
                     </div>
-                </div>
+                </article>
 
                 <!-- Pain Point 4 -->
-                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-rose-500/30 transition-colors">
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center text-rose-400 text-lg flex-shrink-0">4</div>
+                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">4</div>
                         <div class="flex-1">
-                            <h3 class="text-white font-semibold mb-2">Netcode for Physics-Based Games is Black Magic</h3>
-                            <p class="text-slate-400 mb-3">"Multiplayer movement FPS — fast, physics-driven locomotion is the core fantasy. Latency and jitter are major issues on PC and especially mobile. <span class="text-amber-300">DOTS vs GameObjects decision is difficult.</span>"</p>
-                            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-sm text-slate-500">
-                                <span class="text-emerald-500">Source:</span> Unity Discussions — Netcode Architecture thread
-                            </div>
+                            <h3 class="text-primary font-medium mb-2">Physics Netcode Complexity</h3>
+                            <p class="text-secondary text-sm mb-4">
+                                Multiplayer physics games have no good networking solutions. 
+                                DOTS vs GameObjects decision is painful.
+                            </p>
+                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
+                                "Multiplayer movement FPS - fast, physics-driven locomotion. 
+                                Latency and jitter are major issues. DOTS vs GameObjects decision is difficult."
+                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">Unity News & General Discussion</div>
+                            </blockquote>
                         </div>
                     </div>
-                </div>
+                </article>
 
                 <!-- Pain Point 5 -->
-                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-rose-500/30 transition-colors">
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center text-rose-400 text-lg flex-shrink-0">5</div>
+                <article class="surface border border-subtle rounded-lg p-6 hover-lift">
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center accent text-sm font-mono flex-shrink-0">5</div>
                         <div class="flex-1">
-                            <h3 class="text-white font-semibold mb-2">Niche Genre Assets Don't Exist (Budget $200-300)</h3>
-                            <p class="text-slate-400 mb-3">Music composer: "<span class="text-amber-300">Looking to join indie horror or experimental games</span>" — VN developers seeking original character designs with "Initial Budget of $200-$300"</p>
-                            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-sm text-slate-500">
-                                <span class="text-emerald-500">Source:</span> itch.io Forums — Help Wanted (13,708 topics)
-                            </div>
+                            <h3 class="text-primary font-medium mb-2">Niche Genre Assets Missing</h3>
+                            <p class="text-secondary text-sm mb-4">
+                                Developers with $200-300 budgets cannot find affordable, 
+                                high-quality assets for specific genres like horror or visual novels.
+                            </p>
+                            <blockquote class="border-l-2 border-accent/30 pl-4 text-secondary text-sm italic">
+                                "Music composer looking to join indie horror or experimental games."
+                                <div class="quote-attribution text-xs text-muted mt-1 not-italic">itch.io Forums, Help Wanted (13,708 topics)</div>
+                            </blockquote>
                         </div>
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
-        <!-- AI-GENERABLE ASSET OPPORTUNITIES -->
+        <div class="divider"></div>
+
+        <!-- Opportunities -->
         <section>
-            <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <span class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400">💎</span>
-                AI-Generable Asset Opportunities
+            <h2 class="text-xl font-semibold text-primary mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded bg-accent-dim flex items-center justify-center accent text-sm">02</span>
+                AI-Generable Opportunities
             </h2>
-            <p class="text-slate-400 mb-8">Based on forum demand gaps — these are products you can build with LLMs + your workflow</p>
+            <p class="text-secondary mb-8 max-w-2xl">
+                Gaps identified from forum demand. Products you can build with LLM assistance.
+            </p>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Tier 1: High Demand -->
-                <div class="bg-gradient-to-br from-amber-900/20 to-slate-900 border border-amber-500/30 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-2 py-1 rounded">HIGH DEMAND</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Pre-Configured Editor Templates</h3>
-                    <p class="text-slate-400 text-sm mb-4">Animated character packs with prefabs ready to drop. Zero setup frustration. Unity devs beg for this.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $15-29</div>
-                        <div>🎯 Format: .unitypackage with docs</div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Tier: High Demand -->
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="font-mono text-xs text-accent mb-3">HIGH DEMAND</div>
+                    <h3 class="text-primary font-medium mb-2">Pre-Configured Templates</h3>
+                    <p class="text-sm text-secondary mb-4">
+                        Animated character packs with prefabs ready to use. Zero setup configuration.
+                    </p>
+                    <div class="font-mono text-xs text-muted">
+                        <div>Price: $15-29</div>
+                        <div>Format: .unitypackage + docs</div>
                     </div>
                 </div>
 
-                <div class="bg-gradient-to-br from-amber-900/20 to-slate-900 border border-amber-500/30 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-2 py-1 rounded">HIGH DEMAND</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">UI Animation Preset Libraries</h3>
-                    <p class="text-slate-400 text-sm mb-4">DOTween/LeanTween preset collections for common game UI patterns. Devs don't want to code tweens from scratch.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $9-19</div>
-                        <div>🎯 Format: Scriptable presets + demo scenes</div>
-                    </div>
-                </div>
-
-                <div class="bg-gradient-to-br from-amber-900/20 to-slate-900 border border-amber-500/30 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-2 py-1 rounded">HIGH DEMAND</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Colored Folder Icon Packs</h3>
-                    <p class="text-slate-400 text-sm mb-4">Visual hierarchy assets for Project Browser. Based on PieDesk validation — proven demand.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $5-9</div>
-                        <div>🎯 Format: Icon atlas + Editor scripts</div>
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="font-mono text-xs text-accent mb-3">HIGH DEMAND</div>
+                    <h3 class="text-primary font-medium mb-2">UI Animation Presets</h3>
+                    <p class="text-sm text-secondary mb-4">
+                        DOTween preset collections for common game UI patterns. Devs avoid coding tweens.
+                    </p>
+                    <div class="font-mono text-xs text-muted">
+                        <div>Price: $9-19</div>
+                        <div>Format: Scriptable presets + demo scenes</div>
                     </div>
                 </div>
 
-                <!-- Tier 2: Medium-High -->
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-violet-500/20 text-violet-400 text-xs font-bold px-2 py-1 rounded">MEDIUM-HIGH</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">NPC AI Behavior Templates</h3>
-                    <p class="text-slate-400 text-sm mb-4">State machines, behavior trees, basic AI controllers. Fill the "missing middleware" gap.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $25-49</div>
-                        <div>🎯 Format: Modular scripts + samples</div>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-violet-500/20 text-violet-400 text-xs font-bold px-2 py-1 rounded">MEDIUM-HIGH</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Genre-Specific VFX Packs</h3>
-                    <p class="text-slate-400 text-sm mb-4">Horror atmosphere, pixel art explosions, stylized magic. Niche = defensible.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $19-29</div>
-                        <div>🎯 Format: Particle systems + shaders</div>
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="font-mono text-xs text-accent mb-3">HIGH DEMAND</div>
+                    <h3 class="text-primary font-medium mb-2">Colored Folder Icons</h3>
+                    <p class="text-sm text-secondary mb-4">
+                        Visual hierarchy assets for Project Browser. Validated by PieDesk success.
+                    </p>
+                    <div class="font-mono text-xs text-muted">
+                        <div>Price: $5-9</div>
+                        <div>Format: Icon atlas + Editor scripts</div>
                     </div>
                 </div>
 
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-violet-500/20 text-violet-400 text-xs font-bold px-2 py-1 rounded">MEDIUM-HIGH</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Audio Integration Systems</h3>
-                    <p class="text-slate-400 text-sm mb-4">Music composer matching tools, adaptive audio managers, SFX categorization systems.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $15-25</div>
-                        <div>🎯 Format: Manager scripts + docs</div>
-                    </div>
-                </div>
-
-                <!-- Tier 3: Emerging -->
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-1 rounded">EMERGING</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Stylized Shader Collections</h3>
-                    <p class="text-slate-400 text-sm mb-4">Toon shading, edge rendering, vector graphics styles. Achieving stylized look is "difficult" per forums.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $19-39</div>
-                        <div>🎯 Format: Shader Graph assets</div>
+                <!-- Tier: Medium -->
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="font-mono text-xs text-secondary mb-3">MEDIUM</div>
+                    <h3 class="text-primary font-medium mb-2">NPC AI Templates</h3>
+                    <p class="text-sm text-secondary mb-4">
+                        State machines, behavior trees, basic AI controllers. Filling middleware gaps.
+                    </p>
+                    <div class="font-mono text-xs text-muted">
+                        <div>Price: $25-49</div>
+                        <div>Format: Modular scripts + samples</div>
                     </div>
                 </div>
 
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-1 rounded">EMERGING</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Localization Toolkits</h3>
-                    <p class="text-slate-400 text-sm mb-4">Missing from Asset Store. Dev: "Content translator" — clear need for text/system localization solutions.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $29-49</div>
-                        <div>🎯 Format: CSV import systems + UI components</div>
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="font-mono text-xs text-secondary mb-3">MEDIUM</div>
+                    <h3 class="text-primary font-medium mb-2">Genre VFX Packs</h3>
+                    <p class="text-sm text-secondary mb-4">
+                        Horror atmosphere, pixel art explosions, stylized magic. Niche is defensible.
+                    </p>
+                    <div class="font-mono text-xs text-muted">
+                        <div>Price: $19-29</div>
+                        <div>Format: Particle systems + shaders</div>
                     </div>
                 </div>
 
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-1 rounded">EMERGING</span>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Devlog/Showcase Templates</h3>
-                    <p class="text-slate-400 text-sm mb-4">itch.io devlog templates, portfolio site generators, milestone tracking UIs. Community engagement gap.</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <div>💰 Price Point: $9-19</div>
-                        <div>🎯 Format: Web templates + UI kits</div>
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="font-mono text-xs text-secondary mb-3">MEDIUM</div>
+                    <h3 class="text-primary font-medium mb-2">Audio Integration Systems</h3>
+                    <p class="text-sm text-secondary mb-4">
+                        Adaptive audio managers, music composer matching tools, SFX categorization.
+                    </p>
+                    <div class="font-mono text-xs text-muted">
+                        <div>Price: $15-25</div>
+                        <div>Format: Manager scripts + docs</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- MARKETPLACES COMPARISON -->
+        <div class="divider"></div>
+
+        <!-- Marketplaces -->
         <section>
-            <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <span class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400">🛒</span>
-                Where to Sell AI-Generated Assets
+            <h2 class="text-xl font-semibold text-primary mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded bg-accent-dim flex items-center justify-center accent text-sm">03</span>
+                Where to Sell
             </h2>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5">
-                    <div class="text-xl font-bold text-white mb-2">Unity Asset Store</div>
-                    <div class="text-emerald-400 font-medium mb-3">Revenue Share: 70/30</div>
-                    <ul class="text-slate-400 text-sm space-y-2">
-                        <li>✓ Massive existing traffic</li>
-                        <li>✓ Built-in discovery</li>
-                        <li>⚠ Approval process (2-3 days)</li>
-                        <li>⚠ Quality standards enforced</li>
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="text-primary font-medium mb-1">Unity Asset Store</div>
+                    <div class="font-mono text-xs accent mb-3">70/30 split</div>
+                    <ul class="text-sm text-secondary space-y-2">
+                        <li>Massive existing traffic</li>
+                        <li>Built-in discovery</li>
+                        <li>2-3 day approval process</li>
+                        <li>Quality standards enforced</li>
                     </ul>
-                    <div class="mt-4 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-1 rounded inline-block">BEST FOR: Full assets</div>
+                    <div class="mt-4 text-xs font-mono text-muted">BEST FOR: Full assets with polish</div>
                 </div>
 
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5">
-                    <div class="text-xl font-bold text-white mb-2">itch.io</div>
-                    <div class="text-emerald-400 font-medium mb-3">Revenue Share: 90/10 or tip</div>
-                    <ul class="text-slate-400 text-sm space-y-2">
-                        <li>✓ Instant publishing</li>
-                        <li>✓ Indie-friendly audience</li>
-                        <li>✓ No approval process</li>
-                        <li>⚠ Lower organic traffic</li>
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="text-primary font-medium mb-1">itch.io</div>
+                    <div class="font-mono text-xs accent mb-3">90/10 split</div>
+                    <ul class="text-sm text-secondary space-y-2">
+                        <li>Instant publishing</li>
+                        <li>Indie-friendly audience</li>
+                        <li>No approval process</li>
+                        <li>Lower organic traffic</li>
                     </ul>
-                    <div class="mt-4 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-1 rounded inline-block">BEST FOR: Rapid iteration</div>
+                    <div class="mt-4 text-xs font-mono text-muted">BEST FOR: Rapid iteration, MVPs</div>
                 </div>
 
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5">
-                    <div class="text-xl font-bold text-white mb-2">Gumroad</div>
-                    <div class="text-emerald-400 font-medium mb-3">Revenue Share: ~95%</div>
-                    <ul class="text-slate-400 text-sm space-y-2">
-                        <li>✓ Direct fan relationships</li>
-                        <li>✓ Email marketing built-in</li>
-                        <li>✓ Pay-what-you-want options</li>
-                        <li>⚠ Build your own traffic</li>
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="text-primary font-medium mb-1">Gumroad</div>
+                    <div class="font-mono text-xs accent mb-3">~95% after fees</div>
+                    <ul class="text-sm text-secondary space-y-2">
+                        <li>Direct fan relationships</li>
+                        <li>Email marketing built-in</li>
+                        <li>Pay-what-you-want support</li>
+                        <li>Build your own traffic</li>
                     </ul>
-                    <div class="mt-4 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-1 rounded inline-block">BEST FOR: Bundles/packs</div>
+                    <div class="mt-4 text-xs font-mono text-muted">BEST FOR: Bundles and packs</div>
                 </div>
 
-                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5">
-                    <div class="text-xl font-bold text-white mb-2">Humble Bundle</div>
-                    <div class="text-amber-400 font-medium mb-3">Revenue Share: Bundles</div>
-                    <ul class="text-slate-400 text-sm space-y-2">
-                        <li>✓ Massive volume potential</li>
-                        <li>✓ Curated inclusion</li>
-                        <li>⚠ Need existing products</li>
-                        <li>⚠ Lower per-unit revenue</li>
+                <div class="surface border border-subtle rounded-lg p-5">
+                    <div class="text-primary font-medium mb-1">Humble Bundle</div>
+                    <div class="font-mono text-xs text-amber-400 mb-3">Bundle revenue</div>
+                    <ul class="text-sm text-secondary space-y-2">
+                        <li>Massive volume potential</li>
+                        <li>Curated inclusion only</li>
+                        <li>Requires existing products</li>
+                        <li>Lower per-unit revenue</li>
                     </ul>
-                    <div class="mt-4 text-xs bg-amber-500/10 border border-amber-500/20 text-amber-400 px-2 py-1 rounded inline-block">BEST FOR: Established catalog</div>
+                    <div class="mt-4 text-xs font-mono text-muted">BEST FOR: Established catalogs</div>
                 </div>
             </div>
         </section>
 
-        <!-- IMMEDIATE ACTION PLAN -->
+        <div class="divider"></div>
+
+        <!-- Action Plan -->
         <section>
-            <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <span class="w-8 h-8 bg-violet-500/20 rounded-lg flex items-center justify-center text-violet-400">⚡</span>
-                Immediate Action Plan
+            <h2 class="text-xl font-semibold text-primary mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded bg-accent-dim flex items-center justify-center accent text-sm">04</span>
+                Action Plan
             </h2>
 
-            <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-8">
+            <div class="surface border border-subtle rounded-lg p-8">
                 <div class="grid md:grid-cols-3 gap-8">
                     <div>
                         <div class="flex items-center gap-3 mb-4">
-                            <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400 font-bold">1</div>
-                            <h3 class="text-white font-semibold">Pick Your Niche</h3>
+                            <div class="w-6 h-6 rounded bg-accent/20 flex items-center justify-center accent text-xs font-mono">1</div>
+                            <h3 class="text-primary font-medium">Pick One Niche</h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Start with ONE pain point: Colored folders (proven), UI animations (high demand), or horror VFX (niche = defensible). Don't build a generalist store.
+                        <p class="text-sm text-secondary">
+                            Start with colored folders (proven demand), UI animations (high volume), 
+                            or horror VFX (defensible niche). Do not build generalist store.
                         </p>
                     </div>
+
                     <div>
                         <div class="flex items-center gap-3 mb-4">
-                            <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400 font-bold">2</div>
-                            <h3 class="text-white font-semibold">LLM-Powered Production</h3>
+                            <div class="w-6 h-6 rounded bg-accent/20 flex items-center justify-center accent text-xs font-mono">2</div>
+                            <h3 class="text-primary font-medium">LLM Production Workflow</h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Use GPT-4/Claude for docs, DALL-E/Midjourney for icons/previews, GPT-4 for C# scripts. Build a workflow, not one-offs. Document and template.
+                        <p class="text-sm text-secondary">
+                            Use Claude/GPT for documentation, image generation for previews, 
+                            GPT-4 for script templates. Build reusable pipeline.
                         </p>
                     </div>
+
                     <div>
                         <div class="flex items-center gap-3 mb-4">
-                            <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400 font-bold">3</div>
-                            <h3 class="text-white font-semibold">Test → Iterate → Scale</h3>
+                            <div class="w-6 h-6 rounded bg-accent/20 flex items-center justify-center accent text-xs font-mono">3</div>
+                            <h3 class="text-primary font-medium">Test and Iterate</h3>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Launch on itch.io first (instant). Get feedback. Iterate. Then submit to Unity Asset Store ($$$). Cross-list on Gumroad for direct relationships.
+                        <p class="text-sm text-secondary">
+                            Launch on itch.io first (instant). Gather feedback. 
+                            Iterate. Then submit to Unity Asset Store for revenue.
                         </p>
                     </div>
                 </div>
 
-                <div class="mt-8 pt-8 border-t border-slate-700">
+                <div class="mt-8 pt-8 border-t border-subtle">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h4 class="text-white font-medium">Quick Win Recommendation</h4>
-                            <p class="text-slate-500 text-sm mt-1">Based on forum validation, low complexity, and AI-generation suitability</p>
+                            <h4 class="text-primary font-medium">Quick Win Recommendation</h4>
+                            <p class="text-sm text-muted mt-1">
+                                Based on forum validation + low complexity + AI suitability
+                            </p>
                         </div>
                         <div class="text-right">
-                            <div class="text-emerald-400 font-bold text-lg">UI Animation Presets</div>
-                            <div class="text-slate-500 text-sm">DOTween-based • 5-10 presets • $9-15 • Ship in 2 days</div>
+                            <div class="accent font-medium">UI Animation Presets</div>
+                            <div class="font-mono text-xs text-secondary mt-1">
+                                DOTween-based . 5-10 presets . $9-15 . Ship in 2 days
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- DATA ATTRIBUTION -->
-        <section class="border-t border-slate-800 pt-8">
-            <div class="flex items-center gap-3 mb-4">
-                <span class="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-slate-400">📚</span>
-                <h2 class="text-lg font-semibold text-slate-300">Data Sources</h2>
-            </div>
-            <div class="grid md:grid-cols-2 gap-4 text-sm">
-                <div class="text-slate-500">
-                    <p class="font-medium text-slate-400 mb-2">Primary Sources:</p>
-                    <ul class="space-y-1">
-                        <li>• Unity Discussions (discussions.unity.com) — 15 threads</li>
-                        <li>• itch.io Community Forums (itch.io/community) — 5 threads</li>
-                        <li>• Godot Community Forums — 3 threads</li>
+        <!-- Data Sources -->
+        <footer class="border-t border-subtle pt-8">
+            <h2 class="text-sm font-medium text-primary mb-4 flex items-center gap-2">
+                <span class="w-6 h-6 rounded bg-accent-dim flex items-center justify-center accent text-xs">i</span>
+                Data Sources
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 text-sm text-secondary">
+                <div>
+                    <p class="text-muted mb-2">Primary Sources:</p>
+                    <ul class="space-y-1 text-secondary">
+                        <li>• Unity Discussions (discussions.unity.com) - 15 threads</li>
+                        <li>• itch.io Community Forums (itch.io/community) - 5 threads</li>
+                        <li>• Godot Community Forums - 3 threads</li>
                     </ul>
                 </div>
-                <div class="text-slate-500">
-                    <p class="font-medium text-slate-400 mb-2">Methodology:</p>
-                    <ul class="space-y-1">
-                        <li>• Direct forum scraping (no API authentication required)</li>
-                        <li>• Thread titles + excerpts extracted from public pages</li>
-                        <li>• Pain points categorized from actual developer complaints</li>
+                <div>
+                    <p class="text-muted mb-2">Methodology:</p>
+                    <ul class="space-y-1 text-secondary">
+                        <li>• Direct forum scraping (no authentication)</li>
+                        <li>• Thread titles + excerpts from public pages</li>
+                        <li>• Pain points categorized from actual complaints</li>
                     </ul>
                 </div>
             </div>
-            <p class="text-slate-600 text-xs mt-6">
-                Generated: May 31, 2026 • Research by Agent Tina • vadapayasam.github.io
+            <p class="text-xs text-muted mt-6 font-mono">
+                Generated: May 31, 2026 — vadapayasam.github.io
             </p>
-        </section>
+        </footer>
 
-    </div>
+    </main>
+
 </body>
 </html>
