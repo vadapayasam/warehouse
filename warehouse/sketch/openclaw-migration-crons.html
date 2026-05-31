@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cron Jobs — OpenClaw Migration Reference</title>
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --card: #161618;
+      --border: #2a2a2e;
+      --text: #e8e8ed;
+      --muted: #6e6e78;
+      --accent: #5b5bd6;
+      --ok: #2dd4a8;
+      --err: #f87171;
+      --warn: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: .25rem; letter-spacing: -.03em; }
+    .subtitle { color: var(--muted); font-size: .875rem; margin-bottom: 2.5rem; }
+    .badge-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .badge { padding: .25rem .75rem; border-radius: 999px; font-size: .75rem; font-weight: 600; }
+    .badge-total { background: #1e1e24; border: 1px solid var(--border); color: var(--text); }
+    .badge-ok { background: rgba(45,212,168,.15); color: var(--ok); border: 1px solid rgba(45,212,168,.3); }
+    .badge-err { background: rgba(248,113,113,.15); color: var(--err); border: 1px solid rgba(248,113,113,.3); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+    .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .5rem; }
+    .card-title { font-size: 1rem; font-weight: 600; letter-spacing: -.02em; }
+    .description { font-size: .85rem; color: #9d9daa; margin-bottom: .875rem; line-height: 1.5; }
+    .meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: .375rem; }
+    .meta-item { font-size: .8rem; color: var(--muted); }
+    .meta-item span { color: var(--text); font-weight: 500; font-family: 'SF Mono', ui-monospace, monospace; font-size: .75rem; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .status-ok { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
+    .status-err { background: var(--err); box-shadow: 0 0 6px var(--err); }
+    .status-none { background: var(--muted); }
+    .prompt-preview { background: #0a0a0c; border: 1px solid var(--border); border-radius: 8px; padding: .875rem 1rem; font-size: .75rem; color: var(--muted); white-space: pre-wrap; word-break: break-all; max-height: 80px; overflow: hidden; position: relative; }
+    .prompt-preview::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: linear-gradient(transparent, #0a0a0c); }
+    .toolsets { display: flex; gap: .375rem; flex-wrap: wrap; margin-top: .75rem; }
+    .tool-chip { padding: .2rem .6rem; background: rgba(91,91,214,.15); border: 1px solid rgba(91,91,214,.3); color: #a5a5f0; border-radius: 6px; font-size: .7rem; font-weight: 500; }
+    .skill-tag { padding: .2rem .6rem; background: rgba(45,212,168,.12); border: 1px solid rgba(45,212,168,.25); color: var(--ok); border-radius: 6px; font-size: .7rem; font-weight: 500; }
+    .job-id { font-family: 'SF Mono', ui-monospace, monospace; font-size: .65rem; color: var(--muted); margin-top: .5rem; }
+    .deliver-badge { padding: .2rem .5rem; background: #1a1a1e; border: 1px solid var(--border); border-radius: 4px; font-size: .65rem; color: var(--muted); }
+    @media (max-width: 600px) { body { padding: 1rem; } .meta { gap: 1rem; } }
+  </style>
+</head>
+<body>
+
+<h1>Cron Jobs</h1>
+<p class="subtitle">11 active scheduled tasks — OpenClaw migration reference</p>
+
+<div class="badge-row">
+  <span class="badge badge-total">11 total</span>
+  <span class="badge badge-ok">9 ok</span>
+  <span class="badge badge-err">1 error</span>
+  <span class="badge badge-ok">1 watchdog (no_agent)</span>
+</div>
+
+<!-- 1 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Vault Git Auto-Sync</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Silent nightly vault backup to Git. Runs execute_code only — no LLM. Keeps the Obsidian vault in sync across machines without any manual push.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 22 * * *</span> (daily 10:30 PM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">telegram</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-30 22:01</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-05-31 22:00</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: silent vault Git sync. TOKEN OPTIMIZED.
+
+Use execute_code ONLY.
+
+```python
+from h...</div>
+  <div class="toolsets">
+    <span class="tool-chip">token-optimized-cron</span>
+    <span class="skill-tag">skill attached</span>
+  </div>
+  <div class="job-id">id: 3bfbf0568b10</div>
+</div>
+
+<!-- 2 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Weekly Agentic SaaS Hit List — Decision Grade</div>
+    <div><span class="status-dot status-err"></span></div>
+  </div>
+  <p class="description">Weekly competitive intel sweep for ITSM/MSP SaaS. Scans news, funding rounds, product launches via web + search. Output lands in vault for product decisions. <strong style="color:var(--err)">Currently failing — needs investigation.</strong></p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 9 * * 1</span> (Mon 9:00 AM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">origin</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-29 16:06</span></div>
+    <div class="meta-item">Status: <span style="color:var(--err)">error</span></div>
+    <div class="meta-item">Next: <span>2026-06-01 09:00</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: Weekly Agentic SaaS Hit List for ITSM/MSP domain. TOKEN OPTIMIZED.
+
+**OUTPUT RULE...</div>
+  <div class="toolsets">
+    <span class="tool-chip">web</span>
+    <span class="tool-chip">search</span>
+    <span class="tool-chip">session_search</span>
+  </div>
+  <div class="job-id">id: 74641dd2a8a1</div>
+</div>
+
+<!-- 3 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">GitHub Weekly Check</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Weekly digest of own GitHub activity — PRs merged, issues updated, repo changes. Terminal-only. Reports back what moved in the last 7 days.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 9 * * 1</span> (Mon 9:00 AM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">origin</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-25 09:00</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-06-01 09:00</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: weekly GitHub check. Use terminal only.
+
+NON-NEGOTIABLE OUTPUT RULE:
+- If there a...</div>
+  <div class="toolsets">
+    <span class="tool-chip">terminal</span>
+  </div>
+  <div class="job-id">id: 09c8448439f5</div>
+</div>
+
+<!-- 4 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Weekly Orphaned Note Check</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Scans the Obsidian vault for notes with no inbound links — potential abandoned ideas or lost context. Silent on success, reports only when orphans are found.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 10 * * 0</span> (Sun 10:00 AM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">origin</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-24 10:24</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-05-31 10:00</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: weekly vault orphan check. SILENT on success.
+
+Run: `python3 ~/.hermes/scripts/ch...</div>
+  <div class="toolsets">
+    <span class="tool-chip">terminal</span>
+    <span class="tool-chip">file</span>
+  </div>
+  <div class="job-id">id: d667bf986f47</div>
+</div>
+
+<!-- 5 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Monthly Stale Note Review</div>
+    <div><span class="status-dot status-none"></span></div>
+  </div>
+  <p class="description">Monthly sweep for notes untouched in 90+ days. Flags them for review — archive, link, or delete. First run scheduled for June 1.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 11 1 * *</span> (1st of month, 11:00 AM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">origin</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>never</span></div>
+    <div class="meta-item">Status: <span style="color:var(--muted)">—</span></div>
+    <div class="meta-item">Next: <span>2026-06-01 11:00</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: TOKEN OPTIMIZED stale note review.
+
+Use execute_code ONLY. List notes 90+ days ol...</div>
+  <div class="toolsets">
+    <span class="tool-chip">terminal</span>
+    <span class="tool-chip">file</span>
+  </div>
+  <div class="job-id">id: 131b21312685</div>
+</div>
+
+<!-- 6 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Weekly Past Work Review</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Friday retrospective — pulls last 7 days of session history, extracts decisions made, tasks completed, and blockers hit. Structured handoff for week-end review.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>30 18 * * 5</span> (Fri 6:30 PM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">origin</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-29 18:32</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-06-05 18:30</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN MODE: Friday weekly review. Token minimal.
+
+Fetch last 7 days via session_search. Extract: s...</div>
+  <div class="toolsets">
+    <span class="tool-chip">session_search</span>
+    <span class="tool-chip">terminal</span>
+    <span class="tool-chip">file</span>
+  </div>
+  <div class="job-id">id: 26c7df2abd39</div>
+</div>
+
+<!-- 7 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Weekly Peer Sync — Silent</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Weekly Honcho peer ID merge check. Silent on success — only outputs if it finds mergeable or broken peer links. Telegram delivery so it pings only when action needed.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 2 * * 0</span> (Sun 2:00 AM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">telegram</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-31 02:01</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-06-07 02:00</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: Weekly peer ID merge. SILENT ON SUCCESS.
+
+Check if peers linked. Output ONLY on f...</div>
+  <div class="toolsets">
+    <span class="tool-chip">terminal</span>
+  </div>
+  <div class="job-id">id: 928e555ff425</div>
+</div>
+
+<!-- 8 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Nightly Vault Processor — Auto-Ingest Raw</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Daily vault housekeeping. Processes raw/ inbox notes, runs them through the synthesizer pipeline, appends to tasks.md and index files. Output suppressed unless files need attention.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 18 * * *</span> (daily 6:00 PM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">origin</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-30 18:02</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-05-31 18:00</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: Nightly vault processor. TOKEN OPTIMIZED.
+
+**OUTPUT RULE:**
+- Only output if file...</div>
+  <div class="toolsets">
+    <span class="tool-chip">terminal</span>
+    <span class="tool-chip">file</span>
+  </div>
+  <div class="job-id">id: 22e4078f0eeb</div>
+</div>
+
+<!-- 9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Overnight Pattern Extractor — Tina Self-Improvement</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Agent Tina's own learning loop — scans session history for recurring failure patterns, missed skills, ignored memory facts. Writes findings to local skill files for self-patch. Internal only, no delivery.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>30 2 * * *</span> (daily 2:30 AM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">local only</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-31 02:32</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-06-01 02:30</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: Overnight pattern extraction for Agent Tina self-improvement. TOKEN OPTIMIZED.
+
+*...</div>
+  <div class="toolsets">
+    <span class="tool-chip">file</span>
+    <span class="tool-chip">session_search</span>
+    <span class="tool-chip">terminal</span>
+  </div>
+  <div class="job-id">id: f00d8a3ce92b</div>
+</div>
+
+<!-- 10 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Overnight Knowledge Sketch — Tina Self-Improvement</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Generates structured knowledge sketches from session history — extracted facts, decisions, project state. Feeds the pattern extractor (job 9). Internal only, no delivery.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 1 * * *</span> (daily 1:00 AM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">local only</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-31 01:04</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-06-01 01:00</span></div>
+  </div>
+  <div class="prompt-preview">CAVEMAN CRON MODE: Overnight knowledge sketch for Agent Tina self-improvement. TOKEN OPTIMIZED.
+
+**O...</div>
+  <div class="toolsets">
+    <span class="tool-chip">terminal</span>
+    <span class="tool-chip">file</span>
+    <span class="tool-chip">web</span>
+    <span class="tool-chip">search</span>
+    <span class="tool-chip">session_search</span>
+  </div>
+  <div class="job-id">id: 32d88c6b8b55</div>
+</div>
+
+<!-- 11 -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">docker-honcho-watchdog</div>
+    <div><span class="status-dot status-ok"></span></div>
+  </div>
+  <p class="description">Script-based watchdog — no LLM. Checks Docker daemon health at 9 AM and 10 PM. Silent when healthy, pings origin only when Docker is down. Simple shell script, not an agent.</p>
+  <div class="meta">
+    <div class="meta-item">Schedule: <span>0 9,22 * * *</span> (9 AM & 10 PM IST)</div>
+    <div class="meta-item">Repeat: <span>forever</span></div>
+    <div class="meta-item">Deliver: <span class="deliver-badge">origin</span></div>
+  </div>
+  <div class="meta">
+    <div class="meta-item">Last run: <span>2026-05-30 22:00</span></div>
+    <div class="meta-item">Status: <span style="color:var(--ok)">ok</span></div>
+    <div class="meta-item">Next: <span>2026-05-31 09:00</span></div>
+  </div>
+  <div class="prompt-preview">Docker Desktop watchdog — checks if Docker daemon is alive. Silent when healthy.</div>
+  <div class="toolsets">
+    <span class="tool-chip">no_agent</span>
+    <span class="tool-chip">script: docker_watchdog.sh</span>
+  </div>
+  <div class="job-id">id: f02f7f03329d</div>
+</div>
+
+</body>
+</html>
