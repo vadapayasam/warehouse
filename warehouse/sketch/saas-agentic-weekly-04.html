@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITSM/MSP Agentic Weekly — Issue #4 — June 1, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fdfbf6;--ink:#2a2520;--pencil:#6b6560;--highlight:#fff3a8;
+    --sticky-yellow:#fff9c4;--sticky-pink:#ffcdd2;--sticky-blue:#b3e5fc;--sticky-green:#c8e6c9;
+    --rule:#e0dcd3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--paper)}
+  body{
+    font-family:"Patrick Hand",cursive;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    font-size:18px;
+    padding-bottom:80px;
+  }
+  .paper-lining{
+    background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,var(--rule) 31px,var(--rule) 32px);
+    background-attachment:local;
+  }
+  .header{
+    padding:40px 24px 16px;
+    max-width:880px;margin:0 auto;position:relative;
+  }
+  .header::after{
+    content:"";display:block;height:3px;background:var(--ink);margin-top:16px;border-radius:2px;opacity:.8;
+  }
+  .header h1{font-size:42px;letter-spacing:.5px;transform:rotate(-.5deg);}
+  .meta{font-size:16px;color:var(--pencil);margin-top:8px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+  .badge{display:inline-block;background:var(--highlight);padding:2px 10px;border-radius:4px;transform:rotate(1deg);font-weight:600;color:var(--ink);border:2px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;}
+  .content{max-width:880px;margin:0 auto;padding:24px;}
+  .section{margin-bottom:48px;position:relative;}
+  .section h2{font-size:28px;display:inline-block;position:relative;transform:rotate(-.8deg);margin-bottom:16px;}
+  .section h2::after{
+    content:"";position:absolute;left:-4px;right:-8px;bottom:2px;height:10px;background:rgba(255,200,100,.35);z-index:-1;border-radius:40% 60% 50% 50% / 50% 40% 60% 50%;
+  }
+  .card{padding:16px 20px;border:2px solid var(--ink);margin-bottom:16px;transition:transform .15s ease;}
+  .card-yellow{background:var(--sticky-yellow);border-radius:2px 18px 4px 22px;}
+  .card-pink{background:var(--sticky-pink);border-radius:18px 4px 22px 4px;}
+  .card-blue{background:var(--sticky-blue);border-radius:4px 22px 2px 18px;}
+  .card-green{background:var(--sticky-green);border-radius:22px 4px 18px 2px;}
+  .card:hover{transform:translateY(-3px) rotate(.5deg);}
+  .card-top{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .card-badge{display:inline-block;font-size:14px;padding:2px 10px;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;background:rgba(255,255,255,.4);font-weight:600;}
+  .card-date{font-size:14px;color:var(--pencil);}
+  .card h3{font-size:22px;margin-bottom:6px;font-weight:600;}
+  .card p{font-size:16px;color:var(--pencil);line-height:1.5;margin-bottom:6px;}
+  .card ul{padding-left:20px;margin-top:4px;}
+  .card li{font-size:15px;color:var(--pencil);margin-bottom:3px;}
+  .card strong{color:var(--ink);}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+  .tags span{font-size:13px;padding:1px 8px;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;background:rgba(255,255,255,.4);}
+  .meta-footer{font-size:14px;color:var(--pencil);margin-top:40px;padding-top:20px;border-top:2px dashed var(--rule);max-width:880px;margin:40px auto 0;padding:20px 24px 0;}
+  .meta-footer a{color:var(--ink);text-decoration:underline;text-decoration-style:wavy;text-decoration-thickness:1.5px;}
+  .benchmark{display:inline-block;font-size:13px;padding:1px 8px;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;background:var(--highlight);margin-right:4px;}
+  .comp-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:15px;}
+  .comp-table th,.comp-table td{padding:8px 10px;text-align:left;border-bottom:2px solid var(--rule);}
+  .comp-table th{font-weight:600;color:var(--ink);font-size:14px;border-bottom:2px solid var(--ink);}
+  .comp-table td{color:var(--pencil);}
+  .comp-table tr:last-child td{border-bottom:none;}
+  .arch-diag{background:var(--paper);border:2px solid var(--ink);border-radius:4px 22px 2px 18px;padding:20px;margin:12px 0;font-family:"Inter",sans-serif;font-size:13px;line-height:1.8;}
+  .arch-diag pre{margin:0;color:var(--pencil);}
+  .price-tag{background:var(--highlight);padding:2px 8px;border-radius:4px;font-weight:600;}
+  .warning{background:#ffcdd2;padding:2px 8px;border-radius:4px;font-weight:600;}
+  @media(max-width:600px){
+    .header h1{font-size:32px}.content{padding:16px}.meta{gap:10px}
+  }
+</style>
+</head>
+<body class="paper-lining">
+
+<div class="header">
+  <h1>ITSM/MSP Agentic Weekly</h1>
+  <div class="meta">
+    <span class="badge">Issue #4</span>
+    <span>June 1, 2026</span>
+    <span>PagerDuty + AIOps</span>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ===== NEW FINDS ===== -->
+<div class="section">
+  <h2>🟡 New Finds</h2>
+
+  <div class="card card-yellow">
+    <div class="card-top"><span class="card-badge">Spring 2026 Launch</span><span class="card-date">April 29, 2026</span></div>
+    <h3>SRE Agent Becomes a Virtual Responder</h3>
+    <p>PagerDuty's SRE Agent evolved from an assistant into a <strong>first-line virtual responder</strong>. It now handles detection, triage, and initial diagnostics autonomously — escalating to humans only when it hits its confidence boundary. This is the closest any major ops platform has come to fully autonomous incident response.</p>
+    <ul>
+      <li>Handles <strong>detection → triage → initial diagnostics</strong> without human intervention</li>
+      <li>Escalates with full context package when it hits a wall</li>
+      <li>Positioned as <strong>shift-left prevention</strong>, not just response</li>
+    </ul>
+    <div class="tags"><span>Agentic SRE</span><span>Virtual Responder</span><span>Shift-Left</span></div>
+  </div>
+
+  <div class="card card-blue">
+    <div class="card-top"><span class="card-badge">Architecture</span><span class="card-date">Spring 2026</span></div>
+    <h3>Multi-Agent Ecosystem via MCP</h3>
+    <p>PagerDuty opened its agent platform through <strong>Model Context Protocol (MCP)</strong>, enabling third-party AI agents to plug into the Operations Cloud as coordinated responders. Think: Datadog agent detects anomaly → PagerDuty agent triages → Slack agent notifies → human validates. All coordinated, not siloed.</p>
+    <ul>
+      <li>MCP connectors for <strong>agent-to-agent handoffs</strong> across vendors</li>
+      <li>Operations Cloud acts as the <strong>coordination layer</strong>, not just a ticketing system</li>
+      <li>Partners include observability, DevOps, and coding tools</li>
+    </ul>
+    <div class="tags"><span>MCP</span><span>Multi-Agent</span><span>Open Protocol</span></div>
+  </div>
+
+  <div class="card card-pink">
+    <div class="card-top"><span class="card-badge">Workflow Automation</span><span class="card-date">April 28, 2026</span></div>
+    <h3>5-Step Agentic Workflow Builder</h3>
+    <p>PagerDuty published their framework for automating critical workflows with AI agents: <strong>Identify → Design → Build → Test → Deploy</strong>. Not just marketing — it's a structured onboarding path with real hooks into their platform. Targets the "islands of automation" problem where teams have tools that don't talk to each other.</p>
+    <ul>
+      <li>Framework guides teams from <strong>manual chaos → autonomous operations</strong></li>
+      <li>Each step maps to PagerDuty product capabilities</li>
+      <li>Designed for <strong>non-AI-engineers</strong> to configure agents</li>
+    </ul>
+    <div class="tags"><span>Workflow Builder</span><span>Low-Code</span><span>Onboarding</span></div>
+  </div>
+
+  <div class="card card-green">
+    <div class="card-top"><span class="card-badge">Slack-First</span><span class="card-date">Spring 2026</span></div>
+    <h3>Slack-Native Incident Management</h3>
+    <p>Deeper Slack integration means incident response happens <strong>where engineers already are</strong>. AI agents run diagnostics, pull runbooks, and update status — all within Slack threads. No context-switching to a separate dashboard.</p>
+    <ul>
+      <li>Full incident lifecycle inside Slack threads</li>
+      <li>AI agents respond directly in-channel</li>
+      <li>Reduces <strong>mean-time-to-engage</strong> by eliminating tool switching</li>
+    </ul>
+    <div class="tags"><span>ChatOps</span><span>Slack</span><span>UX</span></div>
+  </div>
+</div>
+
+<!-- ===== INCIDENT LIFECYCLE ===== -->
+<div class="section">
+  <h2>🔁 Agentic Incident Lifecycle</h2>
+
+  <div class="arch-diag">
+    <pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                    AGENTIC INCIDENT LIFECYCLE                     │
+│                                                                   │
+│  TRIGGERS          AI CLASSIFY        AI TRIAGE                   │
+│  ─────────         ───────────        ─────────                   │
+│  • Alert fires      • PagerDuty       • SRE Agent                 │
+│  • Metric breach      Advance reads     assesses severity         │
+│  • Log anomaly        alert payload   • Pulls similar             │
+│  • User report      • ML noise          past incidents            │
+│  • API webhook        reduction       • Checks affected           │
+│                      • Groups related   services                  │
+│                        alerts                                     │
+│       │                  │                  │                      │
+│       ▼                  ▼                  ▼                      │
+│  ┌─────────┐       ┌─────────┐       ┌───────────┐               │
+│  │ INGEST  │──────▶│CLASSIFY │──────▶│  TRIAGE   │               │
+│  └─────────┘       └─────────┘       └───────────┘               │
+│                                              │                     │
+│                    ┌─────────────────────────┼──────────────┐     │
+│                    │                         │              │     │
+│                    ▼                         ▼              ▼     │
+│             ┌───────────┐           ┌───────────┐   ┌─────────┐  │
+│             │AUTO-HEAL  │           │ ESCALATE  │   │SUPPRESS │  │
+│             │(Agent     │           │ to Human  │   │(Noise)  │  │
+│             │ executes   │           │ w/Context │   │         │  │
+│             │ runbook)   │           │ Package   │   │         │  │
+│             └───────────┘           └───────────┘   └─────────┘  │
+│                    │                         │                     │
+│                    ▼                         ▼                     │
+│             ┌───────────┐           ┌───────────┐                │
+│             │ VERIFY &  │           │ HUMAN     │                │
+│             │ CLOSE     │           │ RESOLVES  │                │
+│             │(Agent      │           │           │                │
+│             │ confirms   │           │           │                │
+│             │ fix)       │           │           │                │
+│             └───────────┘           └───────────┘                │
+│                    │                         │                     │
+│                    └─────────┬───────────────┘                     │
+│                              ▼                                     │
+│                     ┌───────────────┐                              │
+│                     │ FEEDBACK LOOP │                              │
+│                     │ • Update KB   │                              │
+│                     │ • Retrain ML  │                              │
+│                     │ • Refine      │                              │
+│                     │   runbooks    │                              │
+│                     └───────────────┘                              │
+└─────────────────────────────────────────────────────────────────┘
+    </pre>
+  </div>
+
+  <div class="card card-yellow">
+    <h3>Where AI Intervenes vs. Where Humans Take Over</h3>
+    <table class="comp-table">
+      <tr><th>Stage</th><th>AI Agent</th><th>Human</th><th>Boundary Condition</th></tr>
+      <tr><td>Ingest</td><td>✓ Noise reduction, grouping</td><td>—</td><td>Fully automated</td></tr>
+      <tr><td>Classify</td><td>✓ ML + LLM classification</td><td>—</td><td>Uncertain → flag for review</td></tr>
+      <tr><td>Triage</td><td>✓ Severity, impact, similar past</td><td>Review if novel</td><td>Confidence &lt; threshold</td></tr>
+      <tr><td>Auto-Heal</td><td>✓ Runbook execution</td><td>Approve if destructive</td><td>Destructive actions gated</td></tr>
+      <tr><td>Escalate</td><td>✓ Context package assembly</td><td>✓ Resolution</td><td>Handoff with full context</td></tr>
+      <tr><td>Verify</td><td>✓ Health check, automated tests</td><td>Spot-check</td><td>Sampling for QA</td></tr>
+      <tr><td>Close</td><td>✓ Auto-close with summary</td><td>Review summary</td><td>Post-mortem triggers</td></tr>
+      <tr><td>Learn</td><td>✓ KB update, model feedback</td><td>✓ Post-mortem writeup</td><td>Human writes, AI enriches</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== PRICING INTELLIGENCE ===== -->
+<div class="section">
+  <h2>💰 Pricing Intelligence</h2>
+
+  <div class="card card-pink">
+    <h3>PagerDuty AIOps + Advance (as of June 2026)</h3>
+    <table class="comp-table">
+      <tr><th>Product</th><th>Starting Price</th><th>Model</th><th>What You Get</th></tr>
+      <tr>
+        <td><strong>AIOps</strong></td>
+        <td><span class="price-tag">$699/mo</span> (annual)<br>$799/mo (monthly)</td>
+        <td>Consumption-based</td>
+        <td>ML noise reduction, event grouping, real-time context, event-driven automation</td>
+      </tr>
+      <tr>
+        <td><strong>Advance (Gen AI Add-on)</strong></td>
+        <td><span class="price-tag">$415/mo</span> (annual only)</td>
+        <td>Per-seat add-on</td>
+        <td>AI Agents, generative runbooks, intelligent triage, Slack-native AI, post-incident summaries</td>
+      </tr>
+      <tr>
+        <td><strong>Operations Cloud (Bundle)</strong></td>
+        <td>Custom pricing</td>
+        <td>Platform + consumption</td>
+        <td>Incident Mgmt + AIOps + Automation + Customer Service Ops</td>
+      </tr>
+    </table>
+    <p style="margin-top:8px;"><strong>Key takeaway:</strong> Advance requires annual commitment and is add-on only — you can't buy it standalone. The AI agents live behind a paywall that assumes you're already deep in the PagerDuty ecosystem. No transparent per-resolution pricing (unlike Atlassian Rovo's $1/resolution model).</p>
+  </div>
+
+  <div class="card card-blue">
+    <h3>How This Compares to Last Week's Pricing</h3>
+    <table class="comp-table">
+      <tr><th>Vendor</th><th>AI Pricing Unit</th><th>Entry Price</th><th>Transparency</th></tr>
+      <tr><td>Atlassian Rovo (JSM)</td><td>Per resolution ($1.00)</td><td>$0 + consumption</td><td>✅ Transparent</td></tr>
+      <tr><td>ServiceNow Now Assist</td><td>Per user/month (tiered)</td><td>Custom quote</td><td>❌ Opaque</td></tr>
+      <tr><td><strong>PagerDuty Advance</strong></td><td><strong>Flat add-on ($415/mo)</strong></td><td><strong>$415/mo + AIOps base</strong></td><td><strong>⚠️ Partial</strong></td></tr>
+      <tr><td>Freshworks Freddy AI</td><td>Per agent/month</td><td>$49/agent/mo</td><td>✅ Transparent</td></tr>
+    </table>
+    <p style="margin-top:8px;">PagerDuty's flat add-on model is simpler to budget for than consumption pricing — but it also means you pay the same whether your AI agents resolve 10 incidents or 10,000. No incentive alignment on resolution volume.</p>
+  </div>
+</div>
+
+<!-- ===== WORTH WATCHING ===== -->
+<div class="section">
+  <h2>🔭 Worth Watching</h2>
+
+  <div class="card card-green">
+    <h3>Competitive Positioning: PagerDuty vs. The Field</h3>
+    <table class="comp-table">
+      <tr><th>Dimension</th><th>PagerDuty</th><th>ServiceNow</th><th>Atlassian (JSM+Rovo)</th></tr>
+      <tr><td><strong>Agent Autonomy</strong></td><td>⭐⭐⭐⭐ SRE Agent as first responder</td><td>⭐⭐⭐ Now Assist aids humans</td><td>⭐⭐ Rovo agents, early stage</td></tr>
+      <tr><td><strong>Multi-Agent Protocol</strong></td><td>⭐⭐⭐⭐ MCP — open, cross-vendor</td><td>⭐⭐ Proprietary only</td><td>⭐⭐ MCP connectors, but ecosystem-locked</td></tr>
+      <tr><td><strong>ITSM Depth</strong></td><td>⭐⭐ Incident-only, no ITSM</td><td>⭐⭐⭐⭐⭐ Full ITIL suite</td><td>⭐⭐⭐⭐ JSM covers ITSM well</td></tr>
+      <tr><td><strong>MSP Readiness</strong></td><td>⭐⭐ Multi-tenant, but no PSA</td><td>⭐⭐⭐ MSP partner program</td><td>⭐ No native MSP features</td></tr>
+      <tr><td><strong>Pricing Clarity</strong></td><td>⭐⭐⭐ Flat add-on, partial</td><td>⭐ Opaque enterprise</td><td>⭐⭐⭐⭐ Per-resolution, transparent</td></tr>
+      <tr><td><strong>Slack/DevOps Native</strong></td><td>⭐⭐⭐⭐⭐ Best in class</td><td>⭐⭐ Separate module</td><td>⭐⭐⭐ Good, not ops-first</td></tr>
+    </table>
+  </div>
+
+  <div class="card card-yellow">
+    <h3>PagerDuty's Architecture: Operations Cloud as Coordination Layer</h3>
+    <div class="arch-diag">
+      <pre>
+┌──────────────────────────────────────────────────────────┐
+│                  OPERATIONS CLOUD                          │
+│  ┌─────────┐  ┌─────────┐  ┌──────────┐  ┌───────────┐  │
+│  │Incident │  │ AIOps   │  │Automation│  │Customer   │  │
+│  │Mgmt     │  │         │  │          │  │Service Ops│  │
+│  └────┬────┘  └────┬────┘  └────┬─────┘  └─────┬─────┘  │
+│       │            │            │               │         │
+│       └────────────┼────────────┼───────────────┘         │
+│                    │            │                          │
+│            ┌───────┴────────────┴───────┐                  │
+│            │     PAGERDUTY ADVANCE      │                  │
+│            │  ┌──────────────────────┐  │                  │
+│            │  │     AI AGENTS        │  │                  │
+│            │  │  • SRE Agent         │  │                  │
+│            │  │  • Triage Agent      │  │                  │
+│            │  │  • Diagnostics Agent │  │                  │
+│            │  │  • Runbook Agent     │  │                  │
+│            │  └──────────┬───────────┘  │                  │
+│            └─────────────┼──────────────┘                  │
+│                          │                                  │
+│            ┌─────────────┼──────────────┐                  │
+│            │    MCP CONNECTOR LAYER     │                  │
+│            │  ┌──────┐ ┌──────┐ ┌─────┐│                  │
+│            │  │Slack │ │GitHub│ │Data-││  ... more        │
+│            │  │Agent │ │Agent │ │dog  ││  partners        │
+│            │  └──────┘ └──────┘ └─────┘│                  │
+│            └───────────────────────────┘                  │
+└──────────────────────────────────────────────────────────┘
+
+  THIRD-PARTY AGENTS (MCP)
+  ┌────────┐  ┌────────┐  ┌────────┐
+  │Datadog │  │  New   │  │Custom  │
+  │  AI    │  │ Relic  │  │ Agent  │
+  └────┬───┘  └───┬────┘  └───┬────┘
+       │          │           │
+       └──────────┼───────────┘
+                  │
+          [MCP Protocol]
+                  │
+        Operations Cloud Coordination
+      </pre>
+    </div>
+    <p>The MCP layer is the big bet: PagerDuty doesn't need to build every agent. They want to be the <strong>coordination fabric</strong> that routes work between specialized agents from any vendor. If this takes off, they become the "Kubernetes of operational AI."</p>
+  </div>
+</div>
+
+<!-- ===== MSP RELEVANCE ===== -->
+<div class="section">
+  <h2>🛠️ MSP Relevance Assessment</h2>
+
+  <div class="card card-pink">
+    <h3>Where PagerDuty Fits (and Doesn't) for MSPs</h3>
+    <table class="comp-table">
+      <tr><th>MSP Need</th><th>PagerDuty Fit</th><th>Gap</th></tr>
+      <tr><td>Multi-tenant alert routing</td><td>✅ Teams + escalation policies</td><td>No native client-separation billing</td></tr>
+      <tr><td>Automated NOC</td><td>✅ SRE Agent as first responder</td><td>Requires runbook investment</td></tr>
+      <tr><td>Client-facing AI</td><td>⚠️ Customer Service Ops exists</td><td>Not MSP-grade yet</td></tr>
+      <tr><td>PSA integration</td><td>❌ None native</td><td>ConnectWise/Autotask missing</td></tr>
+      <tr><td>RMM alert ingestion</td><td>✅ Via webhooks + 700+ integrations</td><td>Requires custom mapping</td></tr>
+      <tr><td>Per-client billing</td><td>❌ Not designed for MSP model</td><td>Flat per-seat pricing doesn't align</td></tr>
+      <tr><td>Co-managed IT</td><td>⚠️ Possible via teams</td><td>No co-managed workflow templates</td></tr>
+    </table>
+    <p style="margin-top:8px;"><strong>Bottom line:</strong> PagerDuty is ops-native, not MSP-native. The SRE Agent is genuinely impressive for internal DevOps teams. But MSPs need PSA integration, client billing, and co-managed workflows — none of which PagerDuty has prioritized. <span class="warning">Not a drop-in MSP solution.</span></p>
+  </div>
+</div>
+
+<!-- ===== ACTION ITEMS ===== -->
+<div class="section">
+  <h2>📋 Action Items</h2>
+
+  <div class="card card-blue">
+    <h3>Next Research Candidates</h3>
+    <ul>
+      <li><strong>Issue #5 (June 8):</strong> ConnectWise + RMM AI — the MSP-native angle. How does the dominant PSA/RMM vendor approach agentic AI?</li>
+      <li><strong>Issue #6 (June 15):</strong> Datadog AIOps/Watchdog — observability-first agentic AI, natural complement to PagerDuty</li>
+      <li><strong>Backlog candidates:</strong> Atomicwork (emerging ITSM AI), NinjaOne (AI Co-Pilot for MSPs), HaloPSA (AI features)</li>
+    </ul>
+  </div>
+
+  <div class="card card-yellow">
+    <h3>Design Takeaways for SuperOps</h3>
+    <ul>
+      <li>PagerDuty's <strong>MCP-based multi-agent protocol</strong> is the standard to watch — if you're building an AI service desk, MCP compatibility should be on the roadmap</li>
+      <li>The <strong>"virtual responder" pattern</strong> (agent as first line, human as escalation) is the UX model to steal — it's cleaner than chatbot-in-a-widget</li>
+      <li>PagerDuty's flat add-on pricing ($415/mo) vs Atlassian's consumption ($1/resolution) — two competing models, worth tracking which wins</li>
+      <li>Slack-native incident management is the bar now — if your AI doesn't work where engineers live, it's friction</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="meta-footer">
+  <p>ITSM/MSP Agentic Weekly — Issue #4 — June 1, 2026</p>
+  <p>Research by Agent Tina. Sources: PagerDuty blog, docs, pricing pages, EfficientlyConnected analysis.</p>
+  <p>
+    <a href="saas-agentic-weekly-index.html">← Archive Index</a> &nbsp;|&nbsp;
+    <a href="saas-agentic-weekly-03.html">← Issue #3 (JSM + Rovo)</a> &nbsp;|&nbsp;
+    <a href="saas-agentic-weekly-05.html">Issue #5 (ConnectWise) →</a>
+  </p>
+</div>
+
+</body>
+</html>
