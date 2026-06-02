@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How I Built an Agent-Publish Framework That Codes and Tests Itself</title>
+<style>
+:root{
+  --bg:#0f0f0f;--fg:#e8e6e3;--muted:#8a8580;--accent:#ff6b35;--accent-2:#00d4aa;
+  --surface:#1a1a1a;--border:#2a2a2a;--code-bg:#141414
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{
+  font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  line-height:1.65;color:var(--fg);background:var(--bg);margin:0;padding:0;
+  -webkit-font-smoothing:antialiased
+}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+a:hover{border-bottom-color:var(--accent)}
+.back{display:inline-block;margin:2.5rem auto 0;font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+header,main{max-width:760px;margin:0 auto;padding:2rem}
+header{padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+main{padding-top:1.5rem}
+h1{font-size:2rem;font-weight:700;line-height:1.15;letter-spacing:-0.02em;margin:0;color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+h2{font-size:1.15rem;font-weight:600;margin:3rem 0 1rem;padding-top:1rem;border-top:3px solid var(--accent);color:var(--fg);text-transform:uppercase;letter-spacing:.04em;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+h3{font-size:1rem;font-weight:600;margin:1.75rem 0 .5rem;color:var(--accent-2);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+p{margin:0 0 1.25rem}
+.meta{font-size:.8125rem;color:var(--muted);margin-top:.75rem;letter-spacing:.02em}
+.meta code{background:var(--surface);padding:.15em .4em;border-radius:4px;font-size:.78em;color:var(--accent)}
+.lead{font-size:1.1rem;color:var(--muted);line-height:1.5;margin-bottom:2rem;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.callout{background:var(--surface);border-left:4px solid var(--accent);padding:1rem 1.25rem;margin:1.5rem 0;font-size:.9rem;color:var(--muted)}
+.callout strong{color:var(--fg)}
+table{width:100%;border-collapse:collapse;font-size:.875rem;margin:1.5rem 0;background:var(--surface);border:1px solid var(--border)}
+th,td{text-align:left;padding:.65rem 1rem;border-bottom:1px solid var(--border)}
+thead th{font-weight:600;color:var(--fg);background:var(--code-bg);border-bottom:2px solid var(--accent);text-transform:uppercase;font-size:.8rem;letter-spacing:.05em}
+tr:hover td{background:rgba(255,107,53,.04)}
+ul{margin:0 0 1.25rem;padding-left:1.75rem}
+li{margin-bottom:.5rem}
+li::marker{color:var(--accent)}
+blockquote{border-left:3px solid var(--accent-2);margin:1.75rem 0;padding:.5rem 0 .5rem 1.25rem;color:var(--muted);font-style:italic;background:none}
+code{background:var(--code-bg);padding:.2em .45em;border-radius:4px;font-size:.84em;font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--accent-2)}
+pre{background:var(--code-bg);padding:1.25rem;border-radius:6px;overflow-x:auto;font-size:.82rem;margin:1.5rem 0;line-height:1.6;border:1px solid var(--border)}
+pre code{background:none;padding:0;font-size:inherit;color:var(--fg)}
+.tag{display:inline-block;background:var(--surface);border:1px solid var(--border);padding:.25rem .6rem;border-radius:4px;font-size:.75rem;color:var(--muted);margin:0 .3rem .3rem 0}
+hr{border:none;border-top:1px solid var(--border);margin:2.5rem 0}
+.grid-2{display:grid;grid-template-columns:1fr;gap:1.5rem;margin:1.5rem 0}
+@media(min-width:640px){.grid-2{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--border);padding:1.25rem;border-radius:6px}
+.card h3{margin-top:0;color:var(--fg)}
+.card p{font-size:.9rem;color:var(--muted);margin-bottom:0}
+.status-done{color:var(--accent-2);font-weight:600}
+.status-wip{color:var(--accent);font-weight:600}
+.status-todo{color:var(--muted)}
+@media print{body{background:#fff;color:#000}a[href]:after{content:" (" attr(href) ")";font-size:.75rem;color:#666}.back{display:none}}
+</style>
+</head>
+<body>
+<a href="./" class="back">&larr; Back to sketch</a>
+
+<header>
+  <h1>How I Built an Agent-Publish Framework That Codes and Tests Itself</h1>
+  <p class="meta">Published <time datetime="2026-06-02">June 2, 2026</time> &middot; <code>agent-publish</code> &middot; open-source</p>
+</header>
+
+<main>
+
+<p class="lead">
+Every night my agent runs research. Every morning I wake up to markdown files sitting in a folder, going nowhere. That is the 3 AM problem. This post is how I am fixing it, with code that writes code, tests itself, and ships to GitHub Pages on a schedule. No hand-holding. No manual copy-paste.
+</p>
+
+<div class="callout">
+<strong>TL;DR:</strong> I built <code>agent-publish</code>, a Python CLI that turns agent markdown into styled HTML and pushes it to GitHub Pages. A cron job runs daily, pulls tasks from a Kanban file, writes code, runs tests, commits, and pushes. The agent does the work. I just review the output.
+</div>
+
+<h2>The Problem</h2>
+
+<p>I run three research crons every Monday. ITSM/MSP agentic AI at 9 AM. Design evolution at 2 PM. Skills radar at 7 PM. Each one produces a markdown report. For months those reports lived in <code>~/.hermes/cron/output/</code>, invisible to everyone including me.</p>
+
+<p>The gap between "agent produced research" and "human can read it" was manual drudge work: copy markdown, paste into a converter, style it, commit, push. I did it once. Then twice. By the third time I knew I would rather write a tool than do this again.</p>
+
+<p>That is how <a href="https://github.com/thisisprabha/agent-publish">agent-publish</a> started. Not as a grand vision. As a refusal to do repetitive shit.</p>
+
+<h2>What Agent-Publish Does</h2>
+
+<p>At its core it is a markdown-to-HTML pipeline with three jobs:</p>
+
+<ul>
+<li><strong>Convert</strong> markdown to semantic HTML with syntax highlighting, tables, and a TOC.</li>
+<li><strong>Style</strong> it with inline CSS. No external dependencies. No CDN fonts. No JavaScript.</li>
+<li><strong>Publish</strong> to a GitHub Pages repo with fingerprint-based deduplication. No duplicate commits.</li>
+</ul>
+
+<p>The CLI is dead simple:</p>
+
+<pre><code>$ agent-publish research.md --repo ~/Projects/vadapayasam.github.io --theme default</code></pre>
+
+<p>That one command produces a self-contained HTML file, copies it to the right path, commits with a cache-busting hash, and pushes to <code>main</code>. If the content has not changed, it skips the commit entirely.</p>
+
+<h2>The Architecture</h2>
+
+<div class="grid-2">
+<div class="card">
+<h3>Converter</h3>
+<p>Parses markdown with <code>Python-Markdown</code> extensions for fenced code, tables, and TOC. Extracts the H1 as title. Generates a content fingerprint for dedup.</p>
+</div>
+<div class="card">
+<h3>Publisher</h3>
+<p>Git-aware deployment. Checks a JSON cache before writing. Commits with a short prefix. Pushes to origin. Handles asset copying alongside the HTML.</p>
+</div>
+<div class="card">
+<h3>Themes</h3>
+<p>Three built-in CSS families: default (warm cream), minimal (brutal black and white), and brutalist (neon on black). All inline. No external files.</p>
+</div>
+<div class="card">
+<h3>Validator</h3>
+<p>Post-publish checks: HTML structure, CSS renders without deps, URL is reachable, commit is non-empty. Fails loudly if anything breaks.</p>
+</div>
+</div>
+
+<p>The repo lives at <a href="https://github.com/thisisprabha/agent-publish">github.com/thisisprabha/agent-publish</a>. It is MIT licensed. Use it, fork it, ignore it. I do not care.</p>
+
+<h2>But That Is Just the Tool</h2>
+
+<p>The interesting part is not the code. It is how the agent runs it without me.</p>
+
+<p>Here is the daily loop:</p>
+
+<ol>
+<li><strong>Cron fires at 1 AM IST.</strong> A Hermes cron job loads the <code>kanban-codex-lane</code> skill.</li>
+<li><strong>It reads <code>KANBAN.md</code></strong> inside the repo. That file has five columns: Backlog, Ready, In Progress, Review, Done.</li>
+<li><strong>Picks the top two Ready cards.</strong> Never more than two. Constraint forces focus.</li>
+<li><strong>Executes each card:</strong> write code, run tests, fix failures, commit.</li>
+<li><strong>Moves cards</strong> from Ready to In Progress to Done.</li>
+<li><strong>Pushes</strong> the updated Kanban state and all commits to GitHub.</li>
+<li><strong>Sends a Telegram summary</strong> with what got done, what failed, and what is next.</li>
+</ol>
+
+<p>The Kanban file is the single source of truth. Not Todoist. Not a Trello board. A markdown file in Git. The cron reads only that file, so the context window stays tiny. No 15K token roadmap planning sessions. Just: read two cards, do the work, commit.</p>
+
+<h2>How the Daily Sprint Works in Practice</h2>
+
+<p>On June 2, 2026, the cron woke up and found AP-001 and AP-002 in the Ready column:</p>
+
+<ul>
+<li><span class="status-done">AP-001 DONE</span> &mdash; Scaffold core converter module (markdown to HTML with fenced code and tables)</li>
+<li><span class="status-done">AP-002 DONE</span> &mdash; Create base CSS system inline, clean minimal style, mobile responsive</li>
+</ul>
+
+<p>It wrote <code>converter.py</code>, <code>themes.py</code>, and a test that verified the HTML output had a <code>&lt;main&gt;</code> tag and no broken tables. Then it ran <code>pytest</code>. Tests passed. Cards moved to Done. Commit: <code>🤖 Agent publish: scaffold converter + themes</code>.</p>
+
+<p>Next day it will pick AP-003 and AP-004. CLI entry point and GitHub Pages deployment helper. Two cards. No scope creep.</p>
+
+<h2>The Model Layer</h2>
+
+<p>Here is where it gets slightly unhinged. The cron does not just run shell commands. It loads an LLM skill, reads the Kanban context, and reasons about what code to write. It can:</p>
+
+<ul>
+<li>Generate Python modules from a card description.</li>
+<li>Write tests before implementation, or after, depending on the card.</li>
+<li>Debug its own test failures by reading stderr and patching the code.</li>
+<li>Refuse to commit if tests fail. No green-check theatre.</li>
+</ul>
+
+<p>The model is Kimi k2.6 via a custom provider. It is cheap, has a 1M token context window, and does not mind reading stack traces. I do not use it for design work. That is my job. But for plumbing code, tests, and repetitive publishing logic? It is faster than me and does not get bored.</p>
+
+<h2>The Honest Part (What Is Still Broken)</h2>
+
+<p>I am not going to sell you a finished product. Here is what still sucks:</p>
+
+<table>
+<thead>
+<tr><th>Problem</th><th>Status</th><th>Why It Hurts</th></tr>
+</thead>
+<tbody>
+<tr><td>Syntax highlighting requires Pygments</td><td class="status-wip">WIP</td><td>Adds a dependency. Inline CSS is cleaner but hard to maintain.</td></tr>
+<tr><td>No dark mode toggle</td><td class="status-todo">TODO</td><td>Media query is easy. Toggle with JS is not. Personal preference: ship without.</td></tr>
+<tr><td>Image asset copying is naive</td><td class="status-wip">WIP</td><td>Relative paths break if the markdown references parent directories.</td></tr>
+<tr><td>Config file is YAML</td><td class="status-done">DONE</td><td>Actually fine. TOML would be cooler but YAML is readable.</td></tr>
+<tr><td>No PyPI package yet</td><td class="status-todo">TODO</td><td>Need <code>setup.py</code>, classifiers, and a release workflow. Boring but required.</td></tr>
+<tr><td>Tests are minimal</td><td class="status-wip">WIP</td><td>Four sample markdowns verify structure. Need integration tests for git push.</td></tr>
+</tbody>
+</table>
+
+<p>The Kanban board has twelve cards total. Seven are Done. Five are in flight. I am not adding new features until those five are closed. Scope discipline is the only reason this has not become abandonware yet.</p>
+
+<h2>Why Git-Based Kanban Instead of Todoist</h2>
+
+<p>I use Todoist for my daily life. Groceries, calls, review requests. But for agent sprints it is the wrong shape. Todoist tasks are flat. They do not know about git state, commit hashes, or test failures.</p>
+
+<p>A markdown Kanban file in the repo solves that:</p>
+
+<ul>
+<li>Git history shows when a card moved from Ready to Done. Immutable audit trail.</li>
+<li>The agent reads it with zero API calls. No rate limits. No auth tokens.</li>
+<li>I can edit it manually if I want to reorder priorities. The agent will pick up the change on the next run.</li>
+<li>It is portable. Anyone who clones the repo sees the exact same board.</li>
+</ul>
+
+<p>Todoist still gets a mirror task called <code>[Mirror] agent-publish daily sprint</code>. That is for my human brain, not the agent. The agent does not touch Todoist.</p>
+
+<h2>How to Use This for Your Own Projects</h2>
+
+<p>If you want to copy this, here is the shortest path:</p>
+
+<ol>
+<li><strong>Clone <code>thisisprabha/agent-publish</code></strong> and install it: <code>pip install -e .</code></li>
+<li><strong>Create a repo with GitHub Pages enabled.</strong> Any static site generator works. I use raw HTML in a <code>sketch/</code> folder.</li>
+<li><strong>Write a <code>KANBAN.md</code></strong> with your first two tasks in the Ready column. Keep them small. "Scaffold converter" is a day of work. "Build entire platform" is a year of disappointment.</li>
+<li><strong>Set a cron</strong> in Hermes (or any agent scheduler) that runs daily, loads the repo, reads Kanban, executes Ready cards, commits, pushes.</li>
+<li><strong>Do not watch it.</strong> Check the Telegram summary in the morning. If it failed, read the error. If it succeeded, move on with your life.</li>
+</ol>
+
+<p>The magic is not the tool. It is the constraint: <strong>two cards per day, no more.</strong> That forces the agent to finish things. Without that limit you get beautiful half-finished architecture diagrams and zero working code.</p>
+
+<h2>What Comes Next</h2>
+
+<p>The immediate backlog is finishing the core package: PyPI release, better tests, and a README that does not lie about features. After that I want to extract three more agent workflows from my vault:</p>
+
+<ul>
+<li><strong>Agent-lane:</strong> A subagent orchestration pattern using worktree isolation. One agent writes, one tests, one reviews. No single thread choking on context limits.</li>
+<li><strong>Agent-self-audit:</strong> Nightly log analysis that finds broken patterns in cron output and opens repair tasks automatically.</li>
+<li><strong>Agent-research-guard:</strong> A state-aware research pipeline that fingerprints web sources before expensive LLM calls, skipping duplicates and drifting queries.</li>
+</ul>
+
+<p>Each one will get its own repo, its own Kanban, and its own daily cron. The goal is a fleet of small agents with narrow scope, not one god-agent that knows everything and does nothing.</p>
+
+<hr>
+
+<p style="color:var(--muted);font-size:.9rem">
+Built by <a href="https://github.com/thisisprabha">Prabha</a> with <a href="https://github.com/thisisprabha/agent-publish">agent-publish</a>. Code is MIT. Opinions are mine. If you find a bug, open an issue. If you want to argue about YAML vs TOML, keep it to yourself.
+</p>
+
+</main>
+</body>
+</html>
