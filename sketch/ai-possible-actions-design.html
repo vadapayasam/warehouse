@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Possible Actions Panel — Design Exploration</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0F0E1A;
+    color: #fff;
+    min-height: 100vh;
+    padding: 40px 24px;
+  }
+
+  /* ─── Page header ─── */
+  .page-header {
+    max-width: 1200px;
+    margin: 0 auto 48px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .page-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+  .page-header .meta {
+    font-size: 12px;
+    color: #6B7FCC;
+    margin-top: 4px;
+  }
+  .figma-badge {
+    background: rgba(92,53,213,0.15);
+    border: 1px solid rgba(92,53,213,0.3);
+    color: #A78BFA;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .figma-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: #5C35D5;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* ─── Section labels ─── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #4A5568;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* ─── Canvas ─── */
+  .canvas {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
+  }
+  .left-col { display: flex; flex-direction: column; gap: 32px; }
+  .right-col { display: flex; flex-direction: column; gap: 24px; }
+
+  /* ─── Ticket context mockup ─── */
+  .ticket-context {
+    background: #1A1728;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 12px;
+    color: #6B7FCC;
+  }
+  .ticket-context .tc-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .ticket-id { color: #A78BFA; font-weight: 600; }
+  .ticket-title { color: rgba(255,255,255,0.7); font-size: 13px; }
+  .tc-meta { display: flex; gap: 12px; }
+  .tc-tag {
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+  .monica-summary {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: rgba(92,53,213,0.1);
+    border: 1px solid rgba(92,53,213,0.2);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #C4B5FD;
+    line-height: 1.5;
+  }
+  .monica-summary .m-label {
+    font-weight: 600;
+    color: #A78BFA;
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+  }
+
+  /* ═══════════════════════════════════
+     VARIATION A: HORIZONTAL
+  ═══════════════════════════════════ */
+  .var-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6B7FCC;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .var-label .tag {
+    background: rgba(92,53,213,0.15);
+    border: 1px solid rgba(92,53,213,0.25);
+    color: #A78BFA;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+  }
+
+  .panel-horizontal {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    padding: 16px 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  }
+  .ph-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .ai-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #F0EBFF;
+    color: #5C35D5;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ai-chip .dot {
+    width: 6px; height: 6px;
+    background: #5C35D5;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ph-heading {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E1B4B;
+    flex: 1;
+  }
+  .conf-badge {
+    background: #E8F8EE;
+    color: #27AE60;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ph-divider {
+    height: 1px;
+    background: #E2E8F0;
+    margin-bottom: 12px;
+  }
+  .ph-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .ph-btn {
+    flex: 1;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .ph-btn.primary {
+    background: #5C35D5;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(92,53,213,0.3);
+  }
+  .ph-btn.primary:hover { background: #4C2AB8; }
+  .ph-btn.secondary {
+    background: #fff;
+    color: #1E1B4B;
+    border: 1px solid #E2E8F0;
+  }
+  .ph-btn.secondary:hover { background: #F8FAFC; }
+  .ph-btn.ghost {
+    background: #F8FAFC;
+    color: #64748B;
+  }
+  .ph-btn.ghost:hover { background: #EFF2F7; }
+
+  /* ═══════════════════════════════════
+     VARIATION B: VERTICAL
+  ═══════════════════════════════════ */
+  .panel-vertical {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    padding: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  }
+  .pv-header {
+    margin-bottom: 12px;
+  }
+  .pv-chip-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .pv-heading {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E1B4B;
+    margin-bottom: 5px;
+    line-height: 1.35;
+  }
+  .pv-sub {
+    font-size: 12px;
+    color: #64748B;
+  }
+  .pv-divider {
+    height: 1px;
+    background: #E2E8F0;
+    margin: 12px 0 10px;
+  }
+  .pv-act-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #94A3B8;
+    margin-bottom: 8px;
+  }
+  .pv-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 7px;
+  }
+  .pv-action:last-child { margin-bottom: 0; }
+  .pv-action.primary {
+    background: #F0EBFF;
+    border: 1px solid rgba(92,53,213,0.2);
+  }
+  .pv-action.primary:hover { background: #E8E0FF; }
+  .pv-action.secondary {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+  }
+  .pv-action.secondary:hover { background: #F8FAFC; }
+  .pv-action.ghost {
+    background: #F8FAFC;
+    border: none;
+  }
+  .pv-action.ghost:hover { background: #EFF2F7; }
+
+  .pv-icon {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .pv-action.primary .pv-icon { background: rgba(92,53,213,0.12); }
+  .pv-action.secondary .pv-icon { background: rgba(100,116,139,0.1); }
+  .pv-action.ghost .pv-icon { background: rgba(100,116,139,0.08); }
+
+  .pv-text { flex: 1; }
+  .pv-action-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    line-height: 1.2;
+  }
+  .pv-action.primary .pv-action-label { color: #5C35D5; }
+  .pv-action.secondary .pv-action-label { color: #1E1B4B; }
+  .pv-action.ghost .pv-action-label { color: #64748B; }
+
+  .pv-action-desc {
+    font-size: 11px;
+    color: #94A3B8;
+    line-height: 1.3;
+  }
+  .pv-chevron {
+    color: #94A3B8;
+    font-size: 18px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .pv-action.primary .pv-chevron { color: #5C35D5; }
+
+  /* ─── Annotation panel ─── */
+  .annotation {
+    background: #1E1B4B;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(92,53,213,0.2);
+  }
+  .ann-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+  .ann-subtitle {
+    font-size: 11px;
+    color: #818CF8;
+    margin-bottom: 16px;
+  }
+  .ann-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 16px;
+  }
+  .ann-section {
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-left: 3px solid transparent;
+  }
+  .ann-section:last-child { margin-bottom: 0; }
+  .ann-section.purple { border-color: #7C5CE8; }
+  .ann-section.green { border-color: #27AE60; }
+  .ann-section.orange { border-color: #E8850A; }
+  .ann-section.pink { border-color: #F472B6; }
+  .ann-section-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .ann-section.purple .ann-section-title { color: #A78BFA; }
+  .ann-section.green .ann-section-title { color: #86EFAC; }
+  .ann-section.orange .ann-section-title { color: #FCD34D; }
+  .ann-section.pink .ann-section-title { color: #F9A8D4; }
+  .ann-section-body {
+    font-size: 11px;
+    color: #C7D2FE;
+    line-height: 1.65;
+    white-space: pre-line;
+  }
+
+  /* ─── Comparison table ─── */
+  .comparison {
+    background: #1A1728;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 11px;
+  }
+  .comp-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .comp-header div, .comp-row div {
+    padding: 8px 12px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .comp-header div:last-child, .comp-row div:last-child { border-right: none; }
+  .comp-header div {
+    font-weight: 600;
+    color: #818CF8;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .comp-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-row div:first-child { color: #6B7FCC; font-weight: 500; }
+  .comp-row .hor { color: #A78BFA; }
+  .comp-row .ver { color: #86EFAC; }
+
+  /* ─── Responsive tweaks ─── */
+  @media (max-width: 900px) {
+    .canvas { grid-template-columns: 1fr; }
+    .ph-actions { flex-wrap: wrap; }
+    .ph-btn { min-width: calc(50% - 4px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>AI Possible Actions Panel</h1>
+    <div class="meta">Design Exploration · SuperOps AI Service Desk · hJ4jh0F8cExMKVACSd2PRi</div>
+  </div>
+  <div class="figma-badge">Figma: hJ4jh0F8cExMKVACSd2PRi</div>
+</div>
+
+<div class="canvas">
+  <div class="left-col">
+
+    <!-- Ticket context -->
+    <div>
+      <div class="section-label">Context — where this panel appears</div>
+      <div class="ticket-context">
+        <div class="tc-row">
+          <span class="ticket-id">TKT-8841</span>
+          <span class="ticket-title">User unable to connect to internal DNS — WIN-AD-01</span>
+        </div>
+        <div class="tc-meta">
+          <span class="tc-tag">P2 · Critical</span>
+          <span class="tc-tag">Open · 47 min</span>
+          <span class="tc-tag">Assigned: Alex Chen</span>
+        </div>
+        <div class="monica-summary">
+          <div class="m-label">✦ Monica analysis complete</div>
+          DNS resolution failing on domain controller WIN-AD-01. Root cause: DNS Server service stopped after last night's patch. Recommended fix: Restart DNS Server service + flush client cache.
+        </div>
+      </div>
+    </div>
+
+    <!-- Variation A: Horizontal -->
+    <div>
+      <div class="section-label">Variation A — Horizontal Layout</div>
+      <div class="var-label">
+        <span class="tag">VARIATION A</span>
+        Use in: Full-width ticket detail view · Width: ~760px
+      </div>
+      <div class="panel-horizontal">
+        <div class="ph-header">
+          <span class="ai-chip"><span class="dot"></span>Monica suggests</span>
+          <span class="ph-heading">Restart DNS Service on WIN-AD-01</span>
+          <span class="conf-badge">94% confidence</span>
+        </div>
+        <div class="ph-divider"></div>
+        <div class="ph-actions">
+          <button class="ph-btn primary">Apply Solution</button>
+          <button class="ph-btn secondary">Notify Requester</button>
+          <button class="ph-btn secondary">Update &amp; Log</button>
+          <button class="ph-btn ghost">Handle Manually</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left-col -->
+
+  <div class="right-col">
+
+    <!-- Variation B: Vertical -->
+    <div>
+      <div class="section-label">Variation B — Vertical</div>
+      <div class="var-label">
+        <span class="tag" style="background:rgba(39,174,96,0.12);border-color:rgba(39,174,96,0.25);color:#86EFAC">VARIATION B</span>
+        Use in: Right side panel · Width: ~320px
+      </div>
+      <div class="panel-vertical">
+        <div class="pv-header">
+          <div class="pv-chip-row">
+            <span class="ai-chip"><span class="dot"></span>Monica suggests</span>
+            <span class="conf-badge">94%</span>
+          </div>
+          <div class="pv-heading">Restart DNS Service on WIN-AD-01</div>
+          <div class="pv-sub">Fix resolves 3 of 4 reported symptoms.</div>
+        </div>
+        <div class="pv-divider"></div>
+        <div class="pv-act-label">Choose an action</div>
+
+        <div class="pv-action primary">
+          <div class="pv-icon">⚡</div>
+          <div class="pv-text">
+            <div class="pv-action-label">Apply Solution</div>
+            <div class="pv-action-desc">Let Monica execute the fix automatically</div>
+          </div>
+          <div class="pv-chevron">›</div>
+        </div>
+
+        <div class="pv-action secondary">
+          <div class="pv-icon">✉</div>
+          <div class="pv-text">
+            <div class="pv-action-label">Notify Requester</div>
+            <div class="pv-action-desc">Send update email to the end user</div>
+          </div>
+          <div class="pv-chevron">›</div>
+        </div>
+
+        <div class="pv-action secondary">
+          <div class="pv-icon">📋</div>
+          <div class="pv-text">
+            <div class="pv-action-label">Update &amp; Log</div>
+            <div class="pv-action-desc">Document findings and update ticket</div>
+          </div>
+          <div class="pv-chevron">›</div>
+        </div>
+
+        <div class="pv-action ghost">
+          <div class="pv-icon">🛠</div>
+          <div class="pv-text">
+            <div class="pv-action-label">Handle Manually</div>
+            <div class="pv-action-desc">Take over and resolve without AI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design analysis annotation -->
+    <div class="annotation">
+      <div class="ann-title">Design Analysis</div>
+      <div class="ann-subtitle">AI Possible Actions Panel · 2 Variations</div>
+      <div class="ann-divider"></div>
+
+      <div class="ann-section purple">
+        <div class="ann-section-title">Horizontal (A)</div>
+        <div class="ann-section-body">Full-width header strip. 4 actions in one row. Fast for experienced technicians in scanning mode. Primary CTA draws eye immediately via filled purple style.
+
+Use when: wide layout, quick action expected.</div>
+      </div>
+
+      <div class="ann-section green">
+        <div class="ann-section-title">Vertical (B)</div>
+        <div class="ann-section-body">Side-panel card. Stacked actions with icon + label + description. Each action explains itself — lower training burden. Recommended for new technicians.
+
+Use when: side panel, evaluation mode.</div>
+      </div>
+
+      <div class="ann-section orange">
+        <div class="ann-section-title">Action Hierarchy</div>
+        <div class="ann-section-body">1. Apply Solution — Primary AI path
+2. Notify Requester — Communication
+3. Update &amp; Log — Documentation
+4. Handle Manually — Override (de-emphasized)
+
+Override intentionally muted to prevent accidental AI bypass.</div>
+      </div>
+
+      <div class="ann-section pink">
+        <div class="ann-section-title">Design Decisions</div>
+        <div class="ann-section-body">• "Monica suggests" chip = AI attribution
+• 94% confidence badge = explicit trust signal
+• Purple = Monica/AI brand consistency
+• Vertical descriptions = self-documenting UI
+• Handle Manually always available (never hidden)</div>
+      </div>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="comparison">
+      <div class="comp-header">
+        <div>Dimension</div>
+        <div>Variation A</div>
+        <div>Variation B</div>
+      </div>
+      <div class="comp-row">
+        <div>Width</div>
+        <div class="hor">~760px</div>
+        <div class="ver">~320px</div>
+      </div>
+      <div class="comp-row">
+        <div>Height</div>
+        <div class="hor">~148px</div>
+        <div class="ver">auto (~340px)</div>
+      </div>
+      <div class="comp-row">
+        <div>Placement</div>
+        <div class="hor">Full-width header</div>
+        <div class="ver">Right side panel</div>
+      </div>
+      <div class="comp-row">
+        <div>User mode</div>
+        <div class="hor">Scanning / fast</div>
+        <div class="ver">Evaluating / careful</div>
+      </div>
+      <div class="comp-row">
+        <div>Info density</div>
+        <div class="hor">Low (labels only)</div>
+        <div class="ver">High (+ descriptions)</div>
+      </div>
+      <div class="comp-row">
+        <div>Best for</div>
+        <div class="hor">Senior techs</div>
+        <div class="ver">All skill levels</div>
+      </div>
+    </div>
+
+  </div><!-- /right-col -->
+</div><!-- /canvas -->
+
+</body>
+</html>
