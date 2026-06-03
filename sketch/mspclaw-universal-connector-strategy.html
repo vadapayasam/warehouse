@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSPclaw Universal Connector — Product Strategy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  :root {
+    --bg: #0b0c10;
+    --card: #14161a;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0883e;
+    --accent2: #58a6ff;
+    --border: #21262d;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15px;
+    padding: 0;
+  }
+  .container { max-width: 880px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; line-height: 1.1; }
+  h2 { font-size: 1.35rem; font-weight: 700; margin: 48px 0 16px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+  h3 { font-size: 1.1rem; font-weight: 600; margin: 28px 0 10px; color: var(--accent2); }
+  .tagline { color: var(--muted); font-size: 1.05rem; margin-bottom: 32px; font-weight: 400; }
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .date { font-size: 0.8rem; color: var(--muted); margin-bottom: 32px; }
+
+  .problem-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin: 24px 0;
+  }
+  .problem-box h3 { margin-top: 0; color: var(--red); }
+  .problem-box ul { margin: 10px 0 0 18px; color: var(--muted); }
+  .problem-box li { margin-bottom: 6px; }
+
+  .insight {
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+    margin: 20px 0;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  td:first-child { font-weight: 500; color: var(--text); }
+
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: var(--accent2); }
+  .card p { font-size: 0.88rem; color: var(--muted); }
+
+  .arch-diagram {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 24px 0;
+    font-family: 'SF Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    color: var(--muted);
+    overflow-x: auto;
+  }
+  .arch-diagram .box { color: var(--accent2); font-weight: 600; }
+  .arch-diagram .arrow { color: var(--accent); }
+
+  .connector-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .connector-list span {
+    background: rgba(88,166,255,0.08);
+    color: var(--accent2);
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(88,166,255,0.15);
+  }
+
+  .phase {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin: 16px 0;
+    padding: 16px 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .phase .num {
+    font-weight: 800;
+    color: var(--accent);
+    font-size: 1.2rem;
+    min-width: 28px;
+    text-align: center;
+  }
+  .phase .body { flex: 1; }
+  .phase .body strong { color: var(--text); display: block; margin-bottom: 4px; }
+  .phase .body span { color: var(--muted); font-size: 0.9rem; }
+
+  .highlight {
+    background: rgba(240,136,62,0.08);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+  }
+  .highlight strong { color: var(--accent); }
+
+  .footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--muted); }
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="badge">Product Strategy</div>
+  <h1>MSPclaw Universal Connector</h1>
+  <p class="tagline">Open-source agentic middleware that turns any PSA + RMM stack into an AI-native operation.</p>
+  <p class="date">June 2026 · Based on Reddit/forum research + repo analysis</p>
+
+  <h2>The Gap</h2>
+  <p>Every MSP runs the same broken loop: ticket lands in ConnectWise, a human reads it, routes it, maybe runs a script in Datto, writes a note, updates the status. The "AI" in existing tools? Keyword tagging. The "automation"? Brittle if-this-then-that workflows that break when the subject line changes.</p>
+
+  <div class="problem-box">
+    <h3>What MSPs actually say (Reddit r/msp, 2024–2025)</h3>
+    <ul>
+      <li>"<em>Half my tickets read 'it's broken again.'</em> No AI fixes that without context." — Spiceworks community</li>
+      <li>"<em>Script execution in Datto RMM is slow as molasses.</em>" — r/msp, Feb 2024</li>
+      <li>"<em>Automate scripts impossible to debug.</em>" — r/ConnectWise, 2024</li>
+      <li>"<em>Rewst is expensive and the layoffs scared us.</em>" — r/msp, Jan 2026</li>
+      <li>"<em>Ticket triage is the biggest time sink.</em> 40% arrive as one-line emails." — r/msp</li>
+    </ul>
+  </div>
+
+  <h2>The Product</h2>
+  <p><strong>MSPclaw becomes a Universal Agentic Connector.</strong> Not an RMM. Not a PSA. A self-hosted middleware brain that plugs into whatever stack you already run — ConnectWise, SuperOps, Datto, NinjaOne, Tactical RMM, HaloPSA — and adds reasoning, context-aware triage, and safe endpoint action execution.</p>
+
+  <div class="highlight">
+    <strong>The thesis:</strong> MSPs already bought their PSA and RMM. They don't want another silo. They want a brain that makes the silos talk intelligently.
+  </div>
+
+  <h3>Architecture</h3>
+  <div class="arch-diagram">
+<span class="box">[ PSA / ITSM ]</span>  ConnectWise · SuperOps · HaloPSA · Autotask
+        <span class="arrow">↓ webhook / REST</span>
+<span class="box">┌──────────────────────────────┐</span>
+<span class="box">│  Ticket Ingestion Bus         │</span>  Parse → Enrich with asset/KB context
+<span class="box">│  Playbook Matcher (keywords) │</span>  Score against 50+ community playbooks
+<span class="box">│  Brain (ReAct loop)           │</span>  Reason → Ask user OR trigger action
+<span class="box">│  Conversation Manager         │</span>  WebSocket chat, async resume
+<span class="box">│  Universal Action Broker       │</span>  API calls to RMM, PSA, identity tools
+<span class="box">└──────────────────────────────┘</span>
+        <span class="arrow">↑ results / status</span>
+<span class="box">[ RMM / Endpoint ]</span>  NinjaOne · Datto · Tactical RMM · Agent daemon
+  </div>
+
+  <h3>What MSPclaw already has</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>ReAct Brain</h4>
+      <p>LLM reasoning loop that thinks like a technician. Already handles ambiguous input, asks follow-ups, decides tool vs question.</p>
+    </div>
+    <div class="card">
+      <h4>Playbook Registry</h4>
+      <p>YAML playbooks with keyword scoring. 15 enterprise playbooks exist today — onboarding, offboarding, password reset, slow Mac, printer, VPN, etc.</p>
+    </div>
+    <div class="card">
+      <h4>Agent Executor</h4>
+      <p>Python daemon with AST sandbox. Runs local + enterprise API tools. Can be extended to call RMM APIs instead of native commands.</p>
+    </div>
+    <div class="card">
+      <h4>WebSocket Conversations</h4>
+      <p>Interactive streaming with phase indicators. Async resume on disconnect. Built for end-user chat, reusable for ticket async.</p>
+    </div>
+  </div>
+
+  <h2>Connector Strategy: Plug-and-Play</h2>
+
+  <h3>Inbound (PSA → MSPclaw)</h3>
+  <p>Tickets flow in via webhook or poll. MSPclaw enriches them with asset context and prior ticket history before the brain sees them.</p>
+  <div class="connector-list">
+    <span>ConnectWise Manage REST API</span>
+    <span>SuperOps Webhooks</span>
+    <span>HaloPSA GraphQL + MCP</span>
+    <span>Autotask REST</span>
+    <span>Freshservice</span>
+    <span>Syncro</span>
+    <span>Email/IMAP ingest</span>
+  </div>
+
+  <h3>Outbound (MSPclaw → Endpoint Action)</h3>
+  <p>The brain decides WHAT to do. The broker routes the HOW through your existing tools. No new agents deployed.</p>
+  <div class="connector-list">
+    <span>NinjaOne Script Execution API</span>
+    <span>Datto RMM Component API</span>
+    <span>ConnectWise Automate Script</span>
+    <span>Tactical RMM API</span>
+    <span>Microsoft Graph Entra ID</span>
+    <span>Okta Workflows API</span>
+    <span>Google Workspace Admin SDK</span>
+  </div>
+
+  <h3>Feedback Loop (MSPclaw → PSA)</h3>
+  <p>Results write back automatically: ticket notes, status changes, billable time entries, priority updates.</p>
+  <div class="connector-list">
+    <span>Add internal note</span>
+    <span>Update status (In Progress / Resolved)</span>
+    <span>Post time entry</span>
+    <span>Re-route queue / assign tech</span>
+    <span>Tag / categorize</span>
+    <span>Create follow-up alert</span>
+  </div>
+
+  <h2>Research-Backed Use Cases</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th style="width:22%">Use Case</th><th>What happens</th><th>Source</th></tr>
+      <tr><td>Password reset</td><td>Ticket arrives → brain verifies identity via asset link → triggers Entra ID SSPR or resets via API → auto-closes ticket with note. 18% of L1 volume eliminated.</td><td>Pylon survey Jan 2026; Reddit r/msp</td></tr>
+      <tr><td>"It's broken again"</td><td>Brain reads ticket subject, queries device history (last 30 days), checks open/resolved siblings → routes to same tech who fixed it last time with full context. No guesswork.</td><td>r/msp "it's broken again" threads</td></tr>
+      <tr><td>Slow computer</td><td>Brain matches "slow" playbook → dispatches RMM script for CPU/disk check → reads results → either fixes (temp cleanup, kill process) or escalates with diagnostic summary.</td><td>MSPclaw playbook exists today</td></tr>
+      <tr><td>Onboarding</td><td>New-hire ticket → brain asks missing info (dept, manager, hardware needed) → triggers Entra ID creation + Okta enrol + RMM agent install + PSA hardware asset record.</td><td>MSPclaw playbook exists today</td></tr>
+      <tr><td>Printer down</td><td>Matches floor-aware playbook → discovers printer from asset registry → checks status via SNMP → if toner: orders via vendor API. If offline: dispatches RMM reboot script.</td><td>MSPclaw mock exists today</td></tr>
+      <tr><td>Phishing report</td><td>User forwards suspicious email → brain extracts sender/URL → queries VirusTotal + checks Entra sign-ins for that user → if match, disables account + forces MFA reset + creates high-priority ticket.</td><td>Common MSP SOP, manual today</td></tr>
+    </table>
+  </div>
+
+  <h2>Competitor Landscape</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tool</th><th>Type</th><th>MSPclaw advantage</th></tr>
+      <tr><td>Rewst</td><td>Proprietary SaaS workflow</td><td>Open-source, self-hosted, has reasoning brain (Rewst doesn't), no per-user pricing</td></tr>
+      <tr><td>MSPBots</td><td>Proprietary AI triage</td><td>Self-hosted, executes actions not just tags, full prompt/model control</td></tr>
+      <tr><td>DeskDay</td><td>Proprietary AI helpdesk</td><td>Open-source, works with existing PSA (not replacing it), community playbooks</td></tr>
+      <tr><td>Tactical RMM</td><td>Open-source RMM</td><td>MSPclaw doesn't compete — it ORCHESTRATES Tactical RMM via API</td></tr>
+      <tr><td>n8n</td><td>Open-source workflow</td><td>MSPclaw adds ReAct reasoning layer — n8n can't handle "it's broken again" ambiguity</td></tr>
+      <tr><td>HaloPSA AI</td><td>Bundled proprietary</td><td>Works across HALO + ConnectWise + Datto simultaneously, not locked to one PSA</td></tr>
+    </table>
+  </div>
+
+  <div class="insight">
+    "AI cuts ticket volume on repetitive categories by 15%–30% in well-run pilots. The freed time goes to higher-value work — not headcount cuts."<br>— OpenMSP / Reddit r/msp consensus, 2026
+  </div>
+
+  <h2>Open-Source Positioning</h2>
+
+  <p>The open-source MSP tooling space is hot. Tactical RMM hit 5k+ stars because MSPs want control. The gap? <strong>No open-source agentic automation exists that bridges PSA → reasoning → action.</strong></p>
+
+  <p>Key open-source positioning moves:</p>
+  <ul style="margin-left: 20px; color: var(--muted);">
+    <li><strong>MIT license</strong> — no AGPL poison pill. MSPs can fork and customize.</li>
+    <li><strong>Community playbook marketplace</strong> — share YAML playbooks for common MSP stacks. GitHub PR workflow.</li>
+    <li><strong>LLM-agnostic</strong> — Ollama on-premise for privacy, or OpenAI/Gemini/Anthropic for speed. Your choice.</li>
+    <li><strong>MCP Server mode</strong> — Ship MSPclaw as an MCP server. Any client (Claude Desktop, Cursor, custom agents) can call your playbooks as tools.</li>
+    <li><strong>Self-hosted under $300/mo</strong> — One cloud GPU node (~$0.50/hr) runs the brain + inference. Compare to Rewst at $15/tech/month.</li>
+  </ul>
+
+  <h2>Build Roadmap</h2>
+
+  <div class="phase">
+    <div class="num">1</div>
+    <div class="body">
+      <strong>Connector Framework (weeks 1–2)</strong>
+      <span>Build a generic connector base class + webhook ingest. Implement ConnectWise Manage and one RMM (NinjaOne or Tactical RMM) as proof-of-concept. All connectors live in <code>server/connectors/</code>.</span>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="num">2</div>
+    <div class="body">
+      <strong>Ticket-Trigger Orchestrator (weeks 3–4)</strong>
+      <span>Instead of end-user CLI, trigger playbooks from inbound PSA tickets. Conversation manager adapted for async ticket threads (email-style) vs live WebSocket chat. Add PSA write-back.</span>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="num">3</div>
+    <div class="body">
+      <strong>Firecrawl + KB RAG (week 5)</strong>
+      <span>Ingest client documentation (SharePoint, Notion, Confluence, SOP PDFs) via Firecrawl. Build a retrieval layer so the brain can answer "has this happened before?" with real past tickets + docs context.</span>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="num">4</div>
+    <div class="body">
+      <strong>Agent Browser Screenshots (week 6)</strong>
+      <span>When user says "this page is broken", use Agent Browser to capture the ticket portal / affected web app. Attach screenshot to ticket note or pass to vision-capable LLM for diagnosis.</span>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="num">5</div>
+    <div class="body">
+      <strong>Community Playbook Marketplace (week 7–8)</strong>
+      <span>Polish YAML playbook format. Create templates for ConnectWise, Datto, SuperOps, HaloPSA. Launch on GitHub Discussions. Accept PRs for vendor-specific playbooks.</span>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="num">6</div>
+    <div class="body">
+      <strong>MCP Server Mode (week 9)</strong>
+      <span>Expose all playbooks + tools via Model Context Protocol. Let any AI client consume MSPclaw as a tool server. This positions it as infrastructure, not just an app.</span>
+    </div>
+  </div>
+
+  <h2>Why This Wins</h2>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Works with existing stack</h4>
+      <p>No forklift. No migration. MSPs keep ConnectWise, keep NinjaOne, keep Datto. MSPclaw is the intelligence layer.</p>
+    </div>
+    <div class="card">
+      <h4>Self-hosted = control</h4>
+      <p>After Rewst layoffs and ConnectWise buyouts, MSPs are paranoid about vendor dependency. Open-source + self-hosted is a genuine differentiator.</p>
+    </div>
+    <div class="card">
+      <h4>Reasoning > scripting</h4>
+      <p>n8n and Rewst do flowcharts. MSPclaw does reasoning. "Printer not working" → discovers floor → checks status → dispatches fix. No brittle if/else chains.</p>
+    </div>
+    <div class="card">
+      <h4>MCP = forward-compatible</h4>
+      <p>HaloPSA ships MCP endpoints. Freshworks has MCP gateway. MSPclaw as MCP server means it plugs into whatever comes next.</p>
+    </div>
+    <div class="card">
+      <h4>Asset actions are real</h4>
+      <p>Not just triage. The brain can reset passwords, provision accounts, reboot devices, clean temp files — and write it all back to the ticket.</p>
+    </div>
+    <div class="card">
+      <h4>Built by an MSP</h4>
+      <p>Not a generic AI startup. Prabha is Lead PD at SuperOps. The playbooks, prompts, and edge cases come from real MSP pain.</p>
+    </div>
+  </div>
+
+  <h2>Immediate Next Actions</h2>
+
+  <ol style="margin-left: 20px; color: var(--muted);">
+    <li><strong>Refactor <code>server/intake</code></strong> — add connector base class, implement ConnectWise Manage webhook ingest as PoC</li>
+    <li><strong>Build <code>server/connectors/outbound</code></strong> — PSA write-back module (add note, change status, time entry)</li>
+    <li><strong>Extend <code>agent/tools</code></strong> — add HTTP API tool for triggering RMM scripts via REST (NinjaOne, Tactical RMM)</li>
+    <li><strong>Draft <code>docs/CONNECTORS.md</code></strong> — specification for community contributors to add new PSA/RMM connectors</li>
+    <li><strong>Ship a demo repo</strong> — "MSPclaw + ConnectWise + NinjaOne" docker-compose that auto-generates a ticket, triages it, and triggers a script</li>
+  </ol>
+
+  <div class="footer">
+    Research sources: Reddit r/msp (2024–2026), r/ConnectWise, r/DattoRMM, Spiceworks community, OpenMSP blog, MSPGeekCon, MSPbots.ai, DeskDay.ai, SuperOps blog, CRN. <br>
+    Strategy by Agent Tina for Prabha · June 2026
+  </div>
+</div>
+</body>
+</html>
