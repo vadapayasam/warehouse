@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MSPclaw: Product Brief</title>
+<title>MSPclaw: Product Brief v2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,16 +18,17 @@
     --border-2:  #3f3f46;
     --text:      #e4e4e7;
     --text-2:    #a1a1aa;
-    --text-3:    #71717a;
+    --text-3:    #52525b;
     --accent:    #10b981;
     --accent-dim:#052e16;
     --accent-2:  #0ea5e9;
+    --accent-2-dim: #0c1a2e;
     --warn:      #f59e0b;
     --warn-dim:  #2d1b00;
     --red:       #ef4444;
     --red-dim:   #2d0a0a;
-    --mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
-    --sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "Geist Mono", ui-monospace, monospace;
+    --sans: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   html { font-size: 15px; scroll-behavior: smooth; }
@@ -40,13 +41,12 @@
     min-height: 100vh;
   }
 
-  /* Layout */
   .layout {
     display: grid;
-    grid-template-columns: 240px 1fr;
+    grid-template-columns: 220px 1fr;
     grid-template-rows: auto 1fr;
     min-height: 100vh;
-    max-width: 1280px;
+    max-width: 1240px;
     margin: 0 auto;
   }
 
@@ -54,7 +54,7 @@
   .sidebar {
     grid-row: 1 / 3;
     border-right: 1px solid var(--border);
-    padding: 2rem 1.25rem;
+    padding: 1.75rem 1.125rem;
     position: sticky;
     top: 0;
     height: 100vh;
@@ -65,305 +65,307 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.125rem;
     border-bottom: 1px solid var(--border);
   }
 
   .sidebar-logo .mark {
-    width: 28px; height: 28px;
+    width: 26px; height: 26px;
     background: var(--accent);
-    border-radius: 6px;
+    border-radius: 5px;
     display: flex; align-items: center; justify-content: center;
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #000;
     flex-shrink: 0;
   }
 
-  .sidebar-logo .name {
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--text);
-  }
+  .sidebar-logo .name { font-size: 0.8125rem; font-weight: 600; letter-spacing: -0.01em; }
+  .sidebar-logo .tag  { font-family: var(--mono); font-size: 0.5625rem; color: var(--text-3); display: block; margin-top: 1px; }
 
-  .sidebar-logo .tag {
+  .nav-section { margin-bottom: 1.375rem; }
+
+  .nav-section-label {
     font-family: var(--mono);
-    font-size: 0.625rem;
-    color: var(--text-3);
-    display: block;
-    margin-top: 1px;
-  }
-
-  .nav-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .nav-group-label {
-    font-family: var(--mono);
-    font-size: 0.65rem;
+    font-size: 0.5875rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     color: var(--text-3);
     text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    padding-left: 0.5rem;
+    margin-bottom: 0.375rem;
+    padding-left: 0.4rem;
   }
 
   .nav-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.35rem 0.5rem;
-    border-radius: 5px;
-    font-size: 0.8125rem;
+    gap: 0.45rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.775rem;
     color: var(--text-2);
     text-decoration: none;
-    transition: color 0.15s, background 0.15s;
+    transition: color 0.12s, background 0.12s;
     cursor: pointer;
   }
 
   .nav-item:hover { color: var(--text); background: var(--surface-2); }
   .nav-item.active { color: var(--accent); background: var(--accent-dim); }
 
-  .nav-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--border-2);
-    flex-shrink: 0;
-    transition: background 0.15s;
-  }
+  .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border-2); flex-shrink: 0; }
   .nav-item.active .nav-dot { background: var(--accent); }
 
   /* Top bar */
   .topbar {
     border-bottom: 1px solid var(--border);
-    padding: 1.25rem 2.5rem;
+    padding: 1rem 2.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
   .topbar-meta {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     color: var(--text-3);
     display: flex;
     align-items: center;
     gap: 1.25rem;
+    flex-wrap: wrap;
   }
 
-  .topbar-meta span { display: flex; align-items: center; gap: 0.4rem; }
+  .topbar-meta span { display: flex; align-items: center; gap: 0.35rem; }
 
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: inline-block;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+  .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; animation: pulse 2.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
 
   .tag-pill {
     font-family: var(--mono);
-    font-size: 0.6875rem;
-    padding: 0.15rem 0.5rem;
+    font-size: 0.6rem;
+    padding: 0.125rem 0.45rem;
     border-radius: 3px;
     border: 1px solid var(--border);
     color: var(--text-3);
   }
+  .tag-pill.hi { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .tag-pill.blue { border-color: var(--accent-2); color: var(--accent-2); background: var(--accent-2-dim); }
 
-  .tag-pill.open { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-
-  /* Main content */
-  .main { padding: 3rem 2.5rem; max-width: 800px; }
+  /* Main */
+  .main { padding: 2.75rem 2.25rem; max-width: 820px; }
 
   /* Page header */
-  .page-header { margin-bottom: 3rem; }
-
-  .page-header .eyebrow {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.75rem;
-  }
-
-  .page-header h1 {
-    font-size: 1.875rem;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    color: var(--text);
-    margin-bottom: 0.875rem;
-  }
-
-  .page-header .subtitle {
-    font-size: 0.9375rem;
-    color: var(--text-2);
-    line-height: 1.65;
-    max-width: 600px;
-  }
+  .page-header { margin-bottom: 2.75rem; }
+  .page-header .eyebrow { font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.625rem; }
+  .page-header h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.18; color: var(--text); margin-bottom: 0.75rem; }
+  .page-header .subtitle { font-size: 0.875rem; color: var(--text-2); line-height: 1.7; max-width: 580px; }
 
   .meta-row {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-top: 1.25rem;
-    padding-top: 1.25rem;
+    margin-top: 1.125rem;
+    padding-top: 1.125rem;
     border-top: 1px solid var(--border);
     flex-wrap: wrap;
   }
 
-  .meta-item {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    color: var(--text-3);
+  .meta-item { font-family: var(--mono); font-size: 0.625rem; color: var(--text-3); display: flex; align-items: center; gap: 0.35rem; }
+
+  /* Revision banner */
+  .revision-banner {
+    background: var(--accent-2-dim);
+    border: 1px solid var(--accent-2);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+    font-size: 0.8125rem;
+    color: var(--text-2);
     display: flex;
-    align-items: center;
-    gap: 0.35rem;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .revision-banner .rev-label {
+    font-family: var(--mono);
+    font-size: 0.5875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    white-space: nowrap;
+    margin-top: 2px;
   }
 
   /* Sections */
-  section { margin-bottom: 3.5rem; scroll-margin-top: 2rem; }
+  section { margin-bottom: 3rem; scroll-margin-top: 2rem; }
+  .section-header { display: flex; align-items: baseline; gap: 0.625rem; margin-bottom: 1.125rem; }
+  .section-header h2 { font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
+  .section-num { font-family: var(--mono); font-size: 0.625rem; color: var(--text-3); padding: 0.125rem 0.4rem; border: 1px solid var(--border); border-radius: 3px; }
 
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
+  /* Callout */
+  .callout { padding: 0.875rem 1.125rem; border-radius: 7px; border: 1px solid var(--border); margin-bottom: 1.25rem; background: var(--surface); }
+  .callout.green  { border-color: var(--accent);  background: var(--accent-dim); }
+  .callout.amber  { border-color: var(--warn);    background: var(--warn-dim); }
+  .callout.blue   { border-color: var(--accent-2); background: var(--accent-2-dim); }
+
+  .callout-label { font-family: var(--mono); font-size: 0.5875rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .callout.green .callout-label  { color: var(--accent); }
+  .callout.amber .callout-label  { color: var(--warn); }
+  .callout.blue  .callout-label  { color: var(--accent-2); }
+
+  .callout p { font-size: 0.8125rem; line-height: 1.65; color: var(--text-2); }
+
+  /* Architecture diagram */
+  .arch {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
     margin-bottom: 1.25rem;
   }
 
-  .section-header h2 {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text);
-  }
-
-  .section-header .section-num {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    color: var(--text-3);
-    padding: 0.15rem 0.45rem;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-  }
-
-  /* Alert / callout */
-  .callout {
-    padding: 1rem 1.25rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    margin-bottom: 1.5rem;
-    background: var(--surface);
-  }
-
-  .callout.green { border-color: var(--accent); background: var(--accent-dim); }
-  .callout.amber { border-color: var(--warn); background: var(--warn-dim); }
-  .callout.red   { border-color: var(--red);  background: var(--red-dim); }
-
-  .callout-label {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 0.35rem;
-  }
-
-  .callout.green .callout-label { color: var(--accent); }
-  .callout.amber .callout-label { color: var(--warn); }
-  .callout.red .callout-label   { color: var(--red); }
-
-  .callout p {
-    font-size: 0.875rem;
-    line-height: 1.65;
-    color: var(--text-2);
-  }
-
-  /* Comparison table */
-  .comp-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.875rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .comp-table thead th {
-    text-align: left;
-    padding: 0.6rem 0.875rem;
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text-3);
+  .arch-header {
+    padding: 0.6rem 1rem;
+    background: var(--surface-2);
     border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .comp-table thead th:first-child { border-radius: 6px 0 0 0; }
-  .comp-table thead th:last-child  { border-radius: 0 6px 0 0; }
-
-  .comp-table tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-  }
-
-  .comp-table tbody tr:hover { background: var(--surface); }
-  .comp-table tbody tr:last-child { border-bottom: none; }
-
-  .comp-table tbody td {
-    padding: 0.75rem 0.875rem;
-    color: var(--text-2);
-    vertical-align: top;
-  }
-
-  .comp-table tbody td:first-child {
     font-family: var(--mono);
-    font-size: 0.8125rem;
-    color: var(--text);
-    font-weight: 500;
-    white-space: nowrap;
+    font-size: 0.6rem;
+    color: var(--text-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  .badge {
-    display: inline-flex;
+  .arch-body {
+    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
     align-items: center;
+  }
+
+  .arch-col { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .arch-chip {
+    padding: 0.4rem 0.75rem;
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .arch-chip.source  { border-color: var(--border-2); }
+  .arch-chip.core    { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); font-size: 0.75rem; justify-content: center; text-align: center; padding: 0.75rem; }
+  .arch-chip.dest    { border-color: var(--accent-2); color: var(--accent-2); background: var(--accent-2-dim); }
+
+  .arch-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  .arch-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: var(--mono);
+    font-size: 0.5625rem;
+    color: var(--text-3);
+  }
+
+  .arch-arrow-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .arrow-shaft { width: 1px; height: 40px; background: var(--border-2); }
+  .arrow-head  { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid var(--border-2); }
+
+  .arch-label { font-family: var(--mono); font-size: 0.5625rem; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.375rem; }
+
+  /* Playbook diagram */
+  .playbook-flow {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+
+  .pf-header {
+    padding: 0.6rem 1rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pf-body { padding: 1.25rem; }
+
+  .pf-steps { display: flex; flex-direction: column; gap: 0; }
+
+  .pf-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    position: relative;
+  }
+
+  .pf-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 13px;
+    top: 28px;
+    width: 1px;
+    height: calc(100% + 4px);
+    background: var(--border);
+  }
+
+  .pf-step-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
     font-family: var(--mono);
     font-size: 0.625rem;
-    font-weight: 500;
-    padding: 0.1rem 0.4rem;
-    border-radius: 3px;
-    margin-left: 0.375rem;
-    vertical-align: middle;
+    color: var(--text-3);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
   }
 
-  .badge-green { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
-  .badge-red   { background: var(--red-dim);    color: var(--red);    border: 1px solid var(--red); }
-  .badge-amber { background: var(--warn-dim);   color: var(--warn);   border: 1px solid var(--warn); }
+  .pf-step.trigger .pf-step-num { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .pf-step.action  .pf-step-num { background: var(--surface-2); border-color: var(--border-2); color: var(--text-2); }
+  .pf-step.write   .pf-step-num { background: var(--accent-2-dim); border-color: var(--accent-2); color: var(--accent-2); }
+  .pf-step.branch  .pf-step-num { background: var(--warn-dim); border-color: var(--warn); color: var(--warn); }
 
-  .cross { color: var(--red-dim); }
-  .cross::before { content: "✗"; color: var(--red); margin-right: 0.35rem; font-size: 0.75rem; }
-  .check { }
-  .check::before { content: "✓"; color: var(--accent); margin-right: 0.35rem; font-size: 0.75rem; }
+  .pf-step-content { padding-bottom: 1rem; flex: 1; }
+  .pf-step-title { font-size: 0.8125rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; line-height: 1.35; }
+  .pf-step-desc  { font-size: 0.75rem; color: var(--text-2); line-height: 1.55; }
+  .pf-step-tool  { font-family: var(--mono); font-size: 0.5875rem; color: var(--text-3); margin-top: 0.25rem; }
 
-  /* Product idea cards */
+  /* Idea cards */
   .idea-card {
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
+    padding: 1.375rem;
+    margin-bottom: 0.875rem;
     background: var(--surface);
     position: relative;
+    overflow: hidden;
   }
 
   .idea-card::before {
@@ -371,634 +373,639 @@
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
-    border-radius: 8px 8px 0 0;
-    background: var(--accent);
   }
 
+  .idea-card.primary::before   { background: var(--accent); }
   .idea-card.secondary::before { background: var(--accent-2); }
   .idea-card.tertiary::before  { background: var(--warn); }
+  .idea-card.quaternary::before{ background: var(--red); }
 
-  .idea-card-header {
+  .idea-card-top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 0.875rem;
     gap: 1rem;
+    margin-bottom: 0.75rem;
   }
 
-  .idea-num {
+  .idea-left { flex: 1; }
+  .idea-num { font-family: var(--mono); font-size: 0.5875rem; color: var(--text-3); margin-bottom: 0.25rem; }
+  .idea-title { font-size: 0.9rem; font-weight: 600; letter-spacing: -0.015em; color: var(--text); }
+
+  .conf-badge {
     font-family: var(--mono);
-    font-size: 0.6875rem;
-    color: var(--text-3);
-    flex-shrink: 0;
-    margin-top: 0.25rem;
-  }
-
-  .idea-title {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    color: var(--text);
-    flex: 1;
-  }
-
-  .confidence-badge {
-    font-family: var(--mono);
-    font-size: 0.625rem;
-    padding: 0.15rem 0.5rem;
+    font-size: 0.5625rem;
+    padding: 0.125rem 0.4rem;
     border-radius: 3px;
     flex-shrink: 0;
+    white-space: nowrap;
   }
+  .conf-high { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
+  .conf-med  { background: var(--warn-dim); color: var(--warn); border: 1px solid var(--warn); }
+  .conf-new  { background: var(--accent-2-dim); color: var(--accent-2); border: 1px solid var(--accent-2); }
 
-  .conf-high  { background: var(--accent-dim); color: var(--accent);  border: 1px solid var(--accent); }
-  .conf-med   { background: var(--warn-dim);   color: var(--warn);    border: 1px solid var(--warn); }
+  .idea-body { font-size: 0.8125rem; color: var(--text-2); line-height: 1.7; margin-bottom: 0.875rem; }
 
-  .idea-body {
-    font-size: 0.875rem;
-    color: var(--text-2);
-    line-height: 1.7;
-    margin-bottom: 1rem;
+  .win-list { display: flex; flex-direction: column; gap: 0.3rem; }
+  .win-item {
+    font-size: 0.775rem; color: var(--text-2);
+    display: flex; align-items: baseline; gap: 0.45rem;
+    line-height: 1.5;
   }
+  .win-item::before { content: ">"; color: var(--accent); font-family: var(--mono); font-size: 0.625rem; flex-shrink: 0; }
 
-  .idea-wins {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  .idea-win {
-    font-size: 0.8125rem;
-    color: var(--text-2);
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-  }
-
-  .idea-win::before {
-    content: ">";
-    color: var(--accent);
-    font-family: var(--mono);
-    flex-shrink: 0;
-    font-size: 0.6875rem;
-  }
-
-  /* Priority table */
-  .priority-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
+  /* Marketplace tiers */
+  .tier-block {
     border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
+    margin-bottom: 1rem;
   }
 
-  .priority-table thead th {
-    padding: 0.6rem 1rem;
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text-3);
+  .tier-block-head {
+    padding: 0.625rem 1rem;
     background: var(--surface-2);
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .priority-table tbody td {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--border);
-    color: var(--text-2);
-    vertical-align: middle;
-  }
-
-  .priority-table tbody tr:last-child td { border-bottom: none; }
-  .priority-table tbody tr:hover td { background: var(--surface); }
-
-  .priority-rank {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    color: var(--text-3);
-    width: 2rem;
-  }
-
-  .priority-name {
-    font-family: var(--mono);
-    font-size: 0.8125rem;
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  /* Marketplace block */
-  .model-block {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-  }
-
-  .model-block-header {
-    padding: 0.875rem 1.25rem;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--surface-2);
   }
 
-  .model-block-title {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--text-2);
-    font-weight: 500;
-  }
+  .tier-block-title { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-2); font-weight: 500; }
 
-  .model-block-body {
-    padding: 1.25rem;
-  }
+  .tier-rows { display: flex; flex-direction: column; }
 
-  .tier-list { display: flex; flex-direction: column; gap: 0; }
-
-  .tier-item {
+  .tier-row {
     display: grid;
-    grid-template-columns: 100px 1fr auto;
+    grid-template-columns: 110px 1fr auto;
     align-items: center;
-    gap: 1rem;
-    padding: 0.75rem 0;
+    gap: 0.875rem;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--border);
   }
+  .tier-row:last-child { border-bottom: none; }
 
-  .tier-item:last-child { border-bottom: none; }
-
-  .tier-name {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .tier-desc {
-    font-size: 0.8125rem;
-    color: var(--text-2);
-    line-height: 1.5;
-  }
-
-  .tier-tag {
-    font-family: var(--mono);
-    font-size: 0.625rem;
-    padding: 0.15rem 0.5rem;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-
-  .tier-free { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
-  .tier-paid { background: var(--warn-dim); color: var(--warn); border: 1px solid var(--warn); }
+  .tier-name { font-family: var(--mono); font-size: 0.6875rem; font-weight: 500; color: var(--text); }
+  .tier-desc { font-size: 0.775rem; color: var(--text-2); line-height: 1.5; }
+  .tier-tag  { font-family: var(--mono); font-size: 0.5625rem; padding: 0.125rem 0.4rem; border-radius: 3px; white-space: nowrap; }
+  .t-free { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
+  .t-paid { background: var(--warn-dim);   color: var(--warn);   border: 1px solid var(--warn); }
 
   /* Code block */
   .code-block {
     background: var(--surface-2);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 1rem 1.25rem;
+    padding: 1rem 1.125rem;
     font-family: var(--mono);
-    font-size: 0.8125rem;
+    font-size: 0.775rem;
     color: var(--text-2);
-    line-height: 1.7;
+    line-height: 1.75;
     overflow-x: auto;
     margin-bottom: 1rem;
   }
+  .ck { color: var(--text-3); }
+  .cv { color: var(--accent); }
+  .cs { color: var(--warn); }
+  .ca { color: var(--accent-2); }
 
-  .code-comment { color: var(--text-3); }
-  .code-key     { color: var(--accent-2); }
-  .code-val     { color: var(--accent); }
-  .code-str     { color: var(--warn); }
+  /* Priority table */
+  .pri-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; margin-bottom: 1rem; }
+  .pri-table thead th { padding: 0.55rem 0.875rem; font-family: var(--mono); font-size: 0.5875rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); background: var(--surface-2); text-align: left; border-bottom: 1px solid var(--border); }
+  .pri-table tbody td { padding: 0.7rem 0.875rem; border-bottom: 1px solid var(--border); color: var(--text-2); vertical-align: middle; }
+  .pri-table tbody tr:last-child td { border-bottom: none; }
+  .pri-table tbody tr:hover td { background: var(--surface); }
+  .pri-rank { font-family: var(--mono); font-size: 0.625rem; color: var(--text-3); }
+  .pri-name { font-family: var(--mono); font-size: 0.75rem; color: var(--text); font-weight: 500; }
 
-  /* Open questions */
-  .q-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  /* Badge */
+  .badge { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 0.5625rem; font-weight: 500; padding: 0.1rem 0.375rem; border-radius: 3px; margin-left: 0.25rem; }
+  .b-green { background: var(--accent-dim); color: var(--accent);  border: 1px solid var(--accent); }
+  .b-blue  { background: var(--accent-2-dim); color: var(--accent-2); border: 1px solid var(--accent-2); }
+  .b-amber { background: var(--warn-dim);   color: var(--warn);    border: 1px solid var(--warn); }
 
-  .q-item {
-    display: flex;
-    gap: 0.875rem;
-    align-items: flex-start;
-    padding: 0.875rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--surface);
-    font-size: 0.875rem;
-    color: var(--text-2);
-    line-height: 1.6;
-  }
+  /* Table */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; margin-bottom: 1.25rem; }
+  .comp-table thead th { text-align: left; padding: 0.55rem 0.75rem; font-family: var(--mono); font-size: 0.5875rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); border-bottom: 1px solid var(--border); background: var(--surface); }
+  .comp-table tbody tr { border-bottom: 1px solid var(--border); }
+  .comp-table tbody tr:hover { background: var(--surface); }
+  .comp-table tbody tr:last-child { border-bottom: none; }
+  .comp-table tbody td { padding: 0.65rem 0.75rem; color: var(--text-2); vertical-align: top; }
+  .comp-table tbody td:first-child { font-family: var(--mono); font-size: 0.75rem; color: var(--text); font-weight: 500; white-space: nowrap; }
+  .chk::before { content: "v"; color: var(--accent); font-family: var(--mono); margin-right: 0.35rem; font-weight: 600; }
+  .crx::before { content: "x"; color: var(--red); font-family: var(--mono); margin-right: 0.35rem; font-weight: 600; }
 
-  .q-num {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    color: var(--text-3);
-    background: var(--surface-2);
-    width: 22px; height: 22px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
+  /* Questions */
+  .q-list { display: flex; flex-direction: column; gap: 0.625rem; }
+  .q-item { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.75rem 0.875rem; border: 1px solid var(--border); border-radius: 5px; background: var(--surface); font-size: 0.8125rem; color: var(--text-2); line-height: 1.6; }
+  .q-num { font-family: var(--mono); font-size: 0.5875rem; color: var(--text-3); background: var(--surface-2); width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 3px; border: 1px solid var(--border); flex-shrink: 0; margin-top: 1px; }
 
   /* Divider */
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 2.5rem 0;
-  }
-
-  /* Gap diagram */
-  .gap-diagram {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .gap-col {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .gap-col-header {
-    padding: 0.6rem 0.875rem;
-    background: var(--surface-2);
-    border-bottom: 1px solid var(--border);
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    color: var(--text-3);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .gap-col-body {
-    padding: 0.875rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .gap-chip {
-    padding: 0.35rem 0.6rem;
-    border-radius: 4px;
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-  }
-
-  .chip-exists  { background: var(--surface);   color: var(--text-2); border: 1px solid var(--border); }
-  .chip-missing { background: var(--red-dim);    color: var(--red);    border: 1px solid var(--red); }
-  .chip-target  { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2.25rem 0; }
 
   /* Footer */
-  .doc-footer {
-    margin-top: 4rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    color: var(--text-3);
-  }
+  .doc-footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 0.5875rem; color: var(--text-3); flex-wrap: wrap; gap: 0.5rem; }
 
   /* Responsive */
   @media (max-width: 768px) {
     .layout { grid-template-columns: 1fr; }
     .sidebar { display: none; }
-    .main { padding: 1.5rem 1.25rem; }
-    .topbar { padding: 1rem 1.25rem; }
-    .gap-diagram { grid-template-columns: 1fr; }
-    .tier-item { grid-template-columns: 1fr; }
+    .main { padding: 1.5rem 1.125rem; }
+    .topbar { padding: 0.875rem 1.125rem; }
+    .arch-body { grid-template-columns: 1fr; }
+    .arch-arrow { display: none; }
+    .tier-row { grid-template-columns: 1fr; }
     .tier-tag { width: fit-content; }
-    .doc-footer { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+    .doc-footer { flex-direction: column; align-items: flex-start; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .status-dot { animation: none; }
-  }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
 </style>
 </head>
 <body>
-
 <div class="layout">
 
-  <!-- Sidebar -->
   <nav class="sidebar">
     <div class="sidebar-logo">
       <div class="mark">M</div>
       <div>
         <div class="name">MSPclaw</div>
-        <span class="tag">product-brief.html</span>
+        <span class="tag">product-brief-v2.html</span>
       </div>
     </div>
 
-    <div class="nav-group">
-      <div class="nav-group-label">Overview</div>
-      <a class="nav-item active" href="#gap">
-        <span class="nav-dot"></span> Core Gap
-      </a>
-      <a class="nav-item" href="#ideas">
-        <span class="nav-dot"></span> Product Ideas
-      </a>
+    <div class="nav-section">
+      <div class="nav-section-label">Model</div>
+      <a class="nav-item active" href="#orchestrator"><span class="nav-dot"></span> Orchestrator Model</a>
+      <a class="nav-item" href="#gap"><span class="nav-dot"></span> The Gap</a>
     </div>
 
-    <div class="nav-group">
-      <div class="nav-group-label">Strategy</div>
-      <a class="nav-item" href="#marketplace">
-        <span class="nav-dot"></span> Marketplace Model
-      </a>
-      <a class="nav-item" href="#integrations">
-        <span class="nav-dot"></span> Integration Priority
-      </a>
+    <div class="nav-section">
+      <div class="nav-section-label">Product</div>
+      <a class="nav-item" href="#playbooks"><span class="nav-dot"></span> Playbooks</a>
+      <a class="nav-item" href="#builder"><span class="nav-dot"></span> Builder Tool</a>
+      <a class="nav-item" href="#ideas"><span class="nav-dot"></span> All Ideas</a>
     </div>
 
-    <div class="nav-group">
-      <div class="nav-group-label">Research</div>
-      <a class="nav-item" href="#questions">
-        <span class="nav-dot"></span> Open Questions
-      </a>
-      <a class="nav-item" href="#sources">
-        <span class="nav-dot"></span> Sources
-      </a>
+    <div class="nav-section">
+      <div class="nav-section-label">Strategy</div>
+      <a class="nav-item" href="#marketplace"><span class="nav-dot"></span> Marketplace</a>
+      <a class="nav-item" href="#integrations"><span class="nav-dot"></span> Integrations</a>
+      <a class="nav-item" href="#questions"><span class="nav-dot"></span> Open Questions</a>
     </div>
   </nav>
 
-  <!-- Top bar -->
   <header class="topbar">
     <div class="topbar-meta">
-      <span><span class="status-dot"></span> Research verified</span>
+      <span><span class="pulse"></span> Research verified</span>
       <span>108 agents</span>
-      <span>2026-06-03</span>
+      <span>v2 - reframed as orchestrator</span>
     </div>
-    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <span class="tag-pill open">Open Source</span>
-      <span class="tag-pill">MSP/ITSM</span>
+    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+      <span class="tag-pill hi">Open Source</span>
+      <span class="tag-pill blue">Orchestrator</span>
       <span class="tag-pill">L1 Automation</span>
+      <span class="tag-pill">Playbooks</span>
     </div>
   </header>
 
-  <!-- Main -->
   <main class="main">
 
     <div class="page-header">
-      <div class="eyebrow">Product Brief</div>
-      <h1>MSPclaw: Plug-and-Play<br>L1 Automation for MSPs</h1>
+      <div class="eyebrow">Product Brief v2</div>
+      <h1>MSPclaw: L1 Orchestrator<br>on Top of Existing MSP Tools</h1>
       <p class="subtitle">
-        Strip the repo, add PSA connectors, ship a community action-pack marketplace.
-        This brief covers the verified gap, the three product ideas that fit it, and the build order.
+        Existing tools stay as the system of record. MSPclaw is the orchestration layer
+        that listens for events, matches playbooks, executes remediations, and writes results back.
+        Tech controls the logic. AI assists but does not decide.
       </p>
       <div class="meta-row">
-        <span class="meta-item">Research method: adversarial multi-agent</span>
-        <span class="meta-item">Confidence: 2 high, 3 medium</span>
         <span class="meta-item">
           <a href="https://github.com/thisisprabha/MSPclaw" target="_blank" rel="noopener"
              style="color:var(--accent-2);text-decoration:none;font-family:var(--mono);">
             github.com/thisisprabha/MSPclaw
           </a>
         </span>
+        <span class="meta-item">Research: adversarial multi-agent, 2026-06-03</span>
       </div>
     </div>
+
+    <div class="revision-banner">
+      <span class="rev-label">v2</span>
+      <span>Reframed from "PSA-native triage tool" to "orchestrator layer." Existing tools (ConnectWise, SuperOps, NinjaRMM, Datto) stay as systems of record. MSPclaw coordinates between them using community playbooks. Playbook marketplace added as a first-class idea. Playbook builder tool added to give techs explicit control over automation logic.</span>
+    </div>
+
+    <!-- Orchestrator model -->
+    <section id="orchestrator">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>The Orchestrator Model</h2>
+      </div>
+
+      <div class="callout blue">
+        <div class="callout-label">Core Principle</div>
+        <p>
+          MSPclaw never owns the data. It reads events from existing tools, executes defined playbook steps
+          via their APIs, and writes results back. Every action is auditable. Every step is tech-approved.
+          AI suggests but does not execute without a playbook.
+        </p>
+      </div>
+
+      <div class="arch">
+        <div class="arch-header">Architecture: MSPclaw as orchestration layer</div>
+        <div class="arch-body">
+          <div class="arch-col">
+            <div class="arch-label">Event sources</div>
+            <div class="arch-chip source"><span class="arch-dot" style="color:var(--border-2)"></span> NinjaRMM alert</div>
+            <div class="arch-chip source"><span class="arch-dot" style="color:var(--border-2)"></span> Zabbix threshold</div>
+            <div class="arch-chip source"><span class="arch-dot" style="color:var(--border-2)"></span> ConnectWise ticket created</div>
+            <div class="arch-chip source"><span class="arch-dot" style="color:var(--border-2)"></span> SuperOps webhook</div>
+            <div class="arch-chip source"><span class="arch-dot" style="color:var(--border-2)"></span> Datto BCDR alert</div>
+          </div>
+
+          <div class="arch-arrow">
+            <div class="arch-arrow-line">
+              <div class="arrow-shaft"></div>
+              <div class="arrow-head"></div>
+            </div>
+            <div style="font-size:0.5rem;color:var(--text-3);margin-top:4px;">webhook / polling</div>
+          </div>
+
+          <div class="arch-col">
+            <div class="arch-chip core">
+              MSPclaw<br>
+              <span style="font-size:0.5875rem;font-weight:400;color:var(--accent);opacity:0.75;">orchestrator</span><br>
+              <span style="font-size:0.5rem;opacity:0.55;">match playbook → execute → write back</span>
+            </div>
+            <div style="height:0.5rem;"></div>
+            <div class="arch-label">Writes result to</div>
+            <div class="arch-chip dest"><span class="arch-dot" style="color:var(--accent-2)"></span> PSA ticket updated</div>
+            <div class="arch-chip dest"><span class="arch-dot" style="color:var(--accent-2)"></span> Worklog added</div>
+            <div class="arch-chip dest"><span class="arch-dot" style="color:var(--accent-2)"></span> Alert resolved</div>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size:0.8125rem;color:var(--text-2);line-height:1.7;margin-bottom:0.875rem;">
+        Every L1 scenario follows the same loop: alert fires in a source tool, MSPclaw picks it up,
+        looks up the matching playbook, executes each step via the relevant tool's API,
+        and writes the outcome back to the PSA. The PSA remains the single source of truth.
+      </p>
+
+      <div class="callout green">
+        <div class="callout-label">Why "tech controls, AI assists"</div>
+        <p>
+          MSPs must explain to clients exactly what ran on their infrastructure.
+          "The AI did something" is not an acceptable incident report.
+          A versioned, auditable playbook is. AI can suggest steps when building a new playbook,
+          but the tech reviews and approves before it ever executes in production.
+        </p>
+      </div>
+    </section>
+
+    <hr class="divider">
 
     <!-- Gap -->
     <section id="gap">
       <div class="section-header">
-        <span class="section-num">01</span>
-        <h2>The Core Gap</h2>
-      </div>
-
-      <div class="callout green">
-        <div class="callout-label">Confirmed</div>
-        <p>
-          No open-source tool today bridges all three: alert triage, runbook execution, and asset-level remediation
-          inside a PSA ticket. Every existing product covers exactly one layer and stops.
-        </p>
-      </div>
-
-      <div class="gap-diagram">
-        <div class="gap-col">
-          <div class="gap-col-header">Layer 1: RMM Scripting</div>
-          <div class="gap-col-body">
-            <div class="gap-chip chip-exists">TacticalRMM</div>
-            <div class="gap-chip chip-exists">MeshCentral</div>
-            <div class="gap-chip chip-exists">NinjaRMM</div>
-            <div class="gap-chip chip-missing">No PSA integration</div>
-            <div class="gap-chip chip-missing">No ticket lifecycle</div>
-          </div>
-        </div>
-        <div class="gap-col">
-          <div class="gap-col-header">Layer 2: Monitoring</div>
-          <div class="gap-col-body">
-            <div class="gap-chip chip-exists">Zabbix</div>
-            <div class="gap-chip chip-exists">OpenNMS</div>
-            <div class="gap-chip chip-exists">PRTG</div>
-            <div class="gap-chip chip-missing">No runbook marketplace</div>
-            <div class="gap-chip chip-missing">No PSA hooks</div>
-          </div>
-        </div>
-        <div class="gap-col">
-          <div class="gap-col-header">Layer 3: Workflow Engine</div>
-          <div class="gap-col-body">
-            <div class="gap-chip chip-exists">Tracecat (SOC)</div>
-            <div class="gap-chip chip-exists">Rundeck</div>
-            <div class="gap-chip chip-missing">Not MSP-aware</div>
-            <div class="gap-chip chip-missing">No PSA connectors</div>
-          </div>
-        </div>
+        <span class="section-num">02</span>
+        <h2>The Gap</h2>
       </div>
 
       <table class="comp-table">
         <thead>
           <tr>
             <th>Tool</th>
-            <th>What it does</th>
-            <th>RMM Scripts</th>
-            <th>PSA Integration</th>
-            <th>Marketplace</th>
+            <th>Layer it covers</th>
+            <th>PSA integration</th>
+            <th>Orchestrates across tools</th>
+            <th>Community playbooks</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>TacticalRMM</td>
-            <td>Agent-based script execution</td>
-            <td class="check">Community scripts repo</td>
-            <td class="cross">None native</td>
-            <td class="cross">Scripts only, no packs</td>
+            <td>RMM scripting only</td>
+            <td class="crx">None</td>
+            <td class="crx">No</td>
+            <td class="chk">Scripts only</td>
           </tr>
           <tr>
             <td>Tracecat</td>
-            <td>SOC workflow/alert triage</td>
-            <td class="cross">N/A</td>
-            <td class="cross">No MSP connectors</td>
-            <td class="cross">None</td>
+            <td>SOC workflow engine</td>
+            <td class="crx">No MSP connectors</td>
+            <td class="chk">SOC tools only</td>
+            <td class="crx">No</td>
+          </tr>
+          <tr>
+            <td>n8n / Zapier</td>
+            <td>Generic workflow</td>
+            <td class="chk">Via generic HTTP</td>
+            <td class="chk">Generic</td>
+            <td class="crx">Not MSP-specific</td>
           </tr>
           <tr>
             <td>ConnectWise Automate</td>
             <td>RMM + scripting</td>
-            <td class="check">Built-in</td>
-            <td class="check">CW Manage only</td>
-            <td class="cross">Vendor-locked</td>
-          </tr>
-          <tr>
-            <td>Zabbix / OpenNMS</td>
-            <td>Monitoring + alerting</td>
-            <td class="cross">Limited</td>
-            <td class="cross">None</td>
-            <td class="cross">None</td>
+            <td class="chk">CW Manage only</td>
+            <td class="crx">Single vendor</td>
+            <td class="crx">Locked</td>
           </tr>
           <tr>
             <td style="color:var(--accent);font-weight:600;">MSPclaw (proposed)</td>
-            <td>Triage + runbook + PSA layer</td>
-            <td class="check">Action packs</td>
-            <td class="check">Multi-PSA</td>
-            <td class="check">Community marketplace</td>
+            <td>Orchestration layer</td>
+            <td class="chk">Multi-PSA</td>
+            <td class="chk">Any connected tool</td>
+            <td class="chk">Community marketplace</td>
           </tr>
         </tbody>
       </table>
-
-      <p style="font-size:0.8125rem;color:var(--text-3);margin-top:-0.5rem;font-family:var(--mono);">
-        Source: direct inspection of TacticalRMM community-scripts repo, Tracecat pricing page (verified 2026-06-03)
-      </p>
     </section>
 
     <hr class="divider">
 
-    <!-- Product Ideas -->
-    <section id="ideas">
-      <div class="section-header">
-        <span class="section-num">02</span>
-        <h2>Product Ideas</h2>
-      </div>
-
-      <!-- Idea 1 -->
-      <div class="idea-card">
-        <div class="idea-card-header">
-          <span class="idea-num">IDEA 01</span>
-          <span class="idea-title">PSA-Native Triage and Runbook Engine</span>
-          <span class="confidence-badge conf-high">HIGH CONFIDENCE</span>
-        </div>
-        <p class="idea-body">
-          The tool lives inside the PSA ticket. When an alert fires and a ticket is created, MSPclaw surfaces
-          an asset health snapshot pulled from the connected RMM, matched runbooks from the action-pack library,
-          and a one-click "run on device" button inside the ticket view. The tech never leaves the PSA.
-        </p>
-        <div class="idea-wins">
-          <span class="idea-win">Eliminates the ConnectWise - NinjaRMM - Notion - RDP context-switch cycle</span>
-          <span class="idea-win">Works with any PSA (not ConnectWise-only like Automate)</span>
-          <span class="idea-win">Runbooks are community-contributed, not vendor-defined</span>
-          <span class="idea-win">Minimum viable surface: ticket create/update/close + asset context fetch</span>
-        </div>
-      </div>
-
-      <!-- Idea 2 -->
-      <div class="idea-card secondary">
-        <div class="idea-card-header">
-          <span class="idea-num">IDEA 02</span>
-          <span class="idea-title">Community Action-Pack Marketplace</span>
-          <span class="confidence-badge conf-high">HIGH CONFIDENCE</span>
-        </div>
-        <p class="idea-body">
-          Copy TacticalRMM's three-tier contribution model exactly. An action pack bundles trigger conditions,
-          runbook steps, and PSA ticket update logic together. The integration contract is
-          <span style="font-family:var(--mono);color:var(--text);">action-packs.json</span>,
-          mirroring how TacticalRMM uses <span style="font-family:var(--mono);color:var(--text);">community_scripts.json</span>.
-          This is the proven distribution mechanism for MSP automation at scale.
-        </p>
-        <div class="idea-wins">
-          <span class="idea-win">WIP tier: in-progress community ideas</span>
-          <span class="idea-win">Staging tier: community-tested, awaiting promotion</span>
-          <span class="idea-win">Official tier: reviewed and bundled with MSPclaw installs</span>
-          <span class="idea-win">Categories: L1 alerts, disk/CPU/memory, onboarding, offboarding, security response</span>
-        </div>
-      </div>
-
-      <!-- Idea 3 -->
-      <div class="idea-card tertiary">
-        <div class="idea-card-header">
-          <span class="idea-num">IDEA 03</span>
-          <span class="idea-title">Alert Intelligence Layer (L1 Noise Reduction)</span>
-          <span class="confidence-badge conf-med">MED CONFIDENCE</span>
-        </div>
-        <p class="idea-body">
-          MSPs drown in alert noise. MSPclaw sits between the monitoring platform and the PSA.
-          It deduplicates alert storms, classifies severity using community-defined explicit rules
-          (not a black-box ML model), and auto-resolves known-good patterns. Unresolvable alerts route
-          to the correct queue with context already attached.
-        </p>
-        <div class="idea-wins">
-          <span class="idea-win">Dedup: same device + same error in a time window = 1 ticket, not 40</span>
-          <span class="idea-win">Explicit rules, not ML: editable, auditable, trustable</span>
-          <span class="idea-win">Auto-close known patterns: disk back under 90% - close ticket + add worklog note</span>
-          <span class="idea-win">Context-enriched routing: queue assignment based on asset + alert type</span>
-        </div>
-      </div>
-    </section>
-
-    <hr class="divider">
-
-    <!-- Marketplace model -->
-    <section id="marketplace">
+    <!-- Playbooks -->
+    <section id="playbooks">
       <div class="section-header">
         <span class="section-num">03</span>
-        <h2>Marketplace Model</h2>
+        <h2>Playbooks: The Core Primitive</h2>
       </div>
 
-      <div class="callout amber">
-        <div class="callout-label">Key Decision</div>
-        <p>
-          AGPL v3.0 protects against SaaS reselling while maximising community adoption.
-          MIT would grow faster but loses the managed-service moat. Tracecat proves AGPL works
-          for technical self-hosted buyers.
-        </p>
-      </div>
+      <p style="font-size:0.8125rem;color:var(--text-2);line-height:1.7;margin-bottom:1.25rem;">
+        A playbook is a deterministic, versioned sequence of steps that resolves a specific L1 scenario.
+        Not a script. Not a workflow diagram. A defined sequence of tool actions with explicit branching logic.
+        Techs read it, test it, trust it.
+      </p>
 
-      <div class="model-block">
-        <div class="model-block-header">
-          <span class="model-block-title">License: AGPL v3.0</span>
-          <span class="badge badge-green">Verified pattern</span>
+      <div class="playbook-flow">
+        <div class="pf-header">
+          <span>Example: disk-full-windows-server.playbook.yaml</span>
+          <span class="tag-pill hi">Official tier</span>
         </div>
-        <div class="model-block-body">
-          <div class="tier-list">
-            <div class="tier-item">
-              <span class="tier-name">Community</span>
-              <span class="tier-desc">WIP and staging action packs. Not bundled with installs. Anyone can contribute, no review required.</span>
-              <span class="tier-tag tier-free">FREE</span>
+        <div class="pf-body">
+          <div class="pf-steps">
+            <div class="pf-step trigger">
+              <div class="pf-step-num">T</div>
+              <div class="pf-step-content">
+                <div class="pf-step-title">Trigger: disk_used_percent > 90</div>
+                <div class="pf-step-desc">Matches alert from NinjaRMM, Zabbix, or ConnectWise Automate. Extracts asset ID and disk details.</div>
+                <div class="pf-step-tool">source: rmm_alert | psa_ticket_created</div>
+              </div>
             </div>
-            <div class="tier-item">
-              <span class="tier-name">Verified</span>
-              <span class="tier-desc">Officially reviewed packs. Ships bundled with every MSPclaw install. Requires a valid entry in action-packs.json.</span>
-              <span class="tier-tag tier-free">FREE</span>
+            <div class="pf-step action">
+              <div class="pf-step-num">1</div>
+              <div class="pf-step-content">
+                <div class="pf-step-title">Run: get_disk_breakdown.ps1</div>
+                <div class="pf-step-desc">Executes script on asset via RMM API. Returns top 10 directories by size.</div>
+                <div class="pf-step-tool">via: rmm.run_script(asset_id, script)</div>
+              </div>
             </div>
-            <div class="tier-item">
-              <span class="tier-name">Partner Cloud</span>
-              <span class="tier-desc">Managed cloud hosting + SLAs for MSPs who don't want to self-host. Revenue comes from here, not the software.</span>
-              <span class="tier-tag tier-paid">PAID HOSTING</span>
+            <div class="pf-step action">
+              <div class="pf-step-num">2</div>
+              <div class="pf-step-content">
+                <div class="pf-step-title">Run: clear_temp_and_logs.ps1</div>
+                <div class="pf-step-desc">Clears known safe paths: Windows temp, IIS logs, CBS logs. Returns bytes freed.</div>
+                <div class="pf-step-tool">via: rmm.run_script(asset_id, script)</div>
+              </div>
+            </div>
+            <div class="pf-step branch">
+              <div class="pf-step-num">?</div>
+              <div class="pf-step-content">
+                <div class="pf-step-title">Branch: disk_used_percent still > 85?</div>
+                <div class="pf-step-desc">Re-checks disk usage after cleanup.</div>
+                <div class="pf-step-tool">if yes: step 4 (escalate) / if no: step 5 (resolve)</div>
+              </div>
+            </div>
+            <div class="pf-step write">
+              <div class="pf-step-num">W</div>
+              <div class="pf-step-content">
+                <div class="pf-step-title">Write back: update ticket + worklog</div>
+                <div class="pf-step-desc">Updates PSA ticket with steps taken, bytes freed, current disk %. Adds worklog entry. Closes or escalates to L2 queue.</div>
+                <div class="pf-step-tool">via: psa.update_ticket() | psa.add_worklog()</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="model-block">
-        <div class="model-block-header">
-          <span class="model-block-title">action-packs.json: Integration Contract</span>
-          <span class="badge badge-amber">Copy TacticalRMM's pattern</span>
+      <div class="code-block">
+<span class="ck"># disk-full-windows-server.playbook.yaml</span>
+<span class="ca">id</span>: <span class="cs">disk-full-windows-server</span>
+<span class="ca">version</span>: <span class="cv">2.1.0</span>
+<span class="ca">tier</span>: <span class="cs">official</span>
+<span class="ca">psa_support</span>: [<span class="cs">superops</span>, <span class="cs">connectwise</span>, <span class="cs">halo</span>, <span class="cs">autotask</span>]
+<span class="ca">rmm_support</span>: [<span class="cs">ninja</span>, <span class="cs">tactical</span>, <span class="cs">automate</span>]
+
+<span class="ca">trigger</span>:
+  <span class="ca">conditions</span>:
+    - <span class="cs">alert.type == "disk"</span>
+    - <span class="cs">alert.disk_percent > 90</span>
+
+<span class="ca">steps</span>:
+  - <span class="ca">id</span>: get_breakdown
+    <span class="ca">action</span>: <span class="cs">rmm.run_script</span>
+    <span class="ca">script</span>: <span class="cs">scripts/get_disk_breakdown.ps1</span>
+  - <span class="ca">id</span>: clear_temp
+    <span class="ca">action</span>: <span class="cs">rmm.run_script</span>
+    <span class="ca">script</span>: <span class="cs">scripts/clear_temp_and_logs.ps1</span>
+  - <span class="ca">id</span>: check_after
+    <span class="ca">action</span>: <span class="cs">rmm.get_disk_percent</span>
+    <span class="ca">branch</span>:
+      <span class="cs">"> 85"</span>: escalate_l2
+      <span class="cs">"<= 85"</span>: resolve
+  - <span class="ca">id</span>: resolve
+    <span class="ca">action</span>: <span class="cs">psa.update_ticket</span>
+    <span class="ca">status</span>: <span class="cs">resolved</span>
+    <span class="ca">worklog</span>: <span class="cs">auto_generated</span>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Builder tool -->
+    <section id="builder">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2>Playbook Builder Tool</h2>
+      </div>
+
+      <div class="callout amber">
+        <div class="callout-label">Key Insight</div>
+        <p>
+          The builder is what makes the marketplace possible. Without a low-friction way to create and test
+          playbooks, only developers contribute. With a builder, L1 techs contribute from operational knowledge
+          they actually have.
+        </p>
+      </div>
+
+      <div class="idea-card primary">
+        <div class="idea-card-top">
+          <div class="idea-left">
+            <div class="idea-num">BUILDER TOOL</div>
+            <div class="idea-title">Visual Step Editor with Test Mode</div>
+          </div>
+          <span class="conf-badge conf-new">NEW IDEA</span>
         </div>
-        <div class="model-block-body">
-          <div class="code-block">
-<span class="code-comment">// Every verified action pack requires this entry</span>
+        <p class="idea-body">
+          A browser-based tool for building and testing playbooks without writing YAML by hand.
+          Each step is a drag-and-drop action block. Trigger conditions use a form UI, not a query language.
+          Test mode runs against a sandbox asset with dry-run mode enabled on all write operations.
+          AI can suggest a full playbook draft from a natural-language description ("disk cleanup on Windows Server"),
+          but the tech reviews every step before saving.
+        </p>
+        <div class="win-list">
+          <span class="win-item">Drag-and-drop step sequencer: add rmm.run_script, psa.update_ticket, check_condition blocks</span>
+          <span class="win-item">Trigger builder: condition form with autocomplete for alert fields</span>
+          <span class="win-item">Test mode: dry-run against real asset, shows exact API calls before they execute</span>
+          <span class="win-item">AI assist: suggest full draft from text description, tech reviews and edits each step</span>
+          <span class="win-item">One-click publish to community staging tier, with diff view vs previous version</span>
+          <span class="win-item">Version history: every change tracked, rollback to previous version in one click</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- All ideas -->
+    <section id="ideas">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2>Product Ideas Summary</h2>
+      </div>
+
+      <div class="idea-card primary">
+        <div class="idea-card-top">
+          <div class="idea-left">
+            <div class="idea-num">IDEA 01</div>
+            <div class="idea-title">Orchestration Engine (core product)</div>
+          </div>
+          <span class="conf-badge conf-high">HIGH CONFIDENCE</span>
+        </div>
+        <p class="idea-body">
+          The runtime that listens for events from connected tools, matches and executes playbooks,
+          and writes results back to the PSA. Self-hosted, AGPL-licensed, no execution limits.
+          Every action is logged and attributable.
+        </p>
+        <div class="win-list">
+          <span class="win-item">Webhook receiver for all connected tools (configurable per connector)</span>
+          <span class="win-item">Playbook matching engine: trigger conditions evaluated against event fields</span>
+          <span class="win-item">Step executor: calls tool APIs in sequence, captures output</span>
+          <span class="win-item">Write-back: updates PSA ticket with steps taken + auto-generated worklog</span>
+        </div>
+      </div>
+
+      <div class="idea-card secondary">
+        <div class="idea-card-top">
+          <div class="idea-left">
+            <div class="idea-num">IDEA 02</div>
+            <div class="idea-title">Community Playbook Marketplace</div>
+          </div>
+          <span class="conf-badge conf-high">HIGH CONFIDENCE</span>
+        </div>
+        <p class="idea-body">
+          Three-tier contribution model copied from TacticalRMM community-scripts (verified pattern).
+          Each playbook is a YAML file with trigger conditions, step sequence, and PSA/RMM support matrix.
+          Community contributes, maintainers review, verified packs ship bundled with every MSPclaw install.
+        </p>
+        <div class="win-list">
+          <span class="win-item">WIP tier: any community member can publish a draft</span>
+          <span class="win-item">Staging tier: community-tested, awaiting maintainer review</span>
+          <span class="win-item">Official tier: reviewed, shipped bundled with MSPclaw installs</span>
+          <span class="win-item">Fork model: fork any community playbook, customize, publish your variant</span>
+        </div>
+      </div>
+
+      <div class="idea-card secondary">
+        <div class="idea-card-top">
+          <div class="idea-left">
+            <div class="idea-num">IDEA 03</div>
+            <div class="idea-title">Playbook Builder Tool</div>
+          </div>
+          <span class="conf-badge conf-new">NEW IDEA</span>
+        </div>
+        <p class="idea-body">
+          Visual step editor + test mode. The tool that makes the marketplace possible.
+          Tech-controlled: every step visible, every write operation preview-able before it runs.
+          See section 04 for full detail.
+        </p>
+        <div class="win-list">
+          <span class="win-item">Drag-and-drop step sequencer, no YAML required</span>
+          <span class="win-item">Dry-run test mode against real assets</span>
+          <span class="win-item">AI suggest mode for drafting new playbooks from description</span>
+        </div>
+      </div>
+
+      <div class="idea-card tertiary">
+        <div class="idea-card-top">
+          <div class="idea-left">
+            <div class="idea-num">IDEA 04</div>
+            <div class="idea-title">Alert Intelligence Layer (L1 noise reduction)</div>
+          </div>
+          <span class="conf-badge conf-med">MED CONFIDENCE</span>
+        </div>
+        <p class="idea-body">
+          Deduplication + classification layer between monitoring tools and the PSA.
+          Same device, same error, same time window = 1 ticket instead of 40.
+          Rules are explicit YAML, not a black-box model. MSPs can read and audit them.
+        </p>
+        <div class="win-list">
+          <span class="win-item">Dedup window: configurable per alert type (e.g. 15 min for disk alerts)</span>
+          <span class="win-item">Auto-resolve: if condition clears before playbook runs, close with note</span>
+          <span class="win-item">Rule editor: same builder UI as playbook editor</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Marketplace -->
+    <section id="marketplace">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2>Marketplace Model</h2>
+      </div>
+
+      <div class="tier-block">
+        <div class="tier-block-head">
+          <span class="tier-block-title">License: AGPL v3.0 + tiered contribution model</span>
+          <span class="badge b-green">Verified pattern (TacticalRMM + Tracecat)</span>
+        </div>
+        <div class="tier-rows">
+          <div class="tier-row">
+            <span class="tier-name">Community</span>
+            <span class="tier-desc">WIP and staging playbooks. Not bundled with installs. Anyone can publish from the builder tool, no review required to join staging.</span>
+            <span class="tier-tag t-free">FREE</span>
+          </div>
+          <div class="tier-row">
+            <span class="tier-name">Verified</span>
+            <span class="tier-desc">Maintainer-reviewed playbooks. Ships bundled with every MSPclaw install. Requires passing a test matrix across supported PSAs and RMMs.</span>
+            <span class="tier-tag t-free">FREE</span>
+          </div>
+          <div class="tier-row">
+            <span class="tier-name">Partner</span>
+            <span class="tier-desc">Managed cloud hosting + SLAs for MSPs who don't want to self-host. This is where revenue comes from. Not the software.</span>
+            <span class="tier-tag t-paid">PAID HOSTING</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-block">
+        <div class="tier-block-head">
+          <span class="tier-block-title">playbook-registry.json: integration contract</span>
+          <span class="badge b-blue">Mirrors TacticalRMM community_scripts.json</span>
+        </div>
+        <div style="padding:1rem;">
+          <div class="code-block" style="margin-bottom:0;">
+<span class="ck"># Every verified playbook requires this registry entry</span>
 {
-  <span class="code-key">"id"</span>: <span class="code-str">"disk-full-remediation"</span>,
-  <span class="code-key">"name"</span>: <span class="code-str">"Disk Full - Auto Remediate"</span>,
-  <span class="code-key">"tier"</span>: <span class="code-str">"official"</span>,
-  <span class="code-key">"triggers"</span>: [<span class="code-str">"alert.disk.percent_used > 90"</span>],
-  <span class="code-key">"psa_support"</span>: [<span class="code-str">"superops"</span>, <span class="code-str">"connectwise"</span>, <span class="code-str">"halo"</span>],
-  <span class="code-key">"steps"</span>: [<span class="code-str">"run_script"</span>, <span class="code-str">"update_ticket"</span>, <span class="code-str">"add_worklog"</span>]
+  <span class="ca">"id"</span>: <span class="cs">"disk-full-windows-server"</span>,
+  <span class="ca">"version"</span>: <span class="cs">"2.1.0"</span>,
+  <span class="ca">"tier"</span>: <span class="cs">"official"</span>,
+  <span class="ca">"psa_support"</span>: [<span class="cs">"superops"</span>, <span class="cs">"connectwise"</span>, <span class="cs">"halo"</span>],
+  <span class="ca">"rmm_support"</span>: [<span class="cs">"ninja"</span>, <span class="cs">"tactical"</span>],
+  <span class="ca">"tested_by"</span>: <span class="cs">"community"</span>,
+  <span class="ca">"runs"</span>: <span class="cv">4821</span>,
+  <span class="ca">"success_rate"</span>: <span class="cv">0.96</span>
 }
           </div>
         </div>
@@ -1007,63 +1014,62 @@
 
     <hr class="divider">
 
-    <!-- Integration priority -->
+    <!-- Integrations -->
     <section id="integrations">
       <div class="section-header">
-        <span class="section-num">04</span>
+        <span class="section-num">07</span>
         <h2>Integration Priority</h2>
       </div>
 
-      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.7;margin-bottom:1.25rem;">
-        Minimum viable surface per PSA: ticket create/update/close + asset context fetch.
-        That is enough to ship v1 for any connector.
+      <p style="font-size:0.8125rem;color:var(--text-2);line-height:1.7;margin-bottom:1.125rem;">
+        Minimum viable surface per connector: receive webhook events + run scripts on assets (RMM) + create/update/close tickets + add worklogs (PSA).
       </p>
 
-      <table class="priority-table">
+      <table class="pri-table">
         <thead>
           <tr>
-            <th style="width:3rem;">#</th>
+            <th style="width:2.5rem;">#</th>
             <th>Platform</th>
-            <th>Type</th>
+            <th>Role</th>
             <th>Rationale</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="priority-rank">1</td>
-            <td class="priority-name">SuperOps</td>
-            <td><span class="badge badge-green">PSA + RMM</span></td>
-            <td style="font-size:0.8125rem;color:var(--text-2);">Your domain. Modern REST API. Fastest-growing. Ship first.</td>
+            <td class="pri-rank">1</td>
+            <td class="pri-name">SuperOps</td>
+            <td><span class="badge b-green">PSA + RMM</span></td>
+            <td style="font-size:0.775rem;color:var(--text-2);">Your domain. Modern REST API. Clean webhook support. Ship first.</td>
           </tr>
           <tr>
-            <td class="priority-rank">2</td>
-            <td class="priority-name">ConnectWise Manage</td>
-            <td><span class="badge badge-amber">PSA</span></td>
-            <td style="font-size:0.8125rem;color:var(--text-2);">Largest PSA install base in North America. Required for credibility.</td>
+            <td class="pri-rank">2</td>
+            <td class="pri-name">ConnectWise Manage</td>
+            <td><span class="badge b-amber">PSA</span></td>
+            <td style="font-size:0.775rem;color:var(--text-2);">Largest PSA install base in North America. Webhook support is flaky - poll as fallback.</td>
           </tr>
           <tr>
-            <td class="priority-rank">3</td>
-            <td class="priority-name">Halo PSA</td>
-            <td><span class="badge badge-amber">PSA</span></td>
-            <td style="font-size:0.8125rem;color:var(--text-2);">Strong REST API. Fast-growing in UK/EU. Good early adopter audience.</td>
+            <td class="pri-rank">3</td>
+            <td class="pri-name">NinjaRMM</td>
+            <td><span class="badge b-amber">RMM</span></td>
+            <td style="font-size:0.775rem;color:var(--text-2);">Primary RMM for executing playbook scripts. Good REST API for script execution.</td>
           </tr>
           <tr>
-            <td class="priority-rank">4</td>
-            <td class="priority-name">Datto Autotask</td>
-            <td><span class="badge badge-amber">PSA</span></td>
-            <td style="font-size:0.8125rem;color:var(--text-2);">Large install base. Older API, worth it for reach.</td>
+            <td class="pri-rank">4</td>
+            <td class="pri-name">Halo PSA</td>
+            <td><span class="badge b-amber">PSA</span></td>
+            <td style="font-size:0.775rem;color:var(--text-2);">Clean API. Fast-growing in UK/EU. Good early-adopter community.</td>
           </tr>
           <tr>
-            <td class="priority-rank">5</td>
-            <td class="priority-name">NinjaRMM</td>
-            <td><span class="badge badge-amber">RMM + PSA</span></td>
-            <td style="font-size:0.8125rem;color:var(--text-2);">RMM-first, but PSA module is gaining adoption fast.</td>
+            <td class="pri-rank">5</td>
+            <td class="pri-name">Datto Autotask</td>
+            <td><span class="badge b-amber">PSA</span></td>
+            <td style="font-size:0.775rem;color:var(--text-2);">Large install base. Older API but worth it for reach.</td>
           </tr>
           <tr>
-            <td class="priority-rank">6</td>
-            <td class="priority-name">Atera</td>
-            <td><span class="badge badge-amber">RMM + PSA</span></td>
-            <td style="font-size:0.8125rem;color:var(--text-2);">Strong SMB presence. All-in-one shops. Good for smaller MSPs.</td>
+            <td class="pri-rank">6</td>
+            <td class="pri-name">Atera</td>
+            <td><span class="badge b-amber">RMM + PSA</span></td>
+            <td style="font-size:0.775rem;color:var(--text-2);">All-in-one for smaller MSPs. Single connector covers both layers.</td>
           </tr>
         </tbody>
       </table>
@@ -1071,109 +1077,62 @@
 
     <hr class="divider">
 
-    <!-- Open questions -->
+    <!-- Questions -->
     <section id="questions">
       <div class="section-header">
-        <span class="section-num">05</span>
+        <span class="section-num">08</span>
         <h2>Open Questions</h2>
       </div>
-
-      <p style="font-size:0.875rem;color:var(--text-2);line-height:1.7;margin-bottom:1.25rem;">
-        Answer these before committing to architecture. Each one changes the build order.
-      </p>
 
       <div class="q-list">
         <div class="q-item">
           <span class="q-num">1</span>
-          Is there a runbook-sharing community in MSPGeek Slack or GitHub you can seed the marketplace with at launch?
-          Without a seed library, the marketplace is empty on day one and adoption stalls.
+          Is there a runbook or playbook-sharing community in MSPGeek Slack or GitHub that could seed the marketplace at launch? Without seed content, the marketplace is empty on day one.
         </div>
         <div class="q-item">
           <span class="q-num">2</span>
-          AGPL vs MIT: do you want to protect against hosted resale, or maximise community adoption speed?
-          AGPL grows slower but protects the managed-service revenue model. MIT grows fastest but any MSP tooling vendor can fork and ship.
+          AGPL vs MIT: protect against hosted resale (AGPL) or maximise adoption speed (MIT)? AGPL grows slower but protects the managed-service revenue angle.
         </div>
         <div class="q-item">
           <span class="q-num">3</span>
-          What is the minimum PSA API surface for ConnectWise REST? Is it clean enough to build alongside SuperOps in v1,
-          or does the API complexity push it to v2?
+          What should the builder tool ship as? Web app bundled with MSPclaw, or a standalone hosted tool that pushes playbooks to your self-hosted instance via API?
         </div>
         <div class="q-item">
           <span class="q-num">4</span>
-          Is ConnectWise still dominant in the under-50-tech MSP segment, or has SuperOps/Halo taken meaningful share?
-          This determines whether ConnectWise connector is required at launch or a fast-follow.
+          ConnectWise webhook reliability: is polling acceptable for v1, or should the CW connector be deprioritised in favour of a cleaner SuperOps + NinjaRMM + Halo v1 set?
+        </div>
+        <div class="q-item">
+          <span class="q-num">5</span>
+          How does the playbook test mode access real assets safely? Sandbox RMM environment, a dedicated test asset per customer, or opt-in dry-run mode per script step?
         </div>
       </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- Sources -->
-    <section id="sources">
-      <div class="section-header">
-        <span class="section-num">06</span>
-        <h2>Sources</h2>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:0.5rem;">
-        <a href="https://github.com/amidaware/community-scripts" target="_blank" rel="noopener"
-           style="font-family:var(--mono);font-size:0.8125rem;color:var(--accent-2);text-decoration:none;display:flex;align-items:center;gap:0.5rem;">
-          github.com/amidaware/community-scripts
-          <span style="font-size:0.6875rem;color:var(--text-3);">TacticalRMM three-tier model - high confidence</span>
-        </a>
-        <a href="https://www.tracecat.com/pricing" target="_blank" rel="noopener"
-           style="font-family:var(--mono);font-size:0.8125rem;color:var(--accent-2);text-decoration:none;display:flex;align-items:center;gap:0.5rem;">
-          tracecat.com/pricing
-          <span style="font-size:0.6875rem;color:var(--text-3);">AGPL unlimited self-hosted model - high confidence</span>
-        </a>
-        <a href="https://github.com/TracecatHQ/tracecat" target="_blank" rel="noopener"
-           style="font-family:var(--mono);font-size:0.8125rem;color:var(--accent-2);text-decoration:none;display:flex;align-items:center;gap:0.5rem;">
-          github.com/TracecatHQ/tracecat
-          <span style="font-size:0.6875rem;color:var(--text-3);">AGPL v3.0 license confirmed</span>
-        </a>
-        <a href="https://github.com/thisisprabha/MSPclaw" target="_blank" rel="noopener"
-           style="font-family:var(--mono);font-size:0.8125rem;color:var(--accent-2);text-decoration:none;display:flex;align-items:center;gap:0.5rem;">
-          github.com/thisisprabha/MSPclaw
-          <span style="font-size:0.6875rem;color:var(--text-3);">Starting point codebase</span>
-        </a>
-      </div>
-      <p style="font-size:0.75rem;color:var(--text-3);font-family:var(--mono);margin-top:1rem;line-height:1.6;">
-        Note: Quantitative claims (MSP margin data, ticket triage labor costs, false-positive rates) were refuted
-        in adversarial verification because sources were vendor marketing or unverifiable aggregators.
-        The synthesis above is structurally sound but lacks hard numbers.
-      </p>
-    </section>
-
     <div class="doc-footer">
-      <span>MSPclaw product-brief - 2026-06-03</span>
-      <span>Deep research: 108 agents, 1.89M tokens, adversarially verified</span>
+      <span>MSPclaw product-brief-v2 - 2026-06-04</span>
+      <span>Deep research: 108 agents, adversarially verified - orchestrator model added</span>
     </div>
 
   </main>
 </div>
 
 <script>
-  // Active nav on scroll
   const sections = document.querySelectorAll('section[id]');
   const navItems = document.querySelectorAll('.nav-item');
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navItems.forEach(item => {
-          item.classList.toggle('active', item.getAttribute('href') === '#' + entry.target.id);
-        });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navItems.forEach(n => n.classList.toggle('active', n.getAttribute('href') === '#' + e.target.id));
       }
     });
-  }, { rootMargin: '-40% 0px -55% 0px' });
+  }, { rootMargin: '-35% 0px -60% 0px' });
 
-  sections.forEach(s => observer.observe(s));
-
-  // Smooth scroll for nav items
-  navItems.forEach(item => {
-    item.addEventListener('click', (e) => {
+  sections.forEach(s => obs.observe(s));
+  navItems.forEach(n => {
+    n.addEventListener('click', e => {
       e.preventDefault();
-      const target = document.querySelector(item.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      document.querySelector(n.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
     });
   });
 </script>
