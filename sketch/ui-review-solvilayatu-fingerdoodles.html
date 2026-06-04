@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI/UX Review: Sol Vilaiyattu + Finger Doodles</title>
+<style>
+:root{--bg:#0a0a0a;--surface:#141414;--text:#e8e8e8;--muted:#888;--accent:#3b82f6;--warn:#f59e0b;--danger:#ef4444;--success:#22c55e;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;max-width:900px;margin:0 auto;padding:24px}
+h1{font-size:28px;font-weight:800;margin-bottom:8px}
+h2{font-size:20px;font-weight:700;margin-top:32px;margin-bottom:12px;color:var(--accent)}
+h3{font-size:16px;font-weight:600;margin-top:20px;margin-bottom:8px;color:var(--text)}
+.meta{color:var(--muted);font-size:13px;margin-bottom:24px;border-bottom:1px solid #222;padding-bottom:16px}
+.app-section{background:var(--surface);border-radius:12px;padding:20px;margin-bottom:20px;border-left:3px solid var(--accent)}
+.app-section.fingerdoodles{border-left-color:#f97316}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;margin-right:6px;text-transform:uppercase}
+.tag.good{background:#14532d;color:#86efac}
+.tag.warn{background:#713f12;color:#fde047}
+.tag.issue{background:#450a0a;color:#fca5a5}
+.tag.info{background:#1e3a5f;color:#93c5fd}
+ul{margin-left:20px;margin-bottom:12px}
+li{margin-bottom:6px}
+.code{font-family:ui-monospace,SFMono-Regular,"SF Mono",monospace;font-size:13px;background:#1a1a1a;padding:2px 6px;border-radius:4px;color:#ccc}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #222}
+th{font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase}
+.rating{display:flex;gap:4px;margin:8px 0}
+.dot{width:10px;height:10px;border-radius:50%;background:#333}
+.dot.on{background:var(--accent)}
+.screenshot-placeholder{background:#1a1a1a;border:2px dashed #333;border-radius:8px;padding:40px;text-align:center;color:var(--muted);margin:12px 0}
+</style>
+</head>
+<body>
+
+<h1>UI/UX Review: Sol Vilaiyattu + Finger Doodles</h1>
+<div class="meta">Reviewed: June 4, 2026 · Branches: <span class="code">solvilayatu/development</span>, <span class="code">thumb-draw/Kid-friendly</span></div>
+
+<!-- ==================== SOL VILAIYATTU ==================== -->
+<div class="app-section">
+<h2>Sol Vilaiyattu (சொல் விளையாட்டு)</h2>
+<p>Tamil-language daily word puzzle. Re-branded blue/orange palette, rounded cards, custom Tamil keyboard. 4-letter Wordle clone with strict daily mode.</p>
+
+<h3>Visual Design</h3>
+<span class="tag good">Strong</span>
+<ul>
+<li>Re-brand from green/yellow to <span class="code">blue/orange</span> is clean and avoids "Wordle clone" look. <span class="code">LetterBoxView</span> uses <span class="code">cornerRadius: 12</span> with continuous style — modern iOS feel.</li>
+<li>Card shadows (<span class="code">shadow(radius: 2, x: 0, y: 1)</span>) add subtle depth without clutter.</li>
+<li>Bilingual labels throughout (Tamil primary, English secondary). <span class="code">"அனுப்பு (ENTER)"</span> button is thoughtful.</li>
+<li>Dark mode default with system background gradients. Good for battery on OLED iPhones.</li>
+</ul>
+
+<h3>Typography</h3>
+<span class="tag good">Good</span>
+<ul>
+<li>Title uses <span class="code">.system(size: 28, weight: .black, design: .rounded)</span> — impactful, on-brand for a game.</li>
+<li>Tamil script renders at 26pt bold in letter boxes — readable even on small devices.</li>
+<li>Subtitle transliteration at 14pt monospaced is a nice touch, gives it an "editorial" feel.</li>
+</ul>
+
+<h3>Interaction Design</h3>
+<span class="tag warn">Needs Polish</span>
+<ul>
+<li><strong>Keyboard row spacing is inconsistent:</strong> Vowel row uses <span class="code">spacing: 3</span>, consonants use <span class="code">spacing: 4</span>, actions use <span class="code">spacing: 10</span>. This creates visual raggedness. Standardize to 4-6pt across all rows.</li>
+<li><strong>Keyboard key height (46pt) vs action button height:</strong> Enter key is 14pt vertical padding (~46pt total), but letter keys are exactly 46pt frame. Slight mismatch. Unify to 48pt.</li>
+<li><strong>Variation picker overlay:</strong> <span class="code">VariationPickerView</span> slides up from bottom with <span class="code">.move(edge: .bottom).combined(with: .opacity)</span> — smooth, but lacks backdrop dimming. Add <span class="code">Color.black.opacity(0.3)</span> behind it so the keyboard doesn't fight for attention.</li>
+<li><strong>Shake animation on invalid word:</strong> <span class="code">ShakeEffect</span> with 10pt translation, 3 shakes per unit — effective feedback. But it shakes the entire <span class="code">GameBoardView</span>. Consider shaking only the active row for precision.</li>
+</ul>
+
+<h3>Onboarding (TutorialView)</h3>
+<span class="tag good">Solid</span>
+<ul>
+<li>4-page <span class="code">TabView</span> with <span class="code">PageTabViewStyle</span> — native feel, swipeable.</li>
+<li>Color guide page (page 3) uses live <span class="code">ColorExample</span> boxes — better than static images.</li>
+<li>Button text bilingual: <span class="code">"அடுத்து / Next"</span> then <span class="code">"விளையாடத் தொடங்கு / Start"</span>.</li>
+<li><strong>Missing:</strong> No progress indicator for how many pages remain (dots are shown but not prominent). Consider adding "Step 1 of 4" text above the dots.</li>
+</ul>
+
+<h3>Game Flow & Logic</h3>
+<span class="tag warn">Debug Code Live</span>
+<ul>
+<li><span class="code">DailyGameManager.canPlayToday()</span> returns <span class="code">true</span> with comment "DEBUG: Temporarily allowing multiple games for testing". <strong>This must be fixed before App Store.</strong> Uncomment the date check logic.</li>
+<li>Epoch is hardcoded to Dec 22, 2024. If this ships now (June 2026), the day index is ~530. Make sure <span class="code">WordLibrary.words</span> has enough entries or cycles properly. Current code: <span class="code">currentDayIndex % WordLibrary.words.count</span> — cycling is fine, but users might notice repeats after 80 days (if library is 80 words).</li>
+<li><strong>Stats are minimal:</strong> Only "Played" and "Won" counters. No streak visualization, no guess distribution bar chart, no shareable results grid. For a Wordle clone, the shareable emoji grid is table stakes. Add it.</li>
+</ul>
+
+<h3>Accessibility</h3>
+<span class="tag issue">Weak</span>
+<ul>
+<li>No <span class="code">.accessibilityLabel</span> on keyboard keys. VoiceOver users hear "button" with no context.</li>
+<li>Letter boxes have no accessibility traits — should announce "letter A, correct position" or similar.</li>
+<li>Color guide page explains blue/orange/gray meaning, but colorblind users need pattern or shape differentiation too. Add hatching or border styles to <span class="code">LetterBoxView</span> for <span class="code">.correct/.present/.absent</span> states.</li>
+</ul>
+
+<h3>Code Quality Notes</h3>
+<ul>
+<li><span class="code">GameStats.guessDistribution</span> is sized for 6 attempts, but the game allows 5. Off-by-one mismatch — harmless but sloppy.</li>
+<li><span class="code">DailyGameManager</span> is a singleton <span class="code">@ObservedObject</span> — fine for this scale, but consider @StateObject injection for testability.</li>
+<li><span class="code">TamilUtils</span> hardcodes vowel/consonant arrays. Good abstraction, but missing unit tests for edge cases (e.g., compound characters).</li>
+</ul>
+
+<div class="rating"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+<p style="font-size:13px;color:var(--muted)">Overall: 3/5 — Strong visual re-brand, solid Tamil UX, but debug code live, minimal stats, and weak accessibility.</p>
+</div>
+
+<!-- ==================== FINGER DOODLES ==================== -->
+<div class="app-section fingerdoodles">
+<h2>Finger Doodles (ThumbDraw Kid-friendly branch)</h2>
+<p>Thumb-based drawing app for kids. SPM architecture with <span class="code">ThumbDrawFeature</span> package. Onboarding with 4 slides, animal/component library, canvas with thumb print shapes.</p>
+
+<h3>Visual Design</h3>
+<span class="tag good">Warm & Friendly</span>
+<ul>
+<li>Onboarding uses soft peachy-pink gradient backgrounds — feels handcrafted, not corporate. Good for kids.</li>
+<li>Orange-red gradient CTA buttons with white text — high contrast, actionable.</li>
+<li>Hand icon in onboarding circle is a custom SVG — on-brand for the thumb-drawing mechanic.</li>
+<li><strong>Missing from review:</strong> Could not capture live screenshots of drawing canvas due to sim launch conflicts. Need to verify canvas UI in person.</li>
+</ul>
+
+<h3>Architecture</h3>
+<span class="tag info">SPM</span>
+<ul>
+<li>Clean separation: <span class="code">ThumbDrawPackage</span> as local SPM with <span class="code">ThumbDrawFeature</span> library. Good for reusability.</li>
+<li>Key files: <span class="code">CanvasViewModel.swift</span>, <span class="code">KidCanvasViews.swift</span>, <span class="code">ThumbDrawingView.swift</span>, <span class="code">OnboardingView.swift</span>, <span class="code">AnimalData.swift</span>, <span class="code">ComponentPlacementView.swift</span>.</li>
+<li>Dual image loaders: <span class="code">SVGImageLoader.swift</span> + <span class="code">PDFImageLoader.swift</span> — flexible asset pipeline.</li>
+</ul>
+
+<h3>Interaction Design</h3>
+<span class="tag warn">Needs Verification</span>
+<ul>
+<li><strong>Onboarding:</strong> 4-page flow with "Skip" option. Good — kids don't tolerate forced tutorials.</li>
+<li><strong>Thumb drawing mechanic:</strong> "Press your thumb on the canvas to create unique shapes and textures." Clever haptic+visual concept, but need to test if accidental palm touches register as unwanted draws. Consider <span class="code">UIGestureRecognizer</span> with minimum touch area threshold.</li>
+<li><strong>Component library:</strong> <span class="code">ComponentLibraryView.swift</span> + <span class="code">ComponentPlacementView.swift</span> suggest drag-and-drop stickers/animals. Verify z-order handling and tap-vs-drag conflicts.</li>
+</ul>
+
+<h3>Kid-Friendly Considerations</h3>
+<span class="tag good">Well Thought Out</span>
+<ul>
+<li>Branch name "Kid-friendly" suggests dedicated kid UX pass. Good call separating this from main.</li>
+<li>Animal data model (<span class="code">AnimalData.swift</span>) — likely preset shapes kids can stamp. Consider adding audio names ("Dog!") for pre-readers.</li>
+<li><span class="code">KidCanvasViews.swift</span> — presumably larger touch targets, simplified toolbars. Verify minimum 44pt button sizes.</li>
+</ul>
+
+<h3>Code Quality Notes</h3>
+<ul>
+<li><span class="code">CanvasFrameKey.swift</span> suggests preference key for geometry reading — good for responsive canvas sizing.</li>
+<li><span class="code">Models.swift</span> is generic naming. Consider <span class="code">DrawingModel.swift</span> or <span class="code">CanvasState.swift</span> for clarity.</li>
+<li>Package has test target <span class="code">ThumbDrawFeatureTests</span> — verify test coverage before shipping. Empty test targets are worse than none (false confidence).</li>
+</ul>
+
+<div class="rating"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+<p style="font-size:13px;color:var(--muted)">Overall: 3/5 — Good architecture and kid-friendly onboarding, but couldn't verify core drawing canvas UI. Needs accessibility audit and gesture refinement.</p>
+</div>
+
+<!-- ==================== COMPARATIVE & RECOMMENDATIONS ==================== -->
+<div class="app-section">
+<h2>Cross-App Observations</h2>
+<table>
+<tr><th>Aspect</th><th>Sol Vilaiyattu</th><th>Finger Doodles</th></tr>
+<tr><td>Onboarding</td><td>4-page TabView, bilingual</td><td>4-page slides, warm gradients</td></tr>
+<tr><td>Color System</td><td>Blue/Orange re-brand</td><td>Peach/Orange gradients</td></tr>
+<tr><td>Accessibility</td><td>Weak — no labels</td><td>Unverified</td></tr>
+<tr><td>Shareability</td><td>Missing emoji grid</td><td>N/A (single player)</td></tr>
+<tr><td>Debug Code</td><td>canPlayToday() = true</td><td>Unknown</td></tr>
+<tr><td>Architecture</td><td>Monolithic</td><td>SPM package</td></tr>
+</table>
+</div>
+
+<div class="app-section">
+<h2>Priority Fixes</h2>
+<ol>
+<li><strong>Sol Vilaiyattu:</strong> Fix <span class="code">canPlayToday()</span> debug code. Add shareable emoji results grid. Add VoiceOver labels to keyboard.</li>
+<li><strong>Finger Doodles:</strong> Verify canvas palm rejection. Add 44pt minimum touch targets. Test with actual kids (ages 4-8).</li>
+<li><strong>Both:</strong> Add <span class="code">.accessibilityLabel</span> and <span class="code">.accessibilityHint</span> to all interactive elements. Run Accessibility Inspector in Xcode.</li>
+</ol>
+</div>
+
+<p style="margin-top:40px;color:var(--muted);font-size:12px;text-align:center">Review generated by Agent Tina · Based on source code analysis + simulator screenshots</p>
+
+</body>
+</html>
