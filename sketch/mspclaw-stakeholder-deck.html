@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MSPclaw: Stakeholder Deck</title>
+<title>MSPclaw: Product Deck</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -304,7 +304,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--sans)}
 }
 
 .comp-hi{color:var(--green);font-weight:500}
-.comp-lo{color:var(--red-dim, #dc2626);opacity:.7}
+.comp-hi::before{content:"✓ ";font-size:.7em;opacity:.8}
+.comp-lo{color:var(--text-3)}
+.comp-lo::before{content:"✗ ";color:var(--red);font-size:.7em}
 
 /* Flow diagram */
 .flow-row{
@@ -568,7 +570,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--sans)}
     <!-- SLIDE 1: Title -->
     <div class="slide slide-title">
       <div class="slide-num">1 / 12</div>
-      <div class="title-kicker">Stakeholder Brief</div>
+      <div class="title-kicker">Product Overview</div>
       <div class="title-main">MSPclaw</div>
       <div class="title-sub">
         An open-source L1 automation platform for MSP service desks.
@@ -588,11 +590,11 @@ html,body{height:100%;overflow:hidden;font-family:var(--sans)}
       <div class="slide-num">2 / 12</div>
       <div class="eyebrow">The Problem</div>
       <div class="headline">MSP techs spend half<br>their day on <span class="accent">the same 30 tickets</span></div>
-      <div class="subline">Password reset. Printer down. WiFi not connecting. PC running slow. Onboarding a new user. Every MSP sees these every day. The fix is always the same. The ticket still takes 20 minutes.</div>
+      <div class="subline">Password reset. Printer down. WiFi not connecting. PC running slow. Onboarding a new user. <strong style="color:var(--text)">Every MSP sees these every day.</strong> The fix is always the same. <strong style="color:var(--text)">The ticket still takes 20 minutes.</strong></div>
       <div class="bullet-list">
-        <div class="bullet-item"><div class="bullet-marker">1</div><div>40-70% of all service desk tickets are repeatable L1 scenarios with known fixes</div></div>
-        <div class="bullet-item"><div class="bullet-marker">2</div><div>Each one takes a tech 15-30 minutes even though the diagnosis and fix are deterministic</div></div>
-        <div class="bullet-item"><div class="bullet-marker">3</div><div>MSPs can't hire fast enough to absorb growth, so they cap client count or burn out techs</div></div>
+        <div class="bullet-item"><div class="bullet-marker">1</div><div><strong style="color:var(--text)">40-70% of all service desk tickets</strong> are repeatable L1 scenarios with known fixes</div></div>
+        <div class="bullet-item"><div class="bullet-marker">2</div><div>Each one takes a tech <strong style="color:var(--text)">15-30 minutes</strong> even though the diagnosis and fix are deterministic</div></div>
+        <div class="bullet-item"><div class="bullet-marker">3</div><div>MSPs can't hire fast enough to absorb growth, so they <strong style="color:var(--text)">cap client count or burn out techs</strong></div></div>
       </div>
     </div>
 
@@ -677,7 +679,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--sans)}
       <div class="slide-num">5 / 12</div>
       <div class="eyebrow">The Solution</div>
       <div class="headline">An orchestration layer.<br><span class="light">Existing tools stay in place.</span></div>
-      <div class="subline">MSPclaw sits on top of your PSA and RMM. It receives ticket events, matches a community playbook, runs steps on the client device, and writes the result back to the ticket. Nothing gets replaced.</div>
+      <div class="subline">MSPclaw sits on top of your PSA and RMM. It receives ticket events, matches a community playbook, runs steps on the client device, and writes the result back to the ticket. <strong style="color:var(--text)">Nothing gets replaced.</strong></div>
       <div class="flow-row">
         <div class="flow-box">Ticket created<br><span style="font-family:var(--mono);font-size:.6rem;color:var(--text-3);">SuperOps / ConnectWise</span></div>
         <div class="flow-arrow">&rarr;</div>
@@ -801,31 +803,32 @@ html,body{height:100%;overflow:hidden;font-family:var(--sans)}
       <div class="slide-num">9 / 12</div>
       <div class="eyebrow">Business Model</div>
       <div class="headline">Open source engine.<br><span class="accent">Revenue from hosting</span><span class="light">, not software.</span></div>
-      <div class="subline">The AGPL license protects against commercial resellers while keeping the community open. MSPs who want managed infrastructure pay for cloud hosting and support. The software itself is free to self-host.</div>
-      <div class="rev-table" style="margin-top:1.75rem">
-        <thead>
-          <tr><th>Tier</th><th>Who it's for</th><th>What they get</th><th>Revenue</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Self-hosted</td>
-            <td>Technical MSPs who run their own infrastructure</td>
-            <td>Full platform, unlimited executions, all community playbooks</td>
-            <td style="color:var(--text-3);font-family:var(--mono);font-size:.7rem;">Free (AGPL)</td>
-          </tr>
-          <tr>
-            <td>Cloud hosted</td>
-            <td>MSPs who want managed infra + SLA + updates handled</td>
-            <td>Same as self-hosted, plus uptime SLA, managed updates, priority support</td>
-            <td style="color:var(--amber);font-family:var(--mono);font-size:.7rem;">$200-500/MSP/month</td>
-          </tr>
-          <tr>
-            <td>Marketplace</td>
-            <td>Vendors and advanced MSPs selling specialist playbook packs</td>
-            <td>Verified playbook bundles (security response, onboarding, vendor-specific tools)</td>
-            <td style="color:var(--amber);font-family:var(--mono);font-size:.7rem;">Revenue share on packs</td>
-          </tr>
-        </tbody>
+      <div class="subline">AGPL license protects against commercial resellers while keeping the community open. MSPs who want managed infrastructure pay for cloud hosting. The software itself is always free to self-host.</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:1.75rem;">
+        <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+          <div style="padding:.625rem 1rem;background:var(--surface-2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.5875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);">Self-hosted</div>
+          <div style="padding:1rem;">
+            <div style="font-size:.8125rem;color:var(--text);font-weight:600;margin-bottom:.375rem;">Technical MSPs</div>
+            <div style="font-size:.775rem;color:var(--text-2);line-height:1.6;margin-bottom:.75rem;">Run on your own servers. Full platform, unlimited executions, all community playbooks included.</div>
+            <div style="font-family:var(--mono);font-size:.6875rem;color:var(--text-3);padding:.375rem .625rem;background:var(--surface);border:1px solid var(--border);border-radius:4px;text-align:center;">Free — AGPL v3.0</div>
+          </div>
+        </div>
+        <div style="border:2px solid var(--accent);border-radius:8px;overflow:hidden;">
+          <div style="padding:.625rem 1rem;background:var(--accent-bg);border-bottom:1px solid var(--accent-b);font-family:var(--mono);font-size:.5875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);">Cloud Hosted</div>
+          <div style="padding:1rem;">
+            <div style="font-size:.8125rem;color:var(--text);font-weight:600;margin-bottom:.375rem;">MSPs who want managed infra</div>
+            <div style="font-size:.775rem;color:var(--text-2);line-height:1.6;margin-bottom:.75rem;">Uptime SLA, managed updates, priority support. Zero ops overhead for the MSP.</div>
+            <div style="font-family:var(--mono);font-size:.6875rem;color:var(--amber);padding:.375rem .625rem;background:var(--amber-bg);border:1px solid #fde68a;border-radius:4px;text-align:center;">$200 - $500 / MSP / month</div>
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+          <div style="padding:.625rem 1rem;background:var(--surface-2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.5875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);">Marketplace</div>
+          <div style="padding:1rem;">
+            <div style="font-size:.8125rem;color:var(--text);font-weight:600;margin-bottom:.375rem;">Vendors + specialist MSPs</div>
+            <div style="font-size:.775rem;color:var(--text-2);line-height:1.6;margin-bottom:.75rem;">Verified playbook packs: security response, vendor-specific tools, onboarding bundles.</div>
+            <div style="font-family:var(--mono);font-size:.6875rem;color:var(--amber);padding:.375rem .625rem;background:var(--amber-bg);border:1px solid #fde68a;border-radius:4px;text-align:center;">Revenue share on paid packs</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -840,7 +843,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--sans)}
           <div class="bullet-list" style="margin-top:.75rem">
             <div class="bullet-item"><div class="bullet-marker">Y1</div><div>100 MSPs on cloud tier at $200/month<br><strong style="color:var(--text)">$240k ARR</strong> - 0.25% of North American market</div></div>
             <div class="bullet-item"><div class="bullet-marker">Y2</div><div>500 MSPs at blended $220/month<br><strong style="color:var(--text)">$1.3M ARR</strong> - still under 1.5% market penetration</div></div>
-            <div class="bullet-item"><div class="bullet-marker">Y3</div><div>2,000 MSPs + marketplace revenue<br><strong style="color:var(--text)">$5-7M ARR</strong> - community flywheel in motion flywheel in motion</div></div>
+            <div class="bullet-item"><div class="bullet-marker">Y3</div><div>2,000 MSPs + marketplace revenue<br><strong style="color:var(--text)">$5-7M ARR</strong> - community flywheel in motion</div></div>
           </div>
         </div>
         <div class="accent-left">
