@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI Review: TamilWordle + ThumbDraw</title>
+<style>
+:root{--bg:#0d0d0d;--surface:#1a1a1a;--border:#2a2a2a;--text:#e8e8e8;--muted:#999;--green:#4ade80;--yellow:#fbbf24;--red:#ef4444;--blue:#60a5fa;--purple:#c084fc}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:40px 20px;max-width:900px;margin:0 auto}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px;letter-spacing:-0.02em}
+h2{font-size:1.3rem;font-weight:700;margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;margin:24px 0 8px;color:var(--muted)}
+.meta{color:var(--muted);font-size:0.9rem;margin-bottom:32px}
+.app-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:32px}
+.app-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.app-icon{width:48px;height:48px;border-radius:12px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.app-title{font-size:1.2rem;font-weight:700}
+.app-meta{color:var(--muted);font-size:0.85rem}
+.screenshot{width:100%;max-width:320px;border-radius:12px;border:1px solid var(--border);margin:16px 0}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.03em}
+.status-warn{background:rgba(251,191,36,0.15);color:var(--yellow)}
+.status-ok{background:rgba(74,222,128,0.15);color:var(--green)}
+.status-bad{background:rgba(239,68,68,0.15);color:var(--red)}
+.status-info{background:rgba(96,165,250,0.15);color:var(--blue)}
+ul{list-style:none;padding:0;margin:12px 0}
+li{padding:6px 0;padding-left:20px;position:relative}
+li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:6px;border-radius:50%}
+li.warn::before{background:var(--yellow)}
+li.ok::before{background:var(--green)}
+li.bad::before{background:var(--red)}
+li.info::before{background:var(--blue)}
+.code-block{background:#111;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:ui-monospace,SFMono-Regular,monospace;font-size:0.8rem;color:#c4c4c4;overflow-x:auto;margin:12px 0}
+.note{background:rgba(96,165,250,0.08);border-left:3px solid var(--blue);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:0.9rem;color:#bbb}
+.footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:0.85rem}
+@media(max-width:600px){body{padding:20px 16px}h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+
+<h1>UI Review: TamilWordle + ThumbDraw</h1>
+<p class="meta">June 4, 2026 | Source code + simulator screenshots | Agent Tina</p>
+
+<!-- ===================== TAMILWORDLE ===================== -->
+<div class="app-section">
+<div class="app-header">
+<div class="app-icon">&#127775;</div>
+<div>
+<div class="app-title">TamilWordle</div>
+<div class="app-meta">Bundle: com.tamilwordle.TamilWordle | SwiftUI | Wordle clone for Tamil</div>
+</div>
+</div>
+
+<h2>What it is</h2>
+<p>A daily Tamil word puzzle. 4-letter Tamil words, 5 guesses, color feedback. Built with SwiftUI, bilingual Tamil/English UI, tutorial onboarding, stats tracking, daily challenge lockout.</p>
+
+<h2>Architecture</h2>
+<ul>
+<li class="ok">Clean MVVM separation: GameModel, KeyboardViewModel, DailyGameManager</li>
+<li class="ok">Dedicated views: GameBoardView, KeyboardView, StatsView, TutorialView, VariationPickerView</li>
+<li class="ok">TamilUtils handles vowel/consonant/variation logic</li>
+<li class="warn">NavigationView wrapping everything (deprecated pattern in iOS 16+, should be NavigationStack)</li>
+</ul>
+
+<h2>Screen Inventory</h2>
+<ul>
+<li class="ok">Game board (5x4 grid, Tamil letters)</li>
+<li class="ok">Onboarding tutorial (4-page TabView with dots)</li>
+<li class="ok">Stats modal (games played/won, daily streak)</li>
+<li class="ok">Variation picker (consonant + diacritic combinations)</li>
+<li class="ok">"Already played today" lockout screen</li>
+<li class="ok">Win/loss result overlay</li>
+</ul>
+
+<h2>Screenshot: Onboarding (Tutorial Page 1)</h2>
+<img class="screenshot" src="tamilwordle-01-tutorial.png" alt="TamilWordle tutorial screen">
+
+<h2>Issues Found</h2>
+
+<h3>1. Keyboard cram <span class="status-badge status-bad">Critical</span></h3>
+<p>31 Tamil characters (13 vowels + 18 consonants) plus ENTER and DELETE crammed into 4 rows. Keys are tiny (HStack spacing: 2-4pt, font: 12pt). On a real iPhone this will be nearly impossible to tap accurately.</p>
+<div class="code-block">
+HStack(spacing: 2) { ForEach(TamilUtils.vowels...) } // 13 keys, 2pt gap
+</div>
+<p><strong>Fix:</strong> Split into 5 rows max 7 keys each. Or use a scrollable horizontal row for vowels. Minimum tap target should be 44pt per Apple HIG. Current keys are roughly 28-32pt wide on iPhone 17.</p>
+
+<h3>2. Tutorial content void <span class="status-badge status-warn">Fix</span></h3>
+<p>Tutorial Page 1 (shown above) is just text + a generic question-mark icon. No visual example of the game board, no animated tile demo, no "try it now" interaction. Users who skip the tutorial will be lost.</p>
+<p><strong>Fix:</strong> Replace the question-mark icon with a mini 4x2 animated tile grid showing the color feedback mechanism. Or embed a live interactive guess on Page 2.</p>
+
+<h3>3. Bilingual density <span class="status-badge status-info">Note</span></h3>
+<p>Every label is Tamil + English stacked. This doubles vertical space usage and creates visual noise. The target audience is Tamil speakers - English is a fallback, not a co-primary language.</p>
+<p><strong>Suggestion:</strong> Use device language setting. If locale is ta-IN, show Tamil only. If en-*, show English only. Do not stack both on every screen.</p>
+
+<h3>4. Variation picker has no dismiss <span class="status-badge status-bad">Bug</span></h3>
+<p>In VariationPickerView.swift the Cancel button opacity is set to 0 and the comment admits there is no proper cancel flow. Users are trapped in the picker if they tap a consonant by mistake.</p>
+<div class="code-block">
+Button("Cancel") { /* Hack: no actual cancel */ }
+.opacity(0) // Hidden for spacing
+</div>
+<p><strong>Fix:</strong> Add a working Cancel button or dismiss on background tap. This is a hard blocker for usability.</p>
+
+<h3>5. Stats modal is bare <span class="status-badge status-warn">Fix</span></h3>
+<p>Only shows "Played" and "Won" counts. No guess distribution histogram, no streak display, no share button. Wordle's shareability (the grid emoji output) is what made it viral. Missing that entirely.</p>
+<p><strong>Fix:</strong> Add guess distribution (bar chart of wins per attempt count) and a Share button that generates the Tamil tile emoji grid for social sharing.</p>
+
+<h3>6. Daily lockout wall <span class="status-badge status-warn">Fix</span></h3>
+<p>After playing once, the entire game board is replaced with a static "come back tomorrow" message. No stats preview, no archive of past puzzles, no practice mode. Dead screen for 24 hours.</p>
+<p><strong>Fix:</strong> Show yesterday's answer, today's stats, and a "practice mode" with random words. Keep users in the app.</p>
+
+<h3>7. No persistence beyond UserDefaults <span class="status-badge status-info">Note</span></h3>
+<p>Stats and daily progress stored in UserDefaults. No CloudKit sync, no Game Center. Switch devices = lose progress.</p>
+
+<h2>What works well</h2>
+<ul>
+<li class="ok">Color logic (green/yellow/gray) implemented correctly</li>
+<li class="ok">Shake animation on invalid guess</li>
+<li class="ok">Tutorial has pagination dots and proper TabView flow</li>
+<li class="ok">Tamil letter rendering is clean, no font issues observed</li>
+<li class="ok">Daily puzzle rotation via DayManager</li>
+</ul>
+</div>
+
+<!-- ===================== THUMBDRAW ===================== -->
+<div class="app-section">
+<div class="app-header">
+<div class="app-icon">&#128400;</div>
+<div>
+<div class="app-title">ThumbDraw</div>
+<div class="app-meta">Bundle: com.thumbdraw.app | SwiftUI + UIKit | Thumbprint drawing canvas</div>
+</div>
+</div>
+
+<h2>What it is</h2>
+<p>A full-screen canvas where users press their thumb to leave organic thumbprint impressions. Uses actual thumb mask images (5 PNGs loaded from Assets), UIKit touch handling for radius/force detection, and opacity accumulation for color building.</p>
+
+<h2>Architecture</h2>
+<ul>
+<li class="ok">UIKit UIView subclass (ThumbDrawingUIView) wrapped in UIViewRepresentable</li>
+<li class="ok">Swift Package (ThumbDrawFeature) consumed via local Swift Package in workspace</li>
+<li class="ok">Touch radius filtering (>15pt = thumb, else ignored)</li>
+<li class="ok">Palm rejection (multi-touch disabled, max 2 touches)</li>
+<li class="ok">Opacity accumulation map for layered impressions</li>
+</ul>
+
+<h2>Screen Inventory</h2>
+<ul>
+<li class="ok">Full-screen white canvas</li>
+<li class="ok">Red "Delete" button bottom-center (clears canvas)</li>
+<li class="bad">No settings, no color picker, no brush size, no undo, no save/share</li>
+</ul>
+
+<h2>Screenshot: Home Screen</h2>
+<img class="screenshot" src="thumbdraw-01-home.png" alt="ThumbDraw home screen">
+
+<h2>Issues Found</h2>
+
+<h3>1. No contextual UI <span class="status-badge status-bad">Critical</span></h3>
+<p>The screenshot above is the entire app. White canvas + red Delete button. No title, no instruction, no onboarding for first-time users. A user opening this for the first time has no idea what to do or how it works.</p>
+<p><strong>Fix:</strong> Add a brief overlay on first launch: "Press your thumb on the screen to draw." Fade it out after first touch. Add a small ? help button that re-shows instructions.</p>
+
+<h3>2. "Delete" label is wrong <span class="status-badge status-warn">Fix</span></h3>
+<p>Button says "Delete" but it clears the entire canvas. Users expect "delete" to remove the last mark, not nuke everything. This is a destructive action with no confirmation.</p>
+<p><strong>Fix:</strong> Label it "Clear All" or "Clear Canvas". Consider an undo button instead - users will accidentally clear their work and rage-quit.</p>
+
+<h3>3. No save or share <span class="status-badge status-bad">Critical</span></h3>
+<p>Users create art but cannot export it. No "Save to Photos", no share sheet, no copy. The canvas exists in memory only and dies with the app.</p>
+<p><strong>Fix:</strong> Add a toolbar with Save (renders canvas to UIImage, writes to Photo Library) and Share (UIActivityViewController).</p>
+
+<h3>4. No color or variation <span class="status-badge status-warn">Fix</span></h3>
+<p>Every impression is black. No color picker, no tint variation, no gradient. After 5-6 impressions it all looks the same muddy black.</p>
+<p><strong>Fix:</strong> Add a minimal color palette (4-6 colors) as a floating toolbar. Or cycle through hues based on touch location for a rainbow effect.</p>
+
+<h3>5. Thumb mask loading is fragile <span class="status-badge status-warn">Fix</span></h3>
+<p>Mask images loaded by string names ("1", "2", "3", "4", "4-1") from asset catalog. If any image is renamed or missing, the app silently fails with just a console log. No fallback to a procedural thumbprint.</p>
+<div class="code-block">
+let imageNames = ["1", "2", "3", "4", "4-1"]
+if let image = UIImage(named: name) { images.append(image) }
+else { print("Failed to load thumb mask: \(name)") }
+</div>
+<p><strong>Fix:</strong> If all 5 masks fail to load, fall back to a procedural thumbprint drawn with Core Graphics. Do not leave the canvas non-functional.</p>
+
+<h3>6. Force/pressure not meaningfully used <span class="status-badge status-info">Note</span></h3>
+<p>Code reads force and maxForce but only varies size by +/-2.5%. On devices without 3D Touch (most modern iPhones) this does nothing. The radius check (>15pt) is the only meaningful input differentiation.</p>
+<p><strong>Fix:</strong> Use touch duration instead of force. Long press = larger/more opaque impression. This works on all devices.</p>
+
+<h2>What works well</h2>
+<ul>
+<li class="ok">Thumb detection via radius actually works (tested on simulator with large touches)</li>
+<li class="ok">Opacity accumulation creates natural layering effect</li>
+<li class="ok">Irregular shape generation with cubic bezier curves produces organic edges</li>
+<li class="ok">Local Swift Package architecture is clean and reusable</li>
+</ul>
+</div>
+
+<!-- ===================== CROSS-CUTTING ===================== -->
+<h2>Cross-Cutting Issues</h2>
+
+<h3>App Icons</h3>
+<p>Neither app has a custom app icon configured in the review screenshots. The simulator shows a default gray grid placeholder. Before App Store submission, both need actual icons in Assets.xcassets.</p>
+
+<h3>Bundle IDs</h3>
+<ul>
+<li>TamilWordle: <code>com.tamilwordle.TamilWordle</code> (matching domain, good)</li>
+<li>ThumbDraw: <code>com.thumbdraw.app</code> (clean, good)</li>
+</ul>
+
+<h3>Dark Mode</h3>
+<p>Neither app explicitly handles dark mode. TamilWordle uses <code>UIColor.systemBackground</code> which adapts, but the game board grid uses hardcoded light colors. ThumbDraw has a hardcoded white background. Both will look broken in dark mode.</p>
+
+<h3>iPad Support</h3>
+<p>TamilWordle's keyboard will be comically oversized on iPad (44pt keys on a 12-inch screen). ThumbDraw will work fine but the single Delete button will look ridiculous centered on a huge canvas. Consider <code>UISupportedInterfaceOrientations</code> restrictions or proper iPad layout.</p>
+
+<div class="note">
+<strong>Bottom line:</strong> TamilWordle is a solid wordle clone with good Tamil language support, but the keyboard usability and missing share/social features are real blockers. ThumbDraw is an interesting technical demo (touch radius + mask compositing) but needs basic UX (save, color, instructions) to be a real app. Neither is App Store ready without addressing the critical items above.
+</div>
+
+<div class="footer">
+Review generated from source code analysis + iOS Simulator (iPhone 17, iOS 26.3.1) | <a href="https://vadapayasam.github.io/warehouse/sketch/" style="color:var(--blue)">Back to sketch</a>
+</div>
+
+</body>
+</html>
