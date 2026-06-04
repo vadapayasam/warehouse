@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSPclaw: Stakeholder Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#ffffff;
+  --surface:#f9fafb;
+  --surface-2:#f3f4f6;
+  --border:#e5e7eb;
+  --text:#111827;
+  --text-2:#4b5563;
+  --text-3:#9ca3af;
+  --accent:#0d9488;
+  --accent-bg:#f0fdfa;
+  --accent-b:#99f6e4;
+  --blue:#2563eb;
+  --blue-bg:#eff6ff;
+  --amber:#b45309;
+  --amber-bg:#fffbeb;
+  --red:#dc2626;
+  --green:#16a34a;
+  --green-bg:#f0fdf4;
+  --mono:"Geist Mono",ui-monospace,monospace;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+html,body{height:100%;overflow:hidden;font-family:var(--sans)}
+
+/* Deck container */
+.deck{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  position:relative;
+  background:var(--bg);
+}
+
+/* Slides */
+.slides{
+  display:flex;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.slide{
+  flex-shrink:0;
+  width:100vw;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:5vw 8vw;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Slide number */
+.slide-num{
+  position:absolute;
+  top:2rem;
+  right:2.5rem;
+  font-family:var(--mono);
+  font-size:.625rem;
+  color:var(--text-3);
+  letter-spacing:.06em;
+}
+
+/* Navigation */
+.nav{
+  position:fixed;
+  bottom:2rem;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  z-index:100;
+}
+
+.nav-btn{
+  width:36px;height:36px;
+  border:1px solid var(--border);
+  border-radius:50%;
+  background:var(--bg);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-2);
+  font-size:14px;
+  transition:border-color .15s,color .15s;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+  user-select:none;
+}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+
+.dots{
+  display:flex;
+  gap:.5rem;
+  align-items:center;
+}
+
+.dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--border);
+  cursor:pointer;
+  transition:background .2s,transform .2s;
+}
+.dot.active{background:var(--accent);transform:scale(1.25)}
+
+/* Progress bar */
+.progress{
+  position:fixed;
+  top:0;left:0;
+  height:2px;
+  background:var(--accent);
+  transition:width .45s cubic-bezier(0.4,0,0.2,1);
+  z-index:100;
+}
+
+/* ── TYPOGRAPHY ── */
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.625rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.875rem;
+}
+
+.headline{
+  font-size:clamp(2rem,4.5vw,3.5rem);
+  font-weight:700;
+  letter-spacing:-.04em;
+  line-height:1.12;
+  color:var(--text);
+  margin-bottom:1.25rem;
+}
+
+.headline .light{font-weight:300}
+.headline .accent{color:var(--accent)}
+
+.subline{
+  font-size:clamp(.9rem,1.4vw,1.1rem);
+  color:var(--text-2);
+  line-height:1.7;
+  max-width:600px;
+}
+
+.label{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text-3);
+  margin-bottom:.5rem;
+}
+
+/* ── SLIDE LAYOUTS ── */
+
+/* Title slide */
+.slide-title{
+  background:var(--bg);
+}
+
+.title-kicker{
+  font-family:var(--mono);
+  font-size:.625rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--text-3);
+  margin-bottom:1.5rem;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+
+.title-kicker::before{
+  content:"";
+  width:24px;height:1px;
+  background:var(--text-3);
+  display:block;
+}
+
+.title-main{
+  font-size:clamp(3rem,7vw,5.5rem);
+  font-weight:700;
+  letter-spacing:-.05em;
+  line-height:1.05;
+  color:var(--text);
+  margin-bottom:1rem;
+}
+
+.title-sub{
+  font-size:clamp(1rem,1.6vw,1.25rem);
+  color:var(--text-2);
+  line-height:1.6;
+  max-width:560px;
+  margin-bottom:2rem;
+}
+
+.title-tags{
+  display:flex;
+  gap:.5rem;
+  flex-wrap:wrap;
+}
+
+.tag{
+  font-family:var(--mono);
+  font-size:.5875rem;
+  padding:.2rem .6rem;
+  border-radius:3px;
+  border:1px solid var(--border);
+  color:var(--text-3);
+}
+.tag.hi{border-color:var(--accent-b);color:var(--accent);background:var(--accent-bg)}
+
+/* Stat slide */
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2rem;
+  margin-top:2rem;
+}
+
+.stat-card{
+  padding:1.5rem;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--surface);
+}
+
+.stat-number{
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:700;
+  letter-spacing:-.04em;
+  color:var(--text);
+  line-height:1;
+  margin-bottom:.375rem;
+}
+
+.stat-number .unit{
+  font-size:.5em;
+  color:var(--accent);
+  font-weight:500;
+}
+
+.stat-label{
+  font-size:.8125rem;
+  color:var(--text-2);
+  line-height:1.5;
+}
+
+/* Comparison table */
+.comp{
+  width:100%;
+  border-collapse:collapse;
+  font-size:clamp(.75rem,1.1vw,.9rem);
+  margin-top:1.75rem;
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.comp thead th{
+  padding:.625rem 1rem;
+  text-align:left;
+  font-family:var(--mono);
+  font-size:.5625rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text-3);
+  background:var(--surface-2);
+  border-bottom:1px solid var(--border);
+}
+
+.comp tbody tr{border-bottom:1px solid var(--border)}
+.comp tbody tr:last-child{border-bottom:none}
+.comp tbody tr:hover{background:var(--surface)}
+
+.comp tbody td{
+  padding:.65rem 1rem;
+  color:var(--text-2);
+  vertical-align:top;
+  line-height:1.45;
+}
+
+.comp tbody td:first-child{
+  font-family:var(--mono);
+  font-size:.75rem;
+  color:var(--text);
+  font-weight:500;
+  white-space:nowrap;
+}
+
+.comp-hi{color:var(--green);font-weight:500}
+.comp-lo{color:var(--red-dim, #dc2626);opacity:.7}
+
+/* Flow diagram */
+.flow-row{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  margin-top:1.75rem;
+  flex-wrap:wrap;
+}
+
+.flow-box{
+  padding:.625rem 1rem;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:var(--surface);
+  font-size:.8125rem;
+  color:var(--text-2);
+  text-align:center;
+  min-width:120px;
+}
+
+.flow-box.hi{
+  border-color:var(--accent-b);
+  background:var(--accent-bg);
+  color:var(--accent);
+  font-weight:500;
+}
+
+.flow-arrow{
+  color:var(--text-3);
+  font-size:1.125rem;
+  flex-shrink:0;
+}
+
+/* Bullet list */
+.bullet-list{
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  margin-top:1.5rem;
+  max-width:640px;
+}
+
+.bullet-item{
+  display:flex;
+  gap:.875rem;
+  align-items:flex-start;
+  font-size:clamp(.8125rem,1.1vw,.9375rem);
+  color:var(--text-2);
+  line-height:1.6;
+}
+
+.bullet-marker{
+  width:20px;height:20px;
+  border-radius:50%;
+  background:var(--accent-bg);
+  border:1px solid var(--accent-b);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);
+  font-size:.5rem;
+  color:var(--accent);
+  font-weight:500;
+  flex-shrink:0;
+  margin-top:2px;
+}
+
+/* Two-col layout */
+.two-col{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3rem;
+  margin-top:1.75rem;
+  align-items:start;
+}
+
+/* Pill */
+.pill{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:.5rem;
+  font-weight:500;
+  padding:.15rem .4rem;
+  border-radius:2px;
+}
+.p-done{background:var(--green-bg);color:var(--green);border:1px solid #bbf7d0}
+.p-next{background:var(--amber-bg);color:var(--amber);border:1px solid #fde68a}
+
+/* Revenue table */
+.rev-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:clamp(.75rem,1.1vw,.875rem);
+  margin-top:1.5rem;
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.rev-table thead th{
+  padding:.5rem .875rem;
+  text-align:left;
+  font-family:var(--mono);
+  font-size:.5625rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text-3);
+  background:var(--surface-2);
+  border-bottom:1px solid var(--border);
+}
+
+.rev-table tbody tr{border-bottom:1px solid var(--border)}
+.rev-table tbody tr:last-child{border-bottom:none}
+.rev-table tbody td{padding:.625rem .875rem;color:var(--text-2);line-height:1.45;vertical-align:top}
+.rev-table tbody td:first-child{font-family:var(--mono);font-size:.75rem;color:var(--text);font-weight:500;white-space:nowrap}
+
+/* Accent bar left */
+.accent-left{
+  border-left:3px solid var(--accent);
+  padding-left:1.5rem;
+}
+
+/* Note */
+.slide-note{
+  position:absolute;
+  bottom:4.5rem;
+  left:8vw;
+  font-family:var(--mono);
+  font-size:.5875rem;
+  color:var(--text-3);
+}
+
+/* Grid of categories */
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1rem;
+  margin-top:1.75rem;
+}
+
+.cat-card{
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:.875rem;
+  background:var(--surface);
+}
+
+.cat-title{
+  font-family:var(--mono);
+  font-size:.6rem;
+  font-weight:500;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.625rem;
+}
+
+.cat-items{
+  display:flex;
+  flex-direction:column;
+  gap:.25rem;
+}
+
+.cat-item{
+  font-size:.7rem;
+  color:var(--text-2);
+  line-height:1.4;
+  display:flex;
+  align-items:baseline;
+  gap:.35rem;
+}
+
+.cat-item::before{
+  content:"";
+  width:4px;height:4px;
+  border-radius:50%;
+  background:var(--border-2, #d1d5db);
+  flex-shrink:0;
+  margin-top:3px;
+}
+
+/* What's built grid */
+.built-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.75rem;
+  margin-top:1.5rem;
+}
+
+.built-item{
+  display:flex;
+  align-items:flex-start;
+  gap:.625rem;
+  padding:.75rem .875rem;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:var(--surface);
+  font-size:.8rem;
+  color:var(--text-2);
+  line-height:1.5;
+}
+
+.built-check{
+  font-family:var(--mono);
+  font-size:.5875rem;
+  color:var(--accent);
+  font-weight:600;
+  flex-shrink:0;
+  margin-top:1px;
+}
+
+/* Next steps */
+.next-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;
+  margin-top:1.75rem;
+}
+
+.next-card{
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.25rem;
+  background:var(--surface);
+}
+
+.next-card-num{
+  font-family:var(--mono);
+  font-size:.5625rem;
+  color:var(--text-3);
+  margin-bottom:.5rem;
+}
+
+.next-card-title{
+  font-size:.9rem;
+  font-weight:600;
+  color:var(--text);
+  letter-spacing:-.01em;
+  margin-bottom:.5rem;
+}
+
+.next-card-body{
+  font-size:.775rem;
+  color:var(--text-2);
+  line-height:1.6;
+}
+
+@media print{
+  .nav,.progress{display:none}
+  .deck,.slides{overflow:visible;height:auto}
+  .slide{page-break-after:always;height:100vh}
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+  <div class="progress" id="progress"></div>
+
+  <div class="slides" id="slides">
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide slide-title">
+      <div class="slide-num">1 / 12</div>
+      <div class="title-kicker">Stakeholder Brief</div>
+      <div class="title-main">MSPclaw</div>
+      <div class="title-sub">
+        An open-source L1 automation platform for MSP service desks.
+        Tickets get resolved before a tech touches them.
+        Existing tools stay in place. Nothing gets replaced.
+      </div>
+      <div class="title-tags">
+        <span class="tag hi">Open Source</span>
+        <span class="tag">MSP/ITSM</span>
+        <span class="tag">AI-Assisted</span>
+        <span class="tag">v0.3 Live</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: The Problem -->
+    <div class="slide">
+      <div class="slide-num">2 / 12</div>
+      <div class="eyebrow">The Problem</div>
+      <div class="headline">MSP techs spend half<br>their day on <span class="accent">the same 30 tickets</span></div>
+      <div class="subline">Password reset. Printer down. WiFi not connecting. PC running slow. Onboarding a new user. Every MSP sees these every day. The fix is always the same. The ticket still takes 20 minutes.</div>
+      <div class="bullet-list">
+        <div class="bullet-item"><div class="bullet-marker">1</div><div>40-70% of all service desk tickets are repeatable L1 scenarios with known fixes</div></div>
+        <div class="bullet-item"><div class="bullet-marker">2</div><div>Each one takes a tech 15-30 minutes even though the diagnosis and fix are deterministic</div></div>
+        <div class="bullet-item"><div class="bullet-marker">3</div><div>MSPs can't hire fast enough to absorb growth, so they cap client count or burn out techs</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Cost of the Problem -->
+    <div class="slide">
+      <div class="slide-num">3 / 12</div>
+      <div class="eyebrow">The Cost</div>
+      <div class="headline">A 10-tech MSP burns<br><span class="accent">$180k-240k/year</span><br><span class="light">on work a tool could handle</span></div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-number">40<span class="unit">-70%</span></div>
+          <div class="stat-label">of all tickets are repeatable L1 scenarios with a known playbook</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">20<span class="unit">min</span></div>
+          <div class="stat-label">average time per L1 ticket at fully-loaded tech cost of $60-80/hr</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">40k<span class="unit">+</span></div>
+          <div class="stat-label">MSPs in North America, each facing the same staffing and margin pressure</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Why Existing Tools Fail -->
+    <div class="slide">
+      <div class="slide-num">4 / 12</div>
+      <div class="eyebrow">Gap in the Market</div>
+      <div class="headline">Every existing tool<br>solves <span class="accent">one layer</span> and stops</div>
+      <table class="comp">
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>What it does</th>
+            <th>PSA integration</th>
+            <th>Community playbooks</th>
+            <th>Works across PSAs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TacticalRMM</td>
+            <td>Script execution on devices</td>
+            <td class="comp-lo">None</td>
+            <td class="comp-hi">Scripts only</td>
+            <td class="comp-lo">No</td>
+          </tr>
+          <tr>
+            <td>ConnectWise Automate</td>
+            <td>RMM + scripting</td>
+            <td class="comp-lo">CW Manage only</td>
+            <td class="comp-lo">Vendor-locked</td>
+            <td class="comp-lo">No</td>
+          </tr>
+          <tr>
+            <td>n8n / Zapier</td>
+            <td>Generic workflow builder</td>
+            <td class="comp-hi">Via HTTP</td>
+            <td class="comp-lo">Not MSP-specific</td>
+            <td class="comp-hi">Yes, but generic</td>
+          </tr>
+          <tr>
+            <td>NinjaRMM</td>
+            <td>RMM + basic automations</td>
+            <td class="comp-lo">Limited</td>
+            <td class="comp-lo">None</td>
+            <td class="comp-lo">No</td>
+          </tr>
+          <tr>
+            <td style="color:var(--accent);font-weight:600;">MSPclaw</td>
+            <td>Orchestration layer on top</td>
+            <td class="comp-hi">Multi-PSA</td>
+            <td class="comp-hi">Community marketplace</td>
+            <td class="comp-hi">Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 5: How It Works -->
+    <div class="slide">
+      <div class="slide-num">5 / 12</div>
+      <div class="eyebrow">The Solution</div>
+      <div class="headline">An orchestration layer.<br><span class="light">Existing tools stay in place.</span></div>
+      <div class="subline">MSPclaw sits on top of your PSA and RMM. It receives ticket events, matches a community playbook, runs steps on the client device, and writes the result back to the ticket. Nothing gets replaced.</div>
+      <div class="flow-row">
+        <div class="flow-box">Ticket created<br><span style="font-family:var(--mono);font-size:.6rem;color:var(--text-3);">SuperOps / ConnectWise</span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box hi">MSPclaw<br><span style="font-size:.6rem;opacity:.75;">matches playbook</span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box">Agent on device<br><span style="font-family:var(--mono);font-size:.6rem;color:var(--text-3);">runs diagnostics + fix</span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box">Ticket updated<br><span style="font-family:var(--mono);font-size:.6rem;color:var(--text-3);">note + worklog + status</span></div>
+      </div>
+      <div class="bullet-list" style="margin-top:1.5rem">
+        <div class="bullet-item"><div class="bullet-marker">A</div><div>Ticket data stays in your PSA. Device data stays in your RMM. MSPclaw reads and writes, never stores.</div></div>
+        <div class="bullet-item"><div class="bullet-marker">B</div><div>Each playbook is a versioned YAML file with explicit steps. The tech can read every action before it runs.</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: What Gets Automated -->
+    <div class="slide">
+      <div class="slide-num">6 / 12</div>
+      <div class="eyebrow">L1 Coverage</div>
+      <div class="headline">30 ticket types covered<br><span class="light">across two categories</span></div>
+      <div class="cat-grid">
+        <div class="cat-card">
+          <div class="cat-title">Account + Access</div>
+          <div class="cat-items">
+            <div class="cat-item">Password reset</div>
+            <div class="cat-item">Account locked</div>
+            <div class="cat-item">MFA issues</div>
+            <div class="cat-item">VPN not connecting</div>
+          </div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-title">Network</div>
+          <div class="cat-items">
+            <div class="cat-item">WiFi not connecting</div>
+            <div class="cat-item">WiFi password</div>
+            <div class="cat-item">Internet slow</div>
+            <div class="cat-item">Shared drive access</div>
+          </div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-title">Devices</div>
+          <div class="cat-items">
+            <div class="cat-item">Printer not working</div>
+            <div class="cat-item">Keyboard / mouse</div>
+            <div class="cat-item">Monitor issues</div>
+            <div class="cat-item">App crashes</div>
+          </div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-title">Performance</div>
+          <div class="cat-items">
+            <div class="cat-item">PC running slow</div>
+            <div class="cat-item">Disk full</div>
+            <div class="cat-item">High CPU / RAM</div>
+            <div class="cat-item">Service down</div>
+          </div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-title">People Ops</div>
+          <div class="cat-items">
+            <div class="cat-item">New user onboarding</div>
+            <div class="cat-item">User offboarding</div>
+            <div class="cat-item">Software install</div>
+            <div class="cat-item">Email not working</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-note">Each scenario maps to a community playbook with step-by-step actions and full audit trail</div>
+    </div>
+
+    <!-- SLIDE 7: Why Techs Trust It -->
+    <div class="slide">
+      <div class="slide-num">7 / 12</div>
+      <div class="eyebrow">Why It Works</div>
+      <div class="headline">MSP techs need to explain<br>to clients <span class="accent">what ran</span> on their machines</div>
+      <div class="subline">"The AI did something" is not an acceptable incident report. This is why AI automation fails to get adopted in MSPs. MSPclaw solves this with explicit, auditable playbooks.</div>
+      <div class="two-col">
+        <div>
+          <div class="label">What makes it trustworthy</div>
+          <div class="bullet-list" style="margin-top:.75rem">
+            <div class="bullet-item"><div class="bullet-marker">1</div><div>Every step is a named action in a YAML file. Techs read it before it runs in production.</div></div>
+            <div class="bullet-item"><div class="bullet-marker">2</div><div>Destructive actions (password reset, account disable) require live tech approval before executing.</div></div>
+            <div class="bullet-item"><div class="bullet-marker">3</div><div>Full append-only audit log. Every tool call, approval, and result is recorded to JSONL + SQLite.</div></div>
+            <div class="bullet-item"><div class="bullet-marker">4</div><div>AI suggests playbook drafts. Techs review every step and approve before the playbook goes live.</div></div>
+          </div>
+        </div>
+        <div class="accent-left">
+          <div class="label" style="margin-bottom:.875rem">The trust model</div>
+          <div style="font-size:.875rem;color:var(--text-2);line-height:1.8;">
+            <div style="margin-bottom:.625rem">Playbook defines what <em>can</em> run</div>
+            <div style="margin-bottom:.625rem">Tech approves what <em>will</em> run</div>
+            <div style="margin-bottom:.625rem">Engine executes and logs everything</div>
+            <div>Ticket gets a full account of what happened</div>
+          </div>
+          <div style="margin-top:1.25rem;padding:.75rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-family:var(--mono);font-size:.6875rem;color:var(--text-2);line-height:1.65;">
+            "AI recommends. Tech approves.<br>Playbook executes. Ticket closes."
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Current State -->
+    <div class="slide">
+      <div class="slide-num">8 / 12</div>
+      <div class="eyebrow">Current State</div>
+      <div class="headline">v0.3 shipped.<br><span class="light">Production-ready engine.</span></div>
+      <div class="built-grid">
+        <div class="built-item"><span class="built-check">v</span>Orchestration engine with ReAct reasoning loop. LLM-agnostic: works with OpenAI, Claude, Gemini, or local Ollama.</div>
+        <div class="built-item"><span class="built-check">v</span>15 community playbooks covering top L1 scenarios (macOS). Windows playbooks in progress.</div>
+        <div class="built-item"><span class="built-check">v</span>SuperOps integration working end-to-end. Ticket in SuperOps triggers playbook, result written back as note.</div>
+        <div class="built-item"><span class="built-check">v</span>API key auth on all endpoints. Full JSONL audit trail. Append-only, designed for compliance reporting.</div>
+        <div class="built-item"><span class="built-check">v</span>Human approval gating on destructive actions. Auto-deny after 5 minutes if tech doesn't respond.</div>
+        <div class="built-item"><span class="built-check">v</span>Device memory: agent learns user's name and context from prior sessions, never re-asks known info.</div>
+        <div class="built-item"><span class="built-check">v</span>Per-playbook resolution stats. Techs see which playbooks are resolving tickets vs. escalating.</div>
+        <div class="built-item"><span class="built-check">v</span>Structured escalation with webhook. When stuck, packages diagnosis + steps taken and notifies via Slack/Teams.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Business Model -->
+    <div class="slide">
+      <div class="slide-num">9 / 12</div>
+      <div class="eyebrow">Business Model</div>
+      <div class="headline">Open source engine.<br><span class="accent">Revenue from hosting</span><span class="light">, not software.</span></div>
+      <div class="subline">The AGPL license protects against commercial resellers while keeping the community open. MSPs who want managed infrastructure pay for cloud hosting and support. The software itself is free to self-host.</div>
+      <div class="rev-table" style="margin-top:1.75rem">
+        <thead>
+          <tr><th>Tier</th><th>Who it's for</th><th>What they get</th><th>Revenue</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Self-hosted</td>
+            <td>Technical MSPs who run their own infrastructure</td>
+            <td>Full platform, unlimited executions, all community playbooks</td>
+            <td style="color:var(--text-3);font-family:var(--mono);font-size:.7rem;">Free (AGPL)</td>
+          </tr>
+          <tr>
+            <td>Cloud hosted</td>
+            <td>MSPs who want managed infra + SLA + updates handled</td>
+            <td>Same as self-hosted, plus uptime SLA, managed updates, priority support</td>
+            <td style="color:var(--amber);font-family:var(--mono);font-size:.7rem;">$200-500/MSP/month</td>
+          </tr>
+          <tr>
+            <td>Marketplace</td>
+            <td>Vendors and advanced MSPs selling specialist playbook packs</td>
+            <td>Verified playbook bundles (security response, onboarding, vendor-specific tools)</td>
+            <td style="color:var(--amber);font-family:var(--mono);font-size:.7rem;">Revenue share on packs</td>
+          </tr>
+        </tbody>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: Revenue Potential -->
+    <div class="slide">
+      <div class="slide-num">10 / 12</div>
+      <div class="eyebrow">Revenue Potential</div>
+      <div class="headline">Small market share.<br><span class="accent">Meaningful revenue.</span></div>
+      <div class="two-col">
+        <div>
+          <div class="label">Conservative path to $1M ARR</div>
+          <div class="bullet-list" style="margin-top:.75rem">
+            <div class="bullet-item"><div class="bullet-marker">Y1</div><div>100 MSPs on cloud tier at $200/month<br><strong style="color:var(--text)">$240k ARR</strong> — 0.25% of North American market</div></div>
+            <div class="bullet-item"><div class="bullet-marker">Y2</div><div>500 MSPs at blended $220/month<br><strong style="color:var(--text)">$1.3M ARR</strong> — still under 1.5% market penetration</div></div>
+            <div class="bullet-item"><div class="bullet-marker">Y3</div><div>2,000 MSPs + marketplace revenue<br><strong style="color:var(--text)">$5-7M ARR</strong> — with community flywheel in motion</div></div>
+          </div>
+        </div>
+        <div class="accent-left">
+          <div class="label" style="margin-bottom:.875rem">Why these numbers are achievable</div>
+          <div class="bullet-list" style="margin-top:0">
+            <div class="bullet-item"><div class="bullet-marker">1</div><div>40,000 MSPs in North America. 1% adoption = $960k ARR at $200/month.</div></div>
+            <div class="bullet-item"><div class="bullet-marker">2</div><div>MSPs already pay $40-80/tech/month for PSA. MSPclaw adds ROI on top of that existing spend.</div></div>
+            <div class="bullet-item"><div class="bullet-marker">3</div><div>Open source community builds the playbook library. Distribution cost is near-zero once the flywheel starts.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Why Now -->
+    <div class="slide">
+      <div class="slide-num">11 / 12</div>
+      <div class="eyebrow">Why Now</div>
+      <div class="headline">Three forces are<br>converging <span class="accent">right now</span></div>
+      <div class="bullet-list" style="max-width:680px">
+        <div class="bullet-item">
+          <div class="bullet-marker">1</div>
+          <div>
+            <strong style="color:var(--text)">MSPs are under margin pressure.</strong>
+            Labour costs are up. Client expectations are up. The only way to grow without burning techs is automation. MSPs are actively looking for solutions.
+          </div>
+        </div>
+        <div class="bullet-item">
+          <div class="bullet-marker">2</div>
+          <div>
+            <strong style="color:var(--text)">AI is expected, but black-box AI is rejected.</strong>
+            MSP clients expect AI-driven service. MSP techs reject AI that they can't audit or explain to clients. MSPclaw bridges this gap with auditable, tech-controlled playbooks.
+          </div>
+        </div>
+        <div class="bullet-item">
+          <div class="bullet-marker">3</div>
+          <div>
+            <strong style="color:var(--text)">Open source is winning in the MSP tooling space.</strong>
+            TacticalRMM has 10,000+ installs with no marketing budget. Community-driven tools are displacing expensive vendor stacks. This is the right moment to establish a community platform.
+          </div>
+        </div>
+        <div class="bullet-item">
+          <div class="bullet-marker">4</div>
+          <div>
+            <strong style="color:var(--text)">The engine is already built.</strong>
+            v0.3 is live, tested, and working with a real PSA. The remaining work is integration plumbing and community growth, not architecture.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Next Steps -->
+    <div class="slide">
+      <div class="slide-num">12 / 12</div>
+      <div class="eyebrow">Next Steps</div>
+      <div class="headline">Three milestones to<br><span class="accent">production deployment</span></div>
+      <div class="next-grid">
+        <div class="next-card">
+          <div class="next-card-num">MILESTONE 01</div>
+          <div class="next-card-title">Multi-client asset mapping</div>
+          <div class="next-card-body">When a SuperOps ticket comes in, MSPclaw automatically identifies which registered device/agent to run the playbook on. Today this is hardcoded to one machine. Fixing this unblocks any MSP with more than one client.</div>
+        </div>
+        <div class="next-card">
+          <div class="next-card-num">MILESTONE 02</div>
+          <div class="next-card-title">Automatic webhook trigger</div>
+          <div class="next-card-body">Today the bridge runs manually (one command per ticket). The next step is a webhook endpoint that SuperOps fires on ticket creation, making the whole loop automatic with zero tech intervention for L1 tickets.</div>
+        </div>
+        <div class="next-card">
+          <div class="next-card-num">MILESTONE 03</div>
+          <div class="next-card-title">Real enterprise API calls</div>
+          <div class="next-card-body">Password resets, AD account management, and M365 operations are currently realistic mocks. Swapping to real Microsoft Graph API calls turns the demo into a production tool. This is the final step for a paying pilot customer.</div>
+        </div>
+      </div>
+      <div style="margin-top:1.75rem;padding:1rem 1.25rem;border:1px solid var(--accent-b);border-radius:6px;background:var(--accent-bg);font-size:.875rem;color:var(--text-2);line-height:1.65;max-width:700px;">
+        Estimated time to production-ready pilot: <strong style="color:var(--accent)">2-3 weeks</strong> from today. All three milestones are integration work on top of a finished engine.
+      </div>
+    </div>
+
+  </div><!-- /slides -->
+
+  <!-- Navigation -->
+  <div class="nav">
+    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>&larr;</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">&rarr;</button>
+  </div>
+
+</div><!-- /deck -->
+
+<script>
+  const TOTAL = 12;
+  let current = 0;
+
+  const slidesEl = document.getElementById('slides');
+  const progressEl = document.getElementById('progress');
+  const dotsEl = document.getElementById('dots');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  // Build dots
+  for(let i=0;i<TOTAL;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' active':'');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n){
+    current = Math.max(0, Math.min(TOTAL-1, n));
+    slidesEl.style.transform = `translateX(-${current * 100}vw)`;
+    progressEl.style.width = `${((current+1)/TOTAL)*100}%`;
+    document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===current));
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === TOTAL-1;
+  }
+
+  function navigate(dir){ goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ') navigate(1);
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp') navigate(-1);
+  });
+
+  // Touch swipe
+  let touchStart = null;
+  document.addEventListener('touchstart', e => { touchStart = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    if(touchStart===null) return;
+    const diff = touchStart - e.changedTouches[0].clientX;
+    if(Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+    touchStart = null;
+  });
+
+  goTo(0);
+</script>
+</body>
+</html>
