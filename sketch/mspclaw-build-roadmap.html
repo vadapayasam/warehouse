@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSPclaw: Build Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --bg:#ffffff;
+    --surface:#f9fafb;
+    --surface-2:#f3f4f6;
+    --border:#e5e7eb;
+    --border-2:#d1d5db;
+    --text:#111827;
+    --text-2:#4b5563;
+    --text-3:#9ca3af;
+    --accent:#0d9488;
+    --accent-bg:#f0fdfa;
+    --accent-b:#99f6e4;
+    --blue:#2563eb;
+    --blue-bg:#eff6ff;
+    --blue-b:#bfdbfe;
+    --amber:#b45309;
+    --amber-bg:#fffbeb;
+    --amber-b:#fde68a;
+    --red:#dc2626;
+    --red-bg:#fef2f2;
+    --red-b:#fecaca;
+    --green:#16a34a;
+    --green-bg:#f0fdf4;
+    --green-b:#bbf7d0;
+    --mono:"Geist Mono",ui-monospace,monospace;
+    --sans:"Geist",-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+
+  html{font-size:15px;scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;min-height:100vh}
+
+  .layout{display:grid;grid-template-columns:210px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+
+  /* Sidebar */
+  .sidebar{border-right:1px solid var(--border);padding:2rem 1rem;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--surface)}
+  .sidebar-logo{display:flex;align-items:center;gap:.5rem;margin-bottom:1.75rem;padding-bottom:1.125rem;border-bottom:1px solid var(--border)}
+  .mark{width:24px;height:24px;background:var(--accent);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:500;color:white;flex-shrink:0}
+  .logo-name{font-size:.8125rem;font-weight:600;color:var(--text)}
+  .logo-sub{font-family:var(--mono);font-size:.5625rem;color:var(--text-3)}
+  .nav-group{margin-bottom:1.5rem}
+  .nav-group-label{font-family:var(--mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:.375rem;padding-left:.375rem}
+  .nav-link{display:block;padding:.28rem .5rem;border-radius:4px;font-size:.775rem;color:var(--text-2);text-decoration:none;transition:background .1s,color .1s;cursor:pointer;line-height:1.4}
+  .nav-link:hover{background:var(--surface-2);color:var(--text)}
+  .nav-link.active{background:var(--accent-bg);color:var(--accent);font-weight:500}
+
+  /* Main */
+  .main{padding:3rem 2.5rem;max-width:800px}
+
+  /* Page header */
+  .pg-header{margin-bottom:2.5rem}
+  .pg-eyebrow{font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+  .pg-header h1{font-size:1.625rem;font-weight:600;letter-spacing:-.03em;line-height:1.2;color:var(--text);margin-bottom:.75rem}
+  .pg-subtitle{font-size:.875rem;color:var(--text-2);line-height:1.7;max-width:560px}
+  .pg-meta{display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+  .pg-meta-item{font-family:var(--mono);font-size:.5875rem;color:var(--text-3)}
+  .pg-meta-item a{color:var(--blue);text-decoration:none}
+
+  /* Sections */
+  section{margin-bottom:2.75rem;scroll-margin-top:1.5rem}
+  .sec-header{display:flex;align-items:baseline;gap:.625rem;margin-bottom:1rem;padding-bottom:.625rem;border-bottom:1px solid var(--border)}
+  .sec-num{font-family:var(--mono);font-size:.5875rem;color:var(--text-3)}
+  .sec-header h2{font-size:.9375rem;font-weight:600;letter-spacing:-.02em;color:var(--text)}
+
+  /* Notes */
+  .note{font-size:.8125rem;color:var(--text-2);padding:.75rem 1rem;border:1px solid var(--border);border-radius:5px;background:var(--surface);margin-bottom:1.25rem;line-height:1.65}
+  .note.green{border-color:var(--green-b);background:var(--green-bg)}
+  .note.blue{border-color:var(--blue-b);background:var(--blue-bg)}
+  .note.amber{border-color:var(--amber-b);background:var(--amber-bg)}
+  .note.red{border-color:var(--red-b);background:var(--red-bg)}
+  .note-label{font-family:var(--mono);font-size:.5625rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.3rem}
+  .note.green .note-label{color:var(--green)}
+  .note.blue .note-label{color:var(--blue)}
+  .note.amber .note-label{color:var(--amber)}
+  .note.red .note-label{color:var(--red)}
+
+  /* Status table */
+  .status-table{width:100%;border-collapse:collapse;font-size:.8125rem;border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:1.5rem}
+  .status-table thead th{padding:.5rem .75rem;text-align:left;font-family:var(--mono);font-size:.5625rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);background:var(--surface);border-bottom:1px solid var(--border)}
+  .status-table tbody tr{border-bottom:1px solid var(--border)}
+  .status-table tbody tr:last-child{border-bottom:none}
+  .status-table tbody tr:hover{background:var(--surface)}
+  .status-table tbody td{padding:.6rem .75rem;color:var(--text-2);vertical-align:top;line-height:1.45}
+  .status-table tbody td:first-child{font-family:var(--mono);font-size:.725rem;color:var(--text);font-weight:500;white-space:nowrap}
+
+  /* Status pills */
+  .pill{display:inline-block;font-family:var(--mono);font-size:.5rem;font-weight:500;padding:.125rem .375rem;border-radius:2px;white-space:nowrap}
+  .p-done{background:var(--green-bg);color:var(--green);border:1px solid var(--green-b)}
+  .p-next{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b)}
+  .p-later{background:var(--surface-2);color:var(--text-3);border:1px solid var(--border)}
+  .p-block{background:var(--red-bg);color:var(--red);border:1px solid var(--red-b)}
+
+  /* Sprint blocks */
+  .sprint{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:1.25rem}
+  .sprint-header{display:flex;align-items:center;justify-content:space-between;padding:.625rem .875rem;background:var(--surface);border-bottom:1px solid var(--border)}
+  .sprint-title{font-family:var(--mono);font-size:.725rem;font-weight:500;color:var(--text)}
+  .sprint-meta{font-family:var(--mono);font-size:.5625rem;color:var(--text-3)}
+  .sprint-body{padding:0}
+  .task-row{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;padding:.65rem .875rem;border-bottom:1px solid var(--border)}
+  .task-row:last-child{border-bottom:none}
+  .task-row:nth-child(odd){background:var(--surface)}
+  .task-name{font-size:.8rem;color:var(--text);font-weight:500;line-height:1.35;margin-bottom:.15rem}
+  .task-detail{font-size:.725rem;color:var(--text-2);line-height:1.5}
+  .task-file{font-family:var(--mono);font-size:.5875rem;color:var(--text-3);margin-top:.2rem}
+
+  /* Code */
+  .code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.875rem 1rem;font-family:var(--mono);font-size:.75rem;color:var(--text-2);line-height:1.75;overflow-x:auto;margin-bottom:1.25rem}
+  .ck{color:var(--text-3)}
+  .cv{color:var(--accent)}
+  .cs{color:var(--blue)}
+  .ch{color:var(--amber)}
+
+  /* Architecture flow */
+  .flow{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:1.25rem}
+  .flow-title{padding:.5rem .875rem;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.5875rem;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;background:var(--bg)}
+  .flow-body{padding:1.25rem;font-family:var(--mono);font-size:.725rem;color:var(--text-2);line-height:1.9}
+  .flow-body .hi{color:var(--accent);font-weight:500}
+  .flow-body .dim{color:var(--text-3)}
+  .flow-body .warn{color:var(--amber)}
+  .flow-body .done{color:var(--green)}
+
+  /* Connector table */
+  .conn-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-bottom:1.25rem}
+  .conn-table thead th{text-align:left;padding:.45rem .625rem;font-family:var(--mono);font-size:.5rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border)}
+  .conn-table tbody td{padding:.55rem .625rem;border-bottom:1px solid var(--border);color:var(--text-2);vertical-align:top;line-height:1.4}
+  .conn-table tbody tr:last-child td{border-bottom:none}
+  .conn-name{font-family:var(--mono);font-size:.725rem;color:var(--text);font-weight:500;white-space:nowrap}
+
+  /* Divider */
+  hr{border:none;border-top:1px solid var(--border);margin:2.25rem 0}
+
+  /* Footer */
+  .doc-footer{margin-top:3.5rem;padding-top:1.125rem;border-top:1px solid var(--border);font-family:var(--mono);font-size:.5625rem;color:var(--text-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+
+  @media(max-width:768px){
+    .layout{grid-template-columns:1fr}
+    .sidebar{display:none}
+    .main{padding:1.5rem 1.125rem}
+    .task-row{grid-template-columns:1fr}
+    .doc-footer{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="mark">M</div>
+      <div>
+        <div class="logo-name">MSPclaw</div>
+        <div class="logo-sub">build-roadmap.html</div>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Current State</div>
+      <a class="nav-link active" href="#state">What's Built</a>
+      <a class="nav-link" href="#arch">How It Works Now</a>
+      <a class="nav-link" href="#assets">Asset Mapping Gap</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Build Plan</div>
+      <a class="nav-link" href="#sprint1">Sprint 1: Asset Mapping</a>
+      <a class="nav-link" href="#sprint2">Sprint 2: Webhook Trigger</a>
+      <a class="nav-link" href="#sprint3">Sprint 3: Real APIs</a>
+      <a class="nav-link" href="#sprint4">Sprint 4: Windows + More PSAs</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Later</div>
+      <a class="nav-link" href="#marketplace">Marketplace</a>
+      <a class="nav-link" href="#connectors">More Connectors</a>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <div class="pg-header">
+      <div class="pg-eyebrow">Build Roadmap</div>
+      <h1>MSPclaw: What's Done,<br>What's Next</h1>
+      <p class="pg-subtitle">
+        SuperOps bridge is working end-to-end. The core engine, playbooks, and WebSocket protocol
+        are solid. Four focused sprints to get from demo-ready to production-ready.
+      </p>
+      <div class="pg-meta">
+        <span class="pg-meta-item"><a href="https://github.com/thisisprabha/MSPclaw" target="_blank" rel="noopener">github.com/thisisprabha/MSPclaw</a></span>
+        <span class="pg-meta-item">SuperOps integration: bridge.py working</span>
+        <span class="pg-meta-item">v0.2, macOS only</span>
+      </div>
+    </div>
+
+    <!-- What's built -->
+    <section id="state">
+      <div class="sec-header"><span class="sec-num">01</span><h2>What's Already Built</h2></div>
+
+      <div class="note green">
+        <span class="note-label">Bottom line</span>
+        The hard parts are done. Orchestration engine, ReAct brain, playbooks, WebSocket protocol,
+        SuperOps GraphQL read + write-back, and the bridge loop are all working.
+        What's missing is mostly integration plumbing, not architecture.
+      </div>
+
+      <table class="status-table">
+        <thead><tr><th style="width:180px;">Component</th><th>What exists</th><th style="width:80px;">Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Orchestration engine</td>
+            <td>ReAct reasoning loop (Thought/Action/Observation), max 12 steps, LLM-agnostic (OpenAI / Gemini / Claude / Ollama)</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>Playbook matcher</td>
+            <td>15 YAML playbooks: password reset, printer, WiFi, VPN, slow PC, onboarding, offboarding, disk, email, software install. Keyword + OS matching.</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>WebSocket dispatcher</td>
+            <td>Persistent server-to-agent connections. Handles approvals, questions, async resume, duplicate question detection.</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>Agent daemon</td>
+            <td>Runs on client Mac. 17 tools: real macOS diagnostics + mock enterprise APIs (AD, M365, Jamf, VPN, printer, SharePoint).</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>SuperOps bridge</td>
+            <td>GraphQL read (getTicket, getTicketList) + write-back (createTicketNote). WebSocket loop with approval handling. bridge.py working.</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>Asset mapping</td>
+            <td>Currently hardcoded to one MACHINE_ID in bridge.py. Multi-client routing not built.</td>
+            <td><span class="pill p-block">BLOCKER</span></td>
+          </tr>
+          <tr>
+            <td>Webhook trigger</td>
+            <td>Bridge runs manually (python bridge.py ticket_id). No auto-trigger from SuperOps on ticket create.</td>
+            <td><span class="pill p-next">NEXT</span></td>
+          </tr>
+          <tr>
+            <td>Real enterprise APIs</td>
+            <td>M365 password reset, AD unlock, Jamf, printer, VPN are all realistic mocks. No real API calls yet.</td>
+            <td><span class="pill p-next">NEXT</span></td>
+          </tr>
+          <tr>
+            <td>Windows playbooks</td>
+            <td>All 15 playbooks are macOS only. Windows paths, commands, and tools not yet written.</td>
+            <td><span class="pill p-later">LATER</span></td>
+          </tr>
+          <tr>
+            <td>Auth / RBAC</td>
+            <td>Token validation placeholder exists. No real enforcement. Single-tenant only.</td>
+            <td><span class="pill p-later">LATER</span></td>
+          </tr>
+          <tr>
+            <td>ConnectWise / Halo connectors</td>
+            <td>Bridge template documented in GUIDE.md. REST calls documented. Not implemented.</td>
+            <td><span class="pill p-later">LATER</span></td>
+          </tr>
+          <tr>
+            <td>Docker / deployment</td>
+            <td>Manual install scripts only. No container builds yet.</td>
+            <td><span class="pill p-later">LATER</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr>
+
+    <!-- Architecture -->
+    <section id="arch">
+      <div class="sec-header"><span class="sec-num">02</span><h2>How the Full Loop Works Now</h2></div>
+
+      <div class="flow">
+        <div class="flow-title">Current working flow (SuperOps + MSPclaw + macOS agent)</div>
+        <div class="flow-body">
+<span class="done">1. MANUAL</span>   python bridge.py &lt;ticket_id&gt;<br>
+<span class="dim">           |</span><br>
+<span class="done">2. PULL</span>    bridge.py calls SuperOps GraphQL &rarr; gets ticket subject<br>
+<span class="dim">           |</span><br>
+<span class="done">3. SEND</span>    bridge.py opens WebSocket to MSPclaw server &rarr; sends subject + client_id<br>
+<span class="dim">           |</span><br>
+<span class="done">4. MATCH</span>   MSPclaw matches subject to playbook (keyword scoring)<br>
+<span class="dim">           |</span><br>
+<span class="done">5. REASON</span>  Brain (Claude/OpenAI) runs ReAct loop &rarr; decides tool calls<br>
+<span class="dim">           |</span><br>
+<span class="done">6. EXECUTE</span> Dispatcher sends tool calls &rarr; agent on Mac runs them &rarr; returns results<br>
+<span class="dim">           |</span><br>
+<span class="done">7. APPROVE</span> Bridge handles approval_request messages (auto or interactive)<br>
+<span class="dim">           |</span><br>
+<span class="done">8. WRITE</span>   bridge.py gets final_answer &rarr; calls createTicketNote on SuperOps<br>
+<span class="dim">           |</span><br>
+<span class="warn">GAP:</span>      Step 1 is manual. Step 3 uses one hardcoded client_id. No Windows.
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- Asset mapping -->
+    <section id="assets">
+      <div class="sec-header"><span class="sec-num">03</span><h2>The Asset Mapping Problem (Blocker)</h2></div>
+
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem;">
+        Right now <code style="font-family:var(--mono);font-size:.8em;background:var(--surface-2);padding:.1rem .3rem;border-radius:3px;">MACHINE_ID</code> is hardcoded in bridge.py.
+        In a real MSP with 50 client companies and 500 devices, you need to know:
+        when ticket T comes in from client C, which registered agent should execute the playbook?
+      </p>
+
+      <div class="note amber">
+        <span class="note-label">The mapping needed</span>
+        SuperOps ticket has a client/company field. Each company's devices should map to a registered
+        MSPclaw agent. The bridge needs a lookup table: company_id → list of client_ids (agent machine IDs).
+        For user-reported tickets, you also need: requester's device → specific client_id.
+      </div>
+
+      <div class="code">
+<span class="ck"># What bridge.py needs instead of hardcoded MACHINE_ID</span>
+
+<span class="ck"># Option A: Company-level mapping (simpler, v1)</span>
+COMPANY_AGENT_MAP = {
+    <span class="cs">"superops_company_id_123"</span>: <span class="cs">"macbook-prabha.local-abc123"</span>,  <span class="ck"># one agent per company</span>
+    <span class="cs">"superops_company_id_456"</span>: <span class="cs">"macbook-client2.local-def456"</span>,
+}
+
+<span class="ck"># Option B: Device-level mapping (v2, more precise)</span>
+DEVICE_AGENT_MAP = {
+    <span class="cs">"device_hostname_or_serial"</span>: <span class="cs">"mspclaw_client_id"</span>,
+}
+
+<span class="ck"># bridge.py fetches ticket, extracts company_id, looks up agent</span>
+ticket = fetch_ticket(ticket_id)
+company_id = ticket[<span class="cs">"client"</span>][<span class="cs">"clientId"</span>]
+client_id = COMPANY_AGENT_MAP.get(company_id)
+
+<span class="ck"># Or: DB table in MSPclaw server (better long-term)</span>
+<span class="ck"># Agents register with server and store their company mapping</span>
+<span class="ck"># Server exposes GET /agents?company_id=123 for bridge to query</span>
+      </div>
+
+      <p style="font-size:.8125rem;color:var(--text-2);line-height:1.7;">
+        For v1, a simple config file or environment variable mapping is fine.
+        The MSPclaw DB already has a <code style="font-family:var(--mono);font-size:.8em;background:var(--surface-2);padding:.1rem .3rem;border-radius:3px;">Client</code> table that could store this mapping.
+        Long-term: agents register with a company_id and the server exposes a lookup endpoint.
+      </p>
+    </section>
+
+    <hr>
+
+    <!-- Sprint 1 -->
+    <section id="sprint1">
+      <div class="sec-header"><span class="sec-num">04</span><h2>Sprint 1: Fix Asset Mapping</h2></div>
+
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem;">
+        Unblock multi-client routing. Without this, MSPclaw only works for one device.
+        This is the single highest-priority task.
+      </p>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <span class="sprint-title">Sprint 1 tasks</span>
+          <span class="sprint-meta">Estimated: 1-2 days</span>
+        </div>
+        <div class="sprint-body">
+          <div class="task-row">
+            <div>
+              <div class="task-name">Add company_id field to agent registration</div>
+              <div class="task-detail">When agent daemon starts and registers with the server, it sends its company_id (mapped to the MSP client it belongs to). Server stores this in the Client table.</div>
+              <div class="task-file">agent/main.py + server/db/models.py</div>
+            </div>
+            <span class="pill p-next">DO FIRST</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Expose GET /agents endpoint on server</div>
+              <div class="task-detail">Bridge queries this to find the right client_id for a given company. Returns list of registered agents for a company_id.</div>
+              <div class="task-file">server/main.py</div>
+            </div>
+            <span class="pill p-next">DO FIRST</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Update bridge.py to resolve client_id dynamically</div>
+              <div class="task-detail">Pull company_id from SuperOps ticket (client.clientId field). Query /agents endpoint. Use returned client_id for the WebSocket job. Fallback to config file if server unreachable.</div>
+              <div class="task-file">bridge.py (superops-playground)</div>
+            </div>
+            <span class="pill p-next">DO FIRST</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Add company lookup to SuperOps getTicket query</div>
+              <div class="task-detail">Current query doesn't fetch the client/company field. Add client { clientId name } to the GraphQL query in bridge.py.</div>
+              <div class="task-file">bridge.py: getTicket query</div>
+            </div>
+            <span class="pill p-next">DO FIRST</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- Sprint 2 -->
+    <section id="sprint2">
+      <div class="sec-header"><span class="sec-num">05</span><h2>Sprint 2: Webhook Trigger (Auto-trigger on Ticket Create)</h2></div>
+
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem;">
+        Right now the bridge runs manually. The goal is: new ticket created in SuperOps
+        automatically triggers MSPclaw with no human intervention.
+      </p>
+
+      <div class="note blue">
+        <span class="note-label">SuperOps webhook support</span>
+        SuperOps supports outbound webhooks on ticket events. You configure a webhook URL in
+        SuperOps settings. On ticket create, SuperOps POSTs the ticket payload to your URL.
+        The bridge needs an HTTP listener to receive this and kick off the loop.
+      </div>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <span class="sprint-title">Sprint 2 tasks</span>
+          <span class="sprint-meta">Estimated: 1-2 days</span>
+        </div>
+        <div class="sprint-body">
+          <div class="task-row">
+            <div>
+              <div class="task-name">Add POST /webhook/superops to MSPclaw server</div>
+              <div class="task-detail">Receives SuperOps ticket created payload. Extracts subject, client company_id, ticket_id. Looks up agent. Starts playbook job. Returns 200 immediately (async job).</div>
+              <div class="task-file">server/main.py</div>
+            </div>
+            <span class="pill p-next">NEXT</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Write-back after job completes</div>
+              <div class="task-detail">When job reaches "resolved" state, server automatically calls SuperOps createTicketNote with the final_answer. No manual bridge.py needed.</div>
+              <div class="task-file">server/brain/orchestrator.py + new superops_client.py</div>
+            </div>
+            <span class="pill p-next">NEXT</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Playbook filter: only trigger on L1 categories</div>
+              <div class="task-detail">Not every ticket should trigger MSPclaw. Add a category/keyword filter so only tickets that match a known playbook get routed. Others are skipped silently.</div>
+              <div class="task-file">server/playbooks/loader.py + webhook handler</div>
+            </div>
+            <span class="pill p-next">NEXT</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Webhook signature validation</div>
+              <div class="task-detail">Verify the request actually came from SuperOps (HMAC signature or shared secret). Basic security before exposing to the internet.</div>
+              <div class="task-file">server/main.py</div>
+            </div>
+            <span class="pill p-next">NEXT</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Configure SuperOps webhook in settings</div>
+              <div class="task-detail">In SuperOps admin: Settings > Integrations > Webhooks. Set URL to https://your-server/webhook/superops. Trigger: Ticket Created. That's it.</div>
+              <div class="task-file">SuperOps admin UI (no code)</div>
+            </div>
+            <span class="pill p-next">NEXT</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- Sprint 3 -->
+    <section id="sprint3">
+      <div class="sec-header"><span class="sec-num">06</span><h2>Sprint 3: Swap Mocks for Real APIs</h2></div>
+
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem;">
+        Mock enterprise tools in agent/tools/mock_enterprise.py return realistic JSON but don't call real APIs.
+        Priority order: password/AD first (highest ticket volume), then printer, then the rest.
+      </p>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <span class="sprint-title">Sprint 3 tasks, in priority order</span>
+          <span class="sprint-meta">Estimated: 1-2 weeks</span>
+        </div>
+        <div class="sprint-body">
+          <div class="task-row">
+            <div>
+              <div class="task-name">Microsoft Entra ID: check_ad_user, reset_password, unlock_account</div>
+              <div class="task-detail">Replace mock with real Microsoft Graph API calls. Needs M365 app registration (app_id, tenant_id, client_secret). Covers password reset and account locked playbooks.</div>
+              <div class="task-file">agent/tools/enterprise_m365.py (new)</div>
+            </div>
+            <span class="pill p-next">HIGH</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Microsoft Graph: check_m365_license, disable_ad_account, provision_user</div>
+              <div class="task-detail">Same app registration as above. Covers onboarding and offboarding playbooks.</div>
+              <div class="task-file">agent/tools/enterprise_m365.py</div>
+            </div>
+            <span class="pill p-next">HIGH</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Print server: check_printer_status, restart_print_spooler</div>
+              <div class="task-detail">Real Windows print server calls or local spooler management via PowerShell. Covers printer playbook.</div>
+              <div class="task-file">agent/tools/enterprise_print.py (new)</div>
+            </div>
+            <span class="pill p-next">MEDIUM</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Jamf Pro: check_jamf_device, push_jamf_policy, install_software_jamf</div>
+              <div class="task-detail">Jamf REST API (api/v1/). Needs Jamf URL + API client credentials. Covers software install and device management playbooks.</div>
+              <div class="task-file">agent/tools/enterprise_jamf.py (new)</div>
+            </div>
+            <span class="pill p-later">MEDIUM</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Exchange / M365: check_email_flow</div>
+              <div class="task-detail">Microsoft Graph mail API. Check mailbox status, message trace. Covers email not working playbook.</div>
+              <div class="task-file">agent/tools/enterprise_m365.py</div>
+            </div>
+            <span class="pill p-later">MEDIUM</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">VPN: check_vpn_status</div>
+              <div class="task-detail">Depends on VPN vendor (GlobalProtect, Cisco, etc.). Varies by client. Implement as pluggable adapter.</div>
+              <div class="task-file">agent/tools/enterprise_vpn.py (new)</div>
+            </div>
+            <span class="pill p-later">LOW</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- Sprint 4 -->
+    <section id="sprint4">
+      <div class="sec-header"><span class="sec-num">07</span><h2>Sprint 4: Windows Playbooks + User-Facing Replies</h2></div>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <span class="sprint-title">Sprint 4 tasks</span>
+          <span class="sprint-meta">Estimated: 1 week</span>
+        </div>
+        <div class="sprint-body">
+          <div class="task-row">
+            <div>
+              <div class="task-name">Windows agent: port tools to PowerShell equivalents</div>
+              <div class="task-detail">get_system_info, check_disk_usage, list_top_processes, check_temp_files. All have direct PowerShell equivalents. Windows agent runs as a service (NSSM or Task Scheduler).</div>
+              <div class="task-file">agent/tools/windows/ (new directory)</div>
+            </div>
+            <span class="pill p-later">LATER</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Windows playbooks: slow PC, disk cleanup, printer</div>
+              <div class="task-detail">Copy macOS playbooks, update os: field to windows, update tool names to Windows equivalents. Start with the 5 highest-volume L1 scenarios.</div>
+              <div class="task-file">playbooks/windows/ (new directory)</div>
+            </div>
+            <span class="pill p-later">LATER</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">User-facing reply templates</div>
+              <div class="task-detail">For user-reported tickets, the write-back should include a public note to the requester, not just an internal note. Add a template field to playbooks: requester_reply_template. Bridge picks PUBLIC vs PRIVATE per playbook.</div>
+              <div class="task-file">playbooks/*.yaml + bridge.py</div>
+            </div>
+            <span class="pill p-later">LATER</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Ticket status update on resolution</div>
+              <div class="task-detail">After auto-resolve, call SuperOps updateTicket to set status = Resolved (or In Progress if escalating). Currently only notes are written back.</div>
+              <div class="task-file">superops_client.py (or bridge.py)</div>
+            </div>
+            <span class="pill p-later">LATER</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- Marketplace -->
+    <section id="marketplace">
+      <div class="sec-header"><span class="sec-num">08</span><h2>Marketplace (After Sprints 1-4)</h2></div>
+
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1rem;">
+        The playbook YAML format is already marketplace-ready. The structure and the
+        keyword matching engine exist. What's needed is the registry + community contribution layer.
+      </p>
+
+      <table class="status-table">
+        <thead><tr><th>Item</th><th>What it requires</th><th style="width:80px;">When</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>playbook-registry.json</td>
+            <td>Add a registry file listing all community playbooks with PSA/OS support matrix. Mirrors TacticalRMM community_scripts.json pattern.</td>
+            <td><span class="pill p-later">PHASE 2</span></td>
+          </tr>
+          <tr>
+            <td>Playbook builder tool</td>
+            <td>Visual step editor, trigger form, dry-run test mode. Separate web app or bundled with MSPclaw server UI.</td>
+            <td><span class="pill p-later">PHASE 2</span></td>
+          </tr>
+          <tr>
+            <td>GitHub-based contribution flow</td>
+            <td>Community submits playbooks via PR to a community-playbooks repo. CI runs test matrix. Maintainer promotes to official tier.</td>
+            <td><span class="pill p-later">PHASE 2</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr>
+
+    <!-- Connectors -->
+    <section id="connectors">
+      <div class="sec-header"><span class="sec-num">09</span><h2>More PSA Connectors</h2></div>
+
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1rem;">
+        The bridge template from GUIDE.md means each new PSA is ~200 lines of Python.
+        SuperOps is done. Build these in order of MSP install base.
+      </p>
+
+      <table class="conn-table">
+        <thead><tr><th style="width:2rem;">#</th><th style="width:150px;">PSA</th><th>Auth</th><th>Note endpoints</th><th style="width:70px;">Effort</th></tr></thead>
+        <tbody>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">1</td>
+            <td class="conn-name">SuperOps <span class="pill p-done">DONE</span></td>
+            <td style="font-size:.75rem;color:var(--text-2);">Bearer + CustomerSubDomain</td>
+            <td style="font-size:.75rem;color:var(--text-2);">GraphQL createTicketNote</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">2</td>
+            <td class="conn-name">ConnectWise</td>
+            <td style="font-size:.75rem;color:var(--text-2);">clientId + Basic (pubkey:privkey)</td>
+            <td style="font-size:.75rem;color:var(--text-2);">POST /service/tickets/{id}/notes</td>
+            <td><span class="pill p-later">~1 day</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">3</td>
+            <td class="conn-name">Halo PSA</td>
+            <td style="font-size:.75rem;color:var(--text-2);">OAuth2 bearer</td>
+            <td style="font-size:.75rem;color:var(--text-2);">POST /api/tickets/{id}/notes</td>
+            <td><span class="pill p-later">~1 day</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">4</td>
+            <td class="conn-name">Datto Autotask</td>
+            <td style="font-size:.75rem;color:var(--text-2);">API key + integration code</td>
+            <td style="font-size:.75rem;color:var(--text-2);">POST .../TicketNotes</td>
+            <td><span class="pill p-later">~1 day</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">5</td>
+            <td class="conn-name">Freshdesk</td>
+            <td style="font-size:.75rem;color:var(--text-2);">API key as Basic auth</td>
+            <td style="font-size:.75rem;color:var(--text-2);">POST /api/v2/tickets/{id}/notes</td>
+            <td><span class="pill p-later">~1 day</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="doc-footer">
+      <span>MSPclaw build-roadmap - 2026-06-04</span>
+      <span>SuperOps bridge working. Sprint 1 unblocks multi-client. Sprint 2 makes it fully automatic.</span>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const sections=document.querySelectorAll('section[id]');
+  const links=document.querySelectorAll('.nav-link');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting)
+        links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));
+    });
+  },{rootMargin:'-30% 0px -65% 0px'});
+  sections.forEach(s=>obs.observe(s));
+  links.forEach(l=>l.addEventListener('click',e=>{
+    e.preventDefault();
+    document.querySelector(l.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+  }));
+</script>
+</body>
+</html>
