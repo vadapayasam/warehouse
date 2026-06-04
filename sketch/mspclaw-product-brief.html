@@ -3,566 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MSPclaw: Product Brief v3</title>
+<title>MSPclaw: Build Roadmap</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  :root {
-    --bg:       #ffffff;
-    --surface:  #f9fafb;
+  :root{
+    --bg:#ffffff;
+    --surface:#f9fafb;
     --surface-2:#f3f4f6;
-    --border:   #e5e7eb;
-    --border-2: #d1d5db;
-    --text:     #111827;
-    --text-2:   #4b5563;
-    --text-3:   #9ca3af;
-    --accent:   #0d9488;
+    --border:#e5e7eb;
+    --border-2:#d1d5db;
+    --text:#111827;
+    --text-2:#4b5563;
+    --text-3:#9ca3af;
+    --accent:#0d9488;
     --accent-bg:#f0fdfa;
-    --accent-b: #99f6e4;
-    --blue:     #2563eb;
-    --blue-bg:  #eff6ff;
-    --blue-b:   #bfdbfe;
-    --amber:    #b45309;
-    --amber-bg: #fffbeb;
-    --amber-b:  #fde68a;
-    --red:      #dc2626;
-    --red-bg:   #fef2f2;
-    --red-b:    #fecaca;
-    --mono: "Geist Mono", ui-monospace, monospace;
-    --sans: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+    --accent-b:#99f6e4;
+    --blue:#2563eb;
+    --blue-bg:#eff6ff;
+    --blue-b:#bfdbfe;
+    --amber:#b45309;
+    --amber-bg:#fffbeb;
+    --amber-b:#fde68a;
+    --red:#dc2626;
+    --red-bg:#fef2f2;
+    --red-b:#fecaca;
+    --green:#16a34a;
+    --green-bg:#f0fdf4;
+    --green-b:#bbf7d0;
+    --mono:"Geist Mono",ui-monospace,monospace;
+    --sans:"Geist",-apple-system,BlinkMacSystemFont,sans-serif;
   }
 
-  html { font-size: 15px; scroll-behavior: smooth; }
+  html{font-size:15px;scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;min-height:100vh}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  .layout {
-    display: grid;
-    grid-template-columns: 210px 1fr;
-    min-height: 100vh;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  .layout{display:grid;grid-template-columns:210px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
 
   /* Sidebar */
-  .sidebar {
-    border-right: 1px solid var(--border);
-    padding: 2rem 1rem;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    background: var(--surface);
-  }
-
-  .sidebar-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1.75rem;
-    padding-bottom: 1.125rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .mark {
-    width: 24px; height: 24px;
-    background: var(--accent);
-    border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--mono); font-size: 10px; font-weight: 500;
-    color: white; flex-shrink: 0;
-  }
-
-  .logo-text .name { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
-  .logo-text .sub  { font-family: var(--mono); font-size: 0.5625rem; color: var(--text-3); }
-
-  .nav-group { margin-bottom: 1.5rem; }
-  .nav-group-label {
-    font-family: var(--mono);
-    font-size: 0.5625rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-3);
-    margin-bottom: 0.375rem;
-    padding-left: 0.375rem;
-  }
-
-  .nav-link {
-    display: block;
-    padding: 0.28rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.775rem;
-    color: var(--text-2);
-    text-decoration: none;
-    transition: background 0.1s, color 0.1s;
-    cursor: pointer;
-    line-height: 1.4;
-  }
-
-  .nav-link:hover { background: var(--surface-2); color: var(--text); }
-  .nav-link.active { background: var(--accent-bg); color: var(--accent); font-weight: 500; }
+  .sidebar{border-right:1px solid var(--border);padding:2rem 1rem;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--surface)}
+  .sidebar-logo{display:flex;align-items:center;gap:.5rem;margin-bottom:1.75rem;padding-bottom:1.125rem;border-bottom:1px solid var(--border)}
+  .mark{width:24px;height:24px;background:var(--accent);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:500;color:white;flex-shrink:0}
+  .logo-name{font-size:.8125rem;font-weight:600;color:var(--text)}
+  .logo-sub{font-family:var(--mono);font-size:.5625rem;color:var(--text-3)}
+  .nav-group{margin-bottom:1.5rem}
+  .nav-group-label{font-family:var(--mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:.375rem;padding-left:.375rem}
+  .nav-link{display:block;padding:.28rem .5rem;border-radius:4px;font-size:.775rem;color:var(--text-2);text-decoration:none;transition:background .1s,color .1s;cursor:pointer;line-height:1.4}
+  .nav-link:hover{background:var(--surface-2);color:var(--text)}
+  .nav-link.active{background:var(--accent-bg);color:var(--accent);font-weight:500}
 
   /* Main */
-  .main {
-    padding: 3rem 2.5rem;
-    max-width: 780px;
-  }
+  .main{padding:3rem 2.5rem;max-width:800px}
 
   /* Page header */
-  .pg-header { margin-bottom: 2.5rem; }
-
-  .pg-eyebrow {
-    font-family: var(--mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
-  }
-
-  .pg-header h1 {
-    font-size: 1.625rem;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.2;
-    color: var(--text);
-    margin-bottom: 0.75rem;
-  }
-
-  .pg-subtitle {
-    font-size: 0.875rem;
-    color: var(--text-2);
-    line-height: 1.7;
-    max-width: 560px;
-  }
-
-  .pg-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .pg-meta-item {
-    font-family: var(--mono);
-    font-size: 0.5875rem;
-    color: var(--text-3);
-  }
-
-  .pg-meta-item a { color: var(--blue); text-decoration: none; }
-
-  /* Version note */
-  .version-note {
-    font-size: 0.8125rem;
-    color: var(--text-2);
-    padding: 0.75rem 1rem;
-    border-left: 3px solid var(--accent);
-    background: var(--accent-bg);
-    border-radius: 0 4px 4px 0;
-    margin-bottom: 2.5rem;
-    line-height: 1.6;
-  }
-
-  .version-note strong { color: var(--text); font-weight: 600; }
+  .pg-header{margin-bottom:2.5rem}
+  .pg-eyebrow{font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+  .pg-header h1{font-size:1.625rem;font-weight:600;letter-spacing:-.03em;line-height:1.2;color:var(--text);margin-bottom:.75rem}
+  .pg-subtitle{font-size:.875rem;color:var(--text-2);line-height:1.7;max-width:560px}
+  .pg-meta{display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+  .pg-meta-item{font-family:var(--mono);font-size:.5875rem;color:var(--text-3)}
+  .pg-meta-item a{color:var(--blue);text-decoration:none}
 
   /* Sections */
-  section { margin-bottom: 2.75rem; scroll-margin-top: 1.5rem; }
+  section{margin-bottom:2.75rem;scroll-margin-top:1.5rem}
+  .sec-header{display:flex;align-items:baseline;gap:.625rem;margin-bottom:1rem;padding-bottom:.625rem;border-bottom:1px solid var(--border)}
+  .sec-num{font-family:var(--mono);font-size:.5875rem;color:var(--text-3)}
+  .sec-header h2{font-size:.9375rem;font-weight:600;letter-spacing:-.02em;color:var(--text)}
 
-  .sec-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.625rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.625rem;
-    border-bottom: 1px solid var(--border);
-  }
+  /* Notes */
+  .note{font-size:.8125rem;color:var(--text-2);padding:.75rem 1rem;border:1px solid var(--border);border-radius:5px;background:var(--surface);margin-bottom:1.25rem;line-height:1.65}
+  .note.green{border-color:var(--green-b);background:var(--green-bg)}
+  .note.blue{border-color:var(--blue-b);background:var(--blue-bg)}
+  .note.amber{border-color:var(--amber-b);background:var(--amber-bg)}
+  .note.red{border-color:var(--red-b);background:var(--red-bg)}
+  .note-label{font-family:var(--mono);font-size:.5625rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.3rem}
+  .note.green .note-label{color:var(--green)}
+  .note.blue .note-label{color:var(--blue)}
+  .note.amber .note-label{color:var(--amber)}
+  .note.red .note-label{color:var(--red)}
 
-  .sec-num {
-    font-family: var(--mono);
-    font-size: 0.5875rem;
-    color: var(--text-3);
-    font-weight: 400;
-  }
+  /* Status table */
+  .status-table{width:100%;border-collapse:collapse;font-size:.8125rem;border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:1.5rem}
+  .status-table thead th{padding:.5rem .75rem;text-align:left;font-family:var(--mono);font-size:.5625rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);background:var(--surface);border-bottom:1px solid var(--border)}
+  .status-table tbody tr{border-bottom:1px solid var(--border)}
+  .status-table tbody tr:last-child{border-bottom:none}
+  .status-table tbody tr:hover{background:var(--surface)}
+  .status-table tbody td{padding:.6rem .75rem;color:var(--text-2);vertical-align:top;line-height:1.45}
+  .status-table tbody td:first-child{font-family:var(--mono);font-size:.725rem;color:var(--text);font-weight:500;white-space:nowrap}
 
-  .sec-header h2 {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text);
-  }
+  /* Status pills */
+  .pill{display:inline-block;font-family:var(--mono);font-size:.5rem;font-weight:500;padding:.125rem .375rem;border-radius:2px;white-space:nowrap}
+  .p-done{background:var(--green-bg);color:var(--green);border:1px solid var(--green-b)}
+  .p-next{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b)}
+  .p-later{background:var(--surface-2);color:var(--text-3);border:1px solid var(--border)}
+  .p-block{background:var(--red-bg);color:var(--red);border:1px solid var(--red-b)}
 
-  /* Body text */
-  .body-p {
-    font-size: 0.875rem;
-    color: var(--text-2);
-    line-height: 1.75;
-    margin-bottom: 1rem;
-  }
+  /* Sprint blocks */
+  .sprint{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:1.25rem}
+  .sprint-header{display:flex;align-items:center;justify-content:space-between;padding:.625rem .875rem;background:var(--surface);border-bottom:1px solid var(--border)}
+  .sprint-title{font-family:var(--mono);font-size:.725rem;font-weight:500;color:var(--text)}
+  .sprint-meta{font-family:var(--mono);font-size:.5625rem;color:var(--text-3)}
+  .sprint-body{padding:0}
+  .task-row{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;padding:.65rem .875rem;border-bottom:1px solid var(--border)}
+  .task-row:last-child{border-bottom:none}
+  .task-row:nth-child(odd){background:var(--surface)}
+  .task-name{font-size:.8rem;color:var(--text);font-weight:500;line-height:1.35;margin-bottom:.15rem}
+  .task-detail{font-size:.725rem;color:var(--text-2);line-height:1.5}
+  .task-file{font-family:var(--mono);font-size:.5875rem;color:var(--text-3);margin-top:.2rem}
 
-  /* Note / callout */
-  .note {
-    font-size: 0.8125rem;
-    color: var(--text-2);
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    background: var(--surface);
-    margin-bottom: 1.25rem;
-    line-height: 1.65;
-  }
+  /* Code */
+  .code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.875rem 1rem;font-family:var(--mono);font-size:.75rem;color:var(--text-2);line-height:1.75;overflow-x:auto;margin-bottom:1.25rem}
+  .ck{color:var(--text-3)}
+  .cv{color:var(--accent)}
+  .cs{color:var(--blue)}
+  .ch{color:var(--amber)}
 
-  .note.green { border-color: var(--accent-b); background: var(--accent-bg); }
-  .note.blue  { border-color: var(--blue-b);   background: var(--blue-bg); }
-  .note.amber { border-color: var(--amber-b);  background: var(--amber-bg); }
+  /* Architecture flow */
+  .flow{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:1.25rem}
+  .flow-title{padding:.5rem .875rem;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.5875rem;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;background:var(--bg)}
+  .flow-body{padding:1.25rem;font-family:var(--mono);font-size:.725rem;color:var(--text-2);line-height:1.9}
+  .flow-body .hi{color:var(--accent);font-weight:500}
+  .flow-body .dim{color:var(--text-3)}
+  .flow-body .warn{color:var(--amber)}
+  .flow-body .done{color:var(--green)}
 
-  .note-label {
-    font-family: var(--mono);
-    font-size: 0.5625rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 0.3rem;
-  }
-
-  .note.green .note-label { color: var(--accent); }
-  .note.blue  .note-label { color: var(--blue); }
-  .note.amber .note-label { color: var(--amber); }
-
-  /* Architecture diagram */
-  .arch-box {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 1.25rem;
-    background: var(--surface);
-  }
-
-  .arch-box-title {
-    padding: 0.5rem 0.875rem;
-    border-bottom: 1px solid var(--border);
-    font-family: var(--mono);
-    font-size: 0.5875rem;
-    color: var(--text-3);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    background: var(--bg);
-  }
-
-  .arch-grid {
-    display: grid;
-    grid-template-columns: 1fr 80px 1fr;
-    gap: 0;
-    align-items: start;
-  }
-
-  .arch-col {
-    padding: 1.125rem 0.875rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-
-  .arch-col-label {
-    font-family: var(--mono);
-    font-size: 0.5625rem;
-    color: var(--text-3);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 0.375rem;
-  }
-
-  .arch-chip {
-    padding: 0.3rem 0.625rem;
-    border-radius: 4px;
-    font-family: var(--mono);
-    font-size: 0.6375rem;
-    border: 1px solid var(--border);
-    color: var(--text-2);
-    background: var(--bg);
-  }
-
-  .arch-chip.core {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: var(--accent-bg);
-    font-weight: 500;
-    text-align: center;
-    padding: 0.625rem;
-  }
-
-  .arch-chip.out {
-    border-color: var(--blue-b);
-    color: var(--blue);
-    background: var(--blue-bg);
-  }
-
-  .arch-mid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.125rem 0;
-    gap: 0.25rem;
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-  }
-
-  .arch-arrows { color: var(--text-3); font-family: var(--mono); font-size: 0.5rem; text-align: center; line-height: 1.8; }
-
-  /* Data tables */
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.8125rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .data-table thead th {
-    padding: 0.5rem 0.75rem;
-    text-align: left;
-    font-family: var(--mono);
-    font-size: 0.5625rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-3);
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .data-table tbody tr { border-bottom: 1px solid var(--border); }
-  .data-table tbody tr:last-child { border-bottom: none; }
-  .data-table tbody tr:hover { background: var(--surface); }
-
-  .data-table tbody td {
-    padding: 0.55rem 0.75rem;
-    color: var(--text-2);
-    vertical-align: top;
-    line-height: 1.5;
-  }
-
-  .data-table tbody td:first-child {
-    font-family: var(--mono);
-    font-size: 0.725rem;
-    color: var(--text);
-    font-weight: 500;
-    white-space: nowrap;
-  }
-
-  /* Category header rows */
-  .data-table .cat-row td {
-    background: var(--surface-2);
-    font-family: var(--mono);
-    font-size: 0.5625rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-3);
-    padding: 0.375rem 0.75rem;
-    font-weight: 500;
-    border-top: 1px solid var(--border);
-  }
-
-  .data-table .cat-row:first-child td { border-top: none; }
-
-  /* Resolve type pills */
-  .pill {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 0.5rem;
-    font-weight: 500;
-    padding: 0.125rem 0.375rem;
-    border-radius: 2px;
-    white-space: nowrap;
-  }
-
-  .p-auto  { background: var(--accent-bg); color: var(--accent);  border: 1px solid var(--accent-b); }
-  .p-semi  { background: var(--amber-bg);  color: var(--amber);   border: 1px solid var(--amber-b); }
-  .p-diag  { background: var(--blue-bg);   color: var(--blue);    border: 1px solid var(--blue-b); }
-
-  /* Trigger type */
-  .trig {
-    font-family: var(--mono);
-    font-size: 0.5625rem;
-    color: var(--text-3);
-    display: block;
-    margin-top: 0.2rem;
-  }
-
-  /* Playbook step flow */
-  .playbook-block {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 1.25rem;
-  }
-
-  .pb-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0.875rem;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    color: var(--text-3);
-  }
-
-  .pb-body { padding: 1rem 0.875rem; }
-
-  .step-list { display: flex; flex-direction: column; gap: 0; }
-
-  .step {
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-    position: relative;
-    padding-bottom: 0.875rem;
-  }
-
-  .step:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    left: 11px; top: 24px;
-    width: 1px;
-    height: calc(100% - 4px);
-    background: var(--border);
-  }
-
-  .step-badge {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--mono);
-    font-size: 0.5625rem;
-    font-weight: 500;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--text-3);
-  }
-
-  .step.t .step-badge { border-color: var(--accent-b); background: var(--accent-bg); color: var(--accent); }
-  .step.w .step-badge { border-color: var(--blue-b); background: var(--blue-bg); color: var(--blue); }
-  .step.b .step-badge { border-color: var(--amber-b); background: var(--amber-bg); color: var(--amber); }
-
-  .step-title  { font-size: 0.8rem; font-weight: 500; color: var(--text); line-height: 1.35; }
-  .step-detail { font-size: 0.725rem; color: var(--text-2); line-height: 1.55; margin-top: 0.15rem; }
-  .step-tool   { font-family: var(--mono); font-size: 0.55rem; color: var(--text-3); margin-top: 0.2rem; }
-
-  /* Marketplace tiers */
-  .tier-stack {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 1.25rem;
-  }
-
-  .tier-row {
-    display: grid;
-    grid-template-columns: 100px 1fr 90px;
-    align-items: start;
-    gap: 0.875rem;
-    padding: 0.75rem 0.875rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .tier-row:last-child { border-bottom: none; }
-  .tier-row:nth-child(odd) { background: var(--surface); }
-
-  .tier-name { font-family: var(--mono); font-size: 0.6875rem; font-weight: 500; color: var(--text); padding-top: 1px; }
-  .tier-desc { font-size: 0.8rem; color: var(--text-2); line-height: 1.55; }
-  .tier-model{ font-family: var(--mono); font-size: 0.5625rem; color: var(--text-3); padding-top: 2px; text-align: right; }
-  .tier-model.free { color: var(--accent); }
-  .tier-model.paid { color: var(--amber); }
-
-  /* Code block */
-  .code {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 0.875rem 1rem;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--text-2);
-    line-height: 1.75;
-    overflow-x: auto;
-    margin-bottom: 1.25rem;
-  }
-
-  .ck { color: var(--text-3); }
-  .cv { color: var(--accent); }
-  .cs { color: #2563eb; }
-  .ca { color: #6d28d9; }
-
-  /* Integration table */
-  .int-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-bottom: 1.25rem; }
-  .int-table thead th { text-align: left; padding: 0.45rem 0.625rem; font-family: var(--mono); font-size: 0.5rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); border-bottom: 1px solid var(--border); }
-  .int-table tbody td { padding: 0.55rem 0.625rem; border-bottom: 1px solid var(--border); color: var(--text-2); vertical-align: top; line-height: 1.4; }
-  .int-table tbody tr:last-child td { border-bottom: none; }
-  .int-num  { font-family: var(--mono); font-size: 0.5875rem; color: var(--text-3); width: 2rem; }
-  .int-name { font-family: var(--mono); font-size: 0.725rem; color: var(--text); font-weight: 500; white-space: nowrap; }
-
-  /* Questions */
-  .q-list { display: flex; flex-direction: column; gap: 0.5rem; }
-  .q-item {
-    display: grid;
-    grid-template-columns: 20px 1fr;
-    gap: 0.625rem;
-    padding: 0.625rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    font-size: 0.8rem;
-    color: var(--text-2);
-    line-height: 1.6;
-    align-items: start;
-  }
-  .q-n { font-family: var(--mono); font-size: 0.5625rem; color: var(--text-3); padding-top: 2px; }
+  /* Connector table */
+  .conn-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-bottom:1.25rem}
+  .conn-table thead th{text-align:left;padding:.45rem .625rem;font-family:var(--mono);font-size:.5rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border)}
+  .conn-table tbody td{padding:.55rem .625rem;border-bottom:1px solid var(--border);color:var(--text-2);vertical-align:top;line-height:1.4}
+  .conn-table tbody tr:last-child td{border-bottom:none}
+  .conn-name{font-family:var(--mono);font-size:.725rem;color:var(--text);font-weight:500;white-space:nowrap}
 
   /* Divider */
-  hr { border: none; border-top: 1px solid var(--border); margin: 2.25rem 0; }
+  hr{border:none;border-top:1px solid var(--border);margin:2.25rem 0}
 
   /* Footer */
-  .doc-footer {
-    margin-top: 3.5rem;
-    padding-top: 1.125rem;
-    border-top: 1px solid var(--border);
-    font-family: var(--mono);
-    font-size: 0.5625rem;
-    color: var(--text-3);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+  .doc-footer{margin-top:3.5rem;padding-top:1.125rem;border-top:1px solid var(--border);font-family:var(--mono);font-size:.5625rem;color:var(--text-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-    .main { padding: 1.5rem 1.125rem; }
-    .arch-grid { grid-template-columns: 1fr; }
-    .arch-mid { display: none; }
-    .tier-row { grid-template-columns: 1fr; }
-    .tier-model { text-align: left; }
-    .doc-footer { flex-direction: column; }
+  @media(max-width:768px){
+    .layout{grid-template-columns:1fr}
+    .sidebar{display:none}
+    .main{padding:1.5rem 1.125rem}
+    .task-row{grid-template-columns:1fr}
+    .doc-footer{flex-direction:column}
   }
 </style>
 </head>
@@ -572,479 +158,321 @@
   <nav class="sidebar">
     <div class="sidebar-logo">
       <div class="mark">M</div>
-      <div class="logo-text">
-        <div class="name">MSPclaw</div>
-        <div class="sub">brief-v3.html</div>
+      <div>
+        <div class="logo-name">MSPclaw</div>
+        <div class="logo-sub">build-roadmap.html</div>
       </div>
     </div>
-
     <div class="nav-group">
-      <div class="nav-group-label">Model</div>
-      <a class="nav-link active" href="#model">Orchestrator Model</a>
-      <a class="nav-link" href="#l1-types">L1 Ticket Types</a>
+      <div class="nav-group-label">Current State</div>
+      <a class="nav-link active" href="#state">What's Built</a>
+      <a class="nav-link" href="#arch">How It Works Now</a>
+      <a class="nav-link" href="#assets">Asset Mapping Gap</a>
     </div>
-
     <div class="nav-group">
-      <div class="nav-group-label">Coverage</div>
-      <a class="nav-link" href="#alert-l1">Alert-Driven L1</a>
-      <a class="nav-link" href="#user-l1">User-Reported L1</a>
-      <a class="nav-link" href="#examples">Playbook Examples</a>
+      <div class="nav-group-label">Build Plan</div>
+      <a class="nav-link" href="#sprint1">Sprint 1: Asset Mapping</a>
+      <a class="nav-link" href="#sprint2">Sprint 2: Webhook Trigger</a>
+      <a class="nav-link" href="#sprint3">Sprint 3: Real APIs</a>
+      <a class="nav-link" href="#sprint4">Sprint 4: Windows + More PSAs</a>
     </div>
-
     <div class="nav-group">
-      <div class="nav-group-label">Product</div>
-      <a class="nav-link" href="#builder">Builder Tool</a>
+      <div class="nav-group-label">Later</div>
       <a class="nav-link" href="#marketplace">Marketplace</a>
-      <a class="nav-link" href="#integrations">Integrations</a>
-      <a class="nav-link" href="#questions">Open Questions</a>
+      <a class="nav-link" href="#connectors">More Connectors</a>
     </div>
   </nav>
 
   <main class="main">
 
     <div class="pg-header">
-      <div class="pg-eyebrow">Product Brief v3</div>
-      <h1>MSPclaw: L1 Orchestrator<br>for MSP Service Desks</h1>
+      <div class="pg-eyebrow">Build Roadmap</div>
+      <h1>MSPclaw: What's Done,<br>What's Next</h1>
       <p class="pg-subtitle">
-        An open-source orchestration layer on top of existing PSA and RMM tools.
-        Existing tools stay as the system of record. MSPclaw matches community playbooks to incoming
-        tickets and alerts, executes steps via connected tool APIs, and writes results back.
-        Tech controls the logic. AI assists only in authoring.
+        SuperOps bridge is working end-to-end. The core engine, playbooks, and WebSocket protocol
+        are solid. Four focused sprints to get from demo-ready to production-ready.
       </p>
       <div class="pg-meta">
         <span class="pg-meta-item"><a href="https://github.com/thisisprabha/MSPclaw" target="_blank" rel="noopener">github.com/thisisprabha/MSPclaw</a></span>
-        <span class="pg-meta-item">Research: 108 agents, adversarially verified, 2026-06-03</span>
-        <span class="pg-meta-item">v3: full L1 coverage added, light theme</span>
+        <span class="pg-meta-item">SuperOps integration: bridge.py working</span>
+        <span class="pg-meta-item">v0.2, macOS only</span>
       </div>
     </div>
 
-    <div class="version-note">
-      <strong>v3 changes:</strong> Expanded L1 scope to cover both alert-driven (system-generated) and user-reported tickets. Added full coverage matrix across both categories. Added keyword/category matching as a trigger type for user-reported L1. Architecture and marketplace model unchanged from v2.
-    </div>
-
-    <!-- Model -->
-    <section id="model">
-      <div class="sec-header"><span class="sec-num">01</span><h2>The Orchestrator Model</h2></div>
-
-      <p class="body-p">
-        MSPclaw never stores ticket or asset data. It receives events from connected tools,
-        identifies the matching community playbook, executes each step through the appropriate tool API,
-        and writes the result back to the PSA. All existing tools retain their role as systems of record.
-      </p>
-
-      <div class="arch-box">
-        <div class="arch-box-title">Event flow: source tools - orchestrator - write-back</div>
-        <div class="arch-grid">
-          <div class="arch-col">
-            <div class="arch-col-label">Event sources</div>
-            <div class="arch-chip">NinjaRMM alert</div>
-            <div class="arch-chip">Zabbix threshold</div>
-            <div class="arch-chip">SuperOps ticket created</div>
-            <div class="arch-chip">ConnectWise ticket created</div>
-            <div class="arch-chip">Datto BCDR alert</div>
-          </div>
-          <div class="arch-mid">
-            <div class="arch-arrows">
-              webhook<br>/ poll<br><br>
-              &darr;<br><br>
-              MSPclaw<br>
-              <span style="color:var(--accent);font-size:0.5rem;letter-spacing:0.04em;">ORCH.</span><br><br>
-              &darr;<br><br>
-              API<br>call
-            </div>
-          </div>
-          <div class="arch-col">
-            <div class="arch-col-label">Write-back targets</div>
-            <div class="arch-chip out">PSA ticket updated</div>
-            <div class="arch-chip out">Worklog added</div>
-            <div class="arch-chip out">Alert resolved</div>
-            <div class="arch-chip out">User notified</div>
-            <div class="arch-chip out">Escalated to L2</div>
-          </div>
-        </div>
-      </div>
+    <!-- What's built -->
+    <section id="state">
+      <div class="sec-header"><span class="sec-num">01</span><h2>What's Already Built</h2></div>
 
       <div class="note green">
-        <span class="note-label">Core principle</span>
-        MSPs must explain to clients exactly what ran on their infrastructure. "The AI did something" is not an
-        acceptable incident report. A versioned, auditable playbook is. AI assists only in authoring new playbooks,
-        not in executing them.
+        <span class="note-label">Bottom line</span>
+        The hard parts are done. Orchestration engine, ReAct brain, playbooks, WebSocket protocol,
+        SuperOps GraphQL read + write-back, and the bridge loop are all working.
+        What's missing is mostly integration plumbing, not architecture.
+      </div>
+
+      <table class="status-table">
+        <thead><tr><th style="width:180px;">Component</th><th>What exists</th><th style="width:80px;">Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Orchestration engine</td>
+            <td>ReAct reasoning loop (Thought/Action/Observation), max 12 steps, LLM-agnostic (OpenAI / Gemini / Claude / Ollama)</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>Playbook matcher</td>
+            <td>15 YAML playbooks: password reset, printer, WiFi, VPN, slow PC, onboarding, offboarding, disk, email, software install. Keyword + OS matching.</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>WebSocket dispatcher</td>
+            <td>Persistent server-to-agent connections. Handles approvals, questions, async resume, duplicate question detection.</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>Agent daemon</td>
+            <td>Runs on client Mac. 17 tools: real macOS diagnostics + mock enterprise APIs (AD, M365, Jamf, VPN, printer, SharePoint).</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>SuperOps bridge</td>
+            <td>GraphQL read (getTicket, getTicketList) + write-back (createTicketNote). WebSocket loop with approval handling. bridge.py working.</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td>Asset mapping</td>
+            <td>Currently hardcoded to one MACHINE_ID in bridge.py. Multi-client routing not built.</td>
+            <td><span class="pill p-block">BLOCKER</span></td>
+          </tr>
+          <tr>
+            <td>Webhook trigger</td>
+            <td>Bridge runs manually (python bridge.py ticket_id). No auto-trigger from SuperOps on ticket create.</td>
+            <td><span class="pill p-next">NEXT</span></td>
+          </tr>
+          <tr>
+            <td>Real enterprise APIs</td>
+            <td>M365 password reset, AD unlock, Jamf, printer, VPN are all realistic mocks. No real API calls yet.</td>
+            <td><span class="pill p-next">NEXT</span></td>
+          </tr>
+          <tr>
+            <td>Windows playbooks</td>
+            <td>All 15 playbooks are macOS only. Windows paths, commands, and tools not yet written.</td>
+            <td><span class="pill p-later">LATER</span></td>
+          </tr>
+          <tr>
+            <td>Auth / RBAC</td>
+            <td>Token validation placeholder exists. No real enforcement. Single-tenant only.</td>
+            <td><span class="pill p-later">LATER</span></td>
+          </tr>
+          <tr>
+            <td>ConnectWise / Halo connectors</td>
+            <td>Bridge template documented in GUIDE.md. REST calls documented. Not implemented.</td>
+            <td><span class="pill p-later">LATER</span></td>
+          </tr>
+          <tr>
+            <td>Docker / deployment</td>
+            <td>Manual install scripts only. No container builds yet.</td>
+            <td><span class="pill p-later">LATER</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr>
+
+    <!-- Architecture -->
+    <section id="arch">
+      <div class="sec-header"><span class="sec-num">02</span><h2>How the Full Loop Works Now</h2></div>
+
+      <div class="flow">
+        <div class="flow-title">Current working flow (SuperOps + MSPclaw + macOS agent)</div>
+        <div class="flow-body">
+<span class="done">1. MANUAL</span>   python bridge.py &lt;ticket_id&gt;<br>
+<span class="dim">           |</span><br>
+<span class="done">2. PULL</span>    bridge.py calls SuperOps GraphQL &rarr; gets ticket subject<br>
+<span class="dim">           |</span><br>
+<span class="done">3. SEND</span>    bridge.py opens WebSocket to MSPclaw server &rarr; sends subject + client_id<br>
+<span class="dim">           |</span><br>
+<span class="done">4. MATCH</span>   MSPclaw matches subject to playbook (keyword scoring)<br>
+<span class="dim">           |</span><br>
+<span class="done">5. REASON</span>  Brain (Claude/OpenAI) runs ReAct loop &rarr; decides tool calls<br>
+<span class="dim">           |</span><br>
+<span class="done">6. EXECUTE</span> Dispatcher sends tool calls &rarr; agent on Mac runs them &rarr; returns results<br>
+<span class="dim">           |</span><br>
+<span class="done">7. APPROVE</span> Bridge handles approval_request messages (auto or interactive)<br>
+<span class="dim">           |</span><br>
+<span class="done">8. WRITE</span>   bridge.py gets final_answer &rarr; calls createTicketNote on SuperOps<br>
+<span class="dim">           |</span><br>
+<span class="warn">GAP:</span>      Step 1 is manual. Step 3 uses one hardcoded client_id. No Windows.
+        </div>
       </div>
     </section>
 
     <hr>
 
-    <!-- L1 types -->
-    <section id="l1-types">
-      <div class="sec-header"><span class="sec-num">02</span><h2>Two Categories of L1 Tickets</h2></div>
+    <!-- Asset mapping -->
+    <section id="assets">
+      <div class="sec-header"><span class="sec-num">03</span><h2>The Asset Mapping Problem (Blocker)</h2></div>
 
-      <p class="body-p">
-        L1 covers both system-generated and human-generated tickets. The orchestrator handles both
-        using different trigger types but the same playbook execution model.
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem;">
+        Right now <code style="font-family:var(--mono);font-size:.8em;background:var(--surface-2);padding:.1rem .3rem;border-radius:3px;">MACHINE_ID</code> is hardcoded in bridge.py.
+        In a real MSP with 50 client companies and 500 devices, you need to know:
+        when ticket T comes in from client C, which registered agent should execute the playbook?
+      </p>
+
+      <div class="note amber">
+        <span class="note-label">The mapping needed</span>
+        SuperOps ticket has a client/company field. Each company's devices should map to a registered
+        MSPclaw agent. The bridge needs a lookup table: company_id → list of client_ids (agent machine IDs).
+        For user-reported tickets, you also need: requester's device → specific client_id.
+      </div>
+
+      <div class="code">
+<span class="ck"># What bridge.py needs instead of hardcoded MACHINE_ID</span>
+
+<span class="ck"># Option A: Company-level mapping (simpler, v1)</span>
+COMPANY_AGENT_MAP = {
+    <span class="cs">"superops_company_id_123"</span>: <span class="cs">"macbook-prabha.local-abc123"</span>,  <span class="ck"># one agent per company</span>
+    <span class="cs">"superops_company_id_456"</span>: <span class="cs">"macbook-client2.local-def456"</span>,
+}
+
+<span class="ck"># Option B: Device-level mapping (v2, more precise)</span>
+DEVICE_AGENT_MAP = {
+    <span class="cs">"device_hostname_or_serial"</span>: <span class="cs">"mspclaw_client_id"</span>,
+}
+
+<span class="ck"># bridge.py fetches ticket, extracts company_id, looks up agent</span>
+ticket = fetch_ticket(ticket_id)
+company_id = ticket[<span class="cs">"client"</span>][<span class="cs">"clientId"</span>]
+client_id = COMPANY_AGENT_MAP.get(company_id)
+
+<span class="ck"># Or: DB table in MSPclaw server (better long-term)</span>
+<span class="ck"># Agents register with server and store their company mapping</span>
+<span class="ck"># Server exposes GET /agents?company_id=123 for bridge to query</span>
+      </div>
+
+      <p style="font-size:.8125rem;color:var(--text-2);line-height:1.7;">
+        For v1, a simple config file or environment variable mapping is fine.
+        The MSPclaw DB already has a <code style="font-family:var(--mono);font-size:.8em;background:var(--surface-2);padding:.1rem .3rem;border-radius:3px;">Client</code> table that could store this mapping.
+        Long-term: agents register with a company_id and the server exposes a lookup endpoint.
+      </p>
+    </section>
+
+    <hr>
+
+    <!-- Sprint 1 -->
+    <section id="sprint1">
+      <div class="sec-header"><span class="sec-num">04</span><h2>Sprint 1: Fix Asset Mapping</h2></div>
+
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem;">
+        Unblock multi-client routing. Without this, MSPclaw only works for one device.
+        This is the single highest-priority task.
+      </p>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <span class="sprint-title">Sprint 1 tasks</span>
+          <span class="sprint-meta">Estimated: 1-2 days</span>
+        </div>
+        <div class="sprint-body">
+          <div class="task-row">
+            <div>
+              <div class="task-name">Add company_id field to agent registration</div>
+              <div class="task-detail">When agent daemon starts and registers with the server, it sends its company_id (mapped to the MSP client it belongs to). Server stores this in the Client table.</div>
+              <div class="task-file">agent/main.py + server/db/models.py</div>
+            </div>
+            <span class="pill p-next">DO FIRST</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Expose GET /agents endpoint on server</div>
+              <div class="task-detail">Bridge queries this to find the right client_id for a given company. Returns list of registered agents for a company_id.</div>
+              <div class="task-file">server/main.py</div>
+            </div>
+            <span class="pill p-next">DO FIRST</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Update bridge.py to resolve client_id dynamically</div>
+              <div class="task-detail">Pull company_id from SuperOps ticket (client.clientId field). Query /agents endpoint. Use returned client_id for the WebSocket job. Fallback to config file if server unreachable.</div>
+              <div class="task-file">bridge.py (superops-playground)</div>
+            </div>
+            <span class="pill p-next">DO FIRST</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Add company lookup to SuperOps getTicket query</div>
+              <div class="task-detail">Current query doesn't fetch the client/company field. Add client { clientId name } to the GraphQL query in bridge.py.</div>
+              <div class="task-file">bridge.py: getTicket query</div>
+            </div>
+            <span class="pill p-next">DO FIRST</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- Sprint 2 -->
+    <section id="sprint2">
+      <div class="sec-header"><span class="sec-num">05</span><h2>Sprint 2: Webhook Trigger (Auto-trigger on Ticket Create)</h2></div>
+
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem;">
+        Right now the bridge runs manually. The goal is: new ticket created in SuperOps
+        automatically triggers MSPclaw with no human intervention.
       </p>
 
       <div class="note blue">
-        <span class="note-label">Trigger types</span>
-        Alert-driven L1 is triggered by a monitoring tool webhook or poll. User-reported L1 is triggered
-        by a new ticket event with keyword or category matching on the subject/description.
-        Both map to the same playbook step format.
+        <span class="note-label">SuperOps webhook support</span>
+        SuperOps supports outbound webhooks on ticket events. You configure a webhook URL in
+        SuperOps settings. On ticket create, SuperOps POSTs the ticket payload to your URL.
+        The bridge needs an HTTP listener to receive this and kick off the loop.
       </div>
 
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Trigger</th>
-            <th>Volume (typical MSP)</th>
-            <th>Auto-resolve potential</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Alert-driven L1</td>
-            <td>Monitoring webhook or poll. Alert fields matched against playbook conditions.</td>
-            <td>30-60% of total ticket volume</td>
-            <td><span class="pill p-auto">HIGH</span> - system state is measurable</td>
-          </tr>
-          <tr>
-            <td>User-reported L1</td>
-            <td>Ticket created event. Keyword or category match on subject + description.</td>
-            <td>40-70% of total ticket volume</td>
-            <td><span class="pill p-semi">MEDIUM</span> - user confirmation often needed</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <hr>
-
-    <!-- Alert L1 -->
-    <section id="alert-l1">
-      <div class="sec-header"><span class="sec-num">03</span><h2>Alert-Driven L1 Coverage</h2></div>
-
-      <p class="body-p">Triggered by monitoring systems. MSPclaw receives the alert, executes the matched playbook, and updates the PSA ticket with results.</p>
-
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th style="width:150px;">Scenario</th>
-            <th>Playbook steps (abbreviated)</th>
-            <th style="width:90px;">Resolution</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="cat-row"><td colspan="3">Storage and performance</td></tr>
-          <tr>
-            <td>Disk full <span class="trig">disk_percent &gt; 90</span></td>
-            <td>Get disk breakdown via RMM. Clear temp/IIS/CBS logs. Re-check. Escalate if still &gt;85%.</td>
-            <td><span class="pill p-auto">Auto-resolve</span></td>
-          </tr>
-          <tr>
-            <td>High CPU <span class="trig">cpu_avg &gt; 85% 10min</span></td>
-            <td>Get top processes via RMM. Kill known runaway processes (configurable list). Report to ticket.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>High memory <span class="trig">mem_used &gt; 90%</span></td>
-            <td>Get memory consumers via RMM. Clear standby list. Report. Escalate if VM or server.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>PC running slow <span class="trig">perf_score &lt; 40</span></td>
-            <td>Disk cleanup, defrag check, startup items report, resource snapshot. Report findings.</td>
-            <td><span class="pill p-diag">Diagnostic</span></td>
-          </tr>
-          <tr class="cat-row"><td colspan="3">Services and connectivity</td></tr>
-          <tr>
-            <td>Service down <span class="trig">service_status = stopped</span></td>
-            <td>Check if in restart-safe list. Attempt restart via RMM. Verify running. Update ticket.</td>
-            <td><span class="pill p-auto">Auto-resolve</span></td>
-          </tr>
-          <tr>
-            <td>Device offline <span class="trig">ping_fail &gt; 5min</span></td>
-            <td>Check network path via RMM agent on same segment. Attempt WOL if supported. Escalate.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>Network slow <span class="trig">latency &gt; threshold</span></td>
-            <td>Run traceroute + speed test via RMM. Check device count on segment. Report findings.</td>
-            <td><span class="pill p-diag">Diagnostic</span></td>
-          </tr>
-          <tr class="cat-row"><td colspan="3">Backup and security</td></tr>
-          <tr>
-            <td>Backup failed <span class="trig">backup_status = failed</span></td>
-            <td>Get failure reason via Datto/Veeam API. Retry if transient error. Escalate with log.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>AV detection <span class="trig">threat_detected</span></td>
-            <td>Get threat details. Quarantine confirm. Isolate asset from network if severity high. Alert L2.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>Failed logins <span class="trig">failed_logins &gt; 10/hr</span></td>
-            <td>Check source IPs. Lock account if brute-force pattern. Report to ticket. Alert security.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>SSL cert expiry <span class="trig">days_remaining &lt; 14</span></td>
-            <td>Confirm cert details. Notify account team. Create renewal task in PSA.</td>
-            <td><span class="pill p-diag">Diagnostic</span></td>
-          </tr>
-          <tr class="cat-row"><td colspan="3">Infrastructure</td></tr>
-          <tr>
-            <td>UPS / power alert <span class="trig">ups_status = battery</span></td>
-            <td>Check runtime remaining. Alert on-call. Initiate graceful shutdown if runtime &lt; 5min.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>Patch failed <span class="trig">patch_status = failed</span></td>
-            <td>Get error code via RMM. Retry for known transient codes. Log failure details to ticket.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <hr>
-
-    <!-- User L1 -->
-    <section id="user-l1">
-      <div class="sec-header"><span class="sec-num">04</span><h2>User-Reported L1 Coverage</h2></div>
-
-      <p class="body-p">
-        Triggered by a ticket created event. MSPclaw matches against the ticket subject and description
-        using keyword groups and category codes from the PSA. Write-back includes a user-facing reply
-        in addition to the internal worklog.
-      </p>
-
-      <div class="note amber">
-        <span class="note-label">Key difference from alert-driven</span>
-        User-reported playbooks must also send a communication to the end user, not just update the internal ticket.
-        The playbook write-back step includes a templated user-facing message with what was found and what was done.
-      </div>
-
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th style="width:150px;">Scenario</th>
-            <th>Trigger keywords / category</th>
-            <th>Playbook steps (abbreviated)</th>
-            <th style="width:90px;">Resolution</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="cat-row"><td colspan="4">Account and access</td></tr>
-          <tr>
-            <td>Password reset</td>
-            <td>"password", "locked", "can't log in", "forgot"</td>
-            <td>Check AD/Entra account status via RMM. Trigger self-service reset or script reset. Reply to user with instructions.</td>
-            <td><span class="pill p-auto">Auto-resolve</span></td>
-          </tr>
-          <tr>
-            <td>Account locked</td>
-            <td>"locked out", "account locked"</td>
-            <td>Check lockout reason in AD (bad password source). Unlock if clean. Alert if repeated or unusual source.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>MFA / 2FA issue</td>
-            <td>"MFA", "authenticator", "2FA", "code not working"</td>
-            <td>Check user's MFA registration. Re-enrol if needed. Provide self-service link or reset via admin API.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>VPN not connecting</td>
-            <td>"VPN", "remote access", "can't connect from home"</td>
-            <td>Check VPN service status via RMM. Check user certificate. Run connectivity test. Report findings and steps.</td>
-            <td><span class="pill p-diag">Diagnostic</span></td>
-          </tr>
-          <tr class="cat-row"><td colspan="4">Network and connectivity</td></tr>
-          <tr>
-            <td>No WiFi / WiFi issue</td>
-            <td>"wifi", "wireless", "no internet", "can't connect to wifi"</td>
-            <td>RMM: check adapter status, run netsh reset, get WiFi diagnostics. Reply with steps taken.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>WiFi password request</td>
-            <td>"wifi password", "wireless password"</td>
-            <td>Verify user identity against PSA contact. Retrieve SSID credentials from vault. Reply securely.</td>
-            <td><span class="pill p-auto">Auto-resolve</span></td>
-          </tr>
-          <tr>
-            <td>Internet slow</td>
-            <td>"internet slow", "network slow", "browsing slow"</td>
-            <td>Run speed test via RMM. Check DNS, clear browser cache via script. Report findings.</td>
-            <td><span class="pill p-diag">Diagnostic</span></td>
-          </tr>
-          <tr>
-            <td>Shared drive / file share</td>
-            <td>"can't access drive", "mapped drive", "shared folder"</td>
-            <td>Check share availability via RMM. Re-map drive via script. Verify permissions. Report.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr class="cat-row"><td colspan="4">Devices and peripherals</td></tr>
-          <tr>
-            <td>Printer not working</td>
-            <td>"printer", "can't print", "printing", "print queue"</td>
-            <td>RMM: check print spooler, restart if stopped, clear stuck jobs, check driver status. Reply with result.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>Keyboard / mouse issue</td>
-            <td>"keyboard", "mouse", "not typing", "cursor"</td>
-            <td>RMM: check device manager for errors, run HID reset script, update driver check. Report findings.</td>
-            <td><span class="pill p-diag">Diagnostic</span></td>
-          </tr>
-          <tr>
-            <td>Monitor / display issue</td>
-            <td>"monitor", "screen", "no display", "second screen"</td>
-            <td>RMM: check display adapters, run display detect script, check cable type. Provide steps to user.</td>
-            <td><span class="pill p-diag">Diagnostic</span></td>
-          </tr>
-          <tr class="cat-row"><td colspan="4">PC performance and software</td></tr>
-          <tr>
-            <td>PC running slow</td>
-            <td>"slow", "computer slow", "freezing", "taking long"</td>
-            <td>Run disk cleanup, check startup items, get top CPU/memory consumers, defrag check. Report.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>App not loading / crash</td>
-            <td>"not opening", "crashing", "keeps closing", app name</td>
-            <td>Check event logs via RMM for app errors. Repair/reinstall via RMM script. Reply with result.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr>
-            <td>Email not working</td>
-            <td>"email", "outlook", "can't send", "not receiving"</td>
-            <td>Check Exchange/M365 mailbox status, run Outlook diagnostic script, check autodiscover. Report.</td>
-            <td><span class="pill p-diag">Diagnostic</span></td>
-          </tr>
-          <tr>
-            <td>Software install request</td>
-            <td>"install", "need software", "can you install"</td>
-            <td>Match against approved software list. Deploy via RMM if approved. Escalate if not on list.</td>
-            <td><span class="pill p-semi">Semi-auto</span></td>
-          </tr>
-          <tr class="cat-row"><td colspan="4">Onboarding and offboarding</td></tr>
-          <tr>
-            <td>New user setup</td>
-            <td>Category = "Onboarding" or "New starter"</td>
-            <td>Create AD account, assign license, map drives, install standard apps, add to groups. Update ticket with completion.</td>
-            <td><span class="pill p-auto">Auto-resolve</span></td>
-          </tr>
-          <tr>
-            <td>User offboarding</td>
-            <td>Category = "Offboarding" or "Leaver"</td>
-            <td>Disable AD account, revoke M365 license, forward email, remove from groups. Log all steps.</td>
-            <td><span class="pill p-auto">Auto-resolve</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <hr>
-
-    <!-- Examples -->
-    <section id="examples">
-      <div class="sec-header"><span class="sec-num">05</span><h2>Playbook Examples</h2></div>
-
-      <div class="playbook-block">
-        <div class="pb-header">
-          <span>password-reset-ad.playbook.yaml</span>
-          <span class="pill p-auto">Auto-resolve</span>
+      <div class="sprint">
+        <div class="sprint-header">
+          <span class="sprint-title">Sprint 2 tasks</span>
+          <span class="sprint-meta">Estimated: 1-2 days</span>
         </div>
-        <div class="pb-body">
-          <div class="step-list">
-            <div class="step t">
-              <div class="step-badge">T</div>
-              <div>
-                <div class="step-title">Trigger: ticket created, subject contains "password" or "locked"</div>
-                <div class="step-detail">Matches on PSA ticket create webhook. Extracts requester email and device from ticket contact fields.</div>
-                <div class="step-tool">source: psa.ticket_created</div>
-              </div>
+        <div class="sprint-body">
+          <div class="task-row">
+            <div>
+              <div class="task-name">Add POST /webhook/superops to MSPclaw server</div>
+              <div class="task-detail">Receives SuperOps ticket created payload. Extracts subject, client company_id, ticket_id. Looks up agent. Starts playbook job. Returns 200 immediately (async job).</div>
+              <div class="task-file">server/main.py</div>
             </div>
-            <div class="step">
-              <div class="step-badge">1</div>
-              <div>
-                <div class="step-title">Check AD account status</div>
-                <div class="step-detail">Look up account in Active Directory or Entra ID. Check if enabled, locked, password expired.</div>
-                <div class="step-tool">via: rmm.run_script(check_ad_account.ps1, user=requester_email)</div>
-              </div>
-            </div>
-            <div class="step b">
-              <div class="step-badge">?</div>
-              <div>
-                <div class="step-title">Branch: account locked vs password expired vs unknown</div>
-                <div class="step-tool">locked: step 3 / expired: step 3 / unknown: escalate</div>
-              </div>
-            </div>
-            <div class="step">
-              <div class="step-badge">2</div>
-              <div>
-                <div class="step-title">Reset or unlock account</div>
-                <div class="step-detail">Unlock account and force password reset at next login. Or trigger self-service reset email via Entra SSPR.</div>
-                <div class="step-tool">via: rmm.run_script(reset_ad_account.ps1)</div>
-              </div>
-            </div>
-            <div class="step w">
-              <div class="step-badge">W</div>
-              <div>
-                <div class="step-title">Write back: update ticket + reply to user</div>
-                <div class="step-detail">Close ticket with internal note (what was done + AD log). Send user-facing reply with next steps.</div>
-                <div class="step-tool">via: psa.update_ticket(status=resolved) + psa.reply_to_user(template=password_reset_done)</div>
-              </div>
-            </div>
+            <span class="pill p-next">NEXT</span>
           </div>
-        </div>
-      </div>
-
-      <div class="playbook-block">
-        <div class="pb-header">
-          <span>disk-full-windows.playbook.yaml</span>
-          <span class="pill p-auto">Auto-resolve</span>
-        </div>
-        <div class="pb-body">
-          <div class="step-list">
-            <div class="step t">
-              <div class="step-badge">T</div>
-              <div>
-                <div class="step-title">Trigger: alert.disk_percent &gt; 90</div>
-                <div class="step-detail">Matches on RMM or Zabbix alert webhook. Extracts asset ID and disk path.</div>
-                <div class="step-tool">source: rmm.alert or monitoring.threshold</div>
-              </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Write-back after job completes</div>
+              <div class="task-detail">When job reaches "resolved" state, server automatically calls SuperOps createTicketNote with the final_answer. No manual bridge.py needed.</div>
+              <div class="task-file">server/brain/orchestrator.py + new superops_client.py</div>
             </div>
-            <div class="step">
-              <div class="step-badge">1</div>
-              <div>
-                <div class="step-title">Get disk breakdown (top directories by size)</div>
-                <div class="step-tool">via: rmm.run_script(get_disk_breakdown.ps1, asset=asset_id)</div>
-              </div>
+            <span class="pill p-next">NEXT</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Playbook filter: only trigger on L1 categories</div>
+              <div class="task-detail">Not every ticket should trigger MSPclaw. Add a category/keyword filter so only tickets that match a known playbook get routed. Others are skipped silently.</div>
+              <div class="task-file">server/playbooks/loader.py + webhook handler</div>
             </div>
-            <div class="step">
-              <div class="step-badge">2</div>
-              <div>
-                <div class="step-title">Clear temp files, IIS logs, CBS logs</div>
-                <div class="step-tool">via: rmm.run_script(clear_temp_and_logs.ps1)</div>
-              </div>
+            <span class="pill p-next">NEXT</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Webhook signature validation</div>
+              <div class="task-detail">Verify the request actually came from SuperOps (HMAC signature or shared secret). Basic security before exposing to the internet.</div>
+              <div class="task-file">server/main.py</div>
             </div>
-            <div class="step b">
-              <div class="step-badge">?</div>
-              <div>
-                <div class="step-title">Branch: disk still &gt;85% after cleanup?</div>
-                <div class="step-tool">yes: escalate to L2 / no: resolve</div>
-              </div>
+            <span class="pill p-next">NEXT</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Configure SuperOps webhook in settings</div>
+              <div class="task-detail">In SuperOps admin: Settings > Integrations > Webhooks. Set URL to https://your-server/webhook/superops. Trigger: Ticket Created. That's it.</div>
+              <div class="task-file">SuperOps admin UI (no code)</div>
             </div>
-            <div class="step w">
-              <div class="step-badge">W</div>
-              <div>
-                <div class="step-title">Write back: update PSA ticket + worklog</div>
-                <div class="step-detail">Update ticket with disk before/after, bytes freed, steps taken. Add worklog entry. Close or assign to L2.</div>
-                <div class="step-tool">via: psa.update_ticket() + psa.add_worklog(auto_generated=true)</div>
-              </div>
-            </div>
+            <span class="pill p-next">NEXT</span>
           </div>
         </div>
       </div>
@@ -1052,142 +480,149 @@
 
     <hr>
 
-    <!-- Builder -->
-    <section id="builder">
-      <div class="sec-header"><span class="sec-num">06</span><h2>Playbook Builder Tool</h2></div>
+    <!-- Sprint 3 -->
+    <section id="sprint3">
+      <div class="sec-header"><span class="sec-num">06</span><h2>Sprint 3: Swap Mocks for Real APIs</h2></div>
 
-      <p class="body-p">
-        The builder is what makes the marketplace sustainable. Without a low-friction authoring tool,
-        only developers contribute. With one, L1 techs contribute from the operational knowledge they
-        actually have.
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem;">
+        Mock enterprise tools in agent/tools/mock_enterprise.py return realistic JSON but don't call real APIs.
+        Priority order: password/AD first (highest ticket volume), then printer, then the rest.
       </p>
 
-      <div class="note amber">
-        <span class="note-label">Key design decision</span>
-        AI can suggest a full playbook draft from a description ("user forgot password, we use AD on-prem").
-        But the tech reviews every step before saving. AI does not push to staging without tech sign-off.
-        This is intentional: the tech is accountable for what runs, so the tech must approve it.
+      <div class="sprint">
+        <div class="sprint-header">
+          <span class="sprint-title">Sprint 3 tasks — in priority order</span>
+          <span class="sprint-meta">Estimated: 1-2 weeks</span>
+        </div>
+        <div class="sprint-body">
+          <div class="task-row">
+            <div>
+              <div class="task-name">Microsoft Entra ID: check_ad_user, reset_password, unlock_account</div>
+              <div class="task-detail">Replace mock with real Microsoft Graph API calls. Needs M365 app registration (app_id, tenant_id, client_secret). Covers password reset and account locked playbooks.</div>
+              <div class="task-file">agent/tools/enterprise_m365.py (new)</div>
+            </div>
+            <span class="pill p-next">HIGH</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Microsoft Graph: check_m365_license, disable_ad_account, provision_user</div>
+              <div class="task-detail">Same app registration as above. Covers onboarding and offboarding playbooks.</div>
+              <div class="task-file">agent/tools/enterprise_m365.py</div>
+            </div>
+            <span class="pill p-next">HIGH</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Print server: check_printer_status, restart_print_spooler</div>
+              <div class="task-detail">Real Windows print server calls or local spooler management via PowerShell. Covers printer playbook.</div>
+              <div class="task-file">agent/tools/enterprise_print.py (new)</div>
+            </div>
+            <span class="pill p-next">MEDIUM</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Jamf Pro: check_jamf_device, push_jamf_policy, install_software_jamf</div>
+              <div class="task-detail">Jamf REST API (api/v1/). Needs Jamf URL + API client credentials. Covers software install and device management playbooks.</div>
+              <div class="task-file">agent/tools/enterprise_jamf.py (new)</div>
+            </div>
+            <span class="pill p-later">MEDIUM</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Exchange / M365: check_email_flow</div>
+              <div class="task-detail">Microsoft Graph mail API. Check mailbox status, message trace. Covers email not working playbook.</div>
+              <div class="task-file">agent/tools/enterprise_m365.py</div>
+            </div>
+            <span class="pill p-later">MEDIUM</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">VPN: check_vpn_status</div>
+              <div class="task-detail">Depends on VPN vendor (GlobalProtect, Cisco, etc.). Varies by client. Implement as pluggable adapter.</div>
+              <div class="task-file">agent/tools/enterprise_vpn.py (new)</div>
+            </div>
+            <span class="pill p-later">LOW</span>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <table class="data-table">
-        <thead><tr><th style="width:160px;">Feature</th><th>What it does</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Step sequencer</td>
-            <td>Drag-and-drop action blocks: run_script, check_condition, branch, update_ticket, reply_to_user. No YAML required to build.</td>
-          </tr>
-          <tr>
-            <td>Trigger builder</td>
-            <td>Form UI for alert conditions (field, operator, value) and keyword groups for user-reported tickets. No query language needed.</td>
-          </tr>
-          <tr>
-            <td>Test mode (dry-run)</td>
-            <td>Run against a real asset with all write operations in preview mode. Shows exact API call, expected output, and what would be written back to the PSA before committing.</td>
-          </tr>
-          <tr>
-            <td>AI suggest</td>
-            <td>Describe the scenario in plain text. AI generates a draft playbook with steps and trigger conditions. Tech reviews, edits each step, and approves before saving.</td>
-          </tr>
-          <tr>
-            <td>Publish to staging</td>
-            <td>One-click publish to community staging tier. Shows diff vs previous version. Requires test mode to have been run at least once.</td>
-          </tr>
-          <tr>
-            <td>Version history</td>
-            <td>Every change tracked with author and timestamp. Rollback to previous version in one click. Forking from any community playbook creates a versioned copy.</td>
-          </tr>
-        </tbody>
-      </table>
+    <hr>
+
+    <!-- Sprint 4 -->
+    <section id="sprint4">
+      <div class="sec-header"><span class="sec-num">07</span><h2>Sprint 4: Windows Playbooks + User-Facing Replies</h2></div>
+
+      <div class="sprint">
+        <div class="sprint-header">
+          <span class="sprint-title">Sprint 4 tasks</span>
+          <span class="sprint-meta">Estimated: 1 week</span>
+        </div>
+        <div class="sprint-body">
+          <div class="task-row">
+            <div>
+              <div class="task-name">Windows agent: port tools to PowerShell equivalents</div>
+              <div class="task-detail">get_system_info, check_disk_usage, list_top_processes, check_temp_files — all have direct PowerShell equivalents. Windows agent runs as a service (NSSM or Task Scheduler).</div>
+              <div class="task-file">agent/tools/windows/ (new directory)</div>
+            </div>
+            <span class="pill p-later">LATER</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Windows playbooks: slow PC, disk cleanup, printer</div>
+              <div class="task-detail">Copy macOS playbooks, update os: field to windows, update tool names to Windows equivalents. Start with the 5 highest-volume L1 scenarios.</div>
+              <div class="task-file">playbooks/windows/ (new directory)</div>
+            </div>
+            <span class="pill p-later">LATER</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">User-facing reply templates</div>
+              <div class="task-detail">For user-reported tickets, the write-back should include a public note to the requester, not just an internal note. Add a template field to playbooks: requester_reply_template. Bridge picks PUBLIC vs PRIVATE per playbook.</div>
+              <div class="task-file">playbooks/*.yaml + bridge.py</div>
+            </div>
+            <span class="pill p-later">LATER</span>
+          </div>
+          <div class="task-row">
+            <div>
+              <div class="task-name">Ticket status update on resolution</div>
+              <div class="task-detail">After auto-resolve, call SuperOps updateTicket to set status = Resolved (or In Progress if escalating). Currently only notes are written back.</div>
+              <div class="task-file">superops_client.py (or bridge.py)</div>
+            </div>
+            <span class="pill p-later">LATER</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <hr>
 
     <!-- Marketplace -->
     <section id="marketplace">
-      <div class="sec-header"><span class="sec-num">07</span><h2>Marketplace Model</h2></div>
+      <div class="sec-header"><span class="sec-num">08</span><h2>Marketplace (After Sprints 1-4)</h2></div>
 
-      <p class="body-p">
-        Three-tier contribution model based on TacticalRMM community-scripts (verified working pattern).
-        License: AGPL v3.0. Self-hosted: unlimited playbook executions, no caps.
-        Revenue from managed cloud hosting, not the software.
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1rem;">
+        The playbook YAML format is already marketplace-ready. The structure and the
+        keyword matching engine exist. What's needed is the registry + community contribution layer.
       </p>
 
-      <div class="tier-stack">
-        <div class="tier-row">
-          <div class="tier-name">Community</div>
-          <div class="tier-desc">WIP and staging playbooks. Published via builder tool. Not bundled with installs. Anyone can publish; no review required to reach staging.</div>
-          <div class="tier-model free">free</div>
-        </div>
-        <div class="tier-row">
-          <div class="tier-name">Verified</div>
-          <div class="tier-desc">Maintainer-reviewed playbooks. Must pass a test matrix across declared PSA and RMM support. Ships bundled with every MSPclaw install.</div>
-          <div class="tier-model free">free</div>
-        </div>
-        <div class="tier-row">
-          <div class="tier-name">Partner Cloud</div>
-          <div class="tier-desc">Managed cloud hosting and SLAs for MSPs who don't want to self-host. Includes support. Revenue source for the project.</div>
-          <div class="tier-model paid">paid hosting</div>
-        </div>
-      </div>
-
-      <p style="font-size:0.775rem;color:var(--text-3);font-family:var(--mono);margin-top:-0.5rem;">
-        Integration contract: playbook-registry.json (mirrors TacticalRMM community_scripts.json pattern, verified)
-      </p>
-    </section>
-
-    <hr>
-
-    <!-- Integrations -->
-    <section id="integrations">
-      <div class="sec-header"><span class="sec-num">08</span><h2>Integration Priority</h2></div>
-
-      <p class="body-p">Minimum viable surface: webhook receive + run script on asset (RMM) or create/update/close ticket + add worklog + reply to user (PSA).</p>
-
-      <table class="int-table">
-        <thead>
-          <tr>
-            <th style="width:2rem;">#</th>
-            <th style="width:140px;">Platform</th>
-            <th style="width:90px;">Role</th>
-            <th>Rationale</th>
-          </tr>
-        </thead>
+      <table class="status-table">
+        <thead><tr><th>Item</th><th>What it requires</th><th style="width:80px;">When</th></tr></thead>
         <tbody>
           <tr>
-            <td class="int-num">1</td>
-            <td class="int-name">SuperOps</td>
-            <td><span class="pill p-auto">PSA + RMM</span></td>
-            <td>Your domain. Modern REST API and clean webhooks. Ship first. Covers both layers in one connector.</td>
+            <td>playbook-registry.json</td>
+            <td>Add a registry file listing all community playbooks with PSA/OS support matrix. Mirrors TacticalRMM community_scripts.json pattern.</td>
+            <td><span class="pill p-later">PHASE 2</span></td>
           </tr>
           <tr>
-            <td class="int-num">2</td>
-            <td class="int-name">ConnectWise Manage</td>
-            <td><span class="pill p-diag">PSA</span></td>
-            <td>Largest PSA install base. Webhooks unreliable - use polling fallback. Required for credibility with North American MSPs.</td>
+            <td>Playbook builder tool</td>
+            <td>Visual step editor, trigger form, dry-run test mode. Separate web app or bundled with MSPclaw server UI.</td>
+            <td><span class="pill p-later">PHASE 2</span></td>
           </tr>
           <tr>
-            <td class="int-num">3</td>
-            <td class="int-name">NinjaRMM</td>
-            <td><span class="pill p-diag">RMM</span></td>
-            <td>Primary RMM for script execution. Clean API for alert webhooks and remote script runs.</td>
-          </tr>
-          <tr>
-            <td class="int-num">4</td>
-            <td class="int-name">Halo PSA</td>
-            <td><span class="pill p-diag">PSA</span></td>
-            <td>Clean REST API. Fast-growing in UK and EU markets. Good early-adopter profile.</td>
-          </tr>
-          <tr>
-            <td class="int-num">5</td>
-            <td class="int-name">Datto Autotask</td>
-            <td><span class="pill p-diag">PSA</span></td>
-            <td>Large install base. Older API but broad coverage justifies it.</td>
-          </tr>
-          <tr>
-            <td class="int-num">6</td>
-            <td class="int-name">Atera</td>
-            <td><span class="pill p-diag">RMM + PSA</span></td>
-            <td>All-in-one for smaller MSPs. Single connector covers both layers.</td>
+            <td>GitHub-based contribution flow</td>
+            <td>Community submits playbooks via PR to a community-playbooks repo. CI runs test matrix. Maintainer promotes to official tier.</td>
+            <td><span class="pill p-later">PHASE 2</span></td>
           </tr>
         </tbody>
       </table>
@@ -1195,59 +630,78 @@
 
     <hr>
 
-    <!-- Questions -->
-    <section id="questions">
-      <div class="sec-header"><span class="sec-num">09</span><h2>Open Questions</h2></div>
+    <!-- Connectors -->
+    <section id="connectors">
+      <div class="sec-header"><span class="sec-num">09</span><h2>More PSA Connectors</h2></div>
 
-      <div class="q-list">
-        <div class="q-item">
-          <span class="q-n">1</span>
-          <span>Is there a playbook or runbook-sharing community in MSPGeek Slack or GitHub that can seed the marketplace at launch? Empty marketplace on day one kills adoption.</span>
-        </div>
-        <div class="q-item">
-          <span class="q-n">2</span>
-          <span>For user-reported L1, who supplies the user-facing reply templates? Are they part of the playbook definition or configured per MSP? This affects the playbook schema design.</span>
-        </div>
-        <div class="q-item">
-          <span class="q-n">3</span>
-          <span>AGPL vs MIT: protect against hosted resale (AGPL, slower growth) or maximise adoption speed (MIT, SaaS forks possible)?</span>
-        </div>
-        <div class="q-item">
-          <span class="q-n">4</span>
-          <span>How does the playbook builder test mode access real assets safely? Opt-in dry-run per step, a dedicated test asset per customer, or a sandbox RMM environment?</span>
-        </div>
-        <div class="q-item">
-          <span class="q-n">5</span>
-          <span>ConnectWise webhook reliability: is polling acceptable for v1, or should the CW connector wait for v2 while SuperOps + NinjaRMM + Halo ships first?</span>
-        </div>
-        <div class="q-item">
-          <span class="q-n">6</span>
-          <span>For the keyword matching on user-reported tickets: is NLP (model-based intent detection) needed for v1, or is a well-curated keyword group list good enough to start?</span>
-        </div>
-      </div>
+      <p style="font-size:.875rem;color:var(--text-2);line-height:1.75;margin-bottom:1rem;">
+        The bridge template from GUIDE.md means each new PSA is ~200 lines of Python.
+        SuperOps is done. Build these in order of MSP install base.
+      </p>
+
+      <table class="conn-table">
+        <thead><tr><th style="width:2rem;">#</th><th style="width:150px;">PSA</th><th>Auth</th><th>Note endpoints</th><th style="width:70px;">Effort</th></tr></thead>
+        <tbody>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">1</td>
+            <td class="conn-name">SuperOps <span class="pill p-done">DONE</span></td>
+            <td style="font-size:.75rem;color:var(--text-2);">Bearer + CustomerSubDomain</td>
+            <td style="font-size:.75rem;color:var(--text-2);">GraphQL createTicketNote</td>
+            <td><span class="pill p-done">DONE</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">2</td>
+            <td class="conn-name">ConnectWise</td>
+            <td style="font-size:.75rem;color:var(--text-2);">clientId + Basic (pubkey:privkey)</td>
+            <td style="font-size:.75rem;color:var(--text-2);">POST /service/tickets/{id}/notes</td>
+            <td><span class="pill p-later">~1 day</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">3</td>
+            <td class="conn-name">Halo PSA</td>
+            <td style="font-size:.75rem;color:var(--text-2);">OAuth2 bearer</td>
+            <td style="font-size:.75rem;color:var(--text-2);">POST /api/tickets/{id}/notes</td>
+            <td><span class="pill p-later">~1 day</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">4</td>
+            <td class="conn-name">Datto Autotask</td>
+            <td style="font-size:.75rem;color:var(--text-2);">API key + integration code</td>
+            <td style="font-size:.75rem;color:var(--text-2);">POST .../TicketNotes</td>
+            <td><span class="pill p-later">~1 day</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:.625rem;color:var(--text-3);">5</td>
+            <td class="conn-name">Freshdesk</td>
+            <td style="font-size:.75rem;color:var(--text-2);">API key as Basic auth</td>
+            <td style="font-size:.75rem;color:var(--text-2);">POST /api/v2/tickets/{id}/notes</td>
+            <td><span class="pill p-later">~1 day</span></td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <div class="doc-footer">
-      <span>MSPclaw product-brief-v3 - 2026-06-04</span>
-      <span>Full L1 coverage: 14 alert-driven + 16 user-reported scenarios</span>
+      <span>MSPclaw build-roadmap - 2026-06-04</span>
+      <span>SuperOps bridge working. Sprint 1 unblocks multi-client. Sprint 2 makes it fully automatic.</span>
     </div>
 
   </main>
 </div>
 
 <script>
-  const sections = document.querySelectorAll('section[id]');
-  const links = document.querySelectorAll('.nav-link');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting)
-        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+  const sections=document.querySelectorAll('section[id]');
+  const links=document.querySelectorAll('.nav-link');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting)
+        links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));
     });
-  }, { rootMargin: '-30% 0px -65% 0px' });
-  sections.forEach(s => obs.observe(s));
-  links.forEach(l => l.addEventListener('click', e => {
+  },{rootMargin:'-30% 0px -65% 0px'});
+  sections.forEach(s=>obs.observe(s));
+  links.forEach(l=>l.addEventListener('click',e=>{
     e.preventDefault();
-    document.querySelector(l.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector(l.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
   }));
 </script>
 </body>
