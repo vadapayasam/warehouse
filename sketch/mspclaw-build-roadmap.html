@@ -195,7 +195,7 @@
       <div class="pg-meta">
         <span class="pg-meta-item"><a href="https://github.com/thisisprabha/MSPclaw" target="_blank" rel="noopener">github.com/thisisprabha/MSPclaw</a></span>
         <span class="pg-meta-item">SuperOps integration: bridge.py working</span>
-        <span class="pg-meta-item">v0.2, macOS only</span>
+        <span class="pg-meta-item">v0.3 shipped 2026-06-04, macOS only</span>
       </div>
     </div>
 
@@ -204,18 +204,18 @@
       <div class="sec-header"><span class="sec-num">01</span><h2>What's Already Built</h2></div>
 
       <div class="note green">
-        <span class="note-label">Bottom line</span>
-        The hard parts are done. Orchestration engine, ReAct brain, playbooks, WebSocket protocol,
-        SuperOps GraphQL read + write-back, and the bridge loop are all working.
-        What's missing is mostly integration plumbing, not architecture.
+        <span class="note-label">v0.3 shipped — production-hardened</span>
+        v0.3 added API auth, human approval gates, full audit trail, device memory, feedback metrics,
+        structured escalation, and technician registry. The engine is now production-ready.
+        What's still missing is integration plumbing: asset mapping and webhook trigger.
       </div>
 
       <table class="status-table">
-        <thead><tr><th style="width:180px;">Component</th><th>What exists</th><th style="width:80px;">Status</th></tr></thead>
+        <thead><tr><th style="width:180px;">Component</th><th>What exists</th><th style="width:100px;">Status</th></tr></thead>
         <tbody>
           <tr>
             <td>Orchestration engine</td>
-            <td>ReAct reasoning loop (Thought/Action/Observation), max 12 steps, LLM-agnostic (OpenAI / Gemini / Claude / Ollama)</td>
+            <td>ReAct reasoning loop (Thought/Action/Observation), max 12 steps, LLM-agnostic (OpenAI / Gemini / Claude / Ollama). Retry logic + error recovery added in v0.3.</td>
             <td><span class="pill p-done">DONE</span></td>
           </tr>
           <tr>
@@ -239,13 +239,48 @@
             <td><span class="pill p-done">DONE</span></td>
           </tr>
           <tr>
+            <td>Auth / API key</td>
+            <td>Bearer token required on all endpoints. Read from MSPCLAW_API_KEY env var. Shipped in v0.3 (server/auth.py). JWT + RBAC planned for v0.4.</td>
+            <td><span class="pill p-done">DONE v0.3</span></td>
+          </tr>
+          <tr>
+            <td>Human approval gates</td>
+            <td>Destructive tools (reset_password, disable_ad_account) require live tech approval before execution. Auto-deny after 5 minutes. Configured per playbook via requires_approval list.</td>
+            <td><span class="pill p-done">DONE v0.3</span></td>
+          </tr>
+          <tr>
+            <td>Audit trail</td>
+            <td>Append-only JSONL per day + SQLite audit_events table. Records all tool calls, approvals, questions, resolutions. CLI: mspclaw audit.</td>
+            <td><span class="pill p-done">DONE v0.3</span></td>
+          </tr>
+          <tr>
+            <td>Device memory</td>
+            <td>Agent remembers user name, department, floor from prior sessions. Never re-asks known info. Enriches brain context from second session onward. CLI: mspclaw devices.</td>
+            <td><span class="pill p-done">DONE v0.3</span></td>
+          </tr>
+          <tr>
+            <td>Resolution feedback</td>
+            <td>Users confirm if the fix worked (yes/no/partial). Per-playbook resolution rates tracked. CLI: mspclaw stats shows success rate per playbook.</td>
+            <td><span class="pill p-done">DONE v0.3</span></td>
+          </tr>
+          <tr>
+            <td>Structured escalation</td>
+            <td>When stuck, brain packages: what was tried + why it failed + suggested next steps. Webhook notification to Slack/Teams. Stored in escalations table.</td>
+            <td><span class="pill p-done">DONE v0.3</span></td>
+          </tr>
+          <tr>
+            <td>Technician registry</td>
+            <td>YAML-backed tech registry (techs.yaml). Tracks name, email, role, Slack ID. Used for approval attribution and escalation routing. CLI: mspclaw tech add/list/remove.</td>
+            <td><span class="pill p-done">DONE v0.3</span></td>
+          </tr>
+          <tr>
             <td>Asset mapping</td>
-            <td>Currently hardcoded to one MACHINE_ID in bridge.py. Multi-client routing not built.</td>
+            <td>Still hardcoded to one MACHINE_ID in bridge.py. Multi-client routing not built. This is the current blocker for multi-tenant use.</td>
             <td><span class="pill p-block">BLOCKER</span></td>
           </tr>
           <tr>
             <td>Webhook trigger</td>
-            <td>Bridge runs manually (python bridge.py ticket_id). No auto-trigger from SuperOps on ticket create.</td>
+            <td>Bridge still runs manually (python bridge.py ticket_id). No auto-trigger from SuperOps on ticket create.</td>
             <td><span class="pill p-next">NEXT</span></td>
           </tr>
           <tr>
@@ -256,11 +291,6 @@
           <tr>
             <td>Windows playbooks</td>
             <td>All 15 playbooks are macOS only. Windows paths, commands, and tools not yet written.</td>
-            <td><span class="pill p-later">LATER</span></td>
-          </tr>
-          <tr>
-            <td>Auth / RBAC</td>
-            <td>Token validation placeholder exists. No real enforcement. Single-tenant only.</td>
             <td><span class="pill p-later">LATER</span></td>
           </tr>
           <tr>
@@ -682,8 +712,8 @@ client_id = COMPANY_AGENT_MAP.get(company_id)
     </section>
 
     <div class="doc-footer">
-      <span>MSPclaw build-roadmap - 2026-06-04</span>
-      <span>SuperOps bridge working. Sprint 1 unblocks multi-client. Sprint 2 makes it fully automatic.</span>
+      <span>MSPclaw build-roadmap - updated 2026-06-04 for v0.3</span>
+      <span>v0.3: auth, audit, approval gates, device memory, escalation, feedback all shipped. Blocker: asset mapping.</span>
     </div>
 
   </main>
