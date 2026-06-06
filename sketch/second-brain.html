@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Second Brain — How It Works</title>
+<style>
+:root {
+  --bg: #faf8f5;
+  --fg: #1c1917;
+  --muted: #78716c;
+  --accent: #0077b6;
+  --accent-soft: #e0f2fe;
+  --border: #e7e5e4;
+  --card: #ffffff;
+  --ok: #166534;
+  --ok-bg: #dcfce7;
+  --warn: #c2410c;
+  --warn-bg: #ffedd5;
+  --code-bg: #f5f5f4;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  padding: 0;
+}
+
+/* Header */
+header {
+  padding: 4rem 1.5rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+header h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+header .meta {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+header .meta span {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Sections */
+section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+section + section {
+  border-top: 1px solid var(--border);
+}
+h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--fg);
+}
+p { margin-bottom: 1rem; }
+
+/* Pipeline Diagram */
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.pipe-node {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.pipe-node:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.pipe-node .icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+.pipe-node .label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.pipe-node .desc {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.3;
+}
+.pipe-node.accent {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.pipe-node.accent .label {
+  color: var(--accent);
+}
+
+/* Arrow connector (CSS pseudo) */
+.pipe-arrow {
+  display: none;
+}
+@media (min-width: 640px) {
+  .pipeline {
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+  }
+  .pipe-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+}
+
+/* Cron badge */
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+.badge.warn { background: var(--warn-bg); color: var(--warn); }
+
+/* Stats grid */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  text-align: center;
+}
+.stat .num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat .label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+/* Directory tree */
+.tree {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.tree .dir { color: var(--accent); font-weight: 600; }
+.tree .file { color: var(--muted); }
+.tree .count { color: var(--ok); font-weight: 600; }
+
+/* Code blocks */
+pre {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+/* Alias cards */
+.aliases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.alias-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.alias-card .cmd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  background: var(--code-bg);
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+.alias-card p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Honcho block */
+.honcho {
+  background: linear-gradient(135deg, #faf8f5 0%, #f0f4f8 100%);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+}
+.honcho h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.honcho p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Footer */
+footer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 480px) {
+  header h1 { font-size: 1.8rem; }
+  .stat .num { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Second Brain</h1>
+  <p class="meta">
+    How Prabha's knowledge pipeline works
+    <span>~/Documents/hermes-vault</span>
+  </p>
+</header>
+
+<section>
+  <h2>The Pipeline</h2>
+  <p>Everything flows in one direction. Drop raw notes at the top. The pipeline distills, indexes, and surfaces what matters.</p>
+  <div class="pipeline">
+    <div class="pipe-node">
+      <span class="icon">📥</span>
+      <span class="label">raw/</span>
+      <span class="desc">Daily drops, transcripts, screenshots, voice memos</span>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node accent">
+      <span class="icon">⚙️</span>
+      <span class="label">Indexer</span>
+      <span class="desc">Builds search index + stats. Run with <code>vqi</code></span>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node accent">
+      <span class="icon">🔍</span>
+      <span class="label">Query</span>
+      <span class="desc">Ask Honcho for cross-domain synthesis. Run with <code>vqq</code></span>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node accent">
+      <span class="icon">📊</span>
+      <span class="label">Review</span>
+      <span class="desc">Generates digest of orphans + stale notes. Run with <code>vqr</code></span>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node">
+      <span class="icon">🧠</span>
+      <span class="label">wiki/</span>
+      <span class="desc">Permanent distilled knowledge. MOCs link everything</span>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:1rem;">
+    <span class="badge ok">Daily digest runs at 6 PM IST</span>
+  </p>
+</section>
+
+<section>
+  <h2>Live Stats</h2>
+  <div class="stats">
+    <div class="stat">
+      <div class="num">0</div>
+      <div class="label">Raw inbox pending</div>
+    </div>
+    <div class="stat">
+      <div class="num">17</div>
+      <div class="label">Wiki notes</div>
+    </div>
+    <div class="stat">
+      <div class="num">12</div>
+      <div class="label">Active notes</div>
+    </div>
+    <div class="stat">
+      <div class="num">1</div>
+      <div class="label">Daily review generated</div>
+    </div>
+  </div>
+  <p>Last digest: <strong>June 6, 2026</strong>. Next auto-run: <strong>today at 6 PM IST</strong>.</p>
+</section>
+
+<section>
+  <h2>Directory Map</h2>
+  <div class="tree">
+<span class="dir">hermes-vault/</span><br>
+├── <span class="dir">raw/</span>                          <span class="count">0 files</span> — daily drops waiting to be processed<br>
+├── <span class="dir">processed/</span>                    distilled outputs, weekly reports<br>
+├── <span class="dir">wiki/</span>                         <span class="count">17 notes</span> — permanent knowledge<br>
+│   └── <span class="file">daily-review-2026-06-06.md</span>     latest digest<br>
+├── <span class="dir">notes/</span>                        <span class="count">12 files</span> — atomic notes + MOCs<br>
+│   └── <span class="dir">archive/</span>                    retired originals<br>
+├── <span class="dir">scripts/</span>                      <span class="count">3 scripts</span> — indexer, query, review<br>
+│   ├── <span class="file">vault-indexer.py</span><br>
+│   ├── <span class="file">vault-query.py</span><br>
+│   └── <span class="file">vault-review.py</span><br>
+└── <span class="dir">.cache/</span>                       search index + metadata
+  </div>
+</section>
+
+<section>
+  <h2>Shell Aliases</h2>
+  <p>Three commands run the whole system. They live in <code>~/.zshrc</code>.</p>
+  <div class="aliases">
+    <div class="alias-card">
+      <div class="cmd">vqi</div>
+      <p>Re-index the vault. Updates search + stats. Run after dropping new raw files.</p>
+    </div>
+    <div class="alias-card">
+      <div class="cmd">vqq</div>
+      <p>Query Honcho for cross-domain synthesis. Finds patterns across disconnected notes.</p>
+    </div>
+    <div class="alias-card">
+      <div class="cmd">vqr</div>
+      <p>Generate today's digest. Shows orphans, stale notes, and vault health. Auto-saves to wiki/.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Automation</h2>
+  <p>A cron job runs the digest every evening. No manual trigger needed unless you want it early.</p>
+  <pre>
+# ~/.zshrc
+alias vqi='cd ~/Documents/hermes-vault && python3 scripts/vault-indexer.py'
+alias vqq='cd ~/Documents/hermes-vault && python3 scripts/vault-query.py'
+alias vqr='cd ~/Documents/hermes-vault && python3 scripts/vault-review.py \
+    --index --days 1 --title "Daily Vault Digest" && \
+    cat wiki/daily-review-$(date +%Y-%m-%d).md'
+  </pre>
+  <p>The daily cron at <strong>6 PM IST</strong> runs the same sequence: index → review → save. Output lands in <code>wiki/daily-review-YYYY-MM-DD.md</code>. Read it or ignore it — no task spam, no Todoist bridge.</p>
+</section>
+
+<section>
+  <h2>Memory Layer</h2>
+  <div class="honcho">
+    <h3>Honcho — localhost:8000</h3>
+    <p>Every session gets stored in Honcho's RAG stack. Cross-session queries surface past decisions, preferences, and stale project threads. The <code>vqq</code> alias queries this for synthesis — connecting notes from different days into coherent themes.</p>
+  </div>
+</section>
+
+<footer>
+  <p>
+    Vault: <code>~/Documents/hermes-vault</code> ·
+    Source: <code>~/Projects/vadapayasam.github.io</code> ·
+    Cron: <code>vault-daily-digest @ 6 PM IST</code><br>
+    Generated June 7, 2026 ·
+    <a href="https://vadapayasam.github.io/warehouse/sketch/">More sketches →</a>
+  </p>
+</footer>
+
+</body>
+</html>
