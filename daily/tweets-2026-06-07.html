@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Tweets — Prabha | 2026-06-07</title>
+<title>Daily Tweets · Prabha | 2026-06-07</title>
 <style>
 :root{--bg:#faf9f7;--text:#2a2a2a;--muted:#888;--card:#fff;--accent:#e65c2a;--apps:#2563eb;--hermes:#7c3aed;--workflow:#059669;--tips:#d97706;--failures:#dc2626;--stats:#7c3aed;--interesting:#0891b2}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:2rem 1rem;max-width:720px;margin:0 auto}
 h1{font-size:1.8rem;margin-bottom:.5rem}
 .date{color:var(--muted);margin-bottom:2rem}
-.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:12px;font-size:.9rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.9rem}
 .stats-bar span{color:var(--muted)}
 .stats-bar strong{color:var(--text)}
 .tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid #eee;transition:.15s}
@@ -27,8 +27,8 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 .tag.interesting{background:#cffafe;color:#155e75}
 .format{font-size:.8rem;color:var(--muted);margin-left:auto}
 .tweet-text{white-space:pre-wrap;font-family:system-ui,sans-serif;font-size:1rem;line-height:1.7;margin-bottom:1rem}
-.screenshot-note{background:#fef3c7;padding:.75rem 1rem;border-radius:8px;font-size:.9rem;color:#92400e;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
-.copy-btn{padding:.5rem 1rem;border:none;border-radius:8px;background:var(--text);color:#fff;cursor:pointer;font-size:.9rem;float:right}
+.screenshot-note{background:#fef3c7;padding:.75rem 1rem;border-radius:16px;font-size:.9rem;color:#92400e;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.copy-btn{padding:.5rem 1rem;border:none;border-radius:16px;background:var(--text);color:#fff;cursor:pointer;font-size:.9rem;float:right}
 .copy-btn:hover{background:var(--accent)}
 .footer{text-align:center;color:var(--muted);font-size:.85rem;margin-top:3rem;padding-top:2rem;border-top:1px solid #eee}
 .guide{background:var(--card);padding:1.5rem;border-radius:16px;margin-bottom:2rem;border:1px solid #eee}
@@ -43,7 +43,7 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 <p class="date">Prabha's growth engine · 2026-06-07</p>
 
 <div class="stats-bar">
-<span>📊 <strong>56</strong> artifacts</span>
+<span>📊 <strong>55</strong> artifacts</span>
 <span>🔧 <strong>29</strong> skills</span>
 <span>⏰ <strong>6</strong> crons</span>
 <span>📱 <strong>12</strong> iOS</span>
@@ -57,7 +57,7 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 <li>Add screenshot if suggested (marked 📸)</li>
 <li>Morning (9am) + afternoon (3pm) + evening (7pm) for max reach</li>
 <li>Engage with replies within 30 min for algorithm boost</li>
-<li>Don't post all 8 at once — space them throughout the day</li>
+<li>Don't post all 8 at once. Space them throughout the day</li>
 </ul>
 </div>
 
@@ -65,24 +65,6 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
         <div class="tweet-card" id="tweet-1">
             <div class="tweet-header">
                 <span class="num">1</span>
-                <span class="tag interesting">#interesting</span>
-                <span class="format">observation</span>
-            </div>
-            <pre class="tweet-text">The best product builders I know follow this pattern:
-
-1. They build in public
-2. They share failures openly
-3. They automate everything repetitive
-4. They ship before they're ready
-
-The common thread? They optimize for learning speed, not perfection.</pre>
-            
-            <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-2">
-            <div class="tweet-header">
-                <span class="num">2</span>
                 <span class="tag hermes">#hermes</span>
                 <span class="format">listicle</span>
             </div>
@@ -96,52 +78,71 @@ The common thread? They optimize for learning speed, not perfection.</pre>
 
 Total cost: $0. Total control: 100%.</pre>
             
+            <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-2">
+            <div class="tweet-header">
+                <span class="num">2</span>
+                <span class="tag interesting">#interesting</span>
+                <span class="format">observation</span>
+            </div>
+            <pre class="tweet-text">The best product builders I know follow this pattern:
+
+1. They build in public
+2. They share failures openly
+3. They automate everything repetitive
+4. They ship before they're ready
+
+The common thread? They optimize for learning speed, not perfection.</pre>
+            
             <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-3">
             <div class="tweet-header">
                 <span class="num">3</span>
-                <span class="tag apps">#apps</span>
-                <span class="format">single</span>
+                <span class="tag failures">#failures</span>
+                <span class="format">story</span>
             </div>
-            <pre class="tweet-text">WhatPay just crossed v1.3.1. 9 App Store builds later, I finally understand the submission pipeline.
+            <pre class="tweet-text">4 consecutive CI failures on my Python repo before it went green.
 
-The thing nobody tells you: 'Processing' in ASC means absolutely nothing.</pre>
-            <div class="screenshot-note">📸 App Store Connect builds list showing all 9 builds</div>
+The culprit? 122 ruff lint errors in test files. Unused imports, dead variables, f-strings with no placeholders.
+
+I auto-fixed them all in one pass. Tests passed. CI green.
+
+Lesson: lint early, lint often.</pre>
+            <div class="screenshot-note">📸 GitHub CI showing all 3 Python versions passing</div>
             <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-4">
             <div class="tweet-header">
                 <span class="num">4</span>
-                <span class="tag tips">#tips</span>
-                <span class="format">single</span>
+                <span class="tag workflow">#workflow</span>
+                <span class="format">step-by-step</span>
             </div>
-            <pre class="tweet-text">Pro tip: Keep a `.gitignore` template for iOS projects.
+            <pre class="tweet-text">Every design review I do now:
 
-I accidentally committed build artifacts, .asc/ files, and DerivedData into WhatPay repo. 47 files.
-
-One `git rm -r --cached` + proper `.gitignore` = clean repo forever.</pre>
-            <div class="screenshot-note">📸 git rm output showing cleaned files</div>
+1. Agent captures screenshots
+2. HTML review gallery generated automatically
+3. I add commentary inline
+4. Gallery pushed to GitHub Pages
+5. Link shared. No Figma comments. No email threads.</pre>
+            <div class="screenshot-note">📸 WhatPay review HTML gallery page</div>
             <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-5">
             <div class="tweet-header">
                 <span class="num">5</span>
-                <span class="tag workflow">#workflow</span>
-                <span class="format">listicle</span>
+                <span class="tag apps">#apps</span>
+                <span class="format">single</span>
             </div>
-            <pre class="tweet-text">My daily automation stack:
+            <pre class="tweet-text">Shipped WhatPay v1.3.2 last night. Removed the privacy/terms junk from settings, rewrote paywall copy, added onboarding hooks. Small changes, big retention difference.
 
-6 AM: Todoist processed, daily tasks created
-9 AM: Weekly ITSM/MSP research runs
-2 PM: Designer skills radar scan
-6 PM: Raw vault files processed
-
-I don't schedule these. Cron does. I just review the output.</pre>
-            <div class="screenshot-note">📸 hermes cron list output</div>
+Build → upload → TestFlight. One command. 🧨</pre>
+            <div class="screenshot-note">📸 WhatPay settings screen showing clean layout</div>
             <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
         </div>
         
@@ -155,7 +156,7 @@ I don't schedule these. Cron does. I just review the output.</pre>
 • GitHub: 13 public repos
 • Hermes: 29 skills, 6 crons, 21 scripts
 • iOS: 12 Xcode projects
-• HTML artifacts: 56 published
+• HTML artifacts: 55 published
 • GitHub member since: 2011
 
 All while working full-time as Lead PD.</pre>
@@ -166,28 +167,29 @@ All while working full-time as Lead PD.</pre>
         <div class="tweet-card" id="tweet-7">
             <div class="tweet-header">
                 <span class="num">7</span>
-                <span class="tag apps">#apps</span>
+                <span class="tag tips">#tips</span>
                 <span class="format">single</span>
             </div>
-            <pre class="tweet-text">5 apps in the store. Each one started as a 'this is annoying, let me fix it' moment.
+            <pre class="tweet-text">For iOS devs building alone:
 
-The best product ideas come from scratching your own itch. Not from market research.</pre>
-            <div class="screenshot-note">📸 App Store screenshots collage</div>
+Set up `asc` (App Store Connect CLI) once. Then:
+`asc builds upload` = TestFlight in 30 seconds
+
+No Xcode Organizer. No manual IPA export. No web upload.</pre>
+            <div class="screenshot-note">📸 asc builds upload terminal output</div>
             <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-8">
             <div class="tweet-header">
                 <span class="num">8</span>
-                <span class="tag hermes">#hermes</span>
+                <span class="tag apps">#apps</span>
                 <span class="format">single</span>
             </div>
-            <pre class="tweet-text">The most underrated Hermes feature: skills as procedural memory.
+            <pre class="tweet-text">WhatPay just crossed v1.3.1. 9 App Store builds later, I finally understand the submission pipeline.
 
-I have a skill for iOS builds. One for research pipelines. One for design taste guardrails.
-
-Each failure teaches the system. It never forgets.</pre>
-            <div class="screenshot-note">📸 ls ~/.hermes/skills/ output</div>
+The thing nobody tells you: 'Processing' in ASC means absolutely nothing.</pre>
+            <div class="screenshot-note">📸 App Store Connect builds list showing all 9 builds</div>
             <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
         </div>
         
