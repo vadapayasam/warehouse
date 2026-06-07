@@ -44,7 +44,7 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 
 <div class="stats-bar">
 <span>📊 <strong>55</strong> artifacts</span>
-<span>🔧 <strong>29</strong> skills</span>
+<span>🔧 <strong>30</strong> skills</span>
 <span>⏰ <strong>6</strong> crons</span>
 <span>📱 <strong>12</strong> iOS</span>
 <span>💻 <strong>21</strong> scripts</span>
@@ -65,6 +65,121 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
         <div class="tweet-card" id="tweet-1">
             <div class="tweet-header">
                 <span class="num">1</span>
+                <span class="tag apps">#apps</span>
+                <span class="format">single</span>
+            </div>
+            <pre class="tweet-text">My iOS app philosophy in one sentence:
+
+Make the thing you wish existed. Ship in 2 weeks. Iterate in public.</pre>
+            
+            <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-2">
+            <div class="tweet-header">
+                <span class="num">2</span>
+                <span class="tag interesting">#interesting</span>
+                <span class="format">listicle</span>
+            </div>
+            <pre class="tweet-text">Every tool I use has a specific reason I picked it:
+• Hermes: custom agent infra
+• DeepSeek v4 Pro: cheap, high context
+• Claude: coding quality
+• Figma: only when visual output is external
+• GitHub Pages: free, fast publishing
+
+No defaults. Every choice is deliberate.</pre>
+            
+            <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-3">
+            <div class="tweet-header">
+                <span class="num">3</span>
+                <span class="tag workflow">#workflow</span>
+                <span class="format">listicle</span>
+            </div>
+            <pre class="tweet-text">My daily automation stack:
+
+6 AM: Todoist processed, daily tasks created
+9 AM: Weekly ITSM/MSP research runs
+2 PM: Designer skills radar scan
+6 PM: Raw vault files processed
+
+I don't schedule these. Cron does. I just review the output.</pre>
+            <div class="screenshot-note">📸 hermes cron list output</div>
+            <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-4">
+            <div class="tweet-header">
+                <span class="num">4</span>
+                <span class="tag hermes">#hermes</span>
+                <span class="format">single</span>
+            </div>
+            <pre class="tweet-text">The most underrated Hermes feature: skills as procedural memory.
+
+I have a skill for iOS builds. One for research pipelines. One for design taste guardrails.
+
+Each failure teaches the system. It never forgets.</pre>
+            <div class="screenshot-note">📸 ls ~/.hermes/skills/ output</div>
+            <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-5">
+            <div class="tweet-header">
+                <span class="num">5</span>
+                <span class="tag stats">#stats</span>
+                <span class="format">listicle</span>
+            </div>
+            <pre class="tweet-text">By the numbers:
+• GitHub: 13 public repos
+• Hermes: 30 skills, 6 crons, 21 scripts
+• iOS: 12 Xcode projects
+• HTML artifacts: 55 published
+• GitHub member since: 2011
+
+All while working full-time as Lead PD.</pre>
+            <div class="screenshot-note">📸 GitHub profile page</div>
+            <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-6">
+            <div class="tweet-header">
+                <span class="num">6</span>
+                <span class="tag tips">#tips</span>
+                <span class="format">single</span>
+            </div>
+            <pre class="tweet-text">If you're not using cron jobs for your personal projects, you're manually doing what should be automatic.
+
+Every recurring task = a cron job.
+Every pattern = a skill.
+
+Stop repeating yourself.</pre>
+            
+            <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-7">
+            <div class="tweet-header">
+                <span class="num">7</span>
+                <span class="tag failures">#failures</span>
+                <span class="format">story</span>
+            </div>
+            <pre class="tweet-text">4 consecutive CI failures on my Python repo before it went green.
+
+The culprit? 122 ruff lint errors in test files. Unused imports, dead variables, f-strings with no placeholders.
+
+I auto-fixed them all in one pass. Tests passed. CI green.
+
+Lesson: lint early, lint often.</pre>
+            <div class="screenshot-note">📸 GitHub CI showing all 3 Python versions passing</div>
+            <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-8">
+            <div class="tweet-header">
+                <span class="num">8</span>
                 <span class="tag hermes">#hermes</span>
                 <span class="format">listicle</span>
             </div>
@@ -78,118 +193,6 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 
 Total cost: $0. Total control: 100%.</pre>
             
-            <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-2">
-            <div class="tweet-header">
-                <span class="num">2</span>
-                <span class="tag interesting">#interesting</span>
-                <span class="format">observation</span>
-            </div>
-            <pre class="tweet-text">The best product builders I know follow this pattern:
-
-1. They build in public
-2. They share failures openly
-3. They automate everything repetitive
-4. They ship before they're ready
-
-The common thread? They optimize for learning speed, not perfection.</pre>
-            
-            <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-3">
-            <div class="tweet-header">
-                <span class="num">3</span>
-                <span class="tag failures">#failures</span>
-                <span class="format">story</span>
-            </div>
-            <pre class="tweet-text">4 consecutive CI failures on my Python repo before it went green.
-
-The culprit? 122 ruff lint errors in test files. Unused imports, dead variables, f-strings with no placeholders.
-
-I auto-fixed them all in one pass. Tests passed. CI green.
-
-Lesson: lint early, lint often.</pre>
-            <div class="screenshot-note">📸 GitHub CI showing all 3 Python versions passing</div>
-            <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-4">
-            <div class="tweet-header">
-                <span class="num">4</span>
-                <span class="tag workflow">#workflow</span>
-                <span class="format">step-by-step</span>
-            </div>
-            <pre class="tweet-text">Every design review I do now:
-
-1. Agent captures screenshots
-2. HTML review gallery generated automatically
-3. I add commentary inline
-4. Gallery pushed to GitHub Pages
-5. Link shared. No Figma comments. No email threads.</pre>
-            <div class="screenshot-note">📸 WhatPay review HTML gallery page</div>
-            <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-5">
-            <div class="tweet-header">
-                <span class="num">5</span>
-                <span class="tag apps">#apps</span>
-                <span class="format">single</span>
-            </div>
-            <pre class="tweet-text">Shipped WhatPay v1.3.2 last night. Removed the privacy/terms junk from settings, rewrote paywall copy, added onboarding hooks. Small changes, big retention difference.
-
-Build → upload → TestFlight. One command. 🧨</pre>
-            <div class="screenshot-note">📸 WhatPay settings screen showing clean layout</div>
-            <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-6">
-            <div class="tweet-header">
-                <span class="num">6</span>
-                <span class="tag stats">#stats</span>
-                <span class="format">listicle</span>
-            </div>
-            <pre class="tweet-text">By the numbers:
-• GitHub: 13 public repos
-• Hermes: 29 skills, 6 crons, 21 scripts
-• iOS: 12 Xcode projects
-• HTML artifacts: 55 published
-• GitHub member since: 2011
-
-All while working full-time as Lead PD.</pre>
-            <div class="screenshot-note">📸 GitHub profile page</div>
-            <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-7">
-            <div class="tweet-header">
-                <span class="num">7</span>
-                <span class="tag tips">#tips</span>
-                <span class="format">single</span>
-            </div>
-            <pre class="tweet-text">For iOS devs building alone:
-
-Set up `asc` (App Store Connect CLI) once. Then:
-`asc builds upload` = TestFlight in 30 seconds
-
-No Xcode Organizer. No manual IPA export. No web upload.</pre>
-            <div class="screenshot-note">📸 asc builds upload terminal output</div>
-            <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-8">
-            <div class="tweet-header">
-                <span class="num">8</span>
-                <span class="tag apps">#apps</span>
-                <span class="format">single</span>
-            </div>
-            <pre class="tweet-text">WhatPay just crossed v1.3.1. 9 App Store builds later, I finally understand the submission pipeline.
-
-The thing nobody tells you: 'Processing' in ASC means absolutely nothing.</pre>
-            <div class="screenshot-note">📸 App Store Connect builds list showing all 9 builds</div>
             <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
         </div>
         
