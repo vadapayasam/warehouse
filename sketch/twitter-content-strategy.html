@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twitter Content Strategy: How to Build, Write, and Sound Human</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --bg: #fdfcfa;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --link: #2b6cb0;
+  --border: #e2e2e2;
+  --accent: #c0392b;
+  --highlight: #fff9c4;
+  --max-width: 760px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--fg);
+  margin: 0;
+  padding: 2rem 1rem;
+  line-height: 1.65;
+  font-size: 17px;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 200;
+  background: var(--fg);
+  color: var(--bg);
+  padding: .35rem .7rem;
+  border-radius: 0 0 4px 4px;
+  font-size: .85rem;
+  text-decoration: none;
+  transition: top .15s;
+}
+.skip-link:focus { top: 0; }
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+div.back { margin-bottom: 1.5rem; }
+div.back a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .9rem;
+}
+div.back a:hover { color: var(--fg); }
+
+div.meta {
+  color: var(--muted);
+  font-size: .88rem;
+  margin-bottom: .25rem;
+}
+
+h1 {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 .6rem 0;
+  letter-spacing: -.02em;
+}
+
+h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 2.5rem 0 .75rem 0;
+  line-height: 1.35;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .35rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 1.8rem 0 .5rem 0;
+  color: #333;
+}
+
+p { margin: 0 0 1rem 0; }
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a:hover { color: #1a4c82; }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+blockquote {
+  border-left: 3px solid var(--fg);
+  padding-left: 1rem;
+  margin: 1.2rem 0;
+  color: #333;
+}
+
+ul, ol { padding-left: 1.6rem; margin: 0 0 1rem 0; }
+li { margin-bottom: .35rem; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: .92rem;
+}
+
+thead { background: #f3f3f3; }
+th, td {
+  border: 1px solid var(--border);
+  padding: .5rem .6rem;
+  text-align: left;
+  vertical-align: top;
+}
+th { font-weight: 600; }
+tr:nth-child(even) { background: #fafafa; }
+
+code {
+  background: #f2f2f2;
+  padding: .1rem .35rem;
+  border-radius: 3px;
+  font-size: .9em;
+  font-family: "SF Mono", Monaco, Menlo, monospace;
+}
+
+pre {
+  background: #1a1a1a;
+  color: #eee;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: .88rem;
+  line-height: 1.5;
+  margin: 1rem 0;
+}
+pre code { background: none; padding: 0; color: inherit; }
+
+/* Highlight box for key takeaways */
+.callout {
+  background: #f8f9fa;
+  border-left: 3px solid var(--accent);
+  padding: .85rem 1rem;
+  margin: 1.2rem 0;
+  border-radius: 0 6px 6px 0;
+  color: #222;
+}
+.callout strong { color: var(--accent); }
+
+/* Quick-ref table styling */
+.qr-table th { background: #2c3e50; color: #fff; font-weight: 600; }
+.qr-table td:first-child { font-weight: 500; width: 25%; }
+
+@media (max-width:640px) {
+  body { padding: 1rem; font-size: 16px; }
+  h1 { font-size: 1.85rem; }
+  h2 { font-size: 1.25rem; }
+  table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+
+@media print {
+  .skip-link, .back { display: none !important; }
+  body { background:#fff; color:#000; font-size:11pt; }
+  pre { border:1px solid #ccc; white-space:pre-wrap; word-break:break-word; }
+}
+
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<a href="#content" class="skip-link">Skip to content</a>
+
+<div class="container">
+  <div class="back"><a href="../index.html">← Index</a></div>
+
+  <div id="content">
+    <div class="meta">June 7, 2026 · Research Synthesis</div>
+    <h1>Twitter Content Strategy</h1>
+    <p style="color: var(--muted); margin-top: -.25rem; font-size: .95rem;">How to build, write, and sound human. A field guide for daily posting about Hermes, iOS apps, and indie dev.</p>
+
+    <hr>
+
+    <h2>1. Executive Summary</h2>
+    <p>Threads outperform single tweets by 3–5x in reach. The hook is 80% of your reach. Spend 80% of your thread-writing time there.</p>
+    <div class="callout">
+      <strong>Best posting window for tech/dev audience:</strong> Tuesday–Thursday, 12pm–6pm local time.<br>
+      <strong>Optimal thread length:</strong> 5–10 posts (6–8 is the sweet spot).
+    </div>
+    <p>Voice matters more than volume. Posting daily without a distinct voice gets you to 2k followers and a plateau. Posting with a recognizable voice gets you past it.</p>
+
+    <h2>2. Format Decision Matrix</h2>
+    <table>
+      <thead>
+        <tr><th>Format</th><th>Use When</th><th>Length</th><th>Reach</th><th>Effort</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Single tweet</strong></td><td>Quick takes, reactions, one-liners, screenshots, "TIL" moments</td><td>1–280 chars</td><td>Lower</td><td>Lowest</td></tr>
+        <tr><td><strong>Thread</strong></td><td>Frameworks, step-by-step, stories, teardowns, resource lists</td><td>5–10 tweets</td><td><strong>Highest</strong></td><td>Medium</td></tr>
+        <tr><td><strong>Long-form (X Article)</strong></td><td>Evergreen deep dives, playbooks you want pinned</td><td>1K–25K chars</td><td>Medium-High</td><td>Highest</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Rule of thumb:</strong> Daily → single tweets. Weekly → threads. Monthly → long-form articles. Threads are the distribution engine. Single tweets are the daily heartbeat. Long-form is the credibility anchor.</p>
+
+    <h2>3. The 9 Thread Structures</h2>
+    <p>These formats show up repeatedly across high-performing SaaS, creator, and founder threads.</p>
+
+    <h3>1/ The Listicle Thread</h3>
+    <p><strong>Pattern:</strong> "X things about Y" — one item per tweet.</p>
+    <blockquote>
+      1/ 7 things I wish I knew before building my first iOS app with SwiftUI:<br><br>
+      2/ Xcode previews lie. They show you a perfect layout, then you run on-device and discover safeArea insets you never accounted for. Always test on a real device before shipping.<br><br>
+      3/ App Store review is not a formality. If you miss the ATT (App Tracking Transparency) prompt placement, they will reject you. Every. Single. Time.
+    </blockquote>
+    <p><strong>Best for:</strong> Tips, tools, mistakes, lessons.</p>
+
+    <h3>2/ The Story Arc</h3>
+    <p><strong>Pattern:</strong> Where I was → what happened → where I am now.</p>
+    <blockquote>
+      1/ 3 months ago I was still manually copying API keys into Xcode. Today I have a fully automated CI/CD pipeline that pushes to TestFlight in under 10 minutes.<br><br>
+      2/ The turning point was not a tool. It was a question: "What if I never had to touch Xcode's signing settings again?"
+    </blockquote>
+    <p><strong>Best for:</strong> Building trust, showcasing transformation.</p>
+
+    <h3>3/ The Hot Take + Evidence</h3>
+    <p><strong>Pattern:</strong> Controversial claim in tweet 1, then back it up.</p>
+    <blockquote>
+      1/ "Build in public" is accountability theater for most indie hackers under 5k followers.<br><br>
+      2/ Here's what actually happens: you post daily updates, get 12 likes from other builders, and zero customers.<br><br>
+      3/ The fix: build in private, document in public. Share results, not process. Your story is better when you know how it ends.
+    </blockquote>
+    <p><strong>Best for:</strong> Authority, debate, high-reach distribution.</p>
+
+    <h3>4/ The Step-by-Step How-To</h3>
+    <p><strong>Pattern:</strong> One step per tweet. The most bookmarked format.</p>
+    <blockquote>
+      1/ How I set up Hermes to index all my HTML artifacts automatically (step by step):<br><br>
+      2/ Step 1: Write a Python scanner that walks your repo and extracts title tags from every HTML file.<br><br>
+      3/ Step 2: Group files by keyword regex — "review", "research", "design-system" — and build a categorized index.
+    </blockquote>
+    <p><strong>Best for:</strong> Tutorials, tool guides, process breakdowns.</p>
+
+    <h3>5/ The Myth-Buster</h3>
+    <p><strong>Pattern:</strong> "Everyone thinks X. They are wrong."</p>
+    <blockquote>
+      1/ 5 myths about AI agents that are keeping you stuck:<br><br>
+      2/ Myth 1: "More agents = more productivity." Reality: one well-configured agent outperforms five generic wrappers because context sharing is expensive.
+    </blockquote>
+    <p><strong>Best for:</strong> Niche misconceptions, retweet bait.</p>
+
+    <h3>6/ The Contrarian Take</h3>
+    <p><strong>Pattern:</strong> Defend a position most people disagree with, calmly and logically.</p>
+    <blockquote>
+      1/ Unpopular opinion: Figma auto-layout is overrated for rapid prototyping.<br><br>
+      2/ Auto-layout fights you when the design is still fluid. You spend half your time fixing constraints that would not exist if you just used absolute positioning during exploration.r><br>
+      3/ Layout systems are for production. Exploration needs freedom.
+    </blockquote>
+    <p><strong>Best for:</strong> Distinct point of view, loyal audience.</p>
+
+    <h3>7/ The Resource Roundup</h3>
+    <p><strong>Pattern:</strong> "Best tools / reads / accounts for X."</p>
+    <blockquote>
+      1/ 6 tools that make my daily iOS dev workflow actually pleasant (save this):<br><br>
+      2/ GitHub Copilot — not for writing code, for writing boilerplate. Config files, test scaffolding, repetitive refactors.<br><br>
+      3/ RocketSim — launch your app on every iPhone screen size simultaneously. Catches layout bugs in seconds.
+    </blockquote>
+    <p><strong>Best for:</strong> Curation, relationship building (tag people).</p>
+
+    <h3>8/ The Case Study</h3>
+    <p><strong>Pattern:</strong> One real example, broken down with specifics.</p>
+    <blockquote>
+      1/ How I shipped a design system update for my product in 2 days instead of 2 weeks.<br><br>
+      2/ The old process: open Figma, tweak component, export assets, update Xcode, rebuild. 2 weeks of ping-pong.<br><br>
+      3/ The new process: component-driven design tokens + a single script that syncs to Xcode asset catalog. Change in Figma, run script, done.
+    </blockquote>
+    <p><strong>Best for:</strong> Credibility, proof, saves.</p>
+
+    <h3>9/ The Question + Answer</h3>
+    <p><strong>Pattern:</strong> Pose a question your audience already has, then answer it.</p>
+    <blockquote>
+      1/ What actually makes a design system worth maintaining long-term? I've shipped three. Here's what I learned:<br><br>
+      2/ It's not component count. A system with 12 well-documented components beats 200 undocumented ones every time.
+    </blockquote>
+    <p><strong>Best for:</strong> Thought leadership, reply engagement.</p>
+
+    <h2>4. The 4-Part Hook Formula</h2>
+    <p>The hook is everything. Write 10 versions before choosing one.</p>
+    <table>
+      <thead>
+        <tr><th>Part</th><th>Purpose</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>1. Bold statement</strong></td><td>Surprise or shock</td><td>"I spent $50K on ads before figuring out what actually works."</td></tr>
+        <tr><td><strong>2. Tension</strong></td><td>Highlight pain point</td><td>"You're probably making the same mistakes I did for 2 years."</td></tr>
+        <tr><td><strong>3. Twist</strong></td><td>Unexpected angle</td><td>"The secret isn't posting more — it's posting differently."</td></tr>
+        <tr><td><strong>4. Credibility</strong></td><td>Show receipts</td><td>"These threads generated 2.3M impressions and 12K new followers."</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Bad hook (don't do this):</strong></p>
+    <blockquote>A thread on productivity tips.</blockquote>
+    <p><strong>Good hook:</strong></p>
+    <blockquote>I spent 5 years testing productivity systems. Only one actually worked. Here's what it is:</blockquote>
+
+    <h2>5. Timing & Frequency</h2>
+    <p><strong>Sprout Social 2026 data</strong> (2B engagements analyzed):</p>
+    <table>
+      <thead>
+        <tr><th>Day</th><th>Optimal Window</th><th>Engagement</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Monday</td><td>2–3pm, 5pm</td><td>Peak</td></tr>
+        <tr><td><strong>Tuesday</strong></td><td><strong>12–6pm</strong></td><td><strong>Peak</strong></td></tr>
+        <tr><td><strong>Wednesday</strong></td><td><strong>12–6pm</strong></td><td><strong>Peak</strong></td></tr>
+        <tr><td><strong>Thursday</strong></td><td><strong>12–6pm</strong></td><td><strong>Peak</strong></td></tr>
+        <tr><td>Friday</td><td>Drops after 2pm</td><td>Moderate</td></tr>
+        <tr><td>Saturday</td><td>Weak for B2B</td><td>Low</td></tr>
+        <tr><td>Sunday</td><td>Worst day overall</td><td>Lowest</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Practical schedule for IST (Chennai):</strong></p>
+    <ul>
+      <li><strong>Daily single tweets:</strong> Post around 2:30–3:30pm IST (aligns with US morning commute + EU afternoon).</li>
+      <li><strong>Weekly threads:</strong> Tuesday or Wednesday, 2:30pm IST.</li>
+      <li><strong>Avoid:</strong> Weekends for tech content.</li>
+    </ul>
+
+    <p><strong>Frequency by stage:</strong></p>
+    <table>
+      <thead>
+        <tr><th>Stage</th><th>Daily Tweets</th><th>Weekly Threads</th><th>Monthly Long-Form</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0–300 followers</td><td>1 + 20 comments</td><td>0 (too early)</td><td>0</td></tr>
+        <tr><td>300–2k followers</td><td>2–3 tweets</td><td>1</td><td>0</td></tr>
+        <tr><td>2k+ followers</td><td>3–4 tweets</td><td>1–2 threads</td><td>1 article</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <strong>Early-stage rule:</strong> Comment on 20 tweets/day before you post your own. Engagement before broadcast.
+    </div>
+
+    <h2>6. Build-in-Public Framework for Your Context</h2>
+    <p>You have three content pillars: <strong>Hermes setup</strong>, <strong>iOS apps</strong>, and <strong>design work.</strong></p>
+
+    <h3>Daily Content Types</h3>
+    <table>
+      <thead>
+        <tr><th>Type</th><th>What to share</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Build log</strong></td><td>What you built today</td><td>"Shipped finger gesture navigation today. Took 4 attempts to get haptic feedback right."</td></tr>
+        <tr><td><strong>TIL</strong></td><td>Something you learned</td><td>"TIL Hermes cron jobs can inject context from other jobs. Chaining research to publish without manual handoff."</td></tr>
+        <tr><td><strong>Question</strong></td><td>Ask your audience</td><td>"Does anyone actually use the custom notification sounds they create?"</td></tr>
+        <tr><td><strong>Behind the scenes</strong></td><td>Unpolished reality</td><td>"This is what my ~/.hermes/scripts/ folder actually looks like. Chaos. But it works."</td></tr>
+        <tr><td><strong>Mini case study</strong></td><td>One specific decision</td><td>"Why I chose local Firecrawl over API-based scrapers for research."</td></tr>
+        <tr><td><strong>Sneak peek</strong></td><td>Work in progress</td><td>"Current state of the SuperOps AI design kit. Still messy, but navigation is coming together."</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Weekly Content Types</h3>
+    <ul>
+      <li><strong>Deep-dive thread</strong> (6–8 posts): "The exact Hermes setup I use for research automation"</li>
+      <li><strong>Teardown</strong>: "Why this app's onboarding flow works (and what I'd steal)"</li>
+      <li><strong>Resource list</strong>: "10 iOS tools I use every week that aren't on Product Hunt"</li>
+      <li><strong>Reflection</strong> (long-form): "What I learned from 30 days of daily posting"</li>
+    </ul>
+
+    <h3>Monthly Content Types</h3>
+    <ul>
+      <li><strong>Playbook</strong> (long-form): "My iOS indie dev workflow: from idea to App Store in 30 days"</li>
+      <li><strong>Retrospective</strong>: "What worked and what didn't in my first quarter building in public"</li>
+    </ul>
+
+    <h2>7. Voice & Anti-AI-Slop Guide</h2>
+    <p>The fastest way to lose trust on X is to sound like a chatbot.</p>
+
+    <h3>What Makes Writing Sound AI-Generated</h3>
+    <table>
+      <thead>
+        <tr><th>Pattern</th><th>AI Version</th><th>Human Version</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Inflated significance</td><td>"This marks a pivotal moment in the evolution of..."</td><td>"This changed how I work."</td></tr>
+        <tr><td>"Underscores / highlights"</td><td>"This underscores the importance of..."</td><td>"This matters because..."</td></tr>
+        <tr><td>Rule of three</td><td>"Streamline, enhance, and optimize"</td><td>"Make it faster. That's it."</td></tr>
+        <tr><td>Vague attributions</td><td>"Experts argue that..."</td><td>"A senior dev I talked to said..."</td></tr>
+        <tr><td>Copula avoidance</td><td>"Serves as a testament to"</td><td>"Is"</td></tr>
+        <tr><td>Em dash abuse</td><td>"Yet this mislabeling continues — a dangerous oversight"</td><td>"Yet this mislabeling continues."</td></tr>
+        <tr><td>Promotional language</td><td>"Groundbreaking, breathtaking, must-visit"</td><td>"It works. Here's why."</td></tr>
+        <tr><td>Inline bold headers</td><td>"<strong>Speed:</strong> Code generation is faster"</td><td>"Code generation is faster."</td></tr>
+        <tr><td>Signposting</td><td>"Let's dive into how this works"</td><td>Just explain it.</td></tr>
+        <tr><td>Generic conclusions</td><td>"The future looks bright"</td><td>"Next month I am shipping X."</td></tr>
+      </tbody>
+    </table>
+
+    <h3>How to Add Soul</h3>
+    <ul>
+      <li><strong>Have opinions:</strong> "I genuinely don't know how to feel about this" is more human than listing pros and cons.</li>
+      <li><strong>Vary your rhythm:</strong> Short punchy sentence. Then a longer one that takes its time getting where it's going.</li>
+      <li><strong>Acknowledge complexity:</strong> "This is impressive but also kind of unsettling" beats "This is impressive."</li>
+      <li><strong>Use "I":</strong> "I keep coming back to..." or "Here's what gets me..."</li>
+      <li><strong>Be specific about feelings:</strong> Not "this is concerning" but "there's something unsettling about agents running at 3am while you're asleep."</li>
+      <li><strong>Let mess in:</strong> Tangents, asides, half-formed thoughts. Perfect structure feels algorithmic.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Voice calibration exercise:</strong> Collect your top 5–10 tweets by engagement. Note your sentence length, how you start paragraphs, recurring phrases. Match that voice in new content. If your natural tweets are short and punchy, don't write long flowing paragraphs because a guide told you to.
+    </div>
+
+    <h2>8. The Denis Shatalin Growth Framework</h2>
+    <p>Proven system: 2,200 followers in 4 months. <strong>Daily routine (45 minutes):</strong></p>
+    <ol>
+      <li><strong>20 comments</strong> on tweets from accounts 1–2 levels above you (20k–60k followers). Add value, don't self-promote.</li>
+      <li><strong>10 DMs</strong> to build genuine relationships. Not pitches — conversations.</li>
+      <li><strong>4 tweets/day:</strong> 2 growth tweets + 1 authenticity tweet + 1 authority tweet.</li>
+      <li><strong>1 great thread/week.</strong> Spend 80% of thread-writing time on the hook. A/B test hooks with friends.</li>
+    </ol>
+    <p><strong>The breakthrough moment:</strong> Build relationships, send one good thread to 10 people, get a couple 50k+ accounts to retweet it. That single distribution spike can drive 1,000+ followers in 24 hours.</p>
+    <p><strong>Key insight:</strong> Quality threads need an audience first. If you have &lt;300 followers, focus on commenting before posting threads.</p>
+
+    <h2>9. Practical Implementation: Start Today</h2>
+
+    <h3>Week 1–2: Foundation</h3>
+    <ul>
+      <li>Optimize your bio: "Building [X] | iOS dev + AI agent operator | Documenting the journey"</li>
+      <li>Pin one thread that represents your best work</li>
+      <li>Start commenting on 20 tweets/day in your niche</li>
+      <li>Post 1 single tweet/day (TILs, screenshots, questions)</li>
+    </ul>
+
+    <h3>Week 3–4: Scale</h3>
+    <ul>
+      <li>Increase to 2–3 tweets/day</li>
+      <li>Write your first thread (start with listicle or resource roundup)</li>
+      <li>Send it to 5 people you have built relationships with</li>
+      <li>Track which topics get the most engagement</li>
+    </ul>
+
+    <h3>Month 2+: Iterate</h3>
+    <ul>
+      <li>Double down on top 3 topics that perform best</li>
+      <li>Post 1 thread/week and 3–4 single tweets/day</li>
+      <li>Consider one long-form article for your profile</li>
+      <li>Review analytics weekly</li>
+    </ul>
+
+    <h2>10. Quick Reference Card</h2>
+    <table class="qr-table">
+      <thead>
+        <tr><th>Element</th><th>Do</th><th>Don't</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Hook</strong></td><td>Make a bold, specific claim</td><td>"Here are some tips about X"</td></tr>
+        <tr><td><strong>Length</strong></td><td>5–10 tweets per thread</td><td>3 tweets (too short) or 15+ (too long)</td></tr>
+        <tr><td><strong>Body</strong></td><td>One idea per tweet, self-contained</td><td>Cram 3 ideas into one tweet</td></tr>
+        <tr><td><strong>CTA</strong></td><td>"Follow for more" / "Retweet if helpful"</td><td>End on a summary with no direction</td></tr>
+        <tr><td><strong>Timing</strong></td><td>Tue–Thu, 12–6pm</td><td>Sunday or late Friday</td></tr>
+        <tr><td><strong>Voice</strong></td><td>Opinionated, specific, first-person</td><td>Neutral, vague, third-person</td></tr>
+        <tr><td><strong>Visuals</strong></td><td>1 image mid-thread to reset attention</td><td>No visuals in long threads</td></tr>
+        <tr><td><strong>Hashtags</strong></td><td>0–1 in the final CTA tweet only</td><td>Hashtags throughout the thread</td></tr>
+        <tr><td><strong>Formatting</strong></td><td>Line breaks, short posts, numbered tweets</td><td>Dense paragraphs, unnumbered</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+    <p style="color: var(--muted); font-size: .85rem;">Compiled from 8+ sources including PostrSocial, xreplyai, Sprout Social, Buffer, OpenTweet, and Indie Hackers. Extracted and verified via Firecrawl. June 7, 2026.</p>
+  </div>
+</div>
+
+</body>
+</html>
