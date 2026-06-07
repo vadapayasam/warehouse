@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Picoclaw · From Verification Spam to Guardrail Gem</title>
+<style>
+  :root {
+    --bg: #f7f5f2;
+    --text: #1a1a1a;
+    --muted: #6b6b6b;
+    --border: #d9d4ce;
+    --accent: #c45b3a;
+    --code-bg: #ece9e4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a;
+      --text: #e8e4df;
+      --muted: #a8a29e;
+      --border: #3a3632;
+      --accent: #e07a52;
+      --code-bg: #2a2622;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    font-size: 17px;
+  }
+  h1 {
+    font-size: 2.6rem;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin: 0 0 0.5rem 0;
+  }
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 2.5rem 0 0.75rem 0;
+    letter-spacing: -0.01em;
+  }
+  .lede {
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin: 0 0 2.5rem 0;
+    line-height: 1.6;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+    margin-bottom: 1.2rem;
+  }
+  blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 1.5rem 0;
+    padding: 0.2rem 0 0.2rem 1.2rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+  code, pre {
+    font-family: "SF Mono", Menlo, Monaco, "Cascadia Code", monospace;
+    font-size: 0.85em;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 1.1rem 1.2rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    line-height: 1.55;
+    font-size: 0.82em;
+  }
+  ul { padding-left: 1.3rem; }
+  li { margin: 0.4rem 0; }
+  .meta {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0.25rem 0 0 0;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .back {
+    display: inline-block;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  @media print {
+    body { background: #fff; color: #000; }
+    .back { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<a href="/warehouse/sketch/" class="back">&larr; Back to sketch</a>
+
+<div class="badge">Open source</div>
+
+<h1>Picoclaw</h1>
+<p class="meta">June 8, 2026 &middot; 5 min read</p>
+
+<p class="lede">
+Every time you build a cron, a skill, or a publish pipeline, you write the same six-step verification chain.
+File exists. Non-empty. Has body content. HTTP 200. Live body verified. Then you ship. Then the script rots silently for three months because nobody wants to copy-paste boilerplate into the next project.
+</p>
+
+<p class="lede">
+That is the exact pain that Picoclaw solves. Not a new framework. Just a tiny, reusable guardrail that automates the checks you are already doing by hand.
+</p>
+
+<h2>The Pattern That Won't Die</h2>
+<p>
+Open any project in Prabha's suite and the same sequence appears. In <code>md_to_warehouse.py</code> it is the body-destruction guardrail. In the cron health checker it is the silent-failure detector. In the App Store upload script it is the live-URL verifier.
+</p>
+
+<pre><code># Step 1: file exists
+ls -la "$TARGET_PATH"
+# Step 2: non-empty
+wc -l "$TARGET_PATH"
+# Step 3: has body content
+grep -c "&lt;body" "$TARGET_PATH"
+# Step 4: HTTP 200
+curl -sI "$LIVE_URL" | head -1
+# Step 5: live body verified
+curl -s "$LIVE_URL" | grep -c "content"
+# Step 6: git clean before declaring done
+git status --short</code></pre>
+
+<p>
+That is not paranoia. It is what happened when a script wrote HTML to the wrong directory, declared success, and the user clicked a 404. It is what happened when a markdown converter received an <code>.html</code> input, escaped every tag, and published an empty body for six hours before anyone noticed.
+</p>
+
+<p>
+The checks work. What breaks is human discipline. Every single pipeline eventually skips a step under pressure, and every skipped step is a failure mode you have already seen before.
+</p>
+
+<h2>What Picoclaw Actually Does</h2>
+<p>
+Think of it as a linter for deployment sanity. You declare what you expect, Picoclaw checks it, and the output is either <code>pass</code> or a concise diagnostic. No DSL. No YAML manifest. Just a small Python callable or a shell snippet you paste at the end of any script.
+</p>
+
+<pre><code>from picoclaw import FileCheck, HttpCheck, GitCheck
+
+pipeline = FileCheck("$REPO/sketch/*.html") \
+    .then(HttpCheck("https://user.github.io/repo/sketch/")) \
+    .then(GitCheck.clean())
+
+result = pipeline.run()
+if not result.ok:
+    print(result.failures)
+    exit(1)</code></pre>
+
+<p>
+The API surface is deliberately thin. It is not trying to be a CI platform. It is trying to be the thing you would have written yourself if you were not rushing to ship.
+</p>
+
+<h2>Why Revive It Now</h2>
+
+<p><strong>1. Evidence is everywhere</strong></p>
+<ul>
+<li>Vault raw files show the same verification chain written out in three different cron recipes</li>
+<li>The "self-correct" incident report explicitly demands this exact workflow</li>
+<li>Every failed HTML deployment traceable to a skipped verification step</li>
+</ul>
+
+<p><strong>2. The repo already exists</strong></p>
+<ul>
+<li><code>thisisprabha/picoclaw</code> created March 2, 2026</li>
+<li>Tagline: "automate the mundane"</li>
+<li>Status: empty. Zero commits since creation</li>
+<li>This is a perfect candidate for a focused revival, not a greenfield project</li>
+</ul>
+
+<p><strong>3. Scope is small and finishable</strong></p>
+<ul>
+<li>Target: single-file utility under 200 lines</li>
+<li>Tests: pytest with parameterized cases for each check type</li>
+<li>Distribution: pip installable, but works via curl-and-run too</li>
+<li>Time to MVP: a focused weekend</li>
+</ul>
+
+<p><strong>4. It removes actual friction</strong></p>
+<ul>
+<li>No more copy-pasting the same six lines into every new script</li>
+<li>No more silently broken cron jobs where the script reported success but the file never hit the repo</li>
+<li>No more "CDN lag" excuses when the real problem was an uncommitted working tree</li>
+</ul>
+
+<h2>Honest Trade-offs</h2>
+
+<p><strong>Picoclaw does not replace CI/CD.</strong> GitHub Actions, Buildkite, and friends handle orchestration. Picoclaw handles the moment when you are scripting locally and do not want to wire up an entire platform just to verify that a file exists before you tweet about it.</p>
+
+<p><strong>Picoclaw is not a testing framework.</strong> It will not mock your API, stub your database, or generate coverage reports. It checks real filesystems and real live URLs. Use it where the stakes are real and the checks are mechanical.</p>
+
+<p><strong>Picoclaw might be overkill for one-off scripts.</strong> If you are running a quick Python notebook, copy-pasting six lines is fine. Where this pays off is in anything that runs unattended: crons, scheduled reporters, and automated publishers.</p>
+
+<h2>Proposed File Layout</h2>
+
+<pre><code>picoclaw/
+  picoclaw/
+    __init__.py
+    checks.py        # FileCheck, HttpCheck, GitCheck, CompositeCheck
+    results.py       # Result dataclass with .ok, .failures, .summary
+  tests/
+    test_checks.py   # parameterized: exists, empty, http 200, http 404, dirty git
+  README.md          # install, two-line example, when to use / when not to use
+  pyproject.toml     # standard, no over-engineering</code></pre>
+
+<h2>What Needs a Decision</h2>
+
+<p>
+The repo is yours and dormant. Before I touch any code, confirm:
+</p>
+
+<ul>
+<li><strong>License:</strong> MIT is standard. Confirm if you want something else.</li>
+<li><strong>Distribution:</strong> PyPI eventually, or GitHub-only for now?</li>
+<li><strong>Entry style:</strong> Fluent chain API (<code>.then()</code>) or plain function calls? The fluent style reads well but is less Python-idiomatic.</li>
+<li><strong>Logo/branding:</strong> Small project, but you might want a tiny visual identity for your profile page.</li>
+</ul>
+
+<hr>
+
+<p class="meta">
+  Sourced from vault research + session history + cron audit.<br>
+  Verified against <code>agent-tina-hard-rules</code> and <code>research-to-web-publishing</code> skills.
+</p>
+
+</body>
+</html>
