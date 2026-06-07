@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>agent-publish — Twitter Thread</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --card: #fff;
+    --border: #e5e5e5;
+    --text: #1a1a1a;
+    --muted: #737373;
+    --accent: #2563eb;
+    --code-bg: #f5f5f4;
+    --num-bg: #1a1a1a;
+    --num-text: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0a;
+      --card: #171717;
+      --border: #262626;
+      --text: #e5e5e5;
+      --muted: #a3a3a3;
+      --accent: #60a5fa;
+      --code-bg: #1c1c1c;
+      --num-bg: #e5e5e5;
+      --num-text: #0a0a0a;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container {
+    max-width: 580px;
+    margin: 0 auto;
+  }
+  header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  header p {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .tweet {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .tweet-num {
+    display: inline-block;
+    background: var(--num-bg);
+    color: var(--num-text);
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    margin-bottom: 0.75rem;
+  }
+  .tweet p {
+    margin-bottom: 0.6rem;
+  }
+  .tweet p:last-child {
+    margin-bottom: 0;
+  }
+  .tweet code {
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: "SF Mono", "Fira Code", monospace;
+  }
+  .tweet pre {
+    background: var(--code-bg);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 0.6rem 0;
+    font-size: 0.85em;
+    font-family: "SF Mono", "Fira Code", monospace;
+    line-height: 1.5;
+  }
+  .tweet a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .tweet .label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+  .connector {
+    width: 2px;
+    height: 12px;
+    background: var(--border);
+    margin: 0 auto;
+    display: block;
+  }
+  .note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>agent-publish — Launch Thread</h1>
+  <p>Copy each tweet. Thread order: hook &rarr; link &rarr; problem &rarr; DESIGN.md &rarr; features &rarr; install &rarr; CTA</p>
+</header>
+
+<div class="tweet">
+  <div class="tweet-num">1</div>
+  <p>I built a CLI that turns markdown into styled HTML and pushes it to GitHub Pages. One command.</p>
+  <p>No CMS. No static site generator. No API tokens. Pure local Python.</p>
+  <div class="label">Hook — no link here</div>
+</div>
+
+<div class="connector"></div>
+
+<div class="tweet">
+  <div class="tweet-num">2</div>
+  <p>The repo: <a href="https://github.com/thisisprabha/agent-publish">github.com/thisisprabha/agent-publish</a></p>
+  <p>3 themes, dark mode, auto TOC, RSS feeds, Mermaid diagrams, Open Graph tags — all generated locally. Zero external dependencies at runtime.</p>
+  <div class="label">Link + feature overview</div>
+</div>
+
+<div class="connector"></div>
+
+<div class="tweet">
+  <div class="tweet-num">3</div>
+  <p>The problem: you run overnight AI research, get markdown output... then spend 20 minutes making it presentable.</p>
+  <p><code>agent-publish publish research.md</code> does MD &rarr; HTML &rarr; git push. The formatting part is solved.</p>
+  <div class="label">Problem &rarr; solution</div>
+</div>
+
+<div class="connector"></div>
+
+<div class="tweet">
+  <div class="tweet-num">4</div>
+  <p>The thing I'm most proud of: DESIGN.md portable themes.</p>
+  <p>Define your entire theme as structured markdown — typography, colors, spacing. The converter reads it and generates CSS at build time.</p>
+  <p>Version-controlled themes as text, not opaque CSS files. Theme as documentation.</p>
+  <div class="label">Unique feature — DESIGN.md</div>
+</div>
+
+<div class="connector"></div>
+
+<div class="tweet">
+  <div class="tweet-num">5</div>
+  <p>Other things packed in:</p>
+  <p>&#8226; Skill system — <code>--skill briefing</code> loads different output templates<br>
+  &#8226; Anti-slop checker that blocks AI marketing phrases<br>
+  &#8226; OKLch color palettes generated from a single <code>--direction</code> flag<br>
+  &#8226; Watch mode with local dev server</p>
+  <div class="label">Feature roundup</div>
+</div>
+
+<div class="connector"></div>
+
+<div class="tweet">
+  <div class="tweet-num">6</div>
+  <p>Install:</p>
+  <pre>git clone https://github.com/thisisprabha/agent-publish.git
+cd agent-publish
+pip install -e .</pre>
+  <p>Then:</p>
+  <pre>agent-publish publish your-file.md \
+  --url https://you.github.io/repo</pre>
+  <p>Python 3.10+. That's it. No accounts, no API keys, no config files required.</p>
+  <div class="label">Install guide</div>
+</div>
+
+<div class="connector"></div>
+
+<div class="tweet">
+  <div class="tweet-num">7</div>
+  <p>MIT licensed. Contributions welcome — we use a kanban in <code>KANBAN.md</code>. Pick a card and ship it.</p>
+  <p>If you publish agent outputs or research notes, give it a spin and tell me what breaks.</p>
+  <div class="label">CTA</div>
+</div>
+
+<p class="note">7 tweets &middot; Copy each one as a reply to the previous</p>
+
+</div>
+</body>
+</html>
