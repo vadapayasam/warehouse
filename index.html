@@ -14,12 +14,16 @@
     .file-item a:hover { text-decoration: underline; }
     .file-meta { font-size: 0.75rem; color: #888; margin-top: 0.25rem; }
     .tag {
-  display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 500; }
-    .tag-sketch { background: #e3d5f7; color: #5a4a7a; }
-    .tag-research { background: #d4edda; color: #155724; }
-    .tag-mvp { background: #f8d7da; color: #721c24; }
-    .tag-guide { background: #d1ecf1; color: #0c5460; }
-    .tag-index { background: #fff3cd; color: #856404; }
+      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 500;
+    }
+    .tag-review    { background: #e3d5f7; color: #5a4a7a; }
+    .tag-guide     { background: #d1ecf1; color: #0c5460; }
+    .tag-mvp       { background: #f8d7da; color: #721c24; }
+    .tag-research  { background: #d4edda; color: #155724; }
+    .tag-landing   { background: #cce5ff; color: #004085; }
+    .tag-design    { background: #fff3cd; color: #856404; }
+    .tag-strategy  { background: #d8d8d8; color: #333; }
+    .tag-internal  { background: #e2e3e5; color: #383d41; }
   </style>
 </head>
 <body>
@@ -29,21 +33,156 @@
   </header>
 
   <nav>
-    <a href="#sketch">Sketch</a> · 
-    <a href="#research">Research</a> · 
-    <a href="#mvps">Landing</a> · 
-    <a href="#daily">Daily</a> · 
-    <a href="#weekly">Weekly</a> · 
+    <a href="#ios">iOS Reviews</a> &middot;
+    <a href="#design">Design</a> &middot;
+    <a href="#msp">MSPclaw</a> &middot;
+    <a href="#saas">SaaS Agentic</a> &middot;
+    <a href="#misc">Research</a> &middot;
+    <a href="#landing">Landing</a> &middot;
+    <a href="#daily">Daily</a> &middot;
+    <a href="#weekly">Weekly</a> &middot;
     <a href="https://github.com/vadapayasam/warehouse">Source</a>
   </nav>
 
-  <section class="section" id="sketch">
-    <h3>📐 Sketch — All Guides & Research</h3>
+  <section class="section" id="ios">
+    <h3>Phone iOS App Reviews</h3>
     <div class="file-grid">
       <div class="file-item">
-        <a href="sketch/ui-review-tamilwordle-thumbdraw.html">UI Review: TamilWordle + ThumbDraw</a>
-        <span class="tag tag-sketch">Review</span>
-        <div class="file-meta">Simulator screenshots + source code audit + UX fixes</div>
+        <a href="sketch/whatpay-analysis-v2.html">WhatPay Analysis V2</a>
+        <span class="tag tag-review">Review</span>
+        <div class="file-meta">Premium badge + IAP surface gap analysis</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/ui-review-solvilayatu-fingerdoodles.html">Sol Vilaiyattu + Finger Doodles</a>
+        <span class="tag tag-review">Review</span>
+        <div class="file-meta">Live branches: development + kid-friendly</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/leavehack-review.html">LeaveHack Review</a>
+        <span class="tag tag-review">Review</span>
+        <div class="file-meta">5 critical, 8 warnings</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/timeleft-review.html">Time Left Review</a>
+        <span class="tag tag-review">Review</span>
+        <div class="file-meta">3 critical, 7 warnings</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/danny-x-ray-prabha-apps.html">Danny X-Ray: Prabha Apps</a>
+        <span class="tag tag-review">Review</span>
+        <div class="file-meta">Cross-app pattern audit</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/ui-review-tamilwordle-thumbdraw.html">TamilWordle + ThumbDraw (Legacy)</a>
+        <span class="tag tag-review">Archive</span>
+        <div class="file-meta">Old branch review, superseded above</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="design">
+    <h3>Design Work</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="sketch/2026-06-01-design-evolution.html">Design Evolution</a>
+        <span class="tag tag-design">Design</span>
+        <div class="file-meta">Design thinking progression</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/2026-06-01-designer-skills-radar-june-2026.html">Designer Skills Radar June 2026</a>
+        <span class="tag tag-design">Design</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/2026-06-01-skills-radar-2026-06-01.html">Skills Radar 2026-06-01</a>
+        <span class="tag tag-design">Design</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/ai-possible-actions-design.html">AI Possible Actions</a>
+        <span class="tag tag-design">Design</span>
+        <div class="file-meta">Design framework for AI actions</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/prabha-taste-test.html">Prabha Taste Test</a>
+        <span class="tag tag-design">Design System</span>
+        <div class="file-meta">Anti-slop taste rules</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="msp">
+    <h3>MSPclaw Build</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="sketch/msp-pain-points-analysis.html">MSP Pain Points</a>
+        <span class="tag tag-research">Research</span>
+        <div class="file-meta">Customer pain point analysis</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/mspclaw-build-roadmap.html">Build Roadmap</a>
+        <span class="tag tag-strategy">Strategy</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/mspclaw-product-brief.html">Product Brief</a>
+        <span class="tag tag-strategy">Strategy</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/mspclaw-product-strategy-june-2026.html">Product Strategy June 2026</a>
+        <span class="tag tag-strategy">Strategy</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/mspclaw-research-ideas-june-2026.html">Research Ideas June 2026</a>
+        <span class="tag tag-research">Research</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/mspclaw-stakeholder-deck.html">Stakeholder Deck</a>
+        <span class="tag tag-strategy">Deck</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/mspclaw-universal-connector-strategy.html">Universal Connector Strategy</a>
+        <span class="tag tag-strategy">Strategy</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="saas">
+    <h3>SaaS Agentic Weekly</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="sketch/saas-agentic-weekly-index.html">Master Index</a>
+        <span class="tag tag-guide">Index</span>
+        <div class="file-meta">Series overview + links</div>
+      </div>
+      <div class="file-item"><a href="sketch/saas-agentic-weekly-00.html">Issue #00</a> <span class="tag tag-research">Research</span></div>
+      <div class="file-item"><a href="sketch/saas-agentic-weekly-01.html">Issue #01</a> <span class="tag tag-research">Research</span></div>
+      <div class="file-item"><a href="sketch/saas-agentic-weekly-02.html">Issue #02</a> <span class="tag tag-research">Research</span></div>
+      <div class="file-item"><a href="sketch/saas-agentic-weekly-03.html">Issue #03</a> <span class="tag tag-research">Research</span></div>
+      <div class="file-item"><a href="sketch/saas-agentic-weekly-04.html">Issue #04</a> <span class="tag tag-research">Research</span></div>
+      <div class="file-item"><a href="sketch/saas-agentic-weekly.html">Weekly Template</a> <span class="tag tag-guide">Template</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="misc">
+    <h3>Research & Guides</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="sketch/superops-ai-ticket-ux-review.html">SuperOps AI Ticket UX</a>
+        <span class="tag tag-review">Review</span>
+        <div class="file-meta">AI ticket UX audit</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/agentic-ui-trends.html">Agentic UI Trends</a>
+        <span class="tag tag-research">Research</span>
+        <div class="file-meta">Patterns worth stealing</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/ai-native-it.html">AI Native IT</a>
+        <span class="tag tag-research">Research</span>
+        <div class="file-meta">AI-native IT management patterns</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/context-engineering.html">Context Engineering</a>
+        <span class="tag tag-guide">Guide</span>
+        <div class="file-meta">Context engineering patterns</div>
       </div>
       <div class="file-item">
         <a href="sketch/hermes-kanban-guide.html">Hermes Kanban Guide</a>
@@ -61,24 +200,14 @@
         <div class="file-meta">Algorithm, hooks, and content strategy</div>
       </div>
       <div class="file-item">
-        <a href="sketch/context-engineering.html">Context Engineering</a>
-        <span class="tag tag-guide">Guide</span>
-        <div class="file-meta">Context engineering patterns</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/revenueguard-mvp.html">RevenueGuard MVP</a>
-        <span class="tag tag-mvp">MVP</span>
-        <div class="file-meta">MCP server for revenue recognition</div>
+        <a href="sketch/openclaw-gamestore-researchfinding.html">OpenClaw GameStore</a>
+        <span class="tag tag-research">Research</span>
+        <div class="file-meta">Game store research findings</div>
       </div>
       <div class="file-item">
         <a href="sketch/game-asset-marketplace-research.html">Game Asset Marketplace</a>
         <span class="tag tag-research">Research</span>
-        <div class="file-meta">Marketplace analysis for game assets</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/openclaw-gamestore-researchfinding.html">OpenClaw GameStore</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Game store research findings</div>
+        <div class="file-meta">Marketplace analysis</div>
       </div>
       <div class="file-item">
         <a href="sketch/marketplace-daily.html">Marketplace Daily</a>
@@ -86,9 +215,38 @@
         <div class="file-meta">Daily marketplace updates</div>
       </div>
       <div class="file-item">
+        <a href="sketch/agent-publish-framework.html">Agent Publish Framework</a>
+        <span class="tag tag-guide">Framework</span>
+      </div>
+      <div class="file-item">
+        <a href="sketch/second-brain.html">Second Brain</a>
+        <span class="tag tag-guide">System</span>
+        <div class="file-meta">Vault pipeline reference</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="landing">
+    <h3>Landing & MVPs</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="landing/msp-status-page.html">MSP Status Page</a>
+        <span class="tag tag-landing">Landing</span>
+      </div>
+      <div class="file-item">
+        <a href="mvp-decision-2026-05-17.html">MVP Decision Log</a>
+        <span class="tag tag-mvp">MVP</span>
+        <div class="file-meta">2026-05-17 decision framework</div>
+      </div>
+      <div class="file-item">
+        <a href="mspclaw-domain-alternatives.html">MSPclaw Domain Alternatives</a>
+        <span class="tag tag-research">Research</span>
+        <div class="file-meta">5 verified domain options</div>
+      </div>
+      <div class="file-item">
         <a href="sketch/ai-qbr-generator.html">AI QBR Generator</a>
         <span class="tag tag-mvp">MVP</span>
-        <div class="file-meta">AI-powered quarterly business review tool</div>
+        <div class="file-meta">AI-powered quarterly business review</div>
       </div>
       <div class="file-item">
         <a href="sketch/papercrumble.html">Papercrumble</a>
@@ -96,123 +254,48 @@
         <div class="file-meta">Paper crumble interaction demo</div>
       </div>
       <div class="file-item">
-        <a href="sketch/msp-pain-points-analysis.html">MSP Pain Points</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">MSP customer pain point analysis</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/superops-ai-ticket-ux-review.html">SuperOps AI Ticket UX</a>
-        <span class="tag tag-guide">Review</span>
-        <div class="file-meta">AI ticket UX review and recommendations</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/whatpay-analysis.html">WhatPay Analysis</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Initial WhatPay app analysis</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/whatpay-analysis-v2.html">WhatPay Analysis V2</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Deep dive analysis of WhatPay</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/leavehack-review.html">LeaveHack Review</a>
-        <span class="tag tag-guide">iOS</span>
-        <div class="file-meta">Deep audit - 5 critical, 8 warnings</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/timeleft-review.html">Time Left Review</a>
-        <span class="tag tag-guide">iOS</span>
-        <div class="file-meta">Deep audit - 3 critical, 7 warnings</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/prabha-taste-test.html">Prabha Taste Test</a>
-        <span class="tag tag-guide">Design</span>
-        <div class="file-meta">Design system test page</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="research">
-    <h3>📊 SaaS Agentic Weekly Series</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="sketch/saas-agentic-weekly-index.html">Master Index</a>
-        <span class="tag tag-index">Index</span>
-        <div class="file-meta">Complete series overview</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/saas-agentic-weekly-00.html">Issue #00</a>
-        <span class="tag tag-research">Research</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/saas-agentic-weekly-01.html">Issue #01</a>
-        <span class="tag tag-research">Research</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/saas-agentic-weekly-02.html">Issue #02</a>
-        <span class="tag tag-research">Research</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/saas-agentic-weekly-03.html">Issue #03</a>
-        <span class="tag tag-research">Research</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/saas-agentic-weekly-04.html">Issue #04</a>
-        <span class="tag tag-research">Research</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/saas-agentic-weekly.html">Weekly Template</a>
-        <span class="tag tag-guide">Template</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/ai-native-it.html">AI Native IT</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">AI-native IT management patterns</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/agentic-ui-trends.html">Agentic UI Trends</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Patterns worth stealing — living document</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="mvps">
-    <h3>🚀 Landing & MVPs</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="landing/msp-status-page.html">MSP Status Page</a>
-        <span class="tag tag-mvp">Landing</span>
-        <div class="file-meta">MSP status landing page</div>
-      </div>
-      <div class="file-item">
-        <a href="mvp-decision-2026-05-17.html">MVP Decision Log</a>
+        <a href="sketch/revenueguard-mvp.html">RevenueGuard MVP</a>
         <span class="tag tag-mvp">MVP</span>
-        <div class="file-meta">2026-05-17 decision framework</div>
+        <div class="file-meta">MCP server for revenue recognition</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="nightly">
+    <h3>Nightly / Internal</h3>
+    <div class="file-grid">
+      <div class="file-item">
+        <a href="sketch/nightly/20260530-archive-consolidate.html">Archive Consolidate</a>
+        <span class="tag tag-internal">Internal</span>
+        <div class="file-meta">2026-05-30 vault audit</div>
+      </div>
+      <div class="file-item">
+        <a href="sketch/nightly/20260531-skill-gap-audit.html">Skill Gap Audit</a>
+        <span class="tag tag-internal">Internal</span>
+        <div class="file-meta">2026-05-31 skill inventory</div>
       </div>
     </div>
   </section>
 
   <section class="section" id="daily">
-    <h3>📅 Daily</h3>
+    <h3>Daily</h3>
     <div class="file-grid" id="daily-entries">
       <div class="file-item"><a href="daily/">Browse daily folder →</a></div>
     </div>
   </section>
 
   <section class="section" id="weekly">
-    <h3>🗓️ Weekly</h3>
+    <h3>Weekly</h3>
     <div class="file-grid" id="weekly-entries">
       <div class="file-item"><a href="weekly/">Browse weekly folder →</a></div>
     </div>
   </section>
 
   <script>
-    // Auto-discover daily and weekly files
     (async () => {
       const loadSection = async (id, path, limit = 5) => {
         const container = document.getElementById(id + '-entries');
+        if (!container) return;
         try {
           const response = await fetch(path);
           const text = await response.text();
@@ -223,22 +306,22 @@
             name: a.textContent.replace('.html',''),
             href: path + a.getAttribute('href')
           })).sort((a,b) => b.name.localeCompare(a.name)).slice(0, limit);
-          
+
           if (files.length > 0) {
-            container.innerHTML = files.map(f => 
+            container.innerHTML = files.map(f =>
               `<div class="file-item"><a href="${f.href}">${f.name}</a></div>`
             ).join('') + `<div class="file-item"><a href="${path}">Browse all →</a></div>`;
           }
         } catch(e) {}
       };
-      
+
       loadSection('daily', 'daily/');
       loadSection('weekly', 'weekly/');
     })();
   </script>
 
   <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; text-align: center; font-size: 0.85rem; color: #888;">
-    Auto-generated index · <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a>
+    Auto-generated index · <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> · <a href="whatpay-review-v2/">WhatPay Gallery</a>
   </footer>
 </body>
 </html>
