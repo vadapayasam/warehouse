@@ -1,327 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Prabha's Running Notes</title>
-  <link rel="stylesheet" href="assets/style.css">
-  <style>
-    .section { margin: 2rem 0; }
-    .section h3 { margin-bottom: 0.5rem; font-size: 1.1rem; color: #666; }
-    .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
-    .file-item { padding: 0.75rem; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #0066cc; }
-    .file-item a { color: #0066cc; text-decoration: none; }
-    .file-item a:hover { text-decoration: underline; }
-    .file-meta { font-size: 0.75rem; color: #888; margin-top: 0.25rem; }
-    .tag {
-      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 500;
-    }
-    .tag-review    { background: #e3d5f7; color: #5a4a7a; }
-    .tag-guide     { background: #d1ecf1; color: #0c5460; }
-    .tag-mvp       { background: #f8d7da; color: #721c24; }
-    .tag-research  { background: #d4edda; color: #155724; }
-    .tag-landing   { background: #cce5ff; color: #004085; }
-    .tag-design    { background: #fff3cd; color: #856404; }
-    .tag-strategy  { background: #d8d8d8; color: #333; }
-    .tag-internal  { background: #e2e3e5; color: #383d41; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>warehouse</title>
+<style>
+:root{color-scheme:light dark;--bg:#0a0a0a;--fg:#e5e5e5;--muted:#888;--accent:#ff6b35;--border:#222}
+@media(prefers-color-scheme:light){:root{--bg:#fafafa;--fg:#111;--muted:#666;--accent:#d44a1a;--border:#ddd}}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--fg);max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6}
+h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}h2{font-size:18px;font-weight:700;margin-top:32px;margin-bottom:12px;color:var(--fg);border-bottom:1px solid var(--border);padding-bottom:6px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+ul{list-style:none;padding:0}li{padding:6px 0;border-bottom:1px solid var(--border)}li:last-child{border-bottom:none}
+.meta{color:var(--muted);font-size:12px;margin-left:8px}
+footer{margin-top:48px;font-size:12px;color:var(--muted);text-align:center}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Running Notes</h1>
-    <p>Research, guides, and build artifacts</p>
-  </header>
+<h1>warehouse</h1>
+<p style="color:var(--muted);font-size:14px">Index of HTML artifacts &middot; Last rebuilt 2026-06-07 17:08</p>
 
-  <nav>
-    <a href="#ios">iOS Reviews</a> &middot;
-    <a href="#design">Design</a> &middot;
-    <a href="#msp">MSPclaw</a> &middot;
-    <a href="#saas">SaaS Agentic</a> &middot;
-    <a href="#misc">Research</a> &middot;
-    <a href="#landing">Landing</a> &middot;
-    <a href="#daily">Daily</a> &middot;
-    <a href="#weekly">Weekly</a> &middot;
-    <a href="https://github.com/vadapayasam/warehouse">Source</a>
-  </nav>
+    <section>
+      <h2>SaaS Agentic Weekly</h2>
+      <ul>
+        <li><a href="sketch/saas-agentic-weekly-00.html">Agentic SaaS Weekly — Issue #0 (Back Issues)</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/saas-agentic-weekly-01.html">Agentic SaaS Weekly — Issue #1</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/saas-agentic-weekly-02.html">ITSM/MSP Agentic Weekly — Issue #2 — May 11, 2026</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/saas-agentic-weekly-03.html">ITSM/MSP Agentic Weekly — Issue #3 — May 18, 2026</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/saas-agentic-weekly-04.html">ITSM/MSP Agentic Weekly — Issue #4 — June 1, 2026</a> <span class="meta">2026-06-01</span></li>
+<li><a href="sketch/saas-agentic-weekly-index.html">Agentic SaaS Weekly — Archive</a> <span class="meta">2026-06-01</span></li>
+<li><a href="sketch/saas-agentic-weekly.html">Agentic SaaS Weekly — Issue #1</a> <span class="meta">2026-05-17</span></li>
+      </ul>
+    </section>
 
-  <section class="section" id="ios">
-    <h3>Phone iOS App Reviews</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="sketch/whatpay-analysis-v2.html">WhatPay Analysis V2</a>
-        <span class="tag tag-review">Review</span>
-        <div class="file-meta">Premium badge + IAP surface gap analysis</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/ui-review-solvilayatu-fingerdoodles.html">Sol Vilaiyattu + Finger Doodles</a>
-        <span class="tag tag-review">Review</span>
-        <div class="file-meta">Live branches: development + kid-friendly</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/leavehack-review.html">LeaveHack Review</a>
-        <span class="tag tag-review">Review</span>
-        <div class="file-meta">5 critical, 8 warnings</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/timeleft-review.html">Time Left Review</a>
-        <span class="tag tag-review">Review</span>
-        <div class="file-meta">3 critical, 7 warnings</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/danny-x-ray-prabha-apps.html">Danny X-Ray: Prabha Apps</a>
-        <span class="tag tag-review">Review</span>
-        <div class="file-meta">Cross-app pattern audit</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/ui-review-tamilwordle-thumbdraw.html">TamilWordle + ThumbDraw (Legacy)</a>
-        <span class="tag tag-review">Archive</span>
-        <div class="file-meta">Old branch review, superseded above</div>
-      </div>
-    </div>
-  </section>
+    <section>
+      <h2>AI / Trends / Research</h2>
+      <ul>
+        <li><a href="sketch/agent-publish-framework.html">How I Built an Agent-Publish Framework That Codes and Tests Itself</a> <span class="meta">2026-06-02</span></li>
+<li><a href="sketch/agentic-ui-trends.html">Agentic UI Trends — Living Document</a> <span class="meta">2026-05-24</span></li>
+<li><a href="sketch/ai-native-it.html">AI-Native IT | SuperOps</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/ai-possible-actions-design.html">AI Possible Actions Panel — Design Exploration</a> <span class="meta">2026-06-03</span></li>
+<li><a href="sketch/ai-qbr-generator.html">AI QBR Generator — Product Brief</a> <span class="meta">2026-05-25</span></li>
+<li><a href="sketch/context-engineering.html">Context Engineering with My Setup</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/game-asset-marketplace-research.html">Game Asset Marketplace Research — 2025/26</a> <span class="meta">2026-05-31</span></li>
+<li><a href="sketch/mspclaw-research-ideas-june-2026.html">MSPclaw — From Prototype to Product</a> <span class="meta">2026-06-03</span></li>
+<li><a href="sketch/openclaw-gamestore-researchfinding.html">Game Asset Marketplace Deep Research — LLM-Generatable Opportunities 2026</a> <span class="meta">2026-06-01</span></li>
+<li><a href="sketch/second-brain.html">Second Brain: How It Works</a> <span class="meta">2026-06-06</span></li>
+<li><a href="sketch/superops-ai-ticket-ux-review.html">SuperOps AI Ticket Detail — UX Review</a> <span class="meta">2026-05-31</span></li>
+<li><a href="sketch/youtube-shorts-playbook.html">YouTube Shorts Playbook</a> <span class="meta">2026-05-17</span></li>
+<li><a href="daily/2026-05-16-youtube-research.html">YouTube Research — May 16, 2026</a> <span class="meta">2026-05-17</span></li>
+<li><a href="daily/2026-05-17-youtube-research.html">YouTube Research — 2026-05-17</a> <span class="meta">2026-05-24</span></li>
+      </ul>
+    </section>
 
-  <section class="section" id="design">
-    <h3>Design Work</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="sketch/2026-06-01-design-evolution.html">Design Evolution</a>
-        <span class="tag tag-design">Design</span>
-        <div class="file-meta">Design thinking progression</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/2026-06-01-designer-skills-radar-june-2026.html">Designer Skills Radar June 2026</a>
-        <span class="tag tag-design">Design</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/2026-06-01-skills-radar-2026-06-01.html">Skills Radar 2026-06-01</a>
-        <span class="tag tag-design">Design</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/ai-possible-actions-design.html">AI Possible Actions</a>
-        <span class="tag tag-design">Design</span>
-        <div class="file-meta">Design framework for AI actions</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/prabha-taste-test.html">Prabha Taste Test</a>
-        <span class="tag tag-design">Design System</span>
-        <div class="file-meta">Anti-slop taste rules</div>
-      </div>
-    </div>
-  </section>
+    <section>
+      <h2>MSP & IT Platform</h2>
+      <ul>
+        <li><a href="sketch/msp-pain-points-analysis.html">MSP Pain Points Analysis 2026</a> <span class="meta">2026-05-25</span></li>
+<li><a href="sketch/mspclaw-build-roadmap.html">MSPclaw: Build Roadmap</a> <span class="meta">2026-06-04</span></li>
+<li><a href="sketch/mspclaw-product-brief.html">MSPclaw: Product Brief v3</a> <span class="meta">2026-06-04</span></li>
+<li><a href="sketch/mspclaw-product-strategy-june-2026.html">From MSPclaw Prototype to Plug-and-Play AI Agent — June 2026</a> <span class="meta">2026-06-03</span></li>
+<li><a href="sketch/mspclaw-stakeholder-deck.html">MSPclaw: Product Deck</a> <span class="meta">2026-06-04</span></li>
+<li><a href="sketch/mspclaw-universal-connector-strategy.html">MSPclaw Universal Connector — Product Strategy</a> <span class="meta">2026-06-03</span></li>
+<li><a href="sketch/revenueguard-mvp.html">RevenueGuard | MSP Billing Dashboard</a> <span class="meta">2026-05-17</span></li>
+<li><a href="landing/msp-status-page.html">MSP Status Page - Professional Status Pages Without Enterprise Pricing</a> <span class="meta">2026-05-17</span></li>
+      </ul>
+    </section>
 
-  <section class="section" id="msp">
-    <h3>MSPclaw Build</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="sketch/msp-pain-points-analysis.html">MSP Pain Points</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Customer pain point analysis</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/mspclaw-build-roadmap.html">Build Roadmap</a>
-        <span class="tag tag-strategy">Strategy</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/mspclaw-product-brief.html">Product Brief</a>
-        <span class="tag tag-strategy">Strategy</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/mspclaw-product-strategy-june-2026.html">Product Strategy June 2026</a>
-        <span class="tag tag-strategy">Strategy</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/mspclaw-research-ideas-june-2026.html">Research Ideas June 2026</a>
-        <span class="tag tag-research">Research</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/mspclaw-stakeholder-deck.html">Stakeholder Deck</a>
-        <span class="tag tag-strategy">Deck</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/mspclaw-universal-connector-strategy.html">Universal Connector Strategy</a>
-        <span class="tag tag-strategy">Strategy</span>
-      </div>
-    </div>
-  </section>
+    <section>
+      <h2>iOS App Reviews</h2>
+      <ul>
+        <li><a href="sketch/danny-x-ray-prabha-apps.html">$13K App Playbook: Danny's Framework vs Prabha's Apps</a> <span class="meta">2026-06-02</span></li>
+<li><a href="sketch/leavehack-review.html">LeaveHack — UI/UX + Code Review</a> <span class="meta">2026-05-19</span></li>
+<li><a href="sketch/timeleft-review.html">Time Left — UI/UX + Code Review</a> <span class="meta">2026-05-19</span></li>
+<li><a href="sketch/ui-review-solvilayatu-fingerdoodles.html">UI/UX Review: Sol Vilaiyattu + Finger Doodles</a> <span class="meta">2026-06-06</span></li>
+<li><a href="sketch/ui-review-tamilwordle-thumbdraw.html">UI Review: TamilWordle + ThumbDraw</a> <span class="meta">2026-06-04</span></li>
+<li><a href="sketch/whatpay-analysis-v2.html">WhatPay App — Full UX/UI Analysis v2</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/whatpay-analysis.html">WhatPay App — Full UX/UI Analysis</a> <span class="meta">2026-05-17</span></li>
+      </ul>
+    </section>
 
-  <section class="section" id="saas">
-    <h3>SaaS Agentic Weekly</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="sketch/saas-agentic-weekly-index.html">Master Index</a>
-        <span class="tag tag-guide">Index</span>
-        <div class="file-meta">Series overview + links</div>
-      </div>
-      <div class="file-item"><a href="sketch/saas-agentic-weekly-00.html">Issue #00</a> <span class="tag tag-research">Research</span></div>
-      <div class="file-item"><a href="sketch/saas-agentic-weekly-01.html">Issue #01</a> <span class="tag tag-research">Research</span></div>
-      <div class="file-item"><a href="sketch/saas-agentic-weekly-02.html">Issue #02</a> <span class="tag tag-research">Research</span></div>
-      <div class="file-item"><a href="sketch/saas-agentic-weekly-03.html">Issue #03</a> <span class="tag tag-research">Research</span></div>
-      <div class="file-item"><a href="sketch/saas-agentic-weekly-04.html">Issue #04</a> <span class="tag tag-research">Research</span></div>
-      <div class="file-item"><a href="sketch/saas-agentic-weekly.html">Weekly Template</a> <span class="tag tag-guide">Template</span></div>
-    </div>
-  </section>
+    <section>
+      <h2>Design & UX</h2>
+      <ul>
+        <li><a href="sketch/2026-06-01-design-evolution.html">AI/Agentic Design Evolution / June 2026</a> <span class="meta">2026-06-01</span></li>
+<li><a href="sketch/2026-06-01-designer-skills-radar-june-2026.html">Designer Skills Radar — June 2026</a> <span class="meta">2026-06-01</span></li>
+<li><a href="sketch/2026-06-01-skills-radar-2026-06-01.html">Designer Skills Radar — June 2026</a> <span class="meta">2026-06-01</span></li>
+<li><a href="sketch/prabha-taste-test.html">Prabha Taste Test</a> <span class="meta">2026-06-02</span></li>
+      </ul>
+    </section>
 
-  <section class="section" id="misc">
-    <h3>Research & Guides</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="sketch/superops-ai-ticket-ux-review.html">SuperOps AI Ticket UX</a>
-        <span class="tag tag-review">Review</span>
-        <div class="file-meta">AI ticket UX audit</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/agentic-ui-trends.html">Agentic UI Trends</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Patterns worth stealing</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/ai-native-it.html">AI Native IT</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">AI-native IT management patterns</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/context-engineering.html">Context Engineering</a>
-        <span class="tag tag-guide">Guide</span>
-        <div class="file-meta">Context engineering patterns</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/hermes-kanban-guide.html">Hermes Kanban Guide</a>
-        <span class="tag tag-guide">Guide</span>
-        <div class="file-meta">Complete kanban workflow reference</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/kanban-workflow.html">Kanban Workflow</a>
-        <span class="tag tag-guide">Guide</span>
-        <div class="file-meta">Workflow patterns for kanban boards</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/youtube-shorts-playbook.html">YouTube Shorts Playbook</a>
-        <span class="tag tag-guide">Guide</span>
-        <div class="file-meta">Algorithm, hooks, and content strategy</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/openclaw-gamestore-researchfinding.html">OpenClaw GameStore</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Game store research findings</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/game-asset-marketplace-research.html">Game Asset Marketplace</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Marketplace analysis</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/marketplace-daily.html">Marketplace Daily</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">Daily marketplace updates</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/agent-publish-framework.html">Agent Publish Framework</a>
-        <span class="tag tag-guide">Framework</span>
-      </div>
-      <div class="file-item">
-        <a href="sketch/second-brain.html">Second Brain</a>
-        <span class="tag tag-guide">System</span>
-        <div class="file-meta">Vault pipeline reference</div>
-      </div>
-    </div>
-  </section>
+    <section>
+      <h2>Tools & Internal</h2>
+      <ul>
+        <li><a href="sketch/hermes-kanban-guide.html">Hermes Kanban Guide — Sketch</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/kanban-workflow.html">Kanban — How Agent Tina Runs Work</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/marketplace-daily.html">3rd Party Dev Opportunities | IT/MSP/ITSM Platforms</a> <span class="meta">2026-05-17</span></li>
+<li><a href="sketch/papercrumble.html">Paper Crumple — SwiftUI Prototype</a> <span class="meta">2026-05-26</span></li>
+      </ul>
+    </section>
 
-  <section class="section" id="landing">
-    <h3>Landing & MVPs</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="landing/msp-status-page.html">MSP Status Page</a>
-        <span class="tag tag-landing">Landing</span>
-      </div>
-      <div class="file-item">
-        <a href="mvp-decision-2026-05-17.html">MVP Decision Log</a>
-        <span class="tag tag-mvp">MVP</span>
-        <div class="file-meta">2026-05-17 decision framework</div>
-      </div>
-      <div class="file-item">
-        <a href="mspclaw-domain-alternatives.html">MSPclaw Domain Alternatives</a>
-        <span class="tag tag-research">Research</span>
-        <div class="file-meta">5 verified domain options</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/ai-qbr-generator.html">AI QBR Generator</a>
-        <span class="tag tag-mvp">MVP</span>
-        <div class="file-meta">AI-powered quarterly business review</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/papercrumble.html">Papercrumble</a>
-        <span class="tag tag-mvp">MVP</span>
-        <div class="file-meta">Paper crumble interaction demo</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/revenueguard-mvp.html">RevenueGuard MVP</a>
-        <span class="tag tag-mvp">MVP</span>
-        <div class="file-meta">MCP server for revenue recognition</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="nightly">
-    <h3>Nightly / Internal</h3>
-    <div class="file-grid">
-      <div class="file-item">
-        <a href="sketch/nightly/20260530-archive-consolidate.html">Archive Consolidate</a>
-        <span class="tag tag-internal">Internal</span>
-        <div class="file-meta">2026-05-30 vault audit</div>
-      </div>
-      <div class="file-item">
-        <a href="sketch/nightly/20260531-skill-gap-audit.html">Skill Gap Audit</a>
-        <span class="tag tag-internal">Internal</span>
-        <div class="file-meta">2026-05-31 skill inventory</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="daily">
-    <h3>Daily</h3>
-    <div class="file-grid" id="daily-entries">
-      <div class="file-item"><a href="daily/">Browse daily folder →</a></div>
-    </div>
-  </section>
-
-  <section class="section" id="weekly">
-    <h3>Weekly</h3>
-    <div class="file-grid" id="weekly-entries">
-      <div class="file-item"><a href="weekly/">Browse weekly folder →</a></div>
-    </div>
-  </section>
-
-  <script>
-    (async () => {
-      const loadSection = async (id, path, limit = 5) => {
-        const container = document.getElementById(id + '-entries');
-        if (!container) return;
-        try {
-          const response = await fetch(path);
-          const text = await response.text();
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(text, 'text/html');
-          const links = [...doc.querySelectorAll('a[href^="20"], a[href$=".html"]')];
-          const files = links.map(a => ({
-            name: a.textContent.replace('.html',''),
-            href: path + a.getAttribute('href')
-          })).sort((a,b) => b.name.localeCompare(a.name)).slice(0, limit);
-
-          if (files.length > 0) {
-            container.innerHTML = files.map(f =>
-              `<div class="file-item"><a href="${f.href}">${f.name}</a></div>`
-            ).join('') + `<div class="file-item"><a href="${path}">Browse all →</a></div>`;
-          }
-        } catch(e) {}
-      };
-
-      loadSection('daily', 'daily/');
-      loadSection('weekly', 'weekly/');
-    })();
-  </script>
-
-  <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; text-align: center; font-size: 0.85rem; color: #888;">
-    Auto-generated index · <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> · <a href="whatpay-review-v2/">WhatPay Gallery</a>
-  </footer>
+<footer>Agent Tina &middot; <a href="https://github.com/vadapayasam/warehouse">github.com/vadapayasam/warehouse</a></footer>
 </body>
 </html>
