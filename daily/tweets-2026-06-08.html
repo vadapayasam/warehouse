@@ -80,50 +80,87 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
         <div class="tweet-card" id="tweet-1">
             <div class="tweet-header">
                 <span class="num">1</span>
-                <span class="tag apps">#apps</span>
-                <span class="format">single</span>
-                <span class="time">3:00 PM IST</span>
+                <span class="tag hermes">#hermes</span>
+                <span class="format">listicle</span>
+                <span class="time">10:30 AM IST</span>
             </div>
-            <pre class="tweet-text">WhatPay just crossed v1.3.1. 9 App Store builds later, I finally understand the submission pipeline.
+            <pre class="tweet-text">Why I built my own agent system instead of using ChatGPT:
 
-The thing nobody tells you: 'Processing' in ASC means absolutely nothing.</pre>
-            <div class="screenshot-note">📸 App Store Connect builds list showing all 9 builds</div>
+1. Persistent memory across sessions
+   ChatGPT forgets everything when the conversation ends. My agent remembers my project structure, my preferences, my past failures. Every session starts with context, not from zero.
+
+2. Custom skills for my exact workflow
+   Not generic "help me write code." Specific: "build WhatPay for TestFlight using my signing config." The skill knows my scheme, my bundle ID, my API key path.
+
+3. Cron scheduler for recurring tasks
+   Monday 9 AM: ITSM research runs automatically. I wake up to a digest. Not a reminder to do research — the research is already done.
+
+4. No $20/month subscription
+   DeepSeek v4 Pro via Ollama: $0. Claude via API: pay per use, not flat fee. Total monthly cost: under $5 for my volume.
+
+5. My data stays local
+   No training on my code. No retention of my financial data. My vault is on my disk. My memory is on my machine.
+
+Total cost: ~$5/month. Total control: 100%.</pre>
+            
             <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-2">
             <div class="tweet-header">
                 <span class="num">2</span>
-                <span class="tag failures">#failures</span>
-                <span class="format">story</span>
-                <span class="time">2:00 PM IST</span>
+                <span class="tag workflow">#workflow</span>
+                <span class="format">step-by-step</span>
+                <span class="time">9:00 AM IST</span>
             </div>
-            <pre class="tweet-text">WhatPay v1.0 got rejected for a false claim.
+            <pre class="tweet-text">Every design review I do now:
 
-The app said 'export as CSV'. But CSV export wasn't implemented yet.
-
-Fixed in v1.1: removed the claim, added iCloud sync correctly.
-
-App Store reviewers are thorough. Don't promise what you haven't built.</pre>
-            <div class="screenshot-note">📸 App Store review rejection notice (if available)</div>
+1. Agent captures screenshots
+2. HTML review gallery generated automatically
+3. I add commentary inline
+4. Gallery pushed to GitHub Pages
+5. Link shared. No Figma comments. No email threads.</pre>
+            <div class="screenshot-note">📸 WhatPay review HTML gallery page</div>
             <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-3">
             <div class="tweet-header">
                 <span class="num">3</span>
-                <span class="tag apps">#apps</span>
+                <span class="tag tips">#tips</span>
                 <span class="format">single</span>
-                <span class="time">4:30 PM IST</span>
+                <span class="time">6:00 PM IST</span>
             </div>
-            <pre class="tweet-text">Working on ThatsMyFont this week. SwiftUI + WidgetKit combo is still undefeated for quick utility apps.</pre>
-            <div class="screenshot-note">📸 TimeLeft widget screenshot</div>
+            <pre class="tweet-text">Pro tip: Keep a `.gitignore` template for iOS projects.
+
+I accidentally committed build artifacts, .asc/ files, and DerivedData into WhatPay repo. 47 files.
+
+One `git rm -r --cached` + proper `.gitignore` = clean repo forever.</pre>
+            <div class="screenshot-note">📸 git rm output showing cleaned files</div>
             <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-4">
             <div class="tweet-header">
                 <span class="num">4</span>
+                <span class="tag workflow">#workflow</span>
+                <span class="format">single</span>
+                <span class="time">9:00 AM IST</span>
+            </div>
+            <pre class="tweet-text">The workflow I wish I had at every company:
+
+Research → HTML artifact → GitHub Pages → Todoist update → Move on.
+
+No Google Docs. No Figma handoff. No 'can you check the latest version?'
+
+One source of truth. One URL. Done.</pre>
+            <div class="screenshot-note">📸 Browser showing vadapayasam.github.io/warehouse</div>
+            <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-5">
+            <div class="tweet-header">
+                <span class="num">5</span>
                 <span class="tag interesting">#interesting</span>
                 <span class="format">opinion</span>
                 <span class="time">7:30 PM IST</span>
@@ -140,45 +177,12 @@ Nobody talks about the real stuff:
 
 That's the actual automation layer.</pre>
             
-            <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-5">
-            <div class="tweet-header">
-                <span class="num">5</span>
-                <span class="tag tips">#tips</span>
-                <span class="format">single</span>
-                <span class="time">6:00 PM IST</span>
-            </div>
-            <pre class="tweet-text">For iOS devs building alone:
-
-Set up `asc` (App Store Connect CLI) once. Then:
-`asc builds upload` = TestFlight in 30 seconds
-
-No Xcode Organizer. No manual IPA export. No web upload.</pre>
-            <div class="screenshot-note">📸 asc builds upload terminal output</div>
             <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-6">
             <div class="tweet-header">
                 <span class="num">6</span>
-                <span class="tag hermes">#hermes</span>
-                <span class="format">single</span>
-                <span class="time">10:30 AM IST</span>
-            </div>
-            <pre class="tweet-text">I run my entire workflow: research, coding, design reviews, app store uploads. All through one agent.
-
-Not 5 different SaaS tools. Not Notion + ChatGPT + Figma + Linear.
-
-One terminal. One context window. Zero context switching.</pre>
-            
-            <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-7">
-            <div class="tweet-header">
-                <span class="num">7</span>
                 <span class="tag stats">#stats</span>
                 <span class="format">listicle</span>
                 <span class="time">12:00 PM IST</span>
@@ -192,24 +196,62 @@ One terminal. One context window. Zero context switching.</pre>
 
 The system learns what I use. The rest gathers dust.</pre>
             <div class="screenshot-note">📸 ls ~/.hermes/skills/ sorted by access time</div>
+            <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-7">
+            <div class="tweet-header">
+                <span class="num">7</span>
+                <span class="tag apps">#apps</span>
+                <span class="format">single</span>
+                <span class="time">4:30 PM IST</span>
+            </div>
+            <pre class="tweet-text">Working on TimeLeft this week.
+
+SwiftUI + WidgetKit combo is still undefeated for quick utility apps. Here's why:
+
+Live Activities: Lock screen widget shows remaining leave days. No app open needed. This is the "always visible" feature that makes a utility app stick.
+
+SwiftUI List + Form: Built the entire settings screen in 40 lines. No custom UI. No Auto Layout wrestling. System handles dark mode, dynamic type, accessibility.
+
+App Intents: Siri can add a leave day. "Hey Siri, I'm taking Friday off." Integration took 2 hours. Not because it's complex — because Apple made the API actually usable for once.
+
+WidgetKit timeline: Widget refreshes at midnight automatically. No background fetch. No push notifications. System updates the view when the date changes.
+
+Total build time: 3 evenings. ~8 hours. That's the power of staying inside the system instead of fighting it.</pre>
+            <div class="screenshot-note">📸 TimeLeft widget screenshot</div>
             <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
         </div>
         
         <div class="tweet-card" id="tweet-8">
             <div class="tweet-header">
                 <span class="num">8</span>
-                <span class="tag workflow">#workflow</span>
-                <span class="format">single</span>
-                <span class="time">9:00 AM IST</span>
+                <span class="tag failures">#failures</span>
+                <span class="format">story</span>
+                <span class="time">2:00 PM IST</span>
             </div>
-            <pre class="tweet-text">The workflow I wish I had at every company:
+            <pre class="tweet-text">My Honcho memory system hit capacity. Context windows were getting compressed. Facts were being dropped.
 
-Research → HTML artifact → GitHub Pages → Todoist update → Move on.
+The symptoms:
+- Agent started repeating questions I had answered before
+- Cross-references in the wiki were getting stale
+- The daily digest was missing items that should have been tracked
 
-No Google Docs. No Figma handoff. No 'can you check the latest version?'
+I checked the memory store: 2,147 entries. The system was deduplicating but the dedup algorithm was too conservative.
 
-One source of truth. One URL. Done.</pre>
-            <div class="screenshot-note">📸 Browser showing vadapayasam.github.io/warehouse</div>
+The fix was "goblin surgery" — my term for aggressive manual cleanup:
+
+1. Deduplicated entries: 200+ near-duplicate facts merged
+2. Pruned stale facts: removed 180 entries older than 6 months with no recent references
+3. Reorganized structure: split the monolithic memory file into category-specific files (ios, design, workflow, failures, tools)
+4. Added a TTL policy: facts auto-expire after 12 months unless renewed by reference
+
+Result: 1,400 entries. Faster lookups. Better context retention.
+
+The lesson: persistent memory needs maintenance. Left alone, it becomes a hoarder's attic.
+
+Sometimes you need to delete to grow.</pre>
+            <div class="screenshot-note">📸 Memory usage before/after</div>
             <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
         </div>
         
