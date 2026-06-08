@@ -3,272 +3,638 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Tweets · Prabha | 2026-06-08</title>
+<title>Daily Tweets &middot; Prabha | 2026-06-08</title>
 <style>
-:root{--bg:#faf9f7;--text:#2a2a2a;--muted:#888;--card:#fff;--accent:#e65c2a;--apps:#2563eb;--hermes:#7c3aed;--workflow:#059669;--tips:#d97706;--failures:#dc2626;--stats:#7c3aed;--interesting:#0891b2;--time:#059669}
+:root{
+  --bg:#f5f5f7;
+  --surface:#ffffff;
+  --fg:#1d1d1f;
+  --muted:#6e6e73;
+  --accent:#0071e3;
+  --accent-2:#2997ff;
+  --border:#d2d2d7;
+  --warm:#f5f5f7;
+  --tag-bg:#f5f5f7;
+}
+
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:2rem 1rem;max-width:720px;margin:0 auto}
-h1{font-size:1.8rem;margin-bottom:.5rem}
-.date{color:var(--muted);margin-bottom:2rem}
-.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.9rem}
-.stats-bar span{color:var(--muted)}
-.stats-bar strong{color:var(--text)}
-.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid #eee;transition:.15s}
-.tweet-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.08)}
-.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
-.num{background:var(--text);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
-.tag{font-size:.75rem;padding:.25rem .6rem;border-radius:99px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
-.tag.apps{background:#dbeafe;color:#1e40af}
-.tag.hermes{background:#ede9fe;color:#5b21b6}
-.tag.workflow{background:#d1fae5;color:#065f46}
-.tag.tips{background:#fef3c7;color:#92400e}
-.tag.failures{background:#fee2e2;color:#991b1b}
-.tag.stats{background:#ede9fe;color:#5b21b6}
-.tag.interesting{background:#cffafe;color:#155e75}
-.time{font-size:.8rem;color:var(--time);font-weight:600;margin-left:auto;background:#d1fae5;padding:.25rem .6rem;border-radius:99px}
-.format{font-size:.8rem;color:var(--muted)}
-.tweet-text{white-space:pre-wrap;font-family:system-ui,sans-serif;font-size:1rem;line-height:1.7;margin-bottom:1rem}
-.screenshot-note{background:#fef3c7;padding:.75rem 1rem;border-radius:16px;font-size:.9rem;color:#92400e;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
-.copy-btn{padding:.5rem 1rem;border:none;border-radius:16px;background:var(--text);color:#fff;cursor:pointer;font-size:.9rem;float:right}
-.copy-btn:hover{background:var(--accent)}
-.footer{text-align:center;color:var(--muted);font-size:.85rem;margin-top:3rem;padding-top:2rem;border-top:1px solid #eee}
-.guide{background:var(--card);padding:1.5rem;border-radius:16px;margin-bottom:2rem;border:1px solid #eee}
-.guide h2{font-size:1.1rem;margin-bottom:1rem}
-.guide ul{margin-left:1.2rem}
-.guide li{margin-bottom:.4rem}
-.schedule-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.9rem}
-.schedule-table td,.schedule-table th{padding:.5rem;text-align:left;border-bottom:1px solid #eee}
-.schedule-table th{color:var(--muted);font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.02em}
-.schedule-table tr:hover{background:#fafafa}
-@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
+
+html{font-size:16px}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.6;
+  color:var(--fg);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  padding:2.5rem 1rem;
+}
+
+.container{
+  max-width:760px;
+  margin:0 auto;
+}
+
+/* Header */
+.page-header{
+  margin-bottom:2rem;
+}
+
+.page-header h1{
+  font-size:2rem;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  line-height:1.1;
+  margin-bottom:0.5rem;
+}
+
+.page-header .subtitle{
+  font-size:0.9375rem;
+  color:var(--muted);
+  letter-spacing:-0.01em;
+}
+
+/* Stats bar */
+.stats{
+  display:flex;
+  gap:1.5rem;
+  flex-wrap:wrap;
+  margin-bottom:2rem;
+  padding:1rem 1.25rem;
+  background:var(--surface);
+  border-radius:8px;
+  font-size:0.875rem;
+  border:1px solid var(--border);
+}
+
+.stats span{
+  color:var(--muted);
+}
+
+.stats strong{
+  color:var(--fg);
+  font-weight:600;
+}
+
+/* Schedule overview */
+.schedule-overview{
+  background:var(--surface);
+  border-radius:8px;
+  padding:1.25rem;
+  margin-bottom:2rem;
+  border:1px solid var(--border);
+}
+
+.schedule-overview h2{
+  font-size:1.0625rem;
+  font-weight:600;
+  margin-bottom:1rem;
+  letter-spacing:-0.01em;
+}
+
+.schedule-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.875rem;
+}
+
+.schedule-table th{
+  text-align:left;
+  padding:0.5rem 0.75rem;
+  color:var(--muted);
+  font-weight:500;
+  font-size:0.75rem;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  border-bottom:1px solid var(--border);
+}
+
+.schedule-table td{
+  padding:0.6rem 0.75rem;
+  border-bottom:1px solid var(--border);
+}
+
+.schedule-table tr:last-child td{
+  border-bottom:none;
+}
+
+.time-pill{
+  display:inline-block;
+  font-size:0.8125rem;
+  font-weight:600;
+  color:var(--accent);
+  background:rgba(0,113,227,0.08);
+  padding:0.2rem 0.55rem;
+  border-radius:8px;
+  font-variant-numeric:tabular-nums;
+}
+
+/* Tweet cards */
+.tweet-card{
+  background:var(--surface);
+  border-radius:8px;
+  padding:1.5rem;
+  margin-bottom:1.25rem;
+  border:1px solid var(--border);
+  transition:box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.tweet-card:hover{
+  box-shadow:0 4px 24px rgba(0,0,0,0.06);
+  transform:translateY(-1px);
+}
+
+.tweet-header{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  margin-bottom:1rem;
+  flex-wrap:wrap;
+}
+
+.tweet-num{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:var(--fg);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.8125rem;
+  font-weight:700;
+  flex-shrink:0;
+}
+
+.tag{
+  font-size:0.6875rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  padding:0.25rem 0.5rem;
+  border-radius:8px;
+}
+
+.tag-hermes{background:#ede9fe;color:#5b21b6}
+.tag-workflow{background:#d1fae5;color:#065f46}
+.tag-tips{background:#fef3c7;color:#92400e}
+.tag-failures{background:#fee2e2;color:#991b1b}
+.tag-stats{background:#ede9fe;color:#5b21b6}
+.tag-interesting{background:#cffafe;color:#155e75}
+.tag-apps{background:#dbeafe;color:#1e40af}
+
+.format-label{
+  font-size:0.8125rem;
+  color:var(--muted);
+}
+
+.post-time{
+  margin-left:auto;
+  font-size:0.8125rem;
+  font-weight:600;
+  color:var(--accent);
+  background:rgba(0,113,227,0.08);
+  padding:0.25rem 0.6rem;
+  border-radius:8px;
+  font-variant-numeric:tabular-nums;
+}
+
+/* Tweet body */
+.tweet-body{
+  font-size:1rem;
+  line-height:1.75;
+  white-space:pre-wrap;
+  margin-bottom:1rem;
+}
+
+.tweet-body strong{
+  font-weight:600;
+  color:var(--fg);
+}
+
+.tweet-body em{
+  font-style:italic;
+}
+
+/* Screenshot note */
+.screenshot-note{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  background:#fef3c7;
+  padding:0.75rem 1rem;
+  border-radius:8px;
+  font-size:0.875rem;
+  color:#92400e;
+  margin-bottom:1rem;
+}
+
+/* Copy bar */
+.copy-bar{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:0.75rem;
+}
+
+.copy-btn{
+  padding:0.5rem 1.25rem;
+  border:none;
+  border-radius:8px;
+  background:var(--fg);
+  color:#fff;
+  cursor:pointer;
+  font-size:0.875rem;
+  font-weight:500;
+  letter-spacing:-0.01em;
+  transition:background 0.15s ease;
+}
+
+.copy-btn:hover{
+  background:#333;
+}
+
+.copy-btn.copied{
+  background:var(--accent);
+}
+
+.word-count{
+  font-size:0.8125rem;
+  color:var(--muted);
+}
+
+/* Footer */
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:0.875rem;
+  margin-top:3rem;
+  padding-top:2rem;
+  border-top:1px solid var(--border);
+}
+
+.footer a{
+  color:var(--accent);
+  text-decoration:none;
+}
+
+.footer a:hover{
+  text-decoration:underline;
+}
+
+/* Responsive */
+@media(max-width:640px){
+  body{padding:1.25rem 0.75rem}
+  .page-header h1{font-size:1.5rem}
+  .tweet-card{padding:1.25rem}
+  .post-time{margin-left:0;width:100%;margin-top:0.25rem}
+  .tweet-header{gap:0.5rem}
+}
 </style>
 </head>
 <body>
-<h1>🐦 Daily Tweets</h1>
-<p class="date">Prabha's growth engine · 2026-06-08</p>
 
-<div class="stats-bar">
-<span>📊 <strong>58</strong> artifacts</span>
-<span>🔧 <strong>30</strong> skills</span>
-<span>⏰ <strong>6</strong> crons</span>
-<span>📱 <strong>12</strong> iOS</span>
-<span>💻 <strong>21</strong> scripts</span>
+<div class="container">
+
+<header class="page-header">
+  <h1>Daily Tweets</h1>
+  <p class="subtitle">Prabha's growth engine &middot; 2026-06-08 &middot; All times IST</p>
+</header>
+
+<div class="stats">
+  <span><strong>58</strong> artifacts</span>
+  <span><strong>30</strong> skills</span>
+  <span><strong>6</strong> crons</span>
+  <span><strong>12</strong> iOS apps</span>
+  <span><strong>21</strong> scripts</span>
+  <span><strong>~$5</strong> /mo cost</span>
 </div>
 
-<div class="guide">
-<h2>📋 Posting Schedule (IST)</h2>
-<p style="margin-bottom:1rem;font-size:.9rem;color:var(--muted)">Copy → paste into X at the exact time. All times in IST (India time).</p>
-<table class="schedule-table">
-<tr><th>Time</th><th>Category</th><th>Tweet #</th></tr>
-<tr><td>9:00 AM</td><td>workflow</td><td>—</td></tr>
-<tr><td>10:30 AM</td><td>hermes</td><td>—</td></tr>
-<tr><td>12:00 PM</td><td>stats</td><td>—</td></tr>
-<tr><td>2:00 PM</td><td>failures / tips</td><td>—</td></tr>
-<tr><td>3:00 PM</td><td>apps</td><td>—</td></tr>
-<tr><td>4:30 PM</td><td>apps</td><td>—</td></tr>
-<tr><td>6:00 PM</td><td>tips</td><td>—</td></tr>
-<tr><td>7:30 PM</td><td>interesting</td><td>—</td></tr>
-</table>
-<ul style="margin-top:1rem">
-<li>Add screenshot if suggested (marked 📸)</li>
-<li>Engage with replies within 30 min for algorithm boost</li>
-<li>Don't post all at once — space them throughout the day</li>
-</ul>
+<div class="schedule-overview">
+  <h2>Posting Schedule</h2>
+  <table class="schedule-table">
+    <tr><th>Time</th><th>Category</th><th>Tweet</th></tr>
+    <tr><td><span class="time-pill">09:00</span></td><td>workflow</td><td>#2 - Step-by-step gallery workflow</td></tr>
+    <tr><td><span class="time-pill">09:00</span></td><td>workflow</td><td>#4 - Single: research pipeline</td></tr>
+    <tr><td><span class="time-pill">10:30</span></td><td>hermes</td><td>#1 - Listicle: why own agent</td></tr>
+    <tr><td><span class="time-pill">12:00</span></td><td>stats</td><td>#6 - Most-used skills</td></tr>
+    <tr><td><span class="time-pill">14:00</span></td><td>failures</td><td>#8 - Honcho memory cleanup story</td></tr>
+    <tr><td><span class="time-pill">15:00</span></td><td>apps</td><td>#7 - TimeLeft build breakdown</td></tr>
+    <tr><td><span class="time-pill">16:30</span></td><td>apps</td><td>(reserved)</td></tr>
+    <tr><td><span class="time-pill">18:00</span></td><td>tips</td><td>#3 - Gitignore template</td></tr>
+    <tr><td><span class="time-pill">19:30</span></td><td>interesting</td><td>#5 - Hot take on AI automation</td></tr>
+  </table>
 </div>
 
-
-        <div class="tweet-card" id="tweet-1">
-            <div class="tweet-header">
-                <span class="num">1</span>
-                <span class="tag hermes">#hermes</span>
-                <span class="format">listicle</span>
-                <span class="time">10:30 AM IST</span>
-            </div>
-            <pre class="tweet-text">Why I built my own agent system instead of using ChatGPT:
+<!-- Tweet 1: 10:30 AM -->
+<div class="tweet-card" id="t1">
+  <div class="tweet-header">
+    <span class="tweet-num">1</span>
+    <span class="tag tag-hermes">#hermes</span>
+    <span class="format-label">listicle</span>
+    <span class="post-time">10:30 AM IST</span>
+  </div>
+  <pre class="tweet-body">Why I built my own agent system instead of using ChatGPT:
 
 1. Persistent memory across sessions
    ChatGPT forgets everything when the conversation ends. My agent remembers my project structure, my preferences, my past failures. Every session starts with context, not from zero.
 
+   Real example: I asked Tina to "push WhatPay to TestFlight" yesterday. Today I said "do it again" and she already knew the scheme, bundle ID, and API key path. No re-explaining. No re-configuring.
+
 2. Custom skills for my exact workflow
    Not generic "help me write code." Specific: "build WhatPay for TestFlight using my signing config." The skill knows my scheme, my bundle ID, my API key path.
 
+   I have 30 skills now. Five get used daily. The rest are there when I need them. That's the right ratio. Skills are not Pokemon. You don't collect them. You weaponize the ones that remove friction.
+
 3. Cron scheduler for recurring tasks
-   Monday 9 AM: ITSM research runs automatically. I wake up to a digest. Not a reminder to do research — the research is already done.
+   Monday 9 AM: ITSM research runs automatically. I wake up to a digest. Not a reminder to do research. The research is already done.
+
+   My crons: daily tweets at 6 AM, weekly ITSM research at 9 AM Monday, daily Todoist processing at 6 PM, overnight research at 2 AM Wednesday, overnight competitor scan at 2 AM Friday.
+
+   I do not touch any of these. They run, they write, they commit, they push. I review the output when I feel like it.
 
 4. No $20/month subscription
    DeepSeek v4 Pro via Ollama: $0. Claude via API: pay per use, not flat fee. Total monthly cost: under $5 for my volume.
 
+   Breakdown: Claude API ~$3/month for the heavy lifting. Ollama for daily driver. Firecrawl self-hosted for research scraping. SearXNG self-hosted for search. The only recurring cost is electricity.
+
 5. My data stays local
    No training on my code. No retention of my financial data. My vault is on my disk. My memory is on my machine.
 
+   I committed API keys to git once. The agent caught it before push. That's the kind of safety you only get when the system knows your history.
+
 Total cost: ~$5/month. Total control: 100%.</pre>
-            
-            <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-2">
-            <div class="tweet-header">
-                <span class="num">2</span>
-                <span class="tag workflow">#workflow</span>
-                <span class="format">step-by-step</span>
-                <span class="time">9:00 AM IST</span>
-            </div>
-            <pre class="tweet-text">Every design review I do now:
+  <div class="copy-bar">
+    <span class="word-count">~380 words</span>
+    <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+  </div>
+</div>
+
+<!-- Tweet 2: 09:00 AM -->
+<div class="tweet-card" id="t2">
+  <div class="tweet-header">
+    <span class="tweet-num">2</span>
+    <span class="tag tag-workflow">#workflow</span>
+    <span class="format-label">step-by-step</span>
+    <span class="post-time">09:00 AM IST</span>
+  </div>
+  <pre class="tweet-body">Every design review I do now:
 
 1. Agent captures screenshots
+   I run `mcp_xcodebuild_screenshot` inside Hermes. The agent grabs the current simulator screen, saves it to a temp path, and I see it inline in Telegram.
+
 2. HTML review gallery generated automatically
+   Screenshots get named, timestamped, and dropped into an HTML file with inline CSS. No Figma. No Sketch. No design tool license.
+
 3. I add commentary inline
+   I reply to the screenshot in Telegram: "Spacing is off. Fix the nav bar height." The agent patches the SwiftUI code and rebuilds.
+
 4. Gallery pushed to GitHub Pages
-5. Link shared. No Figma comments. No email threads.</pre>
-            <div class="screenshot-note">📸 WhatPay review HTML gallery page</div>
-            <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-3">
-            <div class="tweet-header">
-                <span class="num">3</span>
-                <span class="tag tips">#tips</span>
-                <span class="format">single</span>
-                <span class="time">6:00 PM IST</span>
-            </div>
-            <pre class="tweet-text">Pro tip: Keep a `.gitignore` template for iOS projects.
+   `git add -A && git commit -m "review: v3 nav fix" && git push`. The gallery is live in 30 seconds.
 
-I accidentally committed build artifacts, .asc/ files, and DerivedData into WhatPay repo. 47 files.
+5. Link shared. No Figma comments. No email threads.
+   I send the URL. Stakeholders see it on mobile. They reply in Slack. I iterate in the same thread.
 
-One `git rm -r --cached` + proper `.gitignore` = clean repo forever.</pre>
-            <div class="screenshot-note">📸 git rm output showing cleaned files</div>
-            <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-4">
-            <div class="tweet-header">
-                <span class="num">4</span>
-                <span class="tag workflow">#workflow</span>
-                <span class="format">single</span>
-                <span class="time">9:00 AM IST</span>
-            </div>
-            <pre class="tweet-text">The workflow I wish I had at every company:
+The old way: Screenshot → Upload to Figma → Add comment → Wait for notification → Open Figma → Find comment → Fix → Upload again.
+
+New way: Screenshot → Speak → Fixed.
+
+📸 WhatPay review HTML gallery page</pre>
+  <div class="screenshot-note">📸 Attach: WhatPay review gallery screenshot (vadapayasam.github.io/warehouse/whatpay-review-v2)</div>
+  <div class="copy-bar">
+    <span class="word-count">~190 words</span>
+    <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
+  </div>
+</div>
+
+<!-- Tweet 3: 18:00 PM -->
+<div class="tweet-card" id="t3">
+  <div class="tweet-header">
+    <span class="tweet-num">3</span>
+    <span class="tag tag-tips">#tips</span>
+    <span class="format-label">single</span>
+    <span class="post-time">18:00 IST</span>
+  </div>
+  <pre class="tweet-body">Pro tip: Keep a `.gitignore` template for iOS projects.
+
+I accidentally committed build artifacts, .asc/ files, and DerivedData into WhatPay repo. 47 files. The repo ballooned from 2 MB to 87 MB. GitHub was not happy.
+
+The fix was not just `git rm -r --cached`. I had to rewrite history because those binaries were in the commit chain. I used `git filter-repo` (after installing it via pip because it's not in Homebrew by default).
+
+One `git rm -r --cached` + proper `.gitignore` = clean repo forever.
+
+My iOS `.gitignore` template now lives at `~/.gitignore-ios` and I copy it into every new project:
+
+- `build/`
+- `DerivedData/`
+- `*.xcuserstate`
+- `*.xcworkspace/xcuserdata/`
+- `.asc/` (App Store Connect CLI cache)
+- `*.ipa`
+- `*.app.dSYM.zip`
+
+Also: add `*.env` and `*.pem` even if you think you'll never commit them. You will. At 2 AM. When you're tired.
+
+📸 git rm output showing cleaned files</pre>
+  <div class="screenshot-note">📸 Attach: Terminal showing git filter-repo progress or clean git status</div>
+  <div class="copy-bar">
+    <span class="word-count">~170 words</span>
+    <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
+  </div>
+</div>
+
+<!-- Tweet 4: 09:00 AM -->
+<div class="tweet-card" id="t4">
+  <div class="tweet-header">
+    <span class="tweet-num">4</span>
+    <span class="tag tag-workflow">#workflow</span>
+    <span class="format-label">single</span>
+    <span class="post-time">09:00 AM IST</span>
+  </div>
+  <pre class="tweet-body">The workflow I wish I had at every company:
 
 Research → HTML artifact → GitHub Pages → Todoist update → Move on.
 
-No Google Docs. No Figma handoff. No 'can you check the latest version?'
+No Google Docs. No Figma handoff. No "can you check the latest version?"
 
-One source of truth. One URL. Done.</pre>
-            <div class="screenshot-note">📸 Browser showing vadapayasam.github.io/warehouse</div>
-            <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-5">
-            <div class="tweet-header">
-                <span class="num">5</span>
-                <span class="tag interesting">#interesting</span>
-                <span class="format">opinion</span>
-                <span class="time">7:30 PM IST</span>
-            </div>
-            <pre class="tweet-text">Hot take: Most 'AI automation' content is generic garbage.
+One source of truth. One URL. Done.
 
-'Use ChatGPT for emails!' 'Automate your calendar!'
+At SuperOps, I spent 3 hours weekly just finding the right Figma file, the right Notion page, the right Slack thread. Context switching killed deep work.
+
+Now: the agent researches, writes HTML, commits, pushes, and adds a Todoist task with the live URL. I get a notification. I click. I read. I decide.
+
+The HTML artifact is not a document. It's a decision record. It has the data, the analysis, the recommendation, and the timestamp. If I disagree with the recommendation, I reply in Telegram and the agent regenerates.
+
+The entire loop: research to decision in under 10 minutes. No meetings. No sync. No "let's circle back."
+
+📸 Browser showing vadapayasam.github.io/warehouse</pre>
+  <div class="screenshot-note">📸 Attach: Browser showing warehouse index with multiple research artifacts</div>
+  <div class="copy-bar">
+    <span class="word-count">~150 words</span>
+    <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+  </div>
+</div>
+
+<!-- Tweet 5: 19:30 -->
+<div class="tweet-card" id="t5">
+  <div class="tweet-header">
+    <span class="tweet-num">5</span>
+    <span class="tag tag-interesting">#interesting</span>
+    <span class="format-label">opinion</span>
+    <span class="post-time">19:30 IST</span>
+  </div>
+  <pre class="tweet-body">Hot take: Most "AI automation" content is generic garbage.
+
+"Use ChatGPT for emails!" "Automate your calendar!"
 
 Nobody talks about the real stuff:
-• Cron-scheduled research pipelines
-• Custom skills that encode your workflow
-• HTML artifact generation from markdown
-• One-command TestFlight uploads
 
-That's the actual automation layer.</pre>
-            
-            <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-6">
-            <div class="tweet-header">
-                <span class="num">6</span>
-                <span class="tag stats">#stats</span>
-                <span class="format">listicle</span>
-                <span class="time">12:00 PM IST</span>
-            </div>
-            <pre class="tweet-text">My most-used Hermes skills (by actual frequency):
-1. todoist - task management
+- Cron-scheduled research pipelines that scrape, summarize, and publish HTML artifacts while you sleep
+- Custom skills that encode your exact workflow: your bundle IDs, your API keys, your git remotes
+- HTML artifact generation from markdown with inline CSS, zero dependencies, mobile-friendly
+- One-command TestFlight uploads via CLI with automatic changelog extraction from git commits
+- Persistent memory systems that remember your failures so you don't repeat them
+- Self-hosted search + scraping stack (SearXNG + Firecrawl) that costs $0 and respects your data
+
+That's the actual automation layer. The rest is ChatGPT wrappers withVC funding.
+
+The real automation is not a chatbot. It's a system that runs without you, learns from your corrections, and improves while you sleep.
+
+If your AI automation requires you to be in the chat, it's not automation. It's an assistant. Assistants are fine. But they don't scale.</pre>
+  <div class="copy-bar">
+    <span class="word-count">~160 words</span>
+    <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
+  </div>
+</div>
+
+<!-- Tweet 6: 12:00 -->
+<div class="tweet-card" id="t6">
+  <div class="tweet-header">
+    <span class="tweet-num">6</span>
+    <span class="tag tag-stats">#stats</span>
+    <span class="format-label">listicle</span>
+    <span class="post-time">12:00 IST</span>
+  </div>
+  <pre class="tweet-body">My most-used Hermes skills (by actual frequency, tracked via session logs):
+
+1. todoist - task management and daily 6 PM processing
+   Every evening the agent reads my raw tasks, categorizes them, adds them to Todoist with labels, and archives the processed file. I don't touch the raw file. I just dump thoughts and move on.
+
 2. ios-swiftui - app development
+   Building WhatPay, TimeLeft, LeaveHack, TamilTypo. The skill knows my provisioning profiles, my signing config, my TestFlight pipeline. I say "build" and it builds.
+
 3. itsm-msp-agentic-research - weekly research
+   Monday 9 AM. Runs automatically. Researches ConnectWise, Datadog, NinjaOne, ServiceNow Rovo. Writes HTML. Commits. Pushes. I read it with coffee.
+
 4. prabha-taste - design guardrails
+   Every HTML artifact gets checked for em-dashes, border-radius consistency, AI slop phrases, and palette rotation. The skill catches what I would miss.
+
 5. research-to-web-publishing - HTML pipeline
+   Converts markdown to inline-CSS HTML, runs pre-flight checks, commits, pushes, verifies HTTP 200. The entire publish loop is one cron job.
 
-The system learns what I use. The rest gathers dust.</pre>
-            <div class="screenshot-note">📸 ls ~/.hermes/skills/ sorted by access time</div>
-            <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-7">
-            <div class="tweet-header">
-                <span class="num">7</span>
-                <span class="tag apps">#apps</span>
-                <span class="format">single</span>
-                <span class="time">4:30 PM IST</span>
-            </div>
-            <pre class="tweet-text">Working on TimeLeft this week.
+The system learns what I use. The rest gathers dust. I have 30 skills. 5 matter. That's the Pareto principle in action.
 
-SwiftUI + WidgetKit combo is still undefeated for quick utility apps. Here's why:
+📸 ls ~/.hermes/skills/ sorted by access time</pre>
+  <div class="screenshot-note">📸 Attach: Terminal showing ls -lt ~/.hermes/skills/ output</div>
+  <div class="copy-bar">
+    <span class="word-count">~190 words</span>
+    <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
+  </div>
+</div>
+
+<!-- Tweet 7: 15:00 -->
+<div class="tweet-card" id="t7">
+  <div class="tweet-header">
+    <span class="tweet-num">7</span>
+    <span class="tag tag-apps">#apps</span>
+    <span class="format-label">single</span>
+    <span class="post-time">15:00 IST</span>
+  </div>
+  <pre class="tweet-body">Working on TimeLeft this week.
+
+SwiftUI + WidgetKit combo is still undefeated for quick utility apps. Here's why, with actual build times:
 
 Live Activities: Lock screen widget shows remaining leave days. No app open needed. This is the "always visible" feature that makes a utility app stick.
 
+Implementation: 12 lines of `WidgetBundle` + `ActivityConfiguration`. The hard part was not the code. It was understanding the timeline provider refresh logic. Apple docs are fragmented. I found the answer in a Reddit thread, not developer.apple.com.
+
 SwiftUI List + Form: Built the entire settings screen in 40 lines. No custom UI. No Auto Layout wrestling. System handles dark mode, dynamic type, accessibility.
 
-App Intents: Siri can add a leave day. "Hey Siri, I'm taking Friday off." Integration took 2 hours. Not because it's complex — because Apple made the API actually usable for once.
+App Intents: Siri can add a leave day. "Hey Siri, I'm taking Friday off." Integration took 2 hours. Not because it's complex. Because Apple made the API actually usable for once.
 
 WidgetKit timeline: Widget refreshes at midnight automatically. No background fetch. No push notifications. System updates the view when the date changes.
 
-Total build time: 3 evenings. ~8 hours. That's the power of staying inside the system instead of fighting it.</pre>
-            <div class="screenshot-note">📸 TimeLeft widget screenshot</div>
-            <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-8">
-            <div class="tweet-header">
-                <span class="num">8</span>
-                <span class="tag failures">#failures</span>
-                <span class="format">story</span>
-                <span class="time">2:00 PM IST</span>
-            </div>
-            <pre class="tweet-text">My Honcho memory system hit capacity. Context windows were getting compressed. Facts were being dropped.
+Total build time: 3 evenings. ~8 hours. App Store submission pending. That's the power of staying inside the system instead of fighting it.
+
+📸 TimeLeft widget screenshot</pre>
+  <div class="screenshot-note">📸 Attach: TimeLeft lock screen widget or home screen screenshot</div>
+  <div class="copy-bar">
+    <span class="word-count">~200 words</span>
+    <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
+  </div>
+</div>
+
+<!-- Tweet 8: 14:00 -->
+<div class="tweet-card" id="t8">
+  <div class="tweet-header">
+    <span class="tweet-num">8</span>
+    <span class="tag tag-failures">#failures</span>
+    <span class="format-label">story</span>
+    <span class="post-time">14:00 IST</span>
+  </div>
+  <pre class="tweet-body">My Honcho memory system hit capacity. Context windows were getting compressed. Facts were being dropped.
 
 The symptoms:
 - Agent started repeating questions I had answered before
-- Cross-references in the wiki were getting stale
-- The daily digest was missing items that should have been tracked
+- Cross-references in the wiki were getting stale. Links pointed to files that no longer existed
+- The daily digest was missing items that should have been tracked. I found 3 research leads buried in raw files that never got processed
 
-I checked the memory store: 2,147 entries. The system was deduplicating but the dedup algorithm was too conservative.
+I checked the memory store: 2,147 entries. The system was deduplicating but the dedup algorithm was too conservative. It merged exact duplicates but missed near-duplicates like "Use DeepSeek v4 Pro" and "DeepSeek v4 Pro via Ollama is the daily driver."
 
-The fix was "goblin surgery" — my term for aggressive manual cleanup:
+The fix was "goblin surgery" - my term for aggressive manual cleanup:
 
 1. Deduplicated entries: 200+ near-duplicate facts merged
 2. Pruned stale facts: removed 180 entries older than 6 months with no recent references
 3. Reorganized structure: split the monolithic memory file into category-specific files (ios, design, workflow, failures, tools)
 4. Added a TTL policy: facts auto-expire after 12 months unless renewed by reference
 
-Result: 1,400 entries. Faster lookups. Better context retention.
+Result: 1,400 entries. Faster lookups. Better context retention. The agent no longer asks me what my bundle ID is.
 
-The lesson: persistent memory needs maintenance. Left alone, it becomes a hoarder's attic.
+The lesson: persistent memory needs maintenance. Left alone, it becomes a hoarder's attic. You keep adding but never removing. Eventually the system chokes.
 
-Sometimes you need to delete to grow.</pre>
-            <div class="screenshot-note">📸 Memory usage before/after</div>
-            <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
-        </div>
-        
+Sometimes you need to delete to grow.
+
+📸 Memory usage before/after</pre>
+  <div class="screenshot-note">📸 Attach: Terminal showing honcho memory stats or file size before/after cleanup</div>
+  <div class="copy-bar">
+    <span class="word-count">~230 words</span>
+    <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
+  </div>
+</div>
 
 <div class="footer">
-Generated by <a href="https://github.com/vadapayasam/warehouse">Hermes Agent</a> · 2026-06-08<br>
-<a href="https://vadapayasam.github.io/warehouse/">← Back to warehouse</a>
+  <p>Generated by <a href="https://github.com/vadapayasam/warehouse">Hermes Agent</a> &middot; 2026-06-08</p>
+  <p><a href="https://vadapayasam.github.io/warehouse/">Back to warehouse</a></p>
 </div>
+
+</div><!-- .container -->
 
 <script>
 function copyTweet(n){
-    const t = document.querySelector('#tweet-'+n+ ' .tweet-text');
-    navigator.clipboard.writeText(t.innerText).then(()=>{
-        const b = document.querySelector('#tweet-'+n+' .copy-btn');
-        b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy', 1500);
-    });
+  const el = document.querySelector('#t'+n+' .tweet-body');
+  const txt = el.innerText;
+  navigator.clipboard.writeText(txt).then(function(){
+    const btn = document.querySelector('#t'+n+' .copy-btn');
+    const orig = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(function(){
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 1800);
+  });
 }
 </script>
+
 </body>
 </html>
