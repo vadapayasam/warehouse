@@ -3,155 +3,324 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ITSM/MSP Agentic AI Weekly — Issue #5 — Kaseya, ConnectWise, SuperOps, NinjaOne</title>
+<title>ITSM/MSP Agentic AI Weekly - Issue #5 - Kaseya, ConnectWise, SuperOps, NinjaOne</title>
 <style>
-:root{
-  --bg:#fdfbf6;--fg:#1c1917;--muted:#78716c;--accent:#dc2626;--accent-warm:#ea580c;
-  --border:#e7e5e4;--surface:#fff;--dark:#0a0a0a;--dark-text:#f5f5f5;--code-bg:#f5f5f0;
+:root {
+  --canvas: #FAFAF8;
+  --surface: #FFFFFF;
+  --ink: #1A1A19;
+  --muted: #787774;
+  --hairline: #EAEAEA;
+  --accent: #1B4D6E;
+  --accent-warm: #C2410C;
+  --code-bg: #F5F5F0;
+
+  --pale-red-bg: #FDEBEC; --pale-red-fg: #9F2F2D;
+  --pale-blue-bg: #E1F3FE; --pale-blue-fg: #1F6C9F;
+  --pale-green-bg: #EDF3EC; --pale-green-fg: #346538;
+  --pale-yellow-bg: #FBF3DB; --pale-yellow-fg: #956400;
+  --pale-slate-bg: #F1F1EF; --pale-slate-fg: #52525B;
+
+  --display: ui-serif, Georgia, "Times New Roman", Times, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  line-height:1.65;color:var(--fg);background:var(--bg);margin:0;padding:0;-webkit-font-smoothing:antialiased;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--canvas);
 }
-a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
-a:hover{border-bottom-color:var(--accent)}
 
-.header{max-width:720px;margin:0 auto;padding:3rem 1.75rem 1.5rem;}
-.header .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;}
-.header h1{font-size:2.75rem;font-weight:700;line-height:1.1;letter-spacing:-.03em;margin:0;color:var(--fg);}
-.header .meta-bar{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;margin-top:1rem;}
-.header .meta-bar span{font-size:.8125rem;color:var(--muted);letter-spacing:.02em;}
-.header .meta-bar .badge{display:inline-block;background:var(--fg);color:var(--dark-text);padding:.25rem .75rem;font-size:.75rem;font-weight:600;letter-spacing:.05em;}
-.header .accent-line{height:2px;background:var(--accent);margin-top:1.5rem;width:60px;}
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 32px; }
 
-.main{max-width:720px;margin:0 auto;padding:0 1.75rem 3rem;}
-
-.section{margin-bottom:3.5rem;}
-.section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.25rem;padding-top:1rem;border-top:1px solid var(--border);}
-.section-num{font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1;letter-spacing:-.02em;min-width:3rem;}
-.section-title{font-size:1.125rem;font-weight:600;color:var(--fg);letter-spacing:-.01em;}
-
-.card{background:var(--surface);border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1rem;position:relative;}
-.card::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);}
-.card-warm::before{background:var(--accent-warm);}
-.card-blue::before{background:#0077b6;}
-.card-green::before{background:#16a34a;}
-.card-purple::before{background:#7c3aed;}
-
-.card-header{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;flex-wrap:wrap;}
-.card-badge{display:inline-block;font-size:.6875rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .5rem;border:1px solid var(--fg);color:var(--fg);}
-.card-badge-fill{background:var(--fg);color:var(--dark-text);border-color:var(--fg);}
-.card-badge-accent{background:var(--accent);color:#fff;border-color:var(--accent);}
-.card-badge-blue{background:#0077b6;color:#fff;border-color:#0077b6;}
-.card-badge-green{background:#16a34a;color:#fff;border-color:#16a34a;}
-.card-date{font-size:.8125rem;color:var(--muted);}
-
-.card h3{font-size:1.0625rem;font-weight:600;margin-bottom:.5rem;color:var(--fg);line-height:1.35;}
-.card p{font-size:.9375rem;color:var(--muted);line-height:1.6;margin-bottom:.75rem;}
-.card p:last-child{margin-bottom:0;}
-.card ul{padding-left:1.25rem;margin:.5rem 0 .75rem;}
-.card li{font-size:.9375rem;color:var(--muted);margin-bottom:.4rem;line-height:1.55;}
-.card li:last-child{margin-bottom:0;}
-.card strong{color:var(--fg);font-weight:600;}
-
-.card-dark{background:var(--dark);border-color:var(--dark);color:var(--dark-text);}
-.card-dark::before{background:var(--accent-warm);}
-.card-dark h3,.card-dark strong{color:var(--dark-text);}
-.card-dark p,.card-dark li{color:#a8a29e;}
-.card-dark .card-date{color:#78716c;}
-.card-dark .card-badge{border-color:var(--dark-text);color:var(--dark-text);}
-.card-dark .card-badge-fill{background:var(--dark-text);color:var(--dark);}
-
-.highlight-box{background:var(--fg);color:var(--dark-text);padding:1rem 1.25rem;margin:1.25rem 0;font-size:.9375rem;line-height:1.6;}
-.highlight-box strong{color:#fff;}
-
-blockquote{border-left:3px solid var(--accent);margin:1.5rem 0;padding:.5rem 0 .5rem 1.25rem;color:var(--muted);font-style:italic;background:none;}
-
-pre{background:var(--code-bg);padding:1rem 1.25rem;border:1px solid var(--border);overflow-x:auto;font-size:.82rem;margin:1rem 0;line-height:1.6;}
-code{background:var(--code-bg);padding:.15em .4em;border:1px solid var(--border);font-size:.85em;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--fg);}
-pre code{background:none;padding:0;border:none;font-size:inherit;}
-
-table{width:100%;border-collapse:collapse;font-size:.875rem;margin:1rem 0;background:var(--surface);border:1px solid var(--border);}
-th,td{text-align:left;padding:.65rem .9rem;border-bottom:1px solid var(--border);}
-thead th{font-weight:600;color:var(--fg);background:var(--code-bg);border-bottom:2px solid var(--fg);font-size:.8125rem;letter-spacing:.02em;}
-tbody td{color:var(--muted);font-size:.875rem;}
-tbody tr:last-child td{border-bottom:none;}
-
-.tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.75rem;}
-.tags span{font-size:.6875rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:.15rem .45rem;border:1px solid var(--border);color:var(--muted);}
-
-.nav-footer{max-width:720px;margin:0 auto;padding:2rem 1.75rem;border-top:1px solid var(--border);font-size:.8125rem;color:var(--muted);display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:space-between;}
-.nav-footer a{color:var(--fg);border-bottom-color:var(--border);}
-
-@media(max-width:640px){
-  .header h1{font-size:2rem;}
-  .section-num{font-size:2rem;}
-  .card{padding:1rem 1.125rem;}
-  .header,.main,.nav-footer{padding-left:1rem;padding-right:1rem;}
+/* --- Nav --- */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  border-bottom: 1px solid var(--hairline);
+  background: rgba(250,250,248,0.92);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
 }
-@media print{body{background:#fff;}.card{break-inside:avoid;}}
+.nav-inner {
+  max-width: 800px; margin: 0 auto; padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.nav .brand { font-family: var(--display); font-size: 18px; letter-spacing: -0.01em; }
+.nav .brand em { font-style: italic; color: var(--muted); }
+.nav .meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* --- Hero --- */
+.hero { padding: 80px 0 64px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 5px 11px; border: 1px solid var(--hairline); border-radius: 999px;
+  background: var(--surface); margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 5.5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+  max-width: 18ch;
+  margin: 0;
+}
+.hero h1 em { font-style: italic; color: var(--muted); }
+.hero .lede {
+  font-size: 18px; color: var(--muted);
+  max-width: 58ch; margin: 24px 0 0;
+  line-height: 1.55;
+}
+.hero .meta-strip {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+/* --- Chips & Badges --- */
+.chip {
+  display: inline-block; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 999px;
+}
+.chip--red { background: var(--pale-red-bg); color: var(--pale-red-fg); }
+.chip--blue { background: var(--pale-blue-bg); color: var(--pale-blue-fg); }
+.chip--green { background: var(--pale-green-bg); color: var(--pale-green-fg); }
+.chip--yellow { background: var(--pale-yellow-bg); color: var(--pale-yellow-fg); }
+.chip--slate { background: var(--pale-slate-bg); color: var(--pale-slate-fg); }
+
+.tag {
+  display: inline-block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 7px; border: 1px solid var(--hairline); border-radius: 4px;
+  color: var(--muted);
+}
+
+/* --- Feature block (key takeaway) --- */
+.feature {
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  padding: 28px 0;
+  margin-bottom: 72px;
+}
+.feature-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 12px;
+}
+.feature p { font-size: 17px; line-height: 1.6; color: var(--ink); max-width: 62ch; }
+.feature strong { font-weight: 600; }
+
+/* --- Sections --- */
+.section { margin-bottom: 64px; }
+.section-header {
+  display: flex; align-items: baseline; gap: 12px;
+  margin-bottom: 28px; padding-top: 8px;
+  border-top: 1px solid var(--hairline);
+}
+.section-num {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+  min-width: 2.5rem;
+}
+.section-title {
+  font-family: var(--sans); font-size: 1.125rem; font-weight: 600;
+  letter-spacing: -0.01em; color: var(--ink);
+}
+
+/* --- Cards (hairline only, no left border) --- */
+.card {
+  border-top: 1px solid var(--hairline);
+  padding: 28px 0;
+}
+.card:last-child { border-bottom: 1px solid var(--hairline); }
+.card-header {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.card-header .card-date {
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  margin-left: auto; letter-spacing: 0.04em;
+}
+.card h3 {
+  font-family: var(--sans); font-size: 1.0625rem; font-weight: 600;
+  margin-bottom: 10px; line-height: 1.35; letter-spacing: -0.005em;
+}
+.card p {
+  font-size: 0.9375rem; color: var(--muted); line-height: 1.65;
+  margin-bottom: 12px; max-width: 62ch;
+}
+.card p:last-child { margin-bottom: 0; }
+.card ul { padding-left: 1.25rem; margin: 10px 0 12px; }
+.card li {
+  font-size: 0.9375rem; color: var(--muted); margin-bottom: 6px; line-height: 1.6;
+}
+.card li:last-child { margin-bottom: 0; }
+.card strong { color: var(--ink); font-weight: 600; }
+.card .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
+
+/* --- Dark card variant --- */
+.card-dark {
+  background: var(--ink); border-color: var(--ink);
+  padding: 28px 32px; border-radius: 10px;
+  margin: 20px 0;
+}
+.card-dark h3, .card-dark strong { color: var(--canvas); }
+.card-dark p, .card-dark li { color: #a8a29e; }
+.card-dark .card-header .card-date { color: #78716c; }
+.card-dark .section-title { color: var(--canvas); }
+
+/* --- Blockquotes --- */
+blockquote {
+  border-left: 2px solid var(--hairline);
+  margin: 24px 0; padding: 4px 0 4px 20px;
+  color: var(--muted); font-style: italic;
+  max-width: 62ch;
+}
+blockquote strong { color: var(--ink); font-style: normal; font-weight: 600; }
+
+/* --- Code & Pre --- */
+pre {
+  background: var(--code-bg); padding: 18px 22px;
+  border: 1px solid var(--hairline); border-radius: 8px;
+  overflow-x: auto; font-size: 0.82rem; margin: 16px 0;
+  line-height: 1.6; font-family: var(--mono);
+  color: var(--ink);
+}
+code {
+  background: var(--code-bg); padding: 0.15em 0.4em;
+  border: 1px solid var(--hairline); border-radius: 3px;
+  font-size: 0.85em; font-family: var(--mono); color: var(--ink);
+}
+pre code { background: none; padding: 0; border: none; font-size: inherit; }
+
+/* --- Tables --- */
+table {
+  width: 100%; border-collapse: collapse; font-size: 0.875rem;
+  margin: 20px 0; border-top: 1px solid var(--hairline);
+}
+th, td { text-align: left; padding: 10px 12px; vertical-align: top; }
+thead th {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; font-weight: 500; color: var(--muted);
+  border-bottom: 1px solid var(--hairline); padding-bottom: 8px;
+  background: transparent;
+}
+tbody tr { border-bottom: 1px solid var(--hairline); }
+tbody tr:last-child { border-bottom: none; }
+tbody td { color: var(--muted); font-size: 0.875rem; line-height: 1.55; }
+tbody td strong { color: var(--ink); font-weight: 600; }
+
+/* --- Misc --- */
+.callout {
+  border-top: 1px solid var(--hairline);
+  padding: 24px 0 28px;
+}
+.callout p { font-size: 0.9375rem; color: var(--muted); line-height: 1.65; max-width: 62ch; }
+.callout strong { color: var(--ink); }
+.callout ul { padding-left: 1.25rem; margin: 10px 0 0; }
+.callout li { font-size: 0.9375rem; color: var(--muted); margin-bottom: 6px; line-height: 1.6; }
+
+.sources {
+  font-size: 0.8125rem; color: var(--muted);
+  border-top: 1px solid var(--hairline); padding-top: 20px; margin-top: 40px;
+  font-style: italic;
+}
+
+.nav-footer {
+  max-width: 800px; margin: 0 auto; padding: 24px 32px;
+  border-top: 1px solid var(--hairline);
+  font-size: 0.8125rem; color: var(--muted);
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between;
+}
+.nav-footer a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--hairline); }
+.nav-footer a:hover { border-bottom-color: var(--muted); }
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .wrap, .nav-inner { padding-left: 20px; padding-right: 20px; }
+  .hero { padding: 56px 0 48px; }
+  .nav-inner { padding: 12px 20px; }
+  .hero h1 { font-size: 2.25rem; }
+  .hero .lede { font-size: 16px; }
+  .card-dark { padding: 20px; }
+  table { font-size: 0.8rem; }
+  th, td { padding: 8px; }
+}
+@media print {
+  body { background: #fff; }
+  .card { break-inside: avoid; }
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="eyebrow">ITSM/MSP Agentic AI Weekly</div>
-  <h1>Issue #5: Agentic PSA/RMM — From Insights to Execution</h1>
-  <div class="meta-bar">
-    <span class="badge">Issue #5</span>
-    <span>June 8, 2026</span>
-    <span class="badge badge-fill">Agentic Execution</span>
-    <span style="margin-left:auto">Weekly · Competitive Intelligence</span>
+<header class="nav">
+  <div class="nav-inner">
+    <span class="brand">Agentic Weekly<em> · ITSM/MSP</em></span>
+    <span class="meta">Issue #5 · June 8, 2026</span>
   </div>
-  <div class="accent-line"></div>
-</div>
+</header>
 
-<main class="main">
+<section class="wrap hero">
+  <span class="eyebrow">Weekly Competitive Intelligence</span>
+  <h1>Agentic PSA/RMM <em>- From Insights to Execution</em></h1>
+  <p class="lede">Kaseya declares the "first agentic IT management platform" with a 5-agent Hybrid Reasoning Architecture. ConnectWise shifts zofiQ from assistive to autonomous. SuperOps builds an open marketplace. NinjaOne stays tactical.</p>
+  <div class="meta-strip">
+    <span class="chip chip--slate">Agentic Execution</span>
+    <span class="chip chip--blue">Competitive Intel</span>
+  </div>
+</section>
 
-<div class="highlight-box">
-  <strong>Kaseya declares "first agentic IT management platform"</strong> with a 5-agent Hybrid Reasoning Architecture — Impact, Skills Assessor, Smart Assigner, Capacity Planner, and Critique Agent. GA now for Autotask Ultimate. 80% reduction in categorization errors reported by early access partners.
+<main class="wrap">
+
+<div class="feature">
+  <span class="feature-label">This Week</span>
+  <p><strong>Kaseya</strong> launches Digital Specialist for Ticket Triage with a 5-agent Hybrid Reasoning Architecture. Early access partners report 80% fewer categorization errors and 90% decrease in mean time to assign. <strong>ConnectWise</strong> expands zofiQ with an Oversight Agent and autonomous workflow execution, citing 86% reduction in escalations at early partner Fusion Computing.</p>
 </div>
 
 <!-- 01: NEW FINDS -->
 <div class="section">
   <div class="section-header">
     <span class="section-num">01</span>
-    <span class="section-title">New Finds</span>
+    <h2 class="section-title">New Finds</h2>
   </div>
 
-  <div class="card">
+  <article class="card">
     <div class="card-header">
-      <span class="card-badge card-badge-fill">Kaseya</span>
-      <span class="card-badge card-badge-accent">Platform</span>
+      <span class="chip chip--red">Kaseya</span>
+      <span class="chip chip--slate">Platform</span>
       <span class="card-date">GA · April 28, 2026</span>
     </div>
     <h3>Kaseya Intelligence + Digital Specialists: "First Agentic IT Management Platform"</h3>
     <p>Three-layer architecture: <strong>Kaseya Intelligence</strong> (data/AI engine, 1B+ tickets, 3 exabytes backup, 17M endpoints), <strong>Execution layer</strong> (autonomous action), <strong>Digital Specialists</strong> (agentic AI workers).</p>
-    <p><strong>Digital Specialist for Ticket Triage</strong> uses a Hybrid Reasoning Architecture — 5-agent mesh:</p>
+    <p><strong>Digital Specialist for Ticket Triage</strong> uses a Hybrid Reasoning Architecture - a 5-agent mesh:</p>
     <ul>
-      <li><strong>Impact Agent (LLM)</strong> — priority, issue type, sub-type, severity</li>
-      <li><strong>Skills Assessor (LLM)</strong> — maps problems to expertise and certifications</li>
-      <li><strong>Smart Assigner (deterministic)</strong> — ranks technicians by skill match, certs, past performance</li>
-      <li><strong>Capacity Planner (deterministic)</strong> — real-time availability, schedules, time zones, workload</li>
-      <li><strong>Critique Agent (LLM)</strong> — challenges decisions to catch bias/blind spots</li>
+      <li><strong>Impact Agent (LLM)</strong> - priority, issue type, sub-type, severity</li>
+      <li><strong>Skills Assessor (LLM)</strong> - maps problems to expertise and certifications</li>
+      <li><strong>Smart Assigner (deterministic)</strong> - ranks technicians by skill match, certs, past performance</li>
+      <li><strong>Capacity Planner (deterministic)</strong> - real-time availability, schedules, time zones, workload</li>
+      <li><strong>Critique Agent (LLM)</strong> - challenges decisions to catch bias and blind spots</li>
     </ul>
     <p><strong>Lifecycle:</strong> Learn &gt; Triage &gt; Review. Each ticket feeds back. Technicians accept, reject, or refine.</p>
     <p><strong>Early access (25+ partners):</strong> 80% fewer categorization errors; 90% decrease in mean time to assign within 2 weeks; 98% accuracy in issue/sub-issue categorization within 1 week.</p>
     <p><strong>Also launched:</strong> Kaseya SIEM (60+ sources, 24/7 SOC); Unified Cyber Resilience Portal (AI-driven screenshot verification &gt;99.9%); Datto RMM Smart Insights with conversational AI.</p>
     <div class="tags">
-      <span>PSA</span>
-      <span>RMM</span>
-      <span>Multi-Agent</span>
-      <span>Hybrid Reasoning</span>
+      <span class="tag">PSA</span>
+      <span class="tag">RMM</span>
+      <span class="tag">Multi-Agent</span>
+      <span class="tag">Hybrid Reasoning</span>
     </div>
-  </div>
+  </article>
 
-  <div class="card card-warm">
+  <article class="card">
     <div class="card-header">
-      <span class="card-badge card-badge-fill">ConnectWise</span>
-      <span class="card-badge card-badge-accent">Platform</span>
+      <span class="chip chip--yellow">ConnectWise</span>
+      <span class="chip chip--slate">Platform</span>
       <span class="card-date">Early Partners · April 27, 2026</span>
     </div>
     <h3>zofiQ Agentic AI Expansion: From Insights to Execution</h3>
@@ -159,65 +328,65 @@ tbody tr:last-child td{border-bottom:none;}
     <p><strong>Partner results:</strong> 86% reduction in escalations (Fusion Computing). "Like adding two extra analysts without hiring." Auto triage saved 30+ hours (Intech Hawaii).</p>
     <p><strong>Key differentiator:</strong> Operates natively within ConnectWise (PSA, RMM, cybersecurity, data protection). Closed-loop workflows from intake to resolution.</p>
     <div class="tags">
-      <span>Oversight Agent</span>
-      <span>Native PSA</span>
-      <span>Closed-loop</span>
+      <span class="tag">Oversight Agent</span>
+      <span class="tag">Native PSA</span>
+      <span class="tag">Closed-loop</span>
     </div>
-  </div>
+  </article>
 
-  <div class="card card-blue">
+  <article class="card">
     <div class="card-header">
-      <span class="card-badge card-badge-fill">SuperOps</span>
-      <span class="card-badge card-badge-blue">Marketplace</span>
+      <span class="chip chip--blue">SuperOps</span>
+      <span class="chip chip--green">Marketplace</span>
       <span class="card-date">Beta · AWS-backed</span>
     </div>
     <h3>Agentic AI Marketplace + MSP Guide</h3>
     <p>Trusted destination where MSPs select agents and developers monetize. SuperHack hackathon with $100K prize pool. Six core MSP use cases: autonomous remediation, smart ticket handling, automated compliance/patching, platform integration, proactive asset management, predictive maintenance.</p>
     <p><strong>Market context:</strong> Canalys: 90% MSPs exploring AI, 61% stuck at pilot, 77% feel client pressure.</p>
     <div class="tags">
-      <span>MSP Guide</span>
-      <span>AWS Partnership</span>
-      <span>Hackathon</span>
+      <span class="tag">MSP Guide</span>
+      <span class="tag">AWS Partnership</span>
+      <span class="tag">Hackathon</span>
     </div>
-  </div>
+  </article>
 
-  <div class="card card-green">
+  <article class="card">
     <div class="card-header">
-      <span class="card-badge card-badge-fill">NinjaOne</span>
-      <span class="card-badge card-badge-green">Patching</span>
+      <span class="chip chip--green">NinjaOne</span>
+      <span class="chip chip--slate">Patching</span>
       <span class="card-date">GA</span>
     </div>
     <h3>Patch Intelligence AI</h3>
     <p>KB Sentiment Analysis for Windows patches. Multi-Status Evaluation: "Appears Stable", "Caution", "Known Issues." Toggle per tenant.</p>
     <p><strong>Positioning:</strong> Tactical augmentation, not full autonomy. Competes with Kaseya &gt;99.9% AI screenshot verification.</p>
     <div class="tags">
-      <span>Patch Management</span>
-      <span>Tactical AI</span>
+      <span class="tag">Patch Management</span>
+      <span class="tag">Tactical AI</span>
     </div>
-  </div>
+  </article>
 
-  <div class="card card-dark">
+  <article class="card card-dark">
     <div class="card-header">
-      <span class="card-badge card-badge-fill">ITSM.tools</span>
-      <span class="card-badge card-badge-accent">Research</span>
-      <span class="card-date">Omdia · Feb 2026</span>
+      <span class="chip chip--slate">ITSM.tools</span>
+      <span class="chip chip--red">Research</span>
+      <span class="card-date" style="color:#78716c;">Omdia · Feb 2026</span>
     </div>
     <h3>The MSP Agentic AI Execution Gap</h3>
     <p>70% of MSPs report using agentic AI internally. Only 10% deployed in IT service desk or security/compliance. 30% report no use at all. Governance is the #1 barrier (47%), not tech (16%).</p>
-    <p><strong>Maturity model:</strong> Stage 1 Assistive (classifies, recommends) → Stage 2 Semi-autonomous (routine with approval) → Stage 3 Autonomous (cross-domain, minimal supervision). Most orgs sit in Stage 1.</p>
+    <p><strong>Maturity model:</strong> Stage 1 Assistive (classifies, recommends) to Stage 2 Semi-autonomous (routine with approval) to Stage 3 Autonomous (cross-domain, minimal supervision). Most orgs sit in Stage 1.</p>
     <p><strong>PE angle:</strong> AI maturity factors into MSP valuations. Delay = exit risk.</p>
     <div class="tags">
-      <span>Governance Gap</span>
-      <span>PE Value</span>
+      <span class="tag">Governance Gap</span>
+      <span class="tag">PE Value</span>
     </div>
-  </div>
+  </article>
 </div>
 
 <!-- 02: PRICING INTELLIGENCE -->
 <div class="section">
   <div class="section-header">
     <span class="section-num">02</span>
-    <span class="section-title">Pricing Intelligence</span>
+    <h2 class="section-title">Pricing Intelligence</h2>
   </div>
 
   <table>
@@ -234,7 +403,7 @@ tbody tr:last-child td{border-bottom:none;}
   </table>
 
   <blockquote>
-    <strong>Observation:</strong> None charge per-resolution or per-conversation yet (unlike Atlassian Rovo's $1/resolution). AI is bundled as a platform differentiator, not a consumption add-on. Land grab phase — vendors use AI for stickiness, not direct monetization.
+    <strong>Observation:</strong> None charge per-resolution or per-conversation yet (unlike Atlassian Rovo's $1/resolution). AI is bundled as a platform differentiator, not a consumption add-on. Land grab phase - vendors use AI for stickiness, not direct monetization.
   </blockquote>
 </div>
 
@@ -242,7 +411,7 @@ tbody tr:last-child td{border-bottom:none;}
 <div class="section">
   <div class="section-header">
     <span class="section-num">03</span>
-    <span class="section-title">Competitive Position</span>
+    <h2 class="section-title">Competitive Position</h2>
   </div>
 
   <table>
@@ -250,8 +419,8 @@ tbody tr:last-child td{border-bottom:none;}
       <tr><th>Vendor</th><th>Agentic Layer</th><th>Data Foundation</th><th>Execution Depth</th><th>Governance</th><th>Status</th></tr>
     </thead>
     <tbody>
-      <tr><td><strong>Kaseya</strong></td><td>5-agent mesh</td><td>1B tickets, 3EB backup, 17M endpoints</td><td>Triage &gt; assignment &gt; resolution</td><td>Critique Agent + human loop</td><td>GA</td></tr>
-      <tr><td><strong>ConnectWise</strong></td><td>zofiQ stack</td><td>Platform data</td><td>Triage &gt; routing &gt; admin</td><td>Oversight Agent + SLA monitor</td><td>Early partners</td></tr>
+      <tr><td><strong>Kaseya</strong></td><td>5-agent mesh</td><td>1B tickets, 3EB backup, 17M endpoints</td><td>Triage to assignment to resolution</td><td>Critique Agent + human loop</td><td>GA</td></tr>
+      <tr><td><strong>ConnectWise</strong></td><td>zofiQ stack</td><td>Platform data</td><td>Triage to routing to admin</td><td>Oversight Agent + SLA monitor</td><td>Early partners</td></tr>
       <tr><td><strong>SuperOps</strong></td><td>Marketplace</td><td>Community + partner agents</td><td>Varies by agent</td><td>Community governance</td><td>Beta</td></tr>
       <tr><td><strong>NinjaOne</strong></td><td>Patch Intelligence</td><td>Patch KB + sentiment</td><td>Decision support only</td><td>Admin toggle</td><td>GA</td></tr>
       <tr><td><strong>PagerDuty</strong></td><td>SRE Agent</td><td>Operations Cloud telemetry</td><td>Incident response + runbook</td><td>MCP multi-agent</td><td>GA (Advance)</td></tr>
@@ -261,7 +430,7 @@ tbody tr:last-child td{border-bottom:none;}
 
   <div class="card card-dark">
     <div class="card-header">
-      <span class="card-badge card-badge-fill">Architecture</span>
+      <span class="chip chip--slate">Architecture</span>
     </div>
     <h3>Kaseya Hybrid Reasoning Mesh</h3>
     <pre><code>Ticket Ingest
@@ -278,59 +447,56 @@ Execution -- Review Loop -- Learn -- Kaseya Intelligence</code></pre>
     <p>Technically the most explicit disclosed architecture. LLM agents handle reasoning; deterministic agents handle constraints.</p>
   </div>
 
-  <div class="card card-warm">
+  <article class="card">
     <div class="card-header">
-      <span class="card-badge card-badge-fill">Gap</span>
+      <span class="chip chip--yellow">Gap</span>
     </div>
     <h3>Pricing Still Bundled</h3>
     <p>When do PSA/RMM vendors shift from "AI as differentiator" to "AI as revenue line"? Atlassian's $1/resolution is the only consumption model. The rest bundle. For MSPs, great (no meter anxiety). For vendors, AI ROI is retention/expansion, not direct revenue.</p>
-  </div>
+  </article>
 </div>
 
 <!-- 04: STRATEGIC IMPLICATIONS -->
 <div class="section">
   <div class="section-header">
     <span class="section-num">04</span>
-    <span class="section-title">Strategic Implications for SuperOps</span>
+    <h2 class="section-title">Strategic Implications for SuperOps</h2>
   </div>
 
-  <div class="card card-green">
-    <div class="card-header">
-      <span class="card-badge card-badge-fill">⚡ Takeaway</span>
-    </div>
+  <div class="callout">
     <h3>Execution Gap = Opportunity</h3>
     <ul>
-      <li><strong>60% of MSPs stuck at pilot.</strong> The problem isn't awareness — it's governance, trust, and getting from Stage 1 to Stage 2.</li>
+      <li><strong>60% of MSPs stuck at pilot.</strong> The problem is not awareness. It is governance, trust, and getting from Stage 1 to Stage 2.</li>
       <li><strong>Bundled pricing is table stakes.</strong> Vendors who charge for AI directly will be outliers. Free AI in PSA/RMM is the new competitive baseline.</li>
       <li><strong>Oversight Agents are becoming required.</strong> ConnectWise zofiQ and Kaseya Critique Agent both bake governance in. This is a signal.</li>
-      <li><strong>Marketplace model differentiates SuperOps.</strong> AWS-backed community agents vs. closed ecosystems. Bet on openness.</li>
+      <li><strong>Marketplace model differentiates SuperOps.</strong> AWS-backed community agents versus closed ecosystems. Bet on openness.</li>
     </ul>
-    <p><strong>Opportunity:</strong> Position SuperOps as the Stage 2 enabler — bridging gap between assistive (what MSPs have now) and semi-autonomous (what they need next).</p>
+    <p><strong>Opportunity:</strong> Position SuperOps as the Stage 2 enabler - bridging the gap between assistive (what MSPs have now) and semi-autonomous (what they need next).</p>
     <div class="tags">
-      <span>Market Entry</span>
-      <span>Positioning</span>
+      <span class="tag">Market Entry</span>
+      <span class="tag">Positioning</span>
     </div>
   </div>
 </div>
 
-<!-- 05: ACTION ITEMS -->
+<!-- 05: WATCH LIST -->
 <div class="section">
   <div class="section-header">
     <span class="section-num">05</span>
-    <span class="section-title">Watch List</span>
+    <h2 class="section-title">Watch List</h2>
   </div>
 
-  <div class="card">
+  <article class="card">
     <ul>
-      <li><strong>Datadog AIOps/Watchdog</strong> — Issue #6 (June 15). Agentic incident response vs. Kaseya SIEM + PagerDuty SRE Agent.</li>
-      <li><strong>Dynatrace Davis AI</strong> — Issue #7 (June 22). AI-native observability — have they moved to execution AI?</li>
-      <li><strong>ConnectWise zofiQ GA</strong> — timeline for PSA tier rollout.</li>
-      <li><strong>Kaseya Digital Specialist expansion</strong> — cybersecurity and cyber resilience specialists.</li>
-      <li><strong>SuperOps Marketplace GA</strong> — beta since Sept 2025. What's live?</li>
+      <li><strong>Datadog AIOps/Watchdog</strong> - Issue #6 (June 15). Agentic incident response versus Kaseya SIEM + PagerDuty SRE Agent.</li>
+      <li><strong>Dynatrace Davis AI</strong> - Issue #7 (June 22). AI-native observability. Have they moved to execution AI?</li>
+      <li><strong>ConnectWise zofiQ GA</strong> - timeline for PSA tier rollout.</li>
+      <li><strong>Kaseya Digital Specialist expansion</strong> - cybersecurity and cyber resilience specialists.</li>
+      <li><strong>SuperOps Marketplace GA</strong> - beta since September 2025. What is live?</li>
     </ul>
-  </div>
+  </article>
 
-  <p style="font-size:.8125rem;color:var(--muted);margin-top:2rem;border-top:1px solid var(--border);padding-top:1rem;">
+  <p class="sources">
     <em>Sources:</em> Kaseya press release (Apr 28 2026), Kaseya 2026 H1 release notes, ConnectWise press release (Apr 27 2026), Datto blog (May 12 2026), SuperOps media release (Aug 18 2025) + MSP guide, NinjaOne Patch Intelligence AI page, ITSM.tools / Omdia research (Feb 2026).
   </p>
 </div>
