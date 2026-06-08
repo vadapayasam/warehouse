@@ -35,6 +35,8 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 .guide h2{font-size:1.1rem;margin-bottom:1rem}
 .guide ul{margin-left:1.2rem}
 .guide li{margin-bottom:.4rem}
+.post-time{background:#f0fdf4;padding:.4rem .8rem;border-radius:99px;font-size:.8rem;color:#166534;font-weight:600;display:inline-block;margin-bottom:.75rem}
+.tweet-card h3{font-size:.9rem;color:var(--muted);margin-bottom:.5rem;font-weight:500}
 @media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
 </style>
 </head>
@@ -53,11 +55,11 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 <div class="guide">
 <h2>📋 Posting Guide</h2>
 <ul>
-<li>Copy tweet → paste into X</li>
+<li>Copy tweet text → paste into X (formerly Twitter)</li>
 <li>Add screenshot if suggested (marked 📸)</li>
-<li>Morning (9am) + afternoon (3pm) + evening (7pm) for max reach</li>
-<li>Engage with replies within 30 min for algorithm boost</li>
-<li>Don't post all 8 at once. Space them throughout the day</li>
+<li>Post at the exact time shown on each card (Chennai IST, UTC+5:30)</li>
+<li>Reply to any engagement within 30 min for algorithm boost</li>
+<li>Do not post all at once. Space them across the day</li>
 </ul>
 </div>
 
@@ -68,14 +70,21 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
                 <span class="tag workflow">#workflow</span>
                 <span class="format">listicle</span>
             </div>
-            <pre class="tweet-text">My daily automation stack:
+            <span class="post-time">🕘 Post at 9:00 AM IST</span>
+            <h3>My daily automation stack (the real one, not the LinkedIn version):</h3>
+            <pre class="tweet-text">6:00 AM: Todoist raw file processed. Tasks auto-created from overnight notes. If I forgot to log something at 1 AM, it still makes it to my morning list.
 
-6 AM: Todoist processed, daily tasks created
-9 AM: Weekly ITSM/MSP research runs
-2 PM: Designer skills radar scan
-6 PM: Raw vault files processed
+9:00 AM: Weekly ITSM/MSP research runs. 2-step pipeline: SearXNG for discovery, Firecrawl for deep-read. Not chatbot summaries. Actual article extraction into markdown, then HTML artifact, then GitHub Pages push. I review the output, not write it.
 
-I don't schedule these. Cron does. I just review the output.</pre>
+2:00 PM: Designer skills radar. Scans for new Figma plugins, SwiftUI patterns, and whatever SuperOps design team is shipping that week. Dumps into my vault as raw notes. I process the signal, not the noise.
+
+6:00 PM: Raw vault file processing. This is the big one. Everything I dumped into ~/Documents/hermes-vault/raw/ throughout the day gets categorized, summarized, cross-referenced, and written into the wiki. If this cron breaks, my entire knowledge pipeline stalls. It broke last month because of an em-dash in a headline. Now I have a pre-flight script.
+
+9:00 PM: Vault daily digest fires to Telegram. Shows me inbox count, wiki size, and whether any raw files got orphaned. If the digest is silent, something is wrong.
+
+I don't schedule these. Cron does. I just review the output and occasionally fix the thing that broke.
+
+The lesson: automation that needs babysitting is just delayed manual work.</pre>
             <div class="screenshot-note">📸 hermes cron list output</div>
             <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
         </div>
@@ -86,14 +95,20 @@ I don't schedule these. Cron does. I just review the output.</pre>
                 <span class="tag failures">#failures</span>
                 <span class="format">story</span>
             </div>
-            <pre class="tweet-text">Google OAuth broke on my Hermes setup. Every Docs upload failed with 403 access_denied.
+            <span class="post-time">🕙 Post at 10:30 AM IST</span>
+            <h3>How a single checkbox cost me 2 hours:</h3>
+            <pre class="tweet-text">Google OAuth broke on my Hermes setup. Every Docs upload failed with 403 access_denied. The error message was useless: just "insufficient permissions" with a link to a dead troubleshooting page.
 
-Turned out I needed to add my email as a 'test user' in Google Cloud Console.
+I went through the entire OAuth flow twice. Regenerated credentials. Checked scopes. Verified the refresh token. Even reinstalled the Google client library. Nothing.
 
-One checkbox. 2 hours of debugging.
+Turned out I needed to add my email as a "test user" in Google Cloud Console. Not a permission issue. Not a scope issue. Just: my own app didn't recognize me as a valid tester while it was in unpublished mode.
 
-Google auth is the YAML of authentication.</pre>
-            
+One checkbox. 2 hours of debugging. 4 credential regenerations. 1 very angry afternoon.
+
+Google auth is the YAML of authentication: looks simple, hides complexity, and the error messages actively mislead you.
+
+The real fix wasn't technical. It was reading the fine print on a settings page I skipped because "I'm the owner, why would I need to test my own app?"</pre>
+            <div class="screenshot-note">📸 Google Cloud Console test users page</div>
             <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
         </div>
         
@@ -103,14 +118,21 @@ Google auth is the YAML of authentication.</pre>
                 <span class="tag stats">#stats</span>
                 <span class="format">listicle</span>
             </div>
-            <pre class="tweet-text">My most-used Hermes skills (by actual frequency):
-1. todoist - task management
-2. ios-swiftui - app development
-3. itsm-msp-agentic-research - weekly research
-4. prabha-taste - design guardrails
-5. research-to-web-publishing - HTML pipeline
+            <span class="post-time">🕛 Post at 12:00 PM IST</span>
+            <h3>My most-used Hermes skills, ranked by actual frequency (not what I wish I used):</h3>
+            <pre class="tweet-text">1. todoist: task management. Not just creating tasks. The 6 PM raw processing cron that turns my scattered notes into structured tasks. If this skill dies, my entire daily pipeline dies with it.
 
-The system learns what I use. The rest gathers dust.</pre>
+2. ios-swiftui: app development. WhatPay v1.3.2 just shipped build 12. LeaveHack in progress. This skill handles Xcode builds, App Store Connect uploads, and the occasional "why is my simulator showing old code" panic.
+
+3. itsm-msp-agentic-research: weekly research. Automated SearXNG + Firecrawl pipeline. Runs Monday 9 AM. Produces HTML artifacts on GitHub Pages. I read them Wednesday during lunch. 4-5 sources per week, not 50. Depth over breadth.
+
+4. prabha-taste: design guardrails. The anti-slop skill. Checks for em-dashes, banned palettes, border-radius consistency, AI-speak like "elevate" and "seamless." I wrote this because I kept shipping beige+brass+espresso "premium" garbage that looked like every other AI-generated landing page.
+
+5. research-to-web-publishing: HTML pipeline. Converts markdown research into GitHub Pages artifacts. Handles the CSS, the mobile layout, the dark mode toggle. The skill I use when I want the output to look like I designed it, not like a default Bootstrap template.
+
+6. agent-tina-hard-rules: pre-flight gatekeeping. Every task runs through this first. Verification sequences, path checks, anti-cascade rules. The skill that stops me from committing broken HTML because I forgot to check if the live URL actually loads.
+
+The system learns what I use. The rest gathers dust. I have 30 skills installed. 6 get daily use. 12 have never been touched. That's not a bug: that's a filter.</pre>
             <div class="screenshot-note">📸 ls ~/.hermes/skills/ sorted by access time</div>
             <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
         </div>
@@ -121,18 +143,29 @@ The system learns what I use. The rest gathers dust.</pre>
                 <span class="tag interesting">#interesting</span>
                 <span class="format">opinion</span>
             </div>
-            <pre class="tweet-text">Hot take: Most 'AI automation' content is generic garbage.
+            <span class="post-time">🕐 Post at 1:30 PM IST</span>
+            <h3>Hot take: Most "AI automation" content is written by people who don't actually automate anything.</h3>
+            <pre class="tweet-text">The content that dominates my feed:
 
-'Use ChatGPT for emails!' 'Automate your calendar!'
+"Use ChatGPT for emails!"
+"Automate your calendar!"
+"Let AI write your blog posts!"
 
-Nobody talks about the real stuff:
-• Cron-scheduled research pipelines
-• Custom skills that encode your workflow
-• HTML artifact generation from markdown
-• One-command TestFlight uploads
+This is not automation. This is delegation to a chatbot. The human is still in the loop for every single task. You just replaced typing with prompting.
 
-That's the actual automation layer.</pre>
-            
+The real automation layer nobody talks about:
+
+Cron-scheduled research pipelines that run while you sleep. My Monday 9 AM ITSM research runs without me touching it. SearXNG discovers sources. Firecrawl extracts them. Markdown gets generated. HTML gets styled. GitHub Pages gets pushed. I wake up to a research digest.
+
+Custom skills that encode your workflow, not your prompts. A "todoist" skill that knows my task structure, my priorities, my project IDs. Not "here's how to use Todoist API." It's "run my entire morning task creation routine."
+
+HTML artifact generation from raw markdown. I dump notes into a vault folder. 6 PM every day, those notes become categorized wiki entries with cross-references. No manual copy-paste. No Notion drag-and-drop.
+
+One-command TestFlight uploads. asc builds upload. 30 seconds. No Xcode Organizer. No manual IPA export. No web upload. The pipeline I use for WhatPay builds 8 through 12.
+
+The difference: the human sets the system up once. Then reviews output. The popular content shows you how to use AI for one task at a time. The real automation is systems that run without you.
+
+Most people don't want automation. They want an assistant. Those are different things.</pre>
             <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
         </div>
         
@@ -142,10 +175,24 @@ That's the actual automation layer.</pre>
                 <span class="tag apps">#apps</span>
                 <span class="format">single</span>
             </div>
-            <pre class="tweet-text">WhatPay just crossed v1.3.1. 9 App Store builds later, I finally understand the submission pipeline.
+            <span class="post-time">🕓 Post at 3:00 PM IST</span>
+            <h3>WhatPay v1.3.2 just shipped build 12. Here's what 9 App Store builds taught me:</h3>
+            <pre class="tweet-text">Build 1-3: "Processing" in App Store Connect means nothing. It can say "Processing" for 20 minutes or 2 hours. The actual state is opaque. I now ignore it and check TestFlight directly after 15 minutes.
 
-The thing nobody tells you: 'Processing' in ASC means absolutely nothing.</pre>
-            <div class="screenshot-note">📸 App Store Connect builds list showing all 9 builds</div>
+Build 4: The stuck modal bug. URL scheme handler triggered unconditionally on launch. Every screenshot showed the same system dialog. Took 2 days to trace it to a deep link handler that fired before the app finished launching. Fixed by gating the handler behind a launch completion flag.
+
+Build 5-6: Privacy manifest anxiety. Apple started requiring privacy manifests in early 2024. WhatPay doesn't track users or use third-party SDKs, but the manifest still needs to exist and be correct. One wrong key and the submission gets rejected with a generic error.
+
+Build 7: The CSV export lie. v1.0 on the App Store claimed "Export data as CSV." It didn't. v1.1 removed the claim and correctly advertises iCloud sync. Building honest copy is harder than building features.
+
+Build 8: First successful asc CLI upload. No Xcode Organizer. No manual IPA export. Just: archive, export with API key auth, asc builds upload. 30 seconds. The moment I stopped fearing the submission pipeline.
+
+Build 9-11: Settings crown badge experiment. Tried a "Pro" crown badge on the settings row. Non-Pro users see it. Pro users see a checkmark. The banner padding was wrong on iPhone 14 Pro: the X button got buried. Fixed by pushing the banner down 24pt.
+
+Build 12: Clean. Merged feature branch to main. Final banner padding fix. Ready for review.
+
+The thing nobody tells you about App Store submission: every build teaches you something the documentation doesn't cover. The docs are correct. They just don't tell you what actually happens.</pre>
+            <div class="screenshot-note">📸 App Store Connect builds list showing builds 1-12</div>
             <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
         </div>
         
@@ -155,8 +202,24 @@ The thing nobody tells you: 'Processing' in ASC means absolutely nothing.</pre>
                 <span class="tag apps">#apps</span>
                 <span class="format">single</span>
             </div>
-            <pre class="tweet-text">Working on LeaveHack this week. SwiftUI + WidgetKit combo is still undefeated for quick utility apps.</pre>
-            <div class="screenshot-note">📸 TimeLeft widget screenshot</div>
+            <span class="post-time">🕔 Post at 4:30 PM IST</span>
+            <h3>LeaveHack: SwiftUI + WidgetKit is still undefeated for quick utility apps.</h3>
+            <pre class="tweet-text">Building LeaveHack this week. It's a simple leave/PTO tracker. The kind of app you build in a weekend and ship to TestFlight on Monday.
+
+Why SwiftUI + WidgetKit wins for this:
+
+Live Activities: The widget shows remaining leave days on your lock screen. No app open required. This is the "always visible" feature that makes a utility app stick.
+
+SwiftUI List + Form: Built the entire settings screen in 40 lines. No custom UI. No Auto Layout wrestling. The system handles dark mode, dynamic type, and accessibility out of the box.
+
+App Intents: Siri can add a leave day. "Hey Siri, I'm taking Friday off." The integration took 2 hours. Not because it's complex: because Apple made the API actually usable for once.
+
+WidgetKit timeline: The widget refreshes at midnight automatically. No background fetch. No push notifications. The system just updates the view when the date changes.
+
+The total build time so far: 3 evenings. Maybe 8 hours total. That's the power of staying inside the system instead of fighting it.
+
+The counterpoint: if I wanted a custom animation or a non-standard layout, SwiftUI would fight me. But for a utility app? Stay boring. Ship fast.</pre>
+            <div class="screenshot-note">📸 LeaveHack widget on lock screen + app UI</div>
             <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
         </div>
         
@@ -166,12 +229,29 @@ The thing nobody tells you: 'Processing' in ASC means absolutely nothing.</pre>
                 <span class="tag tips">#tips</span>
                 <span class="format">single</span>
             </div>
-            <pre class="tweet-text">For iOS devs building alone:
+            <span class="post-time">🕕 Post at 6:00 PM IST</span>
+            <h3>For iOS devs building alone: stop using Xcode Organizer.</h3>
+            <pre class="tweet-text">Set up asc (App Store Connect CLI) once. Then never touch Xcode Organizer again.
 
-Set up `asc` (App Store Connect CLI) once. Then:
-`asc builds upload` = TestFlight in 30 seconds
+The pipeline I use for every WhatPay build:
 
-No Xcode Organizer. No manual IPA export. No web upload.</pre>
+1. xcodebuild archive -scheme WhatPay -destination 'generic/platform=iOS'
+2. xcodebuild -exportArchive -exportOptionsPlist export.plist (uses app-store-connect method + API key auth)
+3. asc builds upload --ipa WhatPay.ipa
+
+Total time: 30 seconds. The upload happens in the terminal. No web interface. No drag-and-drop. No "Processing" anxiety.
+
+The setup cost: generating an API key in App Store Connect, saving it locally, creating an export options plist. Took me 20 minutes the first time. Saves me 5 minutes per build forever.
+
+The catch: you need a proper provisioning profile and signing certificate. The CLI doesn't help with setup: it assumes your signing is correct. If your archive fails, fix signing first.
+
+The second catch: if no Apple ID is signed into Xcode, export fails with a cryptic error about "no account found." This happened to me on June 7. The fix: sign into Xcode > Preferences > Accounts, or use manual signing with a downloaded provisioning profile.
+
+The third catch: asc is version 1.2.7. It's not perfect. Some commands are undocumented. But for builds upload and builds list, it's rock solid.
+
+What I don't miss: the Xcode Organizer window, the web upload form, the "Your app is Processing" state that means nothing, the 3-minute wait for the upload progress bar.
+
+What I do miss: nothing. Use the CLI.</pre>
             <div class="screenshot-note">📸 asc builds upload terminal output</div>
             <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
         </div>
@@ -182,13 +262,29 @@ No Xcode Organizer. No manual IPA export. No web upload.</pre>
                 <span class="tag workflow">#workflow</span>
                 <span class="format">step-by-step</span>
             </div>
-            <pre class="tweet-text">Every design review I do now:
+            <span class="post-time">🕖 Post at 7:00 PM IST</span>
+            <h3>Every design review I do now follows this pipeline. It took 3 iterations to get right:</h3>
+            <pre class="tweet-text">Iteration 1: Screenshot + Figma comments. Problems: Figma loads slowly on mobile. Comments get lost in threads. Clients reply in email instead of Figma. The feedback is scattered across 3 platforms.
 
-1. Agent captures screenshots
-2. HTML review gallery generated automatically
-3. I add commentary inline
-4. Gallery pushed to GitHub Pages
-5. Link shared. No Figma comments. No email threads.</pre>
+Iteration 2: Screenshot + Google Doc. Problems: Docs don't handle images well at scale. 12 screenshots in a Doc = scroll hell. Comments are better than Figma but still buried. And the Doc link feels temporary.
+
+Iteration 3 (current): Agent captures screenshots → HTML review gallery generated automatically → I add commentary inline → Gallery pushed to GitHub Pages → Link shared. Done.
+
+The pipeline:
+
+1. Agent captures screenshots from the iOS simulator or device. 12 screens for a typical app review. Named sequentially: 01-home, 02-settings, etc.
+
+2. HTML review gallery generated automatically. The template includes: screenshot, UX observation, severity tag (cosmetic / functional / critical), and a notes field. All styled with the same CSS I use for research artifacts. Consistent look.
+
+3. I add commentary inline. Not in a separate tool. Directly in the HTML. I write observations as I scroll through the gallery. The commentary stays with the screenshot it describes. No context switching.
+
+4. Gallery pushed to GitHub Pages. The URL is permanent. I can share it in Slack, email, or a ticket. The recipient sees exactly what I see. No "download this file" or "sign into Figma."
+
+5. Link shared. The recipient opens the URL. Sees the gallery. Reads the observations. Replies with feedback. I update the HTML and push again. The URL stays the same. The content updates.
+
+What I removed: Figma comments, email threads, PDF exports, screenshot zip files, "can you see the attached image?" messages.
+
+What I kept: The actual review. Just faster.</pre>
             <div class="screenshot-note">📸 WhatPay review HTML gallery page</div>
             <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
         </div>
