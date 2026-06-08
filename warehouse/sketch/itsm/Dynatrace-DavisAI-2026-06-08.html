@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynatrace Davis AI — Agentic AI Assessment</title>
+<style>
+:root {
+  --bg: #FAFAF8;
+  --fg: #1A1A19;
+  --muted: #787774;
+  --hairline: #EAEAEA;
+  --accent: #1e3a5f;
+  --accent-light: #38bdf8;
+  --warn: #c2410c;
+  --ok: #166534;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+  line-height: 1.65;
+  font-size: 15px;
+}
+h1, h2, h3 {
+  color: var(--fg);
+  font-weight: 600;
+}
+h1 {
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  font-size: 2.2rem;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  margin-top: 0;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--hairline);
+}
+h2 {
+  font-size: 1.35rem;
+  margin-top: 2.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--hairline);
+}
+h3 {
+  font-size: 1.1rem;
+  margin-top: 1.8em;
+  color: var(--muted);
+}
+p.meta {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: -0.5em;
+}
+pre {
+  background: #f5f5f3;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border: 1px solid var(--hairline);
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  background: #f5f5f3;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.2em 0;
+  font-size: 0.9rem;
+}
+th, td {
+  border: 1px solid var(--hairline);
+  padding: 0.6em 0.8em;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: #f5f5f3;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+tr:nth-child(even) {
+  background: #fdfdfc;
+}
+ul {
+  padding-left: 1.5em;
+}
+li {
+  margin: 0.4em 0;
+}
+.tag {
+  display: inline-block;
+  background: #f0f0ee;
+  padding: 0.25em 0.6em;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: var(--muted);
+  margin-right: 0.3em;
+  margin-bottom: 0.3em;
+}
+.tag-accent {
+  background: #e8f4fd;
+  color: var(--accent);
+}
+.tag-warn {
+  background: #fdf2e8;
+  color: var(--warn);
+}
+.tag-ok {
+  background: #e8f5e9;
+  color: var(--ok);
+}
+.quote {
+  border-left: 2px solid var(--hairline);
+  padding-left: 1em;
+  color: var(--muted);
+  margin: 1.2em 0;
+  font-style: italic;
+}
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--hairline);
+  margin: 2.5em 0;
+}
+.callout {
+  background: #f5f5f3;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 1.2em 0;
+}
+.callout-warn {
+  background: #fdf6f0;
+  border-color: #f0d9c4;
+}
+.callout-accent {
+  background: #f0f7fb;
+  border-color: #c4ddf0;
+}
+</style>
+</head>
+<body>
+
+<h1>Dynatrace Davis AI — Agentic AI Assessment</h1>
+<p class="meta">Research week: June 8, 2026 | Issue #6</p>
+<p class="meta">Focus: Workflow lifecycle, automation boundaries, where a request starts and ends</p>
+
+<div class="callout callout-accent">
+<strong>TL;DR:</strong> Dynatrace has the most mature observability-native AI engine in the market. Davis AI correlates anomalies across topology, performs causal root-cause analysis, and now drives autonomous remediation through Workflows and the MCP Server. For enterprise SRE teams, this is best-in-class. For MSPs, it is a powerful APM layer that requires custom bridging to PSA tools, client separation, and billing alignment.
+</div>
+
+<h2>1. Product Overview</h2>
+
+<p>Dynatrace is a unified observability platform founded in 2005 (HQ: Waltham, MA), publicly traded since 2019. Its AI engine, <strong>Davis AI</strong>, has been the platform's core differentiator for over a decade. In early 2026, Dynatrace rebranded its AI suite as <strong>Dynatrace Intelligence</strong> — an "agentic operations system" that fuses deterministic causal AI with generative capabilities.</p>
+
+<p>The 2026 platform consists of three layers:</p>
+<ul>
+<li><strong>Grail</strong> — unified data lakehouse (logs, metrics, traces, events, security findings)</li>
+<li><strong>Smartscape</strong> — real-time auto-discovered topology and dependency graph</li>
+<li><strong>Dynatrace Intelligence</strong> — reasoning layer with causal AI, predictive forecasting, and generative AI (Davis CoPilot / Assist)</li>
+</ul>
+
+<p>Key 2026 launches:</p>
+<ul>
+<li><strong>Dynatrace Assist</strong> (June 2026) — evolution of Davis CoPilot; conversational interface with multi-step reasoning</li>
+<li><strong>Dynatrace MCP Server</strong> (Feb 2026, GA) — open Model Context Protocol bridge to external AI agents</li>
+<li><strong>Dynatrace Intelligence Agents</strong> — ready-made domain agents for specific use cases</li>
+<li><strong>Agentic Workflows</strong> — event-triggered or scheduled automations with embedded Davis CoPilot</li>
+</ul>
+
+<h2>2. Workflow &amp; Lifecycle Analysis</h2>
+
+<h3>Incident Lifecycle: From Signal to Resolution</h3>
+
+<p>Dynatrace maps a precise, deterministic lifecycle for every incident:</p>
+
+<pre>
+[Signal Detection]
+    |
+    v
+[Davis Event Created]  &lt;-- anomaly detected (threshold breach, baseline degradation, crash)
+    |
+    v
+[Processing State]       &lt;-- up to 3 min: causal AI correlates events, avoids duplicates
+    |
+    v
+[Problem Opened]         &lt;-- grouped, correlated problem with root cause + impact analysis
+    |
+    +--&gt; [Notification / Alert]      --&gt; Slack, PagerDuty, ServiceNow, email
+    |
+    +--&gt; [Agentic Workflow Trigger]  --&gt; auto-remediation, ticket creation, resource scaling
+    |
+    +--&gt; [Human Investigation]       --&gt; Dynatrace Assist, drill-down to code level
+    |
+    v
+[Problem Closed]         &lt;-- when all Davis events resolve
+    |
+    v
+[Reopening Period]       &lt;-- 30 min window: new events can reopen the problem
+    |
+    v
+[Feedback Loop]          &lt;-- events exported to Grail for model retraining
+</pre>
+
+<h3>Key Lifecycle Rules</h3>
+
+<table>
+<tr><th>Rule</th><th>Behavior</th><th>Implication</th></tr>
+<tr><td>Processing delay</td><td>Up to 3 minutes before problem is opened</td><td>Reduces false alarms but delays first alert</td></tr>
+<tr><td>90-minute cap</td><td>Events after 90 min create a new problem</td><td>Prevents "zombie problems" from absorbing unrelated events</td></tr>
+<tr><td>5-minute merge gap</td><td>Events starting &gt;5 min apart may become separate problems</td><td>Fast-cascading incidents get split; tunable via custom alerts</td></tr>
+<tr><td>30-min reopen window</td><td>Closed problems can reopen</td><td>Avoids alert spam for intermittent issues</td></tr>
+<tr><td>Duplicate detection</td><td>Same-root-cause problems marked as duplicates</td><td>May hide related-but-separate incidents</td></tr>
+</table>
+
+<h3>Where AI Intervenes</h3>
+
+<table>
+<tr><th>Stage</th><th>AI Role</th><th>Human Role</th></tr>
+<tr><td>Detection</td><td>Fully automated: baseline deviation, threshold breach, crash detection</td><td>Configure thresholds and anomaly rules</td></tr>
+<tr><td>Correlation</td><td>Fully automated: causal AI merges related events into problems</td><td>Review duplicate handling, tune sensitivity</td></tr>
+<tr><td>Root cause analysis</td><td>Fully automated: fault tree analysis across topology</td><td>Validate RCA, drill to code level</td></tr>
+<tr><td>Impact analysis</td><td>Fully automated: blast radius, affected SLOs, user count</td><td>Prioritize based on business context</td></tr>
+<tr><td>Remediation</td><td>Semi-automated: Workflows can auto-remediate; Assist suggests actions</td><td>Approve or execute remediation steps</td></tr>
+<tr><td>Closure</td><td>Automated: problem closes when events resolve</td><td>Post-incident review, KB update</td></tr>
+</table>
+
+<h3>Automation Boundaries</h3>
+
+<p>Dynatrace Workflows supports three automation modes:</p>
+<ul>
+<li><strong>Notification/orchestration</strong> — fully automated: post to Slack, create Jira ticket, send email</li>
+<li><strong>Guided remediation</strong> — AI suggests steps, human approves: Dynatrace Assist generates remediation guidance, human triggers action</li>
+<li><strong>Autonomous action</strong> — fully automated with guardrails: resource scaling, manifest edits, runbook execution (requires high-confidence Davis AI forecasting + explicit workflow configuration)</li>
+</ul>
+
+<div class="callout callout-warn">
+<strong>Guardrail:</strong> Autonomous Workflows require explicit enablement and are typically scoped to low-risk, high-confidence actions (e.g., scaling a Kubernetes deployment based on forecasted demand). There is no general "auto-fix everything" mode.
+</div>
+
+<h2>3. Agentic AI Capabilities</h2>
+
+<h3>Dynatrace Intelligence: Three AI Modalities</h3>
+
+<table>
+<tr><th>Modality</th><th>Function</th><th>Example</th></tr>
+<tr><td>Causal AI (deterministic)</td><td>Topology-aware root cause analysis, fault tree analysis, impact correlation</td><td>"The DB latency spike caused the checkout service slowdown, affecting 1,200 users"</td></tr>
+<tr><td>Predictive AI</td><td>Forecasting demand, capacity planning, anomaly prediction</td><td>"CPU will breach 85% in 45 minutes based on current trend"</td></tr>
+<tr><td>Generative AI (Davis CoPilot / Assist)</td><td>Natural language queries, log explanation, remediation guidance, DQL generation</td><td>"Summarize all open problems and highlight those needing remediation"</td></tr>
+</table>
+
+<h3>Dynatrace Assist (June 2026)</h3>
+
+<p>Dynatrace Assist is the conversational interface to Dynatrace Intelligence. It replaces Davis CoPilot with deeper multi-step reasoning:</p>
+<ul>
+<li>Pulls context from Grail + Smartscape + active agents in real time</li>
+<li>Shows transparent reasoning: which data backs each recommendation</li>
+<li>Handles follow-up drill-downs without breaking conversational flow</li>
+<li>Can explain raw logs, suggest vulnerability fixes, and guide remediation</li>
+</ul>
+
+<h3>Agentic Ecosystem (MCP Server)</h3>
+
+<p>The <strong>Dynatrace MCP Server</strong> (GA Feb 2026) is the platform's bridge to external AI agents. It exposes Dynatrace data via the open Model Context Protocol to:</p>
+
+<table>
+<tr><th>Agent</th><th>Use Case</th></tr>
+<tr><td>GitHub Copilot</td><td>In-IDE production debugging with live metrics, traces, root cause</td></tr>
+<tr><td>Azure SRE Agent</td><td>Autonomous cloud investigation + automated remediation via Dynatrace Workflows</td></tr>
+<tr><td>AWS DevOps Agent</td><td>Multi-cloud anomaly detection + cross-platform incident response</td></tr>
+<tr><td>Atlassian Rovo Ops</td><td>Enriched Jira Service Management tickets with topology + impact + RCA</td></tr>
+<tr><td>ServiceNow Assist</td><td>ITSM ticket enrichment with causal analysis and remediation recommendations</td></tr>
+<tr><td>Amazon Kiro</td><td>Terminal-native observability queries for developers</td></tr>
+<tr><td>Microsoft Copilot / Slack</td><td>Business-user access to production health and incident status</td></tr>
+</table>
+
+<p>This is significant: Dynatrace is positioning itself as the <strong>observability control plane</strong> for external agents, not just a monitoring tool.</p>
+
+<h3>Intelligence Agents (Ready-Made)</h3>
+
+<p>Dynatrace ships domain-specific agents that operate within the platform:</p>
+<ul>
+<li>Proactive detection, impact assessment, auto-response to emerging conditions</li>
+<li>Can be combined with custom agentic workflows</li>
+<li>Work alongside ecosystem agents via the MCP Server</li>
+</ul>
+
+<h2>4. Integration &amp; API</h2>
+
+<h3>Native Integrations</h3>
+
+<table>
+<tr><th>Category</th><th>Tools</th><th>Integration Method</th></tr>
+<tr><td>ITSM</td><td>ServiceNow, Jira Service Management</td><td>Native connectors, MCP Server, webhook</td></tr>
+<tr><td>Chat</td><td>Slack, Microsoft Teams</td><td>Webhook + Power Automate, native bot</td></tr>
+<tr><td>CI/CD</td><td>GitHub, GitLab, Azure DevOps</td><td>Webhook, API, GitHub Copilot MCP</td></tr>
+<tr><td>Cloud</td><td>AWS, Azure, GCP</td><td>Cloud integrations + SRE/DevOps agents</td></tr>
+<tr><td>Orchestration</td><td>n8n, Copilot Studio</td><td>MCP Server, webhook</td></tr>
+<tr><td>Custom</td><td>Any HTTP endpoint</td><td>Custom webhook (Python/Flask sample provided)</td></tr>
+</table>
+
+<h3>API Surface</h3>
+
+<ul>
+<li><strong>Events API:</strong> Ingest custom Davis events from any source</li>
+<li><strong>Problems API:</strong> Read problem state, RCA results, impact data</li>
+<li><strong>Workflows API:</strong> Create, trigger, and monitor agentic workflows</li>
+<li><strong>MCP Server:</strong> Natural language access to all Grail data, health checks, problem analysis</li>
+<li><strong>DQL (Dynatrace Query Language):</strong> Grail-native query language for logs, metrics, traces, events</li>
+</ul>
+
+<h3>Data Flow Architecture</h3>
+
+<pre>
+[OneAgent / Cloud Integration / OpenTelemetry]
+    |
+    v
+[Grail Data Lakehouse]  &lt;-- unified storage: logs, metrics, traces, events, security
+    |
+    +--&gt; [Smartscape]   &lt;-- real-time topology + dependency graph
+    |
+    v
+[Dynatrace Intelligence]
+    |
+    +--&gt; [Davis Events]     --&gt; anomaly detection, threshold breaches
+    +--&gt; [Causal AI]        --&gt; root cause + impact analysis
+    +--&gt; [Predictive AI]    --&gt; forecasting, capacity planning
+    +--&gt; [Assist/CoPilot]   --&gt; generative explanations + guidance
+    |
+    v
+[Actions]
+    |
+    +--&gt; [Workflows]        --&gt; auto-remediation, ticket creation, scaling
+    +--&gt; [MCP Server]       --&gt; external agents (GitHub Copilot, Azure SRE, etc.)
+    +--&gt; [Notifications]    --&gt; Slack, PagerDuty, ServiceNow, email
+</pre>
+
+<h2>5. Pricing Intelligence</h2>
+
+<p>Dynatrace uses pure consumption pricing. AI capabilities are bundled into platform tiers; there is no separate "AI add-on" fee.</p>
+
+<table>
+<tr><th>Tier</th><th>Rate</th><th>AI Inclusion</th></tr>
+<tr><td>Foundation &amp; Discovery</td><td>$7/mo per host</td><td>Basic monitoring, no Davis AI</td></tr>
+<tr><td>Infrastructure Monitoring</td><td>$29/mo per host</td><td>Davis AI anomaly detection, RCA</td></tr>
+<tr><td>Full-Stack Monitoring</td><td>$58/mo per 8 GiB host</td><td>Full Davis AI + automated RCA + code-level profiling</td></tr>
+<tr><td>Logs</td><td>$0.20/GB ingest + $0.0007/GB-day retain</td><td>Davis AI log analysis, anomaly detection</td></tr>
+<tr><td>Metrics</td><td>$0.15/100k datapoints</td><td>Baseline deviation detection</td></tr>
+<tr><td>Real User Monitoring</td><td>$2.25/1,000 sessions</td><td>User experience anomaly detection</td></tr>
+</table>
+
+<div class="callout">
+<strong>Pricing insight:</strong> Unlike PagerDuty Advance ($415/mo flat) or Atlassian Rovo ($1/resolution), Dynatrace AI is "free" once you pay for observability data. The cost scales with infrastructure size, not with AI usage. For a 40-host environment: ~$2,320/mo for Full-Stack = includes full AI. This is competitive for mid-market but becomes expensive at scale compared to flat-rate alternatives.
+</div>
+
+<h2>6. Gaps &amp; Limitations</h2>
+
+<h3>Known Platform Limitations</h3>
+
+<table>
+<tr><th>Limitation</th><th>Source</th><th>Severity</th></tr>
+<tr><td>3-minute processing delay before problem creation</td><td>Dynatrace Docs</td><td>Medium — tunable via custom alerts but loses causal AI</td></tr>
+<tr><td>Duplicate problem detection can mask related-but-separate incidents</td><td>Dynatrace Docs</td><td>Medium — acknowledged tradeoff for alert noise reduction</td></tr>
+<tr><td>Autonomous Workflows limited to preview/GA for specific actions</td><td>Dynatrace Blog (Jan 2026)</td><td>Medium — not all remediation paths are GA</td></tr>
+<tr><td>Heavy OneAgent dependency for full topology discovery</td><td>Platform architecture</td><td>Medium — cloud-native agentless discovery exists but less granular</td></tr>
+<tr><td>Davis CoPilot/Assist requires Full-Stack tier for full capability</td><td>Pricing page</td><td>Low — pricing is transparent, not hidden</td></tr>
+</table>
+
+<h3>MSP-Specific Gaps</h3>
+
+<div class="callout callout-warn">
+<p><strong>No native MSP features found.</strong> Dynatrace is built for enterprise SRE and DevOps, not multi-tenant MSP operations. The following are missing or require custom work:</p>
+<ul>
+<li><strong>No PSA integration:</strong> No native ConnectWise, Autotask, or HaloPSA connectors. ServiceNow and Jira are supported, but MSP-specific PSA workflows (ticket-to-billing, time entry, client portals) are absent.</li>
+<li><strong>No client separation:</strong> Multi-tenancy requires manual uniform tagging and naming conventions. Per-client baselines are possible but not a first-class feature.</li>
+<li><strong>No MSP billing alignment:</strong> Per-host pricing does not map to per-client or per-ticket billing models. No resolution-based or per-consumption unit that MSPs can pass through.</li>
+<li><strong>No co-managed templates:</strong> No pre-built runbooks or workflows for typical MSP scenarios (patch management approval, endpoint health checks, client onboarding).</li>
+<li><strong>No cross-vendor AI orchestration:</strong> The MCP Server connects external agents TO Dynatrace, but Dynatrace agents cannot natively orchestrate actions in non-Dynatrace tools (e.g., trigger a ConnectWise script or a NinjaOne policy change).</li>
+</ul>
+</div>
+
+<h3>Competitive Comparison</h3>
+
+<table>
+<tr><th>Dimension</th><th>Dynatrace</th><th>PagerDuty Advance</th><th>Datadog Bits AI</th></tr>
+<tr><td>AI origin</td><td>Native causal AI (10+ years)</td><td>Acquired + built</td><td>Watchdog RCA + Bits AI</td></tr>
+<tr><td>Autonomous remediation</td><td>Workflows + Assist (semi-auto)</td><td>SRE Agent (auto)</td><td>Investigation notebooks (guided)</td></tr>
+<tr><td>External agent bridge</td><td>MCP Server (GA, open protocol)</td><td>MCP-based multi-agent protocol</td><td>Bits AI copilot only</td></tr>
+<tr><td>Pricing model</td><td>Per-host consumption</td><td>$415/mo flat add-on</td><td>~$20/seat/mo consumption</td></tr>
+<tr><td>MSP-native features</td><td>None</td><td>None</td><td>None</td></tr>
+<tr><td>Topology awareness</td><td>Smartscape (best-in-class)</td><td>Service graph</td><td>Service map</td></tr>
+</table>
+
+<h2>7. Verdict</h2>
+
+<p><strong>For enterprise SRE/DevOps:</strong> Dynatrace is the most mature observability-native AI platform. The causal AI engine, real-time topology (Smartscape), and the MCP Server make it a genuine "agentic operations system" rather than a bolt-on AI feature. The shift from Davis CoPilot to Dynatrace Assist (June 2026) signals serious investment in generative + deterministic hybrid AI.</p>
+
+<p><strong>For MSPs:</strong> Dynatrace is a powerful APM/observability layer that an MSP can resell or use internally, but it is not an MSP-native tool. The gaps are structural: no PSA bridge, no client billing model, no multi-tenancy, no co-managed workflows. An MSP running Dynatrace for clients would need a custom integration layer (webhook router + PSA API mapping + billing normalization) to make the AI insights actionable in their operational stack.</p>
+
+<p><strong>Strategic angle:</strong> The MCP Server is the most interesting piece for MSP tooling builders. Because it uses the open Model Context Protocol, a custom MSP agent could theoretically query Dynatrace Intelligence and then act through PSA/RMM APIs. This positions Dynatrace as a <em>data source</em> in a broader agentic ecosystem, rather than a closed loop. For the "universal connector bus" architecture pattern, Dynatrace's MCP Server is a strong inbound signal source.</p>
+
+<hr class="section-divider">
+
+<p class="meta">Sources: Dynatrace Docs (problem lifecycle, RCA concepts, Workflows), Dynatrace Blog (Perform 2026 announcements, agentic workflows, MCP Server, Assist launch), Dynatrace Pricing (June 2026 rate card), Futurum Group analysis.</p>
+<p class="meta">Next research target: New Relic AI + Grok (Issue #7, scheduled June 22, 2026)</p>
+
+</body>
+</html>
