@@ -3,231 +3,344 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ITSM/MSP Agentic AI Weekly - Issue #5</title>
+<title>ITSM/MSP Agentic AI Weekly — Issue #5 — Kaseya, ConnectWise, SuperOps, NinjaOne</title>
 <style>
-:root{--bg:#faf8f5;--fg:#1c1917;--muted:#78716c;--accent:#0077b6;--accent-2:#48cae4;--border:#e7e5e4;--surface:#fff;--code-bg:#f5f5f0}
-*{box-sizing:border-box}
+:root{
+  --bg:#fdfbf6;--fg:#1c1917;--muted:#78716c;--accent:#dc2626;--accent-warm:#ea580c;
+  --border:#e7e5e4;--surface:#fff;--dark:#0a0a0a;--dark-text:#f5f5f5;--code-bg:#f5f5f0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.7;color:var(--fg);background:var(--bg);margin:0;padding:0;-webkit-font-smoothing:antialiased}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  line-height:1.65;color:var(--fg);background:var(--bg);margin:0;padding:0;-webkit-font-smoothing:antialiased;
+}
 a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
 a:hover{border-bottom-color:var(--accent)}
-.back{display:inline-block;margin:2rem auto 0;font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-header,.main{max-width:720px;margin:0 auto;padding:1.75rem}
-header{padding-bottom:.5rem}
-.main{padding-top:0}
-h1{font-size:1.625rem;font-weight:700;line-height:1.2;letter-spacing:-0.025em;margin:0;color:var(--fg)}
-h2{font-size:1.125rem;font-weight:600;margin:2.5rem 0 1rem;padding-top:.5rem;border-top:2px solid var(--accent);color:var(--fg)}
-h3{font-size:1rem;font-weight:600;margin:1.5rem 0 .5rem;color:var(--fg)}
-p{margin:0 0 1.125rem}
-.meta{font-size:.8125rem;color:var(--muted);margin-top:.5rem;letter-spacing:.01em}
-table{width:100%;border-collapse:collapse;font-size:.875rem;margin:1.25rem 0;background:var(--surface);border-radius:6px;overflow:hidden}
-th,td{text-align:left;padding:.6rem .9rem;border-bottom:1px solid var(--border)}
-thead th{font-weight:600;color:var(--fg);background:#f5f5f0;border-bottom:2px solid var(--border)}
-ul{margin:0 0 1.125rem;padding-left:1.5rem}
-li{margin-bottom:.4rem}
-blockquote{border-left:3px solid var(--accent-2);margin:1.75rem 0;padding:.5rem 0 .5rem 1.25rem;color:var(--muted);font-style:italic;background:none}
-code{background:var(--code-bg);padding:.18em .45em;border-radius:4px;font-size:.85em;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--fg)}
-pre{background:var(--code-bg);padding:1rem 1.25rem;border-radius:8px;overflow-x:auto;font-size:.82rem;margin:1.25rem 0;line-height:1.6;border:1px solid var(--border)}
-pre code{background:none;padding:0;font-size:inherit}
-@media print{body{background:#fff}a[href]:after{content:" (" attr(href) ")";font-size:.75rem;color:var(--muted)}.back{display:none}}
+
+.header{max-width:720px;margin:0 auto;padding:3rem 1.75rem 1.5rem;}
+.header .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;}
+.header h1{font-size:2.75rem;font-weight:700;line-height:1.1;letter-spacing:-.03em;margin:0;color:var(--fg);}
+.header .meta-bar{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;margin-top:1rem;}
+.header .meta-bar span{font-size:.8125rem;color:var(--muted);letter-spacing:.02em;}
+.header .meta-bar .badge{display:inline-block;background:var(--fg);color:var(--dark-text);padding:.25rem .75rem;font-size:.75rem;font-weight:600;letter-spacing:.05em;}
+.header .accent-line{height:2px;background:var(--accent);margin-top:1.5rem;width:60px;}
+
+.main{max-width:720px;margin:0 auto;padding:0 1.75rem 3rem;}
+
+.section{margin-bottom:3.5rem;}
+.section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.25rem;padding-top:1rem;border-top:1px solid var(--border);}
+.section-num{font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1;letter-spacing:-.02em;min-width:3rem;}
+.section-title{font-size:1.125rem;font-weight:600;color:var(--fg);letter-spacing:-.01em;}
+
+.card{background:var(--surface);border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1rem;position:relative;}
+.card::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);}
+.card-warm::before{background:var(--accent-warm);}
+.card-blue::before{background:#0077b6;}
+.card-green::before{background:#16a34a;}
+.card-purple::before{background:#7c3aed;}
+
+.card-header{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;flex-wrap:wrap;}
+.card-badge{display:inline-block;font-size:.6875rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .5rem;border:1px solid var(--fg);color:var(--fg);}
+.card-badge-fill{background:var(--fg);color:var(--dark-text);border-color:var(--fg);}
+.card-badge-accent{background:var(--accent);color:#fff;border-color:var(--accent);}
+.card-badge-blue{background:#0077b6;color:#fff;border-color:#0077b6;}
+.card-badge-green{background:#16a34a;color:#fff;border-color:#16a34a;}
+.card-date{font-size:.8125rem;color:var(--muted);}
+
+.card h3{font-size:1.0625rem;font-weight:600;margin-bottom:.5rem;color:var(--fg);line-height:1.35;}
+.card p{font-size:.9375rem;color:var(--muted);line-height:1.6;margin-bottom:.75rem;}
+.card p:last-child{margin-bottom:0;}
+.card ul{padding-left:1.25rem;margin:.5rem 0 .75rem;}
+.card li{font-size:.9375rem;color:var(--muted);margin-bottom:.4rem;line-height:1.55;}
+.card li:last-child{margin-bottom:0;}
+.card strong{color:var(--fg);font-weight:600;}
+
+.card-dark{background:var(--dark);border-color:var(--dark);color:var(--dark-text);}
+.card-dark::before{background:var(--accent-warm);}
+.card-dark h3,.card-dark strong{color:var(--dark-text);}
+.card-dark p,.card-dark li{color:#a8a29e;}
+.card-dark .card-date{color:#78716c;}
+.card-dark .card-badge{border-color:var(--dark-text);color:var(--dark-text);}
+.card-dark .card-badge-fill{background:var(--dark-text);color:var(--dark);}
+
+.highlight-box{background:var(--fg);color:var(--dark-text);padding:1rem 1.25rem;margin:1.25rem 0;font-size:.9375rem;line-height:1.6;}
+.highlight-box strong{color:#fff;}
+
+blockquote{border-left:3px solid var(--accent);margin:1.5rem 0;padding:.5rem 0 .5rem 1.25rem;color:var(--muted);font-style:italic;background:none;}
+
+pre{background:var(--code-bg);padding:1rem 1.25rem;border:1px solid var(--border);overflow-x:auto;font-size:.82rem;margin:1rem 0;line-height:1.6;}
+code{background:var(--code-bg);padding:.15em .4em;border:1px solid var(--border);font-size:.85em;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--fg);}
+pre code{background:none;padding:0;border:none;font-size:inherit;}
+
+table{width:100%;border-collapse:collapse;font-size:.875rem;margin:1rem 0;background:var(--surface);border:1px solid var(--border);}
+th,td{text-align:left;padding:.65rem .9rem;border-bottom:1px solid var(--border);}
+thead th{font-weight:600;color:var(--fg);background:var(--code-bg);border-bottom:2px solid var(--fg);font-size:.8125rem;letter-spacing:.02em;}
+tbody td{color:var(--muted);font-size:.875rem;}
+tbody tr:last-child td{border-bottom:none;}
+
+.tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.75rem;}
+.tags span{font-size:.6875rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:.15rem .45rem;border:1px solid var(--border);color:var(--muted);}
+
+.nav-footer{max-width:720px;margin:0 auto;padding:2rem 1.75rem;border-top:1px solid var(--border);font-size:.8125rem;color:var(--muted);display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:space-between;}
+.nav-footer a{color:var(--fg);border-bottom-color:var(--border);}
+
+@media(max-width:640px){
+  .header h1{font-size:2rem;}
+  .section-num{font-size:2rem;}
+  .card{padding:1rem 1.125rem;}
+  .header,.main,.nav-footer{padding-left:1rem;padding-right:1rem;}
+}
+@media print{body{background:#fff;}.card{break-inside:avoid;}}
 </style>
 </head>
 <body>
-<a href="../" class="back">&larr; Back</a>
 
-<header>
-  <h1>ITSM/MSP Agentic AI Weekly - Issue #5</h1>
-  <p class="meta">Weekly &middot; 2026-06-08</p>
-</header>
+<div class="header">
+  <div class="eyebrow">ITSM/MSP Agentic AI Weekly</div>
+  <h1>Issue #5: Agentic PSA/RMM — From Insights to Execution</h1>
+  <div class="meta-bar">
+    <span class="badge">Issue #5</span>
+    <span>June 8, 2026</span>
+    <span class="badge badge-fill">Agentic Execution</span>
+    <span style="margin-left:auto">Weekly · Competitive Intelligence</span>
+  </div>
+  <div class="accent-line"></div>
+</div>
 
 <main class="main">
-<h1>ITSM/MSP Agentic AI Weekly - Issue #5</h1>
 
-<strong>Date:</strong> June 8, 2026
+<div class="highlight-box">
+  <strong>Kaseya declares "first agentic IT management platform"</strong> with a 5-agent Hybrid Reasoning Architecture — Impact, Skills Assessor, Smart Assigner, Capacity Planner, and Critique Agent. GA now for Autotask Ultimate. 80% reduction in categorization errors reported by early access partners.
+</div>
 
-<h2>New Finds</h2>
+<!-- 01: NEW FINDS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <span class="section-title">New Finds</span>
+  </div>
 
-<h3>Kaseya: "First Agentic IT Management Platform" — Kaseya Intelligence + Digital Specialists</h3>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge card-badge-fill">Kaseya</span>
+      <span class="card-badge card-badge-accent">Platform</span>
+      <span class="card-date">GA · April 28, 2026</span>
+    </div>
+    <h3>Kaseya Intelligence + Digital Specialists: "First Agentic IT Management Platform"</h3>
+    <p>Three-layer architecture: <strong>Kaseya Intelligence</strong> (data/AI engine, 1B+ tickets, 3 exabytes backup, 17M endpoints), <strong>Execution layer</strong> (autonomous action), <strong>Digital Specialists</strong> (agentic AI workers).</p>
+    <p><strong>Digital Specialist for Ticket Triage</strong> uses a Hybrid Reasoning Architecture — 5-agent mesh:</p>
+    <ul>
+      <li><strong>Impact Agent (LLM)</strong> — priority, issue type, sub-type, severity</li>
+      <li><strong>Skills Assessor (LLM)</strong> — maps problems to expertise and certifications</li>
+      <li><strong>Smart Assigner (deterministic)</strong> — ranks technicians by skill match, certs, past performance</li>
+      <li><strong>Capacity Planner (deterministic)</strong> — real-time availability, schedules, time zones, workload</li>
+      <li><strong>Critique Agent (LLM)</strong> — challenges decisions to catch bias/blind spots</li>
+    </ul>
+    <p><strong>Lifecycle:</strong> Learn &gt; Triage &gt; Review. Each ticket feeds back. Technicians accept, reject, or refine.</p>
+    <p><strong>Early access (25+ partners):</strong> 80% fewer categorization errors; 90% decrease in mean time to assign within 2 weeks; 98% accuracy in issue/sub-issue categorization within 1 week.</p>
+    <p><strong>Also launched:</strong> Kaseya SIEM (60+ sources, 24/7 SOC); Unified Cyber Resilience Portal (AI-driven screenshot verification &gt;99.9%); Datto RMM Smart Insights with conversational AI.</p>
+    <div class="tags">
+      <span>PSA</span>
+      <span>RMM</span>
+      <span>Multi-Agent</span>
+      <span>Hybrid Reasoning</span>
+    </div>
+  </div>
 
-<p>Kaseya unveiled what it calls the <strong>first agentic IT management platform</strong> at Kaseya Connect Global (April 28, 2026). The architecture has three layers:</p>
+  <div class="card card-warm">
+    <div class="card-header">
+      <span class="card-badge card-badge-fill">ConnectWise</span>
+      <span class="card-badge card-badge-accent">Platform</span>
+      <span class="card-date">Early Partners · April 27, 2026</span>
+    </div>
+    <h3>zofiQ Agentic AI Expansion: From Insights to Execution</h3>
+    <p>Shift from "assistive AI to autonomous execution with oversight." Three components: <strong>AI Assistants</strong> (embedded PSA recommendations), <strong>Autonomous Agents</strong> (execute repetitive workflows), <strong>Oversight Agent</strong> (monitors tickets, SLAs, flags risks).</p>
+    <p><strong>Partner results:</strong> 86% reduction in escalations (Fusion Computing). "Like adding two extra analysts without hiring." Auto triage saved 30+ hours (Intech Hawaii).</p>
+    <p><strong>Key differentiator:</strong> Operates natively within ConnectWise (PSA, RMM, cybersecurity, data protection). Closed-loop workflows from intake to resolution.</p>
+    <div class="tags">
+      <span>Oversight Agent</span>
+      <span>Native PSA</span>
+      <span>Closed-loop</span>
+    </div>
+  </div>
 
-<p>1. <strong>Kaseya Intelligence</strong> — the data/AI engine, trained on 1 billion+ help desk tickets, 3 exabytes of backup data, 17 million managed endpoints.</p>
-<p>2. <strong>Execution layer</strong> — autonomously takes action across IT operations, cybersecurity, and cyber resilience.</p>
-<p>3. <strong>Digital Specialists</strong> — agentic AI workers that handle high-volume tasks.</p>
+  <div class="card card-blue">
+    <div class="card-header">
+      <span class="card-badge card-badge-fill">SuperOps</span>
+      <span class="card-badge card-badge-blue">Marketplace</span>
+      <span class="card-date">Beta · AWS-backed</span>
+    </div>
+    <h3>Agentic AI Marketplace + MSP Guide</h3>
+    <p>Trusted destination where MSPs select agents and developers monetize. SuperHack hackathon with $100K prize pool. Six core MSP use cases: autonomous remediation, smart ticket handling, automated compliance/patching, platform integration, proactive asset management, predictive maintenance.</p>
+    <p><strong>Market context:</strong> Canalys: 90% MSPs exploring AI, 61% stuck at pilot, 77% feel client pressure.</p>
+    <div class="tags">
+      <span>MSP Guide</span>
+      <span>AWS Partnership</span>
+      <span>Hackathon</span>
+    </div>
+  </div>
 
-<strong>Digital Specialist for Ticket Triage (GA now for Autotask Ultimate)</strong> uses a <strong>Hybrid Reasoning Architecture</strong> — a coordinated mesh of 5 specialized agents:
+  <div class="card card-green">
+    <div class="card-header">
+      <span class="card-badge card-badge-fill">NinjaOne</span>
+      <span class="card-badge card-badge-green">Patching</span>
+      <span class="card-date">GA</span>
+    </div>
+    <h3>Patch Intelligence AI</h3>
+    <p>KB Sentiment Analysis for Windows patches. Multi-Status Evaluation: "Appears Stable", "Caution", "Known Issues." Toggle per tenant.</p>
+    <p><strong>Positioning:</strong> Tactical augmentation, not full autonomy. Competes with Kaseya &gt;99.9% AI screenshot verification.</p>
+    <div class="tags">
+      <span>Patch Management</span>
+      <span>Tactical AI</span>
+    </div>
+  </div>
 
-<ul>
-<li><strong>Impact Agent (LLM-powered)</strong> — evaluates priority, issue type, sub-type, severity.</li>
-<li><strong>Skills Assessor (LLM-powered)</strong> — maps problems to required expertise and certifications.</li>
-<li><strong>Smart Assigner (deterministic)</strong> — ranks technicians by skill match, certifications, past performance.</li>
-<li><strong>Capacity Planner (deterministic)</strong> — checks real-time availability, schedules, time zones, workload.</li>
-<li><strong>Critique Agent (LLM-powered)</strong> — challenges decisions made by other agents to catch bias/blind spots.</li>
-</ul>
+  <div class="card card-dark">
+    <div class="card-header">
+      <span class="card-badge card-badge-fill">ITSM.tools</span>
+      <span class="card-badge card-badge-accent">Research</span>
+      <span class="card-date">Omdia · Feb 2026</span>
+    </div>
+    <h3>The MSP Agentic AI Execution Gap</h3>
+    <p>70% of MSPs report using agentic AI internally. Only 10% deployed in IT service desk or security/compliance. 30% report no use at all. Governance is the #1 barrier (47%), not tech (16%).</p>
+    <p><strong>Maturity model:</strong> Stage 1 Assistive (classifies, recommends) → Stage 2 Semi-autonomous (routine with approval) → Stage 3 Autonomous (cross-domain, minimal supervision). Most orgs sit in Stage 1.</p>
+    <p><strong>PE angle:</strong> AI maturity factors into MSP valuations. Delay = exit risk.</p>
+    <div class="tags">
+      <span>Governance Gap</span>
+      <span>PE Value</span>
+    </div>
+  </div>
+</div>
 
-<strong>Lifecycle:</strong> Learn > Triage > Review. Each resolved ticket feeds back into Kaseya Intelligence. Technicians can accept, reject, or refine recommendations. The system captures what was done, identifies skills used, and improves the reasoning mesh.
+<!-- 02: PRICING INTELLIGENCE -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <span class="section-title">Pricing Intelligence</span>
+  </div>
 
-<strong>Early access results (25+ partners):</strong>
-<ul>
-<li>80% reduction in categorization errors (Advisor ICT)</li>
-<li>90% decrease in mean time to assign (Kaseya internal) within 2 weeks</li>
-<li>98% accuracy in issue/sub-issue categorization (Vitis Technologies) within 1 week</li>
-</ul>
+  <table>
+    <thead>
+      <tr><th>Vendor</th><th>AI Product</th><th>Pricing Model</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Kaseya</strong></td><td>Digital Specialist Ticket Triage</td><td>Included in Autotask Ultimate</td><td>GA; more Specialists coming</td></tr>
+      <tr><td><strong>ConnectWise</strong></td><td>zofiQ</td><td>Bundled with platform</td><td>No separate AI SKU</td></tr>
+      <tr><td><strong>SuperOps</strong></td><td>Agentic AI Marketplace</td><td>TBD / per-agent</td><td>Beta; AWS-backed</td></tr>
+      <tr><td><strong>NinjaOne</strong></td><td>Patch Intelligence AI</td><td>Included in platform</td><td>Toggle per admin</td></tr>
+      <tr><td><strong>Datto</strong></td><td>Smart Ticket Triage (Cooper Copilot)</td><td>Ultimate edition</td><td>Next: Smart Ticket Assignment</td></tr>
+    </tbody>
+  </table>
 
-<strong>Other launches in the same announcement:</strong>
-<ul>
-<li><strong>Kaseya SIEM</strong> (GA) — 60+ data sources, cross-surface correlation, automated response, 24/7 SOC option.</li>
-<li><strong>Unified Cyber Resilience Portal</strong> — on-prem + SaaS + endpoint + cloud backup in one portal, AI-driven screenshot verification >99.9% accuracy.</li>
-<li><strong>Datto RMM</strong> — Smart Insights (AI activity log, AI device insights) with conversational AI.</li>
-</ul>
+  <blockquote>
+    <strong>Observation:</strong> None charge per-resolution or per-conversation yet (unlike Atlassian Rovo's $1/resolution). AI is bundled as a platform differentiator, not a consumption add-on. Land grab phase — vendors use AI for stickiness, not direct monetization.
+  </blockquote>
+</div>
 
-<h3>ConnectWise: zofiQ Agentic AI Expansion — From Insights to Execution</h3>
+<!-- 03: COMPETITIVE POSITION -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <span class="section-title">Competitive Position</span>
+  </div>
 
-<p>ConnectWise announced zofiQ expansion (April 27, 2026), positioning it as the shift from "assistive AI to autonomous execution with oversight."</p>
+  <table>
+    <thead>
+      <tr><th>Vendor</th><th>Agentic Layer</th><th>Data Foundation</th><th>Execution Depth</th><th>Governance</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Kaseya</strong></td><td>5-agent mesh</td><td>1B tickets, 3EB backup, 17M endpoints</td><td>Triage &gt; assignment &gt; resolution</td><td>Critique Agent + human loop</td><td>GA</td></tr>
+      <tr><td><strong>ConnectWise</strong></td><td>zofiQ stack</td><td>Platform data</td><td>Triage &gt; routing &gt; admin</td><td>Oversight Agent + SLA monitor</td><td>Early partners</td></tr>
+      <tr><td><strong>SuperOps</strong></td><td>Marketplace</td><td>Community + partner agents</td><td>Varies by agent</td><td>Community governance</td><td>Beta</td></tr>
+      <tr><td><strong>NinjaOne</strong></td><td>Patch Intelligence</td><td>Patch KB + sentiment</td><td>Decision support only</td><td>Admin toggle</td><td>GA</td></tr>
+      <tr><td><strong>PagerDuty</strong></td><td>SRE Agent</td><td>Operations Cloud telemetry</td><td>Incident response + runbook</td><td>MCP multi-agent</td><td>GA (Advance)</td></tr>
+      <tr><td><strong>Atlassian</strong></td><td>Rovo AI</td><td>Teamwork Graph</td><td>$1/resolution consumption</td><td>Human-in-the-loop</td><td>GA</td></tr>
+    </tbody>
+  </table>
 
-<strong>zofiQ components:</strong>
-<ul>
-<li><strong>AI Assistants</strong> — embedded in PSA for recommendations.</li>
-<li><strong>Autonomous Agents</strong> — execute repetitive workflows (ticket triage, routing, admin tasks).</li>
-<li><strong>Oversight Agent</strong> — governance layer; monitors tickets, SLAs, agent activity; proactively flags risks and inconsistencies.</li>
-</ul>
+  <div class="card card-dark">
+    <div class="card-header">
+      <span class="card-badge card-badge-fill">Architecture</span>
+    </div>
+    <h3>Kaseya Hybrid Reasoning Mesh</h3>
+    <pre><code>Ticket Ingest
+    |
+Impact Agent (LLM) -- Skills Assessor (LLM)
+    |                  |
+    v                  v
+Smart Assigner (deterministic) &lt;-- Capacity Planner (deterministic)
+    |
+    v
+Critique Agent (LLM) --&gt; Final Decision
+    |
+Execution -- Review Loop -- Learn -- Kaseya Intelligence</code></pre>
+    <p>Technically the most explicit disclosed architecture. LLM agents handle reasoning; deterministic agents handle constraints.</p>
+  </div>
 
-<strong>Partner results:</strong>
-<ul>
-<li>86% reduction in escalations (Fusion Computing)</li>
-<li>"Like adding two extra analysts without hiring" (Fusion Computing)</li>
-<li>Auto triage saved 30+ hours of Microsoft configuration work (Intech Hawaii)</li>
-<li>Company assignment agent alone saved 30+ hours (Intech Hawaii)</li>
-</ul>
+  <div class="card card-warm">
+    <div class="card-header">
+      <span class="card-badge card-badge-fill">Gap</span>
+    </div>
+    <h3>Pricing Still Bundled</h3>
+    <p>When do PSA/RMM vendors shift from "AI as differentiator" to "AI as revenue line"? Atlassian's $1/resolution is the only consumption model. The rest bundle. For MSPs, great (no meter anxiety). For vendors, AI ROI is retention/expansion, not direct revenue.</p>
+  </div>
+</div>
 
-<strong>Key differentiator:</strong> zofiQ operates natively within the ConnectWise platform (PSA, RMM, cybersecurity, data protection), not as a standalone tool. Closed-loop workflows from intake through resolution.
+<!-- 04: STRATEGIC IMPLICATIONS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <span class="section-title">Strategic Implications for SuperOps</span>
+  </div>
 
-<h3>SuperOps: Agentic AI Marketplace (AWS Partnership) + MSP Guide</h3>
+  <div class="card card-green">
+    <div class="card-header">
+      <span class="card-badge card-badge-fill">⚡ Takeaway</span>
+    </div>
+    <h3>Execution Gap = Opportunity</h3>
+    <ul>
+      <li><strong>60% of MSPs stuck at pilot.</strong> The problem isn't awareness — it's governance, trust, and getting from Stage 1 to Stage 2.</li>
+      <li><strong>Bundled pricing is table stakes.</strong> Vendors who charge for AI directly will be outliers. Free AI in PSA/RMM is the new competitive baseline.</li>
+      <li><strong>Oversight Agents are becoming required.</strong> ConnectWise zofiQ and Kaseya Critique Agent both bake governance in. This is a signal.</li>
+      <li><strong>Marketplace model differentiates SuperOps.</strong> AWS-backed community agents vs. closed ecosystems. Bet on openness.</li>
+    </ul>
+    <p><strong>Opportunity:</strong> Position SuperOps as the Stage 2 enabler — bridging gap between assistive (what MSPs have now) and semi-autonomous (what they need next).</p>
+    <div class="tags">
+      <span>Market Entry</span>
+      <span>Positioning</span>
+    </div>
+  </div>
+</div>
 
-<p>SuperOps launched the <strong>Agentic AI Marketplace</strong> (beta September 2025, AWS-backed), positioned as a trusted destination where MSPs select ready-to-use agents and developers publish/monetize innovations.</p>
+<!-- 05: ACTION ITEMS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <span class="section-title">Watch List</span>
+  </div>
 
-<strong>Ecosystem:</strong>
-<ul>
-<li><strong>Agentic AI Community</strong> — hub for MSPs, IT leaders, developers to collaborate.</li>
-<li><strong>SuperHack Hackathon</strong> — global developer challenge, $100,000 prize pool, winning submissions featured in Marketplace.</li>
-</ul>
+  <div class="card">
+    <ul>
+      <li><strong>Datadog AIOps/Watchdog</strong> — Issue #6 (June 15). Agentic incident response vs. Kaseya SIEM + PagerDuty SRE Agent.</li>
+      <li><strong>Dynatrace Davis AI</strong> — Issue #7 (June 22). AI-native observability — have they moved to execution AI?</li>
+      <li><strong>ConnectWise zofiQ GA</strong> — timeline for PSA tier rollout.</li>
+      <li><strong>Kaseya Digital Specialist expansion</strong> — cybersecurity and cyber resilience specialists.</li>
+      <li><strong>SuperOps Marketplace GA</strong> — beta since Sept 2025. What's live?</li>
+    </ul>
+  </div>
 
-<strong>SuperOps MSP guide to agentic AI</strong> (published early 2026) outlines six core agentic AI use cases for MSPs:
-<p>1. Autonomous remediation (detect > analyze > fix automatically)</p>
-<p>2. Smart ticket handling (classify, prioritize, assign, resolve L1)</p>
-<p>3. Automated compliance and patching</p>
-<p>4. Platform integration (RMM + PSA + alerting + documentation)</p>
-<p>5. Proactive asset management</p>
-<p>6. Predictive maintenance and forecasting</p>
-
-<strong>Market context:</strong> Canalys data cited: 90% of MSPs exploring AI, 61% stuck at pilot stage, 77% feel pressure to deliver AI-powered tools to clients.
-
-<h3>NinjaOne: Patch Intelligence AI</h3>
-
-<p>NinjaOne launched <strong>Patch Intelligence AI</strong> for Windows patch management. Features:</p>
-<ul>
-<li><strong>KB Sentiment Analysis</strong> — analyzes patches for stability, known bugs, aggregated user sentiment.</li>
-<li><strong>Multi-Status Patch Evaluation</strong> — auto-categorizes: "Appears Stable", "Caution", "Known Issues".</li>
-<li><strong>Flexible AI Integration</strong> — admins can enable/disable per tenant.</li>
-</ul>
-
-<strong>Positioning:</strong> Tactical AI augmentation (patching decisions), not full agentic autonomy. Competes with Kaseya's >99.9% AI screenshot verification and Datto's patch workflows.
-
-<h3>ITSM.tools: The MSP Agentic AI Execution Gap</h3>
-
-<p>Omdia research (commissioned by SuperOps, via Candefero/Canalys databases) published February 2026:</p>
-
-<ul>
-<li><strong>70% of MSPs</strong> report using agentic AI internally.</li>
-<li><strong>Only 10%</strong> have primarily deployed it in IT service desk or security/compliance.</li>
-<li><strong>30%</strong> report no use of agentic AI at all.</li>
-<li><strong>Governance</strong> is the #1 barrier (47%), not technical expertise (16%).</li>
-<li><strong>Enterprise cost savings:</strong> $250–1,200 per employee annually for agentic AI employee support.</li>
-<li><strong>MSP labor cost:</strong> ~40% of costs are labor. Level 1 ticket resolution = obvious starting point.</li>
-</ul>
-
-<strong>Maturity model (Omdia):</strong>
-<p>1. Assistive — classifies, recommends, speeds human-led workflows.</p>
-<p>2. Semi-autonomous — executes routine tasks with human approval.</p>
-<p>3. Autonomous — coordinates across IT, security, cloud with minimal supervision.</p>
-
-<strong>Most orgs sit in stage 1</strong>, some beginning stage 2. Genuine cross-domain autonomy remains aspirational.
-
-<strong>Private equity angle:</strong> AI operational maturity is beginning to factor into MSP valuations. Delaying adoption = strategic and financial risk for MSPs considering exit.
-
-<h2>Pricing Intelligence</h2>
-
-<p>| Vendor | AI Product | Pricing Model | Notes |</p>
-<p>|--------|-----------|---------------|-------|</p>
-<p>| Kaseya | Digital Specialist Ticket Triage | Included in Autotask Ultimate | GA now; additional Digital Specialists coming |</p>
-<p>| ConnectWise | zofiQ | Bundled with platform | No separate AI SKU disclosed |</p>
-<p>| SuperOps | Agentic AI Marketplace | TBD / per-agent marketplace | Beta; AWS-backed infrastructure |</p>
-<p>| NinjaOne | Patch Intelligence AI | Included in platform | Toggle on/off per admin |</p>
-<p>| Datto (Kaseya) | Smart Ticket Triage (Cooper Copilot) | Ultimate edition of Autotask PSA | Next: Smart Ticket Assignment |</p>
-
-<strong>Observation:</strong> None of the major PSA/RMM vendors are charging per-resolution or per-conversation yet (unlike Atlassian Rovo's $1/resolution). AI features are bundled as platform differentiators, not consumption add-ons. This suggests we're still in the "land grab" phase — vendors are using AI to defend platform stickiness rather than monetize directly.
-
-<h2>Worth Watching</h2>
-
-<h3>Competitive Matrix: Agentic AI in PSA/RMM (June 2026)</h3>
-
-<p>| Vendor | Agentic Layer | Data Foundation | Execution Depth | Governance/Oversight | Status |</p>
-<p>|--------|---------------|-----------------|-----------------|----------------------|--------|</p>
-<p>| <strong>Kaseya</strong> | Digital Specialists (5-agent mesh) | 1B tickets, 3EB backup, 17M endpoints | Full triage > assignment > resolution | Critique Agent + human review loop | GA (triage) |</p>
-<p>| <strong>ConnectWise</strong> | zofiQ (Assistants + Agents + Oversight) | ConnectWise platform data | Triage > routing > admin tasks | Oversight Agent monitors SLAs | Early partners |</p>
-<p>| <strong>SuperOps</strong> | Agentic AI Marketplace | Community + partner agents | Varies by marketplace agent | Community-driven governance | Beta |</p>
-<p>| <strong>NinjaOne</strong> | Patch Intelligence AI | Patch KB + user sentiment | Patch decision support only | Admin toggle on/off | GA |</p>
-<p>| <strong>PagerDuty</strong> | SRE Agent (from Issue #4) | Operations Cloud telemetry | Incident response + runbook | MCP-based multi-agent protocol | GA (Advance) |</p>
-<p>| <strong>Atlassian</strong> | Rovo AI | Teamwork Graph | $1/resolution consumption | Human-in-the-loop | GA |</p>
-
-<h3>Architecture Patterns Emerging</h3>
-
-<strong>Kaseya's Hybrid Reasoning Mesh</strong> is the most technically explicit architecture disclosed so far:
-<pre><code>Ticket Ingest
-<p>    |</p>
-<p>    v</p>
-<p>Impact Agent (LLM) --> Skills Assessor (LLM)</p>
-<p>    |                       |</p>
-<p>    v                       v</p>
-<p>Smart Assigner (deterministic) <-- Capacity Planner (deterministic)</p>
-<p>    |</p>
-<p>    v</p>
-<p>Critique Agent (LLM) -- challenges --> Final Decision</p>
-<p>    |</p>
-<p>    v</p>
-Execution --> Review Loop --> Learn --> Kaseya Intelligence</code></pre>
-
-<strong>ConnectWise's zofiQ stack</strong> is less architecturally detailed but conceptually cleaner:
-<pre><code>Intake (PSA-native)
-<p>    |</p>
-<p>    v</p>
-<p>AI Assistant (recommendation)</p>
-<p>    |</p>
-<p>    v</p>
-<p>Autonomous Agent (execution)</p>
-<p>    |</p>
-<p>    v</p>
-<p>Oversight Agent (governance + SLA monitor)</p>
-<p>    |</p>
-<p>    v</p>
-Closed-loop resolution</code></pre>
-
-<h3>Gap: Pricing Still Bundled</h3>
-
-<p>The big open question: when do PSA/RMM vendors shift from "AI as platform differentiator" to "AI as revenue line item"? Atlassian's $1/resolution model is the only consumption pricing in the space. Kaseya, ConnectWise, and SuperOps are all bundling. For MSPs, this is great (no meter anxiety). For vendors, it means AI ROI is measured in retention and expansion, not direct AI revenue.</p>
-
-<h2>Action Items</h2>
-
-<p>1. <strong>Research Datadog AIOps/Watchdog</strong> — scheduled for Issue #6 (June 15). Monitor for any agentic incident response capabilities that compete with Kaseya SIEM and PagerDuty SRE Agent.</p>
-<p>2. <strong>Research Dynatrace Davis AI</strong> — scheduled for Issue #7 (June 22). Davis has been AI-native longer than most; check if they've moved from observability AI to execution AI.</p>
-<p>3. <strong>Track ConnectWise zofiQ GA timeline</strong> — currently "early partners." When does it roll out to all PSA tiers?</p>
-<p>4. <strong>Track Kaseya Digital Specialist expansion</strong> — Ticket Triage is GA. What's next? (cybersecurity, cyber resilience specialists mentioned)</p>
-<p>5. <strong>Monitor SuperOps Marketplace launch</strong> — beta was September 2025. Has it GA'd? What agents are live?</p>
-
-<p>---</p>
-
-<em>Sources: Kaseya press release (Apr 28 2026), Kaseya 2026 H1 release notes, ConnectWise press release (Apr 27 2026), Datto blog (May 12 2026), SuperOps media release (Aug 18 2025) + MSP guide, NinjaOne Patch Intelligence AI page, ITSM.tools / Omdia research (Feb 2026).</em>
+  <p style="font-size:.8125rem;color:var(--muted);margin-top:2rem;border-top:1px solid var(--border);padding-top:1rem;">
+    <em>Sources:</em> Kaseya press release (Apr 28 2026), Kaseya 2026 H1 release notes, ConnectWise press release (Apr 27 2026), Datto blog (May 12 2026), SuperOps media release (Aug 18 2025) + MSP guide, NinjaOne Patch Intelligence AI page, ITSM.tools / Omdia research (Feb 2026).
+  </p>
+</div>
 
 </main>
+
+<div class="nav-footer">
+  <span>&larr; <a href="saas-agentic-weekly-index.html">Archive Index</a></span>
+  <span>Issue #5: Agentic Execution · Research for SuperOps AI Service Desk</span>
+</div>
+
 </body>
 </html>
