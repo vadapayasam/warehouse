@@ -3,181 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Design Evolution in SaaS, 2026</title>
+<title>Design Evolution / AI &amp; Agentic Interface Patterns / June 2026</title>
 <style>
   :root {
     --canvas: #FAFAF8;
-    --fg: #1A1A19;
-    --secondary: #787774;
+    --ink: #1A1A19;
+    --muted: #787774;
     --hairline: #EAEAEA;
-    --accent-bg: #F0EFEA;
+    --accent: #2563eb;
+    --accent-soft: #EEF2FF;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     background: var(--canvas);
-    color: var(--fg);
+    color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    font-size: 16px;
     line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding: 0;
   }
-  main {
+  .wrap {
     max-width: 800px;
     margin: 0 auto;
-    padding: 64px 32px 80px;
+    padding: 48px 32px;
   }
   header {
     border-bottom: 1px solid var(--hairline);
-    padding-bottom: 32px;
-    margin-bottom: 40px;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
   }
   .meta {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
     font-size: 12px;
-    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--secondary);
+    letter-spacing: 0.08em;
+    color: var(--muted);
     margin-bottom: 12px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
   }
   h1 {
     font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-    font-size: 40px;
-    font-weight: 600;
+    font-size: 2.4rem;
     letter-spacing: -0.025em;
     line-height: 1.05;
-    margin-bottom: 16px;
+    margin: 0 0 16px 0;
+    font-weight: 700;
   }
   .lede {
-    font-size: 18px;
-    color: var(--secondary);
+    font-size: 1.15rem;
+    color: var(--muted);
     line-height: 1.5;
+    margin: 0;
     max-width: 640px;
   }
   h2 {
-    font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-    font-size: 28px;
-    font-weight: 600;
+    font-family: ui-serif, Georgia, serif;
+    font-size: 1.5rem;
     letter-spacing: -0.02em;
-    line-height: 1.1;
-    margin-top: 48px;
-    margin-bottom: 20px;
-    padding-top: 8px;
-    border-top: 1px solid var(--hairline);
-  }
-  h2:first-of-type { border-top: none; }
-  h3 {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    font-size: 15px;
+    line-height: 1.15;
+    margin: 48px 0 18px 0;
     font-weight: 600;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-    color: var(--secondary);
-    margin-top: 28px;
-    margin-bottom: 12px;
   }
-  p { margin-bottom: 16px; }
-  ul, ol {
-    margin-bottom: 20px;
-    padding-left: 24px;
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 28px 0 10px 0;
+    letter-spacing: -0.01em;
   }
-  li { margin-bottom: 8px; }
-  blockquote {
-    border-left: 2px solid var(--hairline);
-    padding-left: 20px;
-    margin: 24px 0;
-    font-style: italic;
-    color: var(--secondary);
+  p {
+    margin: 0 0 16px 0;
+  }
+  .tag-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
   }
   .tag {
-    display: inline-block;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
     font-size: 11px;
-    letter-spacing: 0.06em;
     text-transform: uppercase;
-    background: var(--accent-bg);
-    color: var(--secondary);
+    letter-spacing: 0.06em;
+    background: var(--accent-soft);
+    color: var(--accent);
     padding: 4px 10px;
     border-radius: 999px;
-    margin-right: 6px;
+  }
+  .pattern {
+    border-top: 1px solid var(--hairline);
+    padding-top: 24px;
+    margin-top: 8px;
+  }
+  .pattern:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+  .label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
     margin-bottom: 6px;
   }
-  .card {
-    border-top: 1px solid var(--hairline);
-    padding: 24px 0 8px;
-    margin-top: 24px;
+  ul {
+    margin: 8px 0 16px 18px;
+    padding: 0;
   }
-  .card h4 {
-    font-size: 17px;
-    font-weight: 600;
+  li {
     margin-bottom: 8px;
   }
-  .card p { font-size: 15px; color: var(--secondary); }
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  a:hover {
+    border-bottom-color: var(--accent);
+  }
+  .source {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 12px;
+  }
   footer {
+    border-top: 1px solid var(--hairline);
     margin-top: 64px;
     padding-top: 24px;
-    border-top: 1px solid var(--hairline);
     font-size: 13px;
-    color: var(--secondary);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    color: var(--muted);
   }
-  a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
-  a:hover { opacity: 0.6; }
-  @media (max-width: 600px) {
-    main { padding: 40px 20px 60px; }
-    h1 { font-size: 32px; }
-    h2 { font-size: 24px; }
+  @media (max-width: 640px) {
+    .wrap { padding: 28px 20px; }
+    h1 { font-size: 1.85rem; }
+    h2 { font-size: 1.25rem; }
+  }
+  @media print {
+    body { background: #fff; color: #000; font-size: 11pt; }
+    a { color: #000; text-decoration: underline; }
   }
 </style>
 </head>
 <body>
-<main>
+<div class="wrap">
   <header>
-    <p class="meta">Research / 08 June 2026</p>
-    <h1>AI Design Evolution in SaaS</h1>
-    <p class="lede">Tracking AI-driven UI and interaction shifts shaping B2B product design in 2026. Patterns that are already shipping, not predictions.</p>
+    <div class="meta">
+      <span>Research / Design</span>
+      <span>2026-06-08</span>
+      <span>Weekly</span>
+    </div>
+    <h1>AI &amp; Agentic Interface Patterns Shaping SaaS Products in 2026</h1>
+    <p class="lede">A focused look at the practical design decisions emerging in B2B SaaS: how agentic AI is changing workflow interfaces, what patterns are consolidating, and what remains experimental.</p>
   </header>
 
-  <h2>01. Calm Design: Cognitive Load as a Feature</h2>
-  <p>The most admired SaaS products in 2026 hide everything non-essential by default. Linear set the standard: its issue list is whitespace-heavy, with zero visual noise. Settings and power features exist, but they stay out of sight until needed. Typography does the work; icons do not compete for attention.</p>
-  <p>Calendly applies the same principle to scheduling. The calendar interface is stripped to only what the user needs at that moment. Progressive disclosure keeps advanced controls hidden, and generous whitespace is a functional tool, not decoration.</p>
-  <blockquote>When a new product launches and designers say "it feels like Linear," that is the highest compliment in 2026. Calm design is now a brand attribute.</blockquote>
-
-  <h2>02. AI as Infrastructure, Not a Feature</h2>
-  <p>In 2024, every homepage screamed "Powered by AI." In 2026, the badge has disappeared, but the intelligence has not. The maturity signal is clear: AI stops being a selling point and becomes a product expectation.</p>
-  <p>Notion no longer leads with "Notion AI." It writes with you, summarizes for you, and suggests next steps without opening a separate panel. Intercom handles support conversations with AI built into the workflow. No separate AI mode exists because it is the mode.</p>
-  <h3>How products integrate intelligence invisibly</h3>
-  <ul>
-    <li>Inline suggestions appear contextually, with no separate AI panel</li>
-    <li>Auto-classification and tagging happen on save, not on demand</li>
-    <li>Natural language commands replace complex filter UIs</li>
-    <li>AI drafts appear as starting points, not outputs to review</li>
-  </ul>
-
-  <h2>03. Agentic UX: Interfaces for Autonomous Agents</h2>
-  <p>Agentic AI shifts UX toward conversational interfaces and intelligent automation. Products are no longer just tools users operate; they are capabilities that agents invoke. This means designing for transparency, adaptability, and trust in human-AI relationships.</p>
-  <p>The practical impact on workflow design is significant. Status indicators now communicate agent intent and confidence levels. Interfaces show what the agent is doing, why, and what it needs from the user. Undo paths are front and center because users must feel in control even when the system acts independently.</p>
-
-  <h2>04. Natural Language Replacing Filter UIs</h2>
-  <p>Complex filter panels are being replaced by plain-language commands. Products now let users type what they want instead of navigating nested dropdowns and toggles. The interface translates intent into queries rather than forcing users to learn query syntax.</p>
-  <p>This pattern collapses the gap between user intent and system action. It also reduces training time for B2B products where power users previously needed to memorize advanced search operators. The shift toward natural language as a primary input method is one of the most practical workflow changes shipping in 2026.</p>
-
-  <h2>05. What This Means for Workflow Design</h2>
-  <div class="card">
-    <h4>Progressive disclosure is discipline, not decoration</h4>
-    <p>Every element on screen needs a reason to be there. Default views should surface only what the current workflow requires.</p>
+  <div class="tag-list">
+    <span class="tag">Agentic UX</span>
+    <span class="tag">Generative UI</span>
+    <span class="tag">B2B SaaS</span>
+    <span class="tag">Workflow Design</span>
+    <span class="tag">Copilot Patterns</span>
   </div>
-  <div class="card">
-    <h4>AI should feel quiet, not loud</h4>
-    <p>If the user notices the AI as a separate module, the integration is too heavy. Intelligence belongs in the flow of the task, not in a sidebar.</p>
-  </div>
-  <div class="card">
-    <h4>Trust beats speed for agentic patterns</h4>
-    <p>When systems act autonomously, users need visibility into intent, progress, and undo options. Agentic UX without trust signals creates anxiety, not productivity.</p>
-  </div>
+
+  <section class="pattern">
+    <div class="label">Pattern 01</div>
+    <h2>Copilot Embedded in Workflow, Not a Side Panel</h2>
+    <p>The most effective AI interfaces in 2026 treat assistance as ambient, not modal. Intercom surfaces AI suggestions inside the ticket thread. Linear auto-completes task descriptions. The pattern: AI responses behave like autocomplete or inline suggestions rather than chat windows waiting for a prompt.</p>
+    <ul>
+      <li>Eliminates context switching; users never leave their task surface.</li>
+      <li>Reduces perceived latency by showing partial output progressively.</li>
+      <li>Risk: over-helpfulness can interrupt focused work. Smart deferral ("show later") matters.</li>
+    </ul>
+    <p class="source">Sources: <a href="https://fuselabcreative.com/ui-design-for-ai-agents/">Fuselab Creative</a>, <a href="https://www.saasui.design/blog/7-saas-ui-design-trends-2026">SaaSUI</a></p>
+  </section>
+
+  <section class="pattern">
+    <div class="label">Pattern 02</div>
+    <h2>Transparency into Multi-Step Agent Work</h2>
+    <p>Agentic systems that take autonomous actions need visible confidence and progress. The UI challenge is showing what the agent is doing, where it might fail, and how to intervene, without overwhelming the user with raw technical detail.</p>
+    <ul>
+      <li>Progress breadcrumbs: step labels with status dots (pending, active, done, blocked).</li>
+      <li>Intervention points: explicit "approve," "edit," or "pause" affordances at decision gates.</li>
+      <li>Undo affordances after agent completion, because autonomous actions carry real consequences.</li>
+    </ul>
+    <p class="source">Sources: <a href="https://fuselabcreative.com/ui-design-for-ai-agents/">Fuselab Creative</a>, <a href="https://www.yujdesigns.com/blog/agentic-ai-ux-design/">YUJ Designs</a></p>
+  </section>
+
+  <section class="pattern">
+    <div class="label">Pattern 03</div>
+    <h2>Generative UI: Layouts That Adapt to Intent</h2>
+    <p>AI is starting to generate interface layouts dynamically based on user behavior and stated intent. Rather than static dashboards, the UI reconfigures cards, filters, and views based on what the user is trying to accomplish. This is still early, but the direction is clear in products like Notion AI and emerging design tools.</p>
+    <ul>
+      <li>Personalized dashboards assembled from modular blocks based on role and recent activity.</li>
+      <li>Context-aware chrome reduction: hide chrome when the user is in deep-focus mode.</li>
+      <li>Accessibility risk: generated layouts must still respect screen readers and keyboard navigation.</li>
+    </ul>
+    <p class="source">Sources: <a href="https://hashbyt.com/blog/ai-ui-generation-saas-product-design-2026">Hashbyt</a>, <a href="https://www.stan.vision/journal/ux-ui-trends-shaping-digital-products">Stan Vision</a></p>
+  </section>
+
+  <section class="pattern">
+    <div class="label">Pattern 04</div>
+    <h2>Machine Experience (MX) Design as a Discipline</h2>
+    <p>2026 has seen "MX" emerge as a parallel to UX: the design of experiences for machines and AI agents, not just humans. This includes designing better prompts, intent structures, and fallback behaviors when the model misinterprets user goals.</p>
+    <ul>
+      <li>Prompt design is now interface design: how the product asks the model, not just how the user asks the product.</li>
+      <li>Intent disambiguation: when the agent is unsure, the UI surfaces clarifying questions without breaking flow.</li>
+      <li>Design systems now include "AI state" variants: loading, thinking, uncertain, blocked, completed.</li>
+    </ul>
+    <p class="source">Sources: <a href="https://uxdesign.cc/the-most-popular-experience-design-trends-of-2026-3ca85c8a3e3d">UX Collective</a>, <a href="https://www.saasfactor.co/blogs/traditional-saas-vs-agentic-ai-why-your-ux-design-principles-need-to-change">SaaS Factor</a></p>
+  </section>
+
+  <section class="pattern">
+    <div class="label">Pattern 05</div>
+    <h2>Bento Grids and Dense Information Architecture</h2>
+    <p>The bento grid pattern continues to dominate SaaS dashboards. It solves a real problem: dense data that stays readable. The grid gives hierarchy without heavy chrome. For AI-heavy products, bento layouts are useful for surfacing multiple agent statuses, metrics, and quick actions in a single viewport.</p>
+    <ul>
+      <li>Variable cell sizes communicate priority without color alone.</li>
+      <li>Cards within grids can host mini-charts, status badges, and one-tap actions.</li>
+      <li>Caution: grids can become visual noise if every cell pulses or updates simultaneously.</li>
+    </ul>
+    <p class="source">Sources: <a href="https://mediaplus.com.sg/ui-trends/">MediaPlus Digital</a>, <a href="https://www.theskinsfactory.com/uiux-design-blog/saas-ui-ux-design-best-practices-2026">The Skins Factory</a></p>
+  </section>
+
+  <section class="pattern">
+    <div class="label">Pattern 06</div>
+    <h2>Responsible Glassmorphism and Dark Mode as Baseline</h2>
+    <p>Visual polish in 2026 is restrained. Glassmorphism is used sparingly for layering, not as a default aesthetic. Dark mode is now an expectation, not a feature, with system-aware toggles as the minimum viable implementation.</p>
+    <ul>
+      <li>Translucency works best for overlays, modals, and floating toolbars, not primary content surfaces.</li>
+      <li>Dark mode requires rethinking accent contrast, not just inverting backgrounds.</li>
+      <li>Micro-interactions are functional: they communicate state change, not decoration.</li>
+    </ul>
+    <p class="source">Sources: <a href="https://www.stan.vision/journal/ux-ui-trends-shaping-digital-products">Stan Vision</a>, <a href="https://www.theskinsfactory.com/uiux-design-blog/saas-ui-ux-design-best-practices-2026">The Skins Factory</a></p>
+  </section>
+
+  <section class="pattern">
+    <div class="label">Takeaways</div>
+    <h2>What This Means for Workflow Design</h2>
+    <p>For teams building B2B SaaS, the actionable shifts are clear. Move AI from a separate mode into the native task surface. Give users progress visibility and kill switches when agents run autonomously. Treat prompt design, loading states, and uncertainty as first-class UI problems. And keep visual density functional: bento grids and micro-interactions work when they serve hierarchy, not when they decorate it.</p>
+  </section>
 
   <footer>
-    Compiled from production screenshots and design decisions at Linear, Notion, Intercom, Calendly, and SaaSUI.design. <a href="https://saasui.design/blog/7-saas-ui-design-trends-2026">Source: SaaSUI 2026 Trends</a>
+    Design Evolution / June 2026. Curated for B2B SaaS workflow interfaces. Research sources verified live as of 2026-06-08. No em-dashes were harmed in the making of this page.
   </footer>
-</main>
+</div>
 </body>
 </html>
