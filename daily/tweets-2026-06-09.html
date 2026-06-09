@@ -11,20 +11,16 @@
   --fg:#1d1d1f;
   --muted:#6e6e73;
   --accent:#0071e3;
-  --accent-2:#2997ff;
   --border:#d2d2d7;
-  --tag-bg:#f5f5f7;
+  --border-light:#e8e8ed;
+  --thread-bg:#f9f9fb;
 }
-
 *{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.6;
-  color:var(--fg);
-  background:var(--bg);
-  -webkit-font-smoothing:antialiased;
-  padding:2.5rem 1rem;
+  line-height:1.6;color:var(--fg);background:var(--bg);
+  -webkit-font-smoothing:antialiased;padding:2.5rem 1rem;
 }
 .container{max-width:760px;margin:0 auto}
 
@@ -60,6 +56,7 @@ body{
   padding:0.2rem 0.55rem;border-radius:8px;font-variant-numeric:tabular-nums;
 }
 
+/* Tweet card */
 .tweet-card{
   background:var(--surface);border-radius:8px;
   padding:1.5rem;margin-bottom:1.25rem;
@@ -70,7 +67,7 @@ body{
 
 .tweet-header{
   display:flex;align-items:center;gap:0.75rem;
-  margin-bottom:1rem;flex-wrap:wrap;
+  margin-bottom:1.25rem;flex-wrap:wrap;
 }
 .tweet-num{
   width:32px;height:32px;border-radius:50%;
@@ -92,31 +89,64 @@ body{
 .tag-apps{background:#dbeafe;color:#1e40af}
 
 .format-label{font-size:0.8125rem;color:var(--muted)}
+.thread-badge{
+  font-size:0.75rem;font-weight:600;
+  color:#5b21b6;background:#ede9fe;
+  padding:0.2rem 0.5rem;border-radius:8px;
+  letter-spacing:0.01em;
+}
 .post-time{
   margin-left:auto;font-size:0.8125rem;font-weight:600;
   color:var(--accent);background:rgba(0,113,227,0.08);
   padding:0.25rem 0.6rem;border-radius:8px;font-variant-numeric:tabular-nums;
 }
 
+/* Single tweet */
 .tweet-body{font-size:1rem;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem}
-.tweet-body strong{font-weight:600;color:var(--fg)}
 
-.screenshot-note{
-  display:flex;align-items:center;gap:0.5rem;
-  background:#fef3c7;padding:0.75rem 1rem;
-  border-radius:8px;font-size:0.875rem;color:#92400e;margin-bottom:1rem;
+/* Thread tweets */
+.thread-tweets{display:flex;flex-direction:column;gap:0.875rem}
+.thread-tweet{
+  background:var(--thread-bg);
+  border:1px solid var(--border-light);
+  border-radius:6px;padding:1rem 1.125rem;
 }
+.thread-tweet-header{
+  display:flex;align-items:center;gap:0.5rem;
+  margin-bottom:0.75rem;
+}
+.thread-num{
+  font-size:0.75rem;font-weight:700;
+  color:var(--muted);letter-spacing:0.02em;
+  font-variant-numeric:tabular-nums;
+}
+.thread-tweet pre{font-size:0.9375rem;line-height:1.7;white-space:pre-wrap;font-family:inherit;margin-bottom:0.75rem}
 
+/* Copy bar */
 .copy-bar{display:flex;justify-content:flex-end;align-items:center;gap:0.75rem}
 .copy-btn{
-  padding:0.5rem 1.25rem;border:none;border-radius:8px;
+  padding:0.4rem 1rem;border:none;border-radius:8px;
   background:var(--fg);color:#fff;cursor:pointer;
-  font-size:0.875rem;font-weight:500;letter-spacing:-0.01em;
+  font-size:0.8125rem;font-weight:500;letter-spacing:-0.01em;
   transition:background 0.15s ease;
 }
 .copy-btn:hover{background:#333}
 .copy-btn.copied{background:var(--accent)}
-.word-count{font-size:0.8125rem;color:var(--muted)}
+.char-count{font-size:0.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.screenshot-note{
+  display:flex;align-items:center;gap:0.5rem;
+  background:#fef3c7;padding:0.65rem 0.875rem;
+  border-radius:6px;font-size:0.8125rem;color:#92400e;margin-bottom:0.75rem;
+}
+
+/* Main card copy bar */
+.card-copy-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border-light);
+}
+.card-copy-bar .copy-btn{background:#6e6e73}
+.card-copy-bar .copy-btn:hover{background:#333}
 
 .footer{
   text-align:center;color:var(--muted);font-size:0.875rem;
@@ -155,231 +185,507 @@ body{
   <h2>Posting Schedule</h2>
   <table class="schedule-table">
     <tr><th>Time</th><th>Category</th><th>Tweet</th></tr>
-    <tr><td><span class="time-pill">09:00</span></td><td>failures</td><td>#1 - Ollama subscription cascade</td></tr>
-    <tr><td><span class="time-pill">10:30</span></td><td>workflow</td><td>#2 - agent-publish AP-038 preview</td></tr>
-    <tr><td><span class="time-pill">12:00</span></td><td>tips</td><td>#3 - Dedup gate for recurring crons</td></tr>
-    <tr><td><span class="time-pill">14:00</span></td><td>interesting</td><td>#4 - Karpathy agentic engineering</td></tr>
-    <tr><td><span class="time-pill">15:00</span></td><td>apps</td><td>#5 - agent-publish 4 features sprint</td></tr>
-    <tr><td><span class="time-pill">16:30</span></td><td>hermes</td><td>#6 - warehouse/research/ 404 trap</td></tr>
-    <tr><td><span class="time-pill">18:00</span></td><td>workflow</td><td>#7 - Editorial styling overhaul</td></tr>
-    <tr><td><span class="time-pill">19:30</span></td><td>stats</td><td>#8 - This week's numbers</td></tr>
+    <tr><td><span class="time-pill">09:00</span></td><td>failures</td><td>#1 &mdash; Ollama subscription cascade (thread)</td></tr>
+    <tr><td><span class="time-pill">10:30</span></td><td>workflow</td><td>#2 &mdash; Publishing CLI preview server (thread)</td></tr>
+    <tr><td><span class="time-pill">12:00</span></td><td>tips</td><td>#3 &mdash; Dedup gate for AI content crons (thread)</td></tr>
+    <tr><td><span class="time-pill">14:00</span></td><td>interesting</td><td>#4 &mdash; Karpathy agentic engineering (thread)</td></tr>
+    <tr><td><span class="time-pill">15:00</span></td><td>apps</td><td>#5 &mdash; 4 features in 72 hours (thread)</td></tr>
+    <tr><td><span class="time-pill">16:30</span></td><td>hermes</td><td>#6 &mdash; GitHub Pages 404 trap (thread)</td></tr>
+    <tr><td><span class="time-pill">18:00</span></td><td>workflow</td><td>#7 &mdash; Editorial styling overhaul (thread)</td></tr>
+    <tr><td><span class="time-pill">19:30</span></td><td>stats</td><td>#8 &mdash; This week's numbers (single)</td></tr>
   </table>
 </div>
 
-<!-- Tweet 1: 09:00 AM -->
+<!-- ── TWEET 1 ── -->
 <div class="tweet-card" id="t1">
   <div class="tweet-header">
     <span class="tweet-num">1</span>
     <span class="tag tag-failures">#failures</span>
-    <span class="format-label">story</span>
+    <span class="thread-badge">5-tweet thread</span>
     <span class="post-time">09:00 AM IST</span>
   </div>
-  <pre class="tweet-body">My Ollama subscription expired yesterday. Here's what broke:
+  <div class="thread-tweets">
 
-Every cron using kimi-k2.6 started failing silently. 24 errors in 12 hours. The nightly log analyzer caught it: 403 "requires a subscription" on every kimi model call.
+    <div class="thread-tweet" id="t1-1">
+      <div class="thread-tweet-header">
+        <span class="thread-num">1/5</span>
+      </div>
+      <pre>My Ollama subscription expired yesterday.
 
-The fallback? Also failed. kimi-coding: "provider not configured." No safety net. Context compression in long sessions hit the same dead endpoint.
+Here's the cascade:</pre>
+      <div class="copy-bar">
+        <span class="char-count">62 chars</span>
+        <button class="copy-btn" onclick="copyEl('t1-1')">Copy</button>
+      </div>
+    </div>
 
-Two crons died silently: Nightly Log Analyzer and Weekly Designer Skills Radar. No alert. No retry. Just gone.
+    <div class="thread-tweet" id="t1-2">
+      <div class="thread-tweet-header">
+        <span class="thread-num">2/5</span>
+      </div>
+      <pre>Every cron using kimi-k2.6 started failing silently. 24 errors in 12 hours. Log analyzer caught it: 403 "requires a subscription" on every call.
 
-Fix was one URL: ollama.com/upgrade. Updated billing. All crons self-healed on next run.
+Fallback also failed: "provider not configured." No safety net.</pre>
+      <div class="copy-bar">
+        <span class="char-count">211 chars</span>
+        <button class="copy-btn" onclick="copyEl('t1-2')">Copy</button>
+      </div>
+    </div>
 
-Then I spent 2 hours pinning every agent-based cron to mimo-v2.5. ITSM research, design evolution, portfolio advisor, stock scanner. All pinned.
+    <div class="thread-tweet" id="t1-3">
+      <div class="thread-tweet-header">
+        <span class="thread-num">3/5</span>
+      </div>
+      <pre>Two crons died silently: Nightly Log Analyzer and Weekly Designer Skills Radar.
 
-Lesson: routing everything through one model provider is a single point of failure. Pin multiple providers or accept the risk. I chose to pin.</pre>
-  <div class="screenshot-note">📸 Terminal showing grep for "requires a subscription" in agent.log</div>
-  <div class="copy-bar">
-    <span class="word-count">~140 words</span>
-    <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+No alert. No retry. Just gone.
+
+Found out by checking logs manually.</pre>
+      <div class="copy-bar">
+        <span class="char-count">152 chars</span>
+        <button class="copy-btn" onclick="copyEl('t1-3')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t1-4">
+      <div class="thread-tweet-header">
+        <span class="thread-num">4/5</span>
+      </div>
+      <pre>Fix was one URL: ollama.com/upgrade. Updated billing. All crons self-healed on next run.
+
+Then I spent 2 hours pinning every cron to mimo-v2.5. ITSM research, design evolution, stock scanner. All pinned.</pre>
+      <div class="copy-bar">
+        <span class="char-count">203 chars</span>
+        <button class="copy-btn" onclick="copyEl('t1-4')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t1-5">
+      <div class="thread-tweet-header">
+        <span class="thread-num">5/5</span>
+      </div>
+      <pre>Lesson: routing everything through one model provider is a single point of failure.
+
+Pin multiple providers or accept the risk.
+
+I chose to pin.</pre>
+      <div class="copy-bar">
+        <span class="char-count">146 chars</span>
+        <button class="copy-btn" onclick="copyEl('t1-5')">Copy</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-copy-bar">
+    <span class="char-count">Add screenshot: terminal grep for "requires a subscription"</span>
+    <button class="copy-btn" onclick="copyThread(1,5)">Copy all</button>
   </div>
 </div>
 
-<!-- Tweet 2: 10:30 AM -->
+<!-- ── TWEET 2 ── -->
 <div class="tweet-card" id="t2">
   <div class="tweet-header">
     <span class="tweet-num">2</span>
     <span class="tag tag-workflow">#workflow</span>
-    <span class="format-label">build breakdown</span>
+    <span class="thread-badge">4-tweet thread</span>
     <span class="post-time">10:30 AM IST</span>
   </div>
-  <pre class="tweet-body">agent-publish shipped AP-038: interactive post preview.
+  <div class="thread-tweets">
 
-`agent-publish preview report.md` spins up localhost:8765 with your draft HTML. LiveReload on 8766. File watcher with 500ms debounce. SIGINT cleans up temp files.
+    <div class="thread-tweet" id="t2-1">
+      <div class="thread-tweet-header"><span class="thread-num">1/4</span></div>
+      <pre>Built a live preview server for my publishing CLI.
 
-12 commits in 72 hours. The sprint: AP-033 humanize flag, AP-034 auto TLDR, AP-035 smart tagging with zero-token + LLM fallback, AP-038 interactive preview. 165 tests passing in 1.36s.
+`preview report.md` &rarr; localhost:8765 with your draft HTML. LiveReload on 8766. SIGINT cleans up temp files.</pre>
+      <div class="copy-bar">
+        <span class="char-count">164 chars</span>
+        <button class="copy-btn" onclick="copyEl('t2-1')">Copy</button>
+      </div>
+    </div>
 
-The preview server was the hard part. Not the HTTP server — that's trivial. Getting the file watcher to debounce correctly so rapid saves don't spawn 47 processes. 500ms debounce with cleanup on each new event.
+    <div class="thread-tweet" id="t2-2">
+      <div class="thread-tweet-header"><span class="thread-num">2/4</span></div>
+      <pre>The hard part wasn't the HTTP server. That's 20 lines.
 
-Runs as a single CLI subcommand. No daemon. No background process. You preview, fix, Ctrl+C. Done.</pre>
-  <div class="screenshot-note">📸 Terminal showing `agent-publish preview` starting up</div>
-  <div class="copy-bar">
-    <span class="word-count">~120 words</span>
-    <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
+The hard part: debouncing the file watcher. Rapid saves were spawning 47 processes. 500ms debounce with cleanup on each new event.</pre>
+      <div class="copy-bar">
+        <span class="char-count">189 chars</span>
+        <button class="copy-btn" onclick="copyEl('t2-2')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t2-3">
+      <div class="thread-tweet-header"><span class="thread-num">3/4</span></div>
+      <pre>12 commits in 72 hours:
+&mdash; humanize flag (strips AI-sounding prose)
+&mdash; auto TL;DR (zero-token first, LLM fallback)
+&mdash; smart tagging (same cost pattern)
+&mdash; interactive preview
+
+165 tests. 1.36s.</pre>
+      <div class="copy-bar">
+        <span class="char-count">197 chars</span>
+        <button class="copy-btn" onclick="copyEl('t2-3')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t2-4">
+      <div class="thread-tweet-header"><span class="thread-num">4/4</span></div>
+      <pre>Single CLI subcommand. No daemon. No background process.
+
+You preview. You fix. You Ctrl+C.
+
+Done.</pre>
+      <div class="copy-bar">
+        <span class="char-count">97 chars</span>
+        <button class="copy-btn" onclick="copyEl('t2-4')">Copy</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-copy-bar">
+    <span class="char-count">Add screenshot: `agent-publish preview` terminal startup</span>
+    <button class="copy-btn" onclick="copyThread(2,4)">Copy all</button>
   </div>
 </div>
 
-<!-- Tweet 3: 12:00 PM -->
+<!-- ── TWEET 3 ── -->
 <div class="tweet-card" id="t3">
   <div class="tweet-header">
     <span class="tweet-num">3</span>
     <span class="tag tag-tips">#tips</span>
-    <span class="format-label">how-to</span>
+    <span class="thread-badge">5-tweet thread</span>
     <span class="post-time">12:00 PM IST</span>
   </div>
-  <pre class="tweet-body">Why your AI agent keeps producing the same content every day:
+  <div class="thread-tweets">
 
-No dedup memory. The cron has no idea what it shipped yesterday. It pulls from the same pool and regenerates the same angles.
+    <div class="thread-tweet" id="t3-1">
+      <div class="thread-tweet-header"><span class="thread-num">1/5</span></div>
+      <pre>Why your AI agent keeps producing the same content every day:
 
-The fix I built:
-1. Load yesterday's output before generating
+No dedup memory. It has no idea what it shipped yesterday.</pre>
+      <div class="copy-bar">
+        <span class="char-count">121 chars</span>
+        <button class="copy-btn" onclick="copyEl('t3-1')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t3-2">
+      <div class="thread-tweet-header"><span class="thread-num">2/5</span></div>
+      <pre>It pulls from the same pool of experiences and regenerates the same angles. Same workflow. Same project. Same lesson. Every morning.
+
+The fix:</pre>
+      <div class="copy-bar">
+        <span class="char-count">143 chars</span>
+        <button class="copy-btn" onclick="copyEl('t3-2')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t3-3">
+      <div class="thread-tweet-header"><span class="thread-num">3/5</span></div>
+      <pre>1. Load yesterday's output before generating
 2. Extract keywords (words &gt; 5 chars)
-3. Compare every new piece against yesterday's keywords
-4. If &gt;60% overlap = DUPLICATE, reject
-5. Maintain a seen-topics file with 14-day cooldown
+3. Compare each new piece against yesterday's keywords
+4. &gt;60% overlap = DUPLICATE, reject
+5. Seen-topics file, 14-day cooldown</pre>
+      <div class="copy-bar">
+        <span class="char-count">213 chars</span>
+        <button class="copy-btn" onclick="copyEl('t3-3')">Copy</button>
+      </div>
+    </div>
 
-Also: search session logs, git repos, vault files for genuinely new events before generating. If you can't find 3 new events, don't ship.
+    <div class="thread-tweet" id="t3-4">
+      <div class="thread-tweet-header"><span class="thread-num">4/5</span></div>
+      <pre>Also: search session logs, git repos, source files for genuinely new events before generating.
 
-The result: either genuinely fresh content or "No fresh content today" — not recycled garbage dressed up as new.</pre>
-  <div class="copy-bar">
-    <span class="word-count">~115 words</span>
-    <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
+No 3 new events? Don't ship.</pre>
+      <div class="copy-bar">
+        <span class="char-count">126 chars</span>
+        <button class="copy-btn" onclick="copyEl('t3-4')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t3-5">
+      <div class="thread-tweet-header"><span class="thread-num">5/5</span></div>
+      <pre>The result:
+
+Either genuinely fresh content &mdash; or "No fresh content today."
+
+No recycled garbage dressed up as new.</pre>
+      <div class="copy-bar">
+        <span class="char-count">117 chars</span>
+        <button class="copy-btn" onclick="copyEl('t3-5')">Copy</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-copy-bar">
+    <span class="char-count">&nbsp;</span>
+    <button class="copy-btn" onclick="copyThread(3,5)">Copy all</button>
   </div>
 </div>
 
-<!-- Tweet 4: 2:00 PM -->
+<!-- ── TWEET 4 ── -->
 <div class="tweet-card" id="t4">
   <div class="tweet-header">
     <span class="tweet-num">4</span>
     <span class="tag tag-interesting">#interesting</span>
-    <span class="format-label">take</span>
+    <span class="thread-badge">4-tweet thread</span>
     <span class="post-time">02:00 PM IST</span>
   </div>
-  <pre class="tweet-body">Karpathy pivoted from vibe coding to "agentic engineering."
+  <div class="thread-tweets">
 
-His exact words: "The goal is to claim the leverage from agents without any compromise on quality. You are orchestrating agents who do the coding and acting as oversight."
+    <div class="thread-tweet" id="t4-1">
+      <div class="thread-tweet-header"><span class="thread-num">1/4</span></div>
+      <pre>Karpathy pivoted from vibe coding to "agentic engineering."
 
-What this means practically:
-- Write structured specs in markdown, not prompts
-- Agents execute against the spec, not your mood
-- Every decision lives in the repo, not lost in chat context
-- Quality comes from the spec, not from iterating until it looks right
+His words: "The goal is to claim the leverage from agents without compromising quality. You orchestrate agents who do the coding. You act as oversight."</pre>
+      <div class="copy-bar">
+        <span class="char-count">214 chars</span>
+        <button class="copy-btn" onclick="copyEl('t4-1')">Copy</button>
+      </div>
+    </div>
 
-I've been doing this with agent-publish without knowing it had a name. The KANBAN.md IS the spec. The cron runs the agents. I review output.
+    <div class="thread-tweet" id="t4-2">
+      <div class="thread-tweet-header"><span class="thread-num">2/4</span></div>
+      <pre>What this means:
+&mdash; Write specs in markdown, not prompts
+&mdash; Agents execute against the spec, not your mood
+&mdash; Decisions live in the repo, not lost in chat
+&mdash; Quality comes from the spec, not from iterating until it looks right</pre>
+      <div class="copy-bar">
+        <span class="char-count">228 chars</span>
+        <button class="copy-btn" onclick="copyEl('t4-2')">Copy</button>
+      </div>
+    </div>
 
-GitHub's Spec Kit and JetBrains' DeepLearning.AI course are the entry points. The "just tell ChatGPT what you want" era is ending. Spec-driven or bust.</pre>
-  <div class="copy-bar">
-    <span class="word-count">~130 words</span>
-    <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+    <div class="thread-tweet" id="t4-3">
+      <div class="thread-tweet-header"><span class="thread-num">3/4</span></div>
+      <pre>I've been doing this without knowing it had a name.
+
+KANBAN.md is the spec. The cron runs the agents. I review output.
+
+The thing I was building had a name the whole time.</pre>
+      <div class="copy-bar">
+        <span class="char-count">174 chars</span>
+        <button class="copy-btn" onclick="copyEl('t4-3')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t4-4">
+      <div class="thread-tweet-header"><span class="thread-num">4/4</span></div>
+      <pre>"Just tell ChatGPT what you want" era is ending.
+
+Spec-driven or bust.</pre>
+      <div class="copy-bar">
+        <span class="char-count">71 chars</span>
+        <button class="copy-btn" onclick="copyEl('t4-4')">Copy</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-copy-bar">
+    <span class="char-count">&nbsp;</span>
+    <button class="copy-btn" onclick="copyThread(4,4)">Copy all</button>
   </div>
 </div>
 
-<!-- Tweet 5: 3:00 PM -->
+<!-- ── TWEET 5 ── -->
 <div class="tweet-card" id="t5">
   <div class="tweet-header">
     <span class="tweet-num">5</span>
     <span class="tag tag-apps">#apps</span>
-    <span class="format-label">sprint recap</span>
+    <span class="thread-badge">4-tweet thread</span>
     <span class="post-time">03:00 PM IST</span>
   </div>
-  <pre class="tweet-body">agent-publish: 4 features in 72 hours.
+  <div class="thread-tweets">
 
-AP-033: --humanize flag. Rewrites AI-sounding prose into natural voice. Strips "leverage", "seamless", "empower". One flag.
+    <div class="thread-tweet" id="t5-1">
+      <div class="thread-tweet-header"><span class="thread-num">1/4</span></div>
+      <pre>4 features shipped in 72 hours on my publishing CLI:</pre>
+      <div class="copy-bar">
+        <span class="char-count">54 chars</span>
+        <button class="copy-btn" onclick="copyEl('t5-1')">Copy</button>
+      </div>
+    </div>
 
-AP-034: Auto TL;DR. Two-tier: zero-token extractive summary first (no API cost). Falls back to LLM if quality is low. Most posts get the free tier.
+    <div class="thread-tweet" id="t5-2">
+      <div class="thread-tweet-header"><span class="thread-num">2/4</span></div>
+      <pre>--humanize flag
+Rewrites AI-sounding prose into natural voice. Strips "leverage", "seamless", "empower". One flag.
 
-AP-035: Smart tagging. Controlled vocabulary, zero-token matching first, LLM fallback. Same cost pattern as TL;DR.
+Auto TL;DR
+Extractive summary first, zero API cost. LLM fallback if quality is low.</pre>
+      <div class="copy-bar">
+        <span class="char-count">198 chars</span>
+        <button class="copy-btn" onclick="copyEl('t5-2')">Copy</button>
+      </div>
+    </div>
 
-AP-038: Interactive preview. Local HTTP with LiveReload. Draft, render, fix, push.
+    <div class="thread-tweet" id="t5-3">
+      <div class="thread-tweet-header"><span class="thread-num">3/4</span></div>
+      <pre>Smart tagging
+Controlled vocabulary. Zero-token matching first, LLM fallback. Same cost pattern.
 
-165 tests. 1.36s. Three themes: default, dark, newspaper. Open source.</pre>
-  <div class="screenshot-note">📸 agent-publish test suite: 165 passed in 1.36s</div>
-  <div class="copy-bar">
-    <span class="word-count">~95 words</span>
-    <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
+Interactive preview
+localhost:8765 + LiveReload. Draft, render, fix, push.</pre>
+      <div class="copy-bar">
+        <span class="char-count">176 chars</span>
+        <button class="copy-btn" onclick="copyEl('t5-3')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t5-4">
+      <div class="thread-tweet-header"><span class="thread-num">4/4</span></div>
+      <pre>165 tests. 1.36s. Three themes: default, dark, newspaper.
+
+Open source.</pre>
+      <div class="copy-bar">
+        <span class="char-count">71 chars</span>
+        <button class="copy-btn" onclick="copyEl('t5-4')">Copy</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-copy-bar">
+    <span class="char-count">Add screenshot: test suite 165 passed</span>
+    <button class="copy-btn" onclick="copyThread(5,4)">Copy all</button>
   </div>
 </div>
 
-<!-- Tweet 6: 4:30 PM -->
+<!-- ── TWEET 6 ── -->
 <div class="tweet-card" id="t6">
   <div class="tweet-header">
     <span class="tweet-num">6</span>
     <span class="tag tag-hermes">#hermes</span>
-    <span class="format-label">debugging story</span>
+    <span class="thread-badge">4-tweet thread</span>
     <span class="post-time">04:30 PM IST</span>
   </div>
-  <pre class="tweet-body">The warehouse/research/ 404 trap that killed 3 cron jobs.
+  <div class="thread-tweets">
 
-Every research cron was saving files to `warehouse/research/skills/` or `warehouse/research/design/`. Paths that don't exist in the GitHub Pages serving structure.
+    <div class="thread-tweet" id="t6-1">
+      <div class="thread-tweet-header"><span class="thread-num">1/4</span></div>
+      <pre>3 cron jobs were silently producing 404s for weeks.
 
-Pages serves from repo root. The file at `warehouse/research/skills/foo.html` becomes `vadapayasam.github.io/research/skills/foo.html` — not `warehouse/research/...` because the repo IS the warehouse.
+Content committed. Pushed. Live in the repo.
 
-Correct path: `sketch/foo.html` at repo root.
-Correct URL: `vadapayasam.github.io/warehouse/sketch/foo.html`.
+Nobody could read any of it.</pre>
+      <div class="copy-bar">
+        <span class="char-count">130 chars</span>
+        <button class="copy-btn" onclick="copyEl('t6-1')">Copy</button>
+      </div>
+    </div>
 
-Three crons had been producing 404s for weeks. Content committed, pushed, live in the repo. URLs wrong. Nobody could read them.
+    <div class="thread-tweet" id="t6-2">
+      <div class="thread-tweet-header"><span class="thread-num">2/4</span></div>
+      <pre>Every cron was saving to `warehouse/research/skills/`.
 
-Fixed: both cron prompts now have hard guardrails. "NEVER save to warehouse/research/". Memory updated.</pre>
-  <div class="screenshot-note">📸 Terminal showing 404 then 200 after path fix</div>
-  <div class="copy-bar">
-    <span class="word-count">~125 words</span>
-    <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
+Problem: GitHub Pages serves from repo root. The repo IS the warehouse.
+
+`warehouse/research/foo.html` &rarr; 404
+`sketch/foo.html` &rarr; works</pre>
+      <div class="copy-bar">
+        <span class="char-count">196 chars</span>
+        <button class="copy-btn" onclick="copyEl('t6-2')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t6-3">
+      <div class="thread-tweet-header"><span class="thread-num">3/4</span></div>
+      <pre>Three crons had been writing to wrong paths for weeks.
+
+Files existed. Commits were clean. Pushes went through.
+
+Just the wrong URLs. So nobody read them.</pre>
+      <div class="copy-bar">
+        <span class="char-count">158 chars</span>
+        <button class="copy-btn" onclick="copyEl('t6-3')">Copy</button>
+      </div>
+    </div>
+
+    <div class="thread-tweet" id="t6-4">
+      <div class="thread-tweet-header"><span class="thread-num">4/4</span></div>
+      <pre>Fix: hard guardrails in every cron prompt.
+
+"NEVER save to warehouse/research/. Use sketch/ only."
+
+Memory updated. Won't happen again.</pre>
+      <div class="copy-bar">
+        <span class="char-count">138 chars</span>
+        <button class="copy-btn" onclick="copyEl('t6-4')">Copy</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-copy-bar">
+    <span class="char-count">Add screenshot: 404 then 200 after path fix</span>
+    <button class="copy-btn" onclick="copyThread(6,4)">Copy all</button>
   </div>
 </div>
 
-<!-- Tweet 7: 6:00 PM -->
+<!-- ── TWEET 7 ── -->
 <div class="tweet-card" id="t7">
   <div class="tweet-header">
     <span class="tweet-num">7</span>
     <span class="tag tag-workflow">#workflow</span>
-    <span class="format-label">before/after</span>
+    <span class="thread-badge">2-tweet thread</span>
     <span class="post-time">06:00 PM IST</span>
   </div>
-  <pre class="tweet-body">Overhauled the editorial styling for all HTML artifacts.
+  <div class="thread-tweets">
 
-Before: Arial headlines, colored left-border stripes, cream background, dashboard-widget aesthetic. Looked like an admin panel.
+    <div class="thread-tweet" id="t7-1">
+      <div class="thread-tweet-header"><span class="thread-num">1/2</span></div>
+      <pre>Changed the default styling for all my HTML artifacts.
 
-After:
-- Serif display headlines (ui-serif, letter-spacing: -0.025em)
-- Hairline 1px separators instead of colored bars
-- Monospace meta for eyebrow tags, section numbers, badges
-- Warm off-white #FAFAF8 canvas, off-black #1A1A19 ink
-- Clean tables with hairline dividers
+Before: Arial, colored border stripes, dashboard aesthetic. Looked like an admin panel.
 
-Updated the prabha-taste skill in 3 places: HTML Artifacts (editorial default), Typography (serif display + grotesque sans + monospace meta), Output Format (old template deprecated).
+After: serif headlines, hairline dividers, monospace meta, warm off-white.</pre>
+      <div class="copy-bar">
+        <span class="char-count">222 chars</span>
+        <button class="copy-btn" onclick="copyEl('t7-1')">Copy</button>
+      </div>
+    </div>
 
-Every HTML artifact going forward inherits this. Research reports, tweet pages, skills radar. One editorial voice across the whole warehouse.
+    <div class="thread-tweet" id="t7-2">
+      <div class="thread-tweet-header"><span class="thread-num">2/2</span></div>
+      <pre>Updated the taste skill in 3 places. Every research report, tweet page, radar going forward inherits this.
 
-The dashboard style is gone. This is canonical now.</pre>
-  <div class="copy-bar">
-    <span class="word-count">~125 words</span>
-    <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
+One editorial voice. The old dashboard template is deprecated.</pre>
+      <div class="copy-bar">
+        <span class="char-count">171 chars</span>
+        <button class="copy-btn" onclick="copyEl('t7-2')">Copy</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-copy-bar">
+    <span class="char-count">&nbsp;</span>
+    <button class="copy-btn" onclick="copyThread(7,2)">Copy all</button>
   </div>
 </div>
 
-<!-- Tweet 8: 7:30 PM -->
+<!-- ── TWEET 8 ── -->
 <div class="tweet-card" id="t8">
   <div class="tweet-header">
     <span class="tweet-num">8</span>
     <span class="tag tag-stats">#stats</span>
-    <span class="format-label">weekly numbers</span>
+    <span class="format-label">single tweet</span>
     <span class="post-time">07:30 PM IST</span>
   </div>
-  <pre class="tweet-body">This week's numbers:
+  <pre class="tweet-body">This week:
 
-12 commits in agent-publish (4 features, 8 fixes)
-3 cron jobs fixed (path bugs, model pinning, delivery switches)
-165 tests passing in 1.36s
-24 Ollama errors caught and resolved
-2 cron prompts rewritten with dedup gates
-1 editorial styling overhaul across all artifacts
-0 em-dash violations shipped
+12 commits (4 features, 8 fixes)
+3 cron bugs fixed
+165 tests in 1.36s
+24 model errors caught
+0 em-dash violations
 
-The pattern: maintenance work compounds. Fix a cron path once, no more 404s. Pin a model once, no more silent failures. Build a dedup gate once, no more recycled content.
+Maintenance compounds. Fix it once, it stays fixed.
 
 The boring work IS the product.</pre>
   <div class="copy-bar">
-    <span class="word-count">~85 words</span>
-    <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
+    <span class="char-count">215 chars</span>
+    <button class="copy-btn" onclick="copyEl('t8')">Copy</button>
   </div>
 </div>
 
@@ -390,13 +696,31 @@ The boring work IS the product.</pre>
 </div>
 
 <script>
-function copyTweet(n){
-  const card=document.getElementById('t'+n);
-  const body=card.querySelector('.tweet-body');
-  const btn=card.querySelector('.copy-btn');
-  navigator.clipboard.writeText(body.innerText).then(()=>{
+function getPreText(el){
+  return el.querySelector('pre').innerText;
+}
+
+function copyEl(id){
+  const el = document.getElementById(id);
+  const pre = el.querySelector('pre');
+  const btn = el.querySelector('.copy-btn');
+  const text = pre ? pre.innerText : el.querySelector('.tweet-body').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
     btn.textContent='Copied';btn.classList.add('copied');
     setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  });
+}
+
+function copyThread(cardNum, count){
+  const parts = [];
+  for(let i=1;i<=count;i++){
+    const el = document.getElementById('t'+cardNum+'-'+i);
+    if(el) parts.push(el.querySelector('pre').innerText);
+  }
+  const btn = document.querySelector('#t'+cardNum+' .card-copy-bar .copy-btn');
+  navigator.clipboard.writeText(parts.join('\n\n---\n\n')).then(()=>{
+    btn.textContent='Copied';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy all';btn.classList.remove('copied')},2000);
   });
 }
 </script>
