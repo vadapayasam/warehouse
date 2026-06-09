@@ -5,575 +5,281 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Daily Tweets · Prabha | 2026-06-09</title>
 <style>
-:root {
-  --black: #000000;
-  --gray: #f5f5f7;
-  --white: #ffffff;
-  --ink: #1d1d1f;
-  --blue: #0071e3;
-  --blue-hover: #0077ED;
-  --link: #0066cc;
-  --secondary: #6e6e73;
-  --border: #d2d2d7;
-  --mid-border: #86868b;
-  --surface-a: #272729;
-  --surface-d: #2a2a2c;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background: var(--white);
-  color: var(--ink);
-  line-height: 1.47;
-  -webkit-font-smoothing: antialiased;
-}
-
-.hero {
-  background: var(--black);
-  color: var(--white);
-  padding: 80px 48px 64px;
-  text-align: center;
-}
-
-.hero h1 {
-  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 56px;
-  font-weight: 600;
-  line-height: 1.07;
-  letter-spacing: -0.28px;
-  margin-bottom: 8px;
-}
-
-.hero .date {
-  font-size: 17px;
-  color: var(--secondary);
-  line-height: 1.47;
-  letter-spacing: -0.374px;
-}
-
-.content {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 0 48px;
-}
-
-@media (max-width: 768px) {
-  .hero { padding: 48px 22px 40px; }
-  .hero h1 { font-size: 40px; }
-  .content { padding: 0 22px; }
-}
-
-/* Stats */
-.stats-bar {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 40px;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.stat strong {
-  font-size: 28px;
-  font-weight: 600;
-  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 1.14;
-  letter-spacing: 0.196px;
-  color: var(--ink);
-}
-
-.stat span {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--secondary);
-  letter-spacing: -0.12px;
-  text-transform: uppercase;
-}
-
-/* Schedule section */
-.schedule-section {
-  background: var(--gray);
-  border-radius: 18px;
-  padding: 32px;
-  margin-bottom: 48px;
-}
-
-.schedule-section h2 {
-  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1.14;
-  letter-spacing: 0.196px;
-  margin-bottom: 8px;
-}
-
-.schedule-section .subtitle {
-  font-size: 14px;
-  color: var(--secondary);
-  line-height: 1.29;
-  margin-bottom: 24px;
-}
-
-.schedule-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-.schedule-table th {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--secondary);
-  text-transform: uppercase;
-  letter-spacing: -0.12px;
-  text-align: left;
-  padding: 0 12px 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.schedule-table td {
-  padding: 10px 12px 10px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.47;
-}
-
-.schedule-table tr:last-child td {
-  border-bottom: none;
-}
-
-.schedule-tips {
-  margin-top: 20px;
-  font-size: 14px;
-  color: var(--secondary);
-  line-height: 1.47;
-}
-
-.schedule-tips li {
-  margin-bottom: 4px;
-  margin-left: 16px;
-}
-
-/* Tweet cards */
-.section-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--secondary);
-  text-transform: uppercase;
-  letter-spacing: -0.12px;
-  margin-bottom: 24px;
-}
-
-.tweet-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px 32px;
-  margin-bottom: 16px;
-  transition: box-shadow 0.15s ease;
-}
-
-.tweet-card:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
-
-.tweet-header {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.num {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--ink);
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.tag {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 98px;
-  letter-spacing: -0.12px;
-}
-
-.tag-failures { background: #fee2e2; color: #991b1b; }
-.tag-workflow { background: #d1fae5; color: #065f46; }
-.tag-tips { background: #fef3c7; color: #92400e; }
-.tag-interesting { background: #cffafe; color: #155e75; }
-.tag-apps { background: #dbeafe; color: #1e40af; }
-.tag-hermes { background: #ede9fe; color: #5b21b6; }
-.tag-stats { background: #ede9fe; color: #5b21b6; }
-
-.format {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--secondary);
-  letter-spacing: -0.12px;
-}
-
-.time {
-  margin-left: auto;
-  font-size: 12px;
-  font-weight: 600;
-  color: #059669;
-  background: #d1fae5;
-  padding: 3px 10px;
-  border-radius: 98px;
-  letter-spacing: -0.12px;
-}
-
-.tweet-text {
-  white-space: pre-wrap;
-  font-size: 17px;
-  line-height: 1.47;
-  letter-spacing: -0.374px;
-  color: var(--ink);
-}
-
-.char-count {
-  font-size: 12px;
-  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-  color: var(--secondary);
-  text-align: right;
-  margin-top: 8px;
-  margin-bottom: 12px;
-}
-
-.char-count.pass { color: #059669; }
-.char-count.fail { color: #dc2626; }
-
-/* Thread parts */
-.thread-part {
-  background: var(--gray);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-bottom: 8px;
-}
-
-.thread-part-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--blue);
-  text-transform: uppercase;
-  letter-spacing: -0.12px;
-  margin-bottom: 8px;
-}
-
-/* Copy buttons */
-.copy-btn {
-  display: inline-block;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 8px;
-  background: var(--ink);
-  color: var(--white);
-  font-size: 14px;
-  font-weight: 400;
-  cursor: pointer;
-  transition: background 0.15s ease;
-  font-family: inherit;
-}
-
-.copy-btn:hover { background: #424245; }
-
-.copy-all-btn {
-  display: block;
-  width: 100%;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 8px;
-  background: var(--blue);
-  color: var(--white);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 12px;
-  transition: background 0.15s ease;
-  font-family: inherit;
-}
-
-.copy-all-btn:hover { background: var(--blue-hover); }
-
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 48px 22px;
-  font-size: 12px;
-  color: var(--secondary);
-  border-top: 1px solid var(--border);
-  margin-top: 48px;
-}
-
-.footer a {
-  color: var(--link);
-  text-decoration: none;
-}
-
-.footer a:hover { text-decoration: underline; }
+:root{--bg:#faf9f7;--text:#2a2a2a;--muted:#888;--card:#fff;--accent:#e65c2a;--apps:#2563eb;--hermes:#7c3aed;--workflow:#059669;--tips:#d97706;--failures:#dc2626;--stats:#7c3aed;--interesting:#0891b2;--time:#059669}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:2rem 1rem;max-width:720px;margin:0 auto}
+h1{font-size:1.8rem;margin-bottom:.5rem}
+.date{color:var(--muted);margin-bottom:2rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.9rem}
+.stats-bar span{color:var(--muted)}
+.stats-bar strong{color:var(--text)}
+.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid #eee;transition:.15s}
+.tweet-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.num{background:var(--text);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.tag{font-size:.75rem;padding:.25rem .6rem;border-radius:99px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.tag.apps{background:#dbeafe;color:#1e40af}
+.tag.hermes{background:#ede9fe;color:#5b21b6}
+.tag.workflow{background:#d1fae5;color:#065f46}
+.tag.tips{background:#fef3c7;color:#92400e}
+.tag.failures{background:#fee2e2;color:#991b1b}
+.tag.stats{background:#ede9fe;color:#5b21b6}
+.tag.interesting{background:#cffafe;color:#155e75}
+.time{font-size:.8rem;color:var(--time);font-weight:600;margin-left:auto;background:#d1fae5;padding:.25rem .6rem;border-radius:99px}
+.format{font-size:.8rem;color:var(--muted)}
+.tweet-text{white-space:pre-wrap;font-family:system-ui,sans-serif;font-size:1rem;line-height:1.7;margin-bottom:1rem}
+.screenshot-note{background:#fef3c7;padding:.75rem 1rem;border-radius:16px;font-size:.9rem;color:#92400e;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.copy-btn{padding:.5rem 1rem;border:none;border-radius:16px;background:var(--text);color:#fff;cursor:pointer;font-size:.9rem;float:right}
+.copy-btn:hover{background:var(--accent)}
+.footer{text-align:center;color:var(--muted);font-size:.85rem;margin-top:3rem;padding-top:2rem;border-top:1px solid #eee}
+.guide{background:var(--card);padding:1.5rem;border-radius:16px;margin-bottom:2rem;border:1px solid #eee}
+.guide h2{font-size:1.1rem;margin-bottom:1rem}
+.guide ul{margin-left:1.2rem}
+.guide li{margin-bottom:.4rem}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.9rem}
+.schedule-table td,.schedule-table th{padding:.5rem;text-align:left;border-bottom:1px solid #eee}
+.schedule-table th{color:var(--muted);font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.02em}
+.schedule-table tr:hover{background:#fafafa}
+@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
 </style>
 </head>
 <body>
-
-<div class="hero">
-  <h1>Daily Tweets</h1>
-  <p class="date">Prabha's growth engine · 2026-06-09</p>
-</div>
-
-<div class="content">
+<h1>🐦 Daily Tweets</h1>
+<p class="date">Prabha's growth engine · 2026-06-09</p>
 
 <div class="stats-bar">
-  <div class="stat"><strong>62</strong><span>artifacts</span></div>
-  <div class="stat"><strong>30</strong><span>skills</span></div>
-  <div class="stat"><strong>12</strong><span>crons</span></div>
-  <div class="stat"><strong>5</strong><span>apps</span></div>
-  <div class="stat"><strong>165</strong><span>tests</span></div>
+<span>📊 <strong>65</strong> artifacts</span>
+<span>🔧 <strong>30</strong> skills</span>
+<span>⏰ <strong>6</strong> crons</span>
+<span>📱 <strong>12</strong> iOS</span>
+<span>💻 <strong>21</strong> scripts</span>
 </div>
 
-<div class="schedule-section">
-  <h2>Posting Schedule</h2>
-  <p class="subtitle">IST · Copy and paste into X at the exact time. Threads: copy all parts, paste Part 1, then reply to yourself with Part 2.</p>
-  <table class="schedule-table">
-    <tr><th>Time</th><th>Category</th><th>Tweet #</th><th>Format</th></tr>
-    <tr><td>9:00 AM</td><td>failures</td><td>#1</td><td>thread (4 parts)</td></tr>
-    <tr><td>10:30 AM</td><td>workflow</td><td>#2</td><td>single</td></tr>
-    <tr><td>12:00 PM</td><td>tips</td><td>#3</td><td>thread (3 parts)</td></tr>
-    <tr><td>2:00 PM</td><td>interesting</td><td>#4</td><td>single</td></tr>
-    <tr><td>3:00 PM</td><td>apps</td><td>#5</td><td>single</td></tr>
-    <tr><td>4:30 PM</td><td>hermes</td><td>#6</td><td>thread (4 parts)</td></tr>
-    <tr><td>6:00 PM</td><td>workflow</td><td>#7</td><td>single</td></tr>
-    <tr><td>7:30 PM</td><td>stats</td><td>#8</td><td>single</td></tr>
-  </table>
-  <ul class="schedule-tips">
-    <li>Add screenshot if suggested (marked with camera emoji)</li>
-    <li>Engage with replies within 30 min for algorithm boost</li>
-    <li>Don't post all at once, space them throughout the day</li>
-  </ul>
+<div class="guide">
+<h2>📋 Posting Schedule (IST)</h2>
+<p style="margin-bottom:1rem;font-size:.9rem;color:var(--muted)">Copy → paste into X at the exact time. All times in IST (India time).</p>
+<table class="schedule-table">
+<tr><th>Time</th><th>Category</th><th>Tweet #</th></tr>
+<tr><td>9:00 AM</td><td>workflow</td><td>—</td></tr>
+<tr><td>10:30 AM</td><td>hermes</td><td>—</td></tr>
+<tr><td>12:00 PM</td><td>stats</td><td>—</td></tr>
+<tr><td>2:00 PM</td><td>failures / tips</td><td>—</td></tr>
+<tr><td>3:00 PM</td><td>apps</td><td>—</td></tr>
+<tr><td>4:30 PM</td><td>apps</td><td>—</td></tr>
+<tr><td>6:00 PM</td><td>tips</td><td>—</td></tr>
+<tr><td>7:30 PM</td><td>interesting</td><td>—</td></tr>
+</table>
+<ul style="margin-top:1rem">
+<li>Add screenshot if suggested (marked 📸)</li>
+<li>Engage with replies within 30 min for algorithm boost</li>
+<li>Don't post all at once — space them throughout the day</li>
+</ul>
 </div>
 
-<p class="section-label">Today's Tweets</p>
 
-<!-- TWEET 1: THREAD — Ollama failure cascade -->
-<div class="tweet-card" id="tweet-1">
-  <div class="tweet-header">
-    <span class="num">1</span>
-    <span class="tag tag-failures">#failures</span>
-    <span class="format">thread</span>
-    <span class="time">9:00 AM IST</span>
-  </div>
+        <div class="tweet-card" id="tweet-1">
+            <div class="tweet-header">
+                <span class="num">1</span>
+                <span class="tag workflow">#workflow</span>
+                <span class="format">listicle</span>
+                <span class="time">9:00 AM IST</span>
+            </div>
+            <pre class="tweet-text">My daily automation stack:
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 1/4</div>
-    <pre class="tweet-text">My Ollama subscription expired yesterday. Every cron job on kimi-k2.6 started failing silently. 24 errors in 12 hours.</pre>
-    <div class="char-count" data-text="My Ollama subscription expired yesterday. Every cron job on kimi-k2.6 started failing silently. 24 errors in 12 hours."></div>
-  </div>
+6 AM: Todoist processed, daily tasks created
+9 AM: Weekly ITSM/MSP research runs
+2 PM: Designer skills radar scan
+6 PM: Raw vault files processed
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 2/4</div>
-    <pre class="tweet-text">No safety net. Fallback to kimi-coding also failed ("provider not configured"). Context compression cascaded too, hitting the same dead endpoint.</pre>
-    <div class="char-count" data-text='No safety net. Fallback to kimi-coding also failed ("provider not configured"). Context compression cascaded too, hitting the same dead endpoint.'></div>
-  </div>
+I don't schedule these. Cron does. I just review the output.</pre>
+            <div class="screenshot-note">📸 hermes cron list output</div>
+            <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-2">
+            <div class="tweet-header">
+                <span class="num">2</span>
+                <span class="tag hermes">#hermes</span>
+                <span class="format">single</span>
+                <span class="time">10:30 AM IST</span>
+            </div>
+            <pre class="tweet-text">I run my entire workflow through one agent. Here's the full stack:
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 3/4</div>
-    <pre class="tweet-text">Two crons died silently: Nightly Log Analyzer and Weekly Designer Skills Radar. No alert. No retry. Just gone.</pre>
-    <div class="char-count" data-text="Two crons died silently: Nightly Log Analyzer and Weekly Designer Skills Radar. No alert. No retry. Just gone."></div>
-  </div>
+Research: SearXNG discovery + Firecrawl deep-read → markdown synthesis → HTML artifact → GitHub Pages
+Coding: Xcode builds, App Store uploads, Python scripts, Git operations — all via terminal commands
+Design reviews: Agent captures screenshots → generates HTML gallery → I add commentary → push to Pages
+Task management: Todoist integration with 6 PM raw processing cron that turns scattered notes into structured tasks
+Publishing: Every output goes to GitHub Pages. Research, reviews, tweets, portfolio analysis — all URLs.
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 4/4</div>
-    <pre class="tweet-text">The fix was one URL: ollama.com/upgrade. Updated billing, all crons self-healed. Then I pinned every agent-based cron to mimo-v2.5 so they'd never hit Ollama again.</pre>
-    <div class="char-count" data-text="The fix was one URL: ollama.com/upgrade. Updated billing, all crons self-healed. Then I pinned every agent-based cron to mimo-v2.5 so they'd never hit Ollama again."></div>
-  </div>
+Not 5 different SaaS tools. Not Notion + ChatGPT + Figma + Linear.
 
-  <button class="copy-all-btn" onclick="copyThread(1)">Copy All Parts</button>
-</div>
+One terminal. One context window. Zero context switching.
 
-<!-- TWEET 2: SINGLE — agent-publish preview -->
-<div class="tweet-card" id="tweet-2">
-  <div class="tweet-header">
-    <span class="num">2</span>
-    <span class="tag tag-workflow">#workflow</span>
-    <span class="format">single</span>
-    <span class="time">10:30 AM IST</span>
-  </div>
-  <pre class="tweet-text">agent-publish now has live preview. `agent-publish preview report.md` spins up localhost:8765. LiveReload on 8766. File watcher debounced at 500ms. Ctrl+C cleans up temp files. No daemon, no background process. Draft, fix, push. Done.</pre>
-  <div class="char-count" data-text="agent-publish now has live preview. `agent-publish preview report.md` spins up localhost:8765. LiveReload on 8766. File watcher debounced at 500ms. Ctrl+C cleans up temp files. No daemon, no background process. Draft, fix, push. Done."></div>
-  <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
-</div>
+The cognitive load difference is real. I don't remember where I saved the file. I don't search Slack for the link. I don't wonder if this is the latest version. Everything is at a URL I can type from memory.</pre>
+            
+            <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-3">
+            <div class="tweet-header">
+                <span class="num">3</span>
+                <span class="tag hermes">#hermes</span>
+                <span class="format">single</span>
+                <span class="time">10:30 AM IST</span>
+            </div>
+            <pre class="tweet-text">The most underrated Hermes feature: skills as procedural memory.
 
-<!-- TWEET 3: THREAD — Dedup fix -->
-<div class="tweet-card" id="tweet-3">
-  <div class="tweet-header">
-    <span class="num">3</span>
-    <span class="tag tag-tips">#tips</span>
-    <span class="format">thread</span>
-    <span class="time">12:00 PM IST</span>
-  </div>
+Here's what that means in practice:
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 1/3</div>
-    <pre class="tweet-text">Why your AI agent produces recycled content every day: The tweet generator was shipping the same design review, same agent numbers, same WhatPay release every morning.</pre>
-    <div class="char-count" data-text="Why your AI agent produces recycled content every day: The tweet generator was shipping the same design review, same agent numbers, same WhatPay release every morning."></div>
-  </div>
+I have a skill for iOS builds. It knows my Xcode scheme names, my bundle IDs, my App Store Connect API key path. When I say "push to TestFlight," it runs the full pipeline without me specifying anything.
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 2/3</div>
-    <pre class="tweet-text">No dedup memory. The cron had no idea what it shipped yesterday. It pulled from the same tiny pool and regenerated the same angles.</pre>
-    <div class="char-count" data-text="No dedup memory. The cron had no idea what it shipped yesterday. It pulled from the same tiny pool and regenerated the same angles."></div>
-  </div>
+I have a skill for research pipelines. It knows the SearXNG URL, the Firecrawl endpoint, the output format I want. When I say "research ITSM agents," it discovers sources, deep-reads them, and produces an HTML artifact.
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 3/3</div>
-    <pre class="tweet-text">The fix: load yesterday's tweet HTML, extract keywords, compare every new tweet. >60% overlap = reject. Also search session logs and git repos for genuinely fresh events.</pre>
-    <div class="char-count" data-text="The fix: load yesterday's tweet HTML, extract keywords, compare every new tweet. >60% overlap = reject. Also search session logs and git repos for genuinely fresh events."></div>
-  </div>
+I have a skill for design taste guardrails. It knows I ban em-dashes, beige+brass+espresso palettes, and words like "elevate" and "seamless." Every HTML artifact runs through this skill before shipping.
 
-  <button class="copy-all-btn" onclick="copyThread(3)">Copy All Parts</button>
-</div>
+Each failure teaches the system. The iOS build skill now includes the "no profiles found" fix I discovered on June 7. The research skill now deduplicates sources after I got burned by duplicate articles.
 
-<!-- TWEET 4: SINGLE — Karpathy agentic engineering -->
-<div class="tweet-card" id="tweet-4">
-  <div class="tweet-header">
-    <span class="num">4</span>
-    <span class="tag tag-interesting">#interesting</span>
-    <span class="format">single</span>
-    <span class="time">2:00 PM IST</span>
-  </div>
-  <pre class="tweet-text">Karpathy stopped calling it vibe coding. Now it's "agentic engineering": write structured specs in markdown, agents execute against the spec, every decision documented in the repo. We've been doing this with agent-publish. The KANBAN.md IS the spec. The cron runs the agents. I review output.</pre>
-  <div class="char-count" data-text='Karpathy stopped calling it vibe coding. Now it's "agentic engineering": write structured specs in markdown, agents execute against the spec, every decision documented in the repo. We've been doing this with agent-publish. The KANBAN.md IS the spec. The cron runs the agents. I review output.'></div>
-  <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
-</div>
+The agent remembers so I don't have to. It never forgets.</pre>
+            <div class="screenshot-note">📸 ls ~/.hermes/skills/ output</div>
+            <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-4">
+            <div class="tweet-header">
+                <span class="num">4</span>
+                <span class="tag tips">#tips</span>
+                <span class="format">single</span>
+                <span class="time">6:00 PM IST</span>
+            </div>
+            <pre class="tweet-text">For iOS devs building alone:
 
-<!-- TWEET 5: SINGLE — agent-publish sprint -->
-<div class="tweet-card" id="tweet-5">
-  <div class="tweet-header">
-    <span class="num">5</span>
-    <span class="tag tag-apps">#apps</span>
-    <span class="format">single</span>
-    <span class="time">3:00 PM IST</span>
-  </div>
-  <pre class="tweet-text">agent-publish sprint: 4 features in 72 hours. Humanize flag strips AI slop from any markdown file. Auto TL;DR uses zero-token extractive summary first, LLM fallback only if quality is low. Smart tagging with controlled vocabulary. Interactive preview with LiveReload. 165 tests, 1.36s.</pre>
-  <div class="char-count" data-text="agent-publish sprint: 4 features in 72 hours. Humanize flag strips AI slop from any markdown file. Auto TL;DR uses zero-token extractive summary first, LLM fallback only if quality is low. Smart tagging with controlled vocabulary. Interactive preview with LiveReload. 165 tests, 1.36s."></div>
-  <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
-</div>
+Set up `asc` (App Store Connect CLI) once. Then:
+`asc builds upload` = TestFlight in 30 seconds
 
-<!-- TWEET 6: THREAD — 404 trap -->
-<div class="tweet-card" id="tweet-6">
-  <div class="tweet-header">
-    <span class="num">6</span>
-    <span class="tag tag-hermes">#hermes</span>
-    <span class="format">thread</span>
-    <span class="time">4:30 PM IST</span>
-  </div>
+No Xcode Organizer. No manual IPA export. No web upload.</pre>
+            <div class="screenshot-note">📸 asc builds upload terminal output</div>
+            <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-5">
+            <div class="tweet-header">
+                <span class="num">5</span>
+                <span class="tag apps">#apps</span>
+                <span class="format">single</span>
+                <span class="time">4:30 PM IST</span>
+            </div>
+            <pre class="tweet-text">5 apps in the store. Each one started as a 'this is annoying, let me fix it' moment.
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 1/4</div>
-    <pre class="tweet-text">The warehouse/research/ 404 trap that killed 3 cron jobs. Every research cron saved files to warehouse/research/skills/. Subdirectories that don't exist in the GitHub Pages serving path.</pre>
-    <div class="char-count" data-text="The warehouse/research/ 404 trap that killed 3 cron jobs. Every research cron saved files to warehouse/research/skills/. Subdirectories that don't exist in the GitHub Pages serving path."></div>
-  </div>
+The list:
+1. WhatPay — expense tracking that doesn't ask for my phone number
+2. TimeLeft — countdown widget for events that actually looks good
+3. LeaveHack — PTO tracker because HR portal is unusable on mobile
+4. Sol Vilaiyatu — Tamil word game because nothing existed for my parents
+5. ThatsMyFont — draw-your-own-font because I wanted custom handwriting in Notes
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 2/4</div>
-    <pre class="tweet-text">Pages serves from repo root. The file at warehouse/research/skills/foo.html needs URL vadapayasam.github.io/warehouse/research/skills/foo.html. But Pages actually serves it as /research/skills/foo.html.</pre>
-    <div class="char-count" data-text="Pages serves from repo root. The file at warehouse/research/skills/foo.html needs URL vadapayasam.github.io/warehouse/research/skills/foo.html. But Pages actually serves it as /research/skills/foo.html."></div>
-  </div>
+The pattern: none of these came from market research. None came from "what's trending on the App Store." They came from friction I experienced personally.
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 3/4</div>
-    <pre class="tweet-text">Correct path: sketch/foo.html at repo root. Correct URL: vadapayasam.github.io/warehouse/sketch/foo.html. Three crons had been producing 404s for weeks.</pre>
-    <div class="char-count" data-text="Correct path: sketch/foo.html at repo root. Correct URL: vadapayasam.github.io/warehouse/sketch/foo.html. Three crons had been producing 404s for weeks."></div>
-  </div>
+The best product ideas come from scratching your own itch. Not from market research.
 
-  <div class="thread-part">
-    <div class="thread-part-label">Part 4/4</div>
-    <pre class="tweet-text">Content was committed, pushed, and live. But URLs were wrong so nobody could read it. Fixed both cron prompts with hard guardrails: NEVER save to warehouse/research/. Memory updated so I never forget.</pre>
-    <div class="char-count" data-text="Content was committed, pushed, and live. But URLs were wrong so nobody could read it. Fixed both cron prompts with hard guardrails: NEVER save to warehouse/research/. Memory updated so I never forget."></div>
-  </div>
+The corollary: if you don't experience the problem, you won't build the right solution. I tried building a meditation app once. Never used it myself. It failed. Obviously.</pre>
+            <div class="screenshot-note">📸 App Store screenshots collage</div>
+            <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-6">
+            <div class="tweet-header">
+                <span class="num">6</span>
+                <span class="tag failures">#failures</span>
+                <span class="format">story</span>
+                <span class="time">2:00 PM IST</span>
+            </div>
+            <pre class="tweet-text">Google OAuth broke on my Hermes setup. Every Docs upload failed with 403 access_denied.
 
-  <button class="copy-all-btn" onclick="copyThread(6)">Copy All Parts</button>
-</div>
+The setup: Hermes agent uploads research reports to Google Docs. Uses OAuth 2.0 with a refresh token. Had worked for months.
 
-<!-- TWEET 7: SINGLE — Editorial styling -->
-<div class="tweet-card" id="tweet-7">
-  <div class="tweet-header">
-    <span class="num">7</span>
-    <span class="tag tag-workflow">#workflow</span>
-    <span class="format">single</span>
-    <span class="time">6:00 PM IST</span>
-  </div>
-  <pre class="tweet-text">Switched every HTML artifact from dashboard aesthetic to editorial. Serif headlines. Hairline 1px separators instead of colored left-border stripes. Warm off-white canvas. Monospace meta. One consistent voice across the whole warehouse.</pre>
-  <div class="char-count" data-text="Switched every HTML artifact from dashboard aesthetic to editorial. Serif headlines. Hairline 1px separators instead of colored left-border stripes. Warm off-white canvas. Monospace meta. One consistent voice across the whole warehouse."></div>
-  <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
-</div>
+Suddenly every upload failed:
+```
+googleapiclient.errors.HttpError: 403 access_denied
+"Client is unauthorized to retrieve access tokens using this method,
+or client not authorized for any of the scopes requested."
 
-<!-- TWEET 8: SINGLE — Stats -->
-<div class="tweet-card" id="tweet-8">
-  <div class="tweet-header">
-    <span class="num">8</span>
-    <span class="tag tag-stats">#stats</span>
-    <span class="format">single</span>
-    <span class="time">7:30 PM IST</span>
-  </div>
-  <pre class="tweet-text">This week: 12 commits, 4 features, 8 fixes, 3 cron jobs repaired, 24 Ollama errors caught, 165 tests passing in 1.36s, 1 editorial overhaul. The pattern: maintenance compounds. Fix once, benefit forever.</pre>
-  <div class="char-count" data-text="This week: 12 commits, 4 features, 8 fixes, 3 cron jobs repaired, 24 Ollama errors caught, 165 tests passing in 1.36s, 1 editorial overhaul. The pattern: maintenance compounds. Fix once, benefit forever."></div>
-  <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
-</div>
+```
 
-</div><!-- .content -->
+I went through the entire OAuth flow twice:
+1. Deleted existing credentials from Google Cloud Console
+2. Created new OAuth 2.0 Client ID
+3. Ran the auth flow, got new refresh token
+4. Updated the token in ~/.hermes/.env
+5. Still 403
+
+I checked scopes. Verified the Google Drive API was enabled. Even reinstalled the google-auth and google-api-python-client libraries. Nothing.
+
+Turned out: my app was in "Testing" mode in Google Cloud Console. In testing mode, only explicitly added test users can access it. My email wasn't on the list.
+
+One checkbox: add test user → my email. Done.
+
+The error message said "access_denied" and "client not authorized." It did NOT say "user not in test list."
+
+Google auth is the YAML of authentication: looks simple, hides complexity, and the error messages actively mislead you.</pre>
+            
+            <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-7">
+            <div class="tweet-header">
+                <span class="num">7</span>
+                <span class="tag apps">#apps</span>
+                <span class="format">single</span>
+                <span class="time">3:00 PM IST</span>
+            </div>
+            <pre class="tweet-text">Shipped WhatPay v1.3.2 last night.
+
+The changes sound small but they matter:
+- Removed privacy/terms junk from settings (it was cluttering the screen and nobody tapped it)
+- Rewrote paywall copy from feature-list to outcome-based ("Know where your money goes" instead of "Track expenses")
+- Added onboarding hooks that trigger after 3 transactions, not on first launch
+
+The result: settings screen went from 8 rows to 4. Paywall conversion isn't measurable yet but the copy feels less desperate.
+
+The build pipeline: xcodebuild archive → export with API key → asc builds upload. One command. 30 seconds. TestFlight notification arrives before I finish my coffee.
+
+Build → upload → TestFlight. That's the whole workflow. 🧨</pre>
+            <div class="screenshot-note">📸 WhatPay settings screen showing clean layout</div>
+            <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-8">
+            <div class="tweet-header">
+                <span class="num">8</span>
+                <span class="tag stats">#stats</span>
+                <span class="format">listicle</span>
+                <span class="time">12:00 PM IST</span>
+            </div>
+            <pre class="tweet-text">By the numbers:
+• GitHub: 13 public repos
+• Hermes: 30 skills, 6 crons, 21 scripts
+• iOS: 12 Xcode projects
+• HTML artifacts: 65 published
+• GitHub member since: 2011
+
+All while working full-time as Lead PD.</pre>
+            <div class="screenshot-note">📸 GitHub profile page</div>
+            <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
+        </div>
+        
 
 <div class="footer">
-  Generated by <a href="https://github.com/vadapayasam/warehouse">Hermes Agent</a> · 2026-06-09<br>
-  <a href="https://vadapayasam.github.io/warehouse/">Back to warehouse</a>
+Generated by <a href="https://github.com/vadapayasam/warehouse">Hermes Agent</a> · 2026-06-09<br>
+<a href="https://vadapayasam.github.io/warehouse/">← Back to warehouse</a>
 </div>
 
 <script>
-// Character count display
-document.querySelectorAll('.char-count').forEach(el => {
-  const text = el.getAttribute('data-text');
-  const len = text.length;
-  el.textContent = len + '/280 chars';
-  el.classList.add(len <= 280 ? 'pass' : 'fail');
-});
-
-// Copy single tweet
-function copyTweet(n) {
-  const t = document.querySelector('#tweet-' + n + ' .tweet-text');
-  navigator.clipboard.writeText(t.innerText.trim()).then(() => {
-    const b = document.querySelector('#tweet-' + n + ' .copy-btn');
-    b.textContent = 'Copied!';
-    setTimeout(() => b.textContent = 'Copy', 1500);
-  });
-}
-
-// Copy all thread parts
-function copyThread(n) {
-  const card = document.querySelector('#tweet-' + n);
-  const parts = card.querySelectorAll('.thread-part .tweet-text');
-  const text = Array.from(parts).map(p => p.innerText.trim()).join('\n\n');
-  navigator.clipboard.writeText(text).then(() => {
-    const b = card.querySelector('.copy-all-btn');
-    b.textContent = 'All Parts Copied!';
-    setTimeout(() => b.textContent = 'Copy All Parts', 1500);
-  });
+function copyTweet(n){
+    const t = document.querySelector('#tweet-'+n+ ' .tweet-text');
+    navigator.clipboard.writeText(t.innerText).then(()=>{
+        const b = document.querySelector('#tweet-'+n+' .copy-btn');
+        b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy', 1500);
+    });
 }
 </script>
 </body>
