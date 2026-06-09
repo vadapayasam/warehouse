@@ -50,24 +50,24 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 <div class="stats-bar">
 <span>📊 <strong>62</strong> artifacts</span>
 <span>🔧 <strong>30</strong> skills</span>
-<span>⏰ <strong>6</strong> crons</span>
-<span>📱 <strong>12</strong> iOS</span>
-<span>💻 <strong>21</strong> scripts</span>
+<span>⏰ <strong>12</strong> crons</span>
+<span>📱 <strong>5</strong> apps</span>
+<span>💻 <strong>165</strong> tests</span>
 </div>
 
 <div class="guide">
 <h2>📋 Posting Schedule (IST)</h2>
-<p style="margin-bottom:1rem;font-size:.9rem;color:var(--muted)">Copy → paste into X at the exact time. All times in IST (India time).</p>
+<p style="margin-bottom:1rem;font-size:.9rem;color:var(--muted)">Copy and paste into X at the exact time. All times in IST (India time).</p>
 <table class="schedule-table">
 <tr><th>Time</th><th>Category</th><th>Tweet #</th></tr>
-<tr><td>9:00 AM</td><td>workflow</td><td>#</td></tr>
-<tr><td>10:30 AM</td><td>hermes</td><td>#</td></tr>
-<tr><td>12:00 PM</td><td>stats</td><td>#</td></tr>
-<tr><td>2:00 PM</td><td>failures / tips</td><td>#</td></tr>
-<tr><td>3:00 PM</td><td>apps</td><td>#</td></tr>
-<tr><td>4:30 PM</td><td>apps</td><td>#</td></tr>
-<tr><td>6:00 PM</td><td>tips</td><td>#</td></tr>
-<tr><td>7:30 PM</td><td>interesting</td><td>#</td></tr>
+<tr><td>9:00 AM</td><td>failures</td><td>#1</td></tr>
+<tr><td>10:30 AM</td><td>workflow</td><td>#2</td></tr>
+<tr><td>12:00 PM</td><td>tips</td><td>#3</td></tr>
+<tr><td>2:00 PM</td><td>interesting</td><td>#4</td></tr>
+<tr><td>3:00 PM</td><td>apps</td><td>#5</td></tr>
+<tr><td>4:30 PM</td><td>hermes</td><td>#6</td></tr>
+<tr><td>6:00 PM</td><td>workflow</td><td>#7</td></tr>
+<tr><td>7:30 PM</td><td>stats</td><td>#8</td></tr>
 </table>
 <ul style="margin-top:1rem">
 <li>Add screenshot if suggested (marked 📸)</li>
@@ -77,180 +77,192 @@ h1{font-size:1.8rem;margin-bottom:.5rem}
 </div>
 
 
-        <div class="tweet-card" id="tweet-1">
-            <div class="tweet-header">
-                <span class="num">1</span>
-                <span class="tag workflow">#workflow</span>
-                <span class="format">step-by-step</span>
-                <span class="time">9:00 AM IST</span>
-            </div>
-            <pre class="tweet-text">Every design review I do now:
+<div class="tweet-card" id="tweet-1">
+  <div class="tweet-header">
+    <span class="num">1</span>
+    <span class="tag failures">#failures</span>
+    <span class="format">story</span>
+    <span class="time">9:00 AM IST</span>
+  </div>
+  <pre class="tweet-text">My Ollama subscription expired yesterday. Here's the cascade:
 
-1. Agent captures screenshots
-2. HTML review gallery generated automatically
-3. I add commentary inline
-4. Gallery pushed to GitHub Pages
-5. Link shared. No Figma comments. No email threads.</pre>
-            <div class="screenshot-note">📸 WhatPay review HTML gallery page</div>
-            <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-2">
-            <div class="tweet-header">
-                <span class="num">2</span>
-                <span class="tag workflow">#workflow</span>
-                <span class="format">listicle</span>
-                <span class="time">9:00 AM IST</span>
-            </div>
-            <pre class="tweet-text">My daily automation stack:
+Every cron job using kimi-k2.6 started failing silently. 24 errors in 12 hours. The nightly log analyzer caught it: 403 "requires a subscription" on every kimi model call.
 
-6 AM: Todoist processed, daily tasks created
-9 AM: Weekly ITSM/MSP research runs
-2 PM: Designer skills radar scan
-6 PM: Raw vault files processed
+The worst part? Fallback to kimi-coding also failed ("provider not configured"). No safety net. Context compression in long sessions cascaded too, hitting the same dead endpoint.
 
-I don't schedule these. Cron does. I just review the output.</pre>
-            <div class="screenshot-note">📸 hermes cron list output</div>
-            <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-3">
-            <div class="tweet-header">
-                <span class="num">3</span>
-                <span class="tag hermes">#hermes</span>
-                <span class="format">listicle</span>
-                <span class="time">10:30 AM IST</span>
-            </div>
-            <pre class="tweet-text">My Hermes agent setup by the numbers:
+Two crons died silently: Nightly Log Analyzer and Weekly Designer Skills Radar. No alert. No retry. Just gone.
 
-• 30 custom skills: each one encodes a workflow I used to do manually
-• 6 daily/weekly cron jobs: research runs, health checks, tweet generation
-• 21 automation scripts: from md-to-HTML conversion to portfolio analysis
-• 62 published HTML artifacts: all on GitHub Pages, all version-controlled
-• Multiple models: DeepSeek v4 Pro (daily driver, cheap + high context), Claude (coding quality), Gemini (quick tasks)
+The fix was one URL: ollama.com/upgrade. Updated billing. All crons self-healed on next run.
 
-The setup lives entirely on my machines. No $20/month subscription. No API rate anxiety. No "your conversation is too long, start a new one."
+Then I spent 2 hours pinning every agent-based cron to mimo-v2.5 so they'd never hit Ollama again. ITSM research, design evolution, portfolio advisor, stock scanner. All pinned.
 
-The terminal is the UI. Git is the history. GitHub Pages is the publishing layer.
+Lesson: routing everything through one model provider is a single point of failure. Pin multiple providers or accept the risk. I chose to pin.</pre>
+  <div class="screenshot-note">📸 Terminal showing grep for "requires a subscription" in agent.log</div>
+  <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+</div>
 
-All orchestrated from one terminal. No SaaS subscription needed.</pre>
-            <div class="screenshot-note">📸 Terminal showing `hermes` command help output</div>
-            <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-4">
-            <div class="tweet-header">
-                <span class="num">4</span>
-                <span class="tag interesting">#interesting</span>
-                <span class="format">opinion</span>
-                <span class="time">7:30 PM IST</span>
-            </div>
-            <pre class="tweet-text">Hot take: Most 'AI automation' content is generic garbage.
+<div class="tweet-card" id="tweet-2">
+  <div class="tweet-header">
+    <span class="num">2</span>
+    <span class="tag workflow">#workflow</span>
+    <span class="format">single</span>
+    <span class="time">10:30 AM IST</span>
+  </div>
+  <pre class="tweet-text">agent-publish shipped AP-038 this week: interactive post preview.
 
-'Use ChatGPT for emails!' 'Automate your calendar!'
+`agent-publish preview report.md` spins up localhost:8765 with your draft HTML. LiveReload on 8766. File watcher with 500ms debounce. SIGINT cleans up temp files gracefully.
 
-Nobody talks about the real stuff:
-• Cron-scheduled research pipelines
-• Custom skills that encode your workflow
-• HTML artifact generation from markdown
-• One-command TestFlight uploads
+12 commits in 72 hours. The sprint: AP-033 humanize flag, AP-034 auto TLDR, AP-035 smart tagging with zero-token + LLM fallback, AP-038 interactive preview. 165 tests passing in 1.36s.
 
-That's the actual automation layer.</pre>
-            
-            <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-5">
-            <div class="tweet-header">
-                <span class="num">5</span>
-                <span class="tag tips">#tips</span>
-                <span class="format">single</span>
-                <span class="time">6:00 PM IST</span>
-            </div>
-            <pre class="tweet-text">For iOS devs building alone:
+The preview server was the hardest part. Not the HTTP server itself, that's trivial. The tricky bit was getting the file watcher to debounce correctly so rapid saves don't spawn 47 processes. Had to implement a 500ms debounce with cleanup on each new event.
 
-Set up `asc` (App Store Connect CLI) once. Then:
-`asc builds upload` = TestFlight in 30 seconds
+The whole thing runs as a single CLI subcommand. No daemon. No background process. You preview, you fix, you Ctrl+C. Done.</pre>
+  <div class="screenshot-note">📸 Terminal showing `agent-publish preview` starting up</div>
+  <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
+</div>
 
-No Xcode Organizer. No manual IPA export. No web upload.</pre>
-            <div class="screenshot-note">📸 asc builds upload terminal output</div>
-            <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-6">
-            <div class="tweet-header">
-                <span class="num">6</span>
-                <span class="tag failures">#failures</span>
-                <span class="format">story</span>
-                <span class="time">2:00 PM IST</span>
-            </div>
-            <pre class="tweet-text">My Honcho memory system hit capacity. Context windows were getting compressed. Facts were being dropped.
+<div class="tweet-card" id="tweet-3">
+  <div class="tweet-header">
+    <span class="num">3</span>
+    <span class="tag tips">#tips</span>
+    <span class="format">single</span>
+    <span class="time">12:00 PM IST</span>
+  </div>
+  <pre class="tweet-text">Why your AI agent produces recycled content every day:
 
-The symptoms:
-- Agent started repeating questions I had answered before
-- Cross-references in the wiki were getting stale
-- The daily digest was missing items that should have been tracked
+The tweet generator was producing identical topics daily. Same design review workflow. Same agent numbers. Same WhatPay release. Every single morning.
 
-I checked the memory store: 2,147 entries. The system was deduplicating but the dedup algorithm was too conservative.
+The problem: no dedup memory. The cron had no idea what it shipped yesterday. It pulled from the same tiny pool of "real experiences" and regenerated the same angles.
 
-The fix was "goblin surgery": my term for aggressive manual cleanup:
+The fix I built today:
+1. Load yesterday's tweet HTML before generating
+2. Extract keywords (words > 5 chars)
+3. Compare every new tweet against yesterday's keywords
+4. If >60% overlap = DUPLICATE, reject
+5. Maintain a seen-topics file with 14-day cooldown
 
-1. Deduplicated entries: 200+ near-duplicate facts merged
-2. Pruned stale facts: removed 180 entries older than 6 months with no recent references
-3. Reorganized structure: split the monolithic memory file into category-specific files (ios, design, workflow, failures, tools)
-4. Added a TTL policy: facts auto-expire after 12 months unless renewed by reference
+Also added: search session logs, git repos, vault raw files for genuinely fresh events before generating. If you can't find 3 new events, don't ship.
 
-Result: 1,400 entries. Faster lookups. Better context retention.
+The result: either genuinely fresh content or "No fresh content today" instead of recycled garbage.</pre>
+  <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
+</div>
 
-The lesson: persistent memory needs maintenance. Left alone, it becomes a hoarder's attic.
+<div class="tweet-card" id="tweet-4">
+  <div class="tweet-header">
+    <span class="num">4</span>
+    <span class="tag interesting">#interesting</span>
+    <span class="format">opinion</span>
+    <span class="time">2:00 PM IST</span>
+  </div>
+  <pre class="tweet-text">Karpathy pivoted from vibe coding to "agentic engineering."
 
-Sometimes you need to delete to grow.</pre>
-            <div class="screenshot-note">📸 Memory usage before/after</div>
-            <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-7">
-            <div class="tweet-header">
-                <span class="num">7</span>
-                <span class="tag stats">#stats</span>
-                <span class="format">listicle</span>
-                <span class="time">12:00 PM IST</span>
-            </div>
-            <pre class="tweet-text">My most-used Hermes skills (by actual frequency):
-1. todoist - task management
-2. ios-swiftui - app development
-3. itsm-msp-agentic-research - weekly research
-4. prabha-taste - design guardrails
-5. research-to-web-publishing - HTML pipeline
+His exact words: "The goal is to claim the leverage from agents but without any compromise on quality. You are orchestrating agents who do the coding and acting as oversight."
 
-The system learns what I use. The rest gathers dust.</pre>
-            <div class="screenshot-note">📸 ls ~/.hermes/skills/ sorted by access time</div>
-            <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
-        </div>
-        
-        <div class="tweet-card" id="tweet-8">
-            <div class="tweet-header">
-                <span class="num">8</span>
-                <span class="tag apps">#apps</span>
-                <span class="format">single</span>
-                <span class="time">3:00 PM IST</span>
-            </div>
-            <pre class="tweet-text">Shipped WhatPay v1.3.2 last night.
+What this means practically:
+- You write structured specs in markdown, not prompts
+- Agents execute against the spec, not against your mood
+- Every decision is documented in the repo, not lost in chat context
+- Quality comes from the spec, not from iterating until it looks right
 
-The changes sound small but they matter:
-- Removed privacy/terms junk from settings (it was cluttering the screen and nobody tapped it)
-- Rewrote paywall copy from feature-list to outcome-based ("Know where your money goes" instead of "Track expenses")
-- Added onboarding hooks that trigger after 3 transactions, not on first launch
+I've been doing this with agent-publish without knowing it had a name. The KANBAN.md IS the spec. The cron runs the agents. I review output.
 
-The result: settings screen went from 8 rows to 4. Paywall conversion isn't measurable yet but the copy feels less desperate.
+GitHub's Spec Kit and JetBrains' DeepLearning.AI course are the entry points. The era of "just tell ChatGPT what you want" is ending. Spec-driven or bust.</pre>
+  <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+</div>
 
-The build pipeline: xcodebuild archive → export with API key → asc builds upload. One command. 30 seconds. TestFlight notification arrives before I finish my coffee.
+<div class="tweet-card" id="tweet-5">
+  <div class="tweet-header">
+    <span class="num">5</span>
+    <span class="tag apps">#apps</span>
+    <span class="format">listicle</span>
+    <span class="time">3:00 PM IST</span>
+  </div>
+  <pre class="tweet-text">agent-publish sprint this week: 4 features in 72 hours.
 
-Build → upload → TestFlight. That's the whole workflow. 🧨</pre>
-            <div class="screenshot-note">📸 WhatPay settings screen showing clean layout</div>
-            <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
-        </div>
-        
+AP-033: --humanize flag. Rewrites AI-sounding prose into natural voice. Strips the "leverage", "seamless", "empower" garbage. Applied to any markdown file with one flag.
+
+AP-034: Auto TL;DR. Two-tier system: zero-token extractive summary first (no API cost). If quality is low, falls back to LLM summary. Most posts get the free tier.
+
+AP-035: Smart tagging. Analyzes content, suggests tags from a controlled vocabulary. Zero-token matching first, LLM classification as fallback. Same cost-saving pattern as TL;DR.
+
+AP-038: Interactive preview. Local HTTP server with LiveReload. Draft your post, see it rendered, fix it, push.
+
+165 tests. 1.36s. Three themes: default, dark, newspaper. All open source.</pre>
+  <div class="screenshot-note">📸 agent-publish test suite output: 165 passed</div>
+  <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
+</div>
+
+<div class="tweet-card" id="tweet-6">
+  <div class="tweet-header">
+    <span class="num">6</span>
+    <span class="tag hermes">#hermes</span>
+    <span class="format">story</span>
+    <span class="time">4:30 PM IST</span>
+  </div>
+  <pre class="tweet-text">The warehouse/research/ 404 trap that killed 3 cron jobs.
+
+Every research cron was told to save files to `warehouse/research/skills/` or `warehouse/research/design/`. Subdirectories that don't exist in the GitHub Pages serving path.
+
+Pages serves from repo root. So the file at `warehouse/research/skills/foo.html` needs the URL `vadapayasam.github.io/warehouse/research/skills/foo.html`. But Pages actually serves it as `vadapayasam.github.io/research/skills/foo.html` because the repo IS the warehouse.
+
+The correct path: `sketch/foo.html` at repo root. The correct URL: `vadapayasam.github.io/warehouse/sketch/foo.html`.
+
+Three crons had been producing 404s for weeks. The content was committed, pushed, and live in the repo. But the URLs were wrong so nobody could read them.
+
+Fixed both cron prompts with hard guardrails: "NEVER save to warehouse/research/". The sketch/ directory is the only correct location. Memory updated so I never forget this again.</pre>
+  <div class="screenshot-note">📸 Terminal showing 404 → 200 after path fix</div>
+  <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
+</div>
+
+<div class="tweet-card" id="tweet-7">
+  <div class="tweet-header">
+    <span class="num">7</span>
+    <span class="tag workflow">#workflow</span>
+    <span class="format">step-by-step</span>
+    <span class="time">6:00 PM IST</span>
+  </div>
+  <pre class="tweet-text">Overhauled the editorial styling for all HTML artifacts.
+
+Before: Arial headlines, colored left-border stripes on cards, cream background, dashboard-widget aesthetic. Looked like an admin panel.
+
+After:
+- Serif display headlines (ui-serif, letter-spacing: -0.025em)
+- Hairline 1px separators instead of colored bars
+- Monospace meta everywhere: eyebrow tags, section numbers, badges
+- Warm off-white #FAFAF8 canvas, off-black #1A1A19 ink
+- Clean tables with hairline dividers
+
+Updated the prabha-taste skill in 3 places: HTML Artifacts section (editorial style is now default), Typography section (serif display + grotesque sans + monospace meta), and Output Format (deprecated old template).
+
+Every HTML artifact published going forward inherits this. Research reports, tweet pages, skills radar. One consistent editorial voice across the whole warehouse.
+
+The old dashboard style is gone. The editorial style is canonical.</pre>
+  <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
+</div>
+
+<div class="tweet-card" id="tweet-8">
+  <div class="tweet-header">
+    <span class="num">8</span>
+    <span class="tag stats">#stats</span>
+    <span class="format">single</span>
+    <span class="time">7:30 PM IST</span>
+  </div>
+  <pre class="tweet-text">This week's numbers:
+
+12 commits in agent-publish (4 features, 8 fixes)
+3 cron jobs fixed (path bugs, model pinning, delivery switches)
+165 tests passing in 1.36s
+24 Ollama errors caught and resolved
+2 cron prompts rewritten with dedup gates
+1 editorial styling overhaul across all HTML artifacts
+0 em-dash violations shipped
+
+The pattern I'm seeing: maintenance work compounds. Fixing a cron path once saves you from 404s forever. Pinning a model once prevents silent failures. Building a dedup gate once stops recycled content.
+
+The boring work IS the product.</pre>
+  <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
+</div>
+
 
 <div class="footer">
 Generated by <a href="https://github.com/vadapayasam/warehouse">Hermes Agent</a> · 2026-06-09<br>
