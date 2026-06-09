@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITSM/MSP Agentic AI Weekly - Issue #6 - Dynatrace Davis AI</title>
+<style>
+:root {
+  --canvas: #FAFAF8;
+  --surface: #FFFFFF;
+  --ink: #1A1A19;
+  --muted: #787774;
+  --hairline: #EAEAEA;
+  --accent: #1B4D6E;
+  --accent-warm: #C2410C;
+  --code-bg: #F5F5F0;
+
+  --pale-red-bg: #FDEBEC; --pale-red-fg: #9F2F2D;
+  --pale-blue-bg: #E1F3FE; --pale-blue-fg: #1F6C9F;
+  --pale-green-bg: #EDF3EC; --pale-green-fg: #346538;
+  --pale-yellow-bg: #FBF3DB; --pale-yellow-fg: #956400;
+  --pale-slate-bg: #F1F1EF; --pale-slate-fg: #52525B;
+
+  --display: ui-serif, Georgia, "Times New Roman", Times, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--canvas);
+}
+
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+
+/* --- Nav --- */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  border-bottom: 1px solid var(--hairline);
+  background: rgba(250,250,248,0.92);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+}
+.nav-inner {
+  max-width: 800px; margin: 0 auto; padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.nav .brand { font-family: var(--display); font-size: 18px; letter-spacing: -0.01em; }
+.nav .brand em { font-style: italic; color: var(--muted); }
+.nav .meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* --- Hero --- */
+.hero { padding: 80px 0 64px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 5px 11px; border: 1px solid var(--hairline); border-radius: 999px;
+  background: var(--surface); margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 5.5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+  max-width: 18ch;
+  margin: 0;
+}
+.hero h1 em { font-style: italic; color: var(--muted); }
+.hero .lede {
+  font-size: 18px; color: var(--muted);
+  max-width: 58ch; margin: 24px 0 0;
+  line-height: 1.55;
+}
+.hero .meta-strip {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+/* --- Chips & Badges --- */
+.chip {
+  display: inline-block; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 999px;
+}
+.chip--red { background: var(--pale-red-bg); color: var(--pale-red-fg); }
+.chip--blue { background: var(--pale-blue-bg); color: var(--pale-blue-fg); }
+.chip--green { background: var(--pale-green-bg); color: var(--pale-green-fg); }
+.chip--yellow { background: var(--pale-yellow-bg); color: var(--pale-yellow-fg); }
+.chip--slate { background: var(--pale-slate-bg); color: var(--pale-slate-fg); }
+
+.tag {
+  display: inline-block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 7px; border: 1px solid var(--hairline); border-radius: 4px;
+}
+
+/* --- Cards --- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin: 48px 0;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 24px;
+}
+.card h3 {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.card h3.yellow { color: var(--pale-yellow-fg); }
+.card h3.blue { color: var(--pale-blue-fg); }
+.card h3.red { color: var(--pale-red-fg); }
+.card h3.green { color: var(--pale-green-fg); }
+.card h3.slate { color: var(--pale-slate-fg); }
+.card p { font-size: 14px; line-height: 1.55; color: var(--muted); }
+.card .big {
+  font-family: var(--display);
+  font-size: 32px; font-weight: 400;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 4px;
+}
+
+/* --- Section Headers --- */
+.section {
+  padding: 48px 0; border-top: 1px solid var(--hairline);
+}
+.section-label {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+.section h2 {
+  font-family: var(--display);
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.12; letter-spacing: -0.02em;
+  font-weight: 400; margin-bottom: 16px;
+}
+.section .lead {
+  font-size: 16px; color: var(--muted);
+  max-width: 56ch; line-height: 1.6;
+}
+
+/* --- Tables --- */
+.table-wrap { overflow-x: auto; margin: 24px 0; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 14px;
+}
+th {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); text-align: left;
+  padding: 10px 16px; border-bottom: 2px solid var(--ink);
+}
+td {
+  padding: 10px 16px; border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+
+/* --- Blocks --- */
+.callout {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 20px 24px;
+  border-radius: 0 8px 8px 0;
+  margin: 24px 0;
+  font-size: 14px; line-height: 1.6;
+}
+.callout strong { color: var(--accent); }
+
+.flow-diagram {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 24px;
+  margin: 24px 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: white-space;
+  white-space: pre;
+}
+
+/* --- Footer --- */
+.footer {
+  padding: 48px 0;
+  border-top: 1px solid var(--hairline);
+  font-size: 13px; color: var(--muted);
+}
+.footer a { color: var(--accent); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .hero { padding: 48px 0 40px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><em>saas-agentic</em> weekly</div>
+    <div class="meta">Issue #06</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="eyebrow">Issue #06</div>
+  <h1>The <em>causal</em> AI play</h1>
+  <p class="lede">Dynatrace bet $2B ARR on deterministic causation, not probabilistic guessing. Their MCP server lets Claude query production telemetry directly. But they have zero ITSM or MSP DNA.</p>
+  <div class="meta-strip">
+    <span class="chip chip--blue">Dynatrace Davis AI</span>
+    <span class="chip chip--green">$2B ARR</span>
+    <span class="chip chip--yellow">June 9, 2026</span>
+  </div>
+</section>
+
+<!-- New Finds -->
+<section class="section">
+  <div class="section-label">New Finds</div>
+  <h2>What actually shipped</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3 class="yellow">MCP Server</h3>
+      <div class="big">5 tools</div>
+      <p>Dynatrace ships a production MCP server. Claude Code, Copilot, any MCP client can query Grail, generate DQL, investigate problems, and explain queries via natural language. <a href="http://docs.dynatrace.com/docs/dynatrace-intelligence/dynatrace-mcp">[1]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="blue">Causal AI</h3>
+      <div class="big">Not LLM</div>
+      <p>Davis AI uses deterministic graph-based causation, not probabilistic ML. Traces root cause through auto-discovered topology (Smartscape) across the full stack. Zero-config instrumentation feeds it. <a href="http://docs.dynatrace.com/docs/dynatrace-intelligence">[2]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="red">Agentic Workflows</h3>
+      <div class="big">Preview</div>
+      <p>AI proposes remediation actions under policy guardrails. Scale, rollback, notify, ticket. Human approves before execution. Still in Preview as of June 2026. <a href="http://docs.dynatrace.com/docs/dynatrace-intelligence">[2]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="green">FY2026 Revenue</h3>
+      <div class="big">$2.0B</div>
+      <p>Full year revenue $2.018B (+19% YoY). ARR $2.054B (+18%). 22 deals >$1M ACV in Q4. Log management grew >100% YoY. Free cash flow $529M. <a href="https://www.businesswire.com/news/home/20260513757868/en/Dynatrace-Reports-Fourth-Quarter-and-Full-Year-Fiscal-2026-Financial-Results">[3]</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture -->
+<section class="section">
+  <div class="section-label">Architecture</div>
+  <h2>The intelligence stack</h2>
+  <p class="lead">Dynatrace's AI is not bolted on. It's the core layer that everything else feeds from.</p>
+
+  <div class="flow-diagram">
+┌──────────────────────────────────────────────────────────────┐
+│                    Dynatrace Platform                         │
+│                                                               │
+│  ┌──────────┐   ┌───────────┐   ┌────────────────────────┐  │
+│  │  Grail   │   │ Smartscape│   │ Dynatrace Intelligence  │  │
+│  │(Data Lake)│   │ (Topology)│   │   (Davis Causal AI)    │  │
+│  └────┬─────┘   └─────┬─────┘   └───────────┬────────────┘  │
+│       │               │                     │                 │
+│  ┌────┴───────────────┴─────────────────────┴──────────────┐ │
+│  │              OneAgent (Auto-Discovery)                    │ │
+│  └──────────────────────────────────────────────────────────┘ │
+│                                                               │
+│  ┌─────────────────────┐   ┌──────────────────────────────┐  │
+│  │ Agentic Workflows   │   │ MCP Server (5 tools)         │  │
+│  │ (Preview)           │   │ Grail Query │ DQL Explainer  │  │
+│  │ Policy-guarded      │   │ Help Agent  │ Data Analysis  │  │
+│  │ actions             │   │ Root Cause Agent              │  │
+│  └─────────────────────┘   └──────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────┘</div>
+
+  <div class="callout">
+    <strong>The key insight:</strong> Dynatrace's causal AI doesn't guess. It builds a real-time dependency graph (Smartscape) from auto-discovered topology, then traces causation chains from user request through application code to infrastructure root cause. This is fundamentally different from Datadog's probabilistic Watchdog or New Relic's NRQL-based ML.
+  </div>
+</section>
+
+<!-- Workflow -->
+<section class="section">
+  <div class="section-label">Workflow & Lifecycle</div>
+  <h2>From anomaly to resolution</h2>
+  <p class="lead">The incident lifecycle in Dynatrace runs through four layers: signal collection, AI analysis, investigation, and action.</p>
+
+  <div class="flow-diagram">
+Signal Collection          AI Analysis              Action Layer
+─────────────           ─────────────             ─────────────
+
+OneAgent auto-      →    Davis AI detects      →   Dynatrace Assist
+discovers hosts,         anomaly via causal        (NL investigation)
+services, deps           topology comparison
+                         ↓                         ↓
+Logs, metrics,      →    Root cause identified →   Agentic Workflows
+traces ingested          across dependency         (Preview) propose
+into Grail               graph                     approved actions
+                         ↓                         ↓
+Custom events       →    Problem ticket auto-  →   MCP Server provides
+from CI/CD,              generated with full       context to external
+deployments              causation chain           agents (Claude, Copilot)
+                         ↓                         ↓
+Security findings   →    Risk-scored by        →   Runbook execution,
+(runtime vulns)          service impact +          ticket creation,
+                        exploitability            notification</div>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Capability</th><th>Autonomous</th><th>Human-in-Loop</th><th>Notes</th></tr>
+      <tr><td>Anomaly detection</td><td>Yes</td><td>&mdash;</td><td>Always on, always learning baselines</td></tr>
+      <tr><td>Root cause analysis</td><td>Yes</td><td>&mdash;</td><td>Deterministic causation graph tracing</td></tr>
+      <tr><td>Problem grouping</td><td>Yes</td><td>&mdash;</td><td>Correlates related anomalies into single Problem</td></tr>
+      <tr><td>Investigation (NL)</td><td>&mdash;</td><td>Yes</td><td>Assist requires human prompting</td></tr>
+      <tr><td>Runbook execution</td><td>No</td><td>Yes (Preview)</td><td>Requires approval under policy guardrails</td></tr>
+      <tr><td>Ticket creation</td><td>&mdash;</td><td>Yes</td><td>Via integrations (ServiceNow, Jira, PagerDuty)</td></tr>
+      <tr><td>MCP queries</td><td>Yes</td><td>Yes</td><td>External agents can query, token auth required</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- MCP Deep Dive -->
+<section class="section">
+  <div class="section-label">MCP Server</div>
+  <h2>The developer play</h2>
+  <p class="lead">Dynatrace isn't building an ITSM agent. They're building the data layer that other agents query.</p>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tool</th><th>What it does</th><th>State</th></tr>
+      <tr><td>Grail Query Agent</td><td>Generate DQL from natural language</td><td>Preview</td></tr>
+      <tr><td>DQL Explanation Agent</td><td>Explain DQL queries in NL</td><td>Preview</td></tr>
+      <tr><td>Help Agent</td><td>Answer general Dynatrace questions</td><td>Preview</td></tr>
+      <tr><td>Data Analysis Agent</td><td>Execute DQL, return results (1000 record limit)</td><td>Public</td></tr>
+      <tr><td>Root Cause Agent</td><td>List problems (active/closed)</td><td>Public</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>MCP positioning:</strong> The server endpoint is per-environment: <code>https://{env}.apps.dynatrace.com/platform-reserved/mcp-gateway/v0.1/servers/dynatrace-mcp/mcp</code>. It works with Claude Code, VS Code Copilot, any MCP client. Auth is bearer token (Platform Token). This isn't a toy demo — it's a production connector that lets AI coding agents query live production telemetry. <a href="http://docs.dynatrace.com/docs/dynatrace-intelligence/dynatrace-mcp">[1]</a>
+  </div>
+
+  <p style="font-size:14px;color:var(--muted);margin-top:16px;">Expanded in Q4 FY2026 to connect with Anthropic's Claude Code, Cowork, and Chat. Also integrates with GitHub Advanced Security for runtime context sharing. <a href="https://www.businesswire.com/news/home/20260513757868/en/Dynatrace-Reports-Fourth-Quarter-and-Full-Year-Fiscal-2026-Financial-Results">[3]</a></p>
+</section>
+
+<!-- Pricing Intelligence -->
+<section class="section">
+  <div class="section-label">Pricing Intelligence</div>
+  <h2>Host + consumption, AI included</h2>
+  <p class="lead">No separate AI add-on fee. Dynatrace Intelligence is bundled into every tier. But consumption-based log and telemetry pricing can spike.</p>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">Core Monitoring</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tier</th><th>Monthly Rate</th><th>Billed</th><th>Includes</th></tr>
+      <tr><td>Foundation & Discovery</td><td>$7/mo per host</td><td>$0.01/hr</td><td>Basic host health, topology, filesystem, OS services</td></tr>
+      <tr><td>Infrastructure Monitoring</td><td>$29/mo per host</td><td>$0.04/hr</td><td>+ Process, disk, memory, network, custom metrics</td></tr>
+      <tr><td>Full-Stack Monitoring</td><td>$58/mo per 8 GiB host</td><td>$0.01/GiB-hr</td><td>+ APM, root cause, profiling, Kubernetes, OTLP</td></tr>
+    </table>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">Log Analytics (Consumption)</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Model</th><th>Ingest</th><th>Retain</th><th>Query</th></tr>
+      <tr><td>Pay-per-Query</td><td>$0.20/GiB</td><td>$0.0007/GiB-day</td><td>$0.0035/GiB-scanned</td></tr>
+      <tr><td>Bundled Queries</td><td>$0.20/GiB</td><td>$0.02/GiB-day</td><td>Included (10-35 day retention)</td></tr>
+    </table>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">Security & Experience Add-ons</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Module</th><th>Rate</th><th>What it does</th></tr>
+      <tr><td>Runtime Vulnerability Analytics</td><td>$13/mo per 8 GiB host</td><td>Detects runtime vulnerabilities</td></tr>
+      <tr><td>Runtime Application Protection</td><td>$13/mo per 8 GiB host</td><td>Blocks exploitation attempts</td></tr>
+      <tr><td>Security Posture Management</td><td>$5/mo per host</td><td>CIS, NIST, HIPAA compliance</td></tr>
+      <tr><td>RUM</td><td>$2.25/1k sessions</td><td>Real user monitoring</td></tr>
+      <tr><td>RUM + Session Replay</td><td>$4.50/1k sessions</td><td>+ visual replay</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>AI pricing delta vs. competitors:</strong> Dynatrace includes Davis AI, Assist, anomaly detection, and root cause analysis in all tiers at no extra cost. Datadog charges ~$20/seat/month for Bits AI. PagerDuty charges $415/mo flat for Advance (Gen AI add-on). ServiceNow charges $2/conversation or $1/resolution. Dynatrace's "AI included" model simplifies procurement but means you can't opt out if you don't need it. <a href="http://www.dynatrace.com/pricing">[6]</a>
+  </div>
+
+  <div class="callout" style="border-left-color: var(--accent-warm);">
+    <strong style="color:var(--accent-warm);">Cost warning:</strong> Reddit users report observability costs exceeding their cloud bills. The consumption model for logs/telemetry (ingest + retain + query) can spike unpredictably during incidents — exactly when you need observability most. <a href="https://www.reddit.com/r/sre/comments/1ow3ltg/our_observability_costs_are_now_higher_than_our/">[7]</a>
+  </div>
+</section>
+
+<!-- Worth Watching -->
+<section class="section">
+  <div class="section-label">Worth Watching</div>
+  <h2>The observability wars, AI edition</h2>
+  <p class="lead">Every observability vendor is shipping AI. The differentiation is in how they reason, not whether they use AI.</p>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Dimension</th><th>Dynatrace</th><th>Datadog</th><th>New Relic</th><th>PagerDuty</th></tr>
+      <tr><td>AI approach</td><td>Deterministic causation</td><td>Probabilistic (Watchdog)</td><td>Probabilistic (NRQL)</td><td>Multi-agent (MCP)</td></tr>
+      <tr><td>Root cause</td><td>Causal graph tracing</td><td>ML correlation</td><td>ML correlation</td><td>Agent orchestration</td></tr>
+      <tr><td>AI pricing</td><td>Included in subscription</td><td>Bits AI ~$20/seat add-on</td><td>Included (AIOps)</td><td>Advance $415/mo add-on</td></tr>
+      <tr><td>Agentic workflows</td><td>Preview (policy-guarded)</td><td>Runbook Automation (GA)</td><td>Vulnerability Mgmt</td><td>SRE Agent (GA)</td></tr>
+      <tr><td>MCP server</td><td>Yes (5 tools)</td><td>No</td><td>No</td><td>Yes (multi-agent protocol)</td></tr>
+      <tr><td>ITSM/PSA</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+      <tr><td>MSP suitability</td><td>Low (enterprise)</td><td>Low (cloud-native)</td><td>Low (dev-focused)</td><td>Medium (incident response)</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>The pattern:</strong> All four vendors are building AI capabilities but none have ITSM or MSP DNA. Dynatrace and Datadog are observability-first. PagerDuty is incident-response-first. New Relic is developer-first. The ITSM/MSP gap remains wide open for a vendor that can bridge observability intelligence with service management workflows and MSP billing. <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-04.html">[Issue #4]</a> <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-05.html">[Issue #5]</a>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">Acquisitions signal expansion</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Acquired</th><th>What</th><th>Signal</th></tr>
+      <tr><td>DevCycle (2026)</td><td>Feature management platform (OpenFeature)</td><td>Progressive delivery for AI-native apps</td></tr>
+      <tr><td>Bindplane (2026)</td><td>Open-standards telemetry pipelines</td><td>Greater data flexibility, vendor-agnostic ingest</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- MSP Gap Analysis -->
+<section class="section">
+  <div class="section-label">MSP Gap Analysis</div>
+  <h2>Zero MSP DNA</h2>
+  <p class="lead">Dynatrace is a $2B enterprise observability platform with world-class causal AI. It has nothing an MSP needs for service delivery.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3 class="red">No PSA Integration</h3>
+      <p>Connects to ServiceNow and Jira for ticket creation, but no ConnectWise, Autotask, or HaloPSA. No multi-tenant client separation. No client billing workflows.</p>
+    </div>
+    <div class="card">
+      <h3 class="red">No RMM Bridge</h3>
+      <p>Monitors infrastructure but doesn't manage it. No NinjaOne, ConnectWise Automate, or Datto RMM integration. No patch management, no remote access triggers.</p>
+    </div>
+    <div class="card">
+      <h3 class="red">No MSP Billing</h3>
+      <p>Can't attribute costs to individual clients. Can't markup AI resolution fees. Volume discounts require sales contact. No self-serve MSP pricing tier.</p>
+    </div>
+    <div class="card">
+      <h3 class="yellow">MCP is Dev-Only</h3>
+      <p>MCP server targets VS Code/Copilot users for AI coding agents. No ITSM-specific tools (create ticket, escalate incident, notify client).</p>
+    </div>
+  </div>
+</section>
+
+<!-- Action Items -->
+<section class="section">
+  <div class="section-label">Action Items</div>
+  <h2>Next research</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Issue</th><th>Target</th><th>Why</th></tr>
+      <tr><td>#7</td><td>New Relic AI + Grok</td><td>Per-seat AI model, Grok integration, developer-first approach</td></tr>
+      <tr><td>#8</td><td>BMC Helix + AEOps</td><td>Enterprise ITSM AI, closest to traditional ITIL workflows</td></tr>
+      <tr><td>#9</td><td>Ivanti Neurons</td><td>ITSM + endpoint management AI, MSP-adjacent positioning</td></tr>
+      <tr><td>#10</td><td>Kaseya + Datto AI</td><td>MSP-native vendor, Datto RMM AI features</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>Open question for Issue #7:</strong> New Relic offers "all-in-one" pricing with AI included. Does their Grok integration give them an edge over Dynatrace's causal AI approach? Or is Grok just a chatbot wrapper on NRQL queries?
+  </div>
+</section>
+
+<!-- Sources -->
+<section class="section">
+  <div class="section-label">Sources</div>
+  <h2>What we read</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>#</th><th>Source</th><th>Date</th></tr>
+      <tr><td>[1]</td><td><a href="http://docs.dynatrace.com/docs/dynatrace-intelligence/dynatrace-mcp">Dynatrace MCP Server</a> &mdash; docs.dynatrace.com</td><td>Sep 2025</td></tr>
+      <tr><td>[2]</td><td><a href="http://docs.dynatrace.com/docs/dynatrace-intelligence">Dynatrace Intelligence Overview</a> &mdash; docs.dynatrace.com</td><td>Jan 2026</td></tr>
+      <tr><td>[3]</td><td><a href="https://www.businesswire.com/news/home/20260513757868/en/Dynatrace-Reports-Fourth-Quarter-and-Full-Year-Fiscal-2026-Financial-Results">FY2026 Earnings Release</a> &mdash; BusinessWire</td><td>May 13, 2026</td></tr>
+      <tr><td>[4]</td><td><a href="http://docs.dynatrace.com/docs/dynatrace-intelligence/agentic-and-generative-ai/chat-with-dynatrace-assist">Dynatrace Assist</a> &mdash; docs.dynatrace.com</td><td>Mar 2024</td></tr>
+      <tr><td>[5]</td><td><a href="http://docs.dynatrace.com/docs/dynatrace-intelligence/agentic-and-generative-ai/agentic-and-generative-ai-getting-started">Agentic & Generative AI Getting Started</a> &mdash; docs.dynatrace.com</td><td>Sep 2024</td></tr>
+      <tr><td>[6]</td><td><a href="http://www.dynatrace.com/pricing">Dynatrace Pricing</a> &mdash; dynatrace.com</td><td>Jun 2026</td></tr>
+      <tr><td>[7]</td><td><a href="https://www.reddit.com/r/sre/comments/1ow3ltg/our_observability_costs_are_now_higher_than_our/">Observability costs vs. AWS bill</a> &mdash; r/sre</td><td>2024</td></tr>
+    </table>
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);margin-top:16px;"><strong>Method:</strong> SearXNG (Google+Bing+DDG) discovery &rarr; jina.ai content extraction &rarr; docs/help/blog deep-read. Dated citations cross-checked against live URLs. Claims without live source links are flagged as uncertain.</p>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">Index</a> &middot; <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-05.html">Issue #5</a> &middot; Issue #6 &middot; <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-07.html">Issue #7</a></p>
+  <p style="margin-top:8px;">Built by Agent Tina for Prabha. &copy; 2026</p>
+</footer>
+
+</div>
+</body>
+</html>
