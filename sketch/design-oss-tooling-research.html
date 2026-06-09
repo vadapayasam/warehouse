@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Source Design Tooling: Gaps & Ideas — June 2026</title>
+  <style>
+    :root {
+      --ink: #0f0f0f;
+      --ink-muted: #6b6b6b;
+      --ink-faint: #b0b0b0;
+      --bg: #fafaf8;
+      --bg-card: #f3f2ef;
+      --accent: #1a1a1a;
+      --rule: #e0dfd9;
+      --highlight: #ff5c35;
+      --tag-bg: #ede9e3;
+      --mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ─────────────────────────────── */
+    .site-header {
+      border-bottom: 1px solid var(--rule);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+    }
+
+    .site-header .label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .site-header .date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--ink-faint);
+      margin-left: auto;
+    }
+
+    /* ── Hero ────────────────────────────────── */
+    .hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .hero .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .lede {
+      font-size: 1.15rem;
+      color: var(--ink-muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .hero-meta span {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-meta strong {
+      display: block;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+      text-transform: none;
+      letter-spacing: 0;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Content ─────────────────────────────── */
+    .content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    /* ── Landscape section ───────────────────── */
+    .landscape {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 2rem 2.25rem;
+      margin-bottom: 4rem;
+    }
+
+    .landscape h2 {
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .landscape-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+
+    @media (max-width: 580px) {
+      .landscape-grid { grid-template-columns: 1fr; }
+    }
+
+    .landscape-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      line-height: 1.5;
+    }
+
+    .landscape-item::before {
+      content: '→';
+      font-family: var(--mono);
+      color: var(--ink-faint);
+      flex-shrink: 0;
+      margin-top: 0.05em;
+    }
+
+    .landscape-item strong { color: var(--ink); }
+
+    .gap-callout {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      line-height: 1.65;
+    }
+
+    .gap-callout em {
+      font-style: normal;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* ── Tool cards ──────────────────────────── */
+    .tools-heading {
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .tool-card {
+      margin-bottom: 3.5rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .tool-card:last-child {
+      border-bottom: none;
+    }
+
+    .tool-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--ink-faint);
+      margin-bottom: 0.6rem;
+    }
+
+    .tool-name {
+      font-family: var(--mono);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--highlight);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    .tool-tagline {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+
+    .tool-body {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .tool-section h4 {
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      margin-bottom: 0.5rem;
+    }
+
+    .tool-section p {
+      font-size: 0.92rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+
+    .tool-section ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .tool-section ul li {
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      padding-left: 1.1rem;
+      position: relative;
+      line-height: 1.55;
+    }
+
+    .tool-section ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--ink-faint);
+    }
+
+    .scope-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--tag-bg);
+      border-radius: 6px;
+      padding: 0.35rem 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .scope-badge .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--highlight);
+      flex-shrink: 0;
+    }
+
+    /* ── Summary table ───────────────────────── */
+    .summary {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 2rem 2.25rem;
+      margin-top: 1rem;
+    }
+
+    .summary h3 {
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .summary-table th {
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      padding: 0 0.75rem 0.75rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .summary-table td {
+      padding: 0.75rem 0.75rem 0 0;
+      color: var(--ink-muted);
+      vertical-align: top;
+    }
+
+    .summary-table td:first-child {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--highlight);
+      white-space: nowrap;
+    }
+
+    .summary-table tr:not(:last-child) td {
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    @media (max-width: 580px) {
+      .summary-table th:last-child,
+      .summary-table td:last-child { display: none; }
+    }
+
+    /* ── Footer ──────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <span class="label">vadapayasam / warehouse</span>
+  <span class="date">June 2026</span>
+</header>
+
+<div class="hero">
+  <p class="eyebrow">Research / Design Tooling</p>
+  <h1>Open-Source Design Tooling:<br>Gaps & Ideas</h1>
+  <p class="lede">A survey of where the design tooling ecosystem stands in mid-2026 — and five concrete tools nobody has built well yet.</p>
+  <div class="hero-meta">
+    <div>
+      <span>Method</span>
+      <strong>Web research + ecosystem analysis</strong>
+    </div>
+    <div>
+      <span>Model</span>
+      <strong>Claude Sonnet 4.6 via OpenClaw</strong>
+    </div>
+    <div>
+      <span>Ideas</span>
+      <strong>5 concrete proposals</strong>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="landscape">
+    <h2>Where things stand</h2>
+    <div class="landscape-grid">
+      <div class="landscape-item">
+        <span><strong>Design Tokens</strong> — W3C spec stable since Oct 2025. Style Dictionary + Tokens Studio dominate. Integration is still bespoke glue code per team.</span>
+      </div>
+      <div class="landscape-item">
+        <span><strong>Figma MCP</strong> — Official server launched late 2024. Exposes design context and variable defs to AI agents. No drift detection on top of it.</span>
+      </div>
+      <div class="landscape-item">
+        <span><strong>Accessibility</strong> — Pa11y, axe-core, IBM Equal Access handle DOM-level auditing. Stark covers Figma (paid). Nothing at the token layer.</span>
+      </div>
+      <div class="landscape-item">
+        <span><strong>Visual Regression</strong> — Chromatic (cloud/paid), BackstopJS (config-heavy), Playwright (dev-focused). Designer-friendly options: zero.</span>
+      </div>
+      <div class="landscape-item">
+        <span><strong>Design System Diff</strong> — Existing tools compare frameworks (React vs. Angular), not Figma file versions. No structured changelog tooling.</span>
+      </div>
+      <div class="landscape-item">
+        <span><strong>Color / Typography</strong> — Open Color, Leonardo, Coolors cover generation. Auditing a full token set for consistency: nothing.</span>
+      </div>
+    </div>
+    <div class="gap-callout">
+      The recurring pattern: tooling exists at the extremes — <em>inside Figma</em> (plugins, mostly paid) or <em>at the DOM/code layer</em> (axe, Chromatic). Almost nothing lives in the middle — the handoff layer, the token governance layer, or the design-drift detection layer.
+    </div>
+  </div>
+
+  <p class="tools-heading">Five ideas worth building</p>
+
+  <!-- ── Tool 1 ── -->
+  <div class="tool-card">
+    <p class="tool-num">01 / 05</p>
+    <p class="tool-name">token-a11y</p>
+    <p class="tool-tagline">Design Token Accessibility Linter</p>
+    <div class="tool-body">
+      <div class="tool-section">
+        <h4>What it does</h4>
+        <p>A CLI that reads any W3C-compliant <code>.tokens.json</code> file (or Tokens Studio export) and cross-checks all color tokens for WCAG AA/AAA compliance across every realistic foreground × background combination. Outputs a structured report: which token pairs fail, which modes (light/dark/high-contrast) break, which components are likely affected. No browser. No DOM. Pure token-level audit.</p>
+      </div>
+      <div class="tool-section">
+        <h4>Why it doesn't exist</h4>
+        <ul>
+          <li>Stark checks accessibility inside Figma but is paid and not scriptable</li>
+          <li>axe-core and Pa11y operate on a rendered DOM — you can't run them in CI without a browser and a full build</li>
+          <li>No tool consumes the W3C token format (just stabilized Oct 2025) and emits a11y reports in a pipeline-safe way</li>
+        </ul>
+      </div>
+      <div class="tool-section">
+        <h4>Build scope</h4>
+        <ul>
+          <li>Parse W3C token JSON or Style Dictionary output</li>
+          <li>Build foreground/background permutations from semantic token relationships</li>
+          <li>Apply WCAG 2.1 / APCA contrast algorithms</li>
+          <li>Output SARIF or JSON for CI integration</li>
+        </ul>
+        <br>
+        <span class="scope-badge"><span class="dot"></span>~3–4 weeks · Node.js or Rust · zero heavy deps</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tool 2 ── -->
+  <div class="tool-card">
+    <p class="tool-num">02 / 05</p>
+    <p class="tool-name">figma-drift</p>
+    <p class="tool-tagline">Design-to-Code Drift Detector</p>
+    <div class="tool-body">
+      <div class="tool-section">
+        <h4>What it does</h4>
+        <p>A CLI + optional MCP server that compares a Figma component's declared styles (via Figma REST API or the existing MCP <code>get_design_context</code>) to what's actually in your codebase — CSS variables, Tailwind classes, component props. Outputs a semantic diff: "Button background in Figma is <code>--color-brand-500</code>, but your code uses <code>#2563EB</code> hardcoded" or "Figma says border-radius is 8px; code says 6px."</p>
+      </div>
+      <div class="tool-section">
+        <h4>Why it doesn't exist</h4>
+        <ul>
+          <li>Figma MCP exposes design context but no tool systematically runs it against the codebase</li>
+          <li>Visual regression tools catch screenshot differences, not semantic token drift</li>
+          <li>The gap between "designer updates Figma" and "developer updates code" is invisible until someone notices visually</li>
+          <li>Building this per team is reported as a significant engineering effort — everyone's doing it in isolation</li>
+        </ul>
+      </div>
+      <div class="tool-section">
+        <h4>Build scope</h4>
+        <ul>
+          <li>Figma API / MCP wrapper to extract token refs from a node</li>
+          <li>CSS / Tailwind / CSS-in-JS parser for computed values per component</li>
+          <li>Diff engine with configurable tolerance (pixel vs. semantic token name)</li>
+          <li>GitHub Action wrapper for CI</li>
+        </ul>
+        <br>
+        <span class="scope-badge"><span class="dot"></span>~4–6 weeks · can reuse Figma MCP SDK as foundation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tool 3 ── -->
+  <div class="tool-card">
+    <p class="tool-num">03 / 05</p>
+    <p class="tool-name">ds-changelog</p>
+    <p class="tool-tagline">Design System Changelog Generator</p>
+    <div class="tool-body">
+      <div class="tool-section">
+        <h4>What it does</h4>
+        <p>A CLI that polls Figma's version history API and generates a structured, human-readable CHANGELOG for your design system. Detects: token renames, token value changes, component deletion, variant additions/removals, library style changes. Outputs Markdown changelogs, JSON diffs, or posts to Slack/GitHub Discussions. Essentially <code>git log</code> for your Figma file.</p>
+      </div>
+      <div class="tool-section">
+        <h4>Why it doesn't exist</h4>
+        <ul>
+          <li>Figma has version history in the UI but no structured diff API between versions</li>
+          <li>Designers have no equivalent of <code>git log</code> or CHANGELOG.md — changes are communicated manually via Slack or Notion pages</li>
+          <li>Design system consumers (engineers) often find out about breaking changes by noticing visual bugs in production</li>
+          <li>No open-source project traverses Figma's node tree across versions to detect semantic changes</li>
+        </ul>
+      </div>
+      <div class="tool-section">
+        <h4>Build scope</h4>
+        <ul>
+          <li>Figma REST API version history traversal</li>
+          <li>Node-tree diffing (components, styles, variables)</li>
+          <li>Change categorization: breaking vs. additive vs. cosmetic</li>
+          <li>Output adapters: Markdown, JSON, Slack webhook</li>
+        </ul>
+        <br>
+        <span class="scope-badge"><span class="dot"></span>~3–5 weeks · complexity is efficient large-file traversal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tool 4 ── -->
+  <div class="tool-card">
+    <p class="tool-num">04 / 05</p>
+    <p class="tool-name">token-validate</p>
+    <p class="tool-tagline">Multi-Brand Token Inheritance Validator</p>
+    <div class="tool-body">
+      <div class="tool-section">
+        <h4>What it does</h4>
+        <p>A CLI for design systems that support multiple brands sharing a base token set. Validates the inheritance tree: catches circular references, ensures every brand has all required overrides, detects tokens that fall back to base values unintentionally, and flags orphaned tokens. Think <code>eslint</code> for your token architecture.</p>
+      </div>
+      <div class="tool-section">
+        <h4>Why it doesn't exist</h4>
+        <ul>
+          <li>Style Dictionary can transform tokens but doesn't validate inheritance correctness</li>
+          <li>The W3C spec defines the format but not validation rules for multi-brand systems</li>
+          <li>Teams building white-label or multi-brand design systems hit these issues at scale with no tooling to guard against them</li>
+          <li>Authoring vs. consuming token gaps are a known open problem in the W3C community group</li>
+        </ul>
+      </div>
+      <div class="tool-section">
+        <h4>Build scope</h4>
+        <ul>
+          <li>Token graph builder from W3C format files</li>
+          <li>Cycle detection and required-override schema definitions</li>
+          <li>Reporter with rule-level configuration (like ESLint rules)</li>
+          <li>GitHub Action or pre-commit hook integration</li>
+        </ul>
+        <br>
+        <span class="scope-badge"><span class="dot"></span>~2–3 weeks · highly composable with token-a11y</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tool 5 ── -->
+  <div class="tool-card">
+    <p class="tool-num">05 / 05</p>
+    <p class="tool-name">type-audit</p>
+    <p class="tool-tagline">Typography System Auditor</p>
+    <div class="tool-body">
+      <div class="tool-section">
+        <h4>What it does</h4>
+        <p>A CLI that extracts all font sizes, weights, and line heights from a Figma file or a CSS codebase, then compares them against the declared type token scale — flagging rogue values that don't fit the system, violations of vertical rhythm consistency, and WCAG readability standards. Answers the question: "Does the code actually match the type scale we defined?"</p>
+      </div>
+      <div class="tool-section">
+        <h4>Why it doesn't exist</h4>
+        <ul>
+          <li>Typography auditing lives inside Figma plugins (paid) or browser DevTools (manual)</li>
+          <li>No CLI tool extracts type values from both Figma and code and cross-references them</li>
+          <li>Large codebases accumulate rogue font sizes over time with no automated enforcement beyond a linter rule that covers only new code</li>
+          <li>Vertical rhythm and modular scale validation aren't covered by any existing open-source tool</li>
+        </ul>
+      </div>
+      <div class="tool-section">
+        <h4>Build scope</h4>
+        <ul>
+          <li>Figma API extractor for text style nodes</li>
+          <li>CSS / Tailwind parser for font-size, font-weight, line-height usage</li>
+          <li>Scale validator: detect values off the declared type ramp</li>
+          <li>WCAG minimum text size and contrast check</li>
+        </ul>
+        <br>
+        <span class="scope-badge"><span class="dot"></span>~3–4 weeks · natural companion to figma-drift</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Summary ── -->
+  <div class="summary">
+    <h3>Summary</h3>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Fills the gap between</th>
+          <th>Scope</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>token-a11y</td>
+          <td>Token files and WCAG auditing</td>
+          <td>3–4 weeks</td>
+        </tr>
+        <tr>
+          <td>figma-drift</td>
+          <td>Figma design and live codebase</td>
+          <td>4–6 weeks</td>
+        </tr>
+        <tr>
+          <td>ds-changelog</td>
+          <td>Figma versions and developer awareness</td>
+          <td>3–5 weeks</td>
+        </tr>
+        <tr>
+          <td>token-validate</td>
+          <td>Token specs and multi-brand correctness</td>
+          <td>2–3 weeks</td>
+        </tr>
+        <tr>
+          <td>type-audit</td>
+          <td>Declared type scale and what's in the code</td>
+          <td>3–4 weeks</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  vadapayasam/warehouse · research generated June 2026 · openclaw + claude sonnet 4.6
+</footer>
+
+</body>
+</html>
