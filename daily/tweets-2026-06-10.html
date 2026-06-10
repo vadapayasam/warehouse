@@ -6,16 +6,15 @@
   <title>Tweets &ndash; 2026-06-10</title>
   <style>
     :root {
-      --bg-primary: #000000;
-      --bg-secondary: #1C1C1E;
-      --bg-tertiary: #2C2C2E;
-      --fg-primary: #FFFFFF;
-      --fg-secondary: rgba(235, 235, 245, 0.6);
-      --fg-tertiary: rgba(235, 235, 245, 0.3);
-      --accent: #0A84FF;
-      --success: #30D158;
-      --danger: #FF453A;
-      --separator: #38383A;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F5F5F7;
+      --bg-tertiary: #E5E5EA;
+      --fg-primary: #000000;
+      --fg-secondary: #3C3C4399;
+      --fg-tertiary: #3C3C4D4D;
+      --accent: #007AFF;
+      --success: #34C759;
+      --separator: #C6C6C8;
       --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
       --mono-stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
@@ -169,12 +168,12 @@
 
     .copy-btn:hover {
       background: var(--accent);
-      color: var(--fg-primary);
+      color: #FFFFFF;
     }
 
     .copy-btn.copied {
       background: var(--success);
-      color: #000;
+      color: #FFFFFF;
     }
 
     /* Footer */
@@ -190,7 +189,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="date-header">10 June 2026 &middot; 8 posts &middot; Chennai IST</div>
+    <div class="date-header">10 June 2026 &middot; 4 posts &middot; Chennai IST</div>
     <h1 class="page-title">Daily Tweets</h1>
 
     <!-- Schedule Table -->
@@ -207,43 +206,23 @@
         <tbody>
           <tr>
             <td class="time">9:00 AM</td>
-            <td class="category">#workflow</td>
-            <td class="topic">Zero-token fallback pattern</td>
-          </tr>
-          <tr>
-            <td class="time">10:30 AM</td>
-            <td class="category">#failures</td>
-            <td class="topic">Mac mini downtime</td>
+            <td class="category">#builder</td>
+            <td class="topic">agent-publish editorial theme</td>
           </tr>
           <tr>
             <td class="time">12:00 PM</td>
-            <td class="category">#workflow</td>
-            <td class="topic">Auto TL;DR generation</td>
+            <td class="category">#find</td>
+            <td class="topic">Claude Fable 5 distribution play</td>
           </tr>
           <tr>
-            <td class="time">1:30 PM</td>
-            <td class="category">#interesting</td>
-            <td class="topic">Indian stock screening cron</td>
-          </tr>
-          <tr>
-            <td class="time">3:00 PM</td>
-            <td class="category">#workflow</td>
-            <td class="topic">Ruff lint mass cleanup</td>
-          </tr>
-          <tr>
-            <td class="time">4:30 PM</td>
-            <td class="category">#apps</td>
-            <td class="topic">HTML example gallery</td>
-          </tr>
-          <tr>
-            <td class="time">6:00 PM</td>
-            <td class="category">#tips</td>
-            <td class="topic">ASO automation</td>
+            <td class="time">4:00 PM</td>
+            <td class="category">#deep-cut</td>
+            <td class="topic">Chrome kills uBlock Origin bypasses</td>
           </tr>
           <tr>
             <td class="time">7:00 PM</td>
-            <td class="category">#workflow</td>
-            <td class="topic">27 skills as procedures</td>
+            <td class="category">#wind-down</td>
+            <td class="topic">German court AI liability ruling</td>
           </tr>
         </tbody>
       </table>
@@ -252,131 +231,56 @@
     <!-- Tweet 1: 9:00 AM -->
     <div class="tweet-card">
       <span class="post-time">9:00 AM IST</span>
-      <div class="tweet-text">Most AI features don't need AI for 80% of cases.
+      <div class="tweet-text">Shipped an editorial theme for agent-publish. 3 themes now: dark, light, editorial.
 
-agent-publish auto-tagging:
-1. Regex matches title + content keywords
-2. Score > 0.7? Ship it. Zero tokens.
-3. Only then ask the LLM.
-
-80% of posts get tagged without a single API call.</div>
-      <div class="tweet-meta">
-        <span class="char-count">235/280</span>
-        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
-      </div>
-    </div>
-
-    <!-- Tweet 2: 10:30 AM -->
-    <div class="tweet-card">
-      <span class="post-time">10:30 AM IST</span>
-      <div class="tweet-text">My Mac mini went off overnight. Every cron missed.
-
-6 AM tweets? Skipped.
-Portfolio scan? Skipped.
-Todoist processing? Gone.
-
-Single machine = single point of failure. One power outage killed my entire automation stack.
-
-Lesson learned today.</div>
-      <div class="tweet-meta">
-        <span class="char-count">242/280</span>
-        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
-      </div>
-    </div>
-
-    <!-- Tweet 3: 12:00 PM -->
-    <div class="tweet-card">
-      <span class="post-time">12:00 PM IST</span>
-      <div class="tweet-text">Added auto TL;DR to every agent-publish post.
-
-Zero-token path: first sentence + key nouns extraction.
-LLM path: if zero-token is garbled, ask Claude to summarize.
-
-70% of summaries don't need the LLM.
-The fallback is the feature.</div>
+Serif headlines, wider content width. The hard part was making 18 existing HTML examples not break. 3 commits to fix left-bar h2 alignment alone.</div>
       <div class="tweet-meta">
         <span class="char-count">230/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
 
-    <!-- Tweet 4: 1:30 PM -->
+    <!-- Tweet 2: 12:00 PM -->
     <div class="tweet-card">
-      <span class="post-time">1:30 PM IST</span>
-      <div class="tweet-text">Everyone's building AI chatbots. Meanwhile I built a cron that screens 50+ Indian stocks every Friday.
+      <span class="post-time">12:00 PM IST</span>
+      <div class="tweet-text">Claude Fable 5 hit 2000+ points on HN today. Free on Pro, Max, Team through June 22.
 
-P/E, ROE, D/E, RSI, MACD. Composite scoring. Markdown report dropped in my vault.
-
-No chat interface. No UI. Just data while I sleep.</div>
-      <div class="tweet-meta">
-        <span class="char-count">237/280</span>
-        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
-      </div>
-    </div>
-
-    <!-- Tweet 5: 3:00 PM -->
-    <div class="tweet-card">
-      <span class="post-time">3:00 PM IST</span>
-      <div class="tweet-text">Ran ruff check --fix across agent-publish. 47 files, 200+ violations, 3 seconds.
-
-None were bugs. All accumulated style debt from months of fast shipping.
-
-Sometimes the best feature is making your codebase shut up.</div>
-      <div class="tweet-meta">
-        <span class="char-count">215/280</span>
-        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
-      </div>
-    </div>
-
-    <!-- Tweet 6: 4:30 PM -->
-    <div class="tweet-card">
-      <span class="post-time">4:30 PM IST</span>
-      <div class="tweet-text">agent-publish ships with 18 pre-built HTML examples across 3 themes.
-
-Dark. Light. Editorial.
-
-Each one is a working template you can open, edit, and ship. No Figma needed.
-
-Sometimes the best component is the one that already exists.</div>
-      <div class="tweet-meta">
-        <span class="char-count">234/280</span>
-        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
-      </div>
-    </div>
-
-    <!-- Tweet 7: 6:00 PM -->
-    <div class="tweet-card">
-      <span class="post-time">6:00 PM IST</span>
-      <div class="tweet-text">App Store Optimization felt like guesswork until I automated it.
-
-Competitor keyword data. Screenshot pattern analysis. A scoring model.
-
-The results changed 3 things in my listing overnight.
-
-ASO isn't magic. It's data most devs don't bother collecting.</div>
+Anthropic isn't just shipping models anymore. They're shipping distribution. Free tier on existing plans = instant adoption. The model wars just became a platform play.</div>
       <div class="tweet-meta">
         <span class="char-count">254/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
 
-    <!-- Tweet 8: 7:00 PM -->
+    <!-- Tweet 3: 4:00 PM -->
+    <div class="tweet-card">
+      <span class="post-time">4:00 PM IST</span>
+      <div class="tweet-text">Chrome is killing all uBlock Origin bypasses. Edge and Opera following.
+
+If you build ad-supported web products, your CPM projections just changed. The ad-blocker peace deal is over.
+
+Devs who ignored this because 'users will find a way' are about to learn otherwise.</div>
+      <div class="tweet-meta">
+        <span class="char-count">267/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Tweet 4: 7:00 PM -->
     <div class="tweet-card">
       <span class="post-time">7:00 PM IST</span>
-      <div class="tweet-text">27 skills in Hermes now. Each one is a workflow I solved once and never re-solve.
+      <div class="tweet-text">A German court ruled Google is liable for false answers in AI Overviews.
 
-iOS build? Skill handles it.
-Research pipeline? Skill runs it.
-Portfolio scoring? Skill owns it.
+Not the AI provider. The distributor. If you surface AI-generated content, you own the mistakes.
 
-The best part of agents isn't the agent. It's the accumulated procedures.</div>
+Every company adding 'AI-powered' to their product should read this.</div>
       <div class="tweet-meta">
-        <span class="char-count">254/280</span>
+        <span class="char-count">240/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
 
-    <div class="footer">Generated by Agent Tina &middot; Data from git, sessions, vault</div>
+    <div class="footer">Generated by Agent Tina &middot; Data from git, HN, sessions</div>
   </div>
 
   <script>
