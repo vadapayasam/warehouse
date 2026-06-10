@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tweets &ndash; 2026-06-10</title>
   <style>
-    /* Apple HIG dark mode tokens */
     :root {
       --bg-primary: #000000;
       --bg-secondary: #1C1C1E;
@@ -33,17 +32,17 @@
     }
 
     .container {
-      max-width: 720px;
+      max-width: 680px;
       margin: 0 auto;
-      padding: 48px 24px;
+      padding: 48px 24px 64px;
     }
 
-    /* Header */
     .date-header {
       font-size: 13px;
-      color: var(--fg-secondary);
+      color: var(--fg-tertiary);
       letter-spacing: 0.02em;
       margin-bottom: 8px;
+      font-family: var(--mono-stack);
     }
 
     .page-title {
@@ -54,7 +53,7 @@
       margin-bottom: 32px;
     }
 
-    /* Schedule Table */
+    /* Schedule Section */
     .schedule-section {
       background: var(--bg-secondary);
       border-radius: 12px;
@@ -65,7 +64,7 @@
     .schedule-title {
       font-size: 13px;
       font-weight: 600;
-      color: var(--fg-secondary);
+      color: var(--fg-tertiary);
       text-transform: uppercase;
       letter-spacing: 0.06em;
       margin-bottom: 16px;
@@ -74,17 +73,14 @@
     .schedule-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 15px;
     }
 
     .schedule-table th {
       text-align: left;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--fg-tertiary);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 0 0 12px 0;
+      padding: 0 0 12px;
       border-bottom: 1px solid var(--separator);
     }
 
@@ -211,43 +207,43 @@
         <tbody>
           <tr>
             <td class="time">9:00 AM</td>
-            <td class="category">#launches</td>
-            <td class="topic">Claude Fable 5 launch</td>
+            <td class="category">#workflow</td>
+            <td class="topic">Zero-token fallback pattern</td>
           </tr>
           <tr>
             <td class="time">10:30 AM</td>
-            <td class="category">#tools</td>
-            <td class="topic">Figma MCP server</td>
+            <td class="category">#failures</td>
+            <td class="topic">Mac mini downtime</td>
           </tr>
           <tr>
             <td class="time">12:00 PM</td>
-            <td class="category">#ios</td>
-            <td class="topic">ASC CLI advantages</td>
+            <td class="category">#workflow</td>
+            <td class="topic">Auto TL;DR generation</td>
           </tr>
           <tr>
             <td class="time">1:30 PM</td>
-            <td class="category">#setup</td>
-            <td class="topic">Local LLM on Mac Mini</td>
+            <td class="category">#interesting</td>
+            <td class="topic">Indian stock screening cron</td>
           </tr>
           <tr>
             <td class="time">3:00 PM</td>
             <td class="category">#workflow</td>
-            <td class="topic">Hermes agent automation</td>
+            <td class="topic">Ruff lint mass cleanup</td>
           </tr>
           <tr>
             <td class="time">4:30 PM</td>
-            <td class="category">#design</td>
-            <td class="topic">SwiftUI design systems</td>
+            <td class="category">#apps</td>
+            <td class="topic">HTML example gallery</td>
           </tr>
           <tr>
             <td class="time">6:00 PM</td>
-            <td class="category">#news</td>
-            <td class="topic">Apple developer tools</td>
+            <td class="category">#tips</td>
+            <td class="topic">ASO automation</td>
           </tr>
           <tr>
             <td class="time">7:00 PM</td>
-            <td class="category">#indie</td>
-            <td class="topic">WhatPay CSV export</td>
+            <td class="category">#workflow</td>
+            <td class="topic">27 skills as procedures</td>
           </tr>
         </tbody>
       </table>
@@ -256,9 +252,16 @@
     <!-- Tweet 1: 9:00 AM -->
     <div class="tweet-card">
       <span class="post-time">9:00 AM IST</span>
-      <div class="tweet-text">Claude Fable 5 just dropped. 512k context, native tool use, no more "I can't access files" errors. Tested it with Hermes: it reads my full vault, processes 30 tasks, and outputs structured markdown. The context window alone changes everything.</div>
+      <div class="tweet-text">Most AI features don't need AI for 80% of cases.
+
+agent-publish auto-tagging:
+1. Regex matches title + content keywords
+2. Score > 0.7? Ship it. Zero tokens.
+3. Only then ask the LLM.
+
+80% of posts get tagged without a single API call.</div>
       <div class="tweet-meta">
-        <span class="char-count">241/280</span>
+        <span class="char-count">235/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
@@ -266,9 +269,17 @@
     <!-- Tweet 2: 10:30 AM -->
     <div class="tweet-card">
       <span class="post-time">10:30 AM IST</span>
-      <div class="tweet-text">Figma just shipped an MCP server. Your AI agent can now read your design files directly. No more screenshot-and-guess workflows. I connected it to Hermes: it pulls component tokens, reads layer structures, and generates SwiftUI code that matches the Figma spec.</div>
+      <div class="tweet-text">My Mac mini went off overnight. Every cron missed.
+
+6 AM tweets? Skipped.
+Portfolio scan? Skipped.
+Todoist processing? Gone.
+
+Single machine = single point of failure. One power outage killed my entire automation stack.
+
+Lesson learned today.</div>
       <div class="tweet-meta">
-        <span class="char-count">249/280</span>
+        <span class="char-count">242/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
@@ -276,9 +287,15 @@
     <!-- Tweet 3: 12:00 PM -->
     <div class="tweet-card">
       <span class="post-time">12:00 PM IST</span>
-      <div class="tweet-text">ASC CLI vs Xcode Organizer for TestFlight uploads: ASC gives you API-level control, retry logic, and build metadata in JSON. Xcode Organizer is click-wait-hope. Once you automate builds with xcodebuild + ASC, you never go back.</div>
+      <div class="tweet-text">Added auto TL;DR to every agent-publish post.
+
+Zero-token path: first sentence + key nouns extraction.
+LLM path: if zero-token is garbled, ask Claude to summarize.
+
+70% of summaries don't need the LLM.
+The fallback is the feature.</div>
       <div class="tweet-meta">
-        <span class="char-count">224/280</span>
+        <span class="char-count">230/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
@@ -286,9 +303,13 @@
     <!-- Tweet 4: 1:30 PM -->
     <div class="tweet-card">
       <span class="post-time">1:30 PM IST</span>
-      <div class="tweet-text">Running Llama 3.3 70B on my Mac Mini M2 16GB via LM Studio. 14 tokens/sec for local inference. No API costs, no rate limits, no internet required. Perfect for the 2am coding sessions when you need fast completions without leaving the terminal.</div>
+      <div class="tweet-text">Everyone's building AI chatbots. Meanwhile I built a cron that screens 50+ Indian stocks every Friday.
+
+P/E, ROE, D/E, RSI, MACD. Composite scoring. Markdown report dropped in my vault.
+
+No chat interface. No UI. Just data while I sleep.</div>
       <div class="tweet-meta">
-        <span class="char-count">233/280</span>
+        <span class="char-count">237/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
@@ -296,9 +317,13 @@
     <!-- Tweet 5: 3:00 PM -->
     <div class="tweet-card">
       <span class="post-time">3:00 PM IST</span>
-      <div class="tweet-text">My Hermes agent has 30 skills now. It knows my design preferences, my build quirks, which APIs have burned me. When I say "ship to TestFlight", it runs the full pipeline: git status, xcodebuild, export IPA, upload, verify. No questions asked.</div>
+      <div class="tweet-text">Ran ruff check --fix across agent-publish. 47 files, 200+ violations, 3 seconds.
+
+None were bugs. All accumulated style debt from months of fast shipping.
+
+Sometimes the best feature is making your codebase shut up.</div>
       <div class="tweet-meta">
-        <span class="char-count">232/280</span>
+        <span class="char-count">215/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
@@ -306,9 +331,15 @@
     <!-- Tweet 6: 4:30 PM -->
     <div class="tweet-card">
       <span class="post-time">4:30 PM IST</span>
-      <div class="tweet-text">SwiftUI tip: use .redacted(reason: .placeholder) for skeleton loading states. It preserves your layout while showing a shimmer effect. No more custom loading views that break when you change the UI. The system handles the animation.</div>
+      <div class="tweet-text">agent-publish ships with 18 pre-built HTML examples across 3 themes.
+
+Dark. Light. Editorial.
+
+Each one is a working template you can open, edit, and ship. No Figma needed.
+
+Sometimes the best component is the one that already exists.</div>
       <div class="tweet-meta">
-        <span class="char-count">218/280</span>
+        <span class="char-count">234/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
@@ -316,9 +347,15 @@
     <!-- Tweet 7: 6:00 PM -->
     <div class="tweet-card">
       <span class="post-time">6:00 PM IST</span>
-      <div class="tweet-text">Apple just released new developer tools for visionOS 3. Spatial computing is getting real: shared spaces, persistent anchors, and hand tracking that actually works. If you're not building for Vision Pro yet, you're behind.</div>
+      <div class="tweet-text">App Store Optimization felt like guesswork until I automated it.
+
+Competitor keyword data. Screenshot pattern analysis. A scoring model.
+
+The results changed 3 things in my listing overnight.
+
+ASO isn't magic. It's data most devs don't bother collecting.</div>
       <div class="tweet-meta">
-        <span class="char-count">207/280</span>
+        <span class="char-count">254/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
@@ -326,29 +363,34 @@
     <!-- Tweet 8: 7:00 PM -->
     <div class="tweet-card">
       <span class="post-time">7:00 PM IST</span>
-      <div class="tweet-text">WhatPay v1.3.2 now exports your expense history as CSV. Open in Numbers, Google Sheets, or Excel. The file includes date, amount, category, and notes for every transaction. Finally.</div>
+      <div class="tweet-text">27 skills in Hermes now. Each one is a workflow I solved once and never re-solve.
+
+iOS build? Skill handles it.
+Research pipeline? Skill runs it.
+Portfolio scoring? Skill owns it.
+
+The best part of agents isn't the agent. It's the accumulated procedures.</div>
       <div class="tweet-meta">
-        <span class="char-count">178/280</span>
+        <span class="char-count">254/280</span>
         <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
       </div>
     </div>
 
-    <div class="footer">
-      Generated by Agent Tina &middot; 10 June 2026
-    </div>
+    <div class="footer">Generated by Agent Tina &middot; Data from git, sessions, vault</div>
   </div>
 
   <script>
     function copyTweet(btn) {
       const card = btn.closest('.tweet-card');
       const text = card.querySelector('.tweet-text').innerText;
-      navigator.clipboard.writeText(text);
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.classList.remove('copied');
-      }, 2000);
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
     }
   </script>
 </body>
