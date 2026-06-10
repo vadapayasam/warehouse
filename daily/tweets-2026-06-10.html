@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tweets &ndash; 2026-06-10</title>
+  <style>
+    /* Apple HIG dark mode tokens */
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #1C1C1E;
+      --bg-tertiary: #2C2C2E;
+      --fg-primary: #FFFFFF;
+      --fg-secondary: rgba(235, 235, 245, 0.6);
+      --fg-tertiary: rgba(235, 235, 245, 0.3);
+      --accent: #0A84FF;
+      --success: #30D158;
+      --danger: #FF453A;
+      --separator: #38383A;
+      --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --mono-stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--fg-primary);
+      font-family: var(--font-stack);
+      font-size: 17px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    /* Header */
+    .date-header {
+      font-size: 13px;
+      color: var(--fg-secondary);
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+
+    .page-title {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin-bottom: 32px;
+    }
+
+    /* Schedule Table */
+    .schedule-section {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 48px;
+    }
+
+    .schedule-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--fg-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    .schedule-table th {
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--fg-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0 0 12px 0;
+      border-bottom: 1px solid var(--separator);
+    }
+
+    .schedule-table td {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--separator);
+      vertical-align: top;
+    }
+
+    .schedule-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .schedule-table .time {
+      font-family: var(--mono-stack);
+      font-size: 13px;
+      color: var(--fg-secondary);
+      white-space: nowrap;
+      width: 100px;
+    }
+
+    .schedule-table .category {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .schedule-table .topic {
+      color: var(--fg-primary);
+    }
+
+    /* Tweet Cards */
+    .tweet-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .post-time {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--fg-tertiary);
+      display: block;
+      margin-bottom: 12px;
+      font-family: var(--mono-stack);
+      letter-spacing: 0.02em;
+    }
+
+    .tweet-text {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--fg-primary);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .tweet-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--separator);
+    }
+
+    .char-count {
+      font-size: 12px;
+      color: var(--fg-tertiary);
+      font-family: var(--mono-stack);
+    }
+
+    .copy-btn {
+      background: var(--bg-tertiary);
+      color: var(--fg-secondary);
+      border: none;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font-stack);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent);
+      color: var(--fg-primary);
+    }
+
+    .copy-btn.copied {
+      background: var(--success);
+      color: #000;
+    }
+
+    /* Thread styling */
+    .thread-container {
+      margin-bottom: 24px;
+    }
+
+    .thread-header {
+      background: var(--bg-secondary);
+      border-radius: 12px 12px 0 0;
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid var(--separator);
+    }
+
+    .thread-part {
+      background: var(--bg-secondary);
+      border-left: 3px solid var(--accent);
+      padding: 16px 24px;
+      margin: 0 0 1px 0;
+    }
+
+    .thread-part:last-child {
+      border-radius: 0 0 12px 12px;
+      margin-bottom: 0;
+    }
+
+    .thread-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      font-family: var(--mono-stack);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .thread-text {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--fg-primary);
+      white-space: pre-wrap;
+    }
+
+    .thread-char-count {
+      font-size: 12px;
+      color: var(--fg-tertiary);
+      font-family: var(--mono-stack);
+      margin-top: 8px;
+    }
+
+    .thread-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--separator);
+    }
+
+    .copy-all-btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-stack);
+      transition: opacity 0.15s;
+    }
+
+    .copy-all-btn:hover {
+      opacity: 0.85;
+    }
+
+    .copy-all-btn.copied {
+      background: var(--success);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--separator);
+      font-size: 13px;
+      color: var(--fg-tertiary);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="date-header">10 June 2026 &middot; 8 posts &middot; Chennai IST</div>
+    <h1 class="page-title">Daily Tweets</h1>
+
+    <!-- Schedule Table -->
+    <div class="schedule-section">
+      <div class="schedule-title">Posting Schedule</div>
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Category</th>
+            <th>Topic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time">9:00 AM</td>
+            <td class="category">#apps</td>
+            <td class="topic">agent-publish editorial theme</td>
+          </tr>
+          <tr>
+            <td class="time">10:30 AM</td>
+            <td class="category">#failures</td>
+            <td class="topic">Ollama subscription cascade</td>
+          </tr>
+          <tr>
+            <td class="time">12:00 PM</td>
+            <td class="category">#stats</td>
+            <td class="topic">Autonomous portfolio report</td>
+          </tr>
+          <tr>
+            <td class="time">1:30 PM</td>
+            <td class="category">#tips</td>
+            <td class="topic">Skills as muscle memory</td>
+          </tr>
+          <tr>
+            <td class="time">3:00 PM</td>
+            <td class="category">#apps</td>
+            <td class="topic">WhatPay CSV export</td>
+          </tr>
+          <tr>
+            <td class="time">4:30 PM</td>
+            <td class="category">#workflow</td>
+            <td class="topic">Why editorial styling matters</td>
+          </tr>
+          <tr>
+            <td class="time">6:00 PM</td>
+            <td class="category">#stats</td>
+            <td class="topic">Week in numbers</td>
+          </tr>
+          <tr>
+            <td class="time">7:00 PM</td>
+            <td class="category">#tips</td>
+            <td class="topic">Testing production failures</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tweet 1: 9:00 AM -->
+    <div class="tweet-card">
+      <span class="post-time">9:00 AM IST</span>
+      <div class="tweet-text">Added an editorial theme to agent-publish this week. 378 lines of CSS for serif headlines, proper dark mode, and spacing that does not feel like a default template. The app finally has a personality.</div>
+      <div class="tweet-meta">
+        <span class="char-count">201/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Tweet 2: 10:30 AM -->
+    <div class="tweet-card">
+      <span class="post-time">10:30 AM IST</span>
+      <div class="tweet-text">My Ollama subscription expired and I did not notice for 3 days. Here is the cascade: cron jobs silently failed, 2 daily tasks died, and the error was just HTTP 403 in logs. Check your external dependencies periodically.</div>
+      <div class="tweet-meta">
+        <span class="char-count">237/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Tweet 3: 12:00 PM -->
+    <div class="tweet-card">
+      <span class="post-time">12:00 PM IST</span>
+      <div class="tweet-text">My agent generated a portfolio report at 10 PM last night. Pulled live stock prices, ran technical analysis across 18 positions, and recommended BUY NATCOPHARM and TRIM ITCHOTELS. 9.61L portfolio, 1.71L P&L.</div>
+      <div class="tweet-meta">
+        <span class="char-count">225/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Tweet 4: 1:30 PM -->
+    <div class="tweet-card">
+      <span class="post-time">1:30 PM IST</span>
+      <div class="tweet-text">Skills in Hermes work like muscle memory for your agent. After 30 skills, it knows my design preferences, my build quirks, and which APIs have burned me. It does not start from scratch each session.</div>
+      <div class="tweet-meta">
+        <span class="char-count">198/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Tweet 5: 3:00 PM -->
+    <div class="tweet-card">
+      <span class="post-time">3:00 PM IST</span>
+      <div class="tweet-text">WhatPay v1.3.2 now exports your expense history as CSV. Open in Numbers, Google Sheets, or Excel. The file includes date, amount, category, and notes for every transaction. Finally.</div>
+      <div class="tweet-meta">
+        <span class="char-count">213/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Tweet 6: 4:30 PM -->
+    <div class="tweet-card">
+      <span class="post-time">4:30 PM IST</span>
+      <div class="tweet-text">Why editorial styling matters for technical content: serif headlines signal this was written by a human, not generated. It is the difference between a blog post and a docs page. Details matter.</div>
+      <div class="tweet-meta">
+        <span class="char-count">210/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Tweet 7: 6:00 PM -->
+    <div class="tweet-card">
+      <span class="post-time">6:00 PM IST</span>
+      <div class="tweet-text">This week: 12 commits to agent-publish, 3 cron jobs fixed, 165 tests passing, and 0 em-dash violations. The editorial theme shipped, the portfolio advisor ran its first analysis, and WhatPay got CSV export.</div>
+      <div class="tweet-meta">
+        <span class="char-count">231/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Tweet 8: 7:00 PM -->
+    <div class="tweet-card">
+      <span class="post-time">7:00 PM IST</span>
+      <div class="tweet-text">agent-publish has 165 tests. Most of them test edge cases I have actually hit in production: malformed markdown, missing images, broken URLs. Write tests for the failures you have seen, not the ones you imagine.</div>
+      <div class="tweet-meta">
+        <span class="char-count">220/280</span>
+        <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      Generated by Agent Tina &middot; 10 June 2026
+    </div>
+  </div>
+
+  <script>
+    function copyTweet(btn) {
+      const card = btn.closest('.tweet-card');
+      const text = card.querySelector('.tweet-text').innerText;
+      navigator.clipboard.writeText(text);
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    }
+
+    function copyPart(btn) {
+      const part = btn.closest('.thread-part');
+      const text = part.querySelector('.thread-text').innerText;
+      navigator.clipboard.writeText(text);
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    }
+
+    function copyThread(btn) {
+      const container = btn.closest('.thread-container');
+      const parts = container.querySelectorAll('.thread-part');
+      const fullThread = Array.from(parts).map(part => {
+        const label = part.querySelector('.thread-label').innerText;
+        const text = part.querySelector('.thread-text').innerText;
+        return `[${label}] ${text}`;
+      }).join('\n\n---\n\n');
+      navigator.clipboard.writeText(fullThread);
+      btn.textContent = 'Copied all!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy all parts';
+        btn.classList.remove('copied');
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
