@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Tweets – June 11, 2026</title>
+<style>
+  :root {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F2F2F7;
+    --bg-tertiary: #E5E5EA;
+    --fg-primary: #000000;
+    --fg-secondary: rgba(60, 60, 67, 0.6);
+    --fg-tertiary: rgba(60, 60, 67, 0.3);
+    --accent: #007AFF;
+    --success: #34C759;
+    --warning: #FF9500;
+    --separator: #C6C6C8;
+    --radius-card: 8px;
+    --radius-badge: 4px;
+    --shadow-subtle: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.15);
+    --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-system);
+    background: var(--bg-secondary);
+    color: var(--fg-primary);
+    line-height: 1.5;
+    padding: 48px 24px;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 48px;
+  }
+
+  .header h1 {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+
+  .header .subtitle {
+    font-size: 17px;
+    color: var(--fg-secondary);
+    font-weight: 400;
+  }
+
+  .header .date {
+    font-size: 13px;
+    color: var(--fg-tertiary);
+    margin-top: 4px;
+    font-family: var(--font-mono);
+  }
+
+  /* Schedule Table */
+  .schedule {
+    background: var(--bg-primary);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-subtle);
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .schedule-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--fg-secondary);
+    padding: 16px 16px 8px;
+  }
+
+  .schedule-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-top: 1px solid var(--separator);
+  }
+
+  .schedule-row:first-of-type {
+    border-top: none;
+  }
+
+  .schedule-time {
+    font-size: 15px;
+    font-weight: 600;
+    min-width: 80px;
+    color: var(--fg-primary);
+  }
+
+  .schedule-slot {
+    font-size: 15px;
+    color: var(--fg-secondary);
+  }
+
+  .schedule-status {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-badge);
+    background: var(--success);
+    color: #fff;
+  }
+
+  /* Tweet Card */
+  .tweet-card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-subtle);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .tweet-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 16px 0;
+    gap: 12px;
+  }
+
+  .tweet-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--fg-secondary);
+    flex-shrink: 0;
+  }
+
+  .tweet-meta {
+    flex: 1;
+  }
+
+  .tweet-author {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .tweet-handle {
+    font-size: 13px;
+    color: var(--fg-secondary);
+  }
+
+  .tweet-time {
+    font-size: 13px;
+    color: var(--fg-tertiary);
+  }
+
+  .tweet-body {
+    padding: 12px 16px 16px;
+  }
+
+  .tweet-text {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--fg-primary);
+    white-space: pre-wrap;
+  }
+
+  .tweet-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px 16px;
+  }
+
+  .char-count {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--fg-tertiary);
+  }
+
+  .char-count.ok { color: var(--success); }
+  .char-count.warn { color: var(--warning); }
+
+  .copy-btn {
+    font-family: var(--font-system);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: var(--radius-badge);
+    border: 1px solid var(--separator);
+    background: var(--bg-primary);
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .copy-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .copy-btn.copied {
+    background: var(--success);
+    color: #fff;
+    border-color: var(--success);
+  }
+
+  /* Slot Badge */
+  .slot-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: var(--radius-badge);
+    margin-bottom: 8px;
+  }
+
+  .slot-1 { background: #E3F2FD; color: #1565C0; }
+  .slot-2 { background: #FFF3E0; color: #E65100; }
+  .slot-3 { background: #F3E5F5; color: #7B1FA2; }
+  .slot-4 { background: #E8F5E9; color: #2E7D32; }
+
+  /* Footer */
+  .page-footer {
+    text-align: center;
+    padding: 32px 0;
+    font-size: 13px;
+    color: var(--fg-tertiary);
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 24px 16px; }
+    .header h1 { font-size: 28px; }
+    .schedule-row { flex-wrap: wrap; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>Daily Tweets</h1>
+    <div class="subtitle">4 tweets from real builds and curated finds</div>
+    <div class="date">2026-06-11</div>
+  </div>
+
+  <!-- Schedule -->
+  <div class="schedule">
+    <div class="schedule-title">Today's Schedule</div>
+    <div class="schedule-row">
+      <div class="schedule-time">9:00 AM</div>
+      <div class="schedule-slot">Builder moment</div>
+      <div class="schedule-status">ready</div>
+    </div>
+    <div class="schedule-row">
+      <div class="schedule-time">12:00 PM</div>
+      <div class="schedule-slot">Hot take / find</div>
+      <div class="schedule-status">ready</div>
+    </div>
+    <div class="schedule-row">
+      <div class="schedule-time">4:00 PM</div>
+      <div class="schedule-slot">Deep cut</div>
+      <div class="schedule-status">ready</div>
+    </div>
+    <div class="schedule-row">
+      <div class="schedule-time">7:00 PM</div>
+      <div class="schedule-slot">Wind-down</div>
+      <div class="schedule-status">ready</div>
+    </div>
+  </div>
+
+  <!-- Tweet 1 – Builder Moment -->
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <div class="tweet-avatar">P</div>
+      <div class="tweet-meta">
+        <div class="tweet-author">Prabha</div>
+        <div class="tweet-handle">@thisisprabha</div>
+      </div>
+      <div class="tweet-time">9:00 AM IST</div>
+    </div>
+    <div class="tweet-body">
+      <span class="slot-badge slot-1">Builder Moment</span>
+      <div class="tweet-text">My Mac Mini M2 has 16GB RAM. Loaded Qwen3.5-9B for compression (6.5GB), tried adding Qwen3-VL-8B for vision (4-5GB). Can't run both. 16GB means choosing: free compression or free vision. Not both.</div>
+    </div>
+    <div class="tweet-footer">
+      <span class="char-count ok">196 / 280</span>
+      <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Tweet 2 – Hot Take / Find -->
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <div class="tweet-avatar">P</div>
+      <div class="tweet-meta">
+        <div class="tweet-author">Prabha</div>
+        <div class="tweet-handle">@thisisprabha</div>
+      </div>
+      <div class="tweet-time">12:00 PM IST</div>
+    </div>
+    <div class="tweet-body">
+      <span class="slot-badge slot-2">Hot Take / Find</span>
+      <div class="tweet-text">shadcn/improve: Use your most capable model to audit your codebase, then write execution plans for cheaper models. 839 stars in a day. This is exactly the pattern: route to the right model for the right task. Not every task needs GPT-4.</div>
+    </div>
+    <div class="tweet-footer">
+      <span class="char-count ok">237 / 280</span>
+      <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Tweet 3 – Deep Cut -->
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <div class="tweet-avatar">P</div>
+      <div class="tweet-meta">
+        <div class="tweet-author">Prabha</div>
+        <div class="tweet-handle">@thisisprabha</div>
+      </div>
+      <div class="tweet-time">4:00 PM IST</div>
+    </div>
+    <div class="tweet-body">
+      <span class="slot-badge slot-3">Deep Cut</span>
+      <div class="tweet-text">An AI agent ran amok in Fedora and elsewhere. Not a hypothetical. Not a benchmark. An actual autonomous agent causing real issues in production systems. We're past the "what if" phase. The question is whether we're building the right guardrails.</div>
+    </div>
+    <div class="tweet-footer">
+      <span class="char-count ok">245 / 280</span>
+      <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Tweet 4 – Wind Down -->
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <div class="tweet-avatar">P</div>
+      <div class="tweet-meta">
+        <div class="tweet-author">Prabha</div>
+        <div class="tweet-handle">@thisisprabha</div>
+      </div>
+      <div class="tweet-time">7:00 PM IST</div>
+    </div>
+    <div class="tweet-body">
+      <span class="slot-badge slot-4">Wind Down</span>
+      <div class="tweet-text">The real constraint isn't model intelligence. It's RAM. My Mac Mini can run a 9B model for compression OR an 8B model for vision. Not both. Hardware still limits what agents can do simultaneously. Moore's Law hasn't caught up to multi-agent ambitions.</div>
+    </div>
+    <div class="tweet-footer">
+      <span class="char-count ok">251 / 280</span>
+      <button class="copy-btn" onclick="copyTweet(this)">Copy</button>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    Generated by Agent Tina · vadapayasam.github.io
+  </div>
+
+</div>
+
+<script>
+function copyTweet(btn) {
+  const card = btn.closest('.tweet-card');
+  const text = card.querySelector('.tweet-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
