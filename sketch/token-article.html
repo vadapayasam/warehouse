@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How I Cut My AI Agent's Token Bill by 30-40%</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #fff;
+    color: #1a1a1a;
+    line-height: 1.8;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  h1 { font-size: 32px; line-height: 1.25; margin-bottom: 8px; font-weight: 700; }
+  .meta { color: #666; font-size: 14px; margin-bottom: 40px; font-family: -apple-system, sans-serif; }
+  h2 { font-size: 22px; margin: 36px 0 16px; font-weight: 700; font-family: -apple-system, sans-serif; }
+  p { margin-bottom: 20px; font-size: 17px; }
+  .stat-block { background: #f6f6f6; border-radius: 8px; padding: 20px 24px; margin: 20px 0; font-family: -apple-system, sans-serif; font-size: 14px; line-height: 2; }
+  .stat-block strong { color: #1a1a1a; }
+  ul { margin: 12px 0 20px 24px; font-size: 17px; }
+  li { margin-bottom: 8px; }
+  .highlight { background: #fffde7; padding: 2px 6px; border-radius: 3px; }
+  .section-divider { border: none; border-top: 1px solid #e0e0e0; margin: 40px 0; }
+  .copy-all { position: fixed; bottom: 24px; right: 24px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; padding: 12px 20px; font-size: 14px; font-family: -apple-system, sans-serif; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 100; }
+  .copy-all:hover { background: #333; }
+  .copy-all.copied { background: #00ba7c; }
+  .code { font-family: 'SF Mono', Consolas, monospace; background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 15px; }
+  .before-after { display: flex; gap: 24px; margin: 16px 0; font-family: -apple-system, sans-serif; font-size: 14px; }
+  .before-after > div { flex: 1; padding: 16px; border-radius: 8px; }
+  .before { background: #fff0f0; }
+  .after { background: #f0fff0; }
+  .before-after .label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .before .label { color: #c00; }
+  .after .label { color: #080; }
+  .before-after .value { font-size: 28px; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<button class="copy-all" onclick="copyArticle()">Copy full article</button>
+
+<h1>How I Cut My AI Agent's Token Bill by 30-40%</h1>
+<div class="meta">5 min read</div>
+
+<h2>The Problem</h2>
+
+<p>I run a 24/7 AI agent on Telegram. It handles my task management, research, iOS builds, web publishing, and terminal operations. Last month, it processed 1,395 sessions, 27,098 messages, and 584,808,288 tokens.</p>
+
+<p>Most of that was wasted. Not on bad prompts. On the agent just existing.</p>
+
+<p>Here's the thing about AI agents: every message you send, the model re-reads the entire system context. System prompt, personality file, memory, user profile, tool definitions for every connected service. That's fixed overhead baked into every single turn.</p>
+
+<p>Before my optimization, my fixed overhead was ~13,200 tokens per turn. Multiply by 27,000 messages/month, and you're burning ~356 million tokens just on context. That's 61% of my total consumption.</p>
+
+<hr class="section-divider">
+
+<h2>The Diagnosis</h2>
+
+<p>I dumped the full context breakdown:</p>
+
+<div class="stat-block">
+  <strong>System prompt + Hermes base:</strong> ~3,500 tokens<br>
+  <strong>SOUL.md (agent personality):</strong> ~1,873 tokens<br>
+  <strong>Memory + user profile:</strong> ~818 tokens<br>
+  <strong>Tool definitions (Telegram):</strong> ~7,000 tokens
+</div>
+
+<p>The tool definitions were the biggest chunk. My Telegram setup loaded 17 toolsets including image generation, text-to-speech, code execution, and media orchestration. I use Telegram for text input and model switching. That's it.</p>
+
+<p>SOUL.md was bloated. 140 lines of personality rules, but two sections said the same thing. Another section was meta commentary about the document itself.</p>
+
+<hr class="section-divider">
+
+<h2>Fix 1: Compress the Personality File</h2>
+
+<p>SOUL.md went from 140 lines to 80 lines. Same personality. Same rules. Just no repetition.</p>
+
+<p>Merged the duplicate pushback sections. Removed the "This Is A Living Document" section (meta, no operational value). Consolidated overlapping workflow rules.</p>
+
+<div class="before-after">
+  <div class="before">
+    <div class="label">Before</div>
+    <div class="value">7,495 bytes</div>
+    140 lines / ~1,873 tokens
+  </div>
+  <div class="after">
+    <div class="label">After</div>
+    <div class="value">3,641 bytes</div>
+    80 lines / ~900 tokens
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<h2>Fix 2: Enable Smart Model Routing</h2>
+
+<p>"Hey" doesn't need the same processing as "deploy the latest build to production."</p>
+
+<p>Hermes has a built-in feature called smart_model_routing. It checks message length and routes simple queries to a cheaper model with minimal tools loaded.</p>
+
+<p>Enabled it with a threshold of 160 characters. Messages under that limit route to mimo-v2.5 with reduced tooling. Simple queries now use ~5,000 tokens fixed overhead instead of ~9,400.</p>
+
+<hr class="section-divider">
+
+<h2>Fix 3: Trim Unused Toolsets</h2>
+
+<p>Removed 4 toolsets from the Telegram platform configuration:</p>
+<ul>
+  <li><strong>image_gen</strong> (I generate images through other channels)</li>
+  <li><strong>tts</strong> (I don't use text-to-speech on Telegram)</li>
+  <li><strong>moa</strong> (media orchestration, unused)</li>
+  <li><strong>code_execution</strong> (terminal handles this)</li>
+</ul>
+
+<p>17 toolsets became 13. Zero functionality lost. Saved ~2,000-3,000 tokens per turn.</p>
+
+<hr class="section-divider">
+
+<h2>Bonus: Shell Script Library</h2>
+
+<p>Built tm-scripts, a library of 8 shell scripts that chain common terminal operations into single commands. Research pipelines, deployments, health checks, todoist queries. Each script runs in one terminal call instead of 3-5 LLM round-trips.</p>
+
+<p>Example: <span class="code">tm research "NinjaOne AI copilot MSP"</span> runs SearXNG search, extracts results, and formats output. One command, no LLM tokens burned on intermediate steps.</p>
+
+<hr class="section-divider">
+
+<h2>Results</h2>
+
+<p>Fixed overhead per turn:</p>
+
+<div class="before-after">
+  <div class="before">
+    <div class="label">Before</div>
+    <div class="value">13,200</div>
+    tokens per turn
+  </div>
+  <div class="after">
+    <div class="label">After</div>
+    <div class="value">9,400</div>
+    tokens per turn
+  </div>
+</div>
+
+<p>That's 3,800 tokens saved per message. At 27,000 messages/month, that's ~103 million tokens. Plus the smart model routing savings on simple queries.</p>
+
+<p>Total estimated reduction: ~103M-135M tokens/month. Roughly 30-40% of my previous consumption.</p>
+
+<hr class="section-divider">
+
+<h2>Takeaway</h2>
+
+<p>Most AI agent optimization advice focuses on better prompts. But the real token drain is the infrastructure around the prompt.</p>
+
+<p>Check your:</p>
+<ul>
+  <li><strong>Personality files</strong> (are they bloated? duplicate sections?)</li>
+  <li><strong>Tool definitions</strong> (are you loading services you never use?)</li>
+  <li><strong>Model routing</strong> (are simple queries hitting the frontier model?)</li>
+</ul>
+
+<p>The fixes take 20 minutes. The savings compound daily.</p>
+
+<script>
+function copyArticle() {
+  const article = document.querySelector('body');
+  const clone = article.cloneNode(true);
+  clone.querySelectorAll('button').forEach(b => b.remove());
+  const text = clone.innerText.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-all');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy full article'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

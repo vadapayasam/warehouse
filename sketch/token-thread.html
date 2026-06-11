@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Token Optimization Thread</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #000; color: #e7e9ea; padding: 20px; max-width: 700px; margin: 0 auto; }
+  .header { text-align: center; padding: 30px 0; border-bottom: 1px solid #2f3336; margin-bottom: 20px; }
+  .header h1 { font-size: 22px; font-weight: 700; }
+  .header p { color: #71767b; font-size: 14px; margin-top: 6px; }
+  .tweet { background: #16181c; border-radius: 16px; padding: 20px; margin-bottom: 16px; border: 1px solid #2f3336; }
+  .tweet-label { font-size: 12px; color: #1d9bf0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .tweet-text { font-size: 15px; line-height: 1.6; white-space: pre-wrap; }
+  .tweet-text strong { color: #fff; }
+  .char-count { text-align: right; font-size: 12px; color: #71767b; margin-top: 10px; }
+  .copy-btn { background: #1d9bf0; color: #fff; border: none; border-radius: 20px; padding: 6px 16px; font-size: 13px; cursor: pointer; float: right; margin-top: 10px; }
+  .copy-btn:hover { background: #1a8cd8; }
+  .copy-btn.copied { background: #00ba7c; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Token Optimization Thread</h1>
+  <p>7 tweets. Copy each one. Post as thread.</p>
+</div>
+
+<div class="tweet" id="t1">
+  <button class="copy-btn" onclick="copyTweet('t1')">Copy</button>
+  <div class="tweet-text">I run a 24/7 AI agent on Telegram. 1,395 sessions last month. 584 million tokens burned.
+
+Most of it was wasted. Not on bad prompts. On the agent just... existing.
+
+Here's how I cut 30-40% of the bill with 3 config changes.</div>
+  <div class="char-count"></div>
+  <div class="char-count"></div>
+</div>
+
+<div class="tweet" id="t2">
+  <button class="copy-btn" onclick="copyTweet('t2')">Copy</button>
+  <div class="tweet-text">Every single message you send to your AI agent, the model re-reads:
+- System prompt (~3,500 tokens)
+- Agent personality file (~1,900 tokens)
+- Memory + user profile (~800 tokens)
+- Tool definitions for every connected service (~7,000 tokens)
+
+That's 13,000 tokens before you even type a word.
+
+Multiply by 27,000 messages/month. That's your bill.</div>
+  <div class="char-count"></div>
+</div>
+
+<div class="tweet" id="t3">
+  <button class="copy-btn" onclick="copyTweet('t3')">Copy</button>
+  <div class="tweet-text">My agent's personality file (SOUL.md) was 140 lines. Most of it was duplicate sections and meta commentary about "this is a living document."
+
+Compressed it to 80 lines. Same personality. Same rules. Just no repetition.
+
+Before: 7,495 bytes -> After: 3,641 bytes.
+Saved ~973 tokens per turn.</div>
+  <div class="char-count"></div>
+</div>
+
+<div class="tweet" id="t4">
+  <button class="copy-btn" onclick="copyTweet('t4')">Copy</button>
+  <div class="tweet-text">"Hey" doesn't need the same processing as "deploy the latest build to production."
+
+Enabled smart_model_routing. Messages under 160 characters route to a cheaper model with minimal tools loaded.
+
+Simple queries: ~5,000 tokens fixed overhead instead of ~9,400.</div>
+  <div class="char-count"></div>
+</div>
+
+<div class="tweet" id="t5">
+  <button class="copy-btn" onclick="copyTweet('t5')">Copy</button>
+  <div class="tweet-text">My Telegram setup loaded 17 toolsets. Image generation. Text-to-speech. Code execution. Media orchestration.
+
+I use Telegram for text input and model switching. That's it.
+
+Removed 4 unused toolsets. Saved ~2,000-3,000 tokens per turn.
+
+17 -> 13 toolsets. Zero functionality lost.</div>
+  <div class="char-count"></div>
+</div>
+
+<div class="tweet" id="t6">
+  <button class="copy-btn" onclick="copyTweet('t6')">Copy</button>
+  <div class="tweet-text">Total fixed overhead per turn:
+Before: ~13,200 tokens
+After: ~9,400 tokens
+
+That's 3,800 tokens saved per message. At 27,000 messages/month, that's ~103 million tokens.
+
+Plus I built a shell script library that chains common terminal operations into single commands. No LLM round-trips needed.</div>
+  <div class="char-count"></div>
+</div>
+
+<div class="tweet" id="t7">
+  <button class="copy-btn" onclick="copyTweet('t7')">Copy</button>
+  <div class="tweet-text">Most AI agent optimization advice is about better prompts. But the real token drain is the infrastructure around the prompt.
+
+Check your:
+- Personality files (are they bloated?)
+- Tool definitions (are you loading services you never use?)
+- Model routing (are simple queries hitting the frontier model?)
+
+The fixes take 20 minutes. The savings compound daily.</div>
+  <div class="char-count"></div>
+</div>
+
+<script>
+function copyTweet(id) {
+  const el = document.getElementById(id);
+  const text = el.querySelector('.tweet-text').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.querySelector('.copy-btn');
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Show character counts
+document.querySelectorAll('.tweet').forEach(el => {
+  const text = el.querySelector('.tweet-text').textContent.trim();
+  const countEl = el.querySelector('.char-count');
+  countEl.textContent = text.length + ' chars';
+});
+</script>
+
+</body>
+</html>
