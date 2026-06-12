@@ -11,27 +11,27 @@
 
 
 <style>
-  /* Open Design warm-editorial tokens (inline) */
+  /* Open Design brutalism tokens (inline) */
   :root {
-    --bg: #fbf6ee;
-    --surface: #fffdf8;
-    --surface-warm: #f1e3cf;
-    --fg: #201914;
-    --fg-2: #4c4037;
-    --muted: #7a6d63;
-    --meta: #9b5b32;
-    --border: #ded2c3;
-    --border-soft: #eee4d7;
-    --accent: #9b5b32;
-    --accent-on: #ffffff;
+    --bg: #f5f1e8;
+    --surface: #ffffff;
+    --surface-warm: #ffef5a;
+    --fg: #000000;
+    --fg-2: #222222;
+    --muted: #555555;
+    --meta: #000000;
+    --border: #000000;
+    --border-soft: #000000;
+    --accent: #ffef5a;
+    --accent-on: #000000;
     --accent-hover: color-mix(in oklab, var(--accent), black 8%);
     --accent-active: color-mix(in oklab, var(--accent), black 14%);
-    --success: #4f8a4f;
-    --warn: #c9822f;
-    --danger: #b33a3a;
-    --font-display: Georgia, "Times New Roman", serif;
-    --font-body: Inter, system-ui, sans-serif;
-    --font-mono: "SF Mono", ui-monospace, Menlo, monospace;
+    --success: #00b050;
+    --warn: #ff8c00;
+    --danger: #ff2b2b;
+    --font-display: Arial Black, Impact, sans-serif;
+    --font-body: Arial, Helvetica, sans-serif;
+    --font-mono: "Courier New", ui-monospace, monospace;
     --text-xs: 12px;
     --text-sm: 14px;
     --text-base: 17px;
@@ -40,9 +40,9 @@
     --text-2xl: 42px;
     --text-3xl: 64px;
     --text-4xl: 88px;
-    --leading-body: 1.62;
-    --leading-tight: 1;
-    --tracking-display: -0.025em;
+    --leading-body: 1.35;
+    --leading-tight: 0.98;
+    --tracking-display: 0;
     --space-1: 4px;
     --space-2: 8px;
     --space-3: 12px;
@@ -51,21 +51,21 @@
     --space-6: 24px;
     --space-8: 32px;
     --space-12: 48px;
-    --section-y-desktop: 112px;
-    --section-y-tablet: 80px;
-    --section-y-phone: 56px;
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
+    --section-y-desktop: 88px;
+    --section-y-tablet: 64px;
+    --section-y-phone: 44px;
+    --radius-sm: 0px;
+    --radius-md: 0px;
+    --radius-lg: 0px;
     --radius-pill: 9999px;
     --elev-flat: none;
     --elev-ring: 0 0 0 1px var(--border);
-    --elev-raised: 0 20px 52px rgba(32, 25, 20, 0.12);
-    --focus-ring: 0 0 0 4px rgba(155, 91, 50, 0.24);
-    --motion-fast: 150ms;
-    --motion-base: 240ms;
-    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-    --container-max: 1180px;
+    --elev-raised: 8px 8px 0 #000000;
+    --focus-ring: 0 0 0 4px #000000, 0 0 0 8px #ffef5a;
+    --motion-fast: 90ms;
+    --motion-base: 140ms;
+    --ease-standard: steps(2, end);
+    --container-max: 1160px;
     --container-gutter-desktop: 36px;
     --container-gutter-tablet: 24px;
     --container-gutter-phone: 16px;
@@ -75,8 +75,6 @@
     --rule: var(--border);
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   html { font-size: 16px; }
@@ -84,25 +82,29 @@
   body {
     background: var(--paper);
     color: var(--ink);
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: var(--font-body);
     line-height: var(--leading-body);
+    border: 3px solid var(--fg);
+    margin: 12px;
   }
 
 /* Links */
 a {
-  color: var(--accent);
+  color: var(--fg);
   text-decoration: underline;
-  text-decoration-color: rgba(201, 79, 26, 0.3);
-  text-underline-offset: 2px;
-  transition: text-decoration-color .15s, color .15s;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: color .1s;
 }
 a:hover {
-  text-decoration-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-on);
+  text-decoration: none;
+  padding: 0 4px;
 }
 a:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: var(--focus-ring);
   outline-offset: 2px;
-  text-decoration-color: transparent;
 }
 
 /* Skip link */
@@ -111,13 +113,13 @@ a:focus-visible {
   top: -40px;
   left: 0;
   background: var(--accent);
-  color: #fff;
+  color: var(--accent-on);
   padding: .5rem 1rem;
   z-index: 100;
   text-decoration: none;
-  border-bottom: 0;
+  border: 2px solid var(--fg);
   font-size: .75rem;
-  font-weight: 600;
+  font-weight: 900;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -133,20 +135,23 @@ a:focus-visible {
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  transition: color .15s;
+  transition: color .1s;
   text-decoration: none;
+  border: 2px solid var(--fg);
+  padding: 4px 12px;
 }
 .back:hover {
-  color: var(--fg);
+  background: var(--accent);
+  color: var(--accent-on);
 }
 .back:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: var(--focus-ring);
   outline-offset: 2px;
 }
 
 /* Layout */
 header {
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 3px solid var(--fg);
   padding: 48px 64px 32px;
   max-width: 900px;
   margin: 0 auto;
@@ -160,29 +165,33 @@ header {
 
 /* Headings */
 h1 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--font-display);
   font-size: clamp(2.4rem, 5vw, 4rem);
-  font-weight: 400;
-  line-height: 1.05;
+  font-weight: 900;
+  line-height: var(--leading-tight);
   max-width: 640px;
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-display);
 }
 
-h1 em { font-style: italic; color: var(--muted); }
+h1 em { font-style: normal; background: var(--accent); padding: 0 8px; }
 
 h2 {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--font-display);
   font-size: 1.8rem;
-  font-weight: 400;
+  font-weight: 900;
   margin: 3rem 0 1rem;
   line-height: 1.2;
+  text-transform: uppercase;
+  border-bottom: 3px solid var(--fg);
+  padding-bottom: 8px;
 }
 
 h3 {
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 900;
   margin: 1.5rem 0 .5rem;
-  color: var(--muted);
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -226,25 +235,26 @@ table {
   font-size: 0.82rem;
   margin: 1.5rem 0;
   border-collapse: collapse;
+  border: 3px solid var(--fg);
 }
 
 th, td {
   text-align: left;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--fg);
 }
 
 thead th {
-  font-weight: 600;
+  font-weight: 900;
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--muted);
-  border-bottom: 2px solid var(--ink);
+  background: var(--fg);
+  color: var(--paper);
 }
 
 tr:hover {
-  background: rgba(0,0,0,0.02);
+  background: var(--accent);
 }
 
 /* Lists */
@@ -260,34 +270,32 @@ li {
 
 /* Blockquote */
 blockquote {
-  border-left: 3px solid var(--accent);
+  border-left: 5px solid var(--fg);
   margin: 2rem 0;
-  padding: 0 0 0 1.25rem;
-  color: var(--muted);
-  font-family: 'Instrument Serif', serif;
+  padding: 12px 0 12px 20px;
   font-size: 1.1rem;
-  font-style: italic;
-  line-height: 1.6;
+  line-height: 1.5;
+  background: var(--surface-warm);
 }
 
 /* Code */
 code {
-  background: rgba(0,0,0,0.06);
-  padding: 1px 5px;
-  border-radius: 2px;
+  background: var(--surface-warm);
+  padding: 2px 6px;
   font-size: 0.85em;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono);
+  border: 1px solid var(--fg);
 }
 
 pre {
-  background: var(--ink);
+  background: var(--fg);
   color: var(--paper);
   padding: 1.25rem 1.5rem;
-  border-radius: 4px;
   overflow-x: auto;
   font-size: 0.82rem;
   margin: 1.5rem 0;
-  line-height: 1.6;
+  line-height: 1.5;
+  border: 3px solid var(--fg);
 }
 
 pre code {
@@ -298,7 +306,7 @@ pre code {
 
 /* TOC */
 .toc {
-  border-left: 2px solid var(--rule);
+  border-left: 3px solid var(--fg);
   padding-left: 1.5rem;
   margin: 0 0 3rem;
   font-size: 0.82rem;
@@ -323,21 +331,24 @@ pre code {
 .toc a {
   color: var(--muted);
   text-decoration: none;
-  transition: color .15s;
+  transition: color .1s;
 }
 
 .toc a:hover {
-  color: var(--ink);
+  color: var(--fg);
+  background: var(--accent);
+  padding: 0 4px;
 }
 
 /* TL;DR callout */
 .tldr-callout {
-  background: rgba(0,0,0,0.03);
-  border-left: 3px solid var(--accent);
+  background: var(--surface-warm);
+  border: 3px solid var(--fg);
+  border-left: 5px solid var(--fg);
   padding: 1rem 1.25rem;
   margin: 0 0 2rem;
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 /* Tags */
@@ -351,23 +362,22 @@ pre code {
 .tag {
   display: inline-block;
   padding: 3px 10px;
-  border-radius: 2px;
   font-size: 10px;
-  background: rgba(201, 79, 26, 0.1);
-  color: var(--accent);
-  font-weight: 600;
+  background: var(--fg);
+  color: var(--paper);
+  font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  header, .main { padding-left: 24px; padding-right: 24px; }
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.4rem; }
+  body { margin: 6px; border-width: 2px; }
+  header, .main { padding-left: 16px; padding-right: 16px; }
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.2rem; }
   table { font-size: 0.78rem; display: block; overflow-x: auto; }
   .toc { padding-left: 1rem; }
-  .idea-specs, .verdict { grid-template-columns: 1fr; }
 }
 
 /* Print */
@@ -381,6 +391,7 @@ pre code {
 
 /* Light theme forced — no dark mode */
 /* Dark mode disabled for this article */
+pre code { background: none; border: none; padding: 0; }
 
 pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -461,13 +472,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
-<a href="../" class="back">&larr; Back</a>
+<a href="../" class="back">← BACK</a>
 
 <header>
-  <p class="meta" style="margin-bottom: 12px;">Published Articles — Research</p>
+  <p class="meta" style="margin-bottom: 12px; font-weight: 900; letter-spacing: 0.12em;">PUBLISHED ARTICLES — RESEARCH</p>
   <h1>MSPs in the AI Era:<br><em>How They're Actually Feeling</em></h1>
-  <p class="meta">
-    <strong>June 9, 2026</strong> &middot; 10 min read &middot; Agent Tina Research
+  <p class="meta" style="margin-top: 12px;">
+    <strong style="font-weight: 900;">JUNE 9, 2026</strong> · 10 MIN READ · AGENT TINA RESEARCH
   </p>
 </header>
 
