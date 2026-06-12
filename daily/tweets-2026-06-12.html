@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Tweets - 2026-06-12</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #FFFFFF;
+    color: #000000;
+    line-height: 1.5;
+    padding: 32px 16px;
+  }
+  .container { max-width: 680px; margin: 0 auto; }
+  
+  /* Header */
+  .header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #C6C6C8;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .header .date {
+    font-size: 15px;
+    color: #3C3C4399;
+    letter-spacing: 0;
+  }
+
+  /* Schedule Table */
+  .schedule {
+    background: #F2F2F7;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 32px;
+  }
+  .schedule h2 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #3C3C4399;
+    margin-bottom: 12px;
+  }
+  .schedule-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #C6C6C840;
+  }
+  .schedule-row:last-child { border-bottom: none; }
+  .schedule-time {
+    font-size: 13px;
+    font-weight: 600;
+    color: #007AFF;
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .schedule-slot {
+    font-size: 15px;
+    color: #000000;
+  }
+
+  /* Tweet Card */
+  .tweet-card {
+    background: #F2F2F7;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .tweet-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .tweet-slot {
+    font-size: 12px;
+    font-weight: 600;
+    color: #007AFF;
+    background: #007AFF15;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .tweet-time {
+    font-size: 12px;
+    color: #3C3C4366;
+  }
+  .tweet-text {
+    font-size: 17px;
+    line-height: 1.5;
+    color: #000000;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+  }
+  .tweet-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .char-count {
+    font-size: 12px;
+    color: #3C3C4366;
+  }
+  .char-count.over { color: #FF3B30; }
+  .copy-btn {
+    font-size: 13px;
+    font-weight: 600;
+    color: #007AFF;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: #007AFF15; }
+  .copy-btn.copied { color: #34C759; }
+
+  /* Footer */
+  .footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #C6C6C8;
+    font-size: 12px;
+    color: #3C3C4366;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Daily Tweets</h1>
+    <div class="date">Friday, June 12, 2026</div>
+  </div>
+
+  <div class="schedule">
+    <h2>Schedule</h2>
+    <div class="schedule-row">
+      <div class="schedule-time">9:00 AM</div>
+      <div class="schedule-slot">Builder moment</div>
+    </div>
+    <div class="schedule-row">
+      <div class="schedule-time">12:00 PM</div>
+      <div class="schedule-slot">Hot take or find</div>
+    </div>
+    <div class="schedule-row">
+      <div class="schedule-time">4:00 PM</div>
+      <div class="schedule-slot">Deep cut</div>
+    </div>
+    <div class="schedule-row">
+      <div class="schedule-time">7:00 PM</div>
+      <div class="schedule-slot">Wind-down</div>
+    </div>
+  </div>
+
+  <!-- Tweet 1: Builder Moment -->
+  <div class="tweet-card">
+    <div class="tweet-meta">
+      <span class="tweet-slot">Slot 1</span>
+      <span class="tweet-time">9:00 AM IST</span>
+    </div>
+    <div class="tweet-text" id="tweet-1">Docker cleanup today. Reclaimed 15GB from old containers and dangling images. Most were from failed MCP server experiments. The graveyard of "I'll just try this real quick".</div>
+    <div class="tweet-footer">
+      <span class="char-count" id="count-1"></span>
+      <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Tweet 2: Hot Take or Find -->
+  <div class="tweet-card">
+    <div class="tweet-meta">
+      <span class="tweet-slot">Slot 2</span>
+      <span class="tweet-time">12:00 PM IST</span>
+    </div>
+    <div class="tweet-text" id="tweet-2">apple/container just dropped - Swift-native Linux containers on Mac, lightweight VMs under the hood. 2,400 stars in a day. Docker alternatives that actually feel native.</div>
+    <div class="tweet-footer">
+      <span class="char-count" id="count-2"></span>
+      <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Tweet 3: Deep Cut -->
+  <div class="tweet-card">
+    <div class="tweet-meta">
+      <span class="tweet-slot">Slot 3</span>
+      <span class="tweet-time">4:00 PM IST</span>
+    </div>
+    <div class="tweet-text" id="tweet-3">Claude Desktop spawns a 1.8GB Hyper-V VM on every launch. Even for chat-only use. That's not an agent, that's a full OS boot for a text box.</div>
+    <div class="tweet-footer">
+      <span class="char-count" id="count-3"></span>
+      <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Tweet 4: Wind-down -->
+  <div class="tweet-card">
+    <div class="tweet-meta">
+      <span class="tweet-slot">Slot 4</span>
+      <span class="tweet-time">7:00 PM IST</span>
+    </div>
+    <div class="tweet-text" id="tweet-4">Someone got Half-Life running at 30 FPS on a Nokia N95. The phone that came out in 2007. Meanwhile I can't get my build to run on a simulator from last year.</div>
+    <div class="tweet-footer">
+      <span class="char-count" id="count-4"></span>
+      <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    Generated by Agent Tina &middot; 4 tweets &middot; All under 280 chars
+  </div>
+</div>
+
+<script>
+function copyTweet(id) {
+  const text = document.getElementById('tweet-' + id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Character counts
+for (let i = 1; i <= 4; i++) {
+  const text = document.getElementById('tweet-' + i).innerText;
+  const count = text.length;
+  const el = document.getElementById('count-' + i);
+  el.textContent = count + '/280';
+  if (count > 280) el.classList.add('over');
+}
+</script>
+</body>
+</html>
