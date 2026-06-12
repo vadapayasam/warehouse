@@ -11,38 +11,38 @@
 
 
 <style>
-  /* Open Design brutalism tokens (inline) */
+  /* Open Design minimal tokens (inline) */
   :root {
-    --bg: #f5f1e8;
-    --surface: #ffffff;
-    --surface-warm: #ffef5a;
-    --fg: #000000;
-    --fg-2: #222222;
-    --muted: #555555;
-    --meta: #000000;
-    --border: #000000;
-    --border-soft: #000000;
-    --accent: #ffef5a;
-    --accent-on: #000000;
+    --bg: #ffffff;
+    --surface: #fafafa;
+    --surface-warm: #f5f5f5;
+    --fg: #111111;
+    --fg-2: #3a3a3a;
+    --muted: #777777;
+    --meta: #111111;
+    --border: #e2e2e2;
+    --border-soft: #eeeeee;
+    --accent: #111111;
+    --accent-on: #ffffff;
     --accent-hover: color-mix(in oklab, var(--accent), black 8%);
     --accent-active: color-mix(in oklab, var(--accent), black 14%);
-    --success: #00b050;
-    --warn: #ff8c00;
-    --danger: #ff2b2b;
-    --font-display: Arial Black, Impact, sans-serif;
-    --font-body: Arial, Helvetica, sans-serif;
-    --font-mono: "Courier New", ui-monospace, monospace;
+    --success: #168a46;
+    --warn: #b7791f;
+    --danger: #c53030;
+    --font-display: Inter, system-ui, sans-serif;
+    --font-body: Inter, system-ui, sans-serif;
+    --font-mono: "SF Mono", ui-monospace, Menlo, monospace;
     --text-xs: 12px;
     --text-sm: 14px;
-    --text-base: 17px;
-    --text-lg: 20px;
-    --text-xl: 28px;
-    --text-2xl: 42px;
-    --text-3xl: 64px;
-    --text-4xl: 88px;
-    --leading-body: 1.35;
-    --leading-tight: 0.98;
-    --tracking-display: 0;
+    --text-base: 16px;
+    --text-lg: 18px;
+    --text-xl: 22px;
+    --text-2xl: 32px;
+    --text-3xl: 48px;
+    --text-4xl: 64px;
+    --leading-body: 1.55;
+    --leading-tight: 1.08;
+    --tracking-display: -0.02em;
     --space-1: 4px;
     --space-2: 8px;
     --space-3: 12px;
@@ -51,21 +51,21 @@
     --space-6: 24px;
     --space-8: 32px;
     --space-12: 48px;
-    --section-y-desktop: 88px;
-    --section-y-tablet: 64px;
-    --section-y-phone: 44px;
-    --radius-sm: 0px;
-    --radius-md: 0px;
-    --radius-lg: 0px;
+    --section-y-desktop: 112px;
+    --section-y-tablet: 80px;
+    --section-y-phone: 56px;
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
     --radius-pill: 9999px;
     --elev-flat: none;
     --elev-ring: 0 0 0 1px var(--border);
-    --elev-raised: 8px 8px 0 #000000;
-    --focus-ring: 0 0 0 4px #000000, 0 0 0 8px #ffef5a;
-    --motion-fast: 90ms;
-    --motion-base: 140ms;
-    --ease-standard: steps(2, end);
-    --container-max: 1160px;
+    --elev-raised: 0 12px 30px rgba(0, 0, 0, 0.08);
+    --focus-ring: 0 0 0 3px rgba(17, 17, 17, 0.18);
+    --motion-fast: 140ms;
+    --motion-base: 220ms;
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --container-max: 1120px;
     --container-gutter-desktop: 36px;
     --container-gutter-tablet: 24px;
     --container-gutter-phone: 16px;
@@ -74,6 +74,8 @@
     --paper: var(--bg);
     --rule: var(--border);
   }
+
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -84,23 +86,18 @@
     color: var(--ink);
     font-family: var(--font-body);
     line-height: var(--leading-body);
-    border: 3px solid var(--fg);
-    margin: 12px;
   }
 
 /* Links */
 a {
   color: var(--fg);
   text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-  transition: color .1s;
+  text-decoration-color: rgba(17, 17, 17, 0.3);
+  text-underline-offset: 2px;
+  transition: text-decoration-color var(--motion-fast);
 }
 a:hover {
-  background: var(--accent);
-  color: var(--accent-on);
-  text-decoration: none;
-  padding: 0 4px;
+  text-decoration-color: var(--fg);
 }
 a:focus-visible {
   outline: var(--focus-ring);
@@ -112,16 +109,13 @@ a:focus-visible {
   position: absolute;
   top: -40px;
   left: 0;
-  background: var(--accent);
+  background: var(--fg);
   color: var(--accent-on);
   padding: .5rem 1rem;
   z-index: 100;
   text-decoration: none;
-  border: 2px solid var(--fg);
   font-size: .75rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-weight: 500;
 }
 .skip-link:focus {
   top: 0;
@@ -133,16 +127,11 @@ a:focus-visible {
   margin: 2rem 0 0;
   font-size: .75rem;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: color .1s;
+  transition: color var(--motion-fast);
   text-decoration: none;
-  border: 2px solid var(--fg);
-  padding: 4px 12px;
 }
 .back:hover {
-  background: var(--accent);
-  color: var(--accent-on);
+  color: var(--fg);
 }
 .back:focus-visible {
   outline: var(--focus-ring);
@@ -151,7 +140,7 @@ a:focus-visible {
 
 /* Layout */
 header {
-  border-bottom: 3px solid var(--fg);
+  border-bottom: 1px solid var(--border);
   padding: 48px 64px 32px;
   max-width: 900px;
   margin: 0 auto;
@@ -166,34 +155,28 @@ header {
 /* Headings */
 h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5vw, 4rem);
-  font-weight: 900;
+  font-size: clamp(2.4rem, 5vw, 3.2rem);
+  font-weight: 700;
   line-height: var(--leading-tight);
   max-width: 640px;
   margin: 0;
-  text-transform: uppercase;
   letter-spacing: var(--tracking-display);
 }
 
-h1 em { font-style: normal; background: var(--accent); padding: 0 8px; }
+h1 em { font-style: normal; color: var(--muted); }
 
 h2 {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 900;
+  font-size: 1.2rem;
+  font-weight: 600;
   margin: 3rem 0 1rem;
-  line-height: 1.2;
-  text-transform: uppercase;
-  border-bottom: 3px solid var(--fg);
-  padding-bottom: 8px;
+  line-height: 1.3;
 }
 
 h3 {
   font-size: 0.85rem;
-  font-weight: 900;
+  font-weight: 600;
   margin: 1.5rem 0 .5rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  color: var(--muted);
 }
 
 h2 a.anchor, h3 a.anchor {
@@ -235,26 +218,22 @@ table {
   font-size: 0.82rem;
   margin: 1.5rem 0;
   border-collapse: collapse;
-  border: 3px solid var(--fg);
 }
 
 th, td {
   text-align: left;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--fg);
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
 }
 
 thead th {
-  font-weight: 900;
+  font-weight: 600;
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: var(--fg);
-  color: var(--paper);
+  color: var(--muted);
 }
 
 tr:hover {
-  background: var(--accent);
+  background: var(--surface);
 }
 
 /* Lists */
@@ -270,32 +249,33 @@ li {
 
 /* Blockquote */
 blockquote {
-  border-left: 5px solid var(--fg);
+  border-left: 2px solid var(--border);
   margin: 2rem 0;
-  padding: 12px 0 12px 20px;
-  font-size: 1.1rem;
-  line-height: 1.5;
-  background: var(--surface-warm);
+  padding: 0 0 0 1.25rem;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.6;
 }
 
 /* Code */
 code {
   background: var(--surface-warm);
-  padding: 2px 6px;
+  padding: 2px 5px;
+  border-radius: var(--radius-sm);
   font-size: 0.85em;
   font-family: var(--font-mono);
-  border: 1px solid var(--fg);
 }
 
 pre {
-  background: var(--fg);
-  color: var(--paper);
+  background: var(--surface);
   padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-md);
   overflow-x: auto;
   font-size: 0.82rem;
   margin: 1.5rem 0;
-  line-height: 1.5;
-  border: 3px solid var(--fg);
+  line-height: 1.55;
+  border: 1px solid var(--border);
 }
 
 pre code {
@@ -306,7 +286,7 @@ pre code {
 
 /* TOC */
 .toc {
-  border-left: 3px solid var(--fg);
+  border-left: 1px solid var(--border);
   padding-left: 1.5rem;
   margin: 0 0 3rem;
   font-size: 0.82rem;
@@ -331,24 +311,22 @@ pre code {
 .toc a {
   color: var(--muted);
   text-decoration: none;
-  transition: color .1s;
+  transition: color var(--motion-fast);
 }
 
 .toc a:hover {
   color: var(--fg);
-  background: var(--accent);
-  padding: 0 4px;
 }
 
 /* TL;DR callout */
 .tldr-callout {
-  background: var(--surface-warm);
-  border: 3px solid var(--fg);
-  border-left: 5px solid var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   padding: 1rem 1.25rem;
   margin: 0 0 2rem;
   font-size: 0.9rem;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* Tags */
@@ -362,20 +340,18 @@ pre code {
 .tag {
   display: inline-block;
   padding: 3px 10px;
+  border-radius: var(--radius-pill);
   font-size: 10px;
-  background: var(--fg);
-  color: var(--paper);
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  background: var(--surface-warm);
+  color: var(--muted);
+  font-weight: 500;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  body { margin: 6px; border-width: 2px; }
-  header, .main { padding-left: 16px; padding-right: 16px; }
+  header, .main { padding-left: var(--container-gutter-phone); padding-right: var(--container-gutter-phone); }
   h1 { font-size: 1.6rem; }
-  h2 { font-size: 1.2rem; }
+  h2 { font-size: 1.1rem; }
   table { font-size: 0.78rem; display: block; overflow-x: auto; }
   .toc { padding-left: 1rem; }
 }
@@ -390,8 +366,7 @@ pre code {
 }
 
 /* Light theme forced — no dark mode */
-/* Dark mode disabled for this article */
-pre code { background: none; border: none; padding: 0; }
+pre code { background: none; padding: 0; }
 
 pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -472,13 +447,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
-<a href="../" class="back">← BACK</a>
+<a href="../" class="back">← Back</a>
 
 <header>
-  <p class="meta" style="margin-bottom: 12px; font-weight: 900; letter-spacing: 0.12em;">PUBLISHED ARTICLES — RESEARCH</p>
+  <p class="meta" style="margin-bottom: 12px;">Published Articles — Research</p>
   <h1>MSPs in the AI Era:<br><em>How They're Actually Feeling</em></h1>
   <p class="meta" style="margin-top: 12px;">
-    <strong style="font-weight: 900;">JUNE 9, 2026</strong> · 10 MIN READ · AGENT TINA RESEARCH
+    <strong>June 9, 2026</strong> · 10 min read · Agent Tina Research
   </p>
 </header>
 
