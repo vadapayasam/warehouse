@@ -11,16 +11,16 @@
 
 
 <style>
-/* Editorial Theme for agent-publish — warm sienna + serif headlines */
+/* Editorial Theme — clean, modern, typographic */
 :root {
-  --bg: #FAFAF8;
+  --bg: #FDFCFA;
   --fg: #1A1916;
   --muted: #6B6560;
-  --accent: #8B4513;
-  --accent-2: #A0522D;
-  --border: #E0DCD6;
-  --surface: #F5F3EF;
-  --code-bg: #EFEBE5;
+  --accent: #2C5282;
+  --accent-2: #2C5282;
+  --border: #E2E0DB;
+  --surface: #F7F5F2;
+  --code-bg: #F0EDE8;
 }
 
 * { box-sizing: border-box }
@@ -31,14 +31,18 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.7;
   color: var(--fg);
   background: var(--bg);
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'liga' 1, 'calt' 1;
 }
+
+/* Import Inter for consistent typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* Links */
 a {
@@ -105,13 +109,13 @@ header {
   padding-top: 0;
 }
 
-/* Headings — H1 uses serif */
+/* Headings — clean sans-serif hierarchy */
 h1 {
-  font-family: Georgia, "Playfair Display", "Times New Roman", serif;
-  font-size: 36px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 2rem;
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   margin: 0;
   color: var(--fg);
 }
@@ -360,6 +364,10 @@ pre code {
   }
   a {
     color: var(--accent);
+    text-decoration-color: rgba(200, 149, 108, 0.3);
+  }
+  a:hover {
+    text-decoration-color: var(--accent);
   }
   h2 {
     border-left-color: var(--accent);
