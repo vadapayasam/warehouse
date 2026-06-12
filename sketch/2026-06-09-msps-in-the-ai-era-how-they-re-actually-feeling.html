@@ -346,56 +346,21 @@ pre code {
   .skip-link { display: none }
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1C1A18;
-    --fg: #E8E4DF;
-    --muted: #9E9891;
-    --accent: #C8956C;
-    --accent-2: #C8956C;
-    --border: #3A3632;
-    --surface: #2A2624;
-    --code-bg: #232120;
-  }
-  body {
-    background: var(--bg);
-    color: var(--fg);
-  }
-  a {
-    color: var(--accent);
-    text-decoration-color: rgba(200, 149, 108, 0.3);
-  }
-  a:hover {
-    text-decoration-color: var(--accent);
-  }
-  h2 {
-    border-left-color: var(--accent);
-  }
-  blockquote {
-    border-left-color: var(--accent-2);
-    color: var(--muted);
-  }
-  table {
-    background: var(--surface);
-  }
-  thead th {
-    background: var(--surface);
-  }
-  tr:hover {
-    background: rgba(200, 149, 108, .08);
-  }
-  pre:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(200, 149, 108, .10);
-  }
-  pre:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(200, 149, 108, .10);
-  }
-  .tag {
-    background: var(--surface);
-  }
+/* Light theme forced — no dark mode */
+/* Dark mode disabled for this article */
+tr:hover {
+  background: rgba(44, 82, 130, .06);
+}
+pre:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(44, 82, 130, .08);
+}
+pre:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(44, 82, 130, .08);
+}
+.tag {
+  background: var(--surface);
 }
 
 pre { line-height: 125%; }
