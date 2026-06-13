@@ -3,154 +3,526 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vault Health — Jun 14</title>
+<title>Vault Health — June 14, 2026</title>
 <style>
-  :root{color-scheme:light dark;--bg:#0a0a0a;--fg:#e5e5e5;--muted:#888;--accent:#ff6b35;--border:#222;--green:#4ade80;--yellow:#facc15;--red:#f87171;--blue:#60a5fa}
-  @media(prefers-color-scheme:light){:root{--bg:#fafafa;--fg:#111;--muted:#666;--accent:#d44a1a;--border:#ddd;--green:#16a34a;--yellow:#ca8a04;--red:#dc2626;--blue:#2563eb}}
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--fg);max-width:720px;margin:0 auto;padding:32px 20px;line-height:1.6}
-  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
-  .meta{color:var(--muted);font-size:13px;margin-bottom:28px}
-  .score{display:flex;align-items:center;gap:12px;margin-bottom:32px;padding:16px;border:1px solid var(--border);border-radius:12px}
-  .score-num{font-size:36px;font-weight:800;letter-spacing:-1px}
-  .score-num.critical{color:var(--red)}.score-num.warning{color:var(--yellow)}.score-num.ok{color:var(--green)}
-  .score-bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
-  .score-fill{height:100%;border-radius:4px;transition:width .5s}
-  .score-fill.critical{background:var(--red);width:40%}
-  .score-fill.warning{background:var(--yellow);width:60%}
-  .score-fill.ok{background:var(--green);width:85%}
-  .section{margin-bottom:28px}
-  .section h2{font-size:16px;font-weight:700;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-  .issue{padding:12px 14px;margin-bottom:8px;border:1px solid var(--border);border-radius:8px;font-size:14px}
-  .issue.critical{border-left:3px solid var(--red)}
-  .issue.warning{border-left:3px solid var(--yellow)}
-  .issue.ok{border-left:3px solid var(--green)}
-  .issue.blue{border-left:3px solid var(--blue)}
-  .issue-title{font-weight:600;margin-bottom:2px}
-  .issue-detail{color:var(--muted);font-size:13px}
-  .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:3px;margin-right:4px;font-weight:600}
-  .tag.critical{background:var(--red);color:#fff}
-  .tag.warning{background:var(--yellow);color:#000}
-  .tag.ok{background:var(--green);color:#000}
-  .tag.info{background:var(--blue);color:#fff}
-  .gauge-row{display:flex;gap:8px;margin-bottom:6px;align-items:center}
-  .gauge-label{width:110px;font-size:13px;color:var(--muted);flex-shrink:0}
-  .gauge-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
-  .gauge-fill{height:100%;border-radius:3px}
-  .gauge-val{width:36px;text-align:right;font-size:12px;font-weight:600;flex-shrink:0}
-  .boxed{margin-top:20px;padding:14px;background:rgba(255,107,53,.08);border:1px solid var(--accent);border-radius:8px;font-size:13px;color:var(--muted)}
-  .boxed strong{color:var(--fg)}
-  footer{margin-top:40px;font-size:12px;color:var(--muted);text-align:center}
+  :root {
+    --bg: #faf6f2;
+    --card: #ffffff;
+    --accent: #d45b3e;
+    --accent-light: #f0c8b8;
+    --green: #3a8a5c;
+    --green-light: #c8e6d0;
+    --amber: #c98a2b;
+    --amber-light: #f0dfb8;
+    --red: #c0392b;
+    --red-light: #f0c8c0;
+    --gray: #8a8a8a;
+    --text: #2c2c2c;
+    --text-muted: #6b6b6b;
+    --border: #e8e0d6;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 2.5rem 1.5rem 2rem;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+  }
+  .header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .header .subtitle {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  .header .badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+
+  /* Score Hero */
+  .score-hero {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+  }
+  .score-ring {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    position: relative;
+  }
+  .score-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .score-ring .bg-circle { fill: none; stroke: var(--border); stroke-width: 8; }
+  .score-ring .fg-circle {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 314.16;
+    stroke-dashoffset: 94.25;
+    transition: stroke-dashoffset 0.6s ease;
+  }
+  .score-ring .score-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-ring .score-label .num {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .score-ring .score-label .denom {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .score-detail {
+    flex: 1;
+  }
+  .score-detail h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .score-detail p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .score-detail .trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--amber);
+  }
+
+  /* Gauges Row */
+  .gauges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .gauge-card {
+    background: var(--card);
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .gauge-card .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.375rem;
+  }
+  .gauge-card .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .gauge-card .status {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+  }
+  .status-ok { color: var(--green); }
+  .status-warn { color: var(--amber); }
+  .status-fail { color: var(--red); }
+
+  /* Section */
+  .section {
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-header h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .section-header .count {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .count-red { background: var(--red-light); color: var(--red); }
+  .count-amber { background: var(--amber-light); color: var(--amber); }
+  .count-gray { background: var(--border); color: var(--text-muted); }
+
+  .issue-list { padding: 0; }
+  .issue-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .issue-item:last-child { border-bottom: none; }
+  .issue-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    margin-top: 2px;
+  }
+  .icon-red { background: var(--red-light); color: var(--red); }
+  .icon-amber { background: var(--amber-light); color: var(--amber); }
+  .icon-gray { background: var(--border); color: var(--text-muted); }
+  .issue-body { flex: 1; }
+  .issue-body .title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.125rem;
+  }
+  .issue-body .desc {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .issue-body .meta {
+    font-size: 0.7rem;
+    color: var(--gray);
+    margin-top: 0.25rem;
+  }
+
+  /* Quote Block */
+  .quote-block {
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    position: relative;
+  }
+  .quote-block::before {
+    content: '"';
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
+    font-size: 3rem;
+    color: var(--accent-light);
+    font-family: Georgia, serif;
+    line-height: 1;
+    opacity: 0.5;
+  }
+  .quote-block .quote-text {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.7;
+    font-style: italic;
+    padding-left: 1.5rem;
+  }
+  .quote-block .quote-source {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+    font-style: normal;
+  }
+  .quote-block .quote-source strong {
+    color: var(--accent);
+  }
+
+  /* Vault Stats Table */
+  .stats-table {
+    padding: 1rem 1.5rem;
+  }
+  .stats-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+  .stats-table td {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .stats-table td:first-child {
+    color: var(--text-muted);
+    width: 45%;
+  }
+  .stats-table td:last-child {
+    text-align: right;
+    font-weight: 500;
+  }
+  .stats-table tr:last-child td { border-bottom: none; }
+  .stats-table .val-ok { color: var(--green); }
+  .stats-table .val-warn { color: var(--amber); }
+  .stats-table .val-fail { color: var(--red); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer strong { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .score-hero { flex-direction: column; text-align: center; gap: 1rem; }
+    .gauges { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.25rem; }
+    body { padding: 1rem 0.75rem; }
+  }
 </style>
 </head>
 <body>
+<div class="container">
 
-<h1>Vault Health — Jun 14</h1>
-<p class="meta">Hermes vault diagnostic · Agent Tina + LFM2.5-1.2B · 2026-06-14</p>
+  <!-- Header -->
+  <div class="header">
+    <h1>Vault Health</h1>
+    <div class="subtitle">Weekly Scan · June 14, 2026 · 14:00 IST</div>
+    <div class="badge-row">
+      <span class="badge badge-amber">🟡 9d stale Index</span>
+      <span class="badge badge-amber">⏳ Raw pipeline stalled</span>
+      <span class="badge badge-green">📋 Daily reviews active</span>
+    </div>
+  </div>
 
-<div class="score">
-  <div class="score-num warning">4/10</div>
-  <div class="score-bar"><div class="score-fill critical"></div></div>
-  <div style="color:var(--muted);font-size:13px">LFM assessment</div>
+  <!-- Score Hero -->
+  <div class="score-hero">
+    <div class="score-ring">
+      <svg viewBox="0 0 100 100">
+        <circle class="bg-circle" cx="50" cy="50" r="42"/>
+        <circle class="fg-circle" cx="50" cy="50" r="42"/>
+      </svg>
+      <div class="score-label">
+        <span class="num">7</span>
+        <span class="denom">/ 10</span>
+      </div>
+    </div>
+    <div class="score-detail">
+      <h2>Fair — pipeline has stalled</h2>
+      <p>Daily reviews are consistent and wiki content is healthy, but the ingestion and synthesis pipeline has gone quiet for over a week.</p>
+      <span class="trend">⚠️ Trending downward since Jun 5</span>
+    </div>
+  </div>
+
+  <!-- Gauges -->
+  <div class="gauges">
+    <div class="gauge-card">
+      <div class="label">Raw Pipeline</div>
+      <div class="value" style="color: var(--amber);">2</div>
+      <div class="status status-warn">pending · last Jun 9</div>
+    </div>
+    <div class="gauge-card">
+      <div class="label">Overnight Reports</div>
+      <div class="value" style="color: var(--amber);">11</div>
+      <div class="status status-warn">stalled Jun 11</div>
+    </div>
+    <div class="gauge-card">
+      <div class="label">Wiki Articles</div>
+      <div class="value" style="color: var(--green);">29</div>
+      <div class="status status-ok">5 MOCs · active</div>
+    </div>
+  </div>
+
+  <!-- Immediate Issues -->
+  <div class="section">
+    <div class="section-header">
+      <span>🔴</span>
+      <h3>Immediate</h3>
+      <span class="count count-red">3</span>
+    </div>
+    <div class="issue-list">
+      <div class="issue-item">
+        <div class="issue-icon icon-red">!</div>
+        <div class="issue-body">
+          <div class="title">Index.md — 9 days stale</div>
+          <div class="desc">Last updated Jun 5. This is the vault's entry point and navigation hub. Users and agents rely on it for orientation. Needs a refresh.</div>
+          <div class="meta">mtime: Jun 5 08:20 · aged 9 days</div>
+        </div>
+      </div>
+      <div class="issue-item">
+        <div class="issue-icon icon-red">!</div>
+        <div class="issue-body">
+          <div class="title">Raw pipeline stalled</div>
+          <div class="desc">2 raw files pending ingestion, last new file landed Jun 9. The raw → archive → processed → synthesis pipeline has halted. Archive last written Jun 5.</div>
+          <div class="meta">2 files in raw/ · archive last Jun 5</div>
+        </div>
+      </div>
+      <div class="issue-item">
+        <div class="issue-icon icon-red">!</div>
+        <div class="issue-body">
+          <div class="title">Empty overnight file</div>
+          <div class="desc">log-analysis-2026-06-02.md is 0 bytes. A processing step failed or produced no output. This breaks downstream pipeline expectations.</div>
+          <div class="meta">~ 15 days old · 0 bytes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Structural Issues -->
+  <div class="section">
+    <div class="section-header">
+      <span>🟡</span>
+      <h3>Structural</h3>
+      <span class="count count-amber">3</span>
+    </div>
+    <div class="issue-list">
+      <div class="issue-item">
+        <div class="issue-icon icon-amber">~</div>
+        <div class="issue-body">
+          <div class="title">Overnight reports stalled</div>
+          <div class="desc">Last overnight report Jun 11 (log-analysis, 9 lines). No reports for Jun 12 or Jun 13 despite daily reviews existing for those dates. Pattern analysis stopped after Jun 3.</div>
+          <div class="meta">11 total · 643 lines · 3d gap</div>
+        </div>
+      </div>
+      <div class="issue-item">
+        <div class="issue-icon icon-amber">~</div>
+        <div class="issue-body">
+          <div class="title">Synthesis pipeline cold</div>
+          <div class="desc">Last structured synthesis from May 12. Processed dir has only a weekly synthesis from Jun 5. No cross-session consolidation in over 4 weeks.</div>
+          <div class="meta">2 synthesis files · last May 12</div>
+        </div>
+      </div>
+      <div class="issue-item">
+        <div class="issue-icon icon-amber">~</div>
+        <div class="issue-body">
+          <div class="title">MOC-to-content coverage gap</div>
+          <div class="desc">5 MOCs exist (Agent-Tina, Design, Finance, Research, iOS) but some MOC directories have only 1-2 files each. No MOC for daily reviews or overnight reports — they live as flat files.</div>
+          <div class="meta">5 MOCs · 18 topic files</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cold Storage -->
+  <div class="section">
+    <div class="section-header">
+      <span>⚪</span>
+      <h3>Cold Storage</h3>
+      <span class="count count-gray">2</span>
+    </div>
+    <div class="issue-list">
+      <div class="issue-item">
+        <div class="issue-icon icon-gray">·</div>
+        <div class="issue-body">
+          <div class="title">Pattern analysis inactive</div>
+          <div class="desc">Last pattern-scout output Jun 3 (11 days ago). These were producing cross-session insights and trend detection. Gap correlates with synthesis stall.</div>
+          <div class="meta">last: Jun 3</div>
+        </div>
+      </div>
+      <div class="issue-item">
+        <div class="issue-icon icon-gray">·</div>
+        <div class="issue-body">
+          <div class="title">Weekly synthesis lagging</div>
+          <div class="desc">Last weekly synthesis for W23 (Jun 5). No synthesis for W24 (Jun 12). Weekly pattern consolidation has dropped off.</div>
+          <div class="meta">weekly-2026-W23.md · missing W24</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LFM Assessment Quote -->
+  <div class="quote-block">
+    <div class="quote-text">
+      Health rating: 7/10. Top 2-3 things: 1. Stale raw files (2 pending, last ingested 5 days). 2. Empty file (Jun 2). 3. Old synthesis (May 12). The vault has stale raw files, an empty file, and old synthesis. Daily reviews are good (8 consecutive days), but recent reports are stale.
+    </div>
+    <div class="quote-source">
+      — Assessed by <strong>LFM2.5-1.2B-Thinking</strong> · 500 tokens · 0.900 GB peak · 115 tok/s
+    </div>
+  </div>
+
+  <!-- Vault Stats -->
+  <div class="section">
+    <div class="section-header">
+      <span>📊</span>
+      <h3>Vault Statistics</h3>
+    </div>
+    <div class="stats-table">
+      <table>
+        <tr><td>Total vault size</td><td>26 MB</td></tr>
+        <tr><td>Wiki files (total)</td><td>29</td></tr>
+        <tr><td>Maps of Content (MOCs)</td><td>5</td></tr>
+        <tr><td>Topic articles</td><td>18</td></tr>
+        <tr><td>Daily reviews (consecutive)</td><td class="val-ok">8 (Jun 6–13)</td></tr>
+        <tr><td>Raw files pending</td><td class="val-warn">2</td></tr>
+        <tr><td>Raw archive entries</td><td>6 (last Jun 5)</td></tr>
+        <tr><td>Overnight reports</td><td>11 (643 lines)</td></tr>
+        <tr><td>Last overnight report</td><td class="val-warn">Jun 11 (3d ago)</td></tr>
+        <tr><td>Index.md last updated</td><td class="val-fail">Jun 5 (9d stale)</td></tr>
+        <tr><td>Last structured synthesis</td><td class="val-fail">May 12 (33d stale)</td></tr>
+        <tr><td>Last weekly synthesis</td><td class="val-warn">Jun 5 (W23)</td></tr>
+        <tr><td>Empty / broken files</td><td class="val-fail">1 (overnight Jun 2)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <strong>Agent Tina</strong> · Powered by Hermes + LFM2.5-1.2B<br>
+    Weekly Vault Health · Sun 14 Jun 2026 14:00 IST
+  </div>
+
 </div>
-
-<div class="section">
-  <h2>🔴 Immediate Attention</h2>
-
-  <div class="issue critical">
-    <div class="issue-title"><span class="tag critical">HIGH</span> Index.md stale — 9 days</div>
-    <div class="issue-detail">Last updated June 5. Lists 5 raw files, but 3 of those have since been processed and the listing is inaccurate. Affects: discovery of vault contents.</div>
-  </div>
-
-  <div class="issue critical">
-    <div class="issue-title"><span class="tag critical">HIGH</span> Raw files unprocessed — 2 items, 5-7 days stale</div>
-    <div class="issue-detail"><b>portfolio-advisor-2026-06-09.md</b> (Jun 9) · <b>x-terenzeyuen-aso-2026-06-07.md</b> (Jun 7). Both untouched. The portfolio advisor data is particularly stale — it's investment analysis from 5 days ago.</div>
-  </div>
-
-  <div class="issue warning">
-    <div class="issue-title"><span class="tag warning">MED</span> Pattern scout dead since Jun 3</div>
-    <div class="issue-detail">Overnight pipeline: Log analyzer ran last on Jun 11, but pattern scout stopped entirely after Jun 3. The cross-reference layer (wiki vs conversations) hasn't run in 11 days — blind spot for connections.</div>
-  </div>
-</div>
-
-<div class="section">
-  <h2>🟡 Structural Decay</h2>
-
-  <div class="issue warning">
-    <div class="issue-title"><span class="tag warning">MED</span> 4 wiki pages = dumping grounds</div>
-    <div class="issue-detail"><b>links.md, misc.md, references.md, tasks.md</b> — not atomic notes. These accumulate noise rather than knowledge. Should be split into proper atomic notes or retired.</div>
-  </div>
-
-  <div class="issue warning">
-    <div class="issue-title"><span class="tag warning">MED</span> Wiki subdirectories are skeletal</div>
-    <div class="issue-detail">agent-tina/ = 1 file · ios/ = 1 file · finance/ = 3 files. MOCs exist but the actual content density is paper-thin. Knowledge isn't accumulating.</div>
-  </div>
-
-  <div class="issue blue">
-    <div class="issue-title"><span class="tag info">INFO</span> Potential dupes: honcho-infrastructure + honcho-integration</div>
-    <div class="issue-detail">Two honcho wiki pages. Likely overlapping content on the same infrastructure topic. Could merge into one atomic note.</div>
-  </div>
-
-  <div class="issue warning">
-    <div class="issue-title"><span class="tag warning">MED</span> Processed archive frozen since May 15</div>
-    <div class="issue-detail">30+ days without a new processed/ entry. The raw→wiki pipeline is stalled — items sit in raw/ indefinitely instead of being distilled and moved.</div>
-  </div>
-</div>
-
-<div class="section">
-  <h2>🔵 Cold Storage (Low Priority)</h2>
-
-  <div class="issue blue">
-    <div class="issue-title"><span class="tag info">LOW</span> Empty overnight report: log-analysis-2026-06-02.md = 0 bytes</div>
-    <div class="issue-detail">A cron job wrote an empty file. Either a silent fail or the cron completed without content. Either way, stale artifact.</div>
-  </div>
-
-  <div class="issue blue">
-    <div class="issue-title"><span class="tag info">LOW</span> Synthesis stalled — 2 files from May only</div>
-    <div class="issue-detail">synthesis-2026-05-10 and synthesis-2026-05-12. Cross-domain synthesis output stopped a month ago. The synthesis/ directory is essentially dead.</div>
-  </div>
-
-  <div class="issue blue">
-    <div class="issue-title"><span class="tag info">LOW</span> Daily summaries: 1 file from April 24</div>
-    <div class="issue-detail">agent-tina-audit-2026-04-24.md is the only entry. The entire daily-summaries/ archive is a ghost town.</div>
-  </div>
-</div>
-
-<div class="section">
-  <h2>📊 Stats</h2>
-  <div class="gauge-row">
-    <span class="gauge-label">Index freshness</span>
-    <div class="gauge-bar"><div class="gauge-fill" style="width:10%;background:var(--red)"></div></div>
-    <span class="gauge-val">2%</span>
-  </div>
-  <div class="gauge-row">
-    <span class="gauge-label">Raw processed</span>
-    <div class="gauge-bar"><div class="gauge-fill" style="width:40%;background:var(--yellow)"></div></div>
-    <span class="gauge-val">40%</span>
-  </div>
-  <div class="gauge-row">
-    <span class="gauge-label">Wiki density</span>
-    <div class="gauge-bar"><div class="gauge-fill" style="width:35%;background:var(--yellow)"></div></div>
-    <span class="gauge-val">35%</span>
-  </div>
-  <div class="gauge-row">
-    <span class="gauge-label">Overnight health</span>
-    <div class="gauge-bar"><div class="gauge-fill" style="width:50%;background:var(--yellow)"></div></div>
-    <span class="gauge-val">50%</span>
-  </div>
-  <div class="gauge-row">
-    <span class="gauge-label">Link coverage</span>
-    <div class="gauge-bar"><div class="gauge-fill" style="width:60%;background:var(--yellow)"></div></div>
-    <span class="gauge-val">60%</span>
-  </div>
-</div>
-
-<div class="boxed">
-  <strong>LFM2.5-1.2B Assessment:</strong> "The vault is moderately maintained but lacks efficiency. Unprocessed raw files and incomplete reviews are high-risk. Rating 4/10."
-  <br><br>
-  <strong>Next cron:</strong> Weekly vault health check → Sunday 2PM IST · <strong>Cost:</strong> $0
-</div>
-
-<footer>Agent Tina · Powered by Hermes + LFM2.5-1.2B + Qwen2.5-Coder-3B</footer>
 </body>
 </html>
