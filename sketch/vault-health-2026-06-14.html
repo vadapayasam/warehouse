@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Health — Jun 14</title>
+<style>
+  :root{color-scheme:light dark;--bg:#0a0a0a;--fg:#e5e5e5;--muted:#888;--accent:#ff6b35;--border:#222;--green:#4ade80;--yellow:#facc15;--red:#f87171;--blue:#60a5fa}
+  @media(prefers-color-scheme:light){:root{--bg:#fafafa;--fg:#111;--muted:#666;--accent:#d44a1a;--border:#ddd;--green:#16a34a;--yellow:#ca8a04;--red:#dc2626;--blue:#2563eb}}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--fg);max-width:720px;margin:0 auto;padding:32px 20px;line-height:1.6}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:28px}
+  .score{display:flex;align-items:center;gap:12px;margin-bottom:32px;padding:16px;border:1px solid var(--border);border-radius:12px}
+  .score-num{font-size:36px;font-weight:800;letter-spacing:-1px}
+  .score-num.critical{color:var(--red)}.score-num.warning{color:var(--yellow)}.score-num.ok{color:var(--green)}
+  .score-bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+  .score-fill{height:100%;border-radius:4px;transition:width .5s}
+  .score-fill.critical{background:var(--red);width:40%}
+  .score-fill.warning{background:var(--yellow);width:60%}
+  .score-fill.ok{background:var(--green);width:85%}
+  .section{margin-bottom:28px}
+  .section h2{font-size:16px;font-weight:700;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+  .issue{padding:12px 14px;margin-bottom:8px;border:1px solid var(--border);border-radius:8px;font-size:14px}
+  .issue.critical{border-left:3px solid var(--red)}
+  .issue.warning{border-left:3px solid var(--yellow)}
+  .issue.ok{border-left:3px solid var(--green)}
+  .issue.blue{border-left:3px solid var(--blue)}
+  .issue-title{font-weight:600;margin-bottom:2px}
+  .issue-detail{color:var(--muted);font-size:13px}
+  .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:3px;margin-right:4px;font-weight:600}
+  .tag.critical{background:var(--red);color:#fff}
+  .tag.warning{background:var(--yellow);color:#000}
+  .tag.ok{background:var(--green);color:#000}
+  .tag.info{background:var(--blue);color:#fff}
+  .gauge-row{display:flex;gap:8px;margin-bottom:6px;align-items:center}
+  .gauge-label{width:110px;font-size:13px;color:var(--muted);flex-shrink:0}
+  .gauge-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+  .gauge-fill{height:100%;border-radius:3px}
+  .gauge-val{width:36px;text-align:right;font-size:12px;font-weight:600;flex-shrink:0}
+  .boxed{margin-top:20px;padding:14px;background:rgba(255,107,53,.08);border:1px solid var(--accent);border-radius:8px;font-size:13px;color:var(--muted)}
+  .boxed strong{color:var(--fg)}
+  footer{margin-top:40px;font-size:12px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+
+<h1>Vault Health — Jun 14</h1>
+<p class="meta">Hermes vault diagnostic · Agent Tina + LFM2.5-1.2B · 2026-06-14</p>
+
+<div class="score">
+  <div class="score-num warning">4/10</div>
+  <div class="score-bar"><div class="score-fill critical"></div></div>
+  <div style="color:var(--muted);font-size:13px">LFM assessment</div>
+</div>
+
+<div class="section">
+  <h2>🔴 Immediate Attention</h2>
+
+  <div class="issue critical">
+    <div class="issue-title"><span class="tag critical">HIGH</span> Index.md stale — 9 days</div>
+    <div class="issue-detail">Last updated June 5. Lists 5 raw files, but 3 of those have since been processed and the listing is inaccurate. Affects: discovery of vault contents.</div>
+  </div>
+
+  <div class="issue critical">
+    <div class="issue-title"><span class="tag critical">HIGH</span> Raw files unprocessed — 2 items, 5-7 days stale</div>
+    <div class="issue-detail"><b>portfolio-advisor-2026-06-09.md</b> (Jun 9) · <b>x-terenzeyuen-aso-2026-06-07.md</b> (Jun 7). Both untouched. The portfolio advisor data is particularly stale — it's investment analysis from 5 days ago.</div>
+  </div>
+
+  <div class="issue warning">
+    <div class="issue-title"><span class="tag warning">MED</span> Pattern scout dead since Jun 3</div>
+    <div class="issue-detail">Overnight pipeline: Log analyzer ran last on Jun 11, but pattern scout stopped entirely after Jun 3. The cross-reference layer (wiki vs conversations) hasn't run in 11 days — blind spot for connections.</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🟡 Structural Decay</h2>
+
+  <div class="issue warning">
+    <div class="issue-title"><span class="tag warning">MED</span> 4 wiki pages = dumping grounds</div>
+    <div class="issue-detail"><b>links.md, misc.md, references.md, tasks.md</b> — not atomic notes. These accumulate noise rather than knowledge. Should be split into proper atomic notes or retired.</div>
+  </div>
+
+  <div class="issue warning">
+    <div class="issue-title"><span class="tag warning">MED</span> Wiki subdirectories are skeletal</div>
+    <div class="issue-detail">agent-tina/ = 1 file · ios/ = 1 file · finance/ = 3 files. MOCs exist but the actual content density is paper-thin. Knowledge isn't accumulating.</div>
+  </div>
+
+  <div class="issue blue">
+    <div class="issue-title"><span class="tag info">INFO</span> Potential dupes: honcho-infrastructure + honcho-integration</div>
+    <div class="issue-detail">Two honcho wiki pages. Likely overlapping content on the same infrastructure topic. Could merge into one atomic note.</div>
+  </div>
+
+  <div class="issue warning">
+    <div class="issue-title"><span class="tag warning">MED</span> Processed archive frozen since May 15</div>
+    <div class="issue-detail">30+ days without a new processed/ entry. The raw→wiki pipeline is stalled — items sit in raw/ indefinitely instead of being distilled and moved.</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🔵 Cold Storage (Low Priority)</h2>
+
+  <div class="issue blue">
+    <div class="issue-title"><span class="tag info">LOW</span> Empty overnight report: log-analysis-2026-06-02.md = 0 bytes</div>
+    <div class="issue-detail">A cron job wrote an empty file. Either a silent fail or the cron completed without content. Either way, stale artifact.</div>
+  </div>
+
+  <div class="issue blue">
+    <div class="issue-title"><span class="tag info">LOW</span> Synthesis stalled — 2 files from May only</div>
+    <div class="issue-detail">synthesis-2026-05-10 and synthesis-2026-05-12. Cross-domain synthesis output stopped a month ago. The synthesis/ directory is essentially dead.</div>
+  </div>
+
+  <div class="issue blue">
+    <div class="issue-title"><span class="tag info">LOW</span> Daily summaries: 1 file from April 24</div>
+    <div class="issue-detail">agent-tina-audit-2026-04-24.md is the only entry. The entire daily-summaries/ archive is a ghost town.</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>📊 Stats</h2>
+  <div class="gauge-row">
+    <span class="gauge-label">Index freshness</span>
+    <div class="gauge-bar"><div class="gauge-fill" style="width:10%;background:var(--red)"></div></div>
+    <span class="gauge-val">2%</span>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-label">Raw processed</span>
+    <div class="gauge-bar"><div class="gauge-fill" style="width:40%;background:var(--yellow)"></div></div>
+    <span class="gauge-val">40%</span>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-label">Wiki density</span>
+    <div class="gauge-bar"><div class="gauge-fill" style="width:35%;background:var(--yellow)"></div></div>
+    <span class="gauge-val">35%</span>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-label">Overnight health</span>
+    <div class="gauge-bar"><div class="gauge-fill" style="width:50%;background:var(--yellow)"></div></div>
+    <span class="gauge-val">50%</span>
+  </div>
+  <div class="gauge-row">
+    <span class="gauge-label">Link coverage</span>
+    <div class="gauge-bar"><div class="gauge-fill" style="width:60%;background:var(--yellow)"></div></div>
+    <span class="gauge-val">60%</span>
+  </div>
+</div>
+
+<div class="boxed">
+  <strong>LFM2.5-1.2B Assessment:</strong> "The vault is moderately maintained but lacks efficiency. Unprocessed raw files and incomplete reviews are high-risk. Rating 4/10."
+  <br><br>
+  <strong>Next cron:</strong> Weekly vault health check → Sunday 2PM IST · <strong>Cost:</strong> $0
+</div>
+
+<footer>Agent Tina · Powered by Hermes + LFM2.5-1.2B + Qwen2.5-Coder-3B</footer>
+</body>
+</html>
