@@ -3,147 +3,310 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MSP Agentic Research</title>
+  <title>Sketch Library</title>
   <style>
-    :root{
-  --bg:#faf8f5;--fg:#1c1917;--muted:#78716c;--accent:#0077b6;
-  --accent-2:#48cae4;--border:#e7e5e4;--surface:#fff;--code-bg:#f5f5f0
-}
-*{box-sizing:border-box}
-html{font-size:16px;scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  line-height:1.7;color:var(--fg);background:var(--bg);margin:0;padding:0;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s,color .15s}
-a:hover{border-bottom-color:var(--accent)}
-a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-bottom-color:transparent}
-.skip-link{position:absolute;top:-40px;left:0;background:var(--accent);color:#fff;padding:.5rem 1rem;z-index:100;text-decoration:none;border-bottom:0;font-size:.875rem;font-weight:500}
-.skip-link:focus{top:0}
-.back{display:inline-block;margin:2rem auto 0;font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;transition:color .15s}
-.back:hover{color:var(--fg)}
-.back:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-header,.main{max-width:720px;margin:0 auto;padding:1.75rem}
-header{padding-bottom:.5rem}
-.main{padding-top:0}
-h1{font-size:1.625rem;font-weight:700;line-height:1.2;letter-spacing:-0.025em;margin:0;color:var(--fg)}
-h2{font-size:1.125rem;font-weight:600;margin:2.5rem 0 1rem;padding-top:.5rem;border-top:2px solid var(--accent);color:var(--fg);position:relative}
-h3{font-size:1rem;font-weight:600;margin:1.5rem 0 .5rem;color:var(--fg);position:relative}
-h2 a.anchor,h3 a.anchor{opacity:0;position:absolute;left:-1.2em;top:.15em;font-size:.85em;text-decoration:none;border-bottom:0;transition:opacity .15s}
-h2:hover a.anchor,h3:hover a.anchor{opacity:1}
-p{margin:0 0 1.125rem}
-.meta{font-size:.8125rem;color:var(--muted);margin-top:.5rem;letter-spacing:.01em}
-table{width:100%;border-collapse:collapse;font-size:.875rem;margin:1.25rem 0;background:var(--surface);border-radius:6px;overflow:hidden}
-tr{transition:background .12s}
-tr:hover{background:rgba(0,119,182,.06)}
-th,td{text-align:left;padding:.6rem .9rem;border-bottom:1px solid var(--border)}
-thead th{font-weight:600;color:var(--fg);background:#f5f5f0;border-bottom:2px solid var(--border)}
-ul{margin:0 0 1.125rem;padding-left:1.5rem}
-li{margin-bottom:.4rem}
-blockquote{border-left:3px solid var(--accent-2);margin:1.75rem 0;padding:.5rem 0 .5rem 1.25rem;color:var(--muted);font-style:italic;background:none}
-code{background:var(--code-bg);padding:.18em .45em;border-radius:4px;font-size:.85em;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--fg)}
-pre{background:var(--code-bg);padding:1rem 1.25rem;border-radius:8px;overflow-x:auto;font-size:.82rem;margin:1.25rem 0;line-height:1.6;border:1px solid var(--border);transition:border-color .15s,box-shadow .15s}
-pre:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,119,182,.08)}
-pre:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,119,182,.08)}
-pre code{background:none;padding:0;font-size:inherit}
-.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin:0 0 1.75rem;font-size:.8125rem}
-.toc ul{list-style:none;padding-left:0;margin:0}
-.toc ul ul{padding-left:1.1rem;margin-top:.2rem}
-.toc li{margin:0 0 .15rem}
-.toc a{color:var(--accent);text-decoration:none;border-bottom:0}
-.toc a:hover{text-decoration:underline}
-.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.tldr-callout{background:var(--surface);border-left:3px solid var(--accent);padding:.85rem 1.1rem;margin:0 0 1.75rem;font-size:.9rem;color:var(--fg);border-radius:0 6px 6px 0;line-height:1.5}
-.tag-bar{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.5rem}
-.tag{display:inline-block;padding:.18rem .5rem;border-radius:99px;font-size:.75rem;background:var(--surface);color:var(--fg-muted);border:1px solid var(--border);line-height:1.4}
-.tag:before{content:"";display:inline-block;width:.25rem;height:.25rem;border-radius:99px;background:var(--accent);margin-right:.25rem;vertical-align:middle;opacity:.7}
-@media (max-width:640px){html{font-size:15px}header,.main{padding:1rem}h1{font-size:1.35rem}h2{font-size:1.05rem}table{font-size:.8rem;display:block;overflow-x:auto}pre{padding:.75rem}.toc{padding:.75rem}}
-@media (max-width:1024px){header,.main{padding:1.25rem}}
-@media print{body{background:#fff}a[href]:after{content:" (" attr(href) ")";font-size:.75rem;color:var(--muted)}.back{display:none}.toc{display:none}.skip-link{display:none}}
-@media (prefers-color-scheme:dark){
-  :root{--bg:#1a1816;--fg:#e8e4df;--muted:#9e9891;--accent:#4fb3d9;--accent-2:#7bcfe8;--border:#2e2a26;--surface:#22201d;--code-bg:#1f1d1a}
-  body{background:var(--bg);color:var(--fg)}
-  a{color:var(--accent)}
-  h2{border-top-color:var(--accent)}
-  table{background:var(--surface)}
-  thead th{background:#2a2724}
-  tr:hover{background:rgba(79,179,217,.08)}
-  pre:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,179,217,.10)}
-  blockquote{border-left-color:var(--accent-2);color:var(--muted)}
-}
-    body { max-width: 720px; margin: 0 auto; padding: 2rem 1rem; font-family: system-ui, sans-serif; }
-    header { margin-bottom: 2rem; }
-    h1 { font-size: 2rem; margin: 0 0 0.25rem; }
-    .meta { color: #555; font-size: 0.9rem; }
-    .entry-list { list-style: none; padding: 0; margin: 0; }
-    .entry-list li { border-bottom: 1px solid #e0e0e0; padding: 1rem 0; }
-    .entry-list a { text-decoration: none; color: inherit; font-weight: 600; font-size: 1.1rem; }
-    .entry-list a:hover { text-decoration: underline; }
-    .entry-date { color: #777; font-size: 0.85rem; margin-top: 0.25rem; }
-    .empty { color: #666; font-style: italic; }
+    :root {
+      --bg: #faf8f5;
+      --fg: #1c1917;
+      --muted: #78716c;
+      --accent: #0077b6;
+      --accent-light: rgba(0, 119, 182, 0.08);
+      --border: #e7e5e4;
+      --surface: #ffffff;
+      --badge-bg: #f0eeeb;
+      --badge-fg: #78716c;
+    }
+    * { box-sizing: border-box; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--fg);
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2.5rem 1.75rem;
+    }
+    header {
+      margin-bottom: 2.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.25rem;
+      color: var(--fg);
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0;
+    }
+    section {
+      margin-bottom: 2.25rem;
+    }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem;
+      padding: 0.5rem 0;
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    h2 .icon { font-size: 1.2rem; }
+    h2 .count {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--badge-bg);
+      padding: 0.1rem 0.5rem;
+      border-radius: 99px;
+      margin-left: auto;
+    }
+    .entry-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .entry-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      transition: background 0.12s;
+    }
+    .entry-list li:hover {
+      background: var(--accent-light);
+    }
+    .entry-list a {
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 0.9rem;
+      flex: 1;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+    .entry-list a:hover {
+      border-bottom-color: var(--accent);
+      color: var(--accent);
+    }
+    .date-badge {
+      font-size: 0.75rem;
+      color: var(--badge-fg);
+      background: var(--badge-bg);
+      padding: 0.15rem 0.5rem;
+      border-radius: 99px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      line-height: 1.5;
+      transition: background 0.15s;
+    }
+    .entry-list li:hover .date-badge {
+      background: var(--accent);
+      color: #fff;
+    }
+    .recent-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .recent-section h2 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+    .recent-section .entry-list li:first-child {
+      padding-top: 0;
+    }
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
     @media (max-width: 640px) {
-      body { padding: 1rem 0.75rem; }
-      h1 { font-size: 1.5rem; }
+      html { font-size: 15px; }
+      .container { padding: 1.25rem 0.85rem; }
+      h1 { font-size: 1.35rem; }
+      .entry-list li { flex-wrap: wrap; gap: 0.3rem; padding: 0.4rem 0.4rem; }
+      .entry-list a { font-size: 0.85rem; min-width: 0; }
+      .recent-section { padding: 0.85rem; }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1816;
+        --fg: #e8e4df;
+        --muted: #9e9891;
+        --accent: #4fb3d9;
+        --accent-light: rgba(79, 179, 217, 0.10);
+        --border: #2e2a26;
+        --surface: #22201d;
+        --badge-bg: #2e2a26;
+        --badge-fg: #9e9891;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>MSP Agentic Research</h1>
-    <p class="meta">51 entries</p>
-  </header>
-  <main>
-    <ul class="entry-list">
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/youtube-shorts-playbook.html">YouTube Shorts Playbook</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/whatpay-analysis.html">WhatPay App — Full UX/UI Analysis</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/whatpay-analysis-v2.html">WhatPay App — Full UX/UI Analysis v2</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/ui-review-tamilwordle-thumbdraw.html">UI Review: TamilWordle + ThumbDraw</a><p class="entry-date">2026-06-04</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/ui-review-solvilayatu-fingerdoodles.html">UI/UX Review: Sol Vilaiyattu + Finger Doodles</a><p class="entry-date">2026-06-06</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/twitter-content-strategy.html">Twitter Content Strategy: How to Build, Write, and Sound Human</a><p class="entry-date">2026-06-07</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/timeleft-review.html">Time Left — UI/UX + Code Review</a><p class="entry-date">2026-05-19</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/template-research-weekly-open.html">{page.title}</a><p class="entry-date">2026-06-08</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/superops-ai-ticket-ux-review.html">SuperOps AI Ticket Detail — UX Review</a><p class="entry-date">2026-05-31</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/skills-radar-2026-06-08.html">Skills Radar — June 2026</a><p class="entry-date">2026-06-08</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/second-brain.html">Second Brain: How It Works</a><p class="entry-date">2026-06-06</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly.html">Agentic SaaS Weekly — Issue #1</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">Agentic SaaS Weekly — Archive</a><p class="entry-date">2026-06-08</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-06.html">ITSM/MSP Agentic AI Weekly - Issue #6 - Dynatrace Davis AI</a><p class="entry-date">2026-06-09</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-05.html">ITSM/MSP Agentic AI Weekly - Issue #5 - Kaseya, ConnectWise, SuperOps, NinjaOne</a><p class="entry-date">2026-06-08</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-04.html">ITSM/MSP Agentic Weekly — Issue #4 — June 1, 2026</a><p class="entry-date">2026-06-01</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-03.html">ITSM/MSP Agentic Weekly — Issue #3 — May 18, 2026</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-02.html">ITSM/MSP Agentic Weekly — Issue #2 — May 11, 2026</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-01.html">Agentic SaaS Weekly — Issue #1</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-00.html">Agentic SaaS Weekly — Issue #0 (Back Issues)</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/revenueguard-mvp.html">RevenueGuard | MSP Billing Dashboard</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/prabha-taste-test.html">Prabha Taste Test</a><p class="entry-date">2026-06-02</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/picoclaw-reboot.html">Picoclaw · From Verification Spam to Guardrail Gem</a><p class="entry-date">2026-06-08</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/papercrumble.html">Paper Crumple — SwiftUI Prototype</a><p class="entry-date">2026-05-26</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/openclaw-gamestore-researchfinding.html">Game Asset Marketplace Deep Research — LLM-Generatable Opportunities 2026</a><p class="entry-date">2026-06-01</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-universal-connector-strategy.html">MSPclaw Universal Connector — Product Strategy</a><p class="entry-date">2026-06-03</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-stakeholder-deck.html">MSPclaw: Product Deck</a><p class="entry-date">2026-06-04</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-research-ideas-june-2026.html">MSPclaw — From Prototype to Product</a><p class="entry-date">2026-06-03</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-product-strategy-june-2026.html">From MSPclaw Prototype to Plug-and-Play AI Agent — June 2026</a><p class="entry-date">2026-06-03</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-product-brief.html">MSPclaw: Product Brief v3</a><p class="entry-date">2026-06-04</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-build-roadmap.html">MSPclaw: Build Roadmap</a><p class="entry-date">2026-06-04</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/msp-pain-points-analysis.html">MSP Pain Points Analysis 2026</a><p class="entry-date">2026-05-25</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/marketplace-daily.html">3rd Party Dev Opportunities | IT/MSP/ITSM Platforms</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/leavehack-review.html">LeaveHack — UI/UX + Code Review</a><p class="entry-date">2026-05-19</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/kanban-workflow.html">Kanban — How Agent Tina Runs Work</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/hermes-kanban-guide.html">Hermes Kanban Guide — Sketch</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/game-asset-marketplace-research.html">Game Asset Marketplace Research — 2025/26</a><p class="entry-date">2026-05-31</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/design-oss-tooling-research.html">Open-Source Design Tooling: Gaps & Ideas — June 2026</a><p class="entry-date">2026-06-09</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/design-evolution-2026-06-08.html">Design Evolution / AI &amp; Agentic Interface Patterns / June 2026</a><p class="entry-date">2026-06-08</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/danny-x-ray-prabha-apps.html">$13K App Playbook: Danny's Framework vs Prabha's Apps</a><p class="entry-date">2026-06-02</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/context-engineering.html">Context Engineering with My Setup</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/ai-qbr-generator.html">AI QBR Generator — Product Brief</a><p class="entry-date">2026-05-25</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/ai-possible-actions-design.html">AI Possible Actions Panel — Design Exploration</a><p class="entry-date">2026-06-03</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/ai-native-it.html">AI-Native IT | SuperOps</a><p class="entry-date">2026-05-17</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/agentic-ui-trends.html">Agentic UI Trends — Living Document</a><p class="entry-date">2026-05-24</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/agent-publish-framework.html">How I Built an Agent-Publish Framework That Codes and Tests Itself</a><p class="entry-date">2026-06-02</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-msps-in-the-ai-era-how-they-re-actually-feeling.html">MSP Agentic Research -- MSPs in the AI Era: How They're Actually Feeling</a><p class="entry-date">2026-06-09</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-daily-tweets-2026-06-09.html">Published Articles -- Daily Tweets — 2026-06-09</a><p class="entry-date">2026-06-09</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-skills-radar-2026-06-01.html">Designer Skills Radar — June 2026</a><p class="entry-date">2026-06-01</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-designer-skills-radar-june-2026.html">Designer Skills Radar — June 2026</a><p class="entry-date">2026-06-01</p></li>
-<li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-design-evolution.html">AI/Agentic Design Evolution / June 2026</a><p class="entry-date">2026-06-01</p></li>
-</ul>
-  </main>
+  <div class="container">
+    <header>
+      <h1>Sketch Library</h1>
+      <p class="subtitle">61 entries &middot; a warehouse of research, reviews, and prototypes</p>
+    </header>
+
+    <section class="recent-section">
+      <h2><span class="icon">&#10087;&#65039;</span> Recents <span class="count">18</span></h2>
+      <ul class="entry-list">
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/vault-health-2026-06-14.html">Vault Health - June 14, 2026</a><span class="date-badge">2026-06-14</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mlx-model-shootout.html">3B Never Needed Backup - Our MLX Model Shootout</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mlx-local-coder.html">Your AI Agent Is Wasting Tokens on Noise</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mlx-local-coder-guide.html">MLX Local Coder Guide</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/designers-ai-agents-research.html">Designers + AI Agents: What's Proven, What's Possible</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/terminal-audit.html">Terminal Audit - trim 51.4% of tool calls</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-13-token-cost-audit.html">Token Cost Audit - Agent Tina</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-msps-in-the-ai-era-how-they-re-actually-feeling.html">MSPs in the AI Era: How They're Actually Feeling</a><span class="date-badge">2026-06-12</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/token-article.html">How I Cut My AI Agent's Token Bill by 30-40%</a><span class="date-badge">2026-06-11</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/token-thread.html">Token Optimization Thread</a><span class="date-badge">2026-06-11</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-msp-ai-adoption-by-size.html">MSPs and AI by Company Size</a><span class="date-badge">2026-06-09</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/design-oss-tooling-research.html">Open-Source Design Tooling: Gaps &amp; Ideas</a><span class="date-badge">2026-06-09</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-06.html">ITSM/MSP Agentic AI Weekly - Issue #6</a><span class="date-badge">2026-06-09</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-daily-tweets-2026-06-09.html">Daily Tweets - 2026-06-09</a><span class="date-badge">2026-06-09</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-05.html">ITSM/MSP Agentic AI Weekly - Issue #5</a><span class="date-badge">2026-06-08</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/design-evolution-2026-06-08.html">Design Evolution / AI &amp; Agentic Interface Patterns</a><span class="date-badge">2026-06-08</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/skills-radar-2026-06-08.html">Skills Radar - June 2026</a><span class="date-badge">2026-06-08</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/picoclaw-reboot.html">Picoclaw - From Verification Spam to Guardrail Gem</a><span class="date-badge">2026-06-08</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">&#128200;</span> MSP / ITSM Research <span class="count">9</span></h2>
+      <ul class="entry-list">
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-build-roadmap.html">MSPclaw: Build Roadmap</a><span class="date-badge">2026-06-04</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-product-brief.html">MSPclaw: Product Brief v3</a><span class="date-badge">2026-06-04</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-stakeholder-deck.html">MSPclaw: Product Deck</a><span class="date-badge">2026-06-04</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-product-strategy-june-2026.html">From MSPclaw Prototype to Plug-and-Play AI Agent</a><span class="date-badge">2026-06-03</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-research-ideas-june-2026.html">MSPclaw - From Prototype to Product</a><span class="date-badge">2026-06-03</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-universal-connector-strategy.html">MSPclaw Universal Connector - Product Strategy</a><span class="date-badge">2026-06-03</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/msp-pain-points-analysis.html">MSP Pain Points Analysis 2026</a><span class="date-badge">2026-05-25</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/marketplace-daily.html">3rd Party Dev Opportunities | IT/MSP/ITSM Platforms</a><span class="date-badge">2026-05-17</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/ai-native-it.html">AI-Native IT | SuperOps</a><span class="date-badge">2026-05-16</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">&#128202;</span> Agentic SaaS Weekly <span class="count">10</span></h2>
+      <ul class="entry-list">
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">Agentic SaaS Weekly - Archive</a><span class="date-badge">2026-06-08</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-06.html">Issue #6 - Dynatrace Davis AI</a><span class="date-badge">2026-06-09</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-05.html">Issue #5</a><span class="date-badge">2026-06-08</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-04.html">Issue #4 - June 1, 2026</a><span class="date-badge">2026-06-01</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-03.html">Issue #3 - May 18, 2026</a><span class="date-badge">2026-05-16</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-02.html">Issue #2 - May 11, 2026</a><span class="date-badge">2026-05-16</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-01.html">Issue #1</a><span class="date-badge">2026-05-16</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-00.html">Issue #0 (Back Issues)</a><span class="date-badge">2026-05-16</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/ai-qbr-generator.html">AI QBR Generator - Product Brief</a><span class="date-badge">2026-05-25</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/revenueguard-mvp.html">RevenueGuard | MSP Billing Dashboard</a><span class="date-badge">2026-05-16</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">&#127912;</span> Design Research <span class="count">11</span></h2>
+      <ul class="entry-list">
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/designers-ai-agents-research.html">Designers + AI Agents: What's Proven, What's Possible</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/design-oss-tooling-research.html">Open-Source Design Tooling: Gaps &amp; Ideas</a><span class="date-badge">2026-06-09</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/design-evolution-2026-06-08.html">Design Evolution / AI &amp; Agentic Interface Patterns / June 2026</a><span class="date-badge">2026-06-08</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/skills-radar-2026-06-08.html">Skills Radar - June 2026</a><span class="date-badge">2026-06-08</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/ai-possible-actions-design.html">AI Possible Actions Panel - Design Exploration</a><span class="date-badge">2026-06-03</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/prabha-taste-test.html">Prabha Taste Test</a><span class="date-badge">2026-06-02</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-design-evolution.html">AI/Agentic Design Evolution / June 2026</a><span class="date-badge">2026-06-01</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-designer-skills-radar-june-2026.html">Designer Skills Radar - June 2026</a><span class="date-badge">2026-06-01</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-skills-radar-2026-06-01.html">Designer Skills Radar - June 2026</a><span class="date-badge">2026-06-01</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/superops-ai-ticket-ux-review.html">SuperOps AI Ticket Detail - UX Review</a><span class="date-badge">2026-05-31</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/agentic-ui-trends.html">Agentic UI Trends - Living Document</a><span class="date-badge">2026-05-23</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">&#128241;</span> iOS App Reviews &amp; Prototypes <span class="count">8</span></h2>
+      <ul class="entry-list">
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/ui-review-solvilayatu-fingerdoodles.html">UI/UX Review: Sol Vilaiyattu + Finger Doodles</a><span class="date-badge">2026-06-07</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/ui-review-tamilwordle-thumbdraw.html">UI Review: TamilWordle + ThumbDraw</a><span class="date-badge">2026-06-04</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/danny-x-ray-prabha-apps.html">$13K App Playbook: Danny's Framework vs Prabha's Apps</a><span class="date-badge">2026-06-02</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/papercrumble.html">Paper Crumple - SwiftUI Prototype</a><span class="date-badge">2026-05-26</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/leavehack-review.html">LeaveHack - UI/UX + Code Review</a><span class="date-badge">2026-05-19</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/timeleft-review.html">Time Left - UI/UX + Code Review</a><span class="date-badge">2026-05-19</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/whatpay-analysis-v2.html">WhatPay App - Full UX/UI Analysis v2</a><span class="date-badge">2026-05-17</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/whatpay-analysis.html">WhatPay App - Full UX/UI Analysis</a><span class="date-badge">2026-05-17</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">&#128295;</span> AI / Dev Infrastructure <span class="count">13</span></h2>
+      <ul class="entry-list">
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/vault-health-2026-06-14.html">Vault Health - June 14, 2026</a><span class="date-badge">2026-06-14</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mlx-local-coder-guide.html">MLX Local Coder Guide</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mlx-local-coder.html">Your AI Agent Is Wasting Tokens on Noise</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mlx-model-shootout.html">3B Never Needed Backup - Our MLX Model Shootout</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-13-token-cost-audit.html">Token Cost Audit - Agent Tina</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/terminal-audit.html">Terminal Audit - trim 51.4% of tool calls</a><span class="date-badge">2026-06-13</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/token-article.html">How I Cut My AI Agent's Token Bill by 30-40%</a><span class="date-badge">2026-06-11</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/token-thread.html">Token Optimization Thread</a><span class="date-badge">2026-06-11</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/agent-publish-framework.html">How I Built an Agent-Publish Framework</a><span class="date-badge">2026-06-02</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/second-brain.html">Second Brain: How It Works</a><span class="date-badge">2026-06-06</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/hermes-kanban-guide.html">Hermes Kanban Guide</a><span class="date-badge">2026-05-17</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/context-engineering.html">Context Engineering with My Setup</a><span class="date-badge">2026-05-16</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/kanban-workflow.html">Kanban - How Agent Tina Runs Work</a><span class="date-badge">2026-05-16</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">&#9997;&#65039;</span> Content &amp; Writing <span class="count">5</span></h2>
+      <ul class="entry-list">
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-msps-in-the-ai-era-how-they-re-actually-feeling.html">MSPs in the AI Era: How They're Actually Feeling</a><span class="date-badge">2026-06-12</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-msp-ai-adoption-by-size.html">MSPs and AI by Company Size</a><span class="date-badge">2026-06-09</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-daily-tweets-2026-06-09.html">Daily Tweets - 2026-06-09</a><span class="date-badge">2026-06-09</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/twitter-content-strategy.html">Twitter Content Strategy: How to Build, Write, and Sound Human</a><span class="date-badge">2026-06-07</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/youtube-shorts-playbook.html">YouTube Shorts Playbook</a><span class="date-badge">2026-05-16</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">&#127918;</span> Game Asset Research <span class="count">2</span></h2>
+      <ul class="entry-list">
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/game-asset-marketplace-research.html">Game Asset Marketplace Research</a><span class="date-badge">2026-05-31</span></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/openclaw-gamestore-researchfinding.html">Game Asset Marketplace Deep Research</a><span class="date-badge">2026-05-31</span></li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      <p>Generated by Agent Tina &middot; <a href="https://github.com/vadapayasam/warehouse">Warehouse Repo</a> &middot; <span id="update-date"></span></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('update-date').textContent = 'Updated ' + new Date().toISOString().slice(0, 10);
+  </script>
 </body>
 </html>
