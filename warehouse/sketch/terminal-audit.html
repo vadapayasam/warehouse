@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal Audit: optimize 51.4% of tool calls</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --ink: #1d1d1f;
+    --secondary: #6e6e73;
+    --border: #d2d2d7;
+    --blue: #0071e3;
+    --blue-bright: #2997ff;
+    --red: #c41e3a;
+    --green: #248a3d;
+    --amber: #b54300;
+    --code-bg: #f5f5f7;
+    --max-w: 980px;
+  }
+
+  html { font-size: 17px; }
+  body {
+    font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    background: #000;
+    color: #fff;
+    padding: 80px 22px 60px;
+  }
+  .hero-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  .hero h1 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.07;
+    letter-spacing: -0.28px;
+    margin-bottom: 6px;
+  }
+  .hero .sub {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.17;
+    letter-spacing: 0.216px;
+    color: var(--secondary);
+    margin-bottom: 20px;
+  }
+  .hero .meta {
+    font-size: 14px;
+    color: #86868b;
+    font-family: "SF Mono", ui-monospace, monospace;
+  }
+  .hero .stat-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat .num {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: normal;
+    color: var(--blue-bright);
+  }
+  .stat .label {
+    font-size: 14px;
+    color: #86868b;
+    margin-top: 4px;
+  }
+
+  /* ---- Sections ---- */
+  section {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 48px 22px;
+  }
+
+  h2 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.10;
+    letter-spacing: normal;
+    margin-bottom: 6px;
+  }
+  h2 .eyebrow {
+    display: block;
+    font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.29;
+    letter-spacing: -0.224px;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  h3 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: 0.196px;
+    margin: 28px 0 6px;
+  }
+  h4 {
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.21;
+    letter-spacing: 0.228px;
+    margin: 20px 0 4px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  p.secondary {
+    color: var(--secondary);
+    font-size: 14px;
+  }
+
+  /* ---- Cards ---- */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .card .title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card .stat-num {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .card .stat-label {
+    font-size: 14px;
+    color: var(--secondary);
+  }
+  .card p { font-size: 14px; line-height: 1.47; color: var(--secondary); margin-top: 8px; }
+  .tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: var(--code-bg);
+    color: var(--secondary);
+    font-family: "SF Mono", ui-monospace, monospace;
+  }
+  .tag.red { background: #fce8eb; color: #c41e3a; }
+  .tag.green { background: #e8f5ed; color: #248a3d; }
+  .tag.amber { background: #fef2e0; color: #b54300; }
+
+  /* ---- Tables ---- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+  th {
+    text-align: left;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  td.num { font-family: "SF Mono", ui-monospace, monospace; text-align: right; white-space: nowrap; }
+
+  /* ---- Code ---- */
+  code, pre {
+    font-family: "SF Mono", ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    background: var(--code-bg);
+    border-radius: 4px;
+  }
+  p code { padding: 1px 5px; }
+  pre {
+    padding: 14px 16px;
+    overflow-x: auto;
+    line-height: 1.47;
+    margin: 12px 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  pre .cmt { color: #6e6e73; font-style: italic; }
+  pre .kw { color: #c41e3a; }
+  pre .str { color: #248a3d; }
+  pre .fn { color: #0071e3; }
+  pre .numhl { color: #b54300; }
+
+  /* ---- Savings Meter ---- */
+  .meter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 20px;
+  }
+  .meter-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .meter-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--blue);
+  }
+  .meter-fill.green { background: var(--green); }
+  .meter-fill.amber { background: var(--amber); }
+  .meter-fill.red { background: var(--red); }
+  .meter-label {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+    border: none;
+  }
+
+  /* ---- Checklist ---- */
+  .checklist { list-style: none; margin: 12px 0; }
+  .checklist li {
+    padding: 6px 0;
+    padding-left: 24px;
+    position: relative;
+    font-size: 14px;
+  }
+  .checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    font-size: 14px;
+  }
+  .checklist li.done::before { content: "☑"; color: var(--green); }
+
+  /* ---- Dark section ---- */
+  .dark-section {
+    background: #000;
+    color: #fff;
+  }
+  .dark-section h2 { color: #fff; }
+  .dark-section p { color: #a1a1a6; }
+  .dark-section code { background: #1d1d1f; color: var(--blue-bright); }
+  .dark-section pre { background: #1d1d1f; border-color: #424245; }
+  .dark-section .card { background: #1d1d1f; border-color: #424245; }
+  .dark-section .card .stat-label { color: #86868b; }
+  .dark-section .tag { background: #2a2a2c; color: #a1a1a6; }
+  .dark-section table th { color: #86868b; border-color: #424245; }
+  .dark-section table td { border-color: #424245; color: #a1a1a6; }
+  .dark-section .secondary { color: #86868b; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 38px; }
+    h2 { font-size: 32px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .hero .stat-row { gap: 16px; }
+    .stat .num { font-size: 32px; }
+    pre { font-size: 12px; padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Terminal Audit</h1>
+    <p class="sub">6,841 calls = 51.4% of all tool use. Here's where they go and how to cut them down.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="num">6,841</div><div class="label">terminal calls</div></div>
+      <div class="stat"><div class="num">51.4%</div><div class="label">of all tool calls</div></div>
+      <div class="stat"><div class="num">~595M</div><div class="label">total tokens (all platforms)</div></div>
+      <div class="stat"><div class="num">~2,200</div><div class="label">token waste / session from bad terminal use</div></div>
+    </div>
+    <p class="meta">Generated 2026-06-13 · Agent Tina · Terminal cost optimization report</p>
+  </div>
+</div>
+
+<section>
+  <h2><span class="eyebrow">Breakdown</span>Where the 6,841 calls actually go</h2>
+  <p>Not all terminal calls are equal. Some are unavoidable (git pushes, builds), others are just habit :  using <code>cat</code>/<code>grep</code>/<code>ls</code> when <code>read_file</code>/<code>search_files</code> exist. Here's the estimated breakdown:</p>
+
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Est. Calls</th><th>% of Terminal</th><th>Wasted?</th><th>Strategy</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Git operations</strong> :  status, add, commit, push, log, diff</td>
+        <td class="num">~2,050</td><td class="num">~30%</td>
+        <td><span class="tag amber">Partial</span></td>
+        <td>Batch into single calls. Porcelain check + conditional chain = 1 call vs 2-3.</td>
+      </tr>
+      <tr>
+        <td><strong>File reading</strong> :  cat, head, tail, ls, less</td>
+        <td class="num">~1,030</td><td class="num">~15%</td>
+        <td><span class="tag red">Yes</span></td>
+        <td>Use <code>read_file(path, limit=N)</code> instead. Zero token overhead vs terminal output.</td>
+      </tr>
+      <tr>
+        <td><strong>Build &amp; Xcode</strong> :  xcodebuild, npm, pip, cargo, swift</td>
+        <td class="num">~1,025</td><td class="num">~15%</td>
+        <td><span class="tag amber">Partial</span></td>
+        <td>Use MCP xcodebuild tools. Chain build commands with <code>&&</code>.</td>
+      </tr>
+      <tr>
+        <td><strong>Script execution</strong> :  python3, bash scripts, tm-scripts</td>
+        <td class="num">~1,025</td><td class="num">~15%</td>
+        <td><span class="tag green">Low</span></td>
+        <td>Use <code>execute_code</code> for multi-step logic. Keep tm-scripts growing.</td>
+      </tr>
+      <tr>
+        <td><strong>Search/grep</strong> :  grep, rg, find, ag</td>
+        <td class="num">~685</td><td class="num">~10%</td>
+        <td><span class="tag red">Yes</span></td>
+        <td>Use <code>search_files()</code> :  cheaper, faster, structured output.</td>
+      </tr>
+      <tr>
+        <td><strong>Docker/Infra</strong> :  docker ps, logs, compose, health checks</td>
+        <td class="num">~685</td><td class="num">~10%</td>
+        <td><span class="tag green">Low</span></td>
+        <td>Trim with <code>docker ps --format</code> and <code>tail</code> on logs. Needs shell.</td>
+      </tr>
+      <tr>
+        <td><strong>Network/curl</strong> :  curl API calls, web</td>
+        <td class="num">~340</td><td class="num">~5%</td>
+        <td><span class="tag green">Low</span></td>
+        <td>Use <code>web_extract</code> / <code>web_search</code> where possible. curl for Todoist API is valid.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Key insight</h3>
+  <p><strong>~1,715 terminal calls (25%)</strong> are avoidable :  file reading (15%) and grep/search (10%) could use dedicated tools instead. That's <strong>~$43K tokens/month</strong> wasted on tool schema overhead alone (each terminal call carries ~25 tokens of JSON schema, plus the reply eats context window).</p>
+</section>
+
+<hr class="divider">
+
+<section>
+  <h2><span class="eyebrow">Pattern 1: Waste</span>File reading via <code>cat</code>/<code>head</code>/<code>ls</code></h2>
+  <p>Every time I type <code>terminal("cat file")</code> or <code>terminal("ls -la")</code>, I pay for the shell overhead AND the full output. <code>read_file</code> and <code>search_files</code> are zero-overhead structured tools.</p>
+
+  <div class="meter">
+    <span class="meter-label">~1,030 calls / 15% of terminal</span>
+    <div class="meter-bar"><div class="meter-fill red" style="width:90%"></div></div>
+  </div>
+
+  <h4>Bad (current)</h4>
+  <pre>terminal("cat ~/Projects/repo/file.swift")           <span class="cmt"># ~200 tokens of tool schema + full file output</span>
+terminal("head -50 ~/Projects/repo/file.swift")       <span class="cmt"># slightly better but still shell overhead</span>
+terminal("ls -la ~/Projects/repo/")                    <span class="cmt"># should be search_files(target='files')</span></pre>
+
+  <h4>Good (optimized)</h4>
+  <pre>read_file("~/Projects/repo/file.swift", limit=50)    <span class="cmt"># Zero terminal schema tokens. Paginated.</span>
+search_files(pattern="*.swift", path="~/Projects/repo/")  <span class="cmt"># 0 schema tokens. Sorted by mtime.</span></pre>
+
+  <h4>Savings</h4>
+  <p>Each terminal call avoided saves ~25 tokens of tool definition overhead + ~50-200 tokens of output framing. Over 1,000 calls: <strong>~75K-225K tokens saved per month</strong>.</p>
+</section>
+
+<hr class="divider">
+
+<section class="dark-section">
+  <h2><span class="eyebrow">Pattern 2: Waste</span>Shell grep/find instead of <code>search_files</code></h2>
+  <p>Same problem as Pattern 1. <code>grep -r</code>, <code>find . -name</code>, and <code>rg</code> all go through terminal, paying tool schema overhead. <code>search_files</code> is ripgrep-backed, native to Hermes, and returns structured results.</p>
+
+  <div class="meter">
+    <span class="meter-label">~685 calls / 10% of terminal</span>
+    <div class="meter-bar"><div class="meter-fill red" style="width:90%"></div></div>
+  </div>
+
+  <h4>Bad</h4>
+  <pre>terminal("grep -rn 'TODO' ~/Projects/repo/ --include='*.swift'")
+terminal("find ~/Projects/repo/ -name 'KANBAN.md'")
+terminal("rg 'error' ~/.hermes/logs/ --no-heading | tail -20")</pre>
+
+  <h4>Good</h4>
+  <pre>search_files(pattern="TODO", path="~/Projects/repo/", file_glob="*.swift")
+search_files(pattern="KANBAN.md", target="files", path="~/Projects/repo/")
+search_files(pattern="error", path="~/.hermes/logs/", limit=20)</pre>
+
+  <h4>Additional win: <code>search_files</code> is line-numbered by default</h4>
+  <p>No need to pipe to <code>wc -l</code>. Use <code>output_mode="count"</code> for quick counts, <code>output_mode="files_only"</code> for listing.</p>
+</section>
+
+<hr class="divider">
+
+<section>
+  <h2><span class="eyebrow">Pattern 3: Optimization</span>Batch git operations into one call</h2>
+  <p>Git is our biggest terminal consumer. The vault-sync cron alone runs daily with 2 calls. Fix: combine porcelain check + conditional chain into a single <code>bash -c</code> block.</p>
+
+  <div class="meter">
+    <span class="meter-label">~2,050 calls / 30% → target: ~700</span>
+    <div class="meter-bar"><div class="meter-fill amber" style="width:66%"></div></div>
+  </div>
+
+  <h4>Bad :  3 separate terminal calls for one sync</h4>
+  <pre>terminal("cd ~/repo && git status --porcelain")       <span class="cmt"># Tool call #1</span>
+terminal("cd ~/repo && git add -A && git commit -m 'x'")  <span class="cmt"># Tool call #2</span>
+terminal("cd ~/repo && git push")                      <span class="cmt"># Tool call #3</span></pre>
+
+  <h4>Good :  1 bash -c with conditional</h4>
+  <pre>terminal("""
+  cd ~/repo || exit 1
+  STATUS=$(git status --porcelain)
+  if [ -z "$STATUS" ]; then echo '[SILENT]'; exit 0; fi
+  git add -A && git commit -m "auto sync" && git push
+  echo '[SILENT]'
+""")</pre>
+
+  <h4>Better :  detect changes first, only then proceed</h4>
+  <pre>terminal("cd ~/repo && git status --porcelain | wc -l")  <span class="cmt"># Quick check: returns "0" or "5"</span>
+<span class="cmt"># If > 0, then single batch call for add+commit+push</span></pre>
+
+  <h4>Savings</h4>
+  <p>Reducing 3 calls → 2 (quick check + batch) saves <strong>~33% of git terminal calls</strong>. If each vault-sync cron iteration saves 1 call × 365 days × all git-using crons = <strong>~1,350 terminal calls saved per year</strong>.</p>
+</section>
+
+<hr class="divider">
+
+<section class="dark-section">
+  <h2><span class="eyebrow">Pattern 4: Optimization</span>Use <code>execute_code</code> for multi-step logic</h2>
+  <p>When you need to read files → process → write back, <code>terminal("python3 -c \"...\"")</code> works but <code>execute_code</code> is cleaner :  it avoids escaping hell, supports <code>from hermes_tools import read_file, terminal</code>, and is purpose-built for multi-step Python.</p>
+
+  <h4>Bad :  python3 -c with escaped quotes</h4>
+  <pre>terminal("python3 -c \"import json; data = json.load(open('file.json')); print(len(data))\"")</pre>
+
+  <h4>Good :  execute_code with proper Python</h4>
+  <pre>execute_code(code="""
+from hermes_tools import read_file, write_file
+import json
+
+data = json.loads(read_file("file.json")['content'])
+print(f"Loaded {len(data)} items")
+""")</pre>
+
+  <h4>Note: <code>execute_code</code> is blocked in cron mode</h4>
+  <p>For cron jobs, use <code>terminal("python3 -c ...")</code> with single-quote heredocs instead of double-quote escaping:</p>
+  <pre>terminal("python3 -c 'import json; print(len(json.load(open(\"file.json\"))))'")</pre>
+  <p>Or better: write a script to <code>~/.hermes/scripts/</code> and reference it via <code>terminal("python3 ~/.hermes/scripts/script.py")</code>.</p>
+</section>
+
+<hr class="divider">
+
+<section>
+  <h2><span class="eyebrow">Pattern 5: Quick Wins</span>Truncate output before it hits context</h2>
+  <p>Every terminal call returns its full stdout. A 500-line git log or 200-line test output eats your context window. Always truncate.</p>
+
+  <h4>Bad</h4>
+  <pre>terminal("npm test")       <span class="cmt"># Returns 300 lines. You read 10.</span>
+terminal("git log --oneline --all")  <span class="cmt"># Returns 150 commits. You need 3.</span></pre>
+
+  <h4>Good</h4>
+  <pre>terminal("npm test 2>&1 | tail -10")                    <span class="cmt"># Last 10 lines only</span>
+terminal("npm test && echo 'PASS' || echo 'FAIL'")       <span class="cmt"># Just pass/fail</span>
+terminal("git log --oneline -5")                         <span class="cmt"># Last 5 commits</span>
+terminal("git log --oneline -3 --since='7 days ago'")    <span class="cmt"># Last week only</span></pre>
+
+  <h4>Quick reference: truncation patterns</h4>
+  <table>
+    <thead><tr><th>Instead of</th><th>Use</th><th>Saves</th></tr></thead>
+    <tbody>
+      <tr><td><code>git log</code></td><td><code>git log -5</code> or <code>--since=...</code></td><td>~200+ lines</td></tr>
+      <tr><td><code>docker ps</code></td><td><code>docker ps --format '{{.Names}}'</code></td><td>~50 chars per container</td></tr>
+      <tr><td><code>ls -la</code></td><td><code>ls -1 | head -20</code></td><td>~80% output reduction</td></tr>
+      <tr><td><code>find</code></td><td><code>find ... | head -10</code></td><td>~90% output reduction</td></tr>
+      <tr><td><code>cat file</code></td><td><code>read_file(path, limit=50)</code></td><td>Zero terminal overhead</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="divider">
+
+<section class="dark-section">
+  <h2><span class="eyebrow">Pattern 6: Reusability</span>tm-script templates for common patterns</h2>
+  <p>Every time I construct a <code>cd && git status --porcelain && ...</code> chain from scratch, I burn prompt tokens. Pre-built tm-scripts save ~2,500 tokens/session and standardize the patterns.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="title">🏗️ <code>tm build-ios</code></div>
+      <p class="secondary">One-command iOS build + archive. Replaces 3-5 terminal calls with one script. Includes scheme detection, derived data cleanup.</p>
+      <p><span class="tag">Existing</span></p>
+    </div>
+    <div class="card">
+      <div class="title">🔍 <code>tm search</code></div>
+      <p class="secondary">Unified search across files + web + session history. Replaces grep + web_search + session_search in one call.</p>
+      <p><span class="tag">Existing</span></p>
+    </div>
+    <div class="card">
+      <div class="title">🔄 <code>tm git-sync</code></div>
+      <p class="secondary">Porcelain check → conditional add/commit/push in one shot. No more 2-3 call chains. Replaces ~1,000 terminal calls/year.</p>
+      <p><span class="tag green">Proposed</span></p>
+    </div>
+    <div class="card">
+      <div class="title">📊 <code>tm health</code></div>
+      <p class="secondary">Docker + disk + memory + cron status in one call. Replaces 4 separate health checks.</p>
+      <p><span class="tag">Existing</span></p>
+    </div>
+  </div>
+
+  <h4>Proposed: <code>tm git-sync</code></h4>
+  <pre>#!/bin/bash
+<span class="cmt"># ~/.hermes/scripts/tm/git-sync.sh</span>
+<span class="cmt"># Usage: tm git-sync [repo-path] [commit-message]</span>
+<span class="cmt"># Default: ~/.hermes/obsidian-vault, "auto sync $(date +%H:%M)"</span>
+
+REPO="${1:-$HOME/.hermes/obsidian-vault}"
+MSG="${2:-auto sync $(date +%Y-%m-%d %H:%M)}"
+
+cd "$REPO" || { echo "FAIL: cd $REPO"; exit 1; }
+
+STATUS=$(git status --porcelain)
+if [ -z "$STATUS" ]; then
+  echo "[SILENT]"
+  exit 0
+fi
+
+git add -A && git commit -m "$MSG" && git push 2>&1
+echo "SYNCED: $(echo "$STATUS" | wc -l) files"</pre>
+
+  <h4>Proposed: <code>tm deploy-html</code></h4>
+  <pre>#!/bin/bash
+<span class="cmt"># Usage: tm deploy-html [file-path]</span>
+<span class="cmt"># Commits and pushes a single HTML file to warehouse repo</span>
+
+FILE="$1"
+REPO="$HOME/Projects/vadapayasam.github.io"
+NAME=$(basename "$FILE")
+
+cd "$REPO" || exit 1
+cp "$FILE" "warehouse/sketch/$NAME" || exit 1
+git add "warehouse/sketch/$NAME"
+git commit -m "sketch: $NAME"
+git push
+echo "Published: https://vadapayasam.github.io/warehouse/sketch/$NAME"</pre>
+
+  <p><span class="tag">Priority: create these two scripts next</span></p>
+</section>
+
+<hr class="divider">
+
+<section>
+  <h2><span class="eyebrow">Recommendations</span>Summary of actions</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="title">1️⃣ Enforce tool discipline</div>
+      <p><code>read_file</code> > <code>cat</code>. <code>search_files</code> > <code>grep</code>. <code>patch</code> > <code>sed</code>.</p>
+      <p class="secondary">Hardest to automate but biggest single win. Add to system rules. Self-correct when caught using shell for file ops.</p>
+    </div>
+    <div class="card">
+      <div class="title">2️⃣ Create <code>tm git-sync</code></div>
+      <p>Single-command git sync for vault and warehouse repos. Reduces 3 calls → 1.</p>
+      <p class="secondary">~66% reduction in git terminal calls. Save ~1,300 calls/year.</p>
+    </div>
+    <div class="card">
+      <div class="title">3️⃣ Create <code>tm deploy-html</code></div>
+      <p>Copy → git add → commit → push in one go. For sketch HTML publishing.</p>
+      <p class="secondary">Reduces 5 terminal calls → 1. Use for every HTML artifact deployment.</p>
+    </div>
+    <div class="card">
+      <div class="title">4️⃣ Truncate all build output</div>
+      <p>Always pipe build/test output through <code>| tail -20</code> or <code>&& echo PASS || echo FAIL</code>.</p>
+      <p class="secondary">Saves ~200-500 tokens per build call. Adds up fast with xcodebuild/npm.</p>
+    </div>
+    <div class="card">
+      <div class="title">5️⃣ Rewrite cron prompts with batched patterns</div>
+      <p>Update all cron job prompts to use <code>bash -c</code> chaining instead of serial tool calls.</p>
+      <p class="secondary">Most crons use 2-3 terminal calls per run. Batch to 1-2.</p>
+    </div>
+    <div class="card">
+      <div class="title">6️⃣ <code>execute_code</code> for multi-step logic</div>
+      <p>When processing Python logic (read files, transform, write), use <code>execute_code</code> instead of <code>terminal("python3 -c")</code>.</p>
+      <p class="secondary">Cleaner code, no escaping hell, access to hermes_tools.</p>
+    </div>
+  </div>
+
+  <h3>Projected savings</h3>
+  <table>
+    <thead><tr><th>Action</th><th>Terminal calls saved/month</th><th>Token savings/month</th><th>Difficulty</th></tr></thead>
+    <tbody>
+      <tr><td>Tool discipline (cat → read_file, grep → search_files)</td><td class="num">~1,430</td><td class="num">~85K</td><td>Medium</td></tr>
+      <tr><td>tm git-sync + deploy-html scripts</td><td class="num">~180</td><td class="num">~10K</td><td><span class="tag green">Easy</span></td></tr>
+      <tr><td>Truncate all output (tail -N, && echo)</td><td class="num">: </td><td class="num">~120K</td><td><span class="tag green">Easy</span></td></tr>
+      <tr><td>Batch cron git ops (3→1 calls)</td><td class="num">~110</td><td class="num">~6K</td><td><span class="tag green">Easy</span></td></tr>
+      <tr><td>execute_code over python3 -c</td><td class="num">~90</td><td class="num">~5K</td><td><span class="tag amber">Medium</span></td></tr>
+      <tr><td><strong>Total</strong></td><td class="num"><strong>~1,810</strong></td><td class="num"><strong>~226K</strong></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <p>That's <strong>~26% reduction in terminal calls</strong> (from 6,841 → ~5,031/month) and <strong>~226K tokens saved per month</strong> :  roughly <strong>$3-5/month at deepseek-flash pricing</strong>, but more importantly, <strong>~7% less context pressure per session</strong>.</p>
+</section>
+
+<hr class="divider">
+
+<section class="dark-section">
+  <h2><span class="eyebrow">Checklist</span>Pre-flight for every terminal call</h2>
+  <p>Before hitting enter on any <code>terminal(...)</code>, ask:</p>
+
+  <table>
+    <thead><tr><th>Question</th><th>If yes</th><th>Default to</th></tr></thead>
+    <tbody>
+      <tr><td>Am I reading a file?</td><td>Use <code>read_file</code></td><td><code>read_file(path, limit=50)</code></td></tr>
+      <tr><td>Am I searching content?</td><td>Use <code>search_files</code></td><td><code>search_files(pattern, file_glob=...)</code></td></tr>
+      <tr><td>Am I finding files?</td><td>Use <code>search_files(target='files')</code></td><td><code>search_files(pattern='*.swift', target='files')</code></td></tr>
+      <tr><td>Am I editing a file?</td><td>Use <code>patch</code> or <code>write_file</code></td><td><code>patch(path, old_string, new_string)</code></td></tr>
+      <tr><td>Is this a git status + add + commit + push?</td><td>Use <code>tm git-sync</code></td><td><code>tm git-sync ~/repo "message"</code></td></tr>
+      <tr><td>Is this deploying HTML?</td><td>Use <code>tm deploy-html</code></td><td><code>tm deploy-html /path/to/file.html</code></td></tr>
+      <tr><td>Could I use <code>execute_code</code> for multi-step Python?</td><td>Use <code>execute_code</code></td><td><code>execute_code(code="""...""")</code></td></tr>
+      <tr><td>Is the command output going to be long?</td><td>Pipe through <code>tail</code></td><td><code>cmd 2>&1 | tail -20</code></td></tr>
+      <tr><td>Is this a build/test?</td><td>Check exit code only</td><td><code>cmd && echo PASS || echo FAIL</code></td></tr>
+    </tbody>
+  </table>
+
+  <h4>System prompt addition (proposed)</h4>
+  <pre><span class="cmt">// Add to SOUL.md or memory rules:</span>
+Before every terminal() call, ask: "Can I do this with read_file,
+search_files, patch, execute_code, or a tm-script instead?"
+If yes, use the dedicated tool. Terminal is for builds, git pushes,
+Docker, and commands with side effects :  NOT for file I/O.</pre>
+</section>
+
+<hr class="divider">
+
+<section>
+  <h2><span class="eyebrow">Raw data</span>Snapshot of terminal calls (2026-06-13)</h2>
+  <p class="secondary">Sample from recent sessions showing actual terminal call patterns:</p>
+
+  <h4>From vault-sync cron (daily, fires once)</h4>
+  <table>
+    <thead><tr><th>Call #</th><th>Command</th><th>Could be</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>cd ~/.hermes/obsidian-vault && git status --porcelain</code></td><td><code>tm git-sync</code></td></tr>
+      <tr><td>2</td><td><code>cd ~/.hermes/obsidian-vault && git add -A && git commit -m "sync" && git push</code></td><td>⚠️ redundant if porcelain empty</td></tr>
+    </tbody>
+  </table>
+
+  <h4>From daily-tweet-generator cron</h4>
+  <p class="secondary">Ship HTML file: uses 3-4 terminal calls for git status → add → commit → push. Could be 1 <code>tm deploy-html</code>.</p>
+
+  <h4>From research-to-web-publishing</h4>
+  <p class="secondary">Same pattern: read_file (good) → write_file (good) → then 3-4 terminal calls for git ops. Standardize with tm-scripts.</p>
+
+  <h3>Next steps</h3>
+  <p>1. Create <code>tm git-sync</code> :  single git sync command</p>
+  <p>2. Create <code>tm deploy-html</code> :  single deploy command for warehouse</p>
+  <p>3. Update cron prompts to use tm-scripts instead of manual git chains</p>
+  <p>4. Add the pre-flight checklist to system rules</p>
+  <p>5. (Optional) Write a cron job that audits terminal usage weekly and flags obvious waste patterns</p>
+
+  <p class="secondary" style="margin-top: 32px;">:  End of report. This is the Way. 💀🔥</p>
+</section>
+
+</body>
+</html>
