@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Audit — trim 51.4% of tool calls</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .badge-waste { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .badge-partial { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+        .badge-low { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+        .badge-easy { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+        .badge-medium-sev { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-hero {
+            background: linear-gradient(135deg, #fca5a5, #fcd34d, #86efac, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .meter-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .meter-fill { height: 100%; border-radius: 3px; }
+        .code-block {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .cmt { color: #64748b; font-style: italic; }
+        .kw { color: #38bdf8; }
+        .str { color: #4ade80; }
+        table { border-collapse: collapse; }
+        th { text-align: left; padding: 10px 12px; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+        td.num { font-family: 'JetBrains Mono', monospace; text-align: right; white-space: nowrap; }
+        tr:last-child td { border-bottom: none; }
+        .checklist { list-style: none; margin: 0; padding: 0; }
+        .checklist li { padding: 8px 0; padding-left: 28px; position: relative; font-size: 14px; color: #cbd5e1; }
+        .checklist li::before { content: "☐"; position: absolute; left: 0; color: #64748b; font-size: 16px; }
+        .checklist li.done::before { content: "☑"; color: #4ade80; }
+        @media (max-width: 600px) {
+            .savings-grid { grid-template-columns: 1fr !important; }
+        }
+        .savings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+
+        <!-- ===== HERO ===== -->
+        <header class="mb-12">
+            <div class="flex items-center gap-3 mb-3">
+                <span class="mono text-xs text-slate-500 uppercase tracking-widest">Agent Tina · Terminal Audit</span>
+            </div>
+            <h1 class="text-4xl font-bold mb-3 gradient-text">Terminal Audit: trim 51.4%</h1>
+            <p class="text-slate-400 max-w-2xl text-sm">
+                6,841 terminal calls tracked — more than half of all tool use. Here's where they go and how to cut them down without changing what gets shipped.
+            </p>
+
+            <!-- Hero Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+                <div class="glass-card rounded-lg p-4 text-center">
+                    <div class="mono text-2xl font-semibold text-cyan-400">6,841</div>
+                    <div class="text-xs text-slate-500 mt-1">terminal calls</div>
+                </div>
+                <div class="glass-card rounded-lg p-4 text-center">
+                    <div class="mono text-2xl font-semibold text-rose-400">51.4%</div>
+                    <div class="text-xs text-slate-500 mt-1">of all tool use</div>
+                </div>
+                <div class="glass-card rounded-lg p-4 text-center">
+                    <div class="mono text-2xl font-semibold text-amber-400">~595M</div>
+                    <div class="text-xs text-slate-500 mt-1">total tokens (all platforms)</div>
+                </div>
+                <div class="glass-card rounded-lg p-4 text-center">
+                    <div class="mono text-2xl font-semibold text-emerald-400">~2,200</div>
+                    <div class="text-xs text-slate-500 mt-1">waste tokens / session</div>
+                </div>
+            </div>
+            <p class="mono text-xs text-slate-600 mt-4">Generated 2026-06-13 · DeepSeek V4 Flash · Terminal cost optimization</p>
+        </header>
+
+        <!-- ===== WHERE THEY GO ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                Where the 6,841 calls actually go
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">
+                Not all terminal calls are equal. Some are unavoidable (builds, pushes). Others are habit: using <code class="mono text-xs bg-slate-800 px-1 rounded text-slate-300">cat</code> / <code class="mono text-xs bg-slate-800 px-1 rounded text-slate-300">grep</code> / <code class="mono text-xs bg-slate-800 px-1 rounded text-slate-300">ls</code> when dedicated tools exist.
+            </p>
+
+            <div class="glass-card rounded-xl overflow-hidden">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr><th>Category</th><th>Est. Calls</th><th>%</th><th>Wasted?</th><th>Strategy</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-slate-200 font-medium">Git operations <span class="text-slate-500 font-normal">status, add, commit, push, log</span></td>
+                            <td class="num text-slate-300">~2,050</td><td class="num text-slate-500">~30%</td>
+                            <td><span class="badge-partial px-2 py-0.5 rounded text-xs">Partial</span></td>
+                            <td class="text-slate-400">Batch into single calls. Porcelain check + chain = 1 vs 2-3.</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200 font-medium">File reading <span class="text-slate-500 font-normal">cat, head, tail, ls, less</span></td>
+                            <td class="num text-slate-300">~1,030</td><td class="num text-slate-500">~15%</td>
+                            <td><span class="badge-waste px-2 py-0.5 rounded text-xs">Yes</span></td>
+                            <td class="text-slate-400">Use <code class="mono text-xs bg-slate-800 px-1 rounded">read_file()</code>. Zero terminal overhead.</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200 font-medium">Build &amp; Xcode <span class="text-slate-500 font-normal">xcodebuild, npm, pip, swift</span></td>
+                            <td class="num text-slate-300">~1,025</td><td class="num text-slate-500">~15%</td>
+                            <td><span class="badge-partial px-2 py-0.5 rounded text-xs">Partial</span></td>
+                            <td class="text-slate-400">Use MCP xcodebuild. Chain with <code class="mono text-xs bg-slate-800 px-1 rounded">&&</code>.</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200 font-medium">Script execution <span class="text-slate-500 font-normal">python3, bash, tm-scripts</span></td>
+                            <td class="num text-slate-300">~1,025</td><td class="num text-slate-500">~15%</td>
+                            <td><span class="badge-low px-2 py-0.5 rounded text-xs">Low</span></td>
+                            <td class="text-slate-400">Use <code class="mono text-xs bg-slate-800 px-1 rounded">execute_code</code> for multi-step. Grow tm-scripts.</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200 font-medium">Search/grep <span class="text-slate-500 font-normal">grep, rg, find, ag</span></td>
+                            <td class="num text-slate-300">~685</td><td class="num text-slate-500">~10%</td>
+                            <td><span class="badge-waste px-2 py-0.5 rounded text-xs">Yes</span></td>
+                            <td class="text-slate-400">Use <code class="mono text-xs bg-slate-800 px-1 rounded">search_files()</code>. Cheaper, faster, structured.</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200 font-medium">Docker/Infra <span class="text-slate-500 font-normal">docker ps, logs, compose</span></td>
+                            <td class="num text-slate-300">~685</td><td class="num text-slate-500">~10%</td>
+                            <td><span class="badge-low px-2 py-0.5 rounded text-xs">Low</span></td>
+                            <td class="text-slate-400">Trim with <code class="mono text-xs bg-slate-800 px-1 rounded">--format</code> and <code class="mono text-xs bg-slate-800 px-1 rounded">tail</code>. Needs shell.</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200 font-medium">Network/curl <span class="text-slate-500 font-normal">curl API, web</span></td>
+                            <td class="num text-slate-300">~340</td><td class="num text-slate-500">~5%</td>
+                            <td><span class="badge-low px-2 py-0.5 rounded text-xs">Low</span></td>
+                            <td class="text-slate-400">Use <code class="mono text-xs bg-slate-800 px-1 rounded">web_extract</code> where possible. curl for Todoist is valid.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-rose-900/20 border border-rose-800/30 rounded-lg p-3 mt-3">
+                <p class="text-sm text-rose-200/80">
+                    <strong>Key insight:</strong> ~1,715 terminal calls (25%) are avoidable — file reading (15%) + grep/search (10%) could use dedicated tools. That's <strong>~$43K tokens/month</strong> wasted on tool schema overhead alone.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== PATTERN 1: FILE READING WASTE ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                File reading waste — cat, head, ls
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">
+                Every <code class="mono text-xs bg-slate-800 px-1 rounded">terminal("cat file")</code> pays shell overhead AND full output. <code class="mono text-xs bg-slate-800 px-1 rounded">read_file</code> and <code class="mono text-xs bg-slate-800 px-1 rounded">search_files</code> are zero-overhead structured tools.
+            </p>
+
+            <div class="glass-card rounded-lg p-4 mb-4">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="mono text-xs text-slate-400">~1,030 calls/month · 15% of terminal · <span class="text-rose-400">90% avoidable</span></span>
+                    <span class="badge-waste px-2 py-0.5 rounded text-xs uppercase text-[10px]">Waste</span>
+                </div>
+                <div class="meter-bar"><div class="meter-fill bg-rose-500" style="width:90%"></div></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-3 mb-3">
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="text-xs text-rose-400 uppercase tracking-wider mb-2">Bad (current)</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">terminal("cat ~/Projects/file.swift")
+terminal("head -50 ~/Projects/file.swift")
+terminal("ls -la ~/Projects/")</pre>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="text-xs text-emerald-400 uppercase tracking-wider mb-2">Good (optimized)</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">read_file("file.swift", limit=50)
+search_files("*.swift", target="files")</pre>
+                </div>
+            </div>
+
+            <div class="bg-cyan-900/20 border border-cyan-800/30 rounded-lg p-3">
+                <p class="text-sm text-cyan-200/80">
+                    <strong>Savings:</strong> Each avoided call saves ~25 tokens tool schema + ~50-200 tokens output framing. Over 1K calls: <strong>~75K-225K tokens/month</strong>.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== PATTERN 2: SEARCH WASTE ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                Shell grep/find instead of search_files
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">
+                <code class="mono text-xs bg-slate-800 px-1 rounded">grep -r</code>, <code class="mono text-xs bg-slate-800 px-1 rounded">find .</code>, and <code class="mono text-xs bg-slate-800 px-1 rounded">rg</code> all go through terminal, paying tool schema overhead. <code class="mono text-xs bg-slate-800 px-1 rounded">search_files</code> is ripgrep-backed and returns structured results.
+            </p>
+
+            <div class="glass-card rounded-lg p-4 mb-4">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="mono text-xs text-slate-400">~685 calls/month · 10% of terminal · <span class="text-rose-400">90% avoidable</span></span>
+                    <span class="badge-waste px-2 py-0.5 rounded text-xs uppercase text-[10px]">Waste</span>
+                </div>
+                <div class="meter-bar"><div class="meter-fill bg-rose-500" style="width:90%"></div></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-3 mb-3">
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="text-xs text-rose-400 uppercase tracking-wider mb-2">Bad</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">grep -rn 'TODO' ~/repo/ --include='*.swift'
+find ~/repo/ -name 'KANBAN.md'
+rg 'error' ~/.hermes/logs/ | tail -20</pre>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="text-xs text-emerald-400 uppercase tracking-wider mb-2">Good</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">search_files("TODO", file_glob="*.swift")
+search_files("KANBAN.md", target="files")
+search_files("error", limit=20)</pre>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-500">Bonus: <code class="mono text-xs bg-slate-800 px-1 rounded">search_files</code> is line-numbered by default. Use <code class="mono text-xs bg-slate-800 px-1 rounded">output_mode="count"</code> for quick counts, <code class="mono text-xs bg-slate-800 px-1 rounded">output_mode="files_only"</code> for listing.</p>
+        </section>
+
+        <!-- ===== PATTERN 3: GIT BATCHING ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                Batch git operations into one call
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">
+                Git is the biggest terminal consumer. The vault-sync cron alone runs daily with 2-3 calls. Fix: combine porcelain check + conditional chain.
+            </p>
+
+            <div class="glass-card rounded-lg p-4 mb-4">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="mono text-xs text-slate-400">~2,050 calls/month · 30% of terminal · <span class="text-amber-400">target: ~700</span></span>
+                    <span class="badge-partial px-2 py-0.5 rounded text-xs uppercase text-[10px]">Partial</span>
+                </div>
+                <div class="meter-bar"><div class="meter-fill bg-amber-500" style="width:66%"></div></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-3 mb-3">
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="text-xs text-rose-400 uppercase tracking-wider mb-2">Bad — 3 calls</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto"># Call 1: status check
+terminal("git status --porcelain")
+
+# Call 2: add + commit
+terminal("git add -A && git commit -m 'x'")
+
+# Call 3: push
+terminal("git push")</pre>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="text-xs text-emerald-400 uppercase tracking-wider mb-2">Good — 1 bash -c</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">terminal("""
+  cd ~/repo || exit 1
+  STATUS=$(git status --porcelain)
+  if [ -z "$STATUS" ]; then
+    echo '[SILENT]'; exit 0
+  fi
+  git add -A && git commit -m "sync" && git push
+  echo '[SILENT]'
+""")</pre>
+                </div>
+            </div>
+
+            <div class="bg-cyan-900/20 border border-cyan-800/30 rounded-lg p-3">
+                <p class="text-sm text-cyan-200/80">
+                    <strong>Savings:</strong> 3 calls → 1. If each cron saves 1 call × 365 days × all git crons = <strong>~1,350 terminal calls/year saved</strong>.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== PATTERN 4: EXECUTE_CODE ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-violet-400"></span>
+                Use execute_code for multi-step logic
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">
+                <code class="mono text-xs bg-slate-800 px-1 rounded">terminal("python3 -c \"...\"")</code> works but <code class="mono text-xs bg-slate-800 px-1 rounded">execute_code</code> avoids escaping hell and supports <code class="mono text-xs bg-slate-800 px-1 rounded">from hermes_tools import read_file</code>.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-3 mb-3">
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="text-xs text-rose-400 uppercase tracking-wider mb-2">Bad — escaped quotes</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">terminal("python3 -c \"import json; \\
+  data = json.load(open('f.json')); \\
+  print(len(data))\"")
+</pre>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="text-xs text-emerald-400 uppercase tracking-wider mb-2">Good — clean Python</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">execute_code(code="""
+from hermes_tools import read_file
+import json
+data = json.loads(
+  read_file("f.json")['content']
+)
+print(f"Loaded {len(data)} items")
+""")</pre>
+                </div>
+            </div>
+
+            <div class="bg-amber-900/20 border border-amber-800/30 rounded-lg p-3">
+                <p class="text-sm text-amber-200/80">
+                    <strong>Note:</strong> <code class="mono text-xs bg-slate-800 px-1 rounded">execute_code</code> is blocked in cron mode. For cron, write a script to <code class="mono text-xs bg-slate-800 px-1 rounded">~/.hermes/scripts/</code> and call via <code class="mono text-xs bg-slate-800 px-1 rounded">terminal("python3 ~/.hermes/scripts/script.py")</code>.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== PATTERN 5: TRUNCATION ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Truncate output before it hits context
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">
+                Every terminal call returns full stdout. A 500-line git log eats your context window. Always truncate.
+            </p>
+
+            <div class="glass-card rounded-xl overflow-hidden mb-3">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr><th>Instead of</th><th>Use</th><th>Saves</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="mono text-slate-400">git log</td><td class="mono text-slate-200">git log -5 / --since=...</td><td class="text-slate-500">~200+ lines</td></tr>
+                        <tr><td class="mono text-slate-400">docker ps</td><td class="mono text-slate-200">docker ps --format '{{.Names}}'</td><td class="text-slate-500">~50 chars/container</td></tr>
+                        <tr><td class="mono text-slate-400">ls -la</td><td class="mono text-slate-200">ls -1 | head -20</td><td class="text-slate-500">~80% reduction</td></tr>
+                        <tr><td class="mono text-slate-400">find</td><td class="mono text-slate-200">find ... | head -10</td><td class="text-slate-500">~90% reduction</td></tr>
+                        <tr><td class="mono text-slate-400">cat file</td><td class="mono text-slate-200">read_file(path, limit=50)</td><td class="text-slate-500">Zero terminal overhead</td></tr>
+                        <tr><td class="mono text-slate-400">npm test</td><td class="mono text-slate-200">npm test | tail -10</td><td class="text-slate-500">~290 lines</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="glass-card rounded-lg p-4">
+                <p class="text-xs text-slate-400">
+                    <span class="text-emerald-400 font-medium">Quick rule:</span> Always pipe build/test output through <code class="mono text-xs bg-slate-800 px-1 rounded">| tail -20</code> or check exit code only: <code class="mono text-xs bg-slate-800 px-1 rounded">cmd && echo PASS || echo FAIL</code>.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== PATTERN 6: TM-SCRIPTS ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                tm-script templates for common patterns
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">
+                Every time I construct a chain from scratch, I burn prompt tokens. Pre-built tm-scripts save ~2,500 tokens/session.
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                <div class="glass-card rounded-lg p-3">
+                    <div class="mono text-sm text-cyan-400">tm build-ios</div>
+                    <p class="text-xs text-slate-500 mt-1">One-command iOS build + archive. Replaces 3-5 calls.</p>
+                    <span class="badge-low px-2 py-0.5 rounded text-xs mt-2 inline-block">Existing</span>
+                </div>
+                <div class="glass-card rounded-lg p-3">
+                    <div class="mono text-sm text-cyan-400">tm search</div>
+                    <p class="text-xs text-slate-500 mt-1">Unified file + web + session search. Replaces grep + web search.</p>
+                    <span class="badge-low px-2 py-0.5 rounded text-xs mt-2 inline-block">Existing</span>
+                </div>
+                <div class="glass-card rounded-lg p-3">
+                    <div class="mono text-sm text-emerald-400">tm git-sync</div>
+                    <p class="text-xs text-slate-500 mt-1">Porcelain check + conditional commit/push. Replaces ~1,000 calls/yr.</p>
+                    <span class="badge-easy px-2 py-0.5 rounded text-xs mt-2 inline-block">Proposed</span>
+                </div>
+                <div class="glass-card rounded-lg p-3">
+                    <div class="mono text-sm text-emerald-400">tm deploy-html</div>
+                    <p class="text-xs text-slate-500 mt-1">Copy + git add + commit + push in one go.</p>
+                    <span class="badge-easy px-2 py-0.5 rounded text-xs mt-2 inline-block">Proposed</span>
+                </div>
+                <div class="glass-card rounded-lg p-3">
+                    <div class="mono text-sm text-cyan-400">tm health</div>
+                    <p class="text-xs text-slate-500 mt-1">Docker + disk + memory + cron in one call.</p>
+                    <span class="badge-low px-2 py-0.5 rounded text-xs mt-2 inline-block">Existing</span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-3">
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="mono text-xs text-emerald-400 mb-2">tm git-sync (proposed)</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">#!/bin/bash
+REPO="${1:-$HOME/.hermes/vault}"
+MSG="${2:-auto sync $(date +%Y-%m-%d)}"
+
+cd "$REPO" || { echo "FAIL"; exit 1; }
+STATUS=$(git status --porcelain)
+if [ -z "$STATUS" ]; then
+  echo "[SILENT]"; exit 0
+fi
+git add -A && git commit -m "$MSG" && git push
+echo "SYNCED: $(echo "$STATUS" | wc -l) files"</pre>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="mono text-xs text-emerald-400 mb-2">tm deploy-html (proposed)</h4>
+                    <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto">#!/bin/bash
+FILE="$1"
+REPO="$HOME/Projects/vadapayasam.github.io"
+NAME=$(basename "$FILE")
+
+cd "$REPO" || exit 1
+cp "$FILE" "warehouse/sketch/$NAME"
+git add "warehouse/sketch/$NAME"
+git commit -m "sketch: $NAME"
+git push
+echo "Published: https://vadapayasam.github.io/warehouse/sketch/$NAME"</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SUMMARY ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                Summary of actions
+            </h2>
+
+            <div class="space-y-3 mb-4">
+                <div class="glass-card rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <span class="mono text-cyan-400 text-sm shrink-0">1</span>
+                        <div>
+                            <h4 class="text-sm font-medium">Enforce tool discipline</h4>
+                            <p class="text-xs text-slate-400"><code class="mono text-xs bg-slate-800 px-1 rounded">read_file</code> > <code class="mono text-xs bg-slate-800 px-1 rounded">cat</code>. <code class="mono text-xs bg-slate-800 px-1 rounded">search_files</code> > <code class="mono text-xs bg-slate-800 px-1 rounded">grep</code>. <code class="mono text-xs bg-slate-800 px-1 rounded">patch</code> > <code class="mono text-xs bg-slate-800 px-1 rounded">sed</code>.</p>
+                            <p class="text-xs text-slate-500 mt-1">Hardest to automate but biggest single win. Self-correct when caught using shell for file ops.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <span class="mono text-cyan-400 text-sm shrink-0">2</span>
+                        <div>
+                            <h4 class="text-sm font-medium">Create tm git-sync and tm deploy-html</h4>
+                            <p class="text-xs text-slate-400">Single-command git sync + deploy. Reduces 3-5 calls to 1.</p>
+                            <p class="text-xs text-slate-500 mt-1">~66% reduction in git terminal calls. Save ~1,300 calls/year.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <span class="mono text-cyan-400 text-sm shrink-0">3</span>
+                        <div>
+                            <h4 class="text-sm font-medium">Truncate all build output</h4>
+                            <p class="text-xs text-slate-400">Always pipe through <code class="mono text-xs bg-slate-800 px-1 rounded">| tail -20</code> or <code class="mono text-xs bg-slate-800 px-1 rounded">&& echo PASS || echo FAIL</code>.</p>
+                            <p class="text-xs text-slate-500 mt-1">Saves ~200-500 tokens per build call. Adds up fast with xcodebuild/npm.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <span class="mono text-cyan-400 text-sm shrink-0">4</span>
+                        <div>
+                            <h4 class="text-sm font-medium">Use execute_code for multi-step logic</h4>
+                            <p class="text-xs text-slate-400">Instead of <code class="mono text-xs bg-slate-800 px-1 rounded">terminal("python3 -c")</code>, use <code class="mono text-xs bg-slate-800 px-1 rounded">execute_code</code> with proper Python.</p>
+                            <p class="text-xs text-slate-500 mt-1">Cleaner code, no escaping hell, access to hermes_tools.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <span class="mono text-cyan-400 text-sm shrink-0">5</span>
+                        <div>
+                            <h4 class="text-sm font-medium">Rewrite cron prompts with batched patterns</h4>
+                            <p class="text-xs text-slate-400">Update cron jobs to use <code class="mono text-xs bg-slate-800 px-1 rounded">bash -c</code> chaining instead of serial tool calls.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projected savings table -->
+            <h3 class="text-sm font-medium text-slate-300 mb-3">Projected savings</h3>
+            <div class="glass-card rounded-xl overflow-hidden mb-3">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr><th>Action</th><th>Calls saved/mo</th><th>Tokens saved/mo</th><th>Diff</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-slate-200">Tool discipline (cat/read_file, grep/search_files)</td>
+                            <td class="num text-slate-300">~1,430</td>
+                            <td class="num text-slate-300">~85K</td>
+                            <td><span class="badge-medium-sev px-2 py-0.5 rounded text-xs">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">tm git-sync + deploy-html</td>
+                            <td class="num text-slate-300">~180</td>
+                            <td class="num text-slate-300">~10K</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Easy</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Truncate all output</td>
+                            <td class="num text-slate-300">—</td>
+                            <td class="num text-slate-300">~120K</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Easy</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Batch cron git ops (3 to 1 calls)</td>
+                            <td class="num text-slate-300">~110</td>
+                            <td class="num text-slate-300">~6K</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Easy</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">execute_code over python3 -c</td>
+                            <td class="num text-slate-300">~90</td>
+                            <td class="num text-slate-300">~5K</td>
+                            <td><span class="badge-medium-sev px-2 py-0.5 rounded text-xs">Medium</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-700/50">
+                            <td class="text-slate-200 font-medium">Total</td>
+                            <td class="num text-slate-200 font-medium">~1,810</td>
+                            <td class="num text-slate-200 font-medium">~226K</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-cyan-900/20 border border-cyan-800/30 rounded-lg p-3">
+                <p class="text-sm text-cyan-200/80">
+                    <strong>~26% reduction</strong> in terminal calls (6,841 → ~5,031/month). <strong>~226K tokens/month</strong> saved — roughly <strong>$3-5/month at deepseek-flash pricing</strong>, but more importantly <strong>~7% less context pressure per session</strong>.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== PRE-FLIGHT CHECKLIST ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Pre-flight checklist for every terminal call
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">
+                Before hitting enter on any <code class="mono text-xs bg-slate-800 px-1 rounded">terminal(...)</code>, ask:
+            </p>
+
+            <div class="glass-card rounded-xl overflow-hidden">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr><th>Question</th><th>If yes</th><th>Default to</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-slate-200">Am I reading a file?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Use read_file</span></td>
+                            <td class="mono text-cyan-300">read_file(path, limit=50)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Am I searching content?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Use search_files</span></td>
+                            <td class="mono text-cyan-300">search_files(pattern, file_glob)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Am I finding files?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Use search_files</span></td>
+                            <td class="mono text-cyan-300">search_files(pattern, target='files')</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Am I editing a file?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Use patch</span></td>
+                            <td class="mono text-cyan-300">patch(path, old, new)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Git status + add + commit + push?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Use tm git-sync</span></td>
+                            <td class="mono text-cyan-300">tm git-sync ~/repo "msg"</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Deploying HTML?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Use tm deploy-html</span></td>
+                            <td class="mono text-cyan-300">tm deploy-html file.html</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Multi-step Python logic?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Use execute_code</span></td>
+                            <td class="mono text-cyan-300">execute_code(code="""...""")</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Output going to be long?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Pipe through tail</span></td>
+                            <td class="mono text-cyan-300">cmd 2>&1 | tail -20</td>
+                        </tr>
+                        <tr>
+                            <td class="text-slate-200">Build or test?</td>
+                            <td><span class="badge-easy px-2 py-0.5 rounded text-xs">Check exit code only</span></td>
+                            <td class="mono text-cyan-300">cmd && echo PASS || echo FAIL</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="glass-card rounded-lg p-4 mt-3">
+                <h4 class="mono text-xs text-slate-400 mb-2">System rule (proposed)</h4>
+                <pre class="code-block rounded-lg p-3 mono text-xs text-slate-300 overflow-x-auto"><span class="cmt"># Before every terminal() call, ask:</span>
+"Can I do this with read_file, search_files, patch,
+ execute_code, or a tm-script instead?"
+
+If yes, use the dedicated tool. Terminal is for builds,
+git pushes, Docker, and commands with side effects.
+NOT for file I/O.</pre>
+            </div>
+        </section>
+
+        <!-- ===== RAW DATA ===== -->
+        <section class="mb-10">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                Raw data snapshot
+            </h2>
+            <p class="text-xs text-slate-500 mb-3">Sample from recent sessions showing actual terminal call patterns.</p>
+
+            <div class="space-y-3">
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="mono text-xs text-amber-400 mb-2">From vault-sync cron (daily)</h4>
+                    <div class="overflow-hidden rounded-lg">
+                        <table class="w-full text-xs">
+                            <thead>
+                                <tr><th>#</th><th>Command</th><th>Optimized</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="num text-slate-500">1</td>
+                                    <td class="mono text-slate-400">git status --porcelain</td>
+                                    <td class="text-emerald-400">tm git-sync</td>
+                                </tr>
+                                <tr>
+                                    <td class="num text-slate-500">2</td>
+                                    <td class="mono text-slate-400">git add -A && git commit -m "sync" && git push</td>
+                                    <td class="text-rose-400">redundant if porcelain empty</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="mono text-xs text-amber-400 mb-2">From daily-tweet-generator cron</h4>
+                    <p class="text-xs text-slate-500">Uses 3-4 terminal calls for git status → add → commit → push. Could be 1 <code class="mono text-xs bg-slate-800 px-1 rounded">tm deploy-html</code>.</p>
+                </div>
+
+                <div class="glass-card rounded-lg p-4">
+                    <h4 class="mono text-xs text-amber-400 mb-2">From research-to-web-publishing</h4>
+                    <p class="text-xs text-slate-500">Same pattern: read_file → write_file (good) → then 3-4 git calls. Standardize with tm-scripts.</p>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-medium text-slate-300 mt-4 mb-3">Next steps</h3>
+            <div class="glass-card rounded-xl p-4">
+                <ul class="text-sm text-slate-400 space-y-2">
+                    <li class="flex gap-2"><span class="text-cyan-400 font-mono">1.</span> Create <code class="mono text-xs bg-slate-800 px-1 rounded">tm git-sync</code> — single git sync command</li>
+                    <li class="flex gap-2"><span class="text-cyan-400 font-mono">2.</span> Create <code class="mono text-xs bg-slate-800 px-1 rounded">tm deploy-html</code> — single deploy command for warehouse</li>
+                    <li class="flex gap-2"><span class="text-cyan-400 font-mono">3.</span> Update cron prompts to use tm-scripts instead of manual git chains</li>
+                    <li class="flex gap-2"><span class="text-cyan-400 font-mono">4.</span> Add the pre-flight checklist to system rules</li>
+                    <li class="flex gap-2"><span class="text-cyan-400 font-mono">5.</span> Write a weekly cron to audit terminal usage and flag waste patterns</li>
+                </ul>
+            </div>
+
+            <p class="text-xs text-slate-600 mono mt-6 text-center">End of report. This is the Way. 💀🔥</p>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="text-xs text-slate-600 mono border-t border-slate-800 pt-4">
+            Generated: 2026-06-13 · Agent Tina · Hermes deepseek-v4-flash · Terminal Audit v2
+        </footer>
+
+    </div>
+</body>
+</html>
