@@ -374,6 +374,32 @@
 
             <hr class="divider">
 
+            <h2>Update: Can We Fix the 4B?</h2>
+            <p>After publishing, we discovered the 4B's chat template supports <code>enable_thinking=False</code> via the <code>--chat-template-config</code> flag. We retested with thinking disabled and a 4096 token cap to see if it changes anything.</p>
+
+            <table>
+                <tr><th>Task</th><th>4B (original)</th><th>4B (no-think)</th><th>3B (winner)</th></tr>
+                <tr><td><strong>Python codegen</strong></td><td>38.4s, 3,666 chars</td><td>23.1s, 1,762 chars</td><td>9.2s, 1,309 chars</td></tr>
+                <tr><td><strong>HTML pricing</strong></td><td>45.7s, 3,287 chars</td><td>92.0s, 7,666 chars</td><td>17.5s, 2,537 chars</td></tr>
+                <tr><td><strong>Summarization</strong></td><td>27.7s, 2,061 chars</td><td>8.4s, 461 chars</td><td>4.2s, 286 chars</td></tr>
+                <tr><td><strong>Peak RAM</strong></td><td>3.5 GB</td><td>3.4 GB</td><td>1.9 GB</td></tr>
+                <tr><td><strong>Gen speed</strong></td><td>24.2 tok/s</td><td>~25 tok/s</td><td>45.9 tok/s</td></tr>
+            </table>
+
+            <p>Disabling thinking fixed the verbose output problem on summarization (8.4s vs 27.7s) and codegen (23.1s vs 38.4s). But the HTML task got <em>worse</em>  -  the model decided to write a full tutorial <em>with</em> the code, ballooning to 7,666 chars and taking 92 seconds. Even with thinking off, this model defaults to verbose, explanatory output on creative tasks.</p>
+
+            <p>The 3B still wins every category. The speed gap (2-5x) and RAM gap (1.9GB vs 3.4GB) are architectural - you can't prompt your way around physics.</p>
+
+            <p>The flag itself is useful to know. If you ever need to run a Qwen3.5 model through <code>mlx_lm generate</code>:</p>
+
+            <pre><code>mlx_lm generate --model mlx-community/Qwen3.5-4B-OptiQ-4bit \
+  --prompt "your prompt here" \
+  --chat-template-config '{"enable_thinking": false}'</code></pre>
+
+            <p>It works. It just doesn't make the 4B competitive with the 3B.</p>
+
+            <hr class="divider">
+
             <h2>Methodology Notes</h2>
             <p>All benchmarks were run on the same Mac Mini M2 (16GB) at idle (no Docker, no Xcode, no heavy browser). Each model was loaded fresh per task via <code>mlx_lm generate</code> subprocess. RAM was measured via <code>psutil</code> before and after each call. Generation speed excludes prompt processing time. Full benchmark code and raw output are available in the <a href="https://github.com/vadapayasam/warehouse">warehouse repo</a>.</p>
             <p class="meta">Models tested: Qwen2.5-Coder-3B-Instruct-4bit (mlx-community), Qwen3.5-4B-OptiQ-4bit (mlx-community), Qwen3.5-9B-OptiQ-4bit (mlx-community). All models quantized to 4-bit. Default MCP model remains 3B.</p>
