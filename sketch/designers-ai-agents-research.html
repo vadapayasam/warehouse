@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designers + AI Agents: What's Proven, What's Possible (June 2026)</title>
+  <style>
+    :root {
+      --ink: #1d1d1f;
+      --ink-muted: #6e6e73;
+      --ink-faint: #b0b0b0;
+      --bg: #f5f5f7;
+      --bg-card: #ffffff;
+      --accent: #0071e3;
+      --accent-bright: #2997ff;
+      --rule: #d2d2d7;
+      --tag-bg: #e8e8ed;
+      --black-canvas: #000000;
+      --sans: SF Pro Text, -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+      --display: SF Pro Display, -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+      --mono: SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.47;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      padding: 100px 0 60px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: var(--display);
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.144px;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+    .hero .subtitle {
+      font-size: 19px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--ink-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .hero .meta {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--ink-faint);
+      font-family: var(--sans);
+    }
+
+    /* ─── Section ─── */
+    .section {
+      margin-bottom: 64px;
+    }
+    .section h2 {
+      font-family: var(--display);
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.13;
+      letter-spacing: 0.128px;
+      margin-bottom: 24px;
+    }
+    .section h3 {
+      font-family: var(--display);
+      font-size: 21px;
+      font-weight: 600;
+      line-height: 1.24;
+      margin-bottom: 8px;
+    }
+    .section p,
+    .section li {
+      font-size: 17px;
+      line-height: 1.47;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+
+    /* ─── Card Grid ─── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .role-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--rule);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .role-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .role-card .emoji {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .role-card h3 {
+      font-family: var(--display);
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .role-card p {
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--ink-muted);
+      margin: 0;
+    }
+
+    /* ─── Use Cases ─── */
+    .usecase-list {
+      list-style: none;
+      padding: 0;
+    }
+    .usecase-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .usecase-list li:last-child {
+      border-bottom: none;
+    }
+    .usecase-list .check {
+      color: var(--accent);
+      font-weight: 600;
+      flex-shrink: 0;
+      font-size: 17px;
+    }
+
+    /* ─── What Designers Want ─── */
+    .want-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .want-item {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--rule);
+    }
+    .want-item .icon {
+      font-size: 20px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .want-item p {
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--ink-muted);
+      margin: 0;
+    }
+
+    /* ─── Black Section ─── */
+    .black-section {
+      background: var(--black-canvas);
+      color: #f5f5f7;
+      padding: 80px 0;
+      margin: 0;
+    }
+    .black-section .container {
+      max-width: 700px;
+    }
+    .black-section h2 {
+      color: #ffffff;
+      font-family: var(--display);
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1.21;
+      letter-spacing: 0.152px;
+      margin-bottom: 20px;
+    }
+    .black-section p {
+      font-size: 17px;
+      line-height: 1.5;
+      color: #86868b;
+    }
+    .black-section .pull-quote {
+      font-family: var(--display);
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: #ffffff;
+      padding: 24px 0;
+      border-top: 1px solid #424245;
+      margin-top: 24px;
+    }
+    .black-section .pull-quote em {
+      font-style: italic;
+      color: #86868b;
+    }
+
+    /* ─── Source Tag ─── */
+    .source-tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--ink-muted);
+      font-size: 12px;
+      font-family: var(--mono);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      padding: 32px 0 48px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-faint);
+    }
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 32px; }
+      .hero { padding: 64px 0 40px; }
+      .section h2 { font-size: 26px; }
+      .role-grid { grid-template-columns: 1fr; }
+      .want-grid { grid-template-columns: 1fr; }
+      .container { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="hero">
+      <h1>Designers + AI Agents</h1>
+      <p class="subtitle">What professional designers are actually doing with AI agents today, backed by research and real product launches.</p>
+      <p class="meta">June 2026 &nbsp;·&nbsp; Sources: Figma Blog, arXiv 2509.20731</p>
+    </div>
+
+    <div class="section">
+      <p>Two big things happened in 2025-2026. Figma shipped a native AI agent into the canvas. And researchers ran a design fiction study with 10 professional designers to imagine what agentic AI should actually do for them. The results line up.</p>
+      <p>Here's the breakdown of what's proven, what designers want, and what comes next.</p>
+    </div>
+  </div>
+
+  <div class="section container">
+    <h2>The 5 AI Agent Roles</h2>
+    <p>From <a href="https://arxiv.org/html/2509.20731v1" style="color:var(--accent);text-decoration:none;">Imagining Design Workflows in Agentic AI Futures</a> (arXiv 2509.20731, 2025). A study with 10 professional designers identified five distinct roles designers want AI agents to play:</p>
+
+    <div class="role-grid">
+      <div class="role-card">
+        <span class="emoji">📋</span>
+        <h3>Work Coordinator</h3>
+        <p>Plans, summarises meetings, creates task lists, keeps the team focused on priorities.</p>
+      </div>
+      <div class="role-card">
+        <span class="emoji">🗂️</span>
+        <h3>Resource Steward</h3>
+        <p>Automates organising, renaming, tagging, and surfacing assets. Can purposefully misplace things to keep you alert.</p>
+      </div>
+      <div class="role-card">
+        <span class="emoji">🛡️</span>
+        <h3>Guardian</h3>
+        <p>Maintains context awareness, tracks browsing history, auto-saves, version control, stays within permissions.</p>
+      </div>
+      <div class="role-card">
+        <span class="emoji">🔄</span>
+        <h3>Reframer</h3>
+        <p>Suggests counter examples, alternative viewpoints, reminds of missed ideas, nudges exploration.</p>
+      </div>
+      <div class="role-card">
+        <span class="emoji">💡</span>
+        <h3>Creative Catalyst</h3>
+        <p>Generates novel ideas as jumping-off points, identifies patterns across team ideas, offers dynamic fidelity modes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section container">
+    <h2>Proven Use Cases</h2>
+    <p>Real products and real workflows. These are not hypotheticals: they exist today.</p>
+
+    <ul class="usecase-list">
+      <li><span class="check">✓</span> <strong>Auto-generate 3+ style variations</strong> from a single design: organic, modern, retro. Figma Agent does this natively.</li>
+      <li><span class="check">✓</span> <strong>Bulk component operations</strong>: rename variables, swap components across screens, apply design system updates to 200+ frames at once.</li>
+      <li><span class="check">✓</span> <strong>Design system documentation</strong>: automatically generate docs for components, states, variants with contextual examples.</li>
+      <li><span class="check">✓</span> <strong>Feedback summarization</strong>: sort long comment threads by theme, turn critique into an actionable revision plan.</li>
+      <li><span class="check">✓</span> <strong>Code-to-canvas handoffs</strong>: via MCP servers. Drop layers from Claude/GPT into Figma, iterate with the agent, send back.</li>
+      <li><span class="check">✓</span> <strong>Interactive prototyping from prompts</strong>: Figma Make turns a product brief into a testable prototype in minutes.</li>
+    </ul>
+  </div>
+
+  <div class="section container">
+    <h2>What Designers Want</h2>
+    <p>From the research study: direct quotes and patterns from 10 professional designers:</p>
+
+    <div class="want-grid">
+      <div class="want-item">
+        <span class="icon">🎯</span>
+        <strong>Knows my system</strong>
+        <p>AI that understands your components, tokens, and patterns. No generic output.</p>
+      </div>
+      <div class="want-item">
+        <span class="icon">✋</span>
+        <strong>Suggest, don't decide</strong>
+        <p>Non-destructive suggestions. The final call stays with the designer.</p>
+      </div>
+      <div class="want-item">
+        <span class="icon">🤝</span>
+        <strong>Collaborator, not replacement</strong>
+        <p>AI as a thinking partner: reframing ideas, not replacing the creative process.</p>
+      </div>
+      <div class="want-item">
+        <span class="icon">🔍</span>
+        <strong>Low-fi first</strong>
+        <p>"Lower fidelity allows people to feel more comfortable to critique" - P07 Julia</p>
+      </div>
+      <div class="want-item">
+        <span class="icon">⏱️</span>
+        <strong>Traceable history</strong>
+        <p>Version control you can navigate. "There's no way of tracing back to time points" - P05 Elton</p>
+      </div>
+      <div class="want-item">
+        <span class="icon">🚪</span>
+        <strong>Client vs internal separation</strong>
+        <p>A separate space for clients to comment without changing the design itself.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="black-section">
+    <div class="container">
+      <h2>The Pattern Is Clear</h2>
+      <p>AI agents are not replacing designers. They're taking over the work designers never wanted to do: renaming layers, generating variations, documenting components, maintaining consistency. The creative decisions stay with the human.</p>
+      <p>The designers who win with this technology will be the ones who use agents as amplifiers, not crutches. The agent explores. The designer decides.</p>
+      <div class="pull-quote">
+        "Rather than acting as a tool and a completely neutral party, it could come in with counter examples: offering alternative viewpoints on how you are going about the process."
+        <br><em>- P06 Frank, study participant</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section" style="padding-top:48px;">
+      <h2>Key Sources</h2>
+      <p>
+        <span class="source-tag">Figma Blog</span> <a href="https://www.figma.com/blog/the-figma-agent-is-here/" style="color:var(--accent);">The Figma Design Agent is Here</a> - May 2026<br>
+        <span class="source-tag">arXiv</span> <a href="https://arxiv.org/html/2509.20731v1" style="color:var(--accent);">Imagining Design Workflows in Agentic AI Futures</a> - Wadinambiarachchi et al., 2025<br>
+        <span class="source-tag">Figma</span> <a href="https://help.figma.com/hc/en-us/articles/37998629035799" style="color:var(--accent);">Work with the Figma agent in design files</a><br>
+        <span class="source-tag">CIO</span> <a href="https://www.cio.com/article/3608072/agentic-ai-design-an-architectural-case-study.html" style="color:var(--accent);">Agentic AI design: An architectural case study</a><br>
+        <span class="source-tag">ACM</span> DesignManager: Agent-Powered Copilot for Designers - SIGGRAPH 2025
+      </p>
+    </div>
+
+    <div class="footer">
+      Research compiled June 2026 &nbsp;·&nbsp; Published from <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a>
+    </div>
+  </div>
+
+</body>
+</html>
