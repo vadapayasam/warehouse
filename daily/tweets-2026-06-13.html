@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Tweets &#8211; June 13, 2026</title>
+<style>
+  :root {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F2F2F7;
+    --bg-tertiary: #E5E5EA;
+    --fg-primary: #000000;
+    --fg-secondary: rgba(60, 60, 67, 0.6);
+    --fg-tertiary: rgba(60, 60, 67, 0.3);
+    --accent: #007AFF;
+    --separator: #C6C6C8;
+    --success: #34C759;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--bg-secondary);
+    color: var(--fg-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 16px;
+  }
+  header {
+    margin-bottom: 32px;
+  }
+  h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 4px;
+  }
+  .date-bar {
+    font-size: 15px;
+    color: var(--fg-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .schedule {
+    background: var(--bg-primary);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .schedule-header {
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fg-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--separator);
+  }
+  .schedule-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+    padding: 12px 16px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--separator);
+  }
+  .schedule-row:last-child {
+    border-bottom: none;
+  }
+  .schedule-time {
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .schedule-slot {
+    color: var(--fg-primary);
+  }
+  .schedule-chars {
+    text-align: right;
+    font-size: 13px;
+    color: var(--fg-secondary);
+  }
+  .tweet-card {
+    background: var(--bg-primary);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .tweet-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+  .tweet-time {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .tweet-char {
+    color: var(--fg-secondary);
+  }
+  .tweet-char.over {
+    color: #FF3B30;
+    font-weight: 600;
+  }
+  .tweet-text {
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--separator);
+    border-radius: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .copy-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .copy-btn.copied {
+    background: var(--success);
+    color: white;
+    border-color: var(--success);
+  }
+  .copy-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .footer {
+    margin-top: 48px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--fg-tertiary);
+  }
+  .slot-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fg-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 480px) {
+    .container { padding: 32px 12px; }
+    .tweet-card { padding: 16px; }
+    .tweet-text { font-size: 16px; }
+    .schedule-header, .schedule-row {
+      grid-template-columns: 60px 1fr 60px;
+      font-size: 13px;
+      padding: 10px 12px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Daily Tweets</h1>
+    <div class="date-bar">
+      <span>Saturday, June 13, 2026</span>
+      <span>4 tweets &middot; all under 280</span>
+    </div>
+  </header>
+
+  <div class="schedule">
+    <div class="schedule-header">
+      <span>Time</span>
+      <span>Slot</span>
+      <span>Chars</span>
+    </div>
+    <div class="schedule-row">
+      <span class="schedule-time">9:00 AM</span>
+      <span class="schedule-slot">Builder moment</span>
+      <span class="schedule-chars">244</span>
+    </div>
+    <div class="schedule-row">
+      <span class="schedule-time">12:00 PM</span>
+      <span class="schedule-slot">Hot take / find</span>
+      <span class="schedule-chars">253</span>
+    </div>
+    <div class="schedule-row">
+      <span class="schedule-time">4:00 PM</span>
+      <span class="schedule-slot">Deep cut</span>
+      <span class="schedule-chars">260</span>
+    </div>
+    <div class="schedule-row">
+      <span class="schedule-time">7:00 PM</span>
+      <span class="schedule-slot">Wind-down</span>
+      <span class="schedule-chars">234</span>
+    </div>
+  </div>
+
+  <div class="tweet-card">
+    <div class="slot-label">Slot 1 &middot; Builder moment</div>
+    <div class="tweet-meta">
+      <span class="tweet-time">9:00 AM IST</span>
+      <span class="tweet-char">244 chars</span>
+    </div>
+    <div class="tweet-text" id="tweet-1">Shipped whatimpaying v1.3.2. Paywall rewrite with proper onboarding hooks, 6-item limit in quick-add. Fastest part: the code. Slowest: ASC rejecting build 10 because build 9 was still processing. Bumped to 12. Some things never change.</div>
+    <button class="copy-btn" onclick="copyTweet('tweet-1', this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="10" height="10" rx="1.5"/><path d="M12 3V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1"/></svg>
+      Copy tweet
+    </button>
+  </div>
+
+  <div class="tweet-card">
+    <div class="slot-label">Slot 2 &middot; Hot take / find</div>
+    <div class="tweet-meta">
+      <span class="tweet-time">12:00 PM IST</span>
+      <span class="tweet-char">253 chars</span>
+    </div>
+    <div class="tweet-text" id="tweet-2">That HN post about reducing AI frontend slop: the trick is constraining the model to a real design system. Qt, Apple HIG, Win11 – anything with strict tokens. 'Make it look good' is the worst prompt. Give it an exact reference instead.</div>
+    <button class="copy-btn" onclick="copyTweet('tweet-2', this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="10" height="10" rx="1.5"/><path d="M12 3V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1"/></svg>
+      Copy tweet
+    </button>
+  </div>
+
+  <div class="tweet-card">
+    <div class="slot-label">Slot 3 &middot; Deep cut</div>
+    <div class="tweet-meta">
+      <span class="tweet-time">4:00 PM IST</span>
+      <span class="tweet-char">260 chars</span>
+    </div>
+    <div class="tweet-text" id="tweet-3">addyosmani dropped agent-skills – production-grade engineering skills for AI coding agents. 56K stars and climbing. Each skill is a self-contained .md with triggers and workflows. Same pattern I use with Hermes. Validating to see this go mainstream.</div>
+    <button class="copy-btn" onclick="copyTweet('tweet-3', this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="10" height="10" rx="1.5"/><path d="M12 3V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1"/></svg>
+      Copy tweet
+    </button>
+  </div>
+
+  <div class="tweet-card">
+    <div class="slot-label">Slot 4 &middot; Wind-down</div>
+    <div class="tweet-meta">
+      <span class="tweet-time">7:00 PM IST</span>
+      <span class="tweet-char">234 chars</span>
+    </div>
+    <div class="tweet-text" id="tweet-4">The 'reverse centaur' debate is real. AI writes the PR, human just submits it. Open source maintainers spending hours filtering low-effort contributions. Not democratization – it's effort shifting. The reviewer always pays.</div>
+    <button class="copy-btn" onclick="copyTweet('tweet-4', this)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="10" height="10" rx="1.5"/><path d="M12 3V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1"/></svg>
+      Copy tweet
+    </button>
+  </div>
+
+  <div class="footer">
+    Generated by Agent Tina &middot; <a href="https://vadapayasam.github.io/warehouse/daily/" style="color: var(--accent); text-decoration: none;">All tweets</a>
+  </div>
+</div>
+<script>
+function copyTweet(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 4L6 12L3 8.5"/></svg> Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = orig;
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
