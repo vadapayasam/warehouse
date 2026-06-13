@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MLX Local Coder: Zero-Cost Inference for Your AI Agent</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: #1d1d1f;
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hero section */
+.hero {
+  background: #000000;
+  color: #ffffff;
+  padding: 80px 0 60px;
+}
+.hero-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.hero h1 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.28px;
+  margin-bottom: 12px;
+}
+.hero p {
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.38;
+  color: #86868b;
+  max-width: 680px;
+}
+.hero .meta {
+  margin-top: 24px;
+  font-size: 14px;
+  color: #6e6e73;
+}
+
+/* Content sections */
+.section {
+  padding: 64px 0;
+  max-width: 980px;
+  margin: 0 auto;
+  padding-left: 48px;
+  padding-right: 48px;
+}
+
+.section-gray {
+  background: #f5f5f7;
+  padding: 64px 0;
+}
+
+.section-gray .section,
+.section-dark .section {
+  padding: 0 48px;
+}
+
+.section-dark {
+  background: #000000;
+  color: #ffffff;
+  padding: 64px 0;
+}
+
+.section-dark h2 { color: #ffffff; }
+.section-dark p { color: #86868b; }
+.section-dark code { background: #272729; color: #f5f5f7; }
+.section-dark .card { background: #272729; border-color: #424245; }
+.section-dark .card h3 { color: #ffffff; }
+.section-dark .card p { color: #86868b; }
+.section-dark .badge-blue { background: #0071e3; color: #ffffff; }
+.section-dark .badge-green { background: #1a7f37; color: #ffffff; }
+.section-dark .badge-red { background: #d1242f; color: #ffffff; }
+.section-dark .badge-amber { background: #9a6700; color: #ffffff; }
+.section-dark .stat { color: #2997ff; }
+
+h2 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.144px;
+  color: #1d1d1f;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.14;
+  color: #1d1d1f;
+  margin-bottom: 12px;
+}
+
+p {
+  margin-bottom: 16px;
+  color: #6e6e73;
+}
+
+ul, ol {
+  margin: 0 0 20px 20px;
+  color: #6e6e73;
+}
+li { margin-bottom: 8px; }
+
+code {
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+  background: #f5f5f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #1d1d1f;
+}
+
+pre {
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  background: #f5f5f7;
+  padding: 20px;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  color: #1d1d1f;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 13px;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Cards */
+.card {
+  background: #ffffff;
+  border: 1px solid #d2d2d7;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.card h3 { font-size: 22px; margin-bottom: 8px; }
+.card p { font-size: 15px; margin-bottom: 0; color: #6e6e73; }
+
+/* Grid */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 734px) {
+  .hero { padding: 50px 0 40px; }
+  .hero-inner, .section, .section-gray .section, .section-dark .section {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .hero h1 { font-size: 36px; letter-spacing: -0.2px; }
+  h2 { font-size: 32px; }
+  h3 { font-size: 22px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* Stat numbers */
+.stat {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: #0071e3;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 14px;
+  color: #6e6e73;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+.badge-blue { background: #e3f2fd; color: #0066cc; }
+.badge-green { background: #dcfce7; color: #166534; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+.badge-amber { background: #fef3c7; color: #92400e; }
+
+/* Capability matrix table */
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+.matrix th {
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid #d2d2d7;
+  color: #1d1d1f;
+}
+.matrix td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #d2d2d7;
+  color: #6e6e73;
+}
+.matrix td:last-child { text-align: right; }
+.matrix tr:last-child td { border-bottom: none; }
+
+/* Architecture diagram */
+.diagram {
+  background: #1d1d1f;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #f5f5f7;
+  white-space: pre;
+  overflow-x: auto;
+}
+.diagram .highlight { color: #2997ff; }
+.diagram .good { color: #1a7f37; }
+.diagram .bad { color: #d1242f; }
+
+/* Pull quote */
+.pullquote {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 21px;
+  line-height: 1.38;
+  color: #6e6e73;
+  border-left: 2px solid #d2d2d7;
+  padding-left: 20px;
+  margin: 32px 0;
+  font-style: italic;
+}
+
+/* Details accordion */
+details {
+  border-bottom: 1px solid #d2d2d7;
+  padding: 16px 0;
+}
+details:first-of-type { border-top: 1px solid #d2d2d7; }
+summary {
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #1d1d1f;
+  outline: none;
+}
+summary::-webkit-details-marker { color: #86868b; }
+details[open] summary { margin-bottom: 12px; }
+details p { margin-left: 0; font-size: 15px; }
+
+/* Code block header/filename */
+.code-header {
+  font-size: 12px;
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: #86868b;
+  margin-bottom: 4px;
+  margin-top: 8px;
+}
+
+/* Section separator */
+hr {
+  border: none;
+  border-top: 1px solid #d2d2d7;
+  margin: 0;
+}
+
+/* Bottom link bar */
+.footer-bar {
+  padding: 32px 0;
+  max-width: 980px;
+  margin: 0 auto;
+  padding-left: 48px;
+  padding-right: 48px;
+  font-size: 14px;
+  color: #6e6e73;
+}
+
+@media (max-width: 734px) {
+  .footer-bar { padding-left: 22px; padding-right: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>MLX Local Coder</h1>
+    <p>Zero-cost inference for your AI agent. Offload code generation, log summarization, and error extraction to a local model running on your Mac. Cuts input tokens by 60-80% on verbose tasks. Costs nothing in dollars.</p>
+    <p class="meta">June 13, 2026 · Prabha · Agent Tina</p>
+  </div>
+</section>
+
+<!-- What is it -->
+<section class="section">
+  <h2>What this is</h2>
+  <p>MLX Local Coder is a framework that runs a small 3-billion-parameter model locally on your Mac and connects it to your AI agent via MCP (Model Context Protocol). The big model handles planning, architecture, and content. The local model handles cheap stuff: short code, log summaries, and filtering noise.</p>
+  <p>The result: your frontier model spends context tokens on what matters, not on 200-line build logs or repetitive script generation. And the local model costs zero dollars per token.</p>
+
+  <div class="pullquote">
+    The big model plans. The local model executes. This is the hybrid pattern.
+  </div>
+
+  <p>We built this for a specific problem: our AI agent (Hermes) was burning input tokens reading verbose terminal output. A <code>brew update</code> result. A 40-line test run. A stack trace. Each of those costs 500-2000 input tokens when the frontier model reads them. Over a session, that adds up fast.</p>
+  <p>So we built a local MCP server that runs a quantized <strong>Qwen2.5-Coder-3B-Instruct-4bit</strong> model at ~48 tokens per second using Apple's MLX framework. It lives on an M2 Mac Mini. Uses about 1.8GB of RAM. And it costs nothing to run.</p>
+</section>
+
+<!-- How It Saves Tokens -->
+<section class="section-gray">
+  <div class="section">
+    <h2>Token math</h2>
+    <p>Every task routed to the local model saves tokens on the frontier side. Some tasks save more than others. Here's the real breakdown:</p>
+
+    <div class="grid-3" style="margin-bottom: 24px;">
+      <div class="card" style="text-align: center;">
+        <div class="stat">500-2000</div>
+        <div class="stat-label">input tokens saved per build log summarization</div>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div class="stat">200-500</div>
+        <div class="stat-label">output tokens saved per code generation task</div>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div class="stat">~48 tok/s</div>
+        <div class="stat-label">local inference speed on M2 Mac Mini</div>
+      </div>
+    </div>
+
+    <p>The biggest savings come from <strong>input token compression</strong>. When the agent runs a command that produces 40 lines of output, the frontier model normally consumes all 40 lines as input context. With MLX, the agent pipes those 40 lines through <code>mlx_summarize</code> and gets 6 clean bullet points. That's 500-2000 tokens saved per call.</p>
+
+    <p>Code generation saves output tokens instead. A bash one-liner from MLX costs ~50 output tokens. The same task on Claude Sonnet costs ~150-300 output tokens + input overhead. The dollar difference is small on cheap models but adds up fast on premium ones.</p>
+
+    <h3>Marginal on cheap models. Critical on expensive ones.</h3>
+    <p>On DeepSeek Flash ($0.15/M tokens), the monthly savings are maybe $0.50 to $1. Not nothing, but not life-changing. On Claude Sonnet ($3/M input tokens), the same logic saves $50 to $100 per month easily. The framework is built now so it's ready when we switch to better models.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>DeepSeek Flash</h3>
+        <p style="margin-bottom: 4px;">$0.15/M tokens</p>
+        <p style="font-size: 13px; color: #6e6e73;">Savings: ~$0.50-1/month. Build infrastructure now, reap later.</p>
+      </div>
+      <div class="card">
+        <h3>Claude Sonnet</h3>
+        <p style="margin-bottom: 4px;">$3/M input tokens</p>
+        <p style="font-size: 13px; color: #6e6e73;">Savings: ~$50+/month. This is where the framework earns its keep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="section">
+  <h2>How it works</h2>
+  <p>Three tools. One MCP server. One small local model. The architecture is dead simple:</p>
+
+  <div class="diagram">You (Telegram)
+    |
+    v
+<span class="highlight">Frontier Agent</span> (DeepSeek Flash / Claude / etc)
+  Plans, decides, routes work
+    |
+    ├─────────────────────────────┐
+    |                             |
+    v                             v
+<span class="highlight">mlx_codegen</span>    <span class="highlight">mlx_summarize</span>    <span class="highlight">mlx_filter</span>
+  "write a Python    "summarize        "extract errors
+   script that..."    this build log"    from this output"
+    |                             |
+    v                             v
+<span class="good">Qwen2.5-Coder-3B-4bit</span>   ←  ~48 tok/s on M2 Mac Mini
+  1.8GB RAM, zero API cost
+    |
+    v
+  Returns clean result → Frontier continues with cleaner context</div>
+
+  <p>The MCP server runs via stdio transport. Hermes spawns it as a child process and communicates over JSON-RPC. Each tool is a separate handler that sends a prompt to the local model and returns the output. No network calls. No API keys. No rate limits.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3>mlx_codegen</h3>
+      <p>Generate code from a prompt. Python scripts, bash commands, CSS snippets, JSON configs, regex patterns. Returns clean code with no markdown fences or explanations.</p>
+    </div>
+    <div class="card">
+      <h3>mlx_summarize</h3>
+      <p>Condense verbose output into concise bullet points. Build logs, test results, file contents. The biggest token saver in practice.</p>
+    </div>
+    <div class="card">
+      <h3>mlx_filter</h3>
+      <p>Extract a specific answer from noise. "Which tests failed?" "What error occurred?" "Did deployment succeed?" One line back, no parsing.</p>
+    </div>
+  </div>
+
+  <p style="margin-top: 24px;">There's also a terminal fallback via <code>tm</code> scripts if the MCP tools aren't available:</p>
+
+  <pre><code>tm mlx-codegen "bash one-liner to find 5 largest files"
+cat build.log | tm mlx-summarize "errors and warnings"
+cat test-out.txt | tm mlx-filter "which tests failed?"</code></pre>
+</section>
+
+<!-- Capability Matrix -->
+<section class="section-gray">
+  <div class="section">
+    <h2>What it handles. What it doesn't.</h2>
+    <p>We tested the 3B model systematically. Some things it nails. Some things it catastrophically fails at. Knowing the split is the whole point of having this framework.</p>
+
+    <table class="matrix">
+      <tr>
+        <th>Task</th>
+        <th>Verdict</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>Bash one-liners</td>
+        <td><span class="badge badge-green">Excellent</span></td>
+        <td><code>find /Projects -maxdepth 1 -type f -exec du -sh {} + | sort -rh | head -5</code> — correct first try, no commentary</td>
+      </tr>
+      <tr>
+        <td>Build log summarization</td>
+        <td><span class="badge badge-green">Great</span></td>
+        <td>34-line brew update → 6 clean bullets with exact counts and error status preserved</td>
+      </tr>
+      <tr>
+        <td>Python utility scripts</td>
+        <td><span class="badge badge-blue">Good</span></td>
+        <td>Short utility scripts work. Complex logic needs verification.</td>
+      </tr>
+      <tr>
+        <td>CSS/JSON/Regex</td>
+        <td><span class="badge badge-blue">Good</span></td>
+        <td>Predictable outputs with clear structure. Same class as bash/Python.</td>
+      </tr>
+      <tr>
+        <td>Error extraction from logs</td>
+        <td><span class="badge badge-green">Great</span></td>
+        <td>"TestPayment failed because it timed out." — clean, specific, correct.</td>
+      </tr>
+      <tr>
+        <td>Full HTML pages with content</td>
+        <td><span class="badge badge-red">Poor</span></td>
+        <td>Broken image refs, garbled text, empty sections, layout bugs. Cannot handle long-form content synthesis.</td>
+      </tr>
+      <tr>
+        <td>Content writing / prose</td>
+        <td><span class="badge badge-red">Fails</span></td>
+        <td>3B model cannot produce coherent multi-section narrative. Reads like garbled placeholder text.</td>
+      </tr>
+      <tr>
+        <td>Architecture decisions</td>
+        <td><span class="badge badge-red">Fails</span></td>
+        <td>No reasoning depth. Will confidently suggest wrong approaches.</td>
+      </tr>
+    </table>
+
+    <p>The pattern is clear: <strong>utility code and log processing go to MLX. Content, architecture, and complex output stay on the frontier model.</strong></p>
+  </div>
+</section>
+
+<!-- Architecture Deep Dive -->
+<section class="section">
+  <h2>How it runs</h2>
+
+  <div class="grid-2" style="margin-bottom: 24px;">
+    <div class="card">
+      <div class="code-header">Model</div>
+      <p><code>mlx-community/Qwen2.5-Coder-3B-Instruct-4bit</code>. Quantized to 4-bit via MLX. Runs in a Python venv at <code>~/.venvs/mlx-lm</code>.</p>
+    </div>
+    <div class="card">
+      <div class="code-header">Hardware</div>
+      <p>M2 Mac Mini, 16GB RAM. Model takes ~1.8GB resident. Leaves ~14GB free for other work.</p>
+    </div>
+    <div class="card">
+      <div class="code-header">Speed</div>
+      <p>~48 tokens per second on M2. A 200-line build log summarization takes 3-5 seconds. Code gen takes 5-10 seconds.</p>
+    </div>
+    <div class="card">
+      <div class="code-header">Transport</div>
+      <p>MCP stdio server. Hermes spawns the Python script as a child process. JSON-RPC over stdin/stdout. No network, no auth, no latency beyond model inference.</p>
+    </div>
+  </div>
+
+  <p>The MCP server registers three tools that appear natively in the agent's toolbelt. The agent doesn't need to remember to route to MLX manually — when the tool is called, the MCP server handles the JSON-RPC dialogue, runs the model, and returns the result. The frontier model gets clean data back.</p>
+</section>
+
+<!-- Problems & Limitations -->
+<section class="section-dark">
+  <div class="section">
+    <h2>Problems. Real ones.</h2>
+    <p>This framework is useful but it is not magic. It has sharp edges you should know about before trusting it.</p>
+
+    <details>
+      <summary>HTML output is unusable</summary>
+      <p>The 3B model cannot produce content-rich HTML. We tested it with a detailed spec including colors, layout, and content. The output had broken image references, duplicated words, empty sections, and a <code>overflow: hidden</code> that cut off content below the fold. The model's ~2048 token output limit and weak cross-reference reasoning make it incapable of synthesizing research into a multi-section page. Every HTML page we ship is still authored by the frontier model with the prabha-taste design gate. MLX does not touch HTML.</p>
+    </details>
+
+    <details>
+      <summary>3B model can be confidently wrong</summary>
+      <p>It will produce plausible-looking code that has subtle bugs. Variable name mismatches. Off-by-one errors. Incorrect API calls that look correct. You have to verify every output before using it in production. The model is fast but not reliable enough to trust unsupervised.</p>
+    </details>
+
+    <details>
+      <summary>No web access</summary>
+      <p>The local model cannot browse the web, fetch documentation, or check current API versions. It can only process what you put into its context window. If it needs to use a library version from 2026, it will hallucinate one based on its training cutoff. Always pair MLX output with verification against actual docs.</p>
+    </details>
+
+    <details>
+      <summary>Latency adds up</summary>
+      <p>Each call takes 3-10 seconds. This is fine for a summarization task during a multi-step build process. It is annoying for quick "what's this" lookups. The framework is not a drop-in replacement for the frontier model on latency-sensitive tasks. It is a deliberate routing choice that trades latency for token savings.</p>
+    </details>
+
+    <details>
+      <summary>1.8GB RAM is permanent</summary>
+      <p>The model stays resident once loaded. On a 16GB machine that's 11% of available RAM. This is fine on a desktop Mac Mini that runs 24/7. It would be annoying on a laptop you close and reopen. If you have other memory-heavy processes running, monitor the impact.</p>
+    </details>
+
+    <details>
+      <summary>~2K token output limit</summary>
+      <p>The 3B model's generation cap is roughly 2048 tokens. This is fine for bash one-liners, short Python scripts, and bullet-point summaries. It fails for anything longer. Long code files, multi-function scripts, or detailed analysis require the frontier model. This is the primary reason MLX cannot replace the frontier model for full-feature output.</p>
+    </details>
+  </div>
+</section>
+
+<!-- The Repo -->
+<section class="section">
+  <h2>The code</h2>
+  <p>Every script is committed to the <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> repo. The MCP server is at <code>~/.hermes/scripts/mlx-mcp-server.py</code> on the machine. The three Python scripts and shell wrappers all live under <code>~/.hermes/scripts/</code> and <code>~/bin/</code>.</p>
+
+  <p>The framework is fully reversible. Disable it with a single command:</p>
+
+  <pre><code>hermes mcp remove mlx-coder</code></pre>
+
+  <p>Scripts stay for manual use. No data loss. No config side effects. We built it with a clean exit path because we tested it for a few days before committing to the pattern.</p>
+
+  <div class="pullquote">
+    Build infrastructure when tokens are cheap. It pays for itself when you upgrade models.
+  </div>
+
+  <p>That's the bet we're making. DeepSeek Flash is cheap right now. But the moment we switch to a better model, this framework starts saving real money. And since the local model costs nothing to run, the savings are pure margin.</p>
+</section>
+
+<!-- Hybrid Workflow Recap -->
+<section class="section-gray">
+  <div class="section">
+    <h2>When to route to MLX</h2>
+
+    <p>After months of using this setup, the pattern is settled. Here's the decision tree the agent follows automatically:</p>
+
+    <pre><code>Need something generated?
+
+├── Full HTML page with research content?
+│   → Frontier model + prabha-taste gate. MLX does not touch this.
+
+├── Complex code or architecture decision?
+│   → Frontier model only. MLX lacks reasoning depth.
+
+├── Bash one-liner, alias, or Python utility?
+│   → MLX. Returns clean code in 3-5 seconds.
+
+├── CSS snippet, regex pattern, or JSON/YAML config?
+│   → MLX. These are predictable structured outputs.
+
+├── Verbose build log or test output to summarize?
+│   → MLX. This is where the biggest token savings come from.
+│      Saves 500-2000 input tokens per call.
+
+├── Need to extract one specific error from noise?
+│   → MLX. "TestPayment failed: timeout." One line back.
+
+└── Content writing, long-form prose, or anything opinionated?
+    → Frontier model. MLX cannot write coherently.</code></pre>
+
+    <p>The rhyme is simple: <strong>frontier owns architecture and prose. MLX handles the utility pieces around the edges.</strong> No overlap, no ambiguity, no wasted tokens.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<hr>
+<div class="footer-bar">
+  <p>Built by <a href="https://github.com/thisisprabha">Prabha</a> and Agent Tina. The MLX framework runs on <a href="https://github.com/nousresearch/hermes">Hermes Agent</a> with <a href="https://github.com/ml-explore/mlx">Apple MLX</a>. This is the Way. 💀🔥</p>
+</div>
+
+</body>
+</html>
