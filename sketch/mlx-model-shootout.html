@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>3B Never Needed Backup - Our MLX Model Shootout</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: #ffffff;
+            color: #1d1d1f;
+            line-height: 1.47;
+            letter-spacing: -0.374px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .header {
+            padding: 64px 0 32px;
+        }
+        .header .meta {
+            font-size: 14px;
+            color: #6e6e73;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+        .header h1 {
+            font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: #1d1d1f;
+            margin-bottom: 16px;
+        }
+        .header .subhead {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: #6e6e73;
+        }
+
+        /* Body */
+        .content {
+            padding-bottom: 80px;
+        }
+        .content h2 {
+            font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1.14;
+            letter-spacing: 0.196px;
+            color: #1d1d1f;
+            margin-top: 48px;
+            margin-bottom: 16px;
+        }
+        .content h3 {
+            font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.17;
+            letter-spacing: 0.216px;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+        }
+        .content p {
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            color: #1d1d1f;
+        }
+        .content p.meta {
+            font-size: 14px;
+            color: #6e6e73;
+        }
+
+        .content a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        .content ul, .content ol {
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            padding-left: 24px;
+            color: #1d1d1f;
+        }
+        .content li {
+            margin-bottom: 6px;
+        }
+        .content li strong {
+            font-weight: 600;
+        }
+
+        /* Code blocks */
+        .content pre {
+            background: #f5f5f7;
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: "SF Mono", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.55;
+            color: #1d1d1f;
+            tab-size: 4;
+            -webkit-overflow-scrolling: touch;
+        }
+        .content code {
+            font-family: "SF Mono", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9em;
+            background: #f5f5f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #1d1d1f;
+        }
+        .content pre code {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        /* Tables */
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .content table th {
+            text-align: left;
+            font-weight: 600;
+            padding: 10px 12px;
+            border-bottom: 1px solid #d2d2d7;
+            color: #1d1d1f;
+            background: #f5f5f7;
+        }
+        .content table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+        .content table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+        .content table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e8e8ed;
+            color: #1d1d1f;
+        }
+        .content table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Blockquote */
+        .content blockquote {
+            border-left: 3px solid #d2d2d7;
+            padding: 12px 20px;
+            margin: 20px 0;
+            color: #6e6e73;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .content blockquote p { margin-bottom: 0; }
+
+        /* Callout */
+        .callout {
+            background: #f5f5f7;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .callout p {
+            font-size: 15px;
+            margin-bottom: 0;
+        }
+        .callout p strong {
+            font-weight: 600;
+        }
+
+        /* Result card */
+        .winner {
+            background: #ffffff;
+            border: 1px solid #d2d2d7;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+        .winner h4 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        .winner p {
+            font-size: 15px;
+            margin-bottom: 0;
+            color: #6e6e73;
+        }
+
+        /* Separator */
+        .divider {
+            border: none;
+            border-top: 1px solid #e8e8ed;
+            margin: 40px 0;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 24px 0 48px;
+            border-top: 1px solid #e8e8ed;
+            margin-top: 48px;
+        }
+        .footer p {
+            font-size: 13px;
+            color: #6e6e73;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            font-family: "SF Mono", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 100px;
+            background: #e8e8ed;
+            color: #6e6e73;
+        }
+        .badge.green { background: #e3f2e8; color: #1a7f37; }
+        .badge.blue { background: #e8eff7; color: #0066cc; }
+        .badge.red { background: #fce8e8; color: #c41e3a; }
+        .badge.gray { background: #f5f5f7; color: #6e6e73; }
+
+        @media (max-width: 600px) {
+            .article { padding: 0 16px; }
+            .header { padding: 40px 0 24px; }
+            .header h1 { font-size: 32px; }
+            .header .subhead { font-size: 17px; }
+            .content h2 { font-size: 24px; }
+            .content pre { padding: 14px; font-size: 12px; }
+            .content table { font-size: 13px; }
+            .content table th, .content table td { padding: 8px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article">
+        <div class="header">
+            <p class="meta">June 13, 2026 &middot; Chennai, India</p>
+            <h1>3B Never Needed Backup</h1>
+            <p class="subhead">We pitted Qwen2.5-Coder-3B against Qwen3.5-4B and Qwen3.5-9B in a three-round MLX benchmark on a Mac Mini M2. The smallest model won every round.</p>
+        </div>
+
+        <div class="content">
+            <h2>Why We Did This</h2>
+            <p>We run local LLMs via MLX on a Mac Mini M2 with 16GB RAM. The setup is deliberately lean: load a model, generate output, unload to 0MB. No persistent server, no GPU allocation fighting with other apps, no idle VRAM tax. Every model must <em>earn</em> its place in the rotation.</p>
+            <p>For months, Qwen2.5-Coder-3B-Instruct-4bit has been our daily driver. It handles code generation, HTML prototyping, and text filtering without drama. Then Qwen3.5 dropped with 4B and 9B variants. Newer must be better, right?</p>
+            <p>We tested that assumption.</p>
+
+            <h2>The Setup</h2>
+            <div class="callout">
+                <p><strong>Hardware:</strong> Mac Mini M2, 16GB unified memory<br>
+                <strong>Software:</strong> MLX (mlx_lm generate), on-demand subprocess pattern<br>
+                <strong>Models:</strong> Qwen2.5-Coder-3B-Instruct-4bit, Qwen3.5-4B-OptiQ-4bit, Qwen3.5-9B-OptiQ-4bit<br>
+                <strong>Constraints:</strong> <code>--max-kv-size 2000</code>, <code>--max-tokens 1024</code>, <code>--temp 0.0</code><br>
+                <strong>Method:</strong> Each model runs three tasks. RAM measured before and after. No model stays loaded between runs.</p>
+            </div>
+
+            <h2>Round 1: Python Codegen</h2>
+            <p>Prompt: <em>"Write a Python function that takes a list of file paths and returns a dictionary mapping file extensions to their counts. Handle hidden files and files without extensions."</em></p>
+
+            <div class="winner">
+                <h4><span class="badge green">WINNER</span> 3B  -  9.2s, 1.9GB RAM</h4>
+                <p>Clean function. Correct edge case handling. Example usage included. Delivered in under 10 seconds.</p>
+            </div>
+
+            <table>
+                <tr><th>Model</th><th>Time</th><th>RAM</th><th>Output</th><th>Toks/sec</th></tr>
+                <tr><td><strong>3B</strong> <span class="badge green">winner</span></td><td>9.2s</td><td>1.9 GB</td><td>1,309 chars</td><td>45.9</td></tr>
+                <tr><td>4B <span class="badge gray">noisy</span></td><td>38.4s</td><td>3.5 GB</td><td>3,666 chars</td><td>24.2</td></tr>
+                <tr><td>9B <span class="badge red">slow</span></td><td>44.0s</td><td>7.4 GB</td><td>truncated</td><td>12.8</td></tr>
+            </table>
+
+            <p>The 3B output was concise and correct. The 4B produced a thorough docstring and better <code>rsplit('.')</code> logic, but wrapped it in a <code>&lt;think&gt;</code> block that consumed 40% of its token budget on internal reasoning. The 9B was slower and still truncated.</p>
+
+            <h2>Round 2: HTML Pricing Component</h2>
+            <p>Prompt: <em>"Create a pricing tier HTML component with three tiers (Basic, Popular, Premium). Highlight the Popular tier."</em></p>
+
+            <div class="winner">
+                <h4><span class="badge green">WINNER</span> 3B  -  17.5s, 1.9GB RAM</h4>
+                <p>Complete, functional, and fast. The layout was basic (flex-wrap cards) but it shipped.</p>
+            </div>
+
+            <table>
+                <tr><th>Model</th><th>Time</th><th>RAM</th><th>Output</th><th>Toks/sec</th></tr>
+                <tr><td><strong>3B</strong> <span class="badge green">winner</span></td><td>17.5s</td><td>1.9 GB</td><td>2,537 chars</td><td>45.4</td></tr>
+                <tr><td>4B <span class="badge blue">prettier but broken</span></td><td>45.7s</td><td>3.6 GB</td><td>3,287 chars</td><td>24.2</td></tr>
+                <tr><td>9B <span class="badge red">slowest</span></td><td>81.2s</td><td>7.4 GB</td><td>truncated</td><td>11.9</td></tr>
+            </table>
+
+            <p>The 4B produced genuinely beautiful HTML. CSS custom properties, proper flexbox layout, hover effects, popular card accent border, the whole package. But it was <em>truncated</em> at the 1024 token limit, missing <code>&lt;/body&gt;&lt;/html&gt;</code>. The 3B delivered a complete, working component in a third of the time. A complete output beats a beautifully truncated one.</p>
+
+            <h2>Round 3: Text Summarization</h2>
+            <p>Prompt: <em>"Summarize this build failure report in bullet points. Focus on errors and warnings."</em></p>
+
+            <div class="winner">
+                <h4><span class="badge green">WINNER</span> 3B  -  4.2s, 1.9GB RAM</h4>
+                <p>Five clean bullet points. Done in 4 seconds. No ceremony.</p>
+            </div>
+
+            <table>
+                <tr><th>Model</th><th>Time</th><th>RAM</th><th>Output</th><th>Toks/sec</th></tr>
+                <tr><td><strong>3B</strong> <span class="badge green">winner</span></td><td>4.2s</td><td>1.9 GB</td><td>286 chars</td><td>46.4</td></tr>
+                <tr><td>4B <span class="badge red">overthink</span></td><td>27.7s</td><td>3.6 GB</td><td>2,061 chars</td><td>24.2</td></tr>
+                <tr><td>9B <span class="badge red">broken</span></td><td>80.9s</td><td>7.4 GB</td><td>truncated</td><td>12.7</td></tr>
+            </table>
+
+            <p>This round exposed the fatal flaw of Qwen3.5 for utility tasks. The 4B produced 2,061 characters for a task that needed 286. It printed its entire internal monologue: <em>"1. Analyze the request... 2. Analyze the input... 3. Draft the summary... 4. Refine..."</em> before finally outputting five bullet points. The 9B was even worse  -  consumed all 1,024 tokens on thinking and produced zero usable output.</p>
+
+            <hr class="divider">
+
+            <h2>The Qwen3.5 Problem: Thinking Mode</h2>
+            <p>Both Qwen3.5 variants suffer from the same architectural quirk: they embed chain-of-thought reasoning <em>inside</em> their output. Every query triggers &lt;think&gt; blocks that consume 40-80% of the token budget before producing the actual response.</p>
+
+            <p>This is useful for complex math or logic puzzles. It is <em>wasted</em> on code generation (where the code itself is the output), HTML prototyping (where we need the finished markup, not the design decisions), and summarization (where we need the summary, not the analysis of how you wrote it).</p>
+
+            <blockquote>
+                <p>The 4B spent 590 tokens thinking about how to write 5 bullet points. That's 5x the content of the actual output. On every single call.</p>
+            </blockquote>
+
+            <h2>The Numbers</h2>
+
+            <table>
+                <tr><th></th><th>3B</th><th>4B</th><th>9B</th></tr>
+                <tr><td><strong>Peak RAM</strong></td><td>1.9 GB</td><td>3.5 GB</td><td>7.4 GB</td></tr>
+                <tr><td><strong>Codegen (avg)</strong></td><td>9.2s</td><td>38.4s</td><td>44.0s</td></tr>
+                <tr><td><strong>HTML (avg)</strong></td><td>17.5s</td><td>45.7s</td><td>81.2s</td></tr>
+                <tr><td><strong>Summarize (avg)</strong></td><td>4.2s</td><td>27.7s</td><td>80.9s</td></tr>
+                <tr><td><strong>Gen speed</strong></td><td>45.9 tok/s</td><td>24.2 tok/s</td><td>12.8 tok/s</td></tr>
+                <tr><td><strong>Truncated output?</strong></td><td>No</td><td>Yes (HTML)</td><td>Yes (all tasks)</td></tr>
+                <tr><td><strong>Thinking noise?</strong></td><td>No</td><td>Yes</td><td>Yes</td></tr>
+            </table>
+
+            <h2>Verdict</h2>
+            <p>The 3B wins on every axis that matters for our use case:</p>
+            <ul>
+                <li><strong>3-10x faster</strong> than the 4B, 4-20x faster than the 9B</li>
+                <li><strong>1.9GB vs 3.5GB vs 7.4GB</strong>  -  the 3B leaves room for other apps</li>
+                <li><strong>No thinking noise</strong>  -  every token is output, not internal monologue</li>
+                <li><strong>Reliable</strong>  -  never hit the output cap on our tasks</li>
+                <li><strong>Complete</strong>  -  no truncated HTML, no half-written code</li>
+            </ul>
+
+            <p>The 4B deserves an honorable mention for HTML quality  -  its CSS was genuinely better. But a beautiful truncated page is still a broken page. The 9B was a non-starter: 7.4GB RAM, truncated at every turn, and completely unusable for summarization.</p>
+
+            <h2>What We Kept</h2>
+            <p>Qwen2.5-Coder-3B-Instruct-4bit stays as the default MLX model for local inference. The 4B was downloaded, tested, and removed. The 9B never made it past the benchmark  -  7.4GB of RAM on a 16GB machine is not negotiable.</p>
+
+            <p>The MLX on-demand subprocess pattern works: every model unloads to 0MB after each call. No VRAM fragmentation, no daemon management, no conflicts with Docker or Xcode. On a Mac Mini with finite memory, this is the right architecture.</p>
+
+            <hr class="divider">
+
+            <h2>Methodology Notes</h2>
+            <p>All benchmarks were run on the same Mac Mini M2 (16GB) at idle (no Docker, no Xcode, no heavy browser). Each model was loaded fresh per task via <code>mlx_lm generate</code> subprocess. RAM was measured via <code>psutil</code> before and after each call. Generation speed excludes prompt processing time. Full benchmark code and raw output are available in the <a href="https://github.com/vadapayasam/warehouse">warehouse repo</a>.</p>
+            <p class="meta">Models tested: Qwen2.5-Coder-3B-Instruct-4bit (mlx-community), Qwen3.5-4B-OptiQ-4bit (mlx-community), Qwen3.5-9B-OptiQ-4bit (mlx-community). All models quantized to 4-bit. Default MCP model remains 3B.</p>
+        </div>
+
+        <div class="footer">
+            <p>Built on a Mac Mini M2 in Chennai. No analytics, no tracking, no JavaScript. This is the Way.</p>
+        </div>
+    </div>
+</body>
+</html>
