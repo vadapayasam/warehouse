@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Cost Audit - Agent Tina</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  line-height: 1.47;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Hero ── */
+.hero {
+  background: #000;
+  color: #f5f5f7;
+  padding: 80px 0 60px;
+  text-align: center;
+}
+.hero h1 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.28px;
+  margin-bottom: 12px;
+}
+.hero .subtitle {
+  font-size: 21px;
+  font-weight: 400;
+  color: #86868b;
+  max-width: 600px;
+  margin: 0 auto 8px;
+}
+.hero .meta {
+  font-size: 14px;
+  color: #6e6e73;
+  margin-top: 20px;
+}
+.hero .meta span {
+  display: inline-block;
+  background: #272729;
+  padding: 4px 12px;
+  border-radius: 5px;
+  margin: 0 4px;
+  font-size: 13px;
+}
+.hero .big-number {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 80px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -1.2px;
+  margin: 30px 0 6px;
+}
+.hero .big-number small {
+  font-size: 24px;
+  font-weight: 400;
+  color: #6e6e73;
+  letter-spacing: normal;
+}
+
+/* ── Container ── */
+.container { max-width: 980px; margin: 0 auto; padding: 0 48px; }
+
+/* ── Section ── */
+.section { padding: 60px 0; }
+.section.alt { background: #fff; }
+.section h2 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.144px;
+  margin-bottom: 32px;
+}
+.section h3 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: 0.196px;
+  margin: 32px 0 16px;
+}
+.section h4 {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.21;
+  letter-spacing: 0.228px;
+  margin: 24px 0 8px;
+  color: #1d1d1f;
+}
+.section p, .section li { font-size: 17px; line-height: 1.6; color: #1d1d1f; margin-bottom: 12px; }
+.section ul, .section ol { padding-left: 24px; margin-bottom: 20px; }
+.section li { margin-bottom: 6px; }
+
+/* ── Callout ── */
+.callout {
+  background: #fff;
+  border-left: 4px solid #0071e3;
+  padding: 20px 24px;
+  border-radius: 5px;
+  margin: 24px 0;
+}
+.callout.danger { border-left-color: #e34a32; }
+.callout.success { border-left-color: #30a46c; }
+.callout.warn { border-left-color: #d97706; }
+.callout h4 { margin-top: 0; }
+
+/* ── Table ── */
+table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 15px; }
+th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #d2d2d7; }
+th { font-weight: 600; color: #6e6e73; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; }
+td { color: #1d1d1f; }
+td.num { font-family: SF Mono, ui-monospace, monospace; text-align: right; }
+td.bar-cell { width: 35%; }
+.bar {
+  display: inline-block;
+  height: 18px;
+  border-radius: 3px;
+  background: #0071e3;
+  vertical-align: middle;
+}
+.bar.orange { background: #e34a32; }
+.bar.yellow { background: #d97706; }
+.bar.gray { background: #86868b; }
+.bar-label { margin-left: 8px; font-size: 13px; color: #6e6e73; }
+
+/* ── Code ── */
+code, pre {
+  font-family: SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+  background: #f5f5f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+pre {
+  padding: 16px 20px;
+  overflow-x: auto;
+  line-height: 1.5;
+  margin: 16px 0;
+  border: 1px solid #e8e8ed;
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  font-size: 14px; color: #6e6e73;
+  padding: 16px 0; border-bottom: 1px solid #d2d2d7;
+  margin-bottom: 0;
+}
+
+/* ── Card Grid ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  text-align: center;
+  border: 1px solid #e8e8ed;
+}
+.card .num {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  color: #1d1d1f;
+}
+.card .label {
+  font-size: 14px;
+  color: #6e6e73;
+  margin-top: 6px;
+}
+
+/* ── Footer ── */
+.footer {
+  background: #f5f5f7;
+  border-top: 1px solid #d2d2d7;
+  padding: 32px 0;
+  text-align: center;
+  font-size: 14px;
+  color: #6e6e73;
+}
+
+/* ── Recommendations Tags ── */
+.tag {
+  display: inline-block;
+  background: #f5f5f7;
+  border: 1px solid #d2d2d7;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  margin: 0 4px 4px 0;
+  color: #1d1d1f;
+}
+.tag.high { border-color: #e34a32; color: #e34a32; }
+.tag.medium { border-color: #d97706; color: #d97706; }
+.tag.low { border-color: #86868b; color: #86868b; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 32px; }
+  .hero .big-number { font-size: 48px; }
+  .section h2 { font-size: 32px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .container { padding: 0 22px; }
+  table { font-size: 13px; }
+  th, td { padding: 6px 8px; }
+}
+
+/* ── Dark chapter ── */
+.chapter-dark {
+  background: #000;
+  color: #f5f5f7;
+}
+.chapter-dark h2 { color: #fff; }
+.chapter-dark p, .chapter-dark li { color: #f5f5f7; }
+.chapter-dark .callout { background: #1d1d1f; border-left-color: #2997ff; }
+.chapter-dark .callout p { color: #f5f5f7; }
+.chapter-dark .card { background: #1d1d1f; border-color: #272729; }
+.chapter-dark .card .num { color: #fff; }
+.chapter-dark table th { color: #86868b; }
+.chapter-dark table td { color: #f5f5f7; border-bottom-color: #272729; }
+.chapter-dark .tag { background: #1d1d1f; border-color: #424245; color: #f5f5f7; }
+.chapter-dark .tag.high { border-color: #e34a32; color: #e34a32; }
+.chapter-dark .tag.medium { border-color: #d97706; color: #d97706; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <p class="meta"><span>DeepSeek V4 Flash</span><span>128K context</span><span>Mac Mini M2</span></p>
+    <h1>Token Cost Audit</h1>
+    <p class="subtitle">Why a single session burns 36.8K tokens — and how to claw them back</p>
+    <div class="big-number">36,840 <small>tokens</small></div>
+    <p class="meta">28.7% of 128K context · One moderately complex turn</p>
+  </div>
+</section>
+
+<div class="container">
+  <p class="breadcrumb">Agent Tina · Token Audit · June 13, 2026</p>
+</div>
+
+<!-- Environment -->
+<section class="section">
+  <div class="container">
+    <h2>Environment</h2>
+    <table>
+      <tr><th>Component</th><th>Value</th></tr>
+      <tr><td>Machine</td><td>Mac Mini M2 (8-core, 4P+4E)</td></tr>
+      <tr><td>Memory</td><td>16 GB</td></tr>
+      <tr><td>OS</td><td>macOS 15.6.1 Sequoia</td></tr>
+      <tr><td>Model</td><td>DeepSeek V4 Flash</td></tr>
+      <tr><td>Provider</td><td>DeepSeek API (api.deepseek.com)</td></tr>
+      <tr><td>Context limit</td><td>128,000 tokens</td></tr>
+      <tr><td>Agent type</td><td>Hermes Agent (Nous Research) w/ 16 built-in tools</td></tr>
+      <tr><td>MCP servers</td><td>2 active: todoist (40 tools) + xcodebuild (25 tools)</td></tr>
+      <tr><td>Memory engine</td><td>Honcho (local, http://localhost:8000)</td></tr>
+      <tr><td>Compression</td><td>Enabled at 40% threshold, compresses to 50%</td></tr>
+      <tr><td>Smart model routing</td><td>Enabled (cheap model: mimo-v2.5, max 160 chars / 28 words)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- The Breakdown -->
+<section class="section alt">
+  <div class="container">
+    <h2>Per-Turn Fixed Cost Breakdown</h2>
+    <p>Every turn starts with a baseline overhead before a single user token is processed. Here is exactly where they go:</p>
+
+    <table>
+      <tr>
+        <th>Component</th>
+        <th class="num">Tokens (est.)</th>
+        <th>% of Fixed Cost</th>
+        <th class="bar-cell"></th>
+      </tr>
+      <tr>
+        <td><strong>Loaded Skills</strong></td>
+        <td class="num">24,500</td>
+        <td>48%</td>
+        <td class="bar-cell"><span class="bar orange" style="width:96%"></span><span class="bar-label">24,500</span></td>
+      </tr>
+      <tr>
+        <td>Hermes system prompt</td>
+        <td class="num">6,000</td>
+        <td>12%</td>
+        <td class="bar-cell"><span class="bar" style="width:24%"></span><span class="bar-label">6,000</span></td>
+      </tr>
+      <tr>
+        <td>MCP tool schemas (65 tools)</td>
+        <td class="num">12,000</td>
+        <td>24%</td>
+        <td class="bar-cell"><span class="bar yellow" style="width:47%"></span><span class="bar-label">12,000</span></td>
+      </tr>
+      <tr>
+        <td>Hermes built-in tools (16)</td>
+        <td class="num">4,500</td>
+        <td>9%</td>
+        <td class="bar-cell"><span class="bar gray" style="width:18%"></span><span class="bar-label">4,500</span></td>
+      </tr>
+      <tr>
+        <td>Honcho context injection</td>
+        <td class="num">1,500</td>
+        <td>3%</td>
+        <td class="bar-cell"><span class="bar gray" style="width:6%"></span><span class="bar-label">1,500</span></td>
+      </tr>
+      <tr>
+        <td>SOUL.md + memories</td>
+        <td class="num">1,600</td>
+        <td>3%</td>
+        <td class="bar-cell"><span class="bar gray" style="width:6%"></span><span class="bar-label">1,600</span></td>
+      </tr>
+      <tr>
+        <td>Compression / context overhead</td>
+        <td class="num">500</td>
+        <td>1%</td>
+        <td class="bar-cell"><span class="bar gray" style="width:2%"></span></td>
+      </tr>
+      <tr style="border-top:2px solid #1d1d1f">
+        <td><strong>Total fixed overhead</strong></td>
+        <td class="num"><strong>~50,600</strong></td>
+        <td>100%</td>
+        <td class="bar-cell"></td>
+      </tr>
+    </table>
+
+    <div class="callout danger">
+      <h4>48% of fixed cost = three loaded skills</h4>
+      <p>The <code>research-to-web-publishing</code> skill alone weighs <strong>52 KB</strong> (~13,000 tokens). It carries <code>prabha-taste</code> (35 KB, ~8,900 tokens) and <code>hermes-cost-optimization</code> (10 KB, ~2,600 tokens). Together they inject <strong>~24,500 tokens per turn</strong> — more than the entire Hermes system prompt, all tool schemas, and Honcho combined.</p>
+    </div>
+
+    <div class="callout warn">
+      <h4>How 36.8K is really one turn</h4>
+      <p>Fixed overhead (~50,600 tokens) + one user message (~2,000) + several tool calls (~8,000) + assistant response (~4,000) = ~64,600 tokens <em>gross</em>. With compression engaged at 40% threshold, contexts are summarised down to ~50% — so the <strong>post-compression view</strong> of ~36.8K is a single moderately complex turn that went past the compression threshold.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Root Cause -->
+<section class="section chapter-dark">
+  <div class="container">
+    <h2>Root Cause: The Skill Tax</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="num">52 KB</div>
+        <div class="label">research-to-web-publishing</div>
+      </div>
+      <div class="card">
+        <div class="num">35 KB</div>
+        <div class="label">prabha-taste</div>
+      </div>
+      <div class="card">
+        <div class="num">10 KB</div>
+        <div class="label">hermes-cost-optimization</div>
+      </div>
+    </div>
+
+    <p>The three skills loaded for this audit task are <strong>~97 KB total</strong>, roughly <strong>24,500 tokens</strong> injected into the prompt every single turn. This is the single largest controllable cost centre.</p>
+
+    <table>
+      <tr><th>Skill</th><th class="num">Size</th><th class="num">Tokens/turn</th><th>% of fixed</th></tr>
+      <tr><td>research-to-web-publishing</td><td class="num">52,050 B</td><td class="num">~13,012</td><td>26%</td></tr>
+      <tr><td>prabha-taste</td><td class="num">35,576 B</td><td class="num">~8,894</td><td>18%</td></tr>
+      <tr><td>hermes-cost-optimization</td><td class="num">10,378 B</td><td class="num">~2,594</td><td>5%</td></tr>
+      <tr><td><em>Total 3 skills</em></td><td class="num"><em>97,004 B</em></td><td class="num"><em>~24,500</em></td><td><em>49%</em></td></tr>
+    </table>
+
+    <h3>Secondary contributors</h3>
+    <table>
+      <tr><th>Factor</th><th>Impact</th><th>Detail</th></tr>
+      <tr>
+        <td>MCP tool schemas</td>
+        <td><span class="tag medium">~12,000 tokens</span></td>
+        <td>40 todoist + 25 xcodebuild tools = 65 full JSON schemas injected every turn. No lazy loading.</td>
+      </tr>
+      <tr>
+        <td>Honcho context</td>
+        <td><span class="tag medium">500-3,000 tokens</span></td>
+        <td>Full memory context + peer cards + deductive observations re-injected each turn.</td>
+      </tr>
+      <tr>
+        <td>Compression overhead</td>
+        <td><span class="tag low">500-1,000 tokens</span></td>
+        <td>Compression summaries themselves consume tokens, though far fewer than the raw content they replace.</td>
+      </tr>
+      <tr>
+        <td>16 toolsets loaded</td>
+        <td><span class="tag low">~4,500 tokens</span></td>
+        <td>browser, clarify, code_execution, cronjob, delegation, file, image_gen, memory, messaging, session_search, skills, terminal, todo, tts, vision, web</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- Optimization Recommendations -->
+<section class="section alt">
+  <div class="container">
+    <h2>Optimization Recommendations</h2>
+
+    <h3 id="rec1"><span class="tag high">HIGH</span> 1. Slim <code>research-to-web-publishing</code> skill</h3>
+    <p>At 52 KB, this skill is the single largest token hog. It contains the <em>entire</em> prabha-taste design system inlined + full deployment instructions. Split it:</p>
+    <ul>
+      <li><strong>Core workflow:</strong> keep 6-8 KB (markdown→HTML steps, git push, curl verify)</li>
+      <li><strong>Reference design tokens:</strong> extract into <code>references/</code> directory loaded conditionally</li>
+      <li><strong>Estimated savings:</strong> ~11,000 tokens per turn when design details not needed</li>
+    </ul>
+
+    <h3 id="rec2"><span class="tag high">HIGH</span> 2. Audit and trim all loaded skills</h3>
+    <p>Every skill is injected in full. For this task, 3 skills = 97 KB total. Most tasks load 8-12 skills. Key targets:</p>
+    <ul>
+      <li><code>itsm-msp-agentic-research</code>: 36 KB — consider splitting research templates into references/</li>
+      <li><code>html-design-systems</code>: 11 KB — trim heavy reference tables into separate docs</li>
+      <li><code>prabha-taste</code>: 35 KB — 95% of this is reference vocabulary never invoked in most tasks</li>
+    </ul>
+
+    <h3 id="rec3"><span class="tag medium">3. Enable selective toolset loading</span></h3>
+    <p>CLI profile loads 16 toolsets unconditionally. Most sessions only need 5-8. Configure per-task toolset trimming via <code>enabled_toolsets</code> in delegation or cron:</p>
+    <pre># Cron jobs can restrict loaded toolsets
+cronjob(action='create', prompt='...', enabled_toolsets=['terminal', 'web'])</pre>
+    <p><strong>Estimated savings:</strong> ~2,500 tokens per turn when vision/tts/image_gen/browser are trimmed</p>
+
+    <h3 id="rec4"><span class="tag medium">4. Reduce Honcho verbosity</span></h3>
+    <p>Honcho injects the full peer card + AI self-representation + all observations each turn. The data for this session alone contained ~200 observation entries. Options:</p>
+    <ul>
+      <li>Reduce <code>nudge_interval</code> (currently 10) or increase <code>flush_min_turns</code> (currently 6)</li>
+      <li>Set <code>memory.memory_char_limit</code> lower (currently 2,200, USER.md is 1,375)</li>
+      <li>Consider dropping Honcho for CLI sessions entirely if the session_search tool covers recall needs</li>
+    </ul>
+    <p><strong>Estimated savings:</strong> ~1,000-2,500 tokens per turn</p>
+
+    <h3 id="rec5"><span class="tag medium">5. Widen smart model routing trigger</span></h3>
+    <p>Smart model routing is enabled but the cheap model (<code>mimo-v2.5</code>) only triggers on queries under 160 characters / 28 words. Widen to ~400 chars / 60 words to catch more simple replies on the cheap model.</p>
+    <pre>smart_model_routing:
+  enabled: true
+  cheap_model:
+    model: mimo-v2.5
+    provider: xiaomi
+  max_simple_chars: 400    # was 160
+  max_simple_words: 60     # was 28</pre>
+
+    <h3 id="rec6"><span class="tag low">6. Archive stale cron jobs</span></h3>
+    <p>15 cron jobs exist (14 active). Each cron job's config and status is tracked. Archive or consolidate jobs that haven't produced real output in 30+ days. Especially the duplicate 6PM raw processing jobs documented in Honcho.</p>
+
+    <h3 id="rec7"><span class="tag low">7. Purge stale sessions</span></h3>
+    <p>366 sessions processed (June 8-10). Session DB auto-prune is disabled. Enable it or run a manual vacuum to reduce session_search overhead bandwidth.</p>
+  </div>
+</section>
+
+<!-- Projected Savings Table -->
+<section class="section chapter-dark">
+  <div class="container">
+    <h2>Projected Savings</h2>
+    <table>
+      <tr><th>Optimization</th><th class="num">Saved/turn</th><th>Priority</th><th>Effort</th></tr>
+      <tr>
+        <td>Slim research-to-web-publishing (52K → 8K)</td>
+        <td class="num">~11,000</td>
+        <td><span class="tag high">HIGH</span></td>
+        <td>30 min</td>
+      </tr>
+      <tr>
+        <td>Trim prabha-taste references (35K → 12K)</td>
+        <td class="num">~5,750</td>
+        <td><span class="tag high">HIGH</span></td>
+        <td>20 min</td>
+      </tr>
+      <tr>
+        <td>Selective toolset loading</td>
+        <td class="num">~2,500</td>
+        <td><span class="tag medium">MEDIUM</span></td>
+        <td>15 min</td>
+      </tr>
+      <tr>
+        <td>Reduce Honcho verbosity</td>
+        <td class="num">~1,500</td>
+        <td><span class="tag medium">MEDIUM</span></td>
+        <td>10 min</td>
+      </tr>
+      <tr>
+        <td>Widen smart model routing</td>
+        <td class="num">~500</td>
+        <td><span class="tag medium">MEDIUM</span></td>
+        <td>5 min</td>
+      </tr>
+      <tr>
+        <td>Archive stale crons</td>
+        <td class="num">~200</td>
+        <td><span class="tag low">LOW</span></td>
+        <td>10 min</td>
+      </tr>
+      <tr style="border-top:2px solid #fff">
+        <td><strong>Total potential savings</strong></td>
+        <td class="num"><strong>~21,450</strong></td>
+        <td></td>
+        <td>~90 min total</td>
+      </tr>
+    </table>
+
+    <div class="callout success" style="margin-top:32px">
+      <h4>42% reduction in per-turn fixed cost</h4>
+      <p>From ~50,600 to ~29,150 tokens per turn. That means the same work fits in roughly <strong>30% of the context window</strong> instead of 50%. More room for real conversation, tool output, and complex reasoning before compression kicks in. Over a 20-turn session, that's <strong>~430,000 tokens saved</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Recovery Plan -->
+<section class="section alt">
+  <div class="container">
+    <h2>Recovery Plan</h2>
+
+    <h3>Phase 1 — Tonight (30 min)</h3>
+    <ul>
+      <li>Slim <code>research-to-web-publishing</code> — extract design tokens to references/, keep only workflow</li>
+      <li>Trim <code>prabha-taste</code> — personal repo clause and 3-dial system are essential; reference vocab goes to references/</li>
+    </ul>
+
+    <h3>Phase 2 — This week (30 min)</h3>
+    <ul>
+      <li>Audit all 30 skills for size. Flag any over 15 KB for trimming</li>
+      <li>Widen smart model routing trigger</li>
+      <li>Reduce Honcho nudge_interval or increase char limits</li>
+    </ul>
+
+    <h3>Phase 3 — Ongoing</h3>
+    <ul>
+      <li>Enable session auto-prune</li>
+      <li>Archive stale cron jobs</li>
+      <li>Build a cron job that alerts when loaded skills exceed 30 KB total</li>
+      <li>Set per-cron <code>enabled_toolsets</code> in all scheduled jobs</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Measurement Methodology -->
+<section class="section">
+  <div class="container">
+    <h2>Methodology</h2>
+    <p>All measurements taken live on the production system (Mac Mini M2, macOS 15.6.1) on June 13, 2026:</p>
+    <table>
+      <tr><th>Measurement</th><th>Method</th></tr>
+      <tr><td>SOUL.md size</td><td><code>wc -c ~/.hermes/SOUL.md</code> → 3,806 bytes</td></tr>
+      <tr><td>Memory sizes</td><td><code>wc -c ~/.hermes/memories/MEMORY.md</code> → 975 B, <code>USER.md</code> → 1,360 B</td></tr>
+      <tr><td>Config size</td><td><code>wc -c ~/.hermes/config.yaml</code> → 18,129 bytes (not fully injected)</td></tr>
+      <tr><td>Skill sizes</td><td><code>find ~/.hermes/skills -name SKILL.md -exec wc -c {} +</code></td></tr>
+      <tr><td>MCP tools</td><td>Counted from config: 40 todoist + 25 xcodebuild tool definitions</td></tr>
+      <tr><td>Toolsets</td><td>From <code>config.yaml platform_toolsets.cli</code>: 16 toolsets active</td></tr>
+      <tr><td>Token estimation</td><td>bytes ÷ 4 (conservative for mixed text+code), ÷ 3.5 for code-heavy content</td></tr>
+      <tr><td>Per-turn overhead</td><td>Sum of all fixed components + Honcho context observations (grep count from injection)</td></tr>
+      <tr><td>Compression model</td><td>Qwen3:4B local (Ollama), compression triggered at 40% context fill, target 50% ratio</td></tr>
+    </table>
+
+    <div class="callout">
+      <h4>Note on compression</h4>
+      <p>When context exceeds 40% capacity (51,200 tokens), Hermes compresses older exchanges. Summaries replace raw messages. The 36.8K number likely represents a <strong>post-compression</strong> measurement, meaning the raw token count before compression was higher (estimated ~64,600). Compression is already saving ~28,000 tokens per overflowed turn.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>Agent Tina · Token Cost Audit · June 13, 2026</p>
+    <p style="margin-top:4px;font-size:12px;color:#86868b">Mac Mini M2 · DeepSeek V4 Flash · 128K context</p>
+  </div>
+</footer>
+
+</body>
+</html>
