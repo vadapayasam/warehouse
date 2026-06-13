@@ -3,125 +3,362 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>warehouse</title>
+<title>warehouse — sketch index</title>
 <style>
-:root{color-scheme:light dark;--bg:#0a0a0a;--fg:#e5e5e5;--muted:#888;--accent:#ff6b35;--border:#222}
-@media(prefers-color-scheme:light){:root{--bg:#fafafa;--fg:#111;--muted:#666;--accent:#d44a1a;--border:#ddd}}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--fg);max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6}
-h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}h2{font-size:18px;font-weight:700;margin-top:32px;margin-bottom:12px;color:var(--fg);border-bottom:1px solid var(--border);padding-bottom:6px}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-ul{list-style:none;padding:0}li{padding:6px 0;border-bottom:1px solid var(--border)}li:last-child{border-bottom:none}
-.meta{color:var(--muted);font-size:12px;margin-left:8px}
-footer{margin-top:48px;font-size:12px;color:var(--muted);text-align:center}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #1a1a2e;
+  color: #f0e6d0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+header h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #f0e6d0;
+  letter-spacing: -0.02em;
+}
+header h1 span { color: #f0a500; }
+header .subtitle {
+  font-size: 0.85rem;
+  color: #8888aa;
+  margin-top: 0.3rem;
+}
+header .rebuilt {
+  font-size: 0.75rem;
+  color: #666688;
+  margin-top: 0.15rem;
+}
+/* Search */
+.search-wrap {
+  margin-bottom: 1.5rem;
+}
+.search-wrap input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #252547;
+  border: 1px solid #3a3a5c;
+  border-radius: 10px;
+  color: #f0e6d0;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-wrap input::placeholder { color: #555577; }
+.search-wrap input:focus {
+  border-color: #f0a500;
+  box-shadow: 0 0 0 3px rgba(240, 165, 0, 0.15);
+}
+/* New This Week */
+.new-this-week {
+  background: #1f1f3a;
+  border: 1px solid rgba(240, 165, 0, 0.3);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.new-this-week::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(240,165,0,0.15), transparent 60%);
+  z-index: -1;
+}
+.new-this-week .section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f0a500;
+}
+/* Category Sections */
+.category-section {
+  margin-bottom: 2rem;
+}
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e8dcc8;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid #2a2a4a;
+}
+/* Entry Cards */
+.entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #252547;
+  border: 1px solid #3a3a5c;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.4rem;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.entry:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(240, 165, 0, 0.08);
+  border-color: rgba(240, 165, 0, 0.3);
+}
+.entry-link {
+  color: #f0e6d0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  flex: 1;
+  min-width: 0;
+  padding-right: 0.75rem;
+}
+.entry-link:hover { color: #f0a500; }
+.entry-link .new-marker {
+  color: #f0a500;
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+}
+.entry-date {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: #f0a500;
+  background: #3a3a5c;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #2a2a4a;
+}
+footer a {
+  color: #f0a500;
+  text-decoration: none;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+footer a:hover { opacity: 1; }
+/* Hidden filter */
+.hidden { display: none !important; }
+/* Stats */
+.stats {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #666688;
+  margin-bottom: 1.5rem;
+}
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 1.25rem 1rem; }
+  header h1 { font-size: 1.8rem; }
+  .entry { padding: 0.6rem 0.75rem; }
+  .entry-link { font-size: 0.82rem; }
+  .entry-date { font-size: 0.65rem; padding: 0.15rem 0.4rem; }
+}
 </style>
 </head>
 <body>
-<h1>warehouse</h1>
-<p style="color:var(--muted);font-size:14px">Index of HTML artifacts &middot; Last rebuilt 2026-06-08</p>
+<div class="container">
 
-    <section>
-      <h2>SaaS Agentic Weekly</h2>
-      <ul>
-        <li><a href="sketch/saas-agentic-weekly-00.html">Agentic SaaS Weekly — Issue #0 (Back Issues)</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/saas-agentic-weekly-01.html">Agentic SaaS Weekly — Issue #1</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/saas-agentic-weekly-02.html">ITSM/MSP Agentic Weekly — Issue #2 — May 11, 2026</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/saas-agentic-weekly-03.html">ITSM/MSP Agentic Weekly — Issue #3 — May 18, 2026</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/saas-agentic-weekly-04.html">ITSM/MSP Agentic Weekly — Issue #4 — June 1, 2026</a> <span class="meta">2026-06-01</span></li>
-<li><a href="sketch/saas-agentic-weekly-05.html">ITSM/MSP Agentic Weekly — Issue #5 — June 8, 2026</a> <span class="meta">2026-06-08</span></li>
-<li><a href="sketch/saas-agentic-weekly-index.html">Agentic SaaS Weekly — Archive</a> <span class="meta">2026-06-01</span></li>
-<li><a href="sketch/saas-agentic-weekly.html">Agentic SaaS Weekly — Issue #1</a> <span class="meta">2026-05-17</span></li>
-      </ul>
-    </section>
+<header>
+  <h1><span>w</span>arehouse</h1>
+  <p class="subtitle">sketch index</p>
+  <p class="rebuilt">Last rebuilt: 2026-06-14</p>
+</header>
 
-    <section>
-      <h2>AI / Trends / Research</h2>
-      <ul>
-        <li><a href="sketch/agent-publish-framework.html">How I Built an Agent-Publish Framework That Codes and Tests Itself</a> <span class="meta">2026-06-02</span></li>
-<li><a href="sketch/picoclaw-reboot.html">Picoclaw Reboot — From Verification Spam to Guardrail Gem</a> <span class="meta">2026-06-08</span></li>
-<li><a href="sketch/agentic-ui-trends.html">Agentic UI Trends — Living Document</a> <span class="meta">2026-05-24</span></li>
-<li><a href="sketch/ai-native-it.html">AI-Native IT | SuperOps</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/ai-possible-actions-design.html">AI Possible Actions Panel — Design Exploration</a> <span class="meta">2026-06-03</span></li>
-<li><a href="sketch/ai-qbr-generator.html">AI QBR Generator — Product Brief</a> <span class="meta">2026-05-25</span></li>
-<li><a href="sketch/context-engineering.html">Context Engineering with My Setup</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/game-asset-marketplace-research.html">Game Asset Marketplace Research — 2025/26</a> <span class="meta">2026-05-31</span></li>
-<li><a href="sketch/mspclaw-research-ideas-june-2026.html">MSPclaw — From Prototype to Product</a> <span class="meta">2026-06-03</span></li>
-<li><a href="sketch/openclaw-gamestore-researchfinding.html">Game Asset Marketplace Deep Research — LLM-Generatable Opportunities 2026</a> <span class="meta">2026-06-01</span></li>
-<li><a href="sketch/second-brain.html">Second Brain: How It Works</a> <span class="meta">2026-06-06</span></li>
-<li><a href="sketch/superops-ai-ticket-ux-review.html">SuperOps AI Ticket Detail — UX Review</a> <span class="meta">2026-05-31</span></li>
-<li><a href="sketch/youtube-shorts-playbook.html">YouTube Shorts Playbook</a> <span class="meta">2026-05-17</span></li>
-<li><a href="daily/2026-05-16-youtube-research.html">YouTube Research — May 16, 2026</a> <span class="meta">2026-05-17</span></li>
-<li><a href="daily/2026-05-17-youtube-research.html">YouTube Research — 2026-05-17</a> <span class="meta">2026-05-24</span></li>
-      </ul>
-    </section>
+<div class="search-wrap">
+  <input type="text" id="filterInput" placeholder="Filter entries..." autocomplete="off">
+</div>
 
-    <section>
-      <h2>MSP & IT Platform</h2>
-      <ul>
-        <li><a href="sketch/msp-pain-points-analysis.html">MSP Pain Points Analysis 2026</a> <span class="meta">2026-05-25</span></li>
-<li><a href="sketch/mspclaw-build-roadmap.html">MSPclaw: Build Roadmap</a> <span class="meta">2026-06-04</span></li>
-<li><a href="sketch/mspclaw-product-brief.html">MSPclaw: Product Brief v3</a> <span class="meta">2026-06-04</span></li>
-<li><a href="sketch/mspclaw-product-strategy-june-2026.html">From MSPclaw Prototype to Plug-and-Play AI Agent — June 2026</a> <span class="meta">2026-06-03</span></li>
-<li><a href="sketch/mspclaw-stakeholder-deck.html">MSPclaw: Product Deck</a> <span class="meta">2026-06-04</span></li>
-<li><a href="sketch/mspclaw-universal-connector-strategy.html">MSPclaw Universal Connector — Product Strategy</a> <span class="meta">2026-06-03</span></li>
-<li><a href="sketch/revenueguard-mvp.html">RevenueGuard | MSP Billing Dashboard</a> <span class="meta">2026-05-17</span></li>
-<li><a href="landing/msp-status-page.html">MSP Status Page - Professional Status Pages Without Enterprise Pricing</a> <span class="meta">2026-05-17</span></li>
-      </ul>
-    </section>
+<div class="stats" id="stats">74 entries</div>
 
-    <section>
-      <h2>iOS App Reviews</h2>
-      <ul>
-        <li><a href="sketch/danny-x-ray-prabha-apps.html">$13K App Playbook: Danny's Framework vs Prabha's Apps</a> <span class="meta">2026-06-02</span></li>
-<li><a href="sketch/leavehack-review.html">LeaveHack — UI/UX + Code Review</a> <span class="meta">2026-05-19</span></li>
-<li><a href="sketch/timeleft-review.html">Time Left — UI/UX + Code Review</a> <span class="meta">2026-05-19</span></li>
-<li><a href="sketch/ui-review-solvilayatu-fingerdoodles.html">UI/UX Review: Sol Vilaiyattu + Finger Doodles</a> <span class="meta">2026-06-06</span></li>
-<li><a href="sketch/ui-review-tamilwordle-thumbdraw.html">UI Review: TamilWordle + ThumbDraw</a> <span class="meta">2026-06-04</span></li>
-<li><a href="sketch/whatpay-analysis-v2.html">WhatPay App — Full UX/UI Analysis v2</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/whatpay-analysis.html">WhatPay App — Full UX/UI Analysis</a> <span class="meta">2026-05-17</span></li>
-      </ul>
-    </section>
+<!-- 🔥 NEW THIS WEEK -->
+<div class="new-this-week" data-category="recent">
+  <div class="section-header">🔥 NEW THIS WEEK &nbsp;<span style="font-weight:400;font-size:0.75rem;color:#8888aa;">Jun 8–14</span></div>
+  <div class="entries" data-category="recent">
+    <div class="entry" data-date="2026-06-14"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/vault-health-2026-06-14.html">Vault Health — June 14, 2026</a><span class="entry-date">2026-06-14</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/terminal-audit.html">Terminal Audit — trim 51.4% of tool calls</a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mlx-model-shootout.html">3B Never Needed Backup — Our MLX Model Shootout</a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mlx-local-coder.html">Your AI Agent Is Wasting Tokens on Noise. Here's How We Fixed It.</a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mlx-local-coder-guide.html">MLX Local Coder Guide</a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/designers-ai-agents-research.html">Designers + AI Agents: What's Proven, What's Possible (June 2026)</a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-13-token-cost-audit.html">Token Cost Audit — Agent Tina</a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-msps-in-the-ai-era-how-they-re-actually-feeling.html">MSPs in the AI Era: How They're Actually Feeling</a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-11"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/token-thread.html">Token Optimization Thread</a><span class="entry-date">2026-06-11</span></div>
+    <div class="entry" data-date="2026-06-11"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/token-article.html">How I Cut My AI Agent's Token Bill by 30-40%</a><span class="entry-date">2026-06-11</span></div>
+    <div class="entry" data-date="2026-06-09"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-06.html">ITSM/MSP Agentic AI Weekly — Issue #6</a><span class="entry-date">2026-06-09</span></div>
+    <div class="entry" data-date="2026-06-09"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/design-oss-tooling-research.html">Open-Source Design Tooling: Gaps &amp; Ideas — June 2026</a><span class="entry-date">2026-06-09</span></div>
+    <div class="entry" data-date="2026-06-09"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-msp-ai-adoption-by-size.html">MSPs and AI by Company Size</a><span class="entry-date">2026-06-09</span></div>
+    <div class="entry" data-date="2026-06-09"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-daily-tweets-2026-06-09.html">Daily Tweets — 2026-06-09</a><span class="entry-date">2026-06-09</span></div>
+    <div class="entry" data-date="2026-06-08"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/skills-radar-2026-06-08.html">Skills Radar — June 2026</a><span class="entry-date">2026-06-08</span></div>
+    <div class="entry" data-date="2026-06-08"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-05.html">ITSM/MSP Agentic AI Weekly — Issue #5</a><span class="entry-date">2026-06-08</span></div>
+    <div class="entry" data-date="2026-06-08"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">Agentic SaaS Weekly — Archive</a><span class="entry-date">2026-06-08</span></div>
+    <div class="entry" data-date="2026-06-08"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/picoclaw-reboot.html">Picoclaw — From Verification Spam to Guardrail Gem</a><span class="entry-date">2026-06-08</span></div>
+    <div class="entry" data-date="2026-06-08"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/design-evolution-2026-06-08.html">Design Evolution / AI &amp; Agentic Interface Patterns / June 2026</a><span class="entry-date">2026-06-08</span></div>
+    <div class="entry" data-date="2026-06-07"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/twitter-content-strategy.html">Twitter Content Strategy</a><span class="entry-date">2026-06-07</span></div>
+  </div>
+</div>
 
-    <section>
-      <h2>Design & UX</h2>
-      <ul>
-        <li><a href="sketch/2026-06-01-design-evolution.html">AI/Agentic Design Evolution / June 2026</a> <span class="meta">2026-06-01</span></li>
-<li><a href="sketch/2026-06-01-designer-skills-radar-june-2026.html">Designer Skills Radar — June 2026</a> <span class="meta">2026-06-01</span></li>
-<li><a href="sketch/2026-06-01-skills-radar-2026-06-01.html">Designer Skills Radar — June 2026</a> <span class="meta">2026-06-01</span></li>
-<li><a href="sketch/prabha-taste-test.html">Prabha Taste Test</a> <span class="meta">2026-06-02</span></li>
-      </ul>
-    </section>
+<!-- 📰 ITSM/MSP Agentic Weekly -->
+<div class="category-section" data-category="itsm">
+  <div class="category-header">📰 ITSM/MSP Agentic Weekly</div>
+  <div class="entries">
+    <div class="entry" data-date="2026-06-01"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-04.html">ITSM/MSP Agentic Weekly — Issue #4 — June 1, 2026</a><span class="entry-date">2026-06-01</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-03.html">ITSM/MSP Agentic Weekly — Issue #3 — May 18, 2026</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-02.html">ITSM/MSP Agentic Weekly — Issue #2 — May 11, 2026</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-01.html">Agentic SaaS Weekly — Issue #1</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-00.html">Agentic SaaS Weekly — Issue #0 (Back Issues)</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly.html">Agentic SaaS Weekly — Issue #1</a><span class="entry-date">2026-05-17</span></div>
+  </div>
+</div>
 
-    <section>
-      <h2>Tools & Internal</h2>
-      <ul>
-        <li><a href="sketch/hermes-kanban-guide.html">Hermes Kanban Guide — Sketch</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/kanban-workflow.html">Kanban — How Agent Tina Runs Work</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/marketplace-daily.html">3rd Party Dev Opportunities | IT/MSP/ITSM Platforms</a> <span class="meta">2026-05-17</span></li>
-<li><a href="sketch/papercrumble.html">Paper Crumple — SwiftUI Prototype</a> <span class="meta">2026-05-26</span></li>
-      </ul>
-    </section>
+<!-- ⚙️ MSPclaw & MSP Platform -->
+<div class="category-section" data-category="mspclaw">
+  <div class="category-header">⚙️ MSPclaw &amp; MSP Platform</div>
+  <div class="entries">
+    <div class="entry" data-date="2026-06-04"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-stakeholder-deck.html">MSPclaw: Product Deck</a><span class="entry-date">2026-06-04</span></div>
+    <div class="entry" data-date="2026-06-04"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-product-brief.html">MSPclaw: Product Brief v3</a><span class="entry-date">2026-06-04</span></div>
+    <div class="entry" data-date="2026-06-04"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-build-roadmap.html">MSPclaw: Build Roadmap</a><span class="entry-date">2026-06-04</span></div>
+    <div class="entry" data-date="2026-06-03"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-universal-connector-strategy.html">MSPclaw Universal Connector — Strategy</a><span class="entry-date">2026-06-03</span></div>
+    <div class="entry" data-date="2026-06-03"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-research-ideas-june-2026.html">MSPclaw — From Prototype to Product</a><span class="entry-date">2026-06-03</span></div>
+    <div class="entry" data-date="2026-06-03"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-product-strategy-june-2026.html">From MSPclaw Prototype to Plug-and-Play AI Agent</a><span class="entry-date">2026-06-03</span></div>
+    <div class="entry" data-date="2026-05-25"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/msp-pain-points-analysis.html">MSP Pain Points Analysis 2026</a><span class="entry-date">2026-05-25</span></div>
+    <div class="entry" data-date="2026-05-31"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/superops-ai-ticket-ux-review.html">SuperOps AI Ticket Detail — UX Review</a><span class="entry-date">2026-05-31</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/revenueguard-mvp.html">RevenueGuard | MSP Billing Dashboard</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/ai-native-it.html">AI-Native IT | SuperOps</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/marketplace-daily.html">3rd Party Dev Opportunities | IT/MSP/ITSM Platforms</a><span class="entry-date">2026-05-17</span></div>
+  </div>
+</div>
 
-    <section>
-      <h2>Other</h2>
-      <ul>
-        <li><a href="agent-publish-twitter-thread.html">Agent-Publish: Twitter Thread</a> <span class="meta">2026-05-17</span></li>
-        <li><a href="mvp-decision-2026-05-17.html">MVP Decision — 2026-05-17</a> <span class="meta">2026-05-17</span></li>
-        <li><a href="sketch/twitter-content-strategy.html">Twitter Content Strategy: How to Build, Write, and Sound Human</a> <span class="meta">2026-06-07</span></li>
-        <li><a href="mspclaw-domain-alternatives.html">MSPclaw: Domain Alternatives</a> <span class="meta">2026-05-17</span></li>
-        <li><a href="whatpay-review-v2/index.html">WhatPay Review v2</a> <span class="meta">2025-??</span></li>
-        <li><a href="weekly/index.html">Weekly Archive</a> <span class="meta">2026-??</span></li>
-      </ul>
-    </section>
+<!-- 🧠 AI & Research -->
+<div class="category-section" data-category="ai-research">
+  <div class="category-header">🧠 AI &amp; Research</div>
+  <div class="entries">
+    <div class="entry" data-date="2026-06-02"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/agent-publish-framework.html">How I Built an Agent-Publish Framework</a><span class="entry-date">2026-06-02</span></div>
+    <div class="entry" data-date="2026-05-24"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/agentic-ui-trends.html">Agentic UI Trends — Living Document</a><span class="entry-date">2026-05-24</span></div>
+    <div class="entry" data-date="2026-06-03"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/ai-possible-actions-design.html">AI Possible Actions Panel — Design Exploration</a><span class="entry-date">2026-06-03</span></div>
+    <div class="entry" data-date="2026-05-25"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/ai-qbr-generator.html">AI QBR Generator — Product Brief</a><span class="entry-date">2026-05-25</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/context-engineering.html">Context Engineering with My Setup</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-31"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/game-asset-marketplace-research.html">Game Asset Marketplace Research — 2025/26</a><span class="entry-date">2026-05-31</span></div>
+    <div class="entry" data-date="2026-06-01"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/openclaw-gamestore-researchfinding.html">Game Asset Marketplace Deep Research</a><span class="entry-date">2026-06-01</span></div>
+    <div class="entry" data-date="2026-06-06"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/second-brain.html">Second Brain: How It Works</a><span class="entry-date">2026-06-06</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/kanban-workflow.html">Kanban — How Agent Tina Runs Work</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/hermes-kanban-guide.html">Hermes Kanban Guide</a><span class="entry-date">2026-05-17</span></div>
+  </div>
+</div>
 
-    <section>
-      <h2>🐦 Daily Tweets</h2>
-      <ul>
-        <li><a href="daily/index.html">Daily Research Log Archive</a> <span class="meta">various</span></li>
-        <li><a href="daily/tweets-2026-06-07.html">Daily Tweets — 2026-06-07</a> <span class="meta">auto-generated</span></li>
-        <li><a href="daily/index.html">Daily Tweets Archive</a> <span class="meta">auto-index</span></li>
-      </ul>
-    </section>
+<!-- 📱 iOS App Reviews -->
+<div class="category-section" data-category="ios-reviews">
+  <div class="category-header">📱 iOS App Reviews</div>
+  <div class="entries">
+    <div class="entry" data-date="2026-06-02"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/danny-x-ray-prabha-apps.html">$13K App Playbook: Danny's Framework vs Prabha's Apps</a><span class="entry-date">2026-06-02</span></div>
+    <div class="entry" data-date="2026-05-19"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/leavehack-review.html">LeaveHack — UI/UX + Code Review</a><span class="entry-date">2026-05-19</span></div>
+    <div class="entry" data-date="2026-05-19"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/timeleft-review.html">Time Left — UI/UX + Code Review</a><span class="entry-date">2026-05-19</span></div>
+    <div class="entry" data-date="2026-06-06"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/ui-review-solvilayatu-fingerdoodles.html">UI/UX Review: Sol Vilaiyattu + Finger Doodles</a><span class="entry-date">2026-06-06</span></div>
+    <div class="entry" data-date="2026-06-04"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/ui-review-tamilwordle-thumbdraw.html">UI Review: TamilWordle + ThumbDraw</a><span class="entry-date">2026-06-04</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/whatpay-analysis.html">WhatPay App — Full UX/UI Analysis</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/whatpay-analysis-v2.html">WhatPay App — Full UX/UI Analysis v2</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-05-26"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/papercrumble.html">Paper Crumple — SwiftUI Prototype</a><span class="entry-date">2026-05-26</span></div>
+  </div>
+</div>
 
-<footer>Agent Tina &middot; <a href="https://github.com/vadapayasam/warehouse">github.com/vadapayasam/warehouse</a></footer>
+<!-- 🎨 Design -->
+<div class="category-section" data-category="design">
+  <div class="category-header">🎨 Design</div>
+  <div class="entries">
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/designers-ai-agents-research.html">Designers + AI Agents<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-08"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/design-evolution-2026-06-08.html">Design Evolution<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-08</span></div>
+    <div class="entry" data-date="2026-06-01"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-design-evolution.html">AI/Agentic Design Evolution / June 2026</a><span class="entry-date">2026-06-01</span></div>
+    <div class="entry" data-date="2026-06-01"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-designer-skills-radar-june-2026.html">Designer Skills Radar — June 2026</a><span class="entry-date">2026-06-01</span></div>
+    <div class="entry" data-date="2026-06-01"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-01-skills-radar-2026-06-01.html">Designer Skills Radar — June 2026</a><span class="entry-date">2026-06-01</span></div>
+    <div class="entry" data-date="2026-06-09"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/design-oss-tooling-research.html">Open-Source Design Tooling<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-09</span></div>
+    <div class="entry" data-date="2026-06-02"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/prabha-taste-test.html">Prabha Taste Test</a><span class="entry-date">2026-06-02</span></div>
+  </div>
+</div>
+
+<!-- 🔧 Infra & Internal -->
+<div class="category-section" data-category="infra">
+  <div class="category-header">🔧 Infra &amp; Internal</div>
+  <div class="entries">
+    <div class="entry" data-date="2026-06-14"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/vault-health-2026-06-14.html">Vault Health<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-14</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/terminal-audit.html">Terminal Audit<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mlx-model-shootout.html">MLX Model Shootout<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mlx-local-coder.html">MLX Local Coder<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/mlx-local-coder-guide.html">MLX Local Coder Guide<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-13"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-13-token-cost-audit.html">Token Cost Audit<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-13</span></div>
+    <div class="entry" data-date="2026-06-11"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/token-thread.html">Token Optimization Thread<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-11</span></div>
+    <div class="entry" data-date="2026-06-11"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/token-article.html">Token Bill Article<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-11</span></div>
+  </div>
+</div>
+
+<!-- 📣 Content & Strategy -->
+<div class="category-section" data-category="content">
+  <div class="category-header">📣 Content &amp; Strategy</div>
+  <div class="entries">
+    <div class="entry" data-date="2026-06-07"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/twitter-content-strategy.html">Twitter Content Strategy<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-07</span></div>
+    <div class="entry" data-date="2026-06-09"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/2026-06-09-daily-tweets-2026-06-09.html">Daily Tweets<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-09</span></div>
+    <div class="entry" data-date="2026-05-17"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/youtube-shorts-playbook.html">YouTube Shorts Playbook</a><span class="entry-date">2026-05-17</span></div>
+    <div class="entry" data-date="2026-06-08"><a class="entry-link" href="https://vadapayasam.github.io/warehouse/sketch/skills-radar-2026-06-08.html">Skills Radar<span class="new-marker"> 🔥</span></a><span class="entry-date">2026-06-08</span></div>
+  </div>
+</div>
+
+<footer>
+  <a href="https://vadapayasam.github.io/">← back to main site</a>
+</footer>
+
+</div>
+
+<script>
+(function() {
+  const input = document.getElementById('filterInput');
+  const allEntries = document.querySelectorAll('.entry');
+  const allSections = document.querySelectorAll('.category-section, .new-this-week');
+  const stats = document.getElementById('stats');
+
+  function filterEntries() {
+    const q = input.value.toLowerCase().trim();
+    let visible = 0;
+
+    allEntries.forEach(entry => {
+      const link = entry.querySelector('.entry-link');
+      const title = link ? link.textContent.toLowerCase() : '';
+      const date = entry.getAttribute('data-date') || '';
+      const match = !q || title.includes(q) || date.includes(q);
+      entry.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+
+    allSections.forEach(section => {
+      const entries = section.querySelectorAll('.entry');
+      const hasVisible = Array.from(entries).some(e => !e.classList.contains('hidden'));
+      section.classList.toggle('hidden', !hasVisible);
+    });
+
+    const total = allEntries.length;
+    stats.textContent = q ? visible + '/' + total + ' entries' : total + ' entries';
+  }
+
+  input.addEventListener('input', filterEntries);
+})();
+</script>
 </body>
 </html>
