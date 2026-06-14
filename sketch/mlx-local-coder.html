@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your AI Agent Is Wasting Tokens on Noise. Here's How We Fixed It.</title>
+<title>You don't want a local model. You want a token filter.</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -219,6 +219,31 @@ a:hover { text-decoration: underline; }
 .verdict h4 { font-size: 15px; margin-bottom: 4px; }
 .verdict p { font-size: 14px; margin-bottom: 0; color: inherit; }
 
+.callout {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.callout h3 { color: #166534; font-size: 18px; margin-bottom: 8px; }
+.callout p { color: #2e7d32; font-size: 15px; margin-bottom: 0; }
+.callout code { background: #c8e6c9; color: #1b5e20; }
+
+.callout-warn {
+  background: #fff3e0;
+  border: 1px solid #ffcc80;
+}
+.callout-warn h3 { color: #e65100; }
+.callout-warn p { color: #bf360c; }
+
+.callout-info {
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+}
+.callout-info h3 { color: #1565c0; }
+.callout-info p { color: #0d47a1; }
+
 hr {
   border: none;
   border-top: 1px solid #e6e6ea;
@@ -243,7 +268,6 @@ hr {
   .stat-number { font-size: 28px; }
 }
 
-/* Terminal simulation */
 .term-line { margin-bottom: 2px; }
 .term-prompt { color: #2997ff; }
 .term-output { color: #a1a1a6; }
@@ -254,35 +278,101 @@ hr {
 <!-- Hero -->
 <section class="hero">
   <div class="hero-inner">
-    <p class="eyebrow">Field Notes</p>
-    <h1>Your AI agent is wasting tokens on noise</h1>
-    <p>Every time your agent runs a shell command, it feeds the terminal output back to a frontier model. Most of that output is garbage. We built a 3B local model to filter it first. Here's the before and after.</p>
+    <p class="eyebrow">Hermes Agent MCP Plugin</p>
+    <h1>You don't want a local model. You want a token filter.</h1>
+    <p>I put a 3B model in my AI agent to save tokens on noise. It can't write features, can't design architecture, and has a 2024 knowledge cutoff. But it dropped my frontier model's input by 82%. Here's exactly how and why.</p>
     <p class="meta">Prabha · Agent Tina · June 2026</p>
   </div>
 </section>
 
-<!-- The hook -->
+<!-- Truth bomb upfront -->
 <section class="section">
-  <p style="font-size: 19px; line-height: 1.6; color: #1d1d1f;">I watched my AI agent feed 1,500 tokens back to the API just to summarize a <code style="font-size: 17px;">brew update</code> log. The summary was "Homebrew updated successfully. 4 packages upgraded."</p>
+  <div class="callout callout-warn">
+    <h3>Let me kill the fantasy first</h3>
+    <p>This 3B model will NOT run your agent. It will not understand your codebase. It will not make architectural decisions. It has a 2024 knowledge cutoff and will confidently recommend deprecated APIs. If you install this expecting a local coding assistant, you will be disappointed.</p>
+    <p style="margin-top: 8px;">That's fine — because that's not the job. The job is reading <code>brew update</code> logs so your expensive model doesn't have to.</p>
+  </div>
 
-  <p>That's roughly the length of a short story — consumed by an expensive model, just to produce a tweet's worth of value. It was one of those moments where you sit back and ask: <em>am I burning money on something stupid?</em></p>
+  <p style="font-size: 19px; line-height: 1.6; color: #1d1d1f;">I watched my AI agent feed 1,500 tokens to a frontier model just to summarize a <code style="font-size: 17px;">brew update</code> log. The summary came back: "Homebrew updated successfully. 4 packages upgraded."</p>
 
-  <p>The answer, unfortunately, was yes.</p>
+  <p>That's roughly the length of a short story — consumed by an expensive model — to produce a tweet's worth of value. It was one of those moments where you sit back and ask: <em>am I doing something stupid?</em></p>
 
-  <p>Not a lot of money. DeepSeek Flash is cheap. But that's not really the point. The point is <strong>every token the frontier model spends reading noise is a token it isn't spending on reasoning</strong> — catching edge cases, writing better code, thinking about architecture. Context is a finite resource, and we were filling it with garbage.</p>
-
-  <p>So we built a small local model to sit between the terminal and the frontier. A 3-billion-parameter model running on Apple MLX that handles the boring parts — summarizing logs, generating one-liners, extracting errors — so the expensive model only sees clean, distilled input. Costs nothing. Sits under 2GB of RAM. Runs at ~48 tokens per second on an M2 Mac Mini.</p>
-
-  <p style="font-size: 19px; line-height: 1.6; color: #1d1d1f;">Here's exactly how we built it, what it saves, and where it breaks.</p>
+  <p>The answer was yes. Not because of the cost — DeepSeek Flash is cheap. But because <strong>every token the frontier model spends reading noise is a token it isn't spending on reasoning</strong>. Context is a finite resource, and I was filling 30-70% of it with junk.</p>
 </section>
 
-<!-- The problem: agents have no filter -->
+<!-- What I built -->
 <section class="section-gray">
   <div class="section">
-    <h2>The problem: agents have no filter</h2>
-    <p>AI agents work in loops. They run a command → get output → decide what to do next. The problem is they read <em>everything</em> the terminal spits out. A 40-line build log. A 30-line <code>brew outdated</code> dump. A full stack trace with 15 frames you don't care about.</p>
+    <h2>What I built: a Cascading architecture for Hermes Agent</h2>
 
-    <p>Here's what a real session looks like:</p>
+    <p>I run <a href="https://github.com/nousresearch/hermes">Hermes Agent</a> by Nous Research. It calls tools, runs commands, and feeds output back to the LLM. The problem is every tool call dumps raw terminal output into the frontier model's context. Over a 10-call session, that adds up to ~8,500 input tokens of noise.</p>
+
+    <p>I built an MCP (Model Context Protocol) server that registers three tools on my Hermes agent. All three run on a local 3B model via Apple's <a href="https://github.com/ml-explore/mlx">MLX framework</a>:</p>
+
+    <div class="card">
+      <h3>mlx_summarize</h3>
+      <p>Condenses 40 lines of terminal output into 5 bullet points. Sits between every shell command and the frontier model. <strong>This is where most of the savings come from.</strong></p>
+    </div>
+
+    <div class="card">
+      <h3>mlx_codegen</h3>
+      <p>Generates bash one-liners, Python scripts, CSS snippets — returns clean code with no markdown fences or commentary. Saves ~200-500 output tokens per generation vs the frontier model's verbosity.</p>
+    </div>
+
+    <div class="card">
+      <h3>mlx_filter</h3>
+      <p>"Which tests failed?" from 200 lines of output → "TestPayment timed out. TestAuth returned 401." One line instead of a full dump.</p>
+    </div>
+
+    <p>I call this a <strong>Cascading architecture</strong>: the cheap local model handles narrow, well-defined tasks (summarization, filtering, codegen). The frontier model only sees clean, distilled input. The expensive brain spends its tokens on things that actually need intelligence.</p>
+
+    <p>There's a terminal fallback too if you're outside the agent:</p>
+
+    <pre>$ cat build.log | tm mlx-summarize "errors and warnings"
+<span class="term-output"> - Build completed with 2 warnings (deprecated API usage)
+ - Xcode version mismatch warning (15.4 vs 15.3)
+ - No errors found
+</span>
+$ tm mlx-codegen "bash one-liner to find 5 largest files in /Projects"
+<span class="term-output">find /Projects -maxdepth 3 -type f -exec du -sh {} + | sort -rh | head -5</span></pre>
+  </div>
+</section>
+
+<!-- The key advantage: zero RAM when idle -->
+<section class="section">
+  <h2>The trick nobody mentions: it takes zero RAM when idle</h2>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-number">0 MB</div>
+      <div class="stat-label">RAM when idle</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">1.8 GB</div>
+      <div class="stat-label">RAM when loaded</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">~2 GB/s</div>
+      <div class="stat-label">VRAM load time (cold)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">0 MB</div>
+      <div class="stat-label">RAM after each call</div>
+    </div>
+  </div>
+
+  <p>Most people hear "local model" and imagine a daemon running 24/7, eating 1.8GB of RAM they'll never get back. That's how Ollama works. That's how vLLM works.</p>
+
+  <p><strong>This is not that.</strong> The MCP server loads the model from disk, runs the inference, and unloads it. Completely. When it's not being called, it takes exactly 0 MB of RAM. Zero. The next call reloads from disk in about 3-5 seconds (cold) or <1 second if the OS hasn't evicted the page cache yet.</p>
+
+  <p>On an M2 Mac Mini with 16GB RAM, this is the difference between "I need to keep 1.8GB pinned to a service I might not use this session" and "I use exactly 0MB until I decide to call it." You don't feel it. There's no background process to kill.</p>
+</section>
+
+<!-- The problem -->
+<section class="section-gray">
+  <div class="section">
+    <h2>The problem: my agent had no filter</h2>
+    <p>AI agents work in loops. Run a command → get output → decide what to do next. The problem is they read <em>everything</em> the terminal spits out. A 40-line build log. A 30-line <code>brew outdated</code> dump. A full stack trace with 15 frames you don't care about.</p>
 
     <pre>$ brew update<br>==> Homebrew has enabled anonymous aggregate...
 ==> Auto-updated Homebrew!
@@ -294,188 +384,155 @@ gh (2.60.0) -> (2.61.0)
 swiftformat (0.55.4) -> (0.55.5)
 yq (4.45.1) -> (4.45.2)</pre>
 
-    <p>This is 26 lines. On a cheap API like DeepSeek Flash ($0.15/M input tokens), that's roughly 500 input tokens — about $0.000075. Basically free.</p>
+    <p>This is 26 lines. On a cheap API like DeepSeek Flash ($0.15/M input tokens), that's ~500 input tokens — about $0.000075. Basically free.</p>
 
-    <p>But the agent didn't just <em>read</em> those 500 tokens. It also used reasoning tokens to decide what the output means, whether it matters, and what to do next. Those reasoning tokens cost more than the input. And if you've got a multi-step build process running 20-30 tool calls per session, the math starts looking different.</p>
+    <p>But the agent didn't just <em>read</em> those 500 tokens. It also used reasoning tokens to decide what the output means, whether it matters, and what to do next. And if you've got a multi-step build process running 20-30 tool calls per session, the math changes.</p>
 
     <p><strong>The real cost isn't monetary — it's cognitive.</strong> The frontier model has a limited context window. Every line of terminal noise pushes out something that actually matters — like the architecture decision from five messages ago, or the user's constraint from the original prompt.</p>
 
-    <p>This gets worse the smarter your model is. On Claude Sonnet ($3/M input tokens), that same 26-line <code>brew update</code> costs $0.0015 per call. Do that 50 times a day and you're burning $2.25 on update logs alone. Just to be told "yup, Homebrew is up to date."</p>
+    <p>On Claude Sonnet ($3/M input tokens), that same 26-line <code>brew update</code> costs $0.0015 per call. Do that 50 times a day and you're burning $2.25 on update logs alone. On Claude Opus ($15/M), it's $11.25 per day. Just to be told "yup, Homebrew is up to date."</p>
 
     <p>Something had to change.</p>
   </div>
 </section>
 
-<!-- The fix: small local model -->
-<section class="section">
-  <h2>The fix: a 3B local model that reads the junk</h2>
-  <p>The insight is dead simple: <strong>you do not need a frontier model to read a build log.</strong> A 3B model, quantized to 4-bit, running on your Mac's GPU — that's more than enough. It can't write poetry. It can't design architecture. But it <em>can</em> tell you "4 packages were upgraded" from 26 lines of Homebrew noise.</p>
-
-  <p>We used Apple's <a href="https://github.com/ml-explore/mlx">MLX framework</a> to run <a href="https://huggingface.co/mlx-community/Qwen2.5-Coder-3B-Instruct-4bit">Qwen2.5-Coder-3B-Instruct</a> quantized to 4-bit. It lives in a Python venv at <code>~/.venvs/mlx-lm</code>. Connects to our Hermes agent via MCP (Model Context Protocol) — a stdio JSON-RPC server that registers three tools.</p>
-
-  <div class="card">
-    <h3>mlx_summarize</h3>
-    <p>Paste in 40 lines of terminal output. Get back 5 bullet points. This is the biggest win — it sits between every shell command and the frontier model, filtering noise before it reaches the expensive brain.</p>
-  </div>
-
-  <div class="card">
-    <h3>mlx_codegen</h3>
-    <p>"Write a Python script that renames all .jpg files to YYYY-MM-DD format." Comes back with clean code, no markdown fences, no explanations. Saves the frontier model ~200-500 output tokens per generation.</p>
-  </div>
-
-  <div class="card">
-    <h3>mlx_filter</h3>
-    <p>"Which tests failed?" from a 200-line test output. Returns: "TestPayment timed out. TestAuth returned 401." One line instead of a full dump. This is the cheapest tool in terms of tokens saved because the input is already small — but it saves the frontier model from having to parse the output structure.</p>
-  </div>
-
-  <p>There's a terminal fallback too if you're not in the agent environment:</p>
-
-  <pre><span class="term-prompt">$</span> cat build.log | tm mlx-summarize "errors and warnings"
-<span class="term-output"> • Build completed with 2 warnings (deprecated API usage)
- • Xcode version mismatch warning (15.4 vs 15.3)
- • No errors found
-</span>
-<span class="term-prompt">$</span> tm mlx-codegen "bash one-liner to find 5 largest files in /Projects"
-<span class="term-output">find /Projects -maxdepth 3 -type f -exec du -sh {} + | sort -rh | head -5</span></pre>
-</section>
-
 <!-- Before / After -->
-<section class="section-gray">
-  <div class="section section-wide">
-    <h2>Before and after: exact token counts</h2>
-    <p>We instrumented a week of real sessions to get these numbers. Each row is a real task our agent performs regularly.</p>
+<section class="section section-wide">
+  <h2>Before and after: exact token counts</h2>
+  <p>I instrumented a week of real sessions to get these numbers. Each row is a real task my Hermes agent performs regularly.</p>
 
-    <div class="before-after">
-      <div class="card" style="padding-top: 36px;">
-        <div class="badge badge-red">BEFORE (raw terminal to frontier)</div>
-        <p style="font-weight: 500; color: #1d1d1f;">brew update log</p>
-        <p>26 lines of output → <strong>~500 input tokens</strong> to the frontier model. Agent reads every line. Wastes ~400 of those on version numbers nobody cares about.</p>
-      </div>
-      <div class="card" style="padding-top: 36px;">
-        <div class="badge badge-green">AFTER (MLX-filtered)</div>
-        <p style="font-weight: 500; color: #1d1d1f;">brew update log</p>
-        <p>26 lines → mlx_summarize → <strong>~70 input tokens</strong> to frontier. "4 formulae updated. No errors." Same information. 86% fewer tokens.</p>
-      </div>
+  <div class="before-after">
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-red">BEFORE (raw terminal to frontier)</div>
+      <p style="font-weight: 500; color: #1d1d1f;">brew update log</p>
+      <p>26 lines of output → <strong>~500 input tokens</strong> to the frontier model. Agent reads every line. Wastes ~400 of those on version numbers nobody cares about.</p>
     </div>
-
-    <div class="before-after">
-      <div class="card" style="padding-top: 36px;">
-        <div class="badge badge-red">BEFORE (raw terminal to frontier)</div>
-        <p style="font-weight: 500; color: #1d1d1f;">Test run output (40 lines)</p>
-        <p>40 lines of test output → <strong>~800 input tokens</strong>. Agent parses the whole thing looking for FAIL. Finds 2 failures, spends ~500 tokens on passing tests.</p>
-      </div>
-      <div class="card" style="padding-top: 36px;">
-        <div class="badge badge-green">AFTER (MLX-filtered)</div>
-        <p style="font-weight: 500; color: #1d1d1f;">Test run output (40 lines)</p>
-        <p>40 lines → mlx_filter "which tests failed?" → <strong>~50 input tokens</strong>. "TestPayment timed out. TestAuth returned 401." 94% fewer tokens.</p>
-      </div>
-    </div>
-
-    <div class="before-after">
-      <div class="card" style="padding-top: 36px;">
-        <div class="badge badge-red">BEFORE (frontier generates code)</div>
-        <p style="font-weight: 500; color: #1d1d1f;">Bash one-liner generation</p>
-        <p>Frontier model generates a bash one-liner: <strong>~400 tokens</strong> (includes explanation, markdown fences, commentary). Agent then strips the fences and runs the command.</p>
-      </div>
-      <div class="card" style="padding-top: 36px;">
-        <div class="badge badge-green">AFTER (MLX-codegen)</div>
-        <p style="font-weight: 500; color: #1d1d1f;">Bash one-liner generation</p>
-        <p>MLX codegen returns: <strong>~50 tokens</strong>. Pure command. No fences, no "here's what this does," no padding. Save 87% per call.</p>
-      </div>
-    </div>
-
-    <div class="card" style="background: #e8f5e9; border-color: #a5d6a7;">
-      <h3 style="color: #166534;">Total savings in a typical session (10 tool calls)</h3>
-      <p style="color: #2e7d32;">
-        <strong>Before:</strong> ~8,500 input tokens consumed by frontier model reading raw terminal output.
-        <br>
-        <strong>After:</strong> ~1,500 input tokens. Local model handles the other ~7,000 at zero cost.
-        <br><br>
-        <strong style="font-size: 18px;">~82% reduction in input tokens. At zero compute cost.</strong>
-      </p>
-    </div>
-
-    <p style="font-size: 15px; color: #86868b; margin-top: 8px;">Note: These numbers are from our specific workflow (iOS build + test cycles). Your mileage will vary. The more verbose your terminal output, the more you save.</p>
-  </div>
-</section>
-
-<!-- The hardware -->
-<section class="section">
-  <h2>What it takes to run</h2>
-
-  <div class="stat-row">
-    <div class="stat-item">
-      <div class="stat-number">1.8 GB</div>
-      <div class="stat-label">RAM when loaded</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">48 tok/s</div>
-      <div class="stat-label">Inference speed (M2)</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">3-10s</div>
-      <div class="stat-label">Per call latency</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">$0</div>
-      <div class="stat-label">API cost per call</div>
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-green">AFTER (MLX-filtered)</div>
+      <p style="font-weight: 500; color: #1d1d1f;">brew update log</p>
+      <p>26 lines → mlx_summarize → <strong>~70 input tokens</strong> to frontier. "4 formulae updated. No errors." Same information. 86% fewer tokens.</p>
     </div>
   </div>
 
-  <p>Runs on an M2 Mac Mini with 16GB RAM. The model takes about 1.8GB of unified memory when loaded, leaving ~14GB for other work. No GPU contention issues so far — the M2's Neural Engine handles other ML tasks fine alongside it. We've been running it continuously for over a month without restarting the MCP server.</p>
+  <div class="before-after">
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-red">BEFORE (raw terminal to frontier)</div>
+      <p style="font-weight: 500; color: #1d1d1f;">Test run output (40 lines)</p>
+      <p>40 lines of test output → <strong>~800 input tokens</strong>. Agent parses the whole thing looking for FAIL. Finds 2 failures, spends ~500 tokens on passing tests.</p>
+    </div>
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-green">AFTER (MLX-filtered)</div>
+      <p style="font-weight: 500; color: #1d1d1f;">Test run output (40 lines)</p>
+      <p>40 lines → mlx_filter "which tests failed?" → <strong>~50 input tokens</strong>. "TestPayment timed out. TestAuth returned 401." 94% fewer tokens.</p>
+    </div>
+  </div>
 
-  <p>The latency (3-10 seconds per call) is the main tradeoff. On the frontier model, a summarization call takes <1 second. On MLX, it takes 3-5 seconds. That adds up — but for our workflow, the token savings are worth the wait. Build processes run in the background anyway. Nobody is sitting there waiting for the agent to type.</p>
+  <div class="before-after">
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-red">BEFORE (frontier generates code)</div>
+      <p style="font-weight: 500; color: #1d1d1f;">Bash one-liner generation</p>
+      <p>Frontier model generates a bash one-liner: <strong>~400 tokens</strong> (includes explanation, markdown fences, commentary). Agent then strips the fences and runs the command.</p>
+    </div>
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-green">AFTER (MLX-codegen)</div>
+      <p style="font-weight: 500; color: #1d1d1f;">Bash one-liner generation</p>
+      <p>MLX codegen returns: <strong>~50 tokens</strong>. Pure command. No fences, no "here's what this does," no padding. Save 87% per call.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>Total savings in a typical session (10 tool calls)</h3>
+    <p>
+      <strong>Before:</strong> ~8,500 input tokens consumed by frontier model reading raw terminal output.<br>
+      <strong>After:</strong> ~1,500 input tokens. Local model handles the other ~7,000 at zero cost.<br><br>
+      <strong style="font-size: 18px;">~82% reduction in input tokens. At zero compute cost.</strong>
+    </p>
+  </div>
+
+  <div class="callout callout-info">
+    <h3>The dollar math (honest)</h3>
+    <p>If you're on a cheap provider like DeepSeek Flash ($0.15/M), the 7,000 tokens saved per session amounts to ~$0.001 in raw input cost. Nice, but not life-changing.</p>
+    <p style="margin-top: 8px;">Where it matters: on Claude Sonnet ($3/M), that same savings is ~$0.021/session. At 50 sessions/day, that's ~$31.50/month recovered. On Claude Opus ($15/M), it's ~$157/month.</p>
+    <p style="margin-top: 8px;"><strong>But the real win is context hygiene.</strong> That 7,000 tokens of freed context space gets spent on reasoning — catching edge cases, thinking about edge-to-edge layouts, remembering what the user asked five messages ago. That's where the value lives, and it's harder to measure.</p>
+  </div>
+
+  <p style="font-size: 15px; color: #86868b; margin-top: 8px;">Note: These numbers are from my specific workflow (iOS build + test cycles on Hermes Agent). Your mileage will vary. The more verbose your terminal output, the more you save.</p>
 </section>
 
-<!-- Where it breaks -->
+<!-- Where it breaks (moved up) -->
 <section class="section-gray">
   <div class="section">
     <h2>Where it breaks (honestly)</h2>
-    <p>I'm not going to pretend this is a perfect solution. We tested the 3B model on everything we could think of. Here's what doesn't work:</p>
+    <p>I'm not going to pretend this is a universal solution. I tested this 3B model on everything I could throw at it. Here's what doesn't work:</p>
 
     <div class="verdict verdict-pass">
       <h4>Bash one-liners, log summarization, error extraction — flawless</h4>
-      <p>These are the sweet spot. The model handles them fast and accurate enough for production use.</p>
+      <p>These are the sweet spot. Fast, accurate, production-ready. Use without hesitation.</p>
     </div>
 
     <div class="verdict verdict-mid">
       <h4>Python utilities, CSS, JSON, regex — works but verify</h4>
-      <p>It gets the structure right. Sometimes the variable names are weird or the logic has an off-by-one. Always review before using in production.</p>
+      <p>Gets the structure right. Occasionally off-by-one or weird variable names. Always review before using in production.</p>
     </div>
 
     <div class="verdict verdict-fail">
       <h4>Full HTML pages, prose, long-form content — unusable</h4>
-      <p>We tried. Broken images, garbled text, empty sections, <code>overflow: hidden</code> cutting content off the page. The 3B model literally cannot produce coherent multi-section output. Every HTML page we ship is still written by the frontier model.</p>
+      <p>Broken images, garbled text, empty sections, cut-off content. Every HTML page I ship is still written by the frontier model.</p>
     </div>
 
     <div class="verdict verdict-fail">
       <h4>Architecture decisions, anything requiring web access — don't even try</h4>
-      <p>It's a 3B model with a 2024 knowledge cutoff. It has no idea what the current API version is. It will confidently recommend a deprecated library. Never trust it on design decisions.</p>
+      <p>It's a 3B model with a 2024 knowledge cutoff. It will confidently recommend a deprecated API. Never trust it on design decisions.</p>
     </div>
 
     <div class="verdict verdict-neutral">
       <h4>~2048 token output limit</h4>
-      <p>It hits the generation cap on anything longer than a medium-sized function. Long code files, detailed analysis, multi-section content — all get cut off. This is the primary hard limit of the 3B form factor.</p>
+      <p>Hits the generation cap on anything longer than a medium function. Long files, detailed analysis, multi-section content all get cut off. This is the primary hard limit of the 3B form factor.</p>
     </div>
 
     <p style="margin-top: 16px;">The pattern is clear: <strong>utility and noise filtering go to MLX. Content, architecture, and anything requiring judgment stay on the frontier model.</strong> No overlap. No ambiguity.</p>
   </div>
 </section>
 
-<!-- The code and how to use it -->
+<!-- The setup -->
 <section class="section">
-  <h2>The repo and the scripts</h2>
-  <p>Everything is in the <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> repo. The MCP server lives at <code>~/.hermes/scripts/mlx-mcp-server.py</code>. Shell wrappers at <code>~/bin/tm mlx-codegen</code>, <code>tm mlx-summarize</code>, <code>tm mlx-filter</code>. All committed.</p>
+  <h2>What it takes to run</h2>
 
-  <p>If it breaks or you want to undo it:</p>
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-number">M2</div>
+      <div class="stat-label">Apple Silicon required</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">16 GB</div>
+      <div class="stat-label">RAM (8GB works, slower)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">0 MB</div>
+      <div class="stat-label">RAM when idle</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">~500 MB</div>
+      <div class="stat-label">Disk space (model)</div>
+    </div>
+  </div>
 
-  <pre>$ hermes mcp remove mlx-coder</pre>
+  <p>The model loads, runs the inference, and unloads. You don't lose 1.8GB to a daemon that might never be called this session. On an 8GB Mac, this means you can use the local model when you need it and have every byte back the moment it's done.</p>
 
-  <p>That's it. One command. The scripts stay for manual use, so nothing is lost. We built it with a clean exit path because honestly, we weren't sure it would work when we started. Three weeks later, it's still running.</p>
+  <p>The latency tradeoff is real: 3-10 seconds per MLX call vs <1 second on a frontier API. But for my workflow, build processes run in the background anyway. Nobody's sitting there waiting.</p>
 
   <hr style="margin: 40px 0;">
 
-  <p style="font-size: 15px; color: #86868b;">The whole thing runs on <a href="https://github.com/nousresearch/hermes">Hermes Agent</a> by Nous Research with Apple's <a href="https://github.com/ml-explore/mlx">MLX</a> framework. Model: <a href="https://huggingface.co/mlx-community/Qwen2.5-Coder-3B-Instruct-4bit">Qwen2.5-Coder-3B-Instruct-4bit</a> from mlx-community on Hugging Face.</p>
+  <h3>Setup</h3>
+  <p>The MCP server lives at <code>~/.hermes/scripts/mlx-mcp-server.py</code>. Shell wrappers at <code>~/bin/tm mlx-codegen</code>, <code>tm mlx-summarize</code>, <code>tm mlx-filter</code>. All in the <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> repo.</p>
+
+  <p>To remove it:</p>
+  <pre>$ hermes mcp remove mlx-coder</pre>
+  <p>One command. The scripts stay for manual use.</p>
+
+  <hr style="margin: 40px 0;">
+
+  <p style="font-size: 15px; color: #86868b;">Built on <a href="https://github.com/nousresearch/hermes">Hermes Agent</a> by Nous Research with Apple's <a href="https://github.com/ml-explore/mlx">MLX</a> framework. Model: <a href="https://huggingface.co/mlx-community/Qwen2.5-Coder-3B-Instruct-4bit">Qwen2.5-Coder-3B-Instruct-4bit</a> from mlx-community on Hugging Face.</p>
 
   <p style="font-size: 15px; color: #6e6e73;">This is the Way. 💀🔥</p>
 </section>
