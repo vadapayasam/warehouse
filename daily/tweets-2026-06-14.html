@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Tweets - June 14, 2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14'>💀</text></svg>">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-secondary: #f5f5f7;
+    --bg-tertiary: #e8e8ed;
+    --fg: #000000;
+    --fg-secondary: #3c3c43;
+    --fg-tertiary: #aeaeb2;
+    --accent: #007aff;
+    --separator: #c6c6c8;
+    --success: #34c759;
+    --font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px 64px;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 40px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .header .date {
+    font-size: 15px;
+    color: var(--fg-secondary);
+    margin-bottom: 20px;
+  }
+
+  .header .desc {
+    font-size: 15px;
+    color: var(--fg-secondary);
+    line-height: 1.5;
+  }
+
+  /* Schedule Table */
+  .schedule {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 32px;
+  }
+
+  .schedule h2 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+
+  .schedule table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .schedule th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--fg-secondary);
+    padding: 6px 8px 6px 0;
+    border-bottom: 1px solid var(--separator);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .schedule td {
+    padding: 8px 8px 8px 0;
+    border-bottom: 1px solid var(--bg-tertiary);
+    vertical-align: top;
+  }
+
+  .schedule tr:last-child td {
+    border-bottom: none;
+  }
+
+  .schedule .time {
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    width: 60px;
+  }
+
+  .schedule .slot {
+    font-size: 13px;
+    color: var(--fg-secondary);
+  }
+
+  .schedule .purpose {
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  /* Tweet Cards */
+  .tweet-card {
+    background: var(--bg);
+    border: 1px solid var(--separator);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .tweet-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--fg-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tweet-card .meta .slot-label {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .tweet-card .meta .time-label {
+    color: var(--fg-tertiary);
+  }
+
+  .tweet-card .tweet-text {
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .tweet-card .char-count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--fg-tertiary);
+    margin-bottom: 12px;
+  }
+
+  .tweet-card .char-count.over {
+    color: #ff3b30;
+    font-weight: 600;
+  }
+
+  .copy-btn {
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .copy-btn:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .copy-btn.copy-all {
+    border-color: var(--fg);
+    color: var(--fg);
+  }
+
+  .copy-btn.copy-all:hover {
+    background: var(--fg);
+    color: #fff;
+  }
+
+  /* Thread Container */
+  .thread-container {
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 0;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .thread-container .thread-header {
+    background: var(--bg-secondary);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--separator);
+  }
+
+  .thread-container .thread-header span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .thread-container .tweet-card {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--bg-tertiary);
+  }
+
+  .thread-container .tweet-card:last-child {
+    border-bottom: none;
+  }
+
+  .thread-container .thread-footer {
+    padding: 12px 20px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--separator);
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--separator);
+    font-size: 13px;
+    color: var(--fg-secondary);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 32px 16px 48px; }
+    .header h1 { font-size: 22px; }
+    .tweet-card { padding: 16px; }
+    .tweet-card .tweet-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Daily Tweets</h1>
+    <div class="date">June 14, 2026</div>
+    <div class="desc">4 tweets &middot; Generated from real build logs, HN finds, and local model experiments</div>
+  </div>
+
+  <!-- Schedule -->
+  <div class="schedule">
+    <h2>Schedule</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Slot</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time">9:00</td>
+          <td class="slot">Slot 1 - Builder Moment</td>
+          <td class="purpose">Warehouse index: LFM + 3B split pipeline</td>
+        </tr>
+        <tr>
+          <td class="time">12:00</td>
+          <td class="slot">Slot 2 - Hot Take</td>
+          <td class="purpose">Pyodide 314.0 WASM wheels to PyPI</td>
+        </tr>
+        <tr>
+          <td class="time">16:00</td>
+          <td class="slot">Slot 3 - Deep Cut</td>
+          <td class="purpose">MLX 4B no-think beats 3B, matches 9B</td>
+        </tr>
+        <tr>
+          <td class="time">19:00</td>
+          <td class="slot">Slot 4 - Wind-down</td>
+          <td class="purpose">3 local models, 0GB idle, 2.8GB peak</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Slot 1: Thread (2/2) - Warehouse index -->
+  <div class="thread-container">
+    <div class="thread-header">
+      <span>Slot 1 &middot; 9:00 AM &middot; Builder Moment &middot; 2/2</span>
+    </div>
+
+    <div class="tweet-card">
+      <div class="meta">
+        <span class="slot-label">1/2</span>
+        <span class="time-label">Thread</span>
+      </div>
+      <div class="tweet-text">62 HTMLs, no index, no order. The model smart enough to categorize them was too expensive to write the HTML. The one fast enough to write was too small to categorize.
+
+Split the pipeline. Both paid rent. This is the way.</div>
+      <div class="char-count">183 chars</div>
+      <button class="copy-btn" onclick="copyText(this, '62 HTMLs, no index, no order. The model smart enough to categorize them was too expensive to write the HTML. The one fast enough to write was too small to categorize.\n\nSplit the pipeline. Both paid rent. This is the way.')">Copy</button>
+    </div>
+
+    <div class="tweet-card">
+      <div class="meta">
+        <span class="slot-label">2/2</span>
+        <span class="time-label">Thread</span>
+      </div>
+      <div class="tweet-text">DeepSeek categorized 62 files into 7 categories. Qwen 3B generated the index with recents, search, date badges, and category grouping. 2 minutes of routing. 30 seconds of codegen. The 3B handled what it's built for. DeepSeek handled what it isn't.</div>
+      <div class="char-count">251 chars</div>
+      <button class="copy-btn" onclick="copyText(this, 'DeepSeek categorized 62 files into 7 categories. Qwen 3B generated the index with recents, search, date badges, and category grouping. 2 minutes of routing. 30 seconds of codegen. The 3B handled what it\'s built for. DeepSeek handled what it isn\'t.')">Copy</button>
+    </div>
+
+    <div class="thread-footer">
+      <button class="copy-btn copy-all" onclick="copyAllThread(this)">Copy All Parts</button>
+    </div>
+  </div>
+
+  <!-- Slot 2: Pyodide 314.0 -->
+  <div class="tweet-card">
+    <div class="meta">
+      <span class="slot-label">Slot 2 &middot; 12:00 PM</span>
+      <span class="time-label">Hot Take</span>
+    </div>
+    <div class="tweet-text">Pip install in a browser. Not a demo. Pyodide 314.0 moved WASM wheels to the standard registry. Your Python pipeline runs as .wasm now.
+
+No server. No Docker. No VPS. Local inference in a browser tab.</div>
+    <div class="char-count">260 chars</div>
+    <button class="copy-btn" onclick="copyText(this, 'Pyodide just shipped WASM wheels to PyPI. Pip install in a browser tab. That changes things.\n\n314.0 lets any Python package publish WebAssembly builds to the standard registry. Your ML pipeline runs as .wasm. No server, no Docker. Local inference in a browser tab isn\'t sci-fi.')">Copy</button>
+  </div>
+
+  <!-- Slot 3: MLX 4B no-think -->
+  <div class="tweet-card">
+    <div class="meta">
+      <span class="slot-label">Slot 3 &middot; 4:00 PM</span>
+      <span class="time-label">Deep Cut</span>
+    </div>
+    <div class="tweet-text">Disabled chain-of-thought on a 4B model. It matched a 9B on 80% of structured tasks at 1/3 the RAM.
+
+The best optimization this week: turning reasoning off. The 4B no-think beats the 3B and competes with the 9B for local codegen.</div>
+    <div class="char-count">254 chars</div>
+    <button class="copy-btn" onclick="copyText(this, 'I benchmarked MLX 3B, 4B, and 9B for code generation. The 4B with chain-of-thought disabled matched the 9B on 80% of structured tasks at 1/3 the RAM.\n\nTurning off reasoning mode was the single best optimization. The 4B no-think is the real sweet spot for local codegen.')">Copy</button>
+  </div>
+
+  <!-- Slot 4: Local model architecture -->
+  <div class="tweet-card">
+    <div class="meta">
+      <span class="slot-label">Slot 4 &middot; 7:00 PM</span>
+      <span class="time-label">Wind-down</span>
+    </div>
+    <div class="tweet-text">3 local models running. 0GB idle. 2.8GB peak combined. Qwen 3B for codegen, LFM for thinking, 1.2B thinking model for gating decisions.
+
+The pipe costs nothing when nothing's in it. Local inference isn't a cost play. It's a speed play for the parts that don't need a brain.</div>
+    <div class="char-count">276 chars</div>
+    <button class="copy-btn" onclick="copyText(this, '3 local models running. 0GB idle. 2.8GB peak combined. Qwen 3B for codegen, LFM for thinking, 1.2B thinking model for gating decisions.\n\nThe pipe costs nothing when nothing\'s in it. Local inference isn\'t a cost play. It\'s a speed play for the parts that don\'t need a brain.')">Copy</button>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Generated by Agent Tina &middot; <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a><br>
+    <a href="https://vadapayasam.github.io/warehouse/daily/tweets-2026-06-13.html">Previous day</a> &middot; <a href="index.html">Archive</a>
+  </div>
+
+</div>
+
+<script>
+function copyText(btn, text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.style.background = '#34c759';
+      btn.style.color = '#fff';
+      btn.style.borderColor = '#34c759';
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.style.background = 'transparent';
+        btn.style.color = '#007aff';
+        btn.style.borderColor = '#007aff';
+      }, 1500);
+    }).catch(() => fallbackCopy(btn, text));
+  } else {
+    fallbackCopy(btn, text);
+  }
+}
+
+function fallbackCopy(btn, text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  btn.textContent = 'Copied!';
+  btn.style.background = '#34c759';
+  btn.style.color = '#fff';
+  btn.style.borderColor = '#34c759';
+  setTimeout(() => {
+    btn.textContent = 'Copy';
+    btn.style.background = 'transparent';
+    btn.style.color = '#007aff';
+    btn.style.borderColor = '#007aff';
+  }, 1500);
+}
+
+function copyAllThread(btn) {
+  const container = btn.closest('.thread-container');
+  const texts = [];
+  container.querySelectorAll('.tweet-card .tweet-text').forEach(t => {
+    texts.push(t.textContent.trim());
+  });
+  copyText(btn, texts.join('\n\n'));
+}
+</script>
+</body>
+</html>
