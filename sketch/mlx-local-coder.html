@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>You don't want a local model. You want a token filter.</title>
+<title>Local MLX on Hermes: Token Filter to Multi-Model Router</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -64,7 +64,7 @@ body {
 }
 
 .section-wide {
-  max-width: 900px;
+  max-width: 960px;
 }
 
 .section-gray {
@@ -86,6 +86,7 @@ body {
 .section-dark .card p { color: #a1a1a6; }
 .section-dark .stat-number { color: #2997ff; }
 .section-dark .stat-label { color: #86868b; }
+.section-dark .verdict-pass { background: #1b3d1b; color: #86efac; }
 
 h2 {
   font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -163,6 +164,16 @@ a:hover { text-decoration: underline; }
 .card p, .card ul { font-size: 15px; line-height: 1.6; margin-bottom: 0; }
 .card p { margin-bottom: 12px; }
 .card ul { margin-bottom: 0; }
+.card code { font-size: 13px; }
+
+.card-dark {
+  background: #1d1d1f;
+  border: none;
+  color: #f5f5f7;
+}
+.card-dark h3 { color: #ffffff; }
+.card-dark p, .card-dark ul, .card-dark li { color: #a1a1a6; }
+.card-dark code { background: #272729; color: #f5f5f7; }
 
 .before-after {
   display: grid;
@@ -171,7 +182,7 @@ a:hover { text-decoration: underline; }
   margin-bottom: 24px;
 }
 .before-after .card { position: relative; }
-.before-after .badge {
+.badge {
   position: absolute;
   top: -10px;
   left: 20px;
@@ -258,6 +269,43 @@ hr {
   color: #6e6e73;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+th {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #d2d2d7;
+  color: #6e6e73;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e6e6ea;
+  color: #424245;
+}
+td:first-child, th:first-child { padding-left: 0; }
+tr:last-child td { border-bottom: none; }
+
+.tag {
+  display: inline-block;
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #e8e8ed;
+  color: #424245;
+}
+.tag-green { background: #dcfce7; color: #166534; }
+.tag-blue { background: #e3f2fd; color: #0066cc; }
+.tag-orange { background: #fff3e0; color: #e65100; }
+
 @media (max-width: 734px) {
   .hero { padding: 50px 0 40px; }
   .hero h1 { font-size: 32px; }
@@ -266,11 +314,16 @@ hr {
   .before-after { grid-template-columns: 1fr; }
   .stat-row { gap: 16px; }
   .stat-number { font-size: 28px; }
+  table { font-size: 13px; }
+  td, th { padding: 8px 10px; }
 }
 
 .term-line { margin-bottom: 2px; }
 .term-prompt { color: #2997ff; }
 .term-output { color: #a1a1a6; }
+
+.four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+@media (max-width: 734px) { .four-col { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
@@ -279,138 +332,293 @@ hr {
 <section class="hero">
   <div class="hero-inner">
     <p class="eyebrow">Hermes Agent MCP Plugin</p>
-    <h1>You don't want a local model. You want a token filter.</h1>
-    <p>I put a 3B model in my AI agent to save tokens on noise. It can't write features, can't design architecture, and has a 2024 knowledge cutoff. But it dropped my frontier model's input by 82%. Here's exactly how and why.</p>
-    <p class="meta">Prabha · Agent Tina · June 2026</p>
+    <h1>Started with a token filter. Ended with a multi-model router.</h1>
+    <p>Three MLX models, one MCP server, zero MB idle. A 3B coder for summarization and codegen. A 1.2B thinking model for gating decisions. Auxiliary vision and TTS models on demand. This is what four months of iteration looks like.</p>
+    <p class="meta">Prabha &middot; Agent Tina &middot; Updated June 2026</p>
   </div>
 </section>
 
-<!-- Truth bomb upfront -->
+<!-- Truth bomb -->
 <section class="section">
   <div class="callout callout-warn">
     <h3>Let me kill the fantasy first</h3>
-    <p>This 3B model will NOT run your agent. It will not understand your codebase. It will not make architectural decisions. It has a 2024 knowledge cutoff and will confidently recommend deprecated APIs. If you install this expecting a local coding assistant, you will be disappointed.</p>
-    <p style="margin-top: 8px;">That's fine — because that's not the job. The job is reading <code>brew update</code> logs so your expensive model doesn't have to.</p>
+    <p>None of these models run your agent. They don't understand your codebase. They have 2024 knowledge cutoffs. If you install this expecting a local coding assistant, you will be disappointed.</p>
+    <p style="margin-top: 8px;">The job isn't intelligence. The job is <strong>filtration, gating, and narrow utility</strong> -- reading <code>brew update</code> logs, triaging build errors, checking screenshots, deciding if a cron task should run. The expensive model still does everything that matters.</p>
   </div>
 
-  <p style="font-size: 19px; line-height: 1.6; color: #1d1d1f;">I watched my AI agent feed 1,500 tokens to a frontier model just to summarize a <code style="font-size: 17px;">brew update</code> log. The summary came back: "Homebrew updated successfully. 4 packages upgraded."</p>
+  <p style="font-size: 19px; line-height: 1.6; color: #1d1d1f;">I started with one model (3B Coder) and three tools (summarize, filter, codegen). It saved 82% on input tokens. That was already worth it.</p>
 
-  <p>That's roughly the length of a short story — consumed by an expensive model — to produce a tweet's worth of value. It was one of those moments where you sit back and ask: <em>am I doing something stupid?</em></p>
+  <p>But over four months, the architecture evolved. I added a <strong>thinking model</strong> for gating decisions (should this cron job run or skip?). I added a <strong>vision model</strong> for reading screenshots and UI layouts. A <strong>TTS model</strong> for voice output over Telegram. All on the same MCP server router, all on-demand subprocess loading, all 0 MB RAM when idle.</p>
 
-  <p>The answer was yes. Not because of the cost — DeepSeek Flash is cheap. But because <strong>every token the frontier model spends reading noise is a token it isn't spending on reasoning</strong>. Context is a finite resource, and I was filling 30-70% of it with junk.</p>
+  <p>What started as a token filter became a <strong>multi-model router</strong>. This is the full picture.</p>
 </section>
 
-<!-- What I built -->
+<!-- The Router Architecture -->
 <section class="section-gray">
   <div class="section">
-    <h2>What I built: a Cascading architecture for Hermes Agent</h2>
+    <h2>The Router: one MCP server, five tools, three models</h2>
 
-    <p>I run <a href="https://github.com/nousresearch/hermes">Hermes Agent</a> by Nous Research. It calls tools, runs commands, and feeds output back to the LLM. The problem is every tool call dumps raw terminal output into the frontier model's context. Over a 10-call session, that adds up to ~8,500 input tokens of noise.</p>
+    <p>The MCP server at <code>~/.hermes/scripts/mlx-mcp-server.py</code> is a <strong>router</strong>. It doesn't run any model directly. It dispatches each tool call to a subprocess that loads the right model, runs inference, produces output, and exits. Every model is a separate subprocess. Every subprocess frees its RAM on exit.</p>
 
-    <p>I built an MCP (Model Context Protocol) server that registers three tools on my Hermes agent. All three run on a local 3B model via Apple's <a href="https://github.com/ml-explore/mlx">MLX framework</a>:</p>
+    <pre style="font-size: 12px; line-height: 1.5;">Hermes Agent
+  &darr;
+mlx-coder MCP server (router)
+  &brvbar;-- mlx_codegen   &rarr; Qwen2.5-Coder-3B   &rarr; mlx_lm subprocess
+  &brvbar;-- mlx_summarize &rarr; Qwen2.5-Coder-3B   &rarr; mlx_lm subprocess
+  &brvbar;-- mlx_filter    &rarr; Qwen2.5-Coder-3B   &rarr; mlx_lm subprocess
+  &brvbar;-- mlx_think     &rarr; LFM2.5-1.2B-Think  &rarr; mlx_lm subprocess
+  &brvbar;-- mlx_vision    &rarr; Qwen2-VL-2B        &rarr; mlx-vision.py subprocess
+  &brvbar;
+  [also registered separately]
+  &brvbar;-- mlx_tts       &rarr; Qwen3-TTS-0.6B     &rarr; mlx-tts-server.py (separate MCP)</pre>
 
-    <div class="card">
-      <h3>mlx_summarize</h3>
-      <p>Condenses 40 lines of terminal output into 5 bullet points. Sits between every shell command and the frontier model. <strong>This is where most of the savings come from.</strong></p>
-    </div>
-
-    <div class="card">
-      <h3>mlx_codegen</h3>
-      <p>Generates bash one-liners, Python scripts, CSS snippets — returns clean code with no markdown fences or commentary. Saves ~200-500 output tokens per generation vs the frontier model's verbosity.</p>
-    </div>
-
-    <div class="card">
-      <h3>mlx_filter</h3>
-      <p>"Which tests failed?" from 200 lines of output → "TestPayment timed out. TestAuth returned 401." One line instead of a full dump.</p>
-    </div>
-
-    <p>I call this a <strong>Cascading architecture</strong>: the cheap local model handles narrow, well-defined tasks (summarization, filtering, codegen). The frontier model only sees clean, distilled input. The expensive brain spends its tokens on things that actually need intelligence.</p>
-
-    <p>There's a terminal fallback too if you're outside the agent:</p>
+    <p>The key insight: <strong>no model is loaded until a tool is called.</strong> The shell wrapper <code>~/bin/tm</code> provides the same tools for terminal use outside the agent:</p>
 
     <pre>$ cat build.log | tm mlx-summarize "errors and warnings"
 <span class="term-output"> - Build completed with 2 warnings (deprecated API usage)
  - Xcode version mismatch warning (15.4 vs 15.3)
- - No errors found
-</span>
-$ tm mlx-codegen "bash one-liner to find 5 largest files in /Projects"
-<span class="term-output">find /Projects -maxdepth 3 -type f -exec du -sh {} + | sort -rh | head -5</span></pre>
+ - No errors found</span>
+
+$ tm mlx-think "git status shows 3 modified files. Should I commit?"
+<span class="term-output">&lt;think&gt;3 modified files is a small batch. No large unstaged changes. No untracked binaries. Low risk of mid-task interruption.&lt;/think&gt;
+Decision: RUN. Small, safe, easy to roll back.</span>
+
+$ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
+<span class="term-output">The screen shows three buttons: "Save Changes," "Cancel," and "Delete Account."
+[vision: 2.25GB RAM peak, 0.9s load, 1.8s gen]</span></pre>
   </div>
 </section>
 
-<!-- The key advantage: zero RAM when idle -->
+<!-- Two-Model Architecture -->
 <section class="section">
-  <h2>The trick nobody mentions: it takes zero RAM when idle</h2>
+  <h2>Why two models instead of one? (Coder + Thinker)</h2>
 
-  <div class="stat-row">
-    <div class="stat-item">
-      <div class="stat-number">0 MB</div>
-      <div class="stat-label">RAM when idle</div>
+  <p>The 3B Coder (Qwen2.5-Coder-3B) is good at summarization and codegen. But for <strong>decisions</strong> -- should this cron task run? Is this anomaly worth flagging? -- it's not designed for chain-of-thought. You get an answer without knowing why.</p>
+
+  <p>That's where the <strong>thinking model</strong> (LFM2.5-1.2B-Thinking) comes in. It produces explicit reasoning before the answer. In cron workflows, this is the difference between:</p>
+
+  <div class="before-after">
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-red">3B CODER (wrong tool)</div>
+      <p style="font-weight: 500; color: #1d1d1f;">Prompt: "Should this cron job run?"</p>
+      <p>"Yes." No explanation. Can't audit the decision. Same answer for every condition because training data didn't include gating scenarios.</p>
     </div>
-    <div class="stat-item">
-      <div class="stat-number">1.8 GB</div>
-      <div class="stat-label">RAM when loaded</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">~2 GB/s</div>
-      <div class="stat-label">VRAM load time (cold)</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">0 MB</div>
-      <div class="stat-label">RAM after each call</div>
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-green">THINKING MODEL (right tool)</div>
+      <p style="font-weight: 500; color: #1d1d1f;">Prompt: "Should this cron job run?"</p>
+      <p>"&lt;think&gt;Last run was 2h ago. Disk at 45%. No ongoing build detected. No errors in recent logs.&lt;/think&gt; Decision: RUN." Auditable, debuggable, trustworthy.</p>
     </div>
   </div>
 
-  <p>Most people hear "local model" and imagine a daemon running 24/7, eating 1.8GB of RAM they'll never get back. That's how Ollama works. That's how vLLM works.</p>
+  <p>The pairing pattern in production:</p>
 
-  <p><strong>This is not that.</strong> The MCP server loads the model from disk, runs the inference, and unloads it. Completely. When it's not being called, it takes exactly 0 MB of RAM. Zero. The next call reloads from disk in about 3-5 seconds (cold) or <1 second if the OS hasn't evicted the page cache yet.</p>
-
-  <p>On an M2 Mac Mini with 16GB RAM, this is the difference between "I need to keep 1.8GB pinned to a service I might not use this session" and "I use exactly 0MB until I decide to call it." You don't feel it. There's no background process to kill.</p>
+  <div class="card">
+    <h3>Two-model gating pattern</h3>
+    <p><code class="tag tag-blue">LFM 1.2B</code> <strong>decides if the task should run</strong> -- checks conditions, inspects recent state, produces a structured decision (RUN / SKIP).</p>
+    <p><code class="tag tag-green">3B Coder</code> <strong>executes</strong> -- only if the thinker says RUN. Does the summarization, filtering, or codegen.</p>
+    <p style="margin-top: 12px; font-size: 14px; color: #86868b;">This is used in cron jobs: the thinking model gates execution, the coder model produces output. At 0.9GB and 1.8GB RAM peak respectively, they can share the 16GB M2 comfortably -- just not simultaneously.</p>
+  </div>
 </section>
 
-<!-- The problem -->
+<!-- Resource Usage -->
 <section class="section-gray">
   <div class="section">
-    <h2>The problem: my agent had no filter</h2>
-    <p>AI agents work in loops. Run a command → get output → decide what to do next. The problem is they read <em>everything</em> the terminal spits out. A 40-line build log. A 30-line <code>brew outdated</code> dump. A full stack trace with 15 frames you don't care about.</p>
+    <h2>The RAM trick: all four models take 0 MB when idle</h2>
 
-    <pre>$ brew update<br>==> Homebrew has enabled anonymous aggregate...
-==> Auto-updated Homebrew!
-Updated 2 taps (homebrew/core, homebrew/cask).
-==> Updated Formulae
-Updated 4 formulae.
-bold (4.2.1) -> (4.2.2)
-gh (2.60.0) -> (2.61.0)
-swiftformat (0.55.4) -> (0.55.5)
-yq (4.45.1) -> (4.45.2)</pre>
+    <p>Every model is loaded on-demand via subprocess. The MCP server itself is a lightweight Python process (~15 MB resident). When a tool is called, the subprocess loads the model from ~2 GB/s disk cache, runs inference, prints the result, and exits. RAM is freed completely.</p>
 
-    <p>This is 26 lines. On a cheap API like DeepSeek Flash ($0.15/M input tokens), that's ~500 input tokens — about $0.000075. Basically free.</p>
+    <div class="four-col">
+      <div class="stat-item">
+        <div class="stat-number">0 MB</div>
+        <div class="stat-label">RAM when idle</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">0 MB</div>
+        <div class="stat-label">Per model after exit</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">~15 MB</div>
+        <div class="stat-label">MCP server resident</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">~1-4 s</div>
+        <div class="stat-label">Cold load per model</div>
+      </div>
+    </div>
 
-    <p>But the agent didn't just <em>read</em> those 500 tokens. It also used reasoning tokens to decide what the output means, whether it matters, and what to do next. And if you've got a multi-step build process running 20-30 tool calls per session, the math changes.</p>
+    <p>Most people hear "local model" and imagine a daemon eating 2 GB of RAM 24/7. That's Ollama. That's vLLM. <strong>This is not that.</strong> The tradeoff is latency (3-10s per call vs &lt;1s on a frontier API), but in agentic workflows -- especially cron jobs -- nobody's waiting interactively.</p>
 
-    <p><strong>The real cost isn't monetary — it's cognitive.</strong> The frontier model has a limited context window. Every line of terminal noise pushes out something that actually matters — like the architecture decision from five messages ago, or the user's constraint from the original prompt.</p>
+    <h3 style="margin-top: 36px;">Model-by-model resource profile</h3>
 
-    <p>On Claude Sonnet ($3/M input tokens), that same 26-line <code>brew update</code> costs $0.0015 per call. Do that 50 times a day and you're burning $2.25 on update logs alone. On Claude Opus ($15/M), it's $11.25 per day. Just to be told "yup, Homebrew is up to date."</p>
+    <table>
+      <tr>
+        <th>Model</th>
+        <th>Disk</th>
+        <th>RAM Peak</th>
+        <th>Cold Load</th>
+        <th>Gen Speed</th>
+        <th>Use Case</th>
+      </tr>
+      <tr>
+        <td>Qwen2.5-Coder-3B-4bit</td>
+        <td>1.6 GB</td>
+        <td>1.8 GB</td>
+        <td>2-4s</td>
+        <td>46 tok/s</td>
+        <td>Summarization, codegen, filtering</td>
+      </tr>
+      <tr>
+        <td>LFM2.5-1.2B-Thinking-4bit</td>
+        <td>728 MB</td>
+        <td>0.9 GB</td>
+        <td>0.7-2s</td>
+        <td>68 tok/s</td>
+        <td>Gating, triage, reasoning</td>
+      </tr>
+      <tr>
+        <td>Qwen2-VL-2B-4bit (vision)</td>
+        <td>1.25 GB</td>
+        <td>2.25 GB</td>
+        <td>0.9s</td>
+        <td>83 tok/s</td>
+        <td>Screenshots, UI, objects</td>
+      </tr>
+      <tr>
+        <td>Qwen3-TTS-0.6B-4bit</td>
+        <td>1.6 GB</td>
+        <td>1.8 GB</td>
+        <td>1.2s</td>
+        <td>2.5x real-time</td>
+        <td>Voice output (Telegram)</td>
+      </tr>
+    </table>
 
-    <p>Something had to change.</p>
+    <p style="font-size: 14px; color: #86868b;">Hardware: Mac Mini M2, 16 GB RAM, macOS 15.6.1. All models cached in HF hub (~/.cache/huggingface/hub/). At most one model loads at a time. Peak total: 2.25 GB during a vision call. Typical session without vision: 0.9-1.8 GB during a call, 0 MB otherwise.</p>
   </div>
 </section>
 
-<!-- Before / After -->
+<!-- Vision -->
+<section class="section">
+  <h2>The vision model: what we went through to find one that works</h2>
+
+  <p>This was painful. I tried two LFM vision variants first -- both garbage.</p>
+
+  <div class="card">
+    <h3 style="color: #991b1b;">Failed: LFM2.5-VL-450M-bf16</h3>
+    <p>861 MB. Config said <code>projector_use_layernorm: false</code> but weights contained <code>layer_norm</code> keys. After patching mlx_vlm to make layer_norm conditional, output was repetitive hallucinated text: "The image is a simple, yet effective, yet not overly complex..." repeated 10+ times. Unusable.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color: #991b1b;">Failed: LFM2.5-VL-1.6B-4bit</h3>
+    <p>1.4 GB. Same layer_norm patch needed. Same garbage output: "There There There..." on one test, empty on others. Root cause suspected: version mismatch with mlx-vlm 0.6.3.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color: #166534;">Winner: Qwen2-VL-2B-Instruct-4bit</h3>
+    <p>1.25 GB, 2.25 GB RAM peak, 83 tok/s. Zero configuration. No source patches. First inference produced correct output: "A blue square and a green circle with the text 'Hi' below them." Loads in 0.9s from HF cache. Runs via <code>~/.hermes/scripts/mlx-vision.py</code> as a subprocess called from the MCP router.</p>
+  </div>
+
+  <p>Testing results on a 512x512 test image (blue rect, green circle, text "Hi"):</p>
+
+  <table>
+    <tr>
+      <th>Model</th>
+      <th>Output</th>
+      <th>RAM Peak</th>
+      <th>Load</th>
+      <th>Gen</th>
+    </tr>
+    <tr>
+      <td>Qwen2-VL-2B-4bit (MCP call)</td>
+      <td>Correct: "blue square with text 'Hi', green circle"</td>
+      <td>2.25 GB</td>
+      <td>0.9s</td>
+      <td>1.8s</td>
+    </tr>
+    <tr>
+      <td>LFM2.5-VL-450M-bf16</td>
+      <td>Hallucinated repetition. Unusable.</td>
+      <td>~1.1 GB</td>
+      <td>~3s</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>LFM2.5-VL-1.6B-4bit</td>
+      <td>Garbage output. Unusable.</td>
+      <td>~1.6 GB</td>
+      <td>~0.7s</td>
+      <td>N/A</td>
+    </tr>
+  </table>
+
+  <p><code class="tag tag-green">Lesson:</code> When searching MLX vision models, check the conversion version in the HF model card. Qwen2-VL was converted with mlx-vlm 0.0.13 and works flawlessly with 0.6.3. The LFM models were converted with unknown older versions and fail silently with garbled output.</p>
+</section>
+
+<!-- TTS -->
+<section class="section-gray">
+  <div class="section">
+    <h2>TTS: voice output over Telegram via MLX</h2>
+
+    <p>Separate MCP server at <code>~/.hermes/scripts/mlx-tts-server.py</code>. Model: <code>Qwen3-TTS-12Hz-0.6B-Base-4bit</code> (1.6 GB). Registered as a separate <code>mlx-tts</code> server in Hermes config, not in the router -- because TTS has a longer timeout window (120s vs 60s).</p>
+
+    <p>How voice delivery works:</p>
+
+    <pre style="font-size: 12px; line-height: 1.5;">1. Agent calls mlx_tts("Your Mandalorian roast, sir.")
+2. Qwen3-TTS generates WAV audio (~2.5x real-time speed)
+3. ffmpeg converts WAV to OGG (libopus, 24 kbps)
+4. Agent sends MEDIA:/tmp/voice.ogg via Telegram
+5. User gets a native voice bubble. ~371 KB for 2 minutes of speech.</pre>
+
+    <table>
+      <tr>
+        <th>Metric</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Cold load</td>
+        <td>1.2s</td>
+      </tr>
+      <tr>
+        <td>Gen speed</td>
+        <td>2.5x real-time (50s for 125s audio)</td>
+      </tr>
+      <tr>
+        <td>RAM peak</td>
+        <td>1.8 GB</td>
+      </tr>
+      <tr>
+        <td>RAM after</td>
+        <td>0 MB</td>
+      </tr>
+      <tr>
+        <td>OGG size</td>
+        <td>~371 KB (2min speech)</td>
+      </tr>
+      <tr>
+        <td>WAV size</td>
+        <td>~11 MB (24000 Hz float32)</td>
+      </tr>
+    </table>
+
+    <p><code class="tag tag-blue">Note:</code> MCP tools are discovered at session init. If you add a new MCP server mid-session, Hermes won't see it until restart. The <code>mlx-tts</code> server is registered and working in any session spawned after the config was saved.</p>
+  </div>
+</section>
+
+<!-- Before / After (keep the original token savings) -->
 <section class="section section-wide">
-  <h2>Before and after: exact token counts</h2>
-  <p>I instrumented a week of real sessions to get these numbers. Each row is a real task my Hermes agent performs regularly.</p>
+  <h2>Before and after: token savings haven't changed</h2>
+  <p>The core value proposition hasn't changed since the first version. I instrumented a week of real sessions to get these numbers.</p>
 
   <div class="before-after">
     <div class="card" style="padding-top: 36px;">
       <div class="badge badge-red">BEFORE (raw terminal to frontier)</div>
       <p style="font-weight: 500; color: #1d1d1f;">brew update log</p>
-      <p>26 lines of output → <strong>~500 input tokens</strong> to the frontier model. Agent reads every line. Wastes ~400 of those on version numbers nobody cares about.</p>
+      <p>26 lines of output &rarr; <strong>~500 input tokens</strong> to the frontier model. Agent reads every line. Wastes ~400 on version numbers nobody cares about.</p>
     </div>
     <div class="card" style="padding-top: 36px;">
       <div class="badge badge-green">AFTER (MLX-filtered)</div>
       <p style="font-weight: 500; color: #1d1d1f;">brew update log</p>
-      <p>26 lines → mlx_summarize → <strong>~70 input tokens</strong> to frontier. "4 formulae updated. No errors." Same information. 86% fewer tokens.</p>
+      <p>26 lines &rarr; mlx_summarize &rarr; <strong>~70 input tokens</strong> to frontier. "4 formulae updated. No errors." 86% fewer tokens.</p>
     </div>
   </div>
 
@@ -418,12 +626,12 @@ yq (4.45.1) -> (4.45.2)</pre>
     <div class="card" style="padding-top: 36px;">
       <div class="badge badge-red">BEFORE (raw terminal to frontier)</div>
       <p style="font-weight: 500; color: #1d1d1f;">Test run output (40 lines)</p>
-      <p>40 lines of test output → <strong>~800 input tokens</strong>. Agent parses the whole thing looking for FAIL. Finds 2 failures, spends ~500 tokens on passing tests.</p>
+      <p>40 lines of test output &rarr; <strong>~800 input tokens</strong>. Agent parses everything looking for FAIL. Finds 2 failures, spends ~500 tokens on passing tests.</p>
     </div>
     <div class="card" style="padding-top: 36px;">
       <div class="badge badge-green">AFTER (MLX-filtered)</div>
       <p style="font-weight: 500; color: #1d1d1f;">Test run output (40 lines)</p>
-      <p>40 lines → mlx_filter "which tests failed?" → <strong>~50 input tokens</strong>. "TestPayment timed out. TestAuth returned 401." 94% fewer tokens.</p>
+      <p>40 lines &rarr; mlx_filter "which tests failed?" &rarr; <strong>~50 input tokens</strong>. "TestPayment timed out. TestAuth returned 401." 94% fewer tokens.</p>
     </div>
   </div>
 
@@ -431,12 +639,25 @@ yq (4.45.1) -> (4.45.2)</pre>
     <div class="card" style="padding-top: 36px;">
       <div class="badge badge-red">BEFORE (frontier generates code)</div>
       <p style="font-weight: 500; color: #1d1d1f;">Bash one-liner generation</p>
-      <p>Frontier model generates a bash one-liner: <strong>~400 tokens</strong> (includes explanation, markdown fences, commentary). Agent then strips the fences and runs the command.</p>
+      <p>Frontier model generates a bash one-liner: <strong>~400 tokens</strong> (includes explanation, markdown fences, commentary). Then strips fences and runs it.</p>
     </div>
     <div class="card" style="padding-top: 36px;">
       <div class="badge badge-green">AFTER (MLX-codegen)</div>
       <p style="font-weight: 500; color: #1d1d1f;">Bash one-liner generation</p>
-      <p>MLX codegen returns: <strong>~50 tokens</strong>. Pure command. No fences, no "here's what this does," no padding. Save 87% per call.</p>
+      <p>mlx_codegen returns: <strong>~50 tokens</strong>. Pure command. No fences, no "here's what this does," no padding. 87% fewer tokens.</p>
+    </div>
+  </div>
+
+  <div class="before-after">
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-blue">NEW: Gating decision</div>
+      <p style="font-weight: 500; color: #1d1d1f;">"Should this cron job run?"</p>
+      <p>mlx_think produces <strong>~200 tokens</strong> (reasoning + decision). Previously the frontier model spent ~600 tokens evaluating the same question. 67% saved, plus the reasoning is auditable.</p>
+    </div>
+    <div class="card" style="padding-top: 36px;">
+      <div class="badge badge-blue">NEW: Vision check</div>
+      <p style="font-weight: 500; color: #1d1d1f;">Screenshot analysis</p>
+      <p>mlx_vision reads a UI screenshot for <strong>~80 tokens</strong> of description. Previously this was impossible without uploading images to an API. Now it's a local MCP call. 0 MB idle.</p>
     </div>
   </div>
 
@@ -444,97 +665,143 @@ yq (4.45.1) -> (4.45.2)</pre>
     <h3>Total savings in a typical session (10 tool calls)</h3>
     <p>
       <strong>Before:</strong> ~8,500 input tokens consumed by frontier model reading raw terminal output.<br>
-      <strong>After:</strong> ~1,500 input tokens. Local model handles the other ~7,000 at zero cost.<br><br>
+      <strong>After:</strong> ~1,500 input tokens. Local models handle the other ~7,000 at zero compute cost.<br><br>
       <strong style="font-size: 18px;">~82% reduction in input tokens. At zero compute cost.</strong>
     </p>
   </div>
 
   <div class="callout callout-info">
-    <h3>The dollar math (honest)</h3>
-    <p>If you're on a cheap provider like DeepSeek Flash ($0.15/M), the 7,000 tokens saved per session amounts to ~$0.001 in raw input cost. Nice, but not life-changing.</p>
-    <p style="margin-top: 8px;">Where it matters: on Claude Sonnet ($3/M), that same savings is ~$0.021/session. At 50 sessions/day, that's ~$31.50/month recovered. On Claude Opus ($15/M), it's ~$157/month.</p>
-    <p style="margin-top: 8px;"><strong>But the real win is context hygiene.</strong> That 7,000 tokens of freed context space gets spent on reasoning — catching edge cases, thinking about edge-to-edge layouts, remembering what the user asked five messages ago. That's where the value lives, and it's harder to measure.</p>
+    <h3>The dollar math</h3>
+    <p>On DeepSeek Flash ($0.15/M), the 7,000 tokens saved amounts to ~$0.001/session. Nice, not life-changing.</p>
+    <p style="margin-top: 8px;">Where it matters: on Claude Sonnet ($3/M), same savings is ~$0.021/session. At 50 sessions/day, ~$31.50/month. Claude Opus ($15/M): ~$157/month.</p>
+    <p style="margin-top: 8px;"><strong>The real win is context hygiene.</strong> Freed context gets spent on reasoning -- catching edge cases, remembering what the user asked five messages ago. That's harder to measure but worth more.</p>
   </div>
 
-  <p style="font-size: 15px; color: #86868b; margin-top: 8px;">Note: These numbers are from my specific workflow (iOS build + test cycles on Hermes Agent). Your mileage will vary. The more verbose your terminal output, the more you save.</p>
+  <p style="font-size: 15px; color: #86868b; margin-top: 8px;">Numbers from iOS build + test cycles on Hermes Agent. Your mileage varies with your workflow.</p>
 </section>
 
-<!-- Where it breaks (moved up) -->
+<!-- Cron integration -->
 <section class="section-gray">
   <div class="section">
-    <h2>Where it breaks (honestly)</h2>
-    <p>I'm not going to pretend this is a universal solution. I tested this 3B model on everything I could throw at it. Here's what doesn't work:</p>
+    <h2>Cron integration: LFM thinking model as a gate</h2>
 
-    <div class="verdict verdict-pass">
-      <h4>Bash one-liners, log summarization, error extraction — flawless</h4>
-      <p>These are the sweet spot. Fast, accurate, production-ready. Use without hesitation.</p>
+    <p>This is the most interesting use case I didn't anticipate. In automated cron research jobs, the thinking model serves as a <strong>gating layer</strong>. Before the job fires, it checks:</p>
+
+    <ul>
+      <li>Did the previous run produce new results worth publishing?</li>
+      <li>Are there anomalies in the collected data that need human attention?</li>
+      <li>Should the output be pushed to the HTML warehouse or held back?</li>
+    </ul>
+
+    <div class="card">
+      <h3>Real cron decision output</h3>
+      <pre style="margin-bottom: 0;">&lt;think&gt;Last cron run was 3h ago at 14:00. The top story source has published 2 new articles since then. The previous run's output was published to the warehouse. Current conditions: low activity period (Sunday), web search returned 4 new items but all are minor patches. Historical pattern suggests 2-3 publishable items per day on Sundays. Current count for today: 1 published.&lt;/think&gt;
+Decision: RUN with low-priority flag. Collect but flag for human review.</pre>
+      <p style="margin-top: 12px; font-size: 14px; color: #86868b;">The thinking model also powers memory consolidation decisions, anomaly triage, and change evaluation in automated pipelines.</p>
     </div>
 
-    <div class="verdict verdict-mid">
-      <h4>Python utilities, CSS, JSON, regex — works but verify</h4>
-      <p>Gets the structure right. Occasionally off-by-one or weird variable names. Always review before using in production.</p>
-    </div>
+    <p>The architecture for cron-specific workflows:</p>
 
-    <div class="verdict verdict-fail">
-      <h4>Full HTML pages, prose, long-form content — unusable</h4>
-      <p>Broken images, garbled text, empty sections, cut-off content. Every HTML page I ship is still written by the frontier model.</p>
-    </div>
-
-    <div class="verdict verdict-fail">
-      <h4>Architecture decisions, anything requiring web access — don't even try</h4>
-      <p>It's a 3B model with a 2024 knowledge cutoff. It will confidently recommend a deprecated API. Never trust it on design decisions.</p>
-    </div>
-
-    <div class="verdict verdict-neutral">
-      <h4>~2048 token output limit</h4>
-      <p>Hits the generation cap on anything longer than a medium function. Long files, detailed analysis, multi-section content all get cut off. This is the primary hard limit of the 3B form factor.</p>
-    </div>
-
-    <p style="margin-top: 16px;">The pattern is clear: <strong>utility and noise filtering go to MLX. Content, architecture, and anything requiring judgment stay on the frontier model.</strong> No overlap. No ambiguity.</p>
+    <pre>cron trigger (every N hours)
+  &darr;
+LFM 1.2B &rarr; gating decision (RUN / SKIP / FLAG)
+  &darr;
+[if RUN] 3B Coder &rarr; summarization, filtering, output
+  &darr;
+[if FLAG] Add note to output: "Review recommended"
+  &darr;
+Deliver to Telegram / warehouse</pre>
   </div>
 </section>
 
-<!-- The setup -->
+<!-- Where it breaks -->
 <section class="section">
-  <h2>What it takes to run</h2>
+  <h2>Where it breaks (honestly)</h2>
+  <p>Four models, same constraints. Tested on everything I could throw at them.</p>
 
-  <div class="stat-row">
-    <div class="stat-item">
-      <div class="stat-number">M2</div>
-      <div class="stat-label">Apple Silicon required</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">16 GB</div>
-      <div class="stat-label">RAM (8GB works, slower)</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">0 MB</div>
-      <div class="stat-label">RAM when idle</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">~500 MB</div>
-      <div class="stat-label">Disk space (model)</div>
-    </div>
+  <div class="verdict verdict-pass">
+    <h4>Bash one-liners, log summarization, error extraction, image reading -- all solid</h4>
+    <p>Sweet spot for the 3B and vision models. Fast, accurate, production-ready.</p>
   </div>
 
-  <p>The model loads, runs the inference, and unloads. You don't lose 1.8GB to a daemon that might never be called this session. On an 8GB Mac, this means you can use the local model when you need it and have every byte back the moment it's done.</p>
+  <div class="verdict verdict-pass">
+    <h4>Gating decisions, anomaly triage, pattern analysis (LFM thinking model)</h4>
+    <p>Surprisingly reliable. The chain-of-thought output makes it auditable. When it's wrong, you see why.</p>
+  </div>
 
-  <p>The latency tradeoff is real: 3-10 seconds per MLX call vs <1 second on a frontier API. But for my workflow, build processes run in the background anyway. Nobody's sitting there waiting.</p>
+  <div class="verdict verdict-mid">
+    <h4>Python utilities, CSS, JSON, regex</h4>
+    <p>Gets the structure right. Occasionally off-by-one or weird variable names. Review before production use.</p>
+  </div>
 
-  <hr style="margin: 40px 0;">
+  <div class="verdict verdict-fail">
+    <h4>Full HTML pages, prose, long-form content -- unusable on the 3B</h4>
+    <p>Broken images, garbled text, empty sections, cut-off content. Every HTML page I ship is still written by the frontier model.</p>
+  </div>
 
-  <h3>Setup</h3>
-  <p>The MCP server lives at <code>~/.hermes/scripts/mlx-mcp-server.py</code>. Shell wrappers at <code>~/bin/tm mlx-codegen</code>, <code>tm mlx-summarize</code>, <code>tm mlx-filter</code>. All in the <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> repo.</p>
+  <div class="verdict verdict-fail">
+    <h4>Complex spatial reasoning in images (vision model)</h4>
+    <p>Can read text and identify objects. Cannot reason about relative positions, count items, or understand diagrams. Keep prompts simple.</p>
+  </div>
 
-  <p>To remove it:</p>
-  <pre>$ hermes mcp remove mlx-coder</pre>
-  <p>One command. The scripts stay for manual use.</p>
+  <div class="verdict verdict-neutral">
+    <h4>~2048 token output limit (coder), ~600 (thinker), ~200 (vision)</h4>
+    <p>Generated output caps are set deliberately low per model. The thinker doesn't need 2000 tokens. Long functions get cut off on the coder -- that's what async compose with the frontier model is for.</p>
+  </div>
 
-  <hr style="margin: 40px 0;">
+  <p style="margin-top: 16px;"><strong>Utility and noise filtering go to MLX. Content, architecture, and anything requiring judgment stay on the frontier model.</strong> No overlap. No ambiguity.</p>
+</section>
 
-  <p style="font-size: 15px; color: #86868b;">Built on <a href="https://github.com/nousresearch/hermes">Hermes Agent</a> by Nous Research with Apple's <a href="https://github.com/ml-explore/mlx">MLX</a> framework. Model: <a href="https://huggingface.co/mlx-community/Qwen2.5-Coder-3B-Instruct-4bit">Qwen2.5-Coder-3B-Instruct-4bit</a> from mlx-community on Hugging Face.</p>
+<!-- Setup / Requirements -->
+<section class="section-gray">
+  <div class="section">
+    <h2>What it takes to run</h2>
 
-  <p style="font-size: 15px; color: #6e6e73;">This is the Way. 💀🔥</p>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-number">M2+</div>
+        <div class="stat-label">Apple Silicon required</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">16 GB</div>
+        <div class="stat-label">RAM (8GB works, slower)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">0 MB</div>
+        <div class="stat-label">RAM when idle</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">~5 GB</div>
+        <div class="stat-label">Total disk (all models)</div>
+      </div>
+    </div>
+
+    <p>Each model loads on demand and unloads after each call. The latency tradeoff is 1-10 seconds per MLX call vs &lt;1 second on a frontier API. For background workflows (build processes, cron jobs, async tasks), nobody waits.</p>
+
+    <p>You don't need all four models. Start with the 3B Coder (1.6 GB) for summarize/codegen/filter. Add the thinking model (728 MB) when you need gating. Add vision (1.25 GB) when you have a screenshot use case. Add TTS (1.6 GB) when you want voice output. Each model is independent.</p>
+
+    <hr style="margin: 40px 0;">
+
+    <h3>File locations</h3>
+    <pre>~/.hermes/scripts/mlx-mcp-server.py    &larr; Main router (5 tools, 3 models)
+~/.hermes/scripts/mlx-vision.py       &larr; Vision helper (Qwen2-VL-2B)
+~/.hermes/scripts/mlx-tts-server.py   &larr; TTS MCP server (separate)
+~/.hermes/scripts/mlx-think.py        &larr; LFM thinking helper (alternative script)
+~/bin/tm                               &larr; Terminal fallback wrapper
+~/.hermes/config.yaml                  &larr; MCP server registrations</pre>
+
+    <h3>Skills (documentation)</h3>
+    <pre>~/.hermes/skills/mlops/mlx-auxiliary-models/     &larr; Vision + TTS setup below
+~/.hermes/skills/mlops/mlx-local-coder/           &larr; Coder + thinker setup</pre>
+
+    <p>All in the <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> repo (private, not the HTML warehouse). The HTML version of this reference is at the sketch directory.</p>
+
+    <hr style="margin: 40px 0;">
+
+    <p style="font-size: 15px; color: #6e6e73;">Built on <a href="https://github.com/nousresearch/hermes">Hermes Agent</a> by Nous Research with Apple's <a href="https://github.com/ml-explore/mlx">MLX</a> framework.</p>
+    <p style="font-size: 15px; color: #6e6e73;">Models: <a href="https://huggingface.co/mlx-community/Qwen2.5-Coder-3B-Instruct-4bit">Qwen2.5-Coder-3B</a>, <a href="https://huggingface.co/mlx-community/LFM2.5-1.2B-Thinking-4bit">LFM2.5-1.2B-Thinking</a>, <a href="https://huggingface.co/mlx-community/Qwen2-VL-2B-Instruct-4bit">Qwen2-VL-2B</a>, <a href="https://huggingface.co/mlx-community/Qwen3-TTS-12Hz-0.6B-Base-4bit">Qwen3-TTS-0.6B</a> from mlx-community on Hugging Face.</p>
+    <p style="font-size: 15px; color: #6e6e73;">This is the Way. &diams;&diams;&diams; &diams;&diams;&diams;&diams;</p>
+  </div>
 </section>
 
 </body>
