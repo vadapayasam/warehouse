@@ -334,7 +334,7 @@ tr:last-child td { border-bottom: none; }
     <p class="eyebrow">Hermes Agent MCP Plugin</p>
     <h1>Local AI nobody talks about: the dumb-but-cheap layer under the smart model</h1>
     <p>Retained MLX models, one MCP router, zero MB idle. The 3B coder still wins for summarization and filtering. The failed lanes are documented here too: Qwen3.5 hallucinated, LFM 1.2B failed production gates, and terminal wrappers became the real savings layer.</p>
-    <p class="meta">Prabha &middot; Agent Tina &middot; Updated June 15, 2026</p>
+    <p class="meta">Prabha &middot; Agent Tina &middot; Updated June 15, 2026 &mdash; Gemma-4-12B evaluation added</p>
   </div>
 </section>
 
@@ -522,6 +522,52 @@ $ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
       <p>A model does not get a named route because it looks smart once. It gets a route only if it passes the exact task, preserves deterministic facts, stays inside RAM and token limits, and beats the current path.</p>
     </div>
 
+    <h3>Gemma-4-12B-it-qat-OptiQ-4bit &mdash; tested June 15, 2026</h3>
+    <p>Took a swing at a bigger model (12B, 8.4 GB disk, 4-bit OptiQ quant). The results are honest but the resource cost is too high for daily use on a 16&nbsp;GB Mac Mini.</p>
+
+    <table>
+      <tr>
+        <th>Test</th>
+        <th>Result</th>
+        <th>Detail</th>
+      </tr>
+      <tr>
+        <td>macOS helper generation</td>
+        <td><span class="tag tag-green">PASS</span></td>
+        <td>Compiles clean. Uses <code>sysctl -n hw.mem_page_size</code> and <code>vm_stat</code>. No Linux paths.</td>
+      </tr>
+      <tr>
+        <td>xcode log summarization</td>
+        <td><span class="tag tag-green">PASS</span></td>
+        <td>Preserved <code>ContentView.swift:42:17</code>, error type, accurate N/A for tests. No hallucinated XCTest APIs.</td>
+      </tr>
+      <tr>
+        <td>JSON gate reliability</td>
+        <td><span class="tag tag-green">PASS</span></td>
+        <td>Output: <code>CRITICAL</code> with correct reasoning (Firecrawl down, vault failed, 88% memory). Clean one-word verdict.</td>
+      </tr>
+      <tr>
+        <td>Vision sanity check</td>
+        <td><span class="tag tag-orange">N/A</span></td>
+        <td><code>optiq_vision.safetensors</code> exists (168 MB) but mlx_vlm v0.6.3 does not support Gemma 4 Unified. Weights present, framework missing.</td>
+      </tr>
+      <tr>
+        <td>Output budget discipline</td>
+        <td><span class="tag tag-green">PASS</span></td>
+        <td>200-token budget: completed full compound-interest function (140 tokens). No thinking waste with <code>enable_thinking: false</code>.</td>
+      </tr>
+      <tr>
+        <td>Resource fit</td>
+        <td><span class="tag tag-orange">MARGINAL</span></td>
+        <td>9&nbsp;GB peak RAM, 8.4&nbsp;GB disk, 9.4 tok/s, 30s cold start. Too expensive for 16&nbsp;GB daily driver.</td>
+      </tr>
+    </table>
+
+    <div class="verdict verdict-mid">
+      <h4>Gemma-4-12B: reliable but too heavy</h4>
+      <p>The model itself is solid &mdash; passes all quality tests, thinking can be cleanly toggled, JSON output is reliable. But 9&nbsp;GB peak RAM on a 16&nbsp;GB machine means Docker, other models, and normal workflow can't coexist. The 3B Coder (1.8&nbsp;GB, 46 tok/s) does the same job at 1/5th the resource cost. <strong>Keep downloaded for reference but do not route to it as default.</strong></p>
+    </div>
+
     <pre style="font-size: 12px; line-height: 1.5;">candidate model
   &darr;
 run task-specific benchmark
@@ -607,6 +653,14 @@ FAIL: document failure and do not expose as default</pre>
         <td>1.2s</td>
         <td>2.5x real-time</td>
         <td>Voice output (Telegram)</td>
+      </tr>
+      <tr>
+        <td>Gemma-4-12B-it-Qat-OptiQ-4bit</td>
+        <td>8.4 GB</td>
+        <td>9.0 GB</td>
+        <td>~30s</td>
+        <td>9.4 tok/s</td>
+        <td>Tested quality, too heavy for daily use</td>
       </tr>
     </table>
 
@@ -874,6 +928,11 @@ deliver to Telegram / warehouse</pre>
     <p>Generated output caps are set deliberately low per model. The thinker doesn't need 2000 tokens. Long functions get cut off on the coder -- that's what async compose with the frontier model is for.</p>
   </div>
 
+  <div class="verdict verdict-mid">
+    <h4>Gemma-4-12B-it-qat-OptiQ-4bit -- tested June 15, 2026</h4>
+    <p>Solid model, passes every quality test cleanly. But 9 GB peak RAM on a 16 GB machine is a dealbreaker for daily driving. Docker dies, other models can't coexist. Keep downloaded for reference; do not route to it as default.</p>
+  </div>
+
   <p style="margin-top: 16px;"><strong>Utility and noise filtering go to MLX. Deterministic checks handle thresholds. Content, architecture, and anything requiring judgment stay on the frontier model.</strong> No overlap. No ambiguity.</p>
 </section>
 
@@ -898,6 +957,10 @@ deliver to Telegram / warehouse</pre>
       <div class="stat-item">
         <div class="stat-number">~5 GB</div>
         <div class="stat-label">Core retained disk</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">+8.4 GB</div>
+        <div class="stat-label">Gemma-4 (reference)</div>
       </div>
     </div>
 
@@ -925,7 +988,7 @@ deliver to Telegram / warehouse</pre>
     <hr style="margin: 40px 0;">
 
     <p style="font-size: 15px; color: #6e6e73;">Built on <a href="https://github.com/nousresearch/hermes">Hermes Agent</a> by Nous Research with Apple's <a href="https://github.com/ml-explore/mlx">MLX</a> framework.</p>
-    <p style="font-size: 15px; color: #6e6e73;">Models: <a href="https://huggingface.co/mlx-community/Qwen2.5-Coder-3B-Instruct-4bit">Qwen2.5-Coder-3B</a>, <a href="https://huggingface.co/mlx-community/LFM2.5-1.2B-Thinking-4bit">LFM2.5-1.2B-Thinking</a>, <a href="https://huggingface.co/mlx-community/Qwen2-VL-2B-Instruct-4bit">Qwen2-VL-2B</a>, <a href="https://huggingface.co/mlx-community/Qwen3-TTS-12Hz-0.6B-Base-4bit">Qwen3-TTS-0.6B</a> from mlx-community on Hugging Face.</p>
+    <p style="font-size: 15px; color: #6e6e73;">Models: <a href="https://huggingface.co/mlx-community/Qwen2.5-Coder-3B-Instruct-4bit">Qwen2.5-Coder-3B</a>, <a href="https://huggingface.co/mlx-community/LFM2.5-1.2B-Thinking-4bit">LFM2.5-1.2B-Thinking</a>, <a href="https://huggingface.co/mlx-community/Qwen2-VL-2B-Instruct-4bit">Qwen2-VL-2B</a>, <a href="https://huggingface.co/mlx-community/Qwen3-TTS-12Hz-0.6B-Base-4bit">Qwen3-TTS-0.6B</a>, <a href="https://huggingface.co/mlx-community/gemma-4-12B-it-qat-OptiQ-4bit">Gemma-4-12B</a> from mlx-community on Hugging Face. Gemma-4 is tested but not routed to by default (resource cost too high for 16 GB).</p>
     <p style="font-size: 15px; color: #6e6e73;">This is the Way. &diams;&diams;&diams; &diams;&diams;&diams;&diams;</p>
   </div>
 </section>
