@@ -3,186 +3,330 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Design Evolution — AI/Agentic UI Patterns in SaaS (June 2026)</title>
+  <title>AI/Agentic Design Evolution in SaaS - June 2026</title>
   <style>
     :root {
-      --bg: #0a0a0f;
-      --surface: #12121a;
-      --border: #1e1e2e;
-      --text: #e2e2ec;
-      --muted: #7c7c8a;
-      --accent: #7c6af0;
-      --accent2: #f0c06a;
-      --green: #6af0a0;
+      --canvas: #FAFAF8;
+      --ink: #1A1A19;
+      --muted: #787774;
+      --hairline: #EAEAEA;
+      --accent-blue: #2b6cb0;
+      --accent-green: #4caf50;
+      --accent-red: #e53e3e;
+      --accent-orange: #ed8936;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
-      line-height: 1.6;
-      padding: 2rem 1rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--ink);
+      background: var(--canvas);
+      padding: 0 32px;
+      -webkit-font-smoothing: antialiased;
     }
-    .container { max-width: 880px; margin: 0 auto; }
+
+    .skip-link {
+      position: fixed; top: 0; left: 0; z-index: 100;
+      padding: 0.5rem 1rem;
+      background: var(--ink);
+      color: var(--canvas);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transform: translateY(-100%);
+      transition: transform 0.2s;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 0 5rem;
+    }
+
+    /* --- Display: serif, tight, negative tracking --- */
+    h1, h2, h3 {
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--ink);
+    }
+
     h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
-      color: #fff;
+      font-size: 2.4rem;
+      font-weight: 400;
+      margin: 0 0 0.3rem;
     }
-    .subtitle {
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin: 2.5rem 0 1rem;
+      border-top: 1px solid var(--hairline);
+      padding-top: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 1.8rem 0 0.6rem;
+    }
+
+    /* --- Mono meta: uppercase, tracked --- */
+    .meta, .section-num, .label {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Cascadia Code", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
       color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.5rem;
     }
-    .meta {
+
+    .section-num {
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .byline {
       display: flex;
       gap: 1rem;
-      font-size: 0.85rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Cascadia Code", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
       color: var(--muted);
-      margin-bottom: 2.5rem;
+      margin-bottom: 3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--hairline);
     }
-    .pattern {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.75rem;
-      margin-bottom: 1.5rem;
-      transition: border-color 0.2s;
+
+    /* --- Body text --- */
+    p, ul, ol {
+      margin: 0 0 1.1rem;
     }
-    .pattern:hover { border-color: var(--accent); }
-    .pattern h2 {
-      font-size: 1.25rem;
+
+    p {
+      font-size: 1rem;
+    }
+
+    strong {
       font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: #fff;
     }
-    .pattern h2 span {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.15rem 0.55rem;
-      border-radius: 4px;
-      margin-right: 0.6rem;
-      vertical-align: middle;
+
+    a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hairline);
+      transition: border-color 0.15s;
     }
-    .pattern p, .pattern li { font-size: 0.95rem; color: var(--text); }
-    .pattern ul { padding-left: 1.25rem; margin-top: 0.5rem; }
-    .pattern ul li { margin-bottom: 0.4rem; }
-    .highlight-box {
-      background: rgba(124, 106, 240, 0.08);
-      border-left: 3px solid var(--accent);
-      padding: 0.75rem 1rem;
-      margin: 1rem 0;
-      border-radius: 0 6px 6px 0;
-      font-size: 0.9rem;
+    a:hover {
+      border-bottom-color: var(--ink);
     }
+
+    /* --- Sections: hairline top only --- */
+    .section {
+      border-top: 1px solid var(--hairline);
+      padding: 1.5rem 0;
+      margin: 0;
+    }
+
+    .section p {
+      font-size: 1rem;
+    }
+
+    .section ul {
+      padding-left: 1.25rem;
+      margin-top: 0.5rem;
+    }
+    .section ul li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* --- Blockquote: hairline left border, italic --- */
+    blockquote {
+      border-left: 2px solid var(--hairline);
+      margin: 1.5rem 0;
+      padding: 0 0 0 1.25rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+    blockquote strong {
+      color: var(--ink);
+      font-style: normal;
+    }
+
+    /* --- Signal line: editorial treatment, no colored border --- */
+    .signal {
+      margin: 1.5rem 0;
+      padding: 0 0 0 1.25rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .signal strong {
+      color: var(--ink);
+    }
+
+    /* --- Two-column layout --- */
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin: 1rem 0;
+      gap: 2rem;
+      margin: 1.5rem 0;
     }
+
     .card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
+      border-top: 1px solid var(--hairline);
+      padding: 1rem 0;
     }
     .card h3 {
-      font-size: 0.85rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Cascadia Code", monospace;
+      font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--accent2);
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin: 0 0 0.6rem;
     }
-    .card p { font-size: 0.9rem; }
-    .signal {
-      background: rgba(106, 240, 160, 0.06);
-      border-left: 3px solid var(--green);
-      padding: 0.75rem 1rem;
-      margin: 1rem 0;
-      border-radius: 0 6px 6px 0;
-      font-size: 0.9rem;
+    .card p {
+      font-size: 0.95rem;
+      margin: 0;
     }
+
+    /* --- Chips: pastel pill, mono --- */
+    .chip {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.04);
+      color: var(--muted);
+      margin-right: 0.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    /* --- Sources: editorial styling --- */
     .sources {
       margin-top: 3rem;
       padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--hairline);
     }
     .sources h3 {
-      font-size: 1rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Cascadia Code", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
       color: var(--muted);
       margin-bottom: 0.75rem;
+      font-weight: 400;
     }
     .sources ol {
       padding-left: 1.25rem;
       font-size: 0.85rem;
     }
-    .sources ol li { margin-bottom: 0.35rem; }
-    .sources ol li a { color: var(--accent); text-decoration: none; }
-    .sources ol li a:hover { text-decoration: underline; }
-    .tag {
-      display: inline-block;
-      background: rgba(124, 106, 240, 0.15);
-      color: var(--accent);
-      font-size: 0.7rem;
-      font-weight: 500;
-      padding: 0.15rem 0.5rem;
-      border-radius: 3px;
-      margin-right: 0.3rem;
+    .sources ol li {
+      margin-bottom: 0.5rem;
     }
+    .sources ol li a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .sources ol li a:hover {
+      border-bottom-color: var(--ink);
+    }
+
+    /* --- Code --- */
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-size: 0.85em;
+      background: rgba(0,0,0,0.03);
+      padding: 0.15rem 0.35rem;
+      border-radius: 3px;
+    }
+
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      background: rgba(0,0,0,0.02);
+      border: 1px solid var(--hairline);
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      margin: 1.2rem 0;
+    }
+
+    /* --- Focus --- */
+    a:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+
+    /* --- Print --- */
+    @media print {
+      .skip-link { display: none !important; }
+      body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+      a { color: #000 !important; text-decoration: underline; border-bottom: none; }
+      pre { white-space: pre-wrap; word-break: break-word; border: 1px solid #ccc; }
+    }
+
+    /* --- Responsive --- */
     @media (max-width: 640px) {
-      .two-col { grid-template-columns: 1fr; }
-      h1 { font-size: 1.6rem; }
+      body { padding: 0 20px; font-size: 16px; }
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.3rem; }
+      .two-col { grid-template-columns: 1fr; gap: 1.5rem; }
+      pre { padding: 0.75rem; font-size: 0.8rem; overflow-x: auto; }
+    }
+
+    @media (max-width: 1024px) {
+      body { padding: 0 24px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <a href="#content" class="skip-link">Skip to content</a>
+  <main id="content">
     <h1>AI/Agentic Design Evolution in SaaS</h1>
-    <p class="subtitle">Tracking emerging UI/UX patterns — interface evolutions, interaction models, and design decisions reshaping B2B product design.</p>
-    <div class="meta">
-      <span>📅 June 15, 2026</span>
-      <span>🔍 8 sources across 4 research queries</span>
-    </div>
+    <p class="byline">
+      <span>June 15, 2026</span>
+      <span>8 sources across 4 research queries</span>
+    </p>
 
     <!-- Pattern 1 -->
-    <div class="pattern">
-      <h2><span>1</span> The Headless SaaS — AI Becomes the Primary Interface</h2>
-      <p>SaaS applications are repositioning from competing on UI design to becoming <strong>deterministic rules engines</strong> governed by AI agents. The user experience is no longer a screen—it's an agentic layer sitting above headless apps.</p>
-      <div class="highlight-box">
-        <strong>Key quote (Boomi CPTO Ed Macosky):</strong> "The user experience comes through your agentic experiences and makes your applications and your data more ubiquitous in your world. It's not about no user experience — it's about unlocking the user experience to be multimodal."
-      </div>
+    <div class="section">
+      <span class="section-num">01</span>
+      <h2>The Headless SaaS - AI Becomes the Primary Interface</h2>
+      <p>SaaS applications are repositioning from competing on UI design to becoming <strong>deterministic rules engines</strong> governed by AI agents. The user experience is no longer a screen - it's an agentic layer sitting above headless apps.</p>
+      <blockquote>
+        <strong>Key quote (Boomi CPTO Ed Macosky):</strong> "The user experience comes through your agentic experiences and makes your applications and your data more ubiquitous in your world. It's not about no user experience - it's about unlocking the user experience to be multimodal."
+      </blockquote>
       <div class="two-col">
         <div class="card">
-          <h3>Old Model</h3>
+          <h3>Old model</h3>
           <p>Each app had its own UI. Users logged in, navigated screens, filled forms. SaaS competed on UX design.</p>
         </div>
         <div class="card">
-          <h3>New Model</h3>
+          <h3>New model</h3>
           <p>AI is the head. Apps are deterministic backends. SaaS competes on governance, rules, and reliability of agentic actions.</p>
         </div>
       </div>
       <ul>
-        <li><span class="tag">cost control</span> Hybrid deterministic + agentic workflows prevent token explosion (agents calling agents calling agents becomes expensive)</li>
-        <li><span class="tag">governance</span> SaaS apps become "the referees for AI trying to do things" — policy enforcement layers</li>
-        <li><span class="tag">infra</span> Boomi + Red Hat partnership: hybrid AI infrastructure with open-weight models running privately</li>
+        <li><span class="chip">cost control</span> Hybrid deterministic + agentic workflows prevent token explosion (agents calling agents calling agents becomes expensive)</li>
+        <li><span class="chip">governance</span> SaaS apps become "the referees for AI trying to do things" - policy enforcement layers</li>
+        <li><span class="chip">infra</span> Boomi + Red Hat partnership: hybrid AI infrastructure with open-weight models running privately</li>
       </ul>
     </div>
 
     <!-- Pattern 2 -->
-    <div class="pattern">
-      <h2><span>2</span> Collapse of App Sprawl — Intent-Driven Orchestration</h2>
-      <p>With enterprises averaging <strong>600+ SaaS apps</strong> and $280M annual spend, AI-first UX is collapsing the multitool dashboard into <strong>intent-driven orchestration</strong>. Users describe what they want — agents coordinate across systems.</p>
-      <div class="highlight-box">
+    <div class="section">
+      <span class="section-num">02</span>
+      <h2>Collapse of App Sprawl - Intent-Driven Orchestration</h2>
+      <p>With enterprises averaging <strong>600+ SaaS apps</strong> and $280M annual spend, AI-first UX is collapsing the multitool dashboard into <strong>intent-driven orchestration</strong>. Users describe what they want - agents coordinate across systems.</p>
+      <blockquote>
         <strong>Vishal Sood (Typeface):</strong> "AI-first UX is the collapse of the app sprawl... We're moving from users bouncing between disconnected tools to orchestrated systems where agents carry context across workflows."
-      </div>
+      </blockquote>
       <p><strong>Three interface metaphors emerging:</strong></p>
       <ul>
         <li><strong>Conversational:</strong> "Forms evolve into adaptive conversations that prefill known information" (Coupa)</li>
@@ -190,13 +334,14 @@
         <li><strong>Agentic collaborations:</strong> Workflows become multi-agent coordination with human escalation points (Workday Sana, Anthropic Claude Cowork)</li>
       </ul>
       <div class="signal">
-        <strong>Design signal ↓</strong> The winning interaction model is "intent-driven" — user states a goal, system orchestrates. Not a chatbot. Not a dashboard. A hybrid: canvas + conversation + agent orchestration.
+        <strong>Design signal</strong> The winning interaction model is "intent-driven" - user states a goal, system orchestrates. Not a chatbot. Not a dashboard. A hybrid: canvas + conversation + agent orchestration.
       </div>
     </div>
 
     <!-- Pattern 3 -->
-    <div class="pattern">
-      <h2><span>3</span> Flow-First Design — From Screens to Task Rails</h2>
+    <div class="section">
+      <span class="section-num">03</span>
+      <h2>Flow-First Design - From Screens to Task Rails</h2>
       <p>AI interfaces are abandoning fixed navigation for <strong>flow-first</strong> design: the screen becomes a moment, not a destination. Interfaces adapt dynamically to user intent, revealing detail progressively.</p>
       <div class="two-col">
         <div class="card">
@@ -204,48 +349,50 @@
           <p>Static screens, predefined flows, fixed inputs and outputs. Known beginning and end. The user navigates a map you designed.</p>
         </div>
         <div class="card">
-          <h3>AI-First</h3>
+          <h3>AI-first</h3>
           <p>Dynamic task rails that respond to input, handle ambiguity, and flex to fit the task. Designers map paths, not screens.</p>
         </div>
       </div>
       <p><strong>Key patterns from Netguru's framework:</strong></p>
       <ul>
-        <li><strong>Progressive disclosure:</strong> Reveal complexity only when needed — don't overwhelm upfront</li>
+        <li><strong>Progressive disclosure:</strong> Reveal complexity only when needed - don't overwhelm upfront</li>
         <li><strong>Intent detection + clarification:</strong> When input is vague, the system asks follow-ups before acting</li>
-        <li><strong>Multimodal blending:</strong> Voice, text, touch, and visuals — don't force chat when a click works better</li>
-        <li><strong>Static → Generative:</strong> Content/output created in real-time, not pre-authored</li>
+        <li><strong>Multimodal blending:</strong> Voice, text, touch, and visuals - don't force chat when a click works better</li>
+        <li><strong>Static to generative:</strong> Content/output created in real-time, not pre-authored</li>
       </ul>
       <div class="signal">
-        <strong>Design signal ↓</strong> Canva AI 2.0 illustrates this: users type, speak, sketch, or drop a brief. The agent grabs the right tools, builds the output, and remembers the conversation across turns. No fixed canvas mode — the flow adapts.
+        <strong>Design signal</strong> Canva AI 2.0 illustrates this: users type, speak, sketch, or drop a brief. The agent grabs the right tools, builds the output, and remembers the conversation across turns. No fixed canvas mode - the flow adapts.
       </div>
     </div>
 
     <!-- Pattern 4 -->
-    <div class="pattern">
-      <h2><span>4</span> Human-in-Control — Trust as a Design Material</h2>
-      <p>The biggest tension in AI interface design: <strong>how do you preserve user control when the system takes initiative?</strong> Multiple sources converge on the same answer — design for legibility and reversibility.</p>
-      <div class="highlight-box">
-        <strong>Netguru:</strong> "The risk isn't that AI acts unpredictably — it's that it acts too confidently and too opaquely."
-      </div>
+    <div class="section">
+      <span class="section-num">04</span>
+      <h2>Human-in-Control - Trust as a Design Material</h2>
+      <p>The biggest tension in AI interface design: <strong>how do you preserve user control when the system takes initiative?</strong> Multiple sources converge on the same answer - design for legibility and reversibility.</p>
+      <blockquote>
+        <strong>Netguru:</strong> "The risk isn't that AI acts unpredictably - it's that it acts too confidently and too opaquely."
+      </blockquote>
       <ul>
-        <li><strong>Undo & rollback</strong> — every AI action must be reversible (Gmail's Undo Send as gold standard)</li>
-        <li><strong>Manual override</strong> — let users reject or edit AI decisions (Tesla Autopilot disengagement model)</li>
-        <li><strong>Transparency ("Why this?")</strong> — surface reasoning inline, not in a debug panel</li>
-        <li><strong>Granular permissions</strong> — define scope of what the AI can access or modify</li>
-        <li><strong>Activity logs</strong> — show what the AI did, when, and why (auditability isn't optional)</li>
+        <li><strong>Undo and rollback</strong> - every AI action must be reversible (Gmail's Undo Send as gold standard)</li>
+        <li><strong>Manual override</strong> - let users reject or edit AI decisions (Tesla Autopilot disengagement model)</li>
+        <li><strong>Transparency ("Why this?")</strong> - surface reasoning inline, not in a debug panel</li>
+        <li><strong>Granular permissions</strong> - define scope of what the AI can access or modify</li>
+        <li><strong>Activity logs</strong> - show what the AI did, when, and why (auditability isn't optional)</li>
       </ul>
       <div class="signal">
-        <strong>Design signal ↓</strong> From DQIndia: "Trust will not come from making AI smarter alone. It will come from making its boundaries transparent, explicit, and enforceable." Human-in-the-loop approval gates must remain available.
+        <strong>Design signal</strong> From DQIndia: "Trust will not come from making AI smarter alone. It will come from making its boundaries transparent, explicit, and enforceable." Human-in-the-loop approval gates must remain available.
       </div>
     </div>
 
     <!-- Pattern 5 -->
-    <div class="pattern">
-      <h2><span>5</span> Systems of Record → Systems of Action</h2>
+    <div class="section">
+      <span class="section-num">05</span>
+      <h2>Systems of Record to Systems of Action</h2>
       <p>The Sequence's core thesis: enterprise software's winning layer is shifting from <strong>holding canonical state</strong> (who owns the data) to <strong>safely taking action on that state</strong> (who can execute).</p>
-      <div class="highlight-box">
+      <blockquote>
         <strong>The Sequence:</strong> "The old winning layer was the system that held canonical state. The new winning layer is the system that can take action against that state safely, reliably, and observably."
-      </div>
+      </blockquote>
       <p>This reframes the role of SaaS entirely:</p>
       <ul>
         <li><strong>Old:</strong> A database wrapped in forms, permissions, workflows, and a pricing page</li>
@@ -253,41 +400,42 @@
         <li><strong>Metric shift:</strong> From "calls handled" to "contracts reviewed without human escalation" (MIT Tech Review / Ema case study: ROI tripled when metrics shifted to outcomes)</li>
       </ul>
       <div class="signal">
-        <strong>Design signal ↓</strong> For product teams: stop designing for data entry. Design for <strong>supervised execution</strong> — the human approves, the agent acts. The interface becomes a command center, not a form.
+        <strong>Design signal</strong> For product teams: stop designing for data entry. Design for <strong>supervised execution</strong> - the human approves, the agent acts. The interface becomes a command center, not a form.
       </div>
     </div>
 
     <!-- Pattern 6 -->
-    <div class="pattern">
-      <h2><span>6</span> Agentic Business Transformation (ABT) — Rewiring, Not Layering</h2>
+    <div class="section">
+      <span class="section-num">06</span>
+      <h2>Agentic Business Transformation (ABT) - Rewiring, Not Layering</h2>
       <p>76% of organizations say their current operations can't support agentic transformation (MIT Tech Review / Celonis data). The mistake is <strong>layering AI agents onto existing human operating models</strong> rather than redesigning the operating model itself.</p>
-      <div class="highlight-box">
-        <strong>PwC's Prasun Shah:</strong> "They're embedding AI employees into what is a human operating model — like adding sticky tape to parts of an operating model that is breaking."
-      </div>
+      <blockquote>
+        <strong>PwC's Prasun Shah:</strong> "They're embedding AI employees into what is a human operating model - like adding sticky tape to parts of an operating model that is breaking."
+      </blockquote>
       <p><strong>Three pillars of ABT (Ema + HFS Research):</strong></p>
       <ul>
         <li><strong>Technology stack:</strong> Pivot from linear processes to AI agents as connective tissue between systems</li>
         <li><strong>Workforce:</strong> Managers must handle trust, explainability, psychological safety in hybrid human-AI teams</li>
-        <li><strong>Metrics:</strong> Shift from activity/output metrics to outcome metrics (e.g., % of contracts closed without escalation)</li>
+        <li><strong>Metrics:</strong> Shift from activity/output metrics to outcome metrics (e.g., percent of contracts closed without escalation)</li>
       </ul>
       <div class="signal">
-        <strong>Design signal ↓</strong> McKinsey predicts 75% of current jobs will require redesign by 2030. For B2B SaaS builders: your product's information architecture needs to support both human operators AND AI agents as first-class users. API-first, event-driven, role-aware.
+        <strong>Design signal</strong> McKinsey predicts 75% of current jobs will require redesign by 2030. For B2B SaaS builders: your product's information architecture needs to support both human operators AND AI agents as first-class users. API-first, event-driven, role-aware.
       </div>
     </div>
 
     <div class="sources">
       <h3>Sources</h3>
       <ol>
-        <li><a href="https://siliconangle.com/2026/05/15/saas-applications-transform-headless-enterprise-boomiworld/" target="_blank">AI agents are turning SaaS applications into headless, deterministic engines — SiliconANGLE</a></li>
-        <li><a href="https://www.infoworld.com/article/4178415/what-will-ai-first-ux-look-like.html" target="_blank">What will AI-first UX look like? — InfoWorld</a></li>
-        <li><a href="https://www.netguru.com/blog/ai-interface-future" target="_blank">The Rise of AI Interfaces: What It Means for Product Design — Netguru</a></li>
-        <li><a href="https://www.dqindia.com/data-and-ai/when-products-and-frontline-workflows-become-autonomous-12037556" target="_blank">When products and frontline workflows become autonomous — DQIndia</a></li>
-        <li><a href="https://thesequence.substack.com/p/the-sequence-opinion-systems-of-record" target="_blank">Systems of Record vs. Systems of Action — The Sequence</a></li>
-        <li><a href="https://www.technologyreview.com/2026/05/26/1137584/rethinking-organizational-design-in-the-age-of-agentic-ai/" target="_blank">Rethinking organizational design in the age of agentic AI — MIT Technology Review</a></li>
-        <li><a href="https://www.indiatvnews.com/technology/news/canva-ai-2-0-launched-with-agentic-tools-memory-and-smarter-design-features-2026-04-17-1037912" target="_blank">Canva AI 2.0 launched with Agentic Tools — IndiaTV</a></li>
-        <li><a href="https://www.bain.com/insights/agentic-ai-and-the-new-complexity-trap-in-enterprise-software/" target="_blank">Agentic AI and the New Complexity Trap — Bain</a></li>
+        <li><a href="https://siliconangle.com/2026/05/15/saas-applications-transform-headless-enterprise-boomiworld/" target="_blank">AI agents are turning SaaS applications into headless, deterministic engines - SiliconANGLE</a></li>
+        <li><a href="https://www.infoworld.com/article/4178415/what-will-ai-first-ux-look-like.html" target="_blank">What will AI-first UX look like? - InfoWorld</a></li>
+        <li><a href="https://www.netguru.com/blog/ai-interface-future" target="_blank">The Rise of AI Interfaces: What It Means for Product Design - Netguru</a></li>
+        <li><a href="https://www.dqindia.com/data-and-ai/when-products-and-frontline-workflows-become-autonomous-12037556" target="_blank">When products and frontline workflows become autonomous - DQIndia</a></li>
+        <li><a href="https://thesequence.substack.com/p/the-sequence-opinion-systems-of-record" target="_blank">Systems of Record vs. Systems of Action - The Sequence</a></li>
+        <li><a href="https://www.technologyreview.com/2026/05/26/1137584/rethinking-organizational-design-in-the-age-of-agentic-ai/" target="_blank">Rethinking organizational design in the age of agentic AI - MIT Technology Review</a></li>
+        <li><a href="https://www.indiatvnews.com/technology/news/canva-ai-2-0-launched-with-agentic-tools-memory-and-smarter-design-features-2026-04-17-1037912" target="_blank">Canva AI 2.0 launched with Agentic Tools - IndiaTV</a></li>
+        <li><a href="https://www.bain.com/insights/agentic-ai-and-the-new-complexity-trap-in-enterprise-software/" target="_blank">Agentic AI and the New Complexity Trap - Bain</a></li>
       </ol>
     </div>
-  </div>
+  </main>
 </body>
 </html>
