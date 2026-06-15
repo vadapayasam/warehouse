@@ -333,8 +333,8 @@ tr:last-child td { border-bottom: none; }
   <div class="hero-inner">
     <p class="eyebrow">Hermes Agent MCP Plugin</p>
     <h1>Local AI nobody talks about: the dumb-but-cheap layer under the smart model</h1>
-    <p>Four MLX models, one MCP server, zero MB idle. A 3B coder for summarization and codegen. A 1.2B thinking model for gating decisions. Auxiliary vision and TTS models on demand. This is what four months of iteration looks like.</p>
-    <p class="meta">Prabha &middot; Agent Tina &middot; Updated June 2026</p>
+    <p>Retained MLX models, one MCP router, zero MB idle. The 3B coder still wins for summarization and filtering. The failed lanes are documented here too: Qwen3.5 hallucinated, LFM 1.2B failed production gates, and terminal wrappers became the real savings layer.</p>
+    <p class="meta">Prabha &middot; Agent Tina &middot; Updated June 15, 2026</p>
   </div>
 </section>
 
@@ -343,12 +343,12 @@ tr:last-child td { border-bottom: none; }
   <div class="callout callout-warn">
     <h3>Let me kill the fantasy first</h3>
     <p>None of these models run your agent. They don't understand your codebase. They have 2024 knowledge cutoffs. If you install this expecting a local coding assistant, you will be disappointed.</p>
-    <p style="margin-top: 8px;">The job isn't intelligence. The job is <strong>filtration, gating, and narrow utility</strong> -- reading <code>brew update</code> logs, triaging build errors, checking screenshots, deciding if a cron task should run. The expensive model still does everything that matters.</p>
+    <p style="margin-top: 8px;">The job isn't intelligence. The job is <strong>filtration and narrow utility</strong> -- reading <code>brew update</code> logs, triaging build errors, checking screenshots, compressing terminal output before the frontier model sees it. The expensive model still does everything that matters.</p>
   </div>
 
   <p style="font-size: 19px; line-height: 1.6; color: #1d1d1f;">I started with one model (3B Coder) and three tools (summarize, filter, codegen). It saved 82% on input tokens. That was already worth it.</p>
 
-  <p>But over four months, the architecture evolved. I added a <strong>thinking model</strong> for gating decisions (should this cron job run or skip?). I added a <strong>vision model</strong> for reading screenshots and UI layouts. A <strong>TTS model</strong> for voice output over Telegram. All on the same MCP server router, all on-demand subprocess loading, all 0 MB RAM when idle.</p>
+  <p>But the latest round changed the routing rules. Some local lanes looked promising and then failed under real tests. Qwen3.5-4B was deleted after hallucinating Linux paths on macOS and missing xcode errors. LFM 1.2B was demoted after unreliable JSON gate tests. The win is not more local models. The win is routing discipline plus reusable terminal wrappers.</p>
 
   <p>What started as a token filter became a <strong>multi-model router</strong>. This is the full picture.</p>
 </section>
@@ -372,16 +372,18 @@ mlx-coder MCP server (router)
   [also registered separately]
   &brvbar;-- mlx_tts       &rarr; Qwen3-TTS-0.6B     &rarr; mlx-tts-server.py (separate MCP)</pre>
 
-    <p>The key insight: <strong>no model is loaded until a tool is called.</strong> The shell wrapper <code>~/bin/tm</code> provides the same tools for terminal use outside the agent:</p>
+    <p>The key insight: <strong>no model is loaded until a tool is called.</strong> The shell wrapper <code>~/bin/tm</code> now does more than expose raw MLX calls. It wraps noisy terminal workflows so the frontier model does not need to read walls of logs.</p>
 
-    <pre>$ cat build.log | tm mlx-summarize "errors and warnings"
-<span class="term-output"> - Build completed with 2 warnings (deprecated API usage)
- - Xcode version mismatch warning (15.4 vs 15.3)
- - No errors found</span>
+    <pre>$ ~/bin/tm run-summary -- npm test
+<span class="term-output">exit_code: 1
+captured: 18,420 chars, summarized through local 3B
+summary: 2 failed tests, auth timeout, payment assertion mismatch</span>
 
-$ tm mlx-think "git status shows 3 modified files. Should I commit?"
-<span class="term-output">&lt;think&gt;3 modified files is a small batch. No large unstaged changes. No untracked binaries. Low risk of mid-task interruption.&lt;/think&gt;
-Decision: RUN. Small, safe, easy to roll back.</span>
+$ ~/bin/tm git-review .
+<span class="term-output">status, changed files, diffstat, recent commits, and bounded local summary</span>
+
+$ ~/bin/tm file-digest src --max-files 20
+<span class="term-output">manifest first, then a compressed 20-bullet codebase digest</span>
 
 $ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
 <span class="term-output">The screen shows three buttons: "Save Changes," "Cancel," and "Delete Account."
@@ -389,34 +391,78 @@ $ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
   </div>
 </section>
 
+<!-- Terminal upgrades -->
+<section class="section">
+  <h2>The terminal upgrades mattered more than another model</h2>
+  <p>Usage data showed the real bottleneck: terminal calls were more than half the tool usage. The fix was not a smarter local model. The fix was reusable wrappers that capture, cap, summarize, and preserve exit codes.</p>
+
+  <table>
+    <tr>
+      <th>Command</th>
+      <th>Purpose</th>
+      <th>Guardrail</th>
+    </tr>
+    <tr>
+      <td><code>tm run-summary</code></td>
+      <td>Run noisy commands like tests, installs, docker logs, xcodebuild, then summarize with 3B.</td>
+      <td>Preserves wrapped exit code. Skips MLX for short output. RAM guard before local inference.</td>
+    </tr>
+    <tr>
+      <td><code>tm git-review</code></td>
+      <td>Summarize git status, changed files, diffstat, recent commits, and bounded diff.</td>
+      <td>Deterministic metadata first. MLX only for non-trivial diffs.</td>
+    </tr>
+    <tr>
+      <td><code>tm xcode-diagnose</code></td>
+      <td>Wrap <code>xcodebuild</code> with focused Swift/provisioning/error summarization.</td>
+      <td>Prints Xcode environment and preserves <code>xcodebuild</code> exit code.</td>
+    </tr>
+    <tr>
+      <td><code>tm file-digest</code></td>
+      <td>Read a bounded file tree without dumping the whole repo into frontier context.</td>
+      <td>Skips heavy dirs and binaries. Caps per-file and total payload.</td>
+    </tr>
+    <tr>
+      <td><code>tm usage-audit</code></td>
+      <td>Audit routing logs, tm inventory, failures, and PATH problems.</td>
+      <td>Turns infrastructure drift into a visible report.</td>
+    </tr>
+  </table>
+
+  <div class="callout callout-info">
+    <h3>Rule now</h3>
+    <p>If a terminal workflow repeats three times and has two or more commands or noisy output, promote it into <code>tm</code>. Do not create script-trash for one-offs.</p>
+  </div>
+</section>
+
 <!-- Two-Model Architecture -->
 <section class="section">
-  <h2>Why two models instead of one? (Coder + Thinker)</h2>
+  <h2>The thinking model failed the production-gate test</h2>
 
-  <p>The 3B Coder (Qwen2.5-Coder-3B) is good at summarization and codegen. But for <strong>decisions</strong> -- should this cron task run? Is this anomaly worth flagging? -- it's not designed for chain-of-thought. You get an answer without knowing why.</p>
+  <p>The 3B Coder is good at summarization and codegen. I tried to pair it with LFM2.5-1.2B-Thinking for production decisions. That was the attractive architecture: thinker gates, coder executes. It did not survive the latest tests.</p>
 
-  <p>That's where the <strong>thinking model</strong> (LFM2.5-1.2B-Thinking) comes in. It produces explicit reasoning before the answer. In cron workflows, this is the difference between:</p>
+  <p>Given a JSON health payload with low memory, unhealthy Firecrawl, and failed vault sync, the model behaved inconsistently. With <code>--ignore-chat-template</code>, it ignored or misread the payload. Without that flag, it reasoned about the data but burned 500-900 tokens inside <code>&lt;think&gt;</code> and often truncated before a clean final verdict.</p>
 
   <div class="before-after">
     <div class="card" style="padding-top: 36px;">
-      <div class="badge badge-red">3B CODER (wrong tool)</div>
-      <p style="font-weight: 500; color: #1d1d1f;">Prompt: "Should this cron job run?"</p>
-      <p>"Yes." No explanation. Can't audit the decision. Same answer for every condition because training data didn't include gating scenarios.</p>
+      <div class="badge badge-red">FAILED PATH</div>
+      <p style="font-weight: 500; color: #1d1d1f;">LFM 1.2B as a production JSON gate</p>
+      <p>Looked cheap and auditable, but failed reliability: ignored input with one flag, over-thought and truncated without it.</p>
     </div>
     <div class="card" style="padding-top: 36px;">
-      <div class="badge badge-green">THINKING MODEL (right tool)</div>
-      <p style="font-weight: 500; color: #1d1d1f;">Prompt: "Should this cron job run?"</p>
-      <p>"&lt;think&gt;Last run was 2h ago. Disk at 45%. No ongoing build detected. No errors in recent logs.&lt;/think&gt; Decision: RUN." Auditable, debuggable, trustworthy.</p>
+      <div class="badge badge-green">CURRENT PATH</div>
+      <p style="font-weight: 500; color: #1d1d1f;">Deterministic gate first</p>
+      <p>Use code for thresholds, alerts, and health checks. Use frontier when judgment matters. Keep LFM for low-stakes exploratory reasoning only.</p>
     </div>
   </div>
 
-  <p>The pairing pattern in production:</p>
+  <p>The corrected pattern:</p>
 
   <div class="card">
-    <h3>Two-model gating pattern</h3>
-    <p><code class="tag tag-blue">LFM 1.2B</code> <strong>decides if the task should run</strong> -- checks conditions, inspects recent state, produces a structured decision (RUN / SKIP).</p>
-    <p><code class="tag tag-green">3B Coder</code> <strong>executes</strong> -- only if the thinker says RUN. Does the summarization, filtering, or codegen.</p>
-    <p style="margin-top: 12px; font-size: 14px; color: #86868b;">This is used in cron jobs: the thinking model gates execution, the coder model produces output. At 0.9GB and 1.8GB RAM peak respectively, they can share the 16GB M2 comfortably -- just not simultaneously.</p>
+    <h3>Production routing after failure testing</h3>
+    <p><code class="tag tag-green">3B Coder</code> <strong>summarizes and filters</strong> logs, diffs, files, and command output.</p>
+    <p><code class="tag tag-orange">LFM 1.2B</code> <strong>is experimental</strong> -- useful for rough thinking, not for autonomous gates, alerts, or JSON decisions.</p>
+    <p><code class="tag tag-blue">Frontier or deterministic code</code> <strong>owns decisions</strong> when the output triggers actions.</p>
   </div>
 </section>
 
@@ -473,7 +519,7 @@ $ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
         <td>0.9 GB</td>
         <td>0.7-2s</td>
         <td>68 tok/s</td>
-        <td>Gating, triage, reasoning</td>
+        <td>Experimental low-stakes reasoning only</td>
       </tr>
       <tr>
         <td>Qwen2-VL-2B-4bit (vision)</td>
@@ -493,7 +539,7 @@ $ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
       </tr>
     </table>
 
-    <p style="font-size: 14px; color: #86868b;">Hardware: Mac Mini M2, 16 GB RAM, macOS 15.6.1. All models cached in HF hub (~/.cache/huggingface/hub/). At most one model loads at a time. Peak total: 2.25 GB during a vision call. Typical session without vision: 0.9-1.8 GB during a call, 0 MB otherwise.</p>
+    <p style="font-size: 14px; color: #86868b;">Hardware: Mac Mini M2, 16 GB RAM, macOS 15.6.1. Retained models are cached in HF hub (~/.cache/huggingface/hub/). Qwen3.5-4B-OptiQ and LFM 8B 8bit were deleted after failure testing. At most one retained model loads at a time. Peak common path: 2.25 GB during a vision call. Typical session without vision: 0.9-1.8 GB during a call, 0 MB otherwise.</p>
   </div>
 </section>
 
@@ -683,50 +729,58 @@ $ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
 <!-- Cron integration -->
 <section class="section-gray">
   <div class="section">
-    <h2>Cron integration: LFM thinking model as a gate</h2>
+    <h2>Cron integration: what changed after the gate failure</h2>
 
-    <p>This is the most interesting use case I didn't anticipate. In automated cron research jobs, the thinking model serves as a <strong>gating layer</strong>. Before the job fires, it checks:</p>
+    <p>The old idea was seductive: let LFM 1.2B decide whether a cron job should run, then let 3B summarize or filter the output. Real tests killed that plan. Autonomous gates need predictable behavior, not verbose reasoning that sometimes truncates before the verdict.</p>
 
     <ul>
-      <li>Did the previous run produce new results worth publishing?</li>
-      <li>Are there anomalies in the collected data that need human attention?</li>
-      <li>Should the output be pushed to the HTML warehouse or held back?</li>
+      <li>Health alerts now use deterministic thresholds and string checks.</li>
+      <li>State fingerprints decide whether static research should re-run.</li>
+      <li>Local 3B is used after execution to compress logs and outputs.</li>
+      <li>Frontier gets called only when a decision needs judgment.</li>
     </ul>
 
     <div class="card">
-      <h3>Real cron decision output</h3>
-      <pre style="margin-bottom: 0;">&lt;think&gt;Last cron run was 3h ago at 14:00. The top story source has published 2 new articles since then. The previous run's output was published to the warehouse. Current conditions: low activity period (Sunday), web search returned 4 new items but all are minor patches. Historical pattern suggests 2-3 publishable items per day on Sundays. Current count for today: 1 published.&lt;/think&gt;
-Decision: RUN with low-priority flag. Collect but flag for human review.</pre>
-      <p style="margin-top: 12px; font-size: 14px; color: #86868b;">The thinking model also powers memory consolidation decisions, anomaly triage, and change evaluation in automated pipelines.</p>
+      <h3>Correct cron pattern now</h3>
+      <pre style="margin-bottom: 0;">cron trigger
+  &darr;
+deterministic checks: disk, memory, service health, changed source fingerprint
+  &darr;
+[if RUN] execute script
+  &darr;
+3B Coder compresses noisy logs or output
+  &darr;
+[if judgment needed] frontier decides
+  &darr;
+deliver to Telegram / warehouse</pre>
+      <p style="margin-top: 12px; font-size: 14px; color: #86868b;">The thinking model can still be used for low-stakes exploratory analysis, but not for actions that publish, alert, or mutate state.</p>
     </div>
 
-    <p>The architecture for cron-specific workflows:</p>
-
-    <pre>cron trigger (every N hours)
-  &darr;
-LFM 1.2B &rarr; gating decision (RUN / SKIP / FLAG)
-  &darr;
-[if RUN] 3B Coder &rarr; summarization, filtering, output
-  &darr;
-[if FLAG] Add note to output: "Review recommended"
-  &darr;
-Deliver to Telegram / warehouse</pre>
+    <div class="callout callout-warn">
+      <h3>The mistake worth remembering</h3>
+      <p>Reasoning text is not reliability. A model can explain itself and still fail the operational contract. If the output controls automation, use deterministic logic first.</p>
+    </div>
   </div>
 </section>
 
 <!-- Where it breaks -->
 <section class="section">
   <h2>Where it breaks (honestly)</h2>
-  <p>Four models, same constraints. Tested on everything I could throw at them.</p>
+  <p>The useful parts are still useful. The failed parts are now named so we do not waste the research.</p>
 
   <div class="verdict verdict-pass">
     <h4>Bash one-liners, log summarization, error extraction, image reading -- all solid</h4>
     <p>Sweet spot for the 3B and vision models. Fast, accurate, production-ready.</p>
   </div>
 
-  <div class="verdict verdict-pass">
-    <h4>Gating decisions, anomaly triage, pattern analysis (LFM thinking model)</h4>
-    <p>Surprisingly reliable. The chain-of-thought output makes it auditable. When it's wrong, you see why.</p>
+  <div class="verdict verdict-fail">
+    <h4>Production gates and watchdog alerts with LFM 1.2B</h4>
+    <p>Failed JSON gate reliability tests. With <code>--ignore-chat-template</code> it misread the payload. Without it, output often over-thought and truncated before the verdict. Not safe for automation.</p>
+  </div>
+
+  <div class="verdict verdict-fail">
+    <h4>Qwen3.5-4B as the higher-quality local fallback</h4>
+    <p>Deleted after testing. It hallucinated Linux <code>/proc</code> paths for a macOS memory helper, produced broken helper code under constraints, missed an xcode compile error, and invented <code>XCTestExpectation</code> in a test log.</p>
   </div>
 
   <div class="verdict verdict-mid">
@@ -749,7 +803,7 @@ Deliver to Telegram / warehouse</pre>
     <p>Generated output caps are set deliberately low per model. The thinker doesn't need 2000 tokens. Long functions get cut off on the coder -- that's what async compose with the frontier model is for.</p>
   </div>
 
-  <p style="margin-top: 16px;"><strong>Utility and noise filtering go to MLX. Content, architecture, and anything requiring judgment stay on the frontier model.</strong> No overlap. No ambiguity.</p>
+  <p style="margin-top: 16px;"><strong>Utility and noise filtering go to MLX. Deterministic checks handle thresholds. Content, architecture, and anything requiring judgment stay on the frontier model.</strong> No overlap. No ambiguity.</p>
 </section>
 
 <!-- Setup / Requirements -->
@@ -772,13 +826,13 @@ Deliver to Telegram / warehouse</pre>
       </div>
       <div class="stat-item">
         <div class="stat-number">~5 GB</div>
-        <div class="stat-label">Total disk (all models)</div>
+        <div class="stat-label">Core retained disk</div>
       </div>
     </div>
 
     <p>Each model loads on demand and unloads after each call. The latency tradeoff is 1-10 seconds per MLX call vs &lt;1 second on a frontier API. For background workflows (build processes, cron jobs, async tasks), nobody waits.</p>
 
-    <p>You don't need all four models. Start with the 3B Coder (1.6 GB) for summarize/codegen/filter. Add the thinking model (728 MB) when you need gating. Add vision (1.25 GB) when you have a screenshot use case. Add TTS (1.6 GB) when you want voice output. Each model is independent.</p>
+    <p>You don't need every model. Start with the 3B Coder (1.6 GB) for summarize/codegen/filter. Add vision (1.25 GB) when you have a screenshot use case. Add TTS (1.6 GB) when you want voice output. Keep LFM 1.2B as experimental only, not as a gate for production automation.</p>
 
     <hr style="margin: 40px 0;">
 
@@ -791,8 +845,9 @@ Deliver to Telegram / warehouse</pre>
 ~/.hermes/config.yaml                  &larr; MCP server registrations</pre>
 
     <h3>Skills (documentation)</h3>
-    <pre>~/.hermes/skills/mlops/mlx-auxiliary-models/     &larr; Vision + TTS setup below
-~/.hermes/skills/mlops/mlx-local-coder/           &larr; Coder + thinker setup</pre>
+    <pre>~/.hermes/skills/mlops/mlx-auxiliary-models/     &larr; Vision + TTS setup
+~/.hermes/skills/devops/mlx-local-coder/          &larr; Local routing and failure policy
+~/.hermes/skills/tm-scripts/                      &larr; Terminal wrappers</pre>
 
     <p>All in the <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> repo (private, not the HTML warehouse). The HTML version of this reference is at the sketch directory.</p>
 
