@@ -2,329 +2,267 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Tweets - June 15, 2026</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14'>💀</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Tweets · Prabha | 2026-06-15</title>
 <style>
-  :root {
-    --bg: #ffffff;
-    --bg-secondary: #f5f5f7;
-    --bg-tertiary: #e8e8ed;
-    --fg: #000000;
-    --fg-secondary: #3c3c43;
-    --fg-tertiary: #aeaeb2;
-    --accent: #007aff;
-    --separator: #c6c6c8;
-    --success: #34c759;
-    --font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--fg);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    padding: 0;
-  }
-
-  .container {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 48px 24px 64px;
-  }
-
-  .header { margin-bottom: 40px; }
-
-  .header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    margin-bottom: 4px;
-  }
-
-  .header .date {
-    font-size: 15px;
-    color: var(--fg-secondary);
-    margin-bottom: 20px;
-  }
-
-  .header .desc {
-    font-size: 15px;
-    color: var(--fg-secondary);
-    line-height: 1.5;
-  }
-
-  .schedule {
-    background: var(--bg-secondary);
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 32px;
-  }
-
-  .schedule h2 {
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    margin-bottom: 12px;
-  }
-
-  .schedule table { width: 100%; border-collapse: collapse; font-size: 13px; }
-
-  .schedule th {
-    text-align: left;
-    font-weight: 600;
-    color: var(--fg-secondary);
-    padding: 6px 8px 6px 0;
-    border-bottom: 1px solid var(--separator);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .schedule td {
-    padding: 8px 8px 8px 0;
-    border-bottom: 1px solid var(--bg-tertiary);
-    vertical-align: top;
-  }
-
-  .schedule tr:last-child td { border-bottom: none; }
-
-  .schedule .time {
-    font-weight: 600;
-    font-size: 13px;
-    white-space: nowrap;
-    width: 60px;
-  }
-
-  .schedule .slot { font-size: 13px; color: var(--fg-secondary); }
-  .schedule .purpose { font-size: 13px; color: var(--accent); }
-
-  .tweet-card {
-    background: var(--bg);
-    border: 1px solid var(--separator);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  .tweet-card .meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    font-size: 12px;
-    color: var(--fg-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .tweet-card .meta .slot-label { font-weight: 600; color: var(--accent); }
-  .tweet-card .meta .time-label { color: var(--fg-tertiary); }
-
-  .tweet-card .tweet-text {
-    font-size: 17px;
-    line-height: 1.5;
-    margin-bottom: 12px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-
-  .tweet-card .char-count {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--fg-tertiary);
-    margin-bottom: 12px;
-  }
-
-  .tweet-card .char-count.over { color: #ff3b30; font-weight: 600; }
-
-  .copy-btn {
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--accent);
-    background: transparent;
-    border: 1px solid var(--accent);
-    border-radius: 6px;
-    padding: 6px 14px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .copy-btn:hover { background: var(--accent); color: #fff; }
-
-  .footer {
-    margin-top: 48px;
-    padding-top: 24px;
-    border-top: 1px solid var(--separator);
-    font-size: 13px;
-    color: var(--fg-secondary);
-    text-align: center;
-    line-height: 1.6;
-  }
-
-  .footer a { color: var(--accent); text-decoration: none; }
-  .footer a:hover { text-decoration: underline; }
-
-  @media (max-width: 640px) {
-    .container { padding: 32px 16px 48px; }
-    .header h1 { font-size: 22px; }
-    .tweet-card { padding: 16px; }
-    .tweet-card .tweet-text { font-size: 17px; }
-  }
+:root{--bg:#faf9f7;--text:#2a2a2a;--muted:#888;--card:#fff;--accent:#e65c2a;--apps:#2563eb;--hermes:#7c3aed;--workflow:#059669;--tips:#d97706;--failures:#dc2626;--stats:#7c3aed;--interesting:#0891b2;--time:#059669}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:2rem 1rem;max-width:720px;margin:0 auto}
+h1{font-size:1.8rem;margin-bottom:.5rem}
+.date{color:var(--muted);margin-bottom:2rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.9rem}
+.stats-bar span{color:var(--muted)}
+.stats-bar strong{color:var(--text)}
+.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid #eee;transition:.15s}
+.tweet-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.num{background:var(--text);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.tag{font-size:.75rem;padding:.25rem .6rem;border-radius:99px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.tag.apps{background:#dbeafe;color:#1e40af}
+.tag.hermes{background:#ede9fe;color:#5b21b6}
+.tag.workflow{background:#d1fae5;color:#065f46}
+.tag.tips{background:#fef3c7;color:#92400e}
+.tag.failures{background:#fee2e2;color:#991b1b}
+.tag.stats{background:#ede9fe;color:#5b21b6}
+.tag.interesting{background:#cffafe;color:#155e75}
+.time{font-size:.8rem;color:var(--time);font-weight:600;margin-left:auto;background:#d1fae5;padding:.25rem .6rem;border-radius:99px}
+.format{font-size:.8rem;color:var(--muted)}
+.tweet-text{white-space:pre-wrap;font-family:system-ui,sans-serif;font-size:1rem;line-height:1.7;margin-bottom:1rem}
+.screenshot-note{background:#fef3c7;padding:.75rem 1rem;border-radius:16px;font-size:.9rem;color:#92400e;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.copy-btn{padding:.5rem 1rem;border:none;border-radius:16px;background:var(--text);color:#fff;cursor:pointer;font-size:.9rem;float:right}
+.copy-btn:hover{background:var(--accent)}
+.footer{text-align:center;color:var(--muted);font-size:.85rem;margin-top:3rem;padding-top:2rem;border-top:1px solid #eee}
+.guide{background:var(--card);padding:1.5rem;border-radius:16px;margin-bottom:2rem;border:1px solid #eee}
+.guide h2{font-size:1.1rem;margin-bottom:1rem}
+.guide ul{margin-left:1.2rem}
+.guide li{margin-bottom:.4rem}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.9rem}
+.schedule-table td,.schedule-table th{padding:.5rem;text-align:left;border-bottom:1px solid #eee}
+.schedule-table th{color:var(--muted);font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.02em}
+.schedule-table tr:hover{background:#fafafa}
+@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
 </style>
 </head>
 <body>
-<div class="container">
+<h1>🐦 Daily Tweets</h1>
+<p class="date">Prabha's growth engine · 2026-06-15</p>
 
-  <div class="header">
-    <h1>Daily Tweets</h1>
-    <div class="date">June 15, 2026</div>
-    <div class="desc">4 tweets &middot; From HN front page, AI adoption data, and local model experiments</div>
-  </div>
+<div class="stats-bar">
+<span>📊 <strong>85</strong> artifacts</span>
+<span>🔧 <strong>31</strong> skills</span>
+<span>⏰ <strong>6</strong> crons</span>
+<span>📱 <strong>12</strong> iOS</span>
+<span>💻 <strong>34</strong> scripts</span>
+</div>
 
-  <div class="schedule">
-    <h2>Schedule</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Slot</th>
-          <th>Purpose</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="time">9:00</td>
-          <td class="slot">Slot 1 - Builder Moment</td>
-          <td class="purpose">Kage: offline site mirror in one command</td>
-        </tr>
-        <tr>
-          <td class="time">12:00</td>
-          <td class="slot">Slot 2 - Hot Take</td>
-          <td class="purpose">Not everyone is using AI for everything</td>
-        </tr>
-        <tr>
-          <td class="time">16:00</td>
-          <td class="slot">Slot 3 - Deep Cut</td>
-          <td class="purpose">Anthropic's playbook used against them</td>
-        </tr>
-        <tr>
-          <td class="time">19:00</td>
-          <td class="slot">Slot 4 - Wind-down</td>
-          <td class="purpose">The only scalable Postgres delete is DROP TABLE</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="guide">
+<h2>📋 Posting Schedule (IST)</h2>
+<p style="margin-bottom:1rem;font-size:.9rem;color:var(--muted)">Copy → paste into X at the exact time. All times in IST (India time).</p>
+<table class="schedule-table">
+<tr><th>Time</th><th>Category</th><th>Tweet #</th></tr>
+<tr><td>9:00 AM</td><td>workflow</td><td>—</td></tr>
+<tr><td>10:30 AM</td><td>hermes</td><td>—</td></tr>
+<tr><td>12:00 PM</td><td>stats</td><td>—</td></tr>
+<tr><td>2:00 PM</td><td>failures / tips</td><td>—</td></tr>
+<tr><td>3:00 PM</td><td>apps</td><td>—</td></tr>
+<tr><td>4:30 PM</td><td>apps</td><td>—</td></tr>
+<tr><td>6:00 PM</td><td>tips</td><td>—</td></tr>
+<tr><td>7:30 PM</td><td>interesting</td><td>—</td></tr>
+</table>
+<ul style="margin-top:1rem">
+<li>Add screenshot if suggested (marked 📸)</li>
+<li>Engage with replies within 30 min for algorithm boost</li>
+<li>Don't post all at once — space them throughout the day</li>
+</ul>
+</div>
 
-  <!-- Slot 1: Kage -->
-  <div class="tweet-card">
-    <div class="meta">
-      <span class="slot-label">Slot 1 &middot; 9:00 AM</span>
-      <span class="time-label">Builder Moment</span>
-    </div>
-    <div class="tweet-text">Kage: shadow any website to offline in one command. Headless Chrome renders the page, strips all JS, localizes assets. `kage clone paulgraham.com` gets you a browsable mirror with zero network calls. Finally, "Save As" that actually works. github.com/tamnd/kage</div>
-    <div class="char-count" id="c1">...</div>
-    <button class="copy-btn" onclick="copyText(this, 'Kage: shadow any website to offline in one command. Headless Chrome renders the page, strips all JS, localizes assets. `kage clone paulgraham.com` gets you a browsable mirror with zero network calls. Finally, "Save As" that actually works. github.com/tamnd/kage')">Copy</button>
-  </div>
 
-  <!-- Slot 2: Not everyone uses AI -->
-  <div class="tweet-card">
-    <div class="meta">
-      <span class="slot-label">Slot 2 &middot; 12:00 PM</span>
-      <span class="time-label">Hot Take</span>
-    </div>
-    <div class="tweet-text">Gen Z AI adoption stalled at 81%. 62% of desktops visit AI sites 0x per month. AI's net positive rating (+8%) is near social media (+7%). A third of Americans tried AI and chose to limit it. The "AI is eating the world" story doesn't match what people actually do.</div>
-    <div class="char-count" id="c2">...</div>
-    <button class="copy-btn" onclick="copyText(this, 'Gen Z AI adoption stalled at 81%. 62% of desktops visit AI sites 0x per month. AI\'s net positive rating (+8%) is near social media (+7%). A third of Americans tried AI and chose to limit it. The "AI is eating the world" story doesn\'t match what people actually do.')">Copy</button>
-  </div>
+        <div class="tweet-card" id="tweet-1">
+            <div class="tweet-header">
+                <span class="num">1</span>
+                <span class="tag workflow">#workflow</span>
+                <span class="format">listicle</span>
+                <span class="time">9:00 AM IST</span>
+            </div>
+            <pre class="tweet-text">My daily automation stack:
 
-  <!-- Slot 3: Anthropic export controls -->
-  <div class="tweet-card">
-    <div class="meta">
-      <span class="slot-label">Slot 3 &middot; 4:00 PM</span>
-      <span class="time-label">Deep Cut</span>
-    </div>
-    <div class="tweet-text">Anthropic's own playbook just got used against them. US banned foreign access to Claude Fable and Mythos. Dario Amodei asked for third-party power to block risky deployments. It worked exactly as he described. verysane.ai/p/did-anthropic-ask-for-this</div>
-    <div class="char-count" id="c3">...</div>
-    <button class="copy-btn" onclick="copyText(this, 'Anthropic\'s own playbook just got used against them. US banned foreign access to Claude Fable and Mythos. Dario Amodei asked for third-party power to block risky deployments. It worked exactly as he described. verysane.ai/p/did-anthropic-ask-for-this')">Copy</button>
-  </div>
+6 AM: Todoist processed, daily tasks created
+9 AM: Weekly ITSM/MSP research runs
+2 PM: Designer skills radar scan
+6 PM: Raw vault files processed
 
-  <!-- Slot 4: Postgres DROP TABLE -->
-  <div class="tweet-card">
-    <div class="meta">
-      <span class="slot-label">Slot 4 &middot; 7:00 PM</span>
-      <span class="time-label">Wind-down</span>
-    </div>
-    <div class="tweet-text">The only scalable delete in Postgres is DROP TABLE. MVCC makes DELETE "work added, not work done" - dead tuples, vacuum debt, zero disk reclamation. Structure your schema so cleanup is a partition drop, not a DELETE. planetscale.com/blog/the-only-scalable-delete</div>
-    <div class="char-count" id="c4">...</div>
-    <button class="copy-btn" onclick="copyText(this, 'The only scalable delete in Postgres is DROP TABLE. MVCC makes DELETE "work added, not work done" - dead tuples, vacuum debt, zero disk reclamation. Structure your schema so cleanup is a partition drop, not a DELETE. planetscale.com/blog/the-only-scalable-delete')">Copy</button>
-  </div>
+I don't schedule these. Cron does. I just review the output.</pre>
+            <div class="screenshot-note">📸 hermes cron list output</div>
+            <button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-2">
+            <div class="tweet-header">
+                <span class="num">2</span>
+                <span class="tag apps">#apps</span>
+                <span class="format">single</span>
+                <span class="time">4:30 PM IST</span>
+            </div>
+            <pre class="tweet-text">Working on LeaveHack this week.
 
-  <div class="footer">
-    Generated by Agent Tina &middot; <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a><br>
-    <a href="https://vadapayasam.github.io/warehouse/daily/tweets-2026-06-14.html">Previous day</a> &middot; <a href="index.html">Archive</a>
-  </div>
+SwiftUI + WidgetKit combo is still undefeated for quick utility apps. Here's why:
 
+Live Activities: Lock screen widget shows remaining leave days. No app open needed. This is the "always visible" feature that makes a utility app stick.
+
+SwiftUI List + Form: Built the entire settings screen in 40 lines. No custom UI. No Auto Layout wrestling. System handles dark mode, dynamic type, accessibility.
+
+App Intents: Siri can add a leave day. "Hey Siri, I'm taking Friday off." Integration took 2 hours. Not because it's complex — because Apple made the API actually usable for once.
+
+WidgetKit timeline: Widget refreshes at midnight automatically. No background fetch. No push notifications. System updates the view when the date changes.
+
+Total build time: 3 evenings. ~8 hours. That's the power of staying inside the system instead of fighting it.</pre>
+            <div class="screenshot-note">📸 LeaveHack calendar screenshot</div>
+            <button class="copy-btn" onclick="copyTweet(2)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-3">
+            <div class="tweet-header">
+                <span class="num">3</span>
+                <span class="tag workflow">#workflow</span>
+                <span class="format">step-by-step</span>
+                <span class="time">9:00 AM IST</span>
+            </div>
+            <pre class="tweet-text">Every design review I do now:
+
+1. Agent captures screenshots
+2. HTML review gallery generated automatically
+3. I add commentary inline
+4. Gallery pushed to GitHub Pages
+5. Link shared. No Figma comments. No email threads.</pre>
+            <div class="screenshot-note">📸 WhatPay review HTML gallery page</div>
+            <button class="copy-btn" onclick="copyTweet(3)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-4">
+            <div class="tweet-header">
+                <span class="num">4</span>
+                <span class="tag apps">#apps</span>
+                <span class="format">single</span>
+                <span class="time">4:30 PM IST</span>
+            </div>
+            <pre class="tweet-text">My iOS app philosophy in one sentence:
+
+Make the thing you wish existed. Ship in 2 weeks. Iterate in public.
+
+The breakdown:
+
+'Make the thing you wish existed' — WhatPay started because I couldn't find a simple Indian expense tracker that didn't want my email and phone number. TimeLeft started because I wanted a countdown widget that looked good.
+
+'Ship in 2 weeks' — Not because I'm fast. Because I scope aggressively. v1.0 has one core flow. Everything else is v1.1. The first version of WhatPay tracked expenses and showed a total. That's it. No categories, no export, no iCloud.
+
+'Iterate in public' — Build numbers are public. TestFlight links go to friends. I post screenshots before the app is done. The feedback shapes the product more than any user research session.
+
+The counter-intuitive part: shipping unfinished feels risky. But the real risk is building something perfect that nobody wants.</pre>
+            
+            <button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-5">
+            <div class="tweet-header">
+                <span class="num">5</span>
+                <span class="tag failures">#failures</span>
+                <span class="format">story</span>
+                <span class="time">2:00 PM IST</span>
+            </div>
+            <pre class="tweet-text">My Honcho memory system hit capacity. Context windows were getting compressed. Facts were being dropped.
+
+The symptoms:
+- Agent started repeating questions I had answered before
+- Cross-references in the wiki were getting stale
+- The daily digest was missing items that should have been tracked
+
+I checked the memory store: 2,147 entries. The system was deduplicating but the dedup algorithm was too conservative.
+
+The fix was "goblin surgery" — my term for aggressive manual cleanup:
+
+1. Deduplicated entries: 200+ near-duplicate facts merged
+2. Pruned stale facts: removed 180 entries older than 6 months with no recent references
+3. Reorganized structure: split the monolithic memory file into category-specific files (ios, design, workflow, failures, tools)
+4. Added a TTL policy: facts auto-expire after 12 months unless renewed by reference
+
+Result: 1,400 entries. Faster lookups. Better context retention.
+
+The lesson: persistent memory needs maintenance. Left alone, it becomes a hoarder's attic.
+
+Sometimes you need to delete to grow.</pre>
+            <div class="screenshot-note">📸 Memory usage before/after</div>
+            <button class="copy-btn" onclick="copyTweet(5)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-6">
+            <div class="tweet-header">
+                <span class="num">6</span>
+                <span class="tag interesting">#interesting</span>
+                <span class="format">listicle</span>
+                <span class="time">7:30 PM IST</span>
+            </div>
+            <pre class="tweet-text">Every tool I use has a specific reason I picked it:
+• Hermes: custom agent infra
+• DeepSeek v4 Pro: cheap, high context
+• Claude: coding quality
+• Figma: only when visual output is external
+• GitHub Pages: free, fast publishing
+
+No defaults. Every choice is deliberate.</pre>
+            
+            <button class="copy-btn" onclick="copyTweet(6)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-7">
+            <div class="tweet-header">
+                <span class="num">7</span>
+                <span class="tag tips">#tips</span>
+                <span class="format">single</span>
+                <span class="time">6:00 PM IST</span>
+            </div>
+            <pre class="tweet-text">For iOS devs building alone:
+
+Set up `asc` (App Store Connect CLI) once. Then:
+`asc builds upload` = TestFlight in 30 seconds
+
+No Xcode Organizer. No manual IPA export. No web upload.</pre>
+            <div class="screenshot-note">📸 asc builds upload terminal output</div>
+            <button class="copy-btn" onclick="copyTweet(7)">Copy</button>
+        </div>
+        
+        <div class="tweet-card" id="tweet-8">
+            <div class="tweet-header">
+                <span class="num">8</span>
+                <span class="tag stats">#stats</span>
+                <span class="format">listicle</span>
+                <span class="time">12:00 PM IST</span>
+            </div>
+            <pre class="tweet-text">By the numbers:
+• GitHub: 13 public repos
+• Hermes: 31 skills, 6 crons, 34 scripts
+• iOS: 12 Xcode projects
+• HTML artifacts: 85 published
+• GitHub member since: 2011
+
+All while working full-time as Lead PD.</pre>
+            <div class="screenshot-note">📸 GitHub profile page</div>
+            <button class="copy-btn" onclick="copyTweet(8)">Copy</button>
+        </div>
+        
+
+<div class="footer">
+Generated by <a href="https://github.com/vadapayasam/warehouse">Hermes Agent</a> · 2026-06-15<br>
+<a href="https://vadapayasam.github.io/warehouse/">← Back to warehouse</a>
 </div>
 
 <script>
-function copyText(btn, text) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = 'Copied!';
-      btn.style.background = '#34c759';
-      btn.style.color = '#fff';
-      btn.style.borderColor = '#34c759';
-      setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.style.background = 'transparent';
-        btn.style.color = '#007aff';
-        btn.style.borderColor = '#007aff';
-      }, 1500);
-    }).catch(() => fallbackCopy(btn, text));
-  } else {
-    fallbackCopy(btn, text);
-  }
+function copyTweet(n){
+    const t = document.querySelector('#tweet-'+n+ ' .tweet-text');
+    navigator.clipboard.writeText(t.innerText).then(()=>{
+        const b = document.querySelector('#tweet-'+n+' .copy-btn');
+        b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy', 1500);
+    });
 }
-
-function fallbackCopy(btn, text) {
-  const ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.position = 'fixed';
-  ta.style.opacity = '0';
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
-  btn.textContent = 'Copied!';
-  btn.style.background = '#34c759';
-  btn.style.color = '#fff';
-  btn.style.borderColor = '#34c759';
-  setTimeout(() => {
-    btn.textContent = 'Copy';
-    btn.style.background = 'transparent';
-    btn.style.color = '#007aff';
-    btn.style.borderColor = '#007aff';
-  }, 1500);
-}
-
-// Set character counts on load
-window.addEventListener('DOMContentLoaded', () => {
-  const texts = document.querySelectorAll('.tweet-text');
-  texts.forEach(t => {
-    const cc = t.closest('.tweet-card').querySelector('.char-count');
-    const len = t.textContent.trim().length;
-    cc.textContent = len + ' chars';
-    if (len > 280) cc.classList.add('over');
-  });
-});
 </script>
 </body>
 </html>
