@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MLX Routing Audit: Is the 0 MB Local Model Setup Paying Off?</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black: #000000;
+  --ink: #1d1d1f;
+  --muted: #6e6e73;
+  --soft: #f5f5f7;
+  --white: #ffffff;
+  --blue: #0071e3;
+  --blue-dark: #0066cc;
+  --border: #d2d2d7;
+  --graphite: #272729;
+  --green: #1a7f37;
+  --orange: #b45309;
+  --red: #b42318;
+}
+body {
+  font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: var(--ink);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--blue-dark); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  background: var(--black);
+  color: var(--white);
+  padding: 84px 0 64px;
+}
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.hero-copy { max-width: 760px; }
+.eyebrow {
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #86868b;
+  margin-bottom: 16px;
+}
+h1, h2, h3 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: inherit;
+}
+h1 {
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.lede {
+  font-size: 21px;
+  line-height: 1.42;
+  color: #a1a1a6;
+  max-width: 680px;
+}
+.meta {
+  margin-top: 28px;
+  font-size: 14px;
+  color: #86868b;
+}
+section { padding: 64px 0; }
+section.soft { background: var(--soft); }
+section.dark { background: var(--black); color: var(--white); }
+section.dark p, section.dark li, section.dark .small { color: #a1a1a6; }
+h2 {
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+h3 {
+  font-size: 22px;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  font-weight: 650;
+  margin-bottom: 10px;
+}
+p { margin-bottom: 18px; color: #424245; }
+section.dark p { color: #a1a1a6; }
+ul { margin: 0 0 20px 22px; color: #424245; }
+li { margin-bottom: 8px; }
+strong { color: var(--ink); }
+section.dark strong { color: var(--white); }
+code {
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  background: #eeeeef;
+  color: var(--ink);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+section.dark code { background: var(--graphite); color: var(--soft); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.grid.two { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+}
+.soft .card { background: var(--white); }
+.dark .card { background: var(--graphite); border-color: #424245; }
+.card p, .card li { font-size: 15px; line-height: 1.55; }
+.card p:last-child, .card ul:last-child { margin-bottom: 0; }
+.stat {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+.dark .stat { color: #2997ff; }
+.label {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.verdict {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 20px;
+  align-items: stretch;
+  margin-top: 28px;
+}
+.verdict-box {
+  background: var(--ink);
+  color: var(--white);
+  border-radius: 16px;
+  padding: 28px;
+}
+.verdict-box p { color: #d2d2d7; }
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 650;
+  border: 1px solid var(--border);
+  color: var(--ink);
+  background: var(--white);
+}
+.pill.good { color: var(--green); background: #ecfdf3; border-color: #abefc6; }
+.pill.warn { color: var(--orange); background: #fffaeb; border-color: #fedf89; }
+.pill.bad { color: var(--red); background: #fef3f2; border-color: #fecdca; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0 8px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+th, td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 700;
+}
+.note {
+  border-left: 2px solid var(--blue);
+  padding-left: 18px;
+  margin: 24px 0;
+  color: #424245;
+}
+.callout {
+  background: var(--soft);
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 24px;
+}
+.soft .callout { background: var(--white); border: 1px solid var(--border); }
+.rank {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.rank:last-child { border-bottom: 0; }
+.num {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: var(--ink);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+.footer {
+  padding: 40px 0;
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 14px;
+}
+@media (max-width: 760px) {
+  .wrap { padding: 0 22px; }
+  .hero { padding: 64px 0 48px; }
+  h1 { font-size: 40px; }
+  h2 { font-size: 32px; }
+  .grid, .grid.two, .verdict { grid-template-columns: 1fr; }
+  table { font-size: 13px; display: block; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap hero-copy">
+    <div class="eyebrow">MLX routing audit · June 15, 2026</div>
+    <h1>Is the 0 MB local model router paying off?</h1>
+    <p class="lede">Short answer: architecturally yes. Financially, not yet. The setup is sound, but usage is too low and logging is incomplete. Keep the MCP path. Do not pin models in RAM by default.</p>
+    <p class="meta">Audited on Mac Mini M2, 16GB RAM. Current chat runtime: GPT-5.5 via OpenAI Codex. Hermes config still lists DeepSeek Flash as the default model, which means this session is running under an override.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>The verdict</h2>
+    <div class="verdict">
+      <div class="verdict-box">
+        <h3>Keep the 0 MB MCP design.</h3>
+        <p>It is the right default for a 16GB machine. The models are burst tools, not residents. Pinning Qwen2.5-Coder-3B all day would burn roughly 1.9GB for occasional utility work.</p>
+        <div class="pill-row">
+          <span class="pill good">Keep MCP</span>
+          <span class="pill warn">Fix logging</span>
+          <span class="pill bad">Do not always-load</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Payoff status</h3>
+        <p><strong>Current measured savings are tiny:</strong> 2,621 input tokens and 2,055 output tokens routed locally across 10 logged calls. On DeepSeek Flash pricing, that is only <code>$0.001626</code>.</p>
+        <p><strong>But this is the wrong scoreboard alone.</strong> The real benefit is context hygiene, fast local utility work, and a routing habit that becomes valuable when the frontier model is expensive, like GPT-5.5, Claude Sonnet, or future premium coding models.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>What exists now</h2>
+    <p>The setup is already more than a toy. It has multiple routing surfaces, a model zoo, tracker logs, and terminal wrappers. The weak part is not capability. The weak part is discipline and instrumentation.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="stat">6</div>
+        <div class="label">Local model tools exposed to the agent</div>
+      </div>
+      <div class="card">
+        <div class="stat">0 MB</div>
+        <div class="label">Idle model RAM, because inference runs as subprocesses</div>
+      </div>
+      <div class="card">
+        <div class="stat">10</div>
+        <div class="label">Logged local routing calls after this audit</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Route</th><th>Model</th><th>Current use</th><th>Audit note</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>mlx_codegen</code></td><td>Qwen2.5-Coder-3B</td><td>Small scripts, regex, JSON, shell</td><td>Good. Keep it narrow. No HTML.</td></tr>
+        <tr><td><code>mlx_summarize</code></td><td>Qwen2.5-Coder-3B</td><td>Build logs, long output, file compression</td><td>Biggest practical token saver.</td></tr>
+        <tr><td><code>mlx_filter</code></td><td>Qwen2.5-Coder-3B</td><td>Exact extraction from noisy output</td><td>Use only for literal answers. It fails at semantic search.</td></tr>
+        <tr><td><code>mlx_think</code></td><td>LFM2.5-1.2B-Thinking</td><td>Gates, anomaly triage, RUN or SKIP calls</td><td>Good for small decisions. Bad for strategic audits and strict schemas.</td></tr>
+        <tr><td><code>mlx_vision</code></td><td>Qwen2-VL-2B</td><td>Screenshot reading and UI description</td><td>Useful. Keep it for simple vision, not complex spatial reasoning.</td></tr>
+        <tr><td><code>mlx_tts</code></td><td>Qwen3-TTS-0.6B</td><td>Local voice output</td><td>Useful for alerts. Always lock voice style.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Model inventory found on disk</h2>
+    <p>The machine has enough local model coverage. Adding more models is not the next move. Better routing is.</p>
+    <table>
+      <thead>
+        <tr><th>Model</th><th>Cache size found</th><th>Best job</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Qwen2.5-Coder-3B-Instruct-4bit</td><td>3.26 GB</td><td>Summarize, filter, codegen</td><td>Daily driver</td></tr>
+        <tr><td>LFM2.5-1.2B-Thinking-4bit</td><td>1.24 GB</td><td>Gating and small reasoning</td><td>Useful, but limited</td></tr>
+        <tr><td>Qwen2-VL-2B-Instruct-4bit</td><td>2.42 GB</td><td>Image and UI reading</td><td>Useful</td></tr>
+        <tr><td>Qwen3-TTS-12Hz-0.6B-Base-4bit</td><td>3.19 GB</td><td>Voice alerts</td><td>Useful</td></tr>
+        <tr><td>Qwen3.5-4B-OptiQ-4bit</td><td>10.60 GB</td><td>Better structured local generation</td><td>Available via <code>~/mlx-env</code>, not wired into MCP</td></tr>
+        <tr><td>LFM2.5-8B-A1B variants</td><td>36.65 GB combined</td><td>Experimental reasoning</td><td>Too much disk and too much think-waste for daily routing</td></tr>
+      </tbody>
+    </table>
+    <div class="note">Cache sizes include Hugging Face snapshot and blob storage overhead, so they are larger than clean model weight estimates. Still, the duplicate LFM 8B variants are the obvious disk cleanup candidate later.</div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <h2>What is not paying off yet</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Usage is too low</h3>
+        <p>Only 10 logged calls. The local router cannot save meaningful money if it is not used aggressively on build logs, file scans, session compression, cron gates, and terminal noise.</p>
+      </div>
+      <div class="card">
+        <h3>MCP logging is manual</h3>
+        <p>The terminal wrappers log automatically. The MCP server code currently does not call the route tracker inside <code>handle_tool_call</code>. That means agent-side usage can be undercounted unless logged manually.</p>
+      </div>
+      <div class="card">
+        <h3>Duplicate MCP servers exist</h3>
+        <p>Two current MCP server processes and two old Sunday MCP server processes were visible. They are small, but stale duplicate server processes are sloppy and should be cleaned.</p>
+      </div>
+      <div class="card">
+        <h3>Local reasoning can hallucinate</h3>
+        <p>A test <code>mlx_think</code> audit suggested fake alternatives like TinyBench and DistilBench. That is proof: use LFM for narrow gates, not strategic architecture verdicts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>0 MB MCP vs always-loaded small model</h2>
+    <p>Default answer: keep 0 MB MCP. Always-loaded only makes sense during a known local-heavy session, not as the system baseline.</p>
+    <table>
+      <thead>
+        <tr><th>Option</th><th>Pros</th><th>Cons</th><th>Recommendation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>On-demand MCP subprocess</td><td>0 MB idle, clean isolation, simple failure model</td><td>Cold-start latency per call</td><td><strong>Default path</strong></td></tr>
+        <tr><td>Always-loaded Qwen2.5-Coder-3B</td><td>Faster repeated calls</td><td>Burns about 1.9GB RAM while idle</td><td>Only for temporary batch mode</td></tr>
+        <tr><td>Always-loaded Qwen3.5-4B</td><td>Better structured output</td><td>Roughly 3.3GB peak, slower, separate Python 3.12 venv</td><td>Specialist mode, not default</td></tr>
+        <tr><td>Frontier only</td><td>Simple and high quality</td><td>Expensive context, bad hygiene, no local leverage</td><td>Use for planning, prose, architecture</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <h3>Batch-mode compromise</h3>
+      <p>Add a manual <code>tm mlx-warm-session 30m</code> later if needed. It can start a persistent local server for a short window, route many summarize/filter/codegen calls through it, then auto-kill. That gives speed when you are doing heavy local work without permanently taxing RAM.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Optimization plan</h2>
+    <div class="rank">
+      <div class="num">1</div>
+      <div>
+        <h3>Patch MCP auto-logging</h3>
+        <p>Add tracker logging inside <code>mlx-mcp-server.py</code> and <code>mlx-tts-server.py</code>. Manual logging is a footgun. If it is not automatic, the dashboard lies.</p>
+      </div>
+    </div>
+    <div class="rank">
+      <div class="num">2</div>
+      <div>
+        <h3>Add a hard routing checklist to Tina workflow</h3>
+        <p>Before frontier reads noisy output: summarize locally. Before frontier parses a specific value: filter locally. Before cron runs: think locally. Before image reasoning: vision locally.</p>
+      </div>
+    </div>
+    <div class="rank">
+      <div class="num">3</div>
+      <div>
+        <h3>Promote summarize as the main saver</h3>
+        <p>Summarization is where local models actually pay. Every build, test, git diff, install log, and long file excerpt should be compressed before frontier reasoning.</p>
+      </div>
+    </div>
+    <div class="rank">
+      <div class="num">4</div>
+      <div>
+        <h3>Restrict filter to exact extraction</h3>
+        <p><code>mlx_filter</code> is not semantic search. If the answer is not literally present in the input, skip it and use summarize or frontier. Stop burning failed calls there.</p>
+      </div>
+    </div>
+    <div class="rank">
+      <div class="num">5</div>
+      <div>
+        <h3>Wire Qwen3.5-4B as an optional specialist</h3>
+        <p>Not always-on. Not default. Add an explicit tool later for structured JSON or higher-quality local summaries when 3B is too weak and frontier is overkill.</p>
+      </div>
+    </div>
+    <div class="rank">
+      <div class="num">6</div>
+      <div>
+        <h3>Clean stale processes and duplicate 8B caches later</h3>
+        <p>Do not start with disk gardening. First fix routing behavior. Then reclaim the redundant LFM 8B variants if they are not part of an active benchmark.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>Operating rule from here</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Use frontier for</h3>
+        <ul>
+          <li>Planning and architecture</li>
+          <li>Public writing and HTML artifacts</li>
+          <li>Complex code review</li>
+          <li>Judgment requiring current web context</li>
+          <li>Anything where hallucination is expensive</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Use local MLX for</h3>
+        <ul>
+          <li>Terminal output compression</li>
+          <li>Exact error extraction</li>
+          <li>Small utility code snippets</li>
+          <li>RUN or SKIP gating</li>
+          <li>Screenshot text and simple UI reading</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <h3>Final call</h3>
+      <p>The setup is not a money printer yet. It is a muscle. Right now the muscle is underused. Keep the MCP architecture, fix auto-logging, route more noisy work locally, and only use always-loaded models as a temporary batch mode.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <p>Source audit inputs: live article, Hermes config, local model cache, MCP server source, process list, and route tracker output. No routing implementation changes were made in this audit.</p>
+  </div>
+</footer>
+</body>
+</html>
