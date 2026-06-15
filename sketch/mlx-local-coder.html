@@ -466,6 +466,77 @@ $ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
   </div>
 </section>
 
+<!-- Model Acceptance Tests -->
+<section class="section-gray">
+  <div class="section section-wide">
+    <h2>New model acceptance tests</h2>
+    <p>Any future local model has to pass this framework before it gets a real route. A demo answer is not enough. The test has to match the job we want the model to do.</p>
+
+    <table>
+      <tr>
+        <th>Test</th>
+        <th>Prompt / Input</th>
+        <th>Pass condition</th>
+        <th>Failure we already saw</th>
+      </tr>
+      <tr>
+        <td>macOS helper generation</td>
+        <td>Write Python to estimate reclaimable memory on macOS from <code>vm_stat</code>.</td>
+        <td>Uses page size from <code>vm_stat</code>; sums free, inactive, speculative, purgeable pages; no Linux paths; compiles and smoke-tests.</td>
+        <td>Qwen3.5 hallucinated <code>/proc/meminfo</code> and <code>/proc/vmstat</code>. 3B produced brittle parsing.</td>
+      </tr>
+      <tr>
+        <td>xcode log summarization</td>
+        <td>Summarize a log containing both a Swift compile error and a failed assertion.</td>
+        <td>Preserves file path, line number, compile error, failing test name, expected and actual values. No invented XCTest APIs.</td>
+        <td>Qwen3.5 missed <code>ContentView.swift:42:17</code> and hallucinated <code>XCTestExpectation</code>.</td>
+      </tr>
+      <tr>
+        <td>JSON gate reliability</td>
+        <td>Classify a health payload with low memory, unhealthy Firecrawl, and failed vault sync.</td>
+        <td>Returns a short machine-checkable verdict with reasons. No truncation. Same verdict across repeated runs.</td>
+        <td>LFM 1.2B misread payload with <code>--ignore-chat-template</code>; without it, often burned tokens and truncated.</td>
+      </tr>
+      <tr>
+        <td>Vision sanity check</td>
+        <td>Read a 512x512 image with a blue square, green circle, and text <code>Hi</code>.</td>
+        <td>Identifies shapes and visible text without repetition or empty output.</td>
+        <td>LFM vision variants produced repetitive hallucinated text or garbage output.</td>
+      </tr>
+      <tr>
+        <td>Output budget discipline</td>
+        <td>Run the same task with strict max-token limits used by Hermes tools.</td>
+        <td>Completes inside the real budget. Does not spend most tokens on meta reasoning.</td>
+        <td>Thinking models consumed budget inside <code>&lt;think&gt;</code> and lost the final answer.</td>
+      </tr>
+      <tr>
+        <td>Resource fit</td>
+        <td>Measure disk size, cold load, peak RAM, speed, and idle RAM after subprocess exit.</td>
+        <td>Fits 16 GB Mac workflow. Leaves 0 MB model RAM after exit. Has a clear job better than existing route.</td>
+        <td>LFM 8B 8bit was too large. LFM 8B 4bit can reason, but ~4.86 GB peak makes it manual-only.</td>
+      </tr>
+    </table>
+
+    <div class="callout callout-warn">
+      <h3>Acceptance rule</h3>
+      <p>A model does not get a named route because it looks smart once. It gets a route only if it passes the exact task, preserves deterministic facts, stays inside RAM and token limits, and beats the current path.</p>
+    </div>
+
+    <pre style="font-size: 12px; line-height: 1.5;">candidate model
+  &darr;
+run task-specific benchmark
+  &darr;
+compile / parse / smoke-test output
+  &darr;
+compare against known failure cases
+  &darr;
+measure RAM, load time, token budget, idle cleanup
+  &darr;
+PASS: document route and guardrails
+FAIL: document failure and do not expose as default</pre>
+  </div>
+</section>
+
 <!-- Resource Usage -->
 <section class="section-gray">
   <div class="section">
@@ -696,9 +767,9 @@ $ tm mlx-vision --prompt "What buttons are on this screen?" /tmp/screenshot.png
 
   <div class="before-after">
     <div class="card" style="padding-top: 36px;">
-      <div class="badge badge-blue">NEW: Gating decision</div>
-      <p style="font-weight: 500; color: #1d1d1f;">"Should this cron job run?"</p>
-      <p>mlx_think produces <strong>~200 tokens</strong> (reasoning + decision). Previously the frontier model spent ~600 tokens evaluating the same question. 67% saved, plus the reasoning is auditable.</p>
+      <div class="badge badge-blue">NEW: Acceptance testing</div>
+      <p style="font-weight: 500; color: #1d1d1f;">"Should this model get a route?"</p>
+      <p>Every candidate now faces the same failure cases: macOS helper generation, xcode logs, JSON gate reliability, vision sanity, token budget, and RAM fit.</p>
     </div>
     <div class="card" style="padding-top: 36px;">
       <div class="badge badge-blue">NEW: Vision check</div>
