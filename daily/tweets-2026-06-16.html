@@ -30,6 +30,8 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
 .copy-btn{padding:.35rem 1rem;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;font-size:.85rem;float:right;transition:.1s}
 .copy-btn:hover{background:#0077ed}
 .copy-btn:active{transform:scale(.97)}
+.copy-all{background:#5b21b6;float:none}
+.copy-all:hover{background:#6d28d9}
 .footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
 .guide{background:var(--card);padding:1.25rem;border-radius:16px;margin-bottom:2rem;border:1px solid #eee}
 .guide h2{font-size:1rem;font-weight:600;margin-bottom:.75rem}
@@ -40,13 +42,24 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
 .schedule-table th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.02em}
 .archive-link{display:inline-block;margin-top:.25rem;color:var(--accent);text-decoration:none;font-size:.85rem}
 .archive-link:hover{text-decoration:underline}
+.thread-container{background:var(--card);border-radius:16px;padding:1.5rem 1.5rem 1rem;margin-bottom:1.5rem;border:1px solid #eee}
+.thread-header{font-size:.75rem;color:var(--muted);font-weight:500;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.02em}
+.thread-footer{clear:both;padding-top:.75rem;margin-top:.5rem;text-align:center}
+.thread-container .tweet-card{border:none;padding:0;margin-bottom:1.25rem;box-shadow:none}
+.thread-container .tweet-card:hover{box-shadow:none}
+.thread-footer .copy-btn{float:none;display:inline-block}
+.char-count{font-size:.75rem;color:var(--muted);display:inline-block;margin-right:.5rem}
+.meta{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-bottom:.5rem}
+.slot-label{font-size:.75rem;padding:.15rem .5rem;border-radius:99px;font-weight:600;background:#e8e8ed;color:#515154;font-family:SF Mono,ui-monospace,monospace}
+.slot-label.thread-part{background:#ede9fe;color:#5b21b6}
+.time-label{font-size:.75rem;font-weight:600;color:#059669}
 @media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
 </style>
 </head>
 <body>
 
 <h1>&#x1F426; Daily Tweets</h1>
-<p class="date">Prabha&rsquo;s growth engine &middot; 2026-06-16</p>
+<p class="date">Prabha&rsquo;s build log &middot; 2026-06-16 &middot; Full day edition</p>
 
 <div class="stats-bar">
 <span>&#x1F4CA; <strong>85</strong> artifacts</span>
@@ -58,13 +71,13 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
 
 <div class="guide">
 <h2>&#x1F4CB; Posting Schedule (IST)</h2>
-<p style="margin-bottom:.75rem;font-size:.85rem;color:var(--muted)">Copy from below &rarr; paste into X at the exact time.</p>
+<p style="margin-bottom:.75rem;font-size:.85rem;color:var(--muted)">Copy from below &rarr; paste into X at the exact time. Slot 1 is a 2-part thread.</p>
 <table class="schedule-table">
 <tr><th>Time</th><th>Category</th><th>Tweet</th></tr>
-<tr><td>9:00 AM</td><td>#apps</td><td>MLX shootout: 3 models, 11 tests</td></tr>
-<tr><td>12:00 PM</td><td>#hermes</td><td>Single-model to multi-model router</td></tr>
-<tr><td>4:00 PM</td><td>#tips</td><td>NVIDIA SkillSpector on my skills</td></tr>
-<tr><td>7:00 PM</td><td>#interesting</td><td>Write for one person</td></tr>
+<tr><td>9:00 AM</td><td>#apps (thread 2/2)</td><td>Gemma-4-12B on 16 GB: tested, rejected</td></tr>
+<tr><td>12:00 PM</td><td>#workflow</td><td>11 gates every model must pass</td></tr>
+<tr><td>4:00 PM</td><td>#interesting</td><td>Figma Agent, AI design tools, skills radar</td></tr>
+<tr><td>7:00 PM</td><td>#design</td><td>Editorial reskin: one token swap</td></tr>
 </table>
 <ul style="margin-top:.75rem">
 <li>Space throughout the day -- don't post all at once</li>
@@ -72,55 +85,82 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
 </ul>
 </div>
 
-<div class="tweet-card" id="tweet-1">
-<div class="tweet-header">
-<span class="num">1</span>
-<span class="tag apps">#apps</span>
-<span class="format">build</span>
-<span class="time">9:00 AM IST</span>
-</div>
-<pre class="tweet-text">3 models, 11 tests on the M2. Qwen2.5-Coder-3B won latency. DeepSeek-r1-distill won reasoning quality. The 7B lost both -- too slow for interactive.
-Bigger is not better in your dev loop.</pre>
-<button class="copy-btn" onclick="copyTweet(1)">Copy</button>
+<!-- SLOT 1: THREAD 2/2 -->
+<div class="thread-container">
+<div class="thread-header">
+<span>Slot 1 &middot; 9:00 AM &middot; Builder Moment &middot; 2/2</span>
 </div>
 
-<div class="tweet-card" id="tweet-2">
+<div class="tweet-card">
+<div class="meta">
+<span class="slot-label thread-part">1/2</span>
+<span class="time-label">Thread</span>
+</div>
+<pre class="tweet-text">Downloaded Gemma-4-12B this week. 8.4 GB checkpoint. 4-bit quant. New model from Google, supposedly the next thing in local ML.
+Ran the full acceptance suite: macOS helper, summarization, JSON extraction, vision, budget discipline, resource fit.
+9.4 tok/s cold. 9 GB peak RAM. That's 56% of my 16 GB machine on one model.</pre>
+<div class="char-count">307 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'Gemma-4-12B verified')">Copy</button>
+</div>
+
+<div class="tweet-card">
+<div class="meta">
+<span class="slot-label thread-part">2/2</span>
+<span class="time-label">Thread</span>
+</div>
+<pre class="tweet-text">Compare to the 3B coder doing the same job: 1.8 GB RAM, 46 tok/s. The 12B is 5x slower and 5x heavier for comparable output on my daily tasks.
+Verdict: reliable model. Wrong machine. Gemma stays on disk as a reference benchmark. The 3B stays in rotation.
+The test framework told me the truth before I committed to routing. This is why you test before you trust.</pre>
+<div class="char-count">332 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'Gemma verdict thread')">Copy</button>
+</div>
+
+<div class="thread-footer">
+<button class="copy-btn copy-all" onclick="copyAllThread(this)">Copy All Parts</button>
+</div>
+</div>
+
+<!-- SLOT 2 -->
+<div class="tweet-card">
 <div class="tweet-header">
 <span class="num">2</span>
-<span class="tag hermes">#hermes</span>
-<span class="format">build</span>
+<span class="tag workflow">#workflow</span>
 <span class="time">12:00 PM IST</span>
 </div>
-<pre class="tweet-text">Rewrote my mlx-local-coder from a single-model hardcode to a multi-model router. Now it picks DeepSeek for reasoning, Qwen for vision, Qwen3 for TTS.
-The old version had 3 separate scripts. The new one has 1 config file.
-Fewer files, less to forget.</pre>
-<button class="copy-btn" onclick="copyTweet(2)">Copy</button>
+<pre class="tweet-text">Every model that enters my Hermes stack now passes 11 gates before it gets routed to a single task. macOS helper, summarization, JSON gate, vision accuracy, hallucination rate, budget discipline, resource fit, cold start, warm inference, output consistency, edge prompt handling.
+No "feels fast enough." No "looks good on one test." Data or rejection.
+A model that passes 8/11 today can fail 0/11 tomorrow with a config change. Tests are cheap. Debugging a wrong route at 3 AM is not.</pre>
+<div class="char-count">466 chars</div>
+<button class="copy-btn" onclick="copyText(this, '11 gate tests')">Copy</button>
 </div>
 
-<div class="tweet-card" id="tweet-3">
+<!-- SLOT 3 -->
+<div class="tweet-card">
 <div class="tweet-header">
 <span class="num">3</span>
-<span class="tag tips">#tips</span>
-<span class="format">discovery</span>
+<span class="tag interesting">#interesting</span>
 <span class="time">4:00 PM IST</span>
 </div>
-<pre class="tweet-text">NVIDIA just shipped SkillSpector -- a security scanner for AI agent skills. 964 stars in one day.
-It checks for malicious patterns in agent tool definitions. I ran it on my 31 Hermes skills. Found 2 with risky file-read patterns.
-Guess who's auditing skills today.</pre>
-<button class="copy-btn" onclick="copyTweet(3)">Copy</button>
+<pre class="tweet-text">Skills radar this week: three things stood out in the AI design tool space.
+Figma Agent went native on the canvas -- AI that edits layers, not just generates text. Bolt.new hit 2M users with a "design to code" pipeline that skips Figma entirely. And the Bolt + v0 + Lovable wars are producing genuinely different workflows, not just wrappers.
+The takeaway: the design tool that wins next isn't the one with more AI features. It's the one that respects where the designer actually works.</pre>
+<div class="char-count">426 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'Skills radar design tools')">Copy</button>
 </div>
 
-<div class="tweet-card" id="tweet-4">
+<!-- SLOT 4 -->
+<div class="tweet-card">
 <div class="tweet-header">
 <span class="num">4</span>
-<span class="tag interesting">#interesting</span>
-<span class="format">reflection</span>
+<span class="tag tips">#design</span>
 <span class="time">7:00 PM IST</span>
 </div>
-<pre class="tweet-text">'Write for one person.' Saw this on HN today. A comic by Julia Evans.
-Not 'write for everyone.' Not 'write for your target audience.' One person. The one who needed this exact thing yesterday.
-Changed how I write my HTML artifacts. Every page answers one question for one reader.</pre>
-<button class="copy-btn" onclick="copyTweet(4)">Copy</button>
+<pre class="tweet-text">Reskinned a research page to editorial theme yesterday. Serif display face, hairline borders, off-white canvas. Nothing structurally different -- just token swaps.
+The before: looked like an AI wrote it. Generic sans, standard spacing, safe.
+The after: looks intentional. The serif changes how you read. The hairline borders create rhythm without shouting.
+One design token swap changed the whole feel of the page. Took 10 minutes.</pre>
+<div class="char-count">391 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'Editorial reskin')">Copy</button>
 </div>
 
 <div class="footer">
@@ -129,12 +169,22 @@ Generated by <a href="https://github.com/vadapayasam/warehouse" style="color:var
 </div>
 
 <script>
-function copyTweet(n){
-    const t = document.querySelector('#tweet-'+n+' .tweet-text');
-    navigator.clipboard.writeText(t.innerText).then(()=>{
-        const b = document.querySelector('#tweet-'+n+' .copy-btn');
-        b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy', 1500);
-    });
+function copyText(btn, key) {
+  const card = btn.closest('.tweet-card');
+  const text = card ? card.querySelector('.tweet-text').innerText.trim() : '';
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+function copyAllThread(btn) {
+  const container = btn.closest('.thread-container');
+  const parts = container.querySelectorAll('.tweet-card .tweet-text');
+  const full = Array.from(parts).map(p => p.innerText.trim()).join('\n\n');
+  navigator.clipboard.writeText(full).then(() => {
+    btn.textContent = 'All Copied!';
+    setTimeout(() => btn.textContent = 'Copy All Parts', 1500);
+  });
 }
 </script>
 </body>
