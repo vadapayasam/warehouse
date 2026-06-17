@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Tweets &middot; Prabha | 2026-06-17</title>
+<style>
+:root{--bg:#f5f5f7;--text:#1d1d1f;--muted:#6e6e73;--card:#fff;--accent:#0071e3;--border:#d2d2d7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,SF Pro Text,Helvetica Neue,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.47;padding:2rem 1rem;max-width:720px;margin:0 auto;letter-spacing:-0.374px}
+h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:2rem;font-weight:600;letter-spacing:-0.144px;margin-bottom:.25rem}
+.date{color:var(--muted);margin-bottom:2rem;font-size:.9rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.85rem;border:1px solid #eee}
+.stats-bar span{color:var(--muted)}
+.stats-bar strong{color:var(--text)}
+.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid #eee;transition:.15s}
+.tweet-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.num{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600}
+.tag{font-size:.75rem;padding:.2rem .55rem;border-radius:99px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;font-family:SF Mono,ui-monospace,monospace}
+.tag.hermes{background:#ede9fe;color:#5b21b6}
+.tag.workflow{background:#d1fae5;color:#065f46}
+.tag.tips{background:#fef3c7;color:#92400e}
+.tag.interesting{background:#cffafe;color:#155e75}
+.tag.apps{background:#dbeafe;color:#1e40af}
+.time{font-size:.8rem;color:#059669;font-weight:600;margin-left:auto;background:#d1fae5;padding:.2rem .55rem;border-radius:99px;white-space:nowrap}
+.tweet-text{white-space:pre-wrap;font-family:SF Pro Text,Helvetica Neue,Arial,sans-serif;font-size:1rem;line-height:1.5;margin-bottom:1rem}
+.copy-btn{padding:.35rem 1rem;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;font-size:.85rem;float:right;transition:.1s}
+.copy-btn:hover{background:#0077ed}
+.copy-btn:active{transform:scale(.97)}
+.copy-all{background:#5b21b6;float:none}
+.copy-all:hover{background:#6d28d9}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+.guide{background:var(--card);padding:1.25rem;border-radius:16px;margin-bottom:2rem;border:1px solid #eee}
+.guide h2{font-size:1rem;font-weight:600;margin-bottom:.75rem}
+.guide ul{margin-left:1.2rem}
+.guide li{margin-bottom:.35rem;font-size:.9rem}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:.75rem;font-size:.85rem}
+.schedule-table td,.schedule-table th{padding:.4rem .5rem;text-align:left;border-bottom:1px solid var(--border)}
+.schedule-table th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.02em}
+.archive-link{display:inline-block;margin-top:.25rem;color:var(--accent);text-decoration:none;font-size:.85rem}
+.archive-link:hover{text-decoration:underline}
+.thread-container{background:var(--card);border-radius:16px;padding:1.5rem 1.5rem 1rem;margin-bottom:1.5rem;border:1px solid #eee}
+.thread-header{font-size:.75rem;color:var(--muted);font-weight:500;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.02em}
+.thread-footer{clear:both;padding-top:.75rem;margin-top:.5rem;text-align:center}
+.thread-container .tweet-card{border:none;padding:0;margin-bottom:1.25rem;box-shadow:none}
+.thread-container .tweet-card:hover{box-shadow:none}
+.thread-footer .copy-btn{float:none;display:inline-block}
+.char-count{font-size:.75rem;color:var(--muted);display:inline-block;margin-right:.5rem}
+.meta{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-bottom:.5rem}
+.slot-label{font-size:.75rem;padding:.15rem .5rem;border-radius:99px;font-weight:600;background:#e8e8ed;color:#515154;font-family:SF Mono,ui-monospace,monospace}
+.slot-label.thread-part{background:#ede9fe;color:#5b21b6}
+.time-label{font-size:.75rem;font-weight:600;color:#059669}
+.verdict-box{border-left:3px solid var(--accent);padding:.75rem 1rem;margin-top:.75rem;background:#f0f5ff;border-radius:8px;font-size:.85rem;clear:both}
+.verdict-box strong{display:block;margin-bottom:.3rem;font-size:.8rem;color:var(--accent);text-transform:uppercase;letter-spacing:.02em}
+@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
+</style>
+</head>
+<body>
+
+<h1>&#x1F426; Daily Tweets</h1>
+<p class="date">Prabha&rsquo;s build log &middot; 2026-06-17 &middot; Wednesday edition</p>
+
+<div class="stats-bar">
+<span>&#x1F4CA; <strong>85</strong> artifacts</span>
+<span>&#x1F527; <strong>31</strong> skills</span>
+<span>&#x23F0; <strong>6</strong> crons</span>
+<span>&#x1F4F1; <strong>12</strong> iOS</span>
+<span>&#x1F4BB; <strong>34</strong> scripts</span>
+</div>
+
+<div class="guide">
+<h2>&#x1F4CB; Posting Schedule (IST)</h2>
+<p style="margin-bottom:.75rem;font-size:.85rem;color:var(--muted)">Copy from below &rarr; paste into X at the exact time. Slot 1 is a 2-part thread.</p>
+<table class="schedule-table">
+<tr><th>Time</th><th>Category</th><th>Tweet</th></tr>
+<tr><td>9:00 AM</td><td>#workflow (thread 2/2)</td><td>Figma MCP server: 4 updates for design-to-code</td></tr>
+<tr><td>12:00 PM</td><td>#interesting</td><td>HN debate: local model vs Claude/GPT</td></tr>
+<tr><td>4:00 PM</td><td>#apps</td><td>WWDC26 SwiftUI: 3 friction removals</td></tr>
+<tr><td>7:00 PM</td><td>#tips</td><td>Apple on-device AI: slow or strategic?</td></tr>
+</table>
+<ul style="margin-top:.75rem">
+<li>Space throughout the day -- don't post all at once</li>
+<li>Engage with replies within 30 min for algorithm boost</li>
+</ul>
+</div>
+
+<!-- SLOT 1: THREAD 2/2 -->
+<div class="thread-container">
+<div class="thread-header">
+<span>Slot 1 &middot; 9:00 AM &middot; Builder Moment &middot; 2/2</span>
+</div>
+
+<div class="tweet-card">
+<div class="meta">
+<span class="slot-label thread-part">1/2</span>
+<span class="time-label">Thread</span>
+</div>
+<pre class="tweet-text">Figma shipped 4 MCP server updates yesterday. Slides creation from templates. Local fonts that render like they do in the canvas. Asset downloads via API. Direct Xcode integration.
+
+The MCP server reads Figma layers, applies actual design system tokens, and pushes assets straight into Xcode. No screenshots. No manual exports. The agent talks to Figma the same way a developer would.</pre>
+<div class="char-count">335 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'Figma MCP part 1')">Copy</button>
+</div>
+
+<div class="tweet-card">
+<div class="meta">
+<span class="slot-label thread-part">2/2</span>
+<span class="time-label">Thread</span>
+</div>
+<pre class="tweet-text">Been wiring MCP servers through Hermes for months. The difference between Figma's MCP and prompt-to-code tools like Bolt.new: Figma works where designers already work. Prompt-to-code skips the canvas and generates from text.
+
+When I need pixel accuracy from a maintained design system, MCP wins. When I need a quick prototype, Bolt has the edge. Both have a place. The question is which step of the workflow you're automating.</pre>
+<div class="char-count">382 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'Figma MCP part 2')">Copy</button>
+</div>
+
+<div class="thread-footer">
+<button class="copy-btn copy-all" onclick="copyAllThread(this)">Copy All Parts</button>
+</div>
+</div>
+
+<!-- SLOT 2 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">2</span>
+<span class="tag interesting">#interesting</span>
+<span class="time">12:00 PM IST</span>
+</div>
+<pre class="tweet-text">363 points, 423 comments on HN this morning: "Has anyone replaced Claude/GPT with a local model for daily coding?"
+
+Six months running 4 models locally through MLX. Honest breakdown.
+
+Works well: summarization, JSON extraction, code gen for well-known patterns, macOS automations, quick grep-like queries.
+
+Struggles: complex debugging, multi-step reasoning, nuanced code review, anything needing broad context.
+
+The gap is closing. But the answer is still "it depends on the task." I have local models doing 3 things well and a cloud model for the hard stuff. That split isn't compromise -- it's optimization.</pre>
+<div class="char-count">546 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'HN local model debate')">Copy</button>
+
+<div class="verdict-box">
+<strong>Verdict</strong>
+Useful thread if you're already running local models and want to cross-check findings with a 363-point community discussion. The top comments reinforce what I found with Gemma-4-12B: local excels at structured, bounded tasks; falls apart on open-ended reasoning. Caveat: several highly-upvoted comments are from people who tried one model once and generalized. The 6-month experience changes the answer significantly.
+</div>
+</div>
+
+<!-- SLOT 3 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">3</span>
+<span class="tag apps">#apps</span>
+<span class="time">4:00 PM IST</span>
+</div>
+<pre class="tweet-text">WWDC26 SwiftUI wasn't flashy. No marquee feature. But 3 real limitations finally removed.
+
+Direct disk access for document-based apps. No more workarounds.
+
+Swipe actions on any view, not just List rows. One API change that eliminates a whole category of custom gesture code.
+
+AsyncImage caching that actually works. The default was reloading on every view update.
+
+Best WWDC releases are the ones that remove the friction you learned to live with.</pre>
+<div class="char-count">410 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'WWDC26 SwiftUI')">Copy</button>
+</div>
+
+<!-- SLOT 4 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">4</span>
+<span class="tag tips">#tips</span>
+<span class="time">7:00 PM IST</span>
+</div>
+<pre class="tweet-text">Apple's slow AI pace gets called a weakness. It's not.
+
+Every competitor burns billions on cloud inference with no monetization. Alexa on pace to lose $10B this year. Google Assistant degraded into ad delivery.
+
+Apple shifts compute cost to hardware the user already bought. 325M+ devices with Neural Engines. Pre-installed, paid for, running locally at zero marginal cost to Apple.
+
+That's not slow. That's waiting for the market to prove the cloud model doesn't work before deploying a distributed inference network bigger than anyone else can build.</pre>
+<div class="char-count">467 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'Apple on-device AI')">Copy</button>
+
+<div class="verdict-box">
+<strong>Verdict</strong>
+Share-quote worthy. The HN thread (363 pts) has a highly-upvoted comment about Apple having "the best consumer AI story" because they build the only platform with standardized local LLM access across mobile and desktop. The comment about marginal cost being zero is the key insight. Caveat: Apple's on-device model quality still lags cloud models for complex tasks. The infrastructure advantage is real. The model quality gap is narrowing but not closed.
+</div>
+</div>
+
+<div class="footer">
+Generated by <a href="https://github.com/vadapayasam/warehouse" style="color:var(--accent);text-decoration:none">Hermes Agent</a> &middot; 2026-06-17<br>
+<a href="https://vadapayasam.github.io/warehouse/daily/tweets-2026-06-16.html" class="archive-link">&larr; Yesterday</a>
+&middot;
+<a href="https://vadapayasam.github.io/warehouse/daily/" class="archive-link">Daily Archive</a>
+</div>
+
+<script>
+function copyText(btn, key) {
+  const card = btn.closest('.tweet-card');
+  const text = card ? card.querySelector('.tweet-text').innerText.trim() : '';
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+function copyAllThread(btn) {
+  const container = btn.closest('.thread-container');
+  const parts = container.querySelectorAll('.tweet-card .tweet-text');
+  const full = Array.from(parts).map(p => p.innerText.trim()).join('\n\n');
+  navigator.clipboard.writeText(full).then(() => {
+    btn.textContent = 'All Copied!';
+    setTimeout(() => btn.textContent = 'Copy All Parts', 1500);
+  });
+}
+</script>
+</body>
+</html>
