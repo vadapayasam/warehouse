@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RapidMLX on Mac Mini · The Local Inference Experiment</title>
+<style>
+:root {
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --text: #1d1d1f;
+  --secondary: #6e6e73;
+  --border: #d2d2d7;
+  --accent: #0071e3;
+  --accent-light: #2997ff;
+  --fail: #c41e1e;
+  --pass: #248a3d;
+  --warn: #b34a00;
+  --code-bg: #f2f2f4;
+  --max-w: 860px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  padding: 0 22px;
+}
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 48px 0 80px;
+}
+
+/* -- Header -- */
+header { margin-bottom: 56px; }
+h1 {
+  font-family: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.144px;
+  margin-bottom: 12px;
+}
+.meta {
+  color: var(--secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.subtitle {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.21;
+  color: var(--secondary);
+  margin-bottom: 8px;
+}
+
+/* -- Sections -- */
+.section {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 32px 36px;
+  margin-bottom: 28px;
+  border: 1px solid var(--border);
+}
+.section h2 {
+  font-family: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.14;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section h3 {
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.24;
+  margin: 28px 0 12px;
+}
+.section h4 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+  margin: 20px 0 8px;
+}
+.section p { font-size: 15px; line-height: 1.6; margin-bottom: 14px; color: #3a3a3e; }
+.section ul, .section ol { font-size: 15px; line-height: 1.6; margin: 8px 0 16px; padding-left: 22px; color: #3a3a3e; }
+.section li { margin-bottom: 6px; }
+
+/* -- Code -- */
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+code {
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 13px;
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+pre code { background: none; padding: 0; border-radius: 0; }
+
+/* -- Status badges -- */
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.1px;
+  text-transform: uppercase;
+}
+.bad-pass { background: #e7f4ea; color: var(--pass); }
+.bad-fail { background: #fde8e8; color: var(--fail); }
+.bad-warn { background: #fff0e0; color: var(--warn); }
+.bad-info { background: #e4f0fa; color: var(--accent); }
+
+/* -- Experiment cards -- */
+.exp-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 16px 0;
+  position: relative;
+}
+.exp-card .exp-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+
+/* -- Stats grid -- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.stat-card {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-card .stat-val {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.stat-card .stat-label { font-size: 12px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.3px; }
+
+/* -- Comparison table -- */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 14px 0;
+}
+.comp-table th {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--secondary);
+}
+.comp-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e8e8ea;
+  vertical-align: top;
+}
+.comp-table tr:last-child td { border-bottom: none; }
+
+/* -- Timeline -- */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border);
+}
+.tl-item { position: relative; margin-bottom: 24px; }
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+}
+.tl-item.tl-fail::before { background: var(--fail); }
+.tl-item.tl-pass::before { background: var(--pass); }
+.tl-item .tl-date { font-size: 12px; color: var(--secondary); margin-bottom: 2px; }
+.tl-item .tl-title { font-size: 15px; font-weight: 600; }
+
+/* -- Responsive -- */
+@media (max-width: 600px) {
+  .section { padding: 24px 20px; }
+  h1 { font-size: 34px; }
+  .section h2 { font-size: 26px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <p class="subtitle">Experiment Log</p>
+  <h1>RapidMLX on Mac Mini</h1>
+  <p class="meta">17 June 2026 &middot; Prabha &middot; vadapayasam.github.io</p>
+  <p style="font-size:15px;line-height:1.6;color:#3a3a3e;max-width:700px">
+    Running Qwen3.5-4B-4bit as a persistent local inference server for structured output tasks.
+    The story of failed experiments, wrong assumptions, and what finally works.
+  </p>
+</header>
+
+<!-- SECTION 1: Token Economics -->
+<div class="section">
+  <h2>Token Economics</h2>
+  <p>Every request to the local RapidMLX server = <strong>zero API tokens</strong>. No network call, no per-token billing, no context window pressure on the frontier model.</p>
+
+  <div class="stats">
+    <div class="stat-card"><div class="stat-val" style="color:var(--pass)">0</div><div class="stat-label">API tokens per local call</div></div>
+    <div class="stat-card"><div class="stat-val">~5K</div><div class="stat-label">Tokens saved per Xcode log</div></div>
+    <div class="stat-card"><div class="stat-val">~600</div><div class="stat-label">Tokens saved per JSON gate</div></div>
+    <div class="stat-card"><div class="stat-val">~30K</div><div class="stat-label">Daily token savings (est.)</div></div>
+  </div>
+
+  <h3>Where Tokens Go Today</h3>
+  <table class="comp-table">
+    <tr><th>Task</th><th>Before (frontier)</th><th>After (local)</th></tr>
+    <tr><td>JSON gate validation</td><td>~600 tok/call</td><td>0 tok/call</td></tr>
+    <tr><td>Xcode build log summary</td><td>~5K tok/call</td><td>0 tok/call</td></tr>
+    <tr><td>macOS helper script gen</td><td>~1.5K tok/call</td><td>0 tok/call</td></tr>
+    <tr><td>Cron pre-flight gates</td><td>~2K tok/call</td><td>0 tok/call</td></tr>
+    <tr><td>Quick codegen/filter</td><td>~1K tok/call</td><td>0 tok/call</td></tr>
+  </table>
+
+  <p>But the catch: <strong>routing decisions still need frontier intelligence</strong>. The frontier model decides "this task should go to RapidMLX" — that's a small planning token cost, not the full execution cost. The frontier pays pennies to decide; the local executes for free.</p>
+
+  <h3>What Doesn't Change</h3>
+  <p>Heavy reasoning — code review across 10 files, research synthesis, complex refactors — stays on DeepSeek V4 Flash. The split isn't "all local or all cloud." It's <strong>grunt work local, thinking work cloud</strong>. The frontier does what it's good at (deep reasoning); the local does what it's good at (fast, cheap, structured).</p>
+</div>
+
+<!-- SECTION 2: The Failed Experiments -->
+<div class="section">
+  <h2 style="color:var(--fail)">The Failed Experiments</h2>
+  <p>Getting local structured output working required failing three times first. Each failure taught us something specific about how 4-bit models behave.</p>
+
+  <div class="timeline">
+
+    <div class="tl-item tl-fail">
+      <div class="tl-date">Attempt 1</div>
+      <div class="tl-title">Plain-Text JSON Prompts · 40% Pass Rate</div>
+      <p style="margin-top:6px">Prompted the model with "respond with JSON: {\"pass\": true}" as plain text. The 4-bit quantization corrupts structured output: random tokens slip in, closing braces get dropped, keys get hallucinated. Out of 10 attempts, only 4 produced valid JSON.</p>
+      <div class="exp-card">
+        <div class="exp-label"><span class="badge bad-fail">FAILED</span></div>
+        <pre><code># What we did wrong:
+response = client.chat.completions.create(
+    model="qwen3.5-4b-4bit",
+    messages=[{"role": "user",
+      "content": "Return JSON: {\"pass\":true,\"score\":0.95}"}]
+)
+# What we got (60% of the time):
+'{"pass":true,"sc'  # truncated at the 4-bit noise point</code></pre>
+      </div>
+    </div>
+
+    <div class="tl-item tl-fail">
+      <div class="tl-date">Attempt 2</div>
+      <div class="tl-title">No --no-thinking Flag · 50-72% Token Waste</div>
+      <p style="margin-top:6px">Without the flag, RapidMLX generates reasoning tokens before every answer. For a 100-token JSON response, the model first generates 200-400 tokens of internal monologue. That's not just wasted time, it's wasted memory context, and the reasoning output pollutes the tool-calling parser.</p>
+      <div class="exp-card">
+        <div class="exp-label"><span class="badge bad-fail">FAILED</span></div>
+        <pre><code># Server started WITHOUT --no-thinking:
+rapid-mlx serve --model qwen3.5-4b-4bit  # 50%+ tokens = reasoning
+
+# A simple JSON gate took 7s + 320 reasoning tokens
+# before producing a 45-token answer.</code></pre>
+      </div>
+    </div>
+
+    <div class="tl-item tl-fail">
+      <div class="tl-date">Attempt 3</div>
+      <div class="tl-title">Non-API Tool Calling · Broken Hermes Parser</div>
+      <p style="margin-top:6px">RapidMLX has a custom Hermes parser that expects OpenAI-compatible tool-calling format. Sending plain messages or using the wrong parameter format means the parser doesn't engage, and we get raw model output at 4-bit, which is unreliable for structured data.</p>
+      <div class="exp-card">
+        <div class="exp-label"><span class="badge bad-fail">FAILED</span></div>
+        <pre><code># Wrong approach:
+curl http://127.0.0.1:8765/v1/chat/completions \
+  -d '{"model":"qwen3.5-4b-4bit","messages":[...]}'
+
+# The Hermes parser needs the 'tools' parameter to activate.
+# Without it, the model speaks free-form and 4-bit noise creeps in.</code></pre>
+      </div>
+    </div>
+
+    <div class="tl-item tl-pass">
+      <div class="tl-date">Attempt 4 · Working</div>
+      <div class="tl-title">Tools API + --no-thinking + Persistent Server · 100% Pass Rate</div>
+      <p style="margin-top:6px">The combination: proper OpenAI <code>tools</code> parameter, <code>--no-thinking</code> flag, and a persistent server that keeps the model in memory. The Hermes parser handles auto-recovery of corrupted 4-bit tokens. Result: 10/10 JSON gates pass.</p>
+      <div class="exp-card">
+        <div class="exp-label"><span class="badge bad-pass">WORKING</span></div>
+        <pre><code># Three things had to be right simultaneously:
+rapid-mlx serve --model qwen3.5-4b-4bit --no-thinking
+
+# Client sends proper tools API:
+response = client.chat.completions.create(
+    model="qwen3.5-4b-4bit",
+    tools=[{"type": "function", "function": {
+        "name": "gate_result",
+        "parameters": {"type": "object", "properties": {
+            "pass": {"type": "boolean"},
+            "reason": {"type": "string"}
+        }}
+    }}],
+    tool_choice={"type": "function",
+                 "function": {"name": "gate_result"}}
+)</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: The Working Solution -->
+<div class="section">
+  <h2>The Working Solution</h2>
+
+  <h3>Architecture</h3>
+  <pre><code>┌─────────────────────────────────────────────┐
+│               Frontier (DS V4 Flash)         │
+│  Deep reasoning, research, planning, review  │
+└────────────┬────────────────────────────────┘
+             │ "route Xcode log to local"
+             │ "validate JSON gate locally"
+             ▼
+┌─────────────────────────────────────────────┐
+│         RapidMLX Server (port 8765)          │
+│  Qwen3.5-4B-4bit, --no-thinking, persistent │
+│  ~1.7GB RAM, 0.08s cached TTFT             │
+├─────────────────────────────────────────────┤
+│  JSON gates │ Xcode logs │ macOS helpers    │
+│  Codegen     │ Filters    │ Cron pre-flights │
+└─────────────────────────────────────────────┘
+         ▲
+┌─────────┴──────────┐
+│  Cron Watchdog      │
+│  5min, no_agent     │
+│  Auto-start/restart │
+│  Silent on healthy  │
+└────────────────────┘</code></pre>
+
+  <h3>Infrastructure</h3>
+  <ul>
+    <li><strong>Server:</strong> <code>rapid-mlx serve --model qwen3.5-4b-4bit --no-thinking --port 8765</code></li>
+    <li><strong>Watchdog:</strong> Cron job <code>rapid-mlx-server</code> at <code>*/5 * * * *</code>, <code>no_agent=True</code>, checks <code>GET /v1/models</code> health endpoint</li>
+    <li><strong>Script:</strong> <code>~/.hermes/scripts/rapid-mlx-server.sh</code> — starts server, validates health, restarts on failure</li>
+    <li><strong>Startup time:</strong> ~9s cold, ~0.08s cached (prompt cache builds with use)</li>
+    <li><strong>Fallback:</strong> King Coder3B MCP (mlx_codegen, mlx_summarize, etc.) remains independent — 0MB idle, on-demand only</li>
+  </ul>
+
+  <h3>Key Principle: Two Independent Inference Lines</h3>
+  <p>RapidMLX and King Coder3B are <strong>separate, independent paths</strong>. If the persistent server goes down, King Coder3B picks up. If King Coder3B breaks, RapidMLX keeps running. Redundancy, not replacement. The cron watchdog keeps RapidMLX alive automatically.</p>
+</div>
+
+<!-- SECTION 4: Example Code -->
+<div class="section">
+  <h2>Working Examples</h2>
+
+  <h3>JSON Gate (100% reliable)</h3>
+  <pre><code>from openai import OpenAI
+import json
+
+client = OpenAI(
+    base_url="http://127.0.0.1:8765/v1",
+    api_key="not-needed"
+)
+
+def validate_json(data: dict) -> dict:
+    """Gate: is this valid JSON? Returns pass/fail + reason."""
+    response = client.chat.completions.create(
+        model="qwen3.5-4b-4bit",
+        messages=[{
+            "role": "user",
+            "content": f"Validate this JSON: {json.dumps(data)}"
+        }],
+        tools=[{"type": "function", "function": {
+            "name": "gate_result",
+            "description": "JSON validation result",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "pass": {
+                        "type": "boolean",
+                        "description": "Is the JSON valid?"
+                    },
+                    "score": {
+                        "type": "number",
+                        "description": "Confidence 0.0-1.0"
+                    },
+                    "issues": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Any issues found"
+                    }
+                },
+                "required": ["pass", "score"]
+            }
+        }}],
+        tool_choice={"type": "function",
+                     "function": {"name": "gate_result"}},
+        temperature=0.1
+    )
+    args = json.loads(
+        response.choices[0].message.tool_calls[0].function.arguments
+    )
+    return args
+
+# Usage
+result = validate_json({"name": "Tina", "role": "agent"})
+print(result)  # {'pass': True, 'score': 1.0, 'issues': []}</code></pre>
+
+  <h3>Xcode Log Summarizer</h3>
+  <pre><code>def summarize_xcode_log(log_text: str) -> dict:
+    """Extract errors, warnings, and key stats from a build log."""
+    response = client.chat.completions.create(
+        model="qwen3.5-4b-4bit",
+        messages=[{
+            "role": "user",
+            "content": f"Summarize this Xcode build log:\n\n{log_text[:3000]}"
+        }],
+        tools=[{"type": "function", "function": {
+            "name": "xcode_summary",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "build_result": {"type": "string",
+                        "enum": ["SUCCEEDED", "FAILED"]},
+                    "error_count": {"type": "integer"},
+                    "warning_count": {"type": "integer"},
+                    "key_errors": {"type": "array",
+                        "items": {"type": "string"}},
+                    "duration_sec": {"type": "number"}
+                },
+                "required": ["build_result", "error_count"]
+            }
+        }}],
+        tool_choice={"type": "function",
+                     "function": {"name": "xcode_summary"}},
+        temperature=0.1
+    )
+    return json.loads(
+        response.choices[0].message.tool_calls[0].function.arguments
+    )</code></pre>
+
+  <h3>macOS Helper Generator</h3>
+  <pre><code>def gen_macos_helper(task_desc: str) -> str:
+    """Generate a macOS shell helper for a given task."""
+    response = client.chat.completions.create(
+        model="qwen3.5-4b-4bit",
+        messages=[{
+            "role": "user",
+            "content": f"Write a macOS zsh helper: {task_desc}"
+        }],
+        max_tokens=800,
+        temperature=0.2
+    )
+    return response.choices[0].message.content</code></pre>
+</div>
+
+<!-- SECTION 5: Comparison -->
+<div class="section">
+  <h2>RapidMLX vs King Coder3B</h2>
+
+  <table class="comp-table">
+    <tr><th>Property</th><th>RapidMLX (Qwen3.5-4B)</th><th>King Coder3B (Qwen2.5-Coder)</th></tr>
+    <tr><td>Model</td><td>Qwen3.5-4B-MLX-4bit (Mamba/linear-attention)</td><td>Qwen2.5-Coder-3B-Instruct-4bit</td></tr>
+    <tr><td>RAM (persistent)</td><td>~1.7GB</td><td>0MB (on-demand)</td></tr>
+    <tr><td>Cold start</td><td>~9s (then cached)</td><td>~8s (every call)</td></tr>
+    <tr><td>Cached TTFT</td><td><strong>0.08s</strong></td><td>8s (no cache)</td></tr>
+    <tr><td>JSON gate (correct API)</td><td><strong>100%</strong> (10/10)</td><td>~90% (varies)</td></tr>
+    <tr><td>Tool-calling</td><td>Hermes parser + OpenAI tools API</td><td>Custom MCP parsing</td></tr>
+    <tr><td>Disk</td><td>2.9GB</td><td>1.6GB</td></tr>
+    <tr><td>Integration</td><td>OpenAI-compatible HTTP API</td><td>MCP tools via subprocess</td></tr>
+    <tr><td>Availability</td><td>Always on (cron watchdog)</td><td>On-demand (Hermes MCP)</td></tr>
+    <tr><td>Vision</td><td>Not yet (text-only)</td><td>Yes (mlx_vision via Qwen2-VL-2B)</td></tr>
+    <tr><td>TTS</td><td>No</td><td>Yes (mlx_tts via Qwen3-TTS)</td></tr>
+  </table>
+
+  <h3>When to Use Which</h3>
+  <table class="comp-table">
+    <tr><th>Task</th><th>Winner</th><th>Why</th></tr>
+    <tr><td>JSON gate (repeated)</td><td><span class="badge bad-pass">RapidMLX</span></td><td>0.08s vs 8s, 100% vs 90%</td></tr>
+    <tr><td>Xcode log summary</td><td><span class="badge bad-pass">RapidMLX</span></td><td>Persistent, fast, no cold start</td></tr>
+    <tr><td>Quick codegen</td><td><span class="badge bad-pass">RapidMLX</span></td><td>Same reasoning depth, 10x faster</td></tr>
+    <tr><td>Vision analysis</td><td><span class="badge bad-warn">King C3B</span></td><td>RapidMLX has no vision; King C3B has mlx_vision</td></tr>
+    <tr><td>Heavy reasoning</td><td><span class="badge bad-warn">Frontier</span></td><td>Neither local model is good enough</td></tr>
+    <tr><td>Voice/TTS</td><td><span class="badge bad-warn">King C3B</span></td><td>RapidMLX has no TTS pipeline</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 6: Resource Profile -->
+<div class="section">
+  <h2>Resource Profile</h2>
+
+  <div class="stats">
+    <div class="stat-card"><div class="stat-val" style="color:var(--accent)">1.7 GB</div><div class="stat-label">Persistent RAM</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--pass)">0.08 s</div><div class="stat-label">Cached TTFT</div></div>
+    <div class="stat-card"><div class="stat-val">2.9 GB</div><div class="stat-label">Disk (model weights)</div></div>
+    <div class="stat-card"><div class="stat-val">46 GB</div><div class="stat-label">Free disk remaining</div></div>
+    <div class="stat-card"><div class="stat-val">~83</div><div class="stat-label">Tokens/second (output)</div></div>
+    <div class="stat-card"><div class="stat-val">0</div><div class="stat-label">API tokens consumed</div></div>
+  </div>
+
+  <h3>When Idle</h3>
+  <p>The model stays loaded in RAM (~1.7GB). No CPU usage, minimal memory pressure. Mac Mini M2 has 16GB total, so this is ~11% of available RAM. The cron watchdog does a simple HTTP health check (no LLM, no token cost).</p>
+
+  <h3>Reclaiming Memory</h3>
+  <pre><code># Kill server + stop cron alerts:
+pkill -f "rapid-mlx.*serve"
+
+# The cron watchdog will also die (no server to check)
+# Next tick will report "server not running" once
+
+# To fully shut down cron job:
+hermes cron pause rapid-mlx-server</code></pre>
+</div>
+
+<!-- SECTION 7: Lessons Learned -->
+<div class="section">
+  <h2>Lessons Learned</h2>
+
+  <h3>1. 4-bit Models Don't Do Raw Structured Output</h3>
+  <p>The quantization introduces token-level noise. Asking a 4-bit model to produce JSON without a template is like asking someone with a stutter to do radio voice-over. The <strong>tools API</strong> provides the template that compensates for the noise.</p>
+
+  <h3>2. --no-thinking Is Not Optional</h3>
+  <p>Without it, 50-72% of output tokens are reasoning — internal monologue that adds zero value for tool-calling tasks. The Hermes parser also works better when it doesn't have to separate reasoning from action.</p>
+
+  <h3>3. Persistent Server > On-Demand for Repeated Work</h3>
+  <p>The 0.08s vs 8s difference compounds. A JSON gate that runs 20 times/day saves 158 seconds of cold-start time. Over a week, that's 18 minutes. Over a month, 79 minutes. The 1.7GB RAM is the cost of that speed. For JSON gate workloads, the tradeoff is worth it.</p>
+
+  <h3>4. Redundancy Over Single-Point Architecture</h3>
+  <p>Two independent inference lines (RapidMLX server + King Coder3B MCP) means no single failure takes down local inference. The cron watchdog automates recovery. This cost (2.9GB + 1.6GB disk) against 46GB free — acceptable.</p>
+
+  <h3>5. The Frontier Is Still Needed</h3>
+  <p>Local 3-4B models handle structure and speed. But deep reasoning, multi-file code review, research synthesis, and creative work still need frontier models. The split is: <strong>grunt = local, think = cloud</strong>.</p>
+</div>
+
+<p style="text-align:center;color:var(--secondary);font-size:13px;margin-top:40px">
+  This is the Way. &nbsp;💀🔥
+</p>
+
+</div>
+</body>
+</html>
