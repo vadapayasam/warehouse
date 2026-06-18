@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthesis - June 2026</title>
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --fg: #1c1917;
+      --muted: #78716c;
+      --accent: #0077b6;
+      --accent-light: rgba(0, 119, 182, 0.08);
+      --border: #e7e5e4;
+      --surface: #ffffff;
+      --tag-bg: #f0eeeb;
+      --tag-fg: #78716c;
+      --green: #228b44;
+      --green-bg: #eaf6ee;
+      --blue: #0077b6;
+      --blue-bg: #e8f4fa;
+      --amber: #b65c00;
+      --amber-bg: #faf0e6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--fg);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 3rem 1.75rem 2rem;
+    }
+    .hero-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.35rem;
+    }
+    .hero .subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .hero .meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.5rem;
+    }
+    .hero .meta span {
+      background: var(--tag-bg);
+      padding: 0.15rem 0.6rem;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .hero .meta .themes-label { background: var(--accent-light); color: var(--accent); }
+
+    /* ── Container ── */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2.5rem 1.75rem;
+    }
+
+    /* ── Summary banner ── */
+    .month-summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .month-summary h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .month-summary p {
+      font-size: 0.95rem;
+      color: var(--fg);
+      line-height: 1.65;
+    }
+    .theme-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 1rem;
+    }
+    .theme-chips span {
+      background: var(--tag-bg);
+      color: var(--tag-fg);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.2rem 0.7rem;
+      border-radius: 99px;
+    }
+
+    /* ── Entry cards ── */
+    .entry {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .entry-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .entry-header .date {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+    .entry-header .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .tag-stock    { background: var(--green-bg); color: var(--green); }
+    .tag-ios      { background: var(--blue-bg); color: var(--blue); }
+    .tag-portfolio { background: var(--amber-bg); color: var(--amber); }
+
+    .entry ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.75rem;
+    }
+    .entry ul li {
+      padding: 0.25rem 0 0.25rem 1.2rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: #444;
+    }
+    .entry ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.75rem;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 1px;
+      opacity: 0.5;
+    }
+    .entry .insight {
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .entry .insight strong {
+      color: var(--accent);
+    }
+
+    /* ── Cross-cutting themes ── */
+    .themes {
+      background: var(--accent-light);
+      border: 1px solid rgba(0, 119, 182, 0.15);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-top: 2rem;
+    }
+    .themes h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .themes ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .themes ul li {
+      padding: 0.4rem 0;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .themes ul li::before {
+      content: "//";
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.8rem;
+      font-family: SF Mono, Menlo, monospace;
+      opacity: 0.6;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 2rem 1.25rem 1.5rem; }
+      .container { padding: 1.5rem 1.25rem; }
+      .hero h1 { font-size: 1.8rem; }
+      .entry { padding: 1.25rem; }
+      .entry-header .date { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Synthesis: June 2026</h1>
+    <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
+    <div class="meta">
+      <span>18 entries</span>
+      <span>Jun 2 - Jun 18</span>
+      <span class="themes-label">5 themes</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Month Summary -->
+  <div class="month-summary">
+    <h2>Month in brief</h2>
+    <p>June was dominated by two tracks: a deep portfolio rebalance push to reduce ETF exposure and accumulate direct stock positions in IT, banking, and consumer staples, and a parallel iOS marketing deep dive into hard paywalls, ASO tactics, and UA strategy for Prabha's indie apps. The stock research drove specific trim-and-accumulate actions. The iOS research surfaced actionable shifts in monetization and keyword strategy.</p>
+    <div class="theme-chips">
+      <span>portfolio rebalance</span>
+      <span>stock accumulation</span>
+      <span>iOS marketing</span>
+      <span>ASO tactics</span>
+      <span>hard paywalls</span>
+      <span>ETF trimming</span>
+    </div>
+  </div>
+
+  <!-- Jun 4 (RevenueCat / Subscription) -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 4</span>
+      <span class="tag tag-ios">ios</span>
+    </div>
+    <ul>
+      <li>Subscription app market shows extreme polarization: top 25% grew 80% YoY while bottom 25% shrank 33%. Only 4.6% of apps reach $10K MRR.</li>
+      <li>Hard paywalls convert 5x better than freemium. Most revenue comes from pre-2020 apps; 2025+ launches account for only 3%.</li>
+      <li>Day 0 trial starts drive 80-89% of revenue. High prices convert better and increase LTV. Localization of paywalls lifts LTV by 62.3%.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Switch to hard paywall model. Price higher to signal quality. Optimize Day 0 onboarding to prevent instant churn.</div>
+  </div>
+
+  <!-- Jun 2 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 2</span>
+      <span class="tag tag-portfolio">portfolio</span>
+    </div>
+    <ul>
+      <li>Portfolio review confirmed ₹9.76L value with ₹1.86L profit (+23.6%). 18 holdings show 67.3% concentration in top 5.</li>
+      <li>Immediate action flagged: trim NIPPONAMC, NETFSILVER, NIFTYBEES, and HDFCPVTBAN to reduce leverage and concentration risk.</li>
+      <li>ITC and ARE&M identified as long-term accumulation targets despite short-term weakness.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Execute the trim plan. Move ETF weight into direct stock positions.</div>
+  </div>
+
+  <!-- Jun 5 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 5</span>
+      <span class="tag tag-stock">stocks</span>
+    </div>
+    <ul>
+      <li>New stock picks analysis targeted critical gaps in Banking, IT, Energy, and Telecom. TCS, HDFC Bank, and Reliance flagged for accumulation.</li>
+      <li>HUL and Bharti Airtel recommended for contrarian buying on deep oversold RSI readings (16.3 and 28 respectively).</li>
+      <li>Asian Paints, Titan, and L&T deferred due to high valuations. Wait for corrections to P/E 45 for Asian Paints.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> DCA into TCS, HUL, HDFC Bank over 3 tranches. Skip overpriced consumer names.</div>
+  </div>
+
+  <!-- Jun 7 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 7</span>
+      <span class="tag tag-portfolio">portfolio</span>
+    </div>
+    <ul>
+      <li>Actionable plan prioritized DCA strategy: 35% TCS, 30% HUL, 25% HDFC Bank, 10% Bharti Airtel for new capital allocation.</li>
+      <li>Trim Manappuram Finance, Gold Bees, and Indian Hotels to reduce leverage and overvaluation risk.</li>
+      <li>Maintain hold on Natco Pharma and ARE&M for long-term growth. Natco still attractively valued at P/E 11.8.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Deploy new capital per DCA plan. Keep trim list ready for green days.</div>
+  </div>
+
+  <!-- Jun 9 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 9</span>
+      <span class="tag tag-stock">stocks</span>
+    </div>
+    <ul>
+      <li>Technical signals indicate bearish MACD across most holdings. ITC and ARE&M remain attractive for accumulation despite negative momentum.</li>
+      <li>NIFTYBEES and SILVERBEES ETFs flagged for trimming due to weak fundamentals and poor technicals.</li>
+      <li>HDFC Private Bank ETF should be reduced in favor of direct bank stock exposure.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Rotate out of broad ETFs. Direct stock ownership preferred for active management.</div>
+  </div>
+
+  <!-- Jun 16 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 16</span>
+      <span class="tag tag-portfolio">portfolio</span>
+    </div>
+    <ul>
+      <li>Focus shifted to executing the trim plan on high-leverage financials. Manappuram and Gold Bees showing deteriorating fundamentals.</li>
+      <li>ITC presented a rare entry opportunity with RSI at 24.9 and 5.78% dividend yield. Strong accumulation signal.</li>
+      <li>Reliance Industries remains a core holding for diversified exposure across oil, telecom, and retail.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Accumulate ITC on red days. Maintain Reliance core position.</div>
+  </div>
+
+  <!-- Jun 17 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 17</span>
+      <span class="tag tag-stock">stocks</span>
+    </div>
+    <ul>
+      <li>Re-evaluation confirmed HUL as the strongest defensive play with extreme oversold RSI of 16.3. Conviction call for accumulation.</li>
+      <li>Bharti Airtel offers high growth potential via 5G rollout despite high debt. Telecom industry norm for infrastructure-heavy businesses.</li>
+      <li>Avoid lump sum entries on any position. Spread purchases over three tranches across 2-3 weeks.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> HUL at RSI 16.3 is a generational entry. DCA in 3 tranches. Bharti for aggressive portfolio augments.</div>
+  </div>
+
+  <!-- Jun 18 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 18</span>
+      <span class="tag tag-stock">stocks</span>
+    </div>
+    <ul>
+      <li>Finalize portfolio rebalancing by reducing ETF exposure and increasing direct stock holdings. Trim NIPPONAMC and NIFTYBEES to improve risk-adjusted returns.</li>
+      <li>Accumulate ITC and HUL on any dips. Maintain long-term hold on TCS and Reliance for compound growth.</li>
+      <li>Monitor RSI levels for entry triggers on Asian Paints and L&T. Target corrections to P/E 45 and P/E 28 respectively.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Last tranche of this rebalance cycle. Next review at end of July unless volatility picks up.</div>
+  </div>
+
+  <!-- Jun 18 - iOS Marketing -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 18</span>
+      <span class="tag tag-ios">ios</span>
+    </div>
+    <ul>
+      <li>Download velocity remains the strongest ranking signal, but retention metrics now heavily influence store ranking.</li>
+      <li>Screenshot captions and in-app event names are now indexed by the App Store. Two-word keyword combinations dominate top placements.</li>
+      <li>Apple Search Ads capture 65% of search installs with CPI of $1.50-$3.00. TikTok offers the best social ROI for app promotion.</li>
+      <li>Push notifications generate 3-10x engagement compared to email. Smart review prompts after positive moments improve retention.</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Add screenshot captions and two-word keyword combos to all app metadata. Test push notification timing before launching paid UA campaigns.</div>
+  </div>
+
+  <!-- Cross-cutting themes -->
+  <div class="themes">
+    <h2>Themes</h2>
+    <ul>
+      <li><strong>Valuation discipline</strong> Premium stocks like Titan and Asian Paints require waiting for corrections. Not buying the hype.</li>
+      <li><strong>Technical contrarianism</strong> HUL and ITC offer deep value on oversold RSI readings. Conviction calls with clear entry triggers.</li>
+      <li><strong>Sector gap filling</strong> Critical need to build IT, direct banking, and telecom exposure. ETFs are bridges, not destinations.</li>
+      <li><strong>iOS monetization shift</strong> Hard paywalls, higher prices, localization, and Day 0 optimization are non-negotiable for indie apps.</li>
+      <li><strong>ASO evolution</strong> Screenshot captions, keyword field optimization, and Apple Search Ads form the new baseline for app discovery.</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <span>Generated by Agent Tina via RapidMLX (Qwen3.5-4B) &middot; 18 Jun 2026</span>
+    <a href="https://vadapayasam.github.io/warehouse/sketch/" target="_blank">Back to sketch library</a>
+  </div>
+
+</div>
+
+</body>
+</html>
