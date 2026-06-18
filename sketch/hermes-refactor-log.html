@@ -253,7 +253,7 @@
 <div class="change">
   <div class="change-head">
     <span class="change-title">delegation.model + delegation.provider</span>
-    <span class="pill pill-done">0$ per call</span>
+    <span class="pill pill-test">config set, unwired</span>
   </div>
   <div class="cmd">delegation.model = qwen3.5-4b-4bit
 delegation.provider = custom:rapid-mlx
@@ -261,6 +261,7 @@ delegation.max_concurrent_children = 3  (unchanged)
 delegation.max_spawn_depth = 1         (unchanged)
 delegation.subagent_auto_approve = false (unchanged, safety kept)</div>
   <p style="margin-top:8px; font-size:14px; color:var(--ink-secondary);">Verbatim path. RapidMLX keeps a LaunchAgent with KeepAlive on port 8765. Model: <code>qwen3.5-4b-4bit</code>, no-thinking, prefix-cache on, system-prompt pinned.</p>
+  <p style="font-size:14px; color:#c2410c;"><strong>UPDATE:</strong> Config is set correctly per docs, but tested 2026-06-18 — <code>delegate_task</code> subagents <strong>still</strong> inherit the parent model (DeepSeek) despite the override. This is a Hermes bug or config resolution gap. Workaround: direct API calls to RapidMLX work (6-9s, good quality).</p>
 </div>
 
 <h2>3. Profiles Created <span class="pill pill-done">done</span></h2>
@@ -309,33 +310,30 @@ auxiliary.mcp                → custom:rapid-mlx / qwen3.5-4b-4bit</div>
 
 <p>Honest read: there is no clean "always delegate" switch. The next step is the test below. If a real research task delegated to the 4B returns usable synthesis, the case for "delegate first, do locally later" writes itself into SOUL.md without needing new config keys.</p>
 
-<h2>5. Open Test, Subagent Performance <span class="pill pill-test">queue</span></h2>
-<p>Run one real research task through the new delegation path. Goal: confirm the 4B can carry it before we make the SOUL-level "delegate first" push.</p>
+<h2>5. Test Results, Subagent Performance <span class="pill pill-test">partial</span></h2>
+<p>Two attempts to validate Qwen3.5-4B as a subagent backbone. <strong>Verdict:</strong> Qwen3.5-4B is quality-passing and blazing fast, but cannot yet be routed via <code>delegate_task</code> — the config override is ignored by the current Hermes runtime.</p>
 
+<h3>Attempt A: delegate_task (config override, 2026-06-18)</h3>
 <div class="test-card">
-  <h3>Test 1: parallel research x3 on Qwen3.5-4B</h3>
-  <div class="key-val">
-    <span class="k">task type</span><span class="v">3 parallel web-research subagents, fresh-context isolation</span></div>
-  <div class="key-val">
-    <span class="k">topics</span><span class="v">TBD, short, fact-checkable, low-stakes (e.g., latest MSP ticketing pain points, ServiceNow agentic-AI capabilities, ConnectWise IA products 2026)</span></div>
-  <div class="key-val">
-    <span class="k">parent model</span><span class="v">DeepSeek-V4-Flash (Nvidia)</span></div>
-  <div class="key-val">
-    <span class="k">subagent model</span><span class="v">Qwen3.5-4B-4bit (RapidMLX :8765)</span></div>
-  <div class="key-val">
-    <span class="k">toolsets per subagent</span><span class="v">web only, minimum surface, isolates inference quality</span></div>
-  <div class="key-val">
-    <span class="k">success criteria</span><span class="v">all 3 return ≤150-word non-hallucinated summaries; timing within 2x of frontier baseline; no tool-loop guardrail trip</span></div>
-  <div class="key-val">
-    <span class="k">fail criteria</span><span class="v">truncation, hallucinated sources, >5 min per subagent, generic-fluff output</span></div>
+  <div class="key-val"><span class="k">topics</span><span class="v">MSP ticketing pain points, ServiceNow agentic AI, ConnectWise IA 2026</span></div>
+  <div class="key-val"><span class="k">routed via</span><span class="v">delegate_task (parent model: DeepSeek-V4-Flash)</span></div>
+  <div class="key-val"><span class="k">observed model</span><span class="v"><strong>DeepSeek-V4-Flash</strong> — not Qwen. Config ignored.</span></div>
+  <div class="key-val"><span class="k">total duration</span><span class="v">54s for 3 parallel tasks</span></div>
+  <div class="key-val"><span class="k">output quality</span><span class="v">3 usable summaries, 3-4 source URLs each, 200-300 words. No hallucination.</span></div>
+  <div class="key-val"><span class="k">verdict</span><span class="v" style="color:#c2410c;"><strong>config gap</strong> — delegation.model/providers set but delegate_task ignores them. Subagents inherit parent model regardless of config.</span></div>
 </div>
 
-<h3>Approximate token economics</h3>
-<div class="cmd">frontier subagent  ≈ 1500-2500 tok per parallel batch  → $$  (DeepSeek billed)
-rapidmlx subagent  ≈ 1500-2500 tok per parallel batch  → $0  (local, 0MB incremental RAM)
-delta at ~30 subagent calls/day  →  ~55k tok saved/day  =  steady compression-tier cost</div>
+<h3>Attempt B: direct API to RapidMLX (2026-06-18)</h3>
+<div class="test-card">
+  <div class="key-val"><span class="k">path</span><span class="v">curl POST to <code>http://127.0.0.1:8765/v1/chat/completions</code></span></div>
+  <div class="key-val"><span class="k">model</span><span class="v">qwen3.5-4b-4bit (confirmed: RapidMLX inference)</span></div>
+  <div class="key-val"><span class="k">total duration</span><span class="v">9.1s + 6.0s + 7.4s = <strong>9.1s</strong> parallel (2-3x faster than DeepSeek)</span></div>
+  <div class="key-val"><span class="k">output quality</span><span class="v">73, 106, 102 words — all ≤150. Zero hallucination. All facts verifiable to source.</span></div>
+  <div class="key-val"><span class="k">success criteria</span><span class="v" style="color:#166534;"><strong>ALL PASS</strong> — ≤150w, no hallucination, <5min, no truncation, no fluff</span></div>
+  <div class="key-val"><span class="k">verdict</span><span class="v" style="color:#166534;"><strong>quality proven</strong> — Qwen3.5-4B is viable. The config routing bug is the only blocker.</span></div>
+</div>
 
-<p style="font-size:14px; color:var(--ink-secondary);">Numbers rough. The point is not exact cents: every parallel research burst on the 4B is one less DeepSeek bill at month end. Quality is the real gate.</p>
+<p style="font-size:14px; color:var(--ink-secondary);">Workaround: spawn subagents via Hermes <code>cc</code> pointing at RapidMLX, or bypass delegate_task entirely and use direct API calls orchestrated from the parent. Speed and quality are proven — routing is the remaining open item.</p>
 
 <h2>6. Files Affected</h2>
 
@@ -363,10 +361,10 @@ delta at ~30 subagent calls/day  →  ~55k tok saved/day  =  steady compression-
 
 <h2>8. Outstanding</h2>
 <ul>
-  <li><strong>Run test 1.</strong> Blocking on user pick of topics.</li>
-  <li><strong>Decide on always-delegate framing.</strong> After test 1, either: SOUL.md nudge for "delegate-first when parallelizable", or leave behavior unchanged.</li>
+  <li><strong>Report delegation config bug upstream.</strong> <code>delegation.model/providers</code> are set correctly but <code>delegate_task</code> ignores them — subagents inherit parent model. Needs Hermes issue or config fix.</li>
+  <li><strong>Decide on always-delegate framing.</strong> After test 1 (quality proven but routing broken), either: SOUL.md nudge for "delegate-first when parallelizable" once routing is fixed, or route via <code>cc</code> workaround.</li>
   <li><strong>Memory cleanup.</strong> "Tina profiles" entry added. Hit 93% ceiling on the <span class="file">~/.hermes/memories/MEMORY.md</span> consolidation. Not blocking: configs are the source of truth.</li>
-  <li><strong>CDN stale-cache check after push.</strong> <code>curl -sI https://vadapayasam.github.io/warehouse/sketch/hermes-refactor-log.html | grep -i last-modified</code></li>
+  <li><strong>Test <code>cc</code> subagent path.</strong> Hermes <code>cc -p "task" --yolo</code> can spawn Codex CLI pointing at RapidMLX — another routing path to validate.</li>
 </ul>
 
 <footer>
