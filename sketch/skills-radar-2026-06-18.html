@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skills Radar — June 18, 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --muted: #888;
+      --accent: #ff6b35;
+      --accent2: #4fc3f7;
+      --green: #66bb6a;
+      --yellow: #ffa726;
+      --red: #ef5350;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+    .radar-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .signal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .signal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .signal-header h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .tag-adopt    { background: #1b3a1b; color: var(--green); }
+    .tag-watch    { background: #3a2e1b; color: var(--yellow); }
+    .tag-experiment { background: #1b2d3a; color: var(--accent2); }
+    .tag-hype     { background: #3a1b1b; color: var(--red); }
+    .signal-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .signal p {
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+    .signal ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 0.75rem;
+    }
+    .signal ul li {
+      padding: 0.3rem 0 0.3rem 1.2rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    .signal ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .impact-box {
+      background: #151515;
+      border-left: 3px solid var(--accent);
+      padding: 0.8rem 1rem;
+      margin-top: 0.75rem;
+      font-size: 0.88rem;
+      border-radius: 0 6px 6px 0;
+    }
+    .impact-box strong {
+      color: var(--accent);
+    }
+    .sources {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .sources h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .sources ol {
+      list-style: none;
+      counter-reset: src;
+    }
+    .sources ol li {
+      counter-increment: src;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      padding-left: 1.6rem;
+      position: relative;
+      word-break: break-all;
+    }
+    .sources ol li::before {
+      content: "[" counter(src) "]";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .sources ol li a {
+      color: var(--accent2);
+      text-decoration: none;
+    }
+    .sources ol li a:hover { text-decoration: underline; }
+    .method-box {
+      margin-top: 1.5rem;
+      font-size: 0.78rem;
+      color: #555;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      background: var(--surface);
+    }
+    .divider {
+      margin: 0.5rem 0;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+    .flagship-badge {
+      display: inline-block;
+      margin-left: 0.4rem;
+      font-size: 0.65rem;
+      background: #ff6b3522;
+      color: var(--accent);
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.6rem; }
+      .signal-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>⚡ Skills Radar</h1>
+<div class="subtitle">18 June 2026 — Emerging skills, tools & competencies for product design & ITSM/MSP</div>
+
+<div class="radar-grid">
+
+  <!-- SIGNAL 1 -->
+  <div class="signal">
+    <div class="signal-header">
+      <h2>Claude Design &amp; AI-Native Prototyping <span class="flagship-badge">game changer</span></h2>
+      <span class="tag tag-adopt">adopt now</span>
+    </div>
+    <div class="signal-meta">Anthropic · April 2026 · Claude Opus 4.7</div>
+    <p>Anthropic's <strong>Claude Design</strong> turns prompts into polished prototypes, pitch decks, and marketing collateral — no traditional design tool required. It reads your codebase and existing design files to auto-apply brand systems, then exports to Canva, PDF, PPTX, or HTML. Adobe shares dropped 1.5%; Figma saw a 7% secondary-market decline on launch day.</p>
+    <ul>
+      <li><strong>Design system auto-ingestion</strong> — Claude builds your system by scanning codebase + design files; every subsequent project uses your colours, typography, components automatically</li>
+      <li><strong>Seamless handoff to Claude Code</strong> — packaged design bundles passed to Claude Code with one instruction; design-to-production pipeline collapses</li>
+      <li><strong>No extra cost</strong> for existing Pro/Max/Team/Enterprise subscribers; Enterprise defaults off</li>
+      <li><strong>Four modes:</strong> Prototype (wireframe or high-fidelity), Slide Deck, Template, Other (animated video, advanced)</li>
+    </ul>
+    <div class="impact-box">
+      <strong>What this means for you:</strong> The skill barrier between "designer" and "builder" is dissolving. Learn to prompt-design systems, not pixel-push. The <code>DESIGN.md</code> format (open-sourced alongside Google Stitch) lets brand rules travel across tools — invest in that ecosystem, not any single tool.
+    </div>
+  </div>
+
+  <!-- SIGNAL 2 -->
+  <div class="signal">
+    <div class="signal-header">
+      <h2>Google Stitch — Free AI-Native UI Design + Real-Time Agent</h2>
+      <span class="tag tag-watch">watch closely</span>
+    </div>
+    <div class="signal-meta">Google I/O · May 20, 2026 · Free (no credit card)</div>
+    <p>Google launched <strong>Stitch Agent</strong> — a real-time streaming AI agent that renders UI components live as the designer types or speaks. Plus simultaneous multiplayer editing, all <strong>free</strong>. Direct challenge to Figma's $15/seat model. Nielsen Norman Group: "AI tools let anyone make a decent-looking UI but compress entry-level jobs and raise the bar for professional work."</p>
+    <ul>
+      <li><strong>Streaming agent:</strong> components render onto canvas mid-generation; designers steer mid-stream — stop a direction before it finishes and redirect</li>
+      <li><strong>Voice + streaming:</strong> commands like "give me three different menu options" trigger live canvas responses</li>
+      <li><strong>Stitch MCP Server &amp; SDK:</strong> expose design capabilities as machine-callable tools — embed in CI pipelines, programmatic generation from external coding environments</li>
+      <li><strong>Known limitations:</strong> outputs trend generic without highly specific prompts; colour contrast &amp; accessibility require manual review</li>
+    </ul>
+    <div class="impact-box">
+      <strong>What this means for you:</strong> The "design-to-code" conversation is now a continuous stream, not a handoff. Skill to learn: <strong>prompting for visual systems</strong> — specific, multi-constraint prompts that produce production-ready UI, not generic layouts. The <code>DESIGN.md</code> format is becoming the cross-tool portability layer.
+    </div>
+  </div>
+
+  <!-- SIGNAL 3 -->
+  <div class="signal">
+    <div class="signal-header">
+      <h2>Agent Experience Optimization (AXO) — Designing for the Machine User</h2>
+      <span class="tag tag-adopt">adopt now</span>
+    </div>
+    <div class="signal-meta">Oshyn · April 2026 · Enterprise design practice</div>
+    <p>Oshyn launched a dedicated <strong>AI-First UX practice</strong> focused on Agent Experience Optimization (AXO) — designing websites and digital ecosystems to be "transactable" by AI agents and answer engines. The core insight: <em>"your website's most important user might not be a person, but an agent acting on their behalf."</em></p>
+    <ul>
+      <li><strong>Semantic authority:</strong> structure content so AI systems see it as verifiable evidence of expertise — not just visually present but structurally undeniable to LLMs</li>
+      <li><strong>Parsability as a first-class design concern:</strong> machine readers treated alongside human visitors in the design process</li>
+      <li><strong>Autonomous procurement systems</strong> expected mainstream by end of 2026 — if your ITSM/MSP product can't be discovered and evaluated by an AI agent, you're invisible</li>
+    </ul>
+    <div class="impact-box">
+      <strong>What this means for you (SuperOps):</strong> Agentic procurement is coming to ITSM/MSP. Your service desk UI, documentation, landing pages, and API surfaces all need to be parsable by AI agents that shortlist vendors. This is a <strong>design skill</strong> — semantic HTML, structured data, LLM-readable content architecture. Add "agent experience" to your design review checklist.
+    </div>
+  </div>
+
+  <!-- SIGNAL 4 -->
+  <div class="signal">
+    <div class="signal-header">
+      <h2>AI Coding Agent Skills Library — 345 Skills, Cross-Agent Standard</h2>
+      <span class="tag tag-watch">watch closely</span>
+    </div>
+    <div class="signal-meta">claude-skills v2.10.3 · MIT · 51 senior engineer personas</div>
+    <p>The <strong>claude-skills</strong> library has grown to 345 production-ready skill packages working across 13 AI coding agents (Claude Code, OpenAI Codex, Gemini CLI, Cursor, Hermes Agent, Windsurf, etc.). Based on Anthropic's SKILL.md open specification (Dec 2025), it addresses the #1 productivity problem cited by 73% of engineering leaders: inconsistent behaviour across agents.</p>
+    <ul>
+      <li><strong>51 senior engineer personas</strong> — Senior Architect, Frontend, Backend, DevOps, ML Engineer, SecOps, Data Engineer + 78 POWERFUL-tier advanced skills (RAG architects, database designers, agent designers)</li>
+      <li><strong>Adversarial Reviewer skill:</strong> forces agent to adopt multiple hostile reviewer personas, each must produce at least one finding — counters self-review monoculture</li>
+      <li><strong>Self-Improving Agent skill:</strong> agent promotes proven patterns from suggestions to hard rules, extracts recurring solutions into new skill files — autonomous skill curation</li>
+      <li><strong>Context-efficient:</strong> progressive disclosure — only name + description loaded at session start; full content loaded on trigger. A well-structured skill saves ~2,000 tokens per session in eliminated clarification turns</li>
+    </ul>
+    <div class="impact-box">
+      <strong>What this means for you:</strong> The SKILL.md format is becoming the de facto standard for engineering-agent behaviour. Your Hermes skills on this machine already follow this paradigm. For product design, the equivalent pattern is <code>DESIGN.md</code> — a portable design system specification readable by AI agents. Both standards are converging.
+    </div>
+  </div>
+
+  <!-- SIGNAL 5 -->
+  <div class="signal">
+    <div class="signal-header">
+      <h2>Agentic AI Hits Enterprise IT — Self-Healing Service Desks</h2>
+      <span class="tag tag-adopt">adopt now</span>
+    </div>
+    <div class="signal-meta">Microsoft, JPMorgan, Extreme Networks · Q1-Q2 2026</div>
+    <p>Enterprise agentic AI deployments are moving from pilot to production. Microsoft 365 Copilot (300K employees) autonomously handles password resets, software deployments, endpoint configuration, and auto-closes tickets — freeing engineers for strategic work. Extreme Networks launched <strong>Agent ONE</strong>, a second-gen AI stack with Coworker (interactive copilot) and Operator (autonomous agent, Q4 2026) modes for network/service management.</p>
+    <ul>
+      <li><strong>JPMorgan:</strong> fully automated fraud detection + AML — agentic systems monitor millions of daily payments in real-time, learning and adapting</li>
+      <li><strong>Danfoss:</strong> 80% of B2B transactional orders handled without escalation by autonomous order agent</li>
+      <li><strong>Extreme Networks Agent ONE:</strong> layered architecture — frontier models → networking-specific knowledge graph → skills layer (SOPs, change controls) → agentic layer. 5-second packet streaming per client for Wi-Fi troubleshooting</li>
+      <li><strong>Adobe CX Enterprise:</strong> end-to-end agentic CX orchestration with Brand Intelligence + Engagement Intelligence engines, integrated with 7 partner ecosystems</li>
+    </ul>
+    <div class="impact-box">
+      <strong>What this means for you (SuperOps):</strong> Agentic service desk is the 2027 battlefield. Skills to develop: <strong>AI-agent UX design</strong> (how does a service desk agent interact with an AI copilot?), <strong>prompt engineering for support workflows</strong>, <strong>agent handoff patterns</strong> (human ↔ AI ↔ autonomous). The "copilot vs agent" debate is over — both modes are needed. Your design should account for all three: human-only, human+AI, AI-autonomous.
+    </div>
+  </div>
+
+  <!-- SIGNAL 6 -->
+  <div class="signal">
+    <div class="signal-header">
+      <h2>AI Skills Pay More Than Degrees — Design-Specific Signals</h2>
+      <span class="tag tag-experiment">experiment</span>
+    </div>
+    <div class="signal-meta">Forbes + CIO.com · 2025–2026 data</div>
+    <p>GoHumanize's 2026 study of 55 AI skills: <strong>LLM expertise</strong> (~$199K avg), <strong>Agentic AI</strong> (~$197K), <strong>AI Product Management</strong> (~$195K). CIO.com's skill demand ranking shows <strong>AI skills nearly doubled</strong> in job postings (5% → 9%) and <strong>algorithm skills jumped 4×</strong> (&lt;0.5% → 2%). The fastest path in: no-code tools → practical LLM fundamentals → specialized skills.</p>
+    <ul>
+      <li><strong>For designers specifically:</strong> "analysis skills" (catching AI errors/hallucinations) grew 19% → 21% of postings — human oversight of AI-generated designs is a real, billable skill</li>
+      <li><strong>Software troubleshooting</strong> for AI-generated code: 9% → 11% — reviewing and fixing AI-produced UI/outputs</li>
+      <li><strong>Python + AI</strong> climbs (15% → 18%) — for design engineers who build internal tools and automation</li>
+    </ul>
+    <div class="impact-box">
+      <strong>What this means for you:</strong> Your existing skills (iOS dev, product design, Figma) + AI literacy = premium positioning. The "AI design reviewer" who catches hallucinations and accessibility issues in AI-generated UI is a distinct, valued role. Pair your iOS/SwiftUI expertise with prompt-system design and you're ahead of 90% of designers.
+    </div>
+  </div>
+
+  <!-- SIGNAL 7 -->
+  <div class="signal">
+    <div class="signal-header">
+      <h2>DESIGN.md — Portable Design System Standard</h2>
+      <span class="tag tag-experiment">experiment</span>
+    </div>
+    <div class="signal-meta">Google Stitch · Open-sourced April 2026 · Apache 2.0</div>
+    <p>Google open-sourced <strong>DESIGN.md</strong> — a plain-text file format capturing design system tokens (typography, colour palette, spacing, component rules) readable by AI agents. Export from one Stitch project, import into another. Compatible with Claude Code, Cursor, GitHub Copilot. Design rules carry forward across sessions automatically.</p>
+    <ul>
+      <li><strong>Cross-tool portability:</strong> Brand rules travel between Stitch, Figma, Claude Design, and coding agents</li>
+      <li><strong>AI-native format:</strong> written for machine readability first, human second — parallels SKILL.md for coding agents</li>
+      <li><strong>CI pipeline integration:</strong> design tokens can be version-controlled and automatically applied in build pipelines</li>
+    </ul>
+    <div class="impact-box">
+      <strong>What this means for you:</strong> Start maintaining a <code>DESIGN.md</code> file for Super Kit. It serves as both documentation and machine-readable design spec. When AI agents need to understand your brand rules, they'll read this. This is the design equivalent of how SKILL.md changed coding workflows.
+    </div>
+  </div>
+
+</div>
+
+<!-- Trend Summary -->
+<div style="margin-top: 2.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;">
+  <h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">🔭 Overall Trend Map</h2>
+  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+    <span style="background: #1b3a1b; color: var(--green); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;"><strong>Adopt Now:</strong> Claude Design prompting, AXO design, Agentic AI patterns, DESIGN.md</span>
+    <span style="background: #3a2e1b; color: var(--yellow); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;"><strong>Watch:</strong> Google Stitch ecosystem, SKILL.md standard maturity, Cross-agent compatibility</span>
+    <span style="background: #1b2d3a; color: var(--accent2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;"><strong>Experiment:</strong> DESIGN.md for Super Kit, AI design review workflow, Voice-to-UI prototyping</span>
+    <span style="background: #3a1b1b; color: var(--red); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;"><strong>Skip/Hype:</strong> Prompt-only design without human review, Single-vendor design AI tools, "Full autonomous design" claims</span>
+  </div>
+  <hr class="divider" style="margin-top: 1rem;">
+  <p style="font-size: 0.88rem; color: #bbb; margin-top: 0.75rem;">
+    <strong>Biggest takeaway:</strong> The design → code pipeline is being replaced by a single continuous conversation. The skills that matter now: <strong>prompt-system design</strong> (not pixel pushing), <strong>agent experience design</strong> (machines as users), <strong>cross-tool portability</strong> (DESIGN.md / SKILL.md), and <strong>AI output review</strong> (catching hallucinations). The "designer" role splits into three: brand-system architect, AI-prompt composer, and quality reviewer.
+  </p>
+</div>
+
+<div class="sources">
+  <h3>Sources</h3>
+  <ol>
+    <li>Anthropic — Claude Design launch. VentureBeat, Apr 17 2026. <a href="https://venturebeat.com/technology/anthropic-just-launched-claude-design-an-ai-tool-that-turns-prompts-into-prototypes-and-challenges-figma">venturebeat.com</a></li>
+    <li>Claude Design market impact — Adobe &amp; Figma stock drop. LiveMint, Apr 19 2026. <a href="https://www.livemint.com/technology/tech-news/what-is-claude-design-anthropics-new-ai-tool-that-tanked-adobe-and-figma-stocks-11776566584083.html">livemint.com</a></li>
+    <li>Google Stitch — Real-time streaming AI agent, multiplayer editing. TechTimes, May 20 2026. <a href="https://www.techtimes.com/articles/316903/20260520/google-stitch-launches-real-time-ai-agent-multiplayer-editing-figma-charges-15-seat.htm">techtimes.com</a></li>
+    <li>Claude Design step-by-step workflow guide. Geeky Gadgets, Jun 16 2026. <a href="https://www.geeky-gadgets.com/claude-design-workflow-2026/">geeky-gadgets.com</a></li>
+    <li>Oshyn AI-First UX Practice — Agent Experience Optimization. Democrat &amp; Chronicle, Apr 21 2026. <a href="https://www.democratandchronicle.com/press-release/story/178412/oshyn-launches-ai-first-ux-practice-to-bridge-the-enterprise-gap-between-human-design-and-ai-agent-discovery/">democratandchronicle.com</a></li>
+    <li>AI Coding Agent Skills Library — 345 skills, 51 personas. TechTimes, Jun 16 2026. <a href="https://www.techtimes.com/articles/318518/20260616/ai-coding-agent-skills-library-gives-any-tool-51-senior-engineer-personas.htm">techtimes.com</a></li>
+    <li>Agentic AI — 7 real enterprise examples. DQIndia, Apr 14 2026. <a href="https://www.dqindia.com/data-and-ai/agentic-ai-use-cases-7-real-examples-transforming-enterprise-ai-use-cases-in-2026-11723835">dqindia.com</a></li>
+    <li>Adobe CX Enterprise — Agentic AI for CX. Times of India, Apr 21 2026. <a href="https://timesofindia.indiatimes.com/technology/tech-news/adobe-unveils-cx-enterprise-for-the-agentic-ai-era-at-adobe-summit-2026/articleshow/130408177.cms">timesofindia.com</a></li>
+    <li>Extreme Connect 2026 — Agent ONE, AI-driven networking. SiliconANGLE, May 6 2026. <a href="https://siliconangle.com/2026/05/06/extreme-connect-2026-agentic-ai-platform-one-next-phase-enterprise-networking/">siliconangle.com</a></li>
+    <li>AI Skills Paying More Than a Degree in 2026. Forbes, May 13 2026. <a href="https://www.forbes.com/sites/sarahhernholm/2026/05/13/the-ai-skills-paying-more-than-a-college-degree-in-2026/">forbes.com</a></li>
+    <li>The 10 Hottest IT Skills for 2026. CIO.com, Nov 27 2025. <a href="https://www.cio.com/article/4096592/the-10-hottest-it-skills-for-2026.html">cio.com</a></li>
+  </ol>
+</div>
+
+<div class="method-box">
+  <strong>Method:</strong> SearXNG discovery (5 queries covering AI design tools, product design stack, UX AI agents, design tool landscape, ITSM/agentic AI) → jina.ai extraction → cross-verification of dates and sources. Every claim has at least 2 independent sources unless flagged as single-source. All sources 2025–2026 unless noted.
+</div>
+
+</body>
+</html>
