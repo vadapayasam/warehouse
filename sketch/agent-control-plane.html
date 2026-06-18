@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond the Dashboard - Agent Control Plane</title>
+<style>
+:root {
+  --bg: #0f0f11;
+  --surface: #1a1a1f;
+  --surface2: #22222a;
+  --border: #2a2a35;
+  --text: #e8e8ea;
+  --text2: #9999aa;
+  --accent: #ff6b35;
+  --accent2: #4fc3f7;
+  --green: #66bb6a;
+  --gold: #ffca28;
+  --red: #ef5350;
+  --radius: 8px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', 'Inter', sans-serif;
+  line-height: 1.6;
+  padding: 0;
+}
+.container { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* Hero */
+.hero {
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 48px;
+}
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.hero .sub {
+  font-size: 1.15rem;
+  color: var(--text2);
+  max-width: 640px;
+}
+.hero .meta {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: var(--text2);
+}
+.hero .meta span { display: inline-block; margin-right: 20px; }
+
+/* Verdict Box */
+.verdict-box {
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 48px;
+}
+.verdict-box h2 {
+  color: var(--accent);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.verdict-box p { font-size: 0.95rem; color: var(--text2); line-height: 1.7; }
+
+/* Section */
+.section { margin-bottom: 48px; }
+.section h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.section h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 10px;
+  color: var(--accent2);
+}
+.section p { margin-bottom: 14px; color: var(--text2); font-size: 0.95rem; }
+.section p strong { color: var(--text); }
+
+/* Product Card */
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  margin-bottom: 28px;
+  transition: border-color 0.2s;
+}
+.product-card:hover { border-color: var(--accent); }
+.product-card .tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--surface2);
+  color: var(--accent);
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.product-card h3 { 
+  font-size: 1.3rem; 
+  font-weight: 700; 
+  margin-bottom: 8px; 
+  color: var(--text);
+}
+.product-card .subtitle {
+  color: var(--text2);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+.product-card .why { 
+  color: var(--gold); 
+  font-size: 0.8rem; 
+  text-transform: uppercase; 
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.product-card p { color: var(--text2); font-size: 0.95rem; margin-bottom: 10px; }
+.product-card .tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.product-card .tech-tags span {
+  font-size: 0.75rem;
+  background: var(--surface2);
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: var(--text2);
+}
+
+/* Landscape Table */
+.landscape-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 28px;
+  font-size: 0.85rem;
+}
+.landscape-table th {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+}
+.landscape-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+}
+.landscape-table td:first-child { color: var(--text); font-weight: 500; }
+.landscape-table tr:hover td { background: var(--surface); }
+
+/* Gap List */
+.gap-item {
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  padding: 14px 20px;
+  margin-bottom: 10px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.gap-item strong { color: var(--text); }
+.gap-item p { color: var(--text2); font-size: 0.9rem; margin-top: 4px; }
+
+/* Protocol Grid */
+.protocol-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.protocol-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.protocol-card h4 { font-size: 0.9rem; color: var(--accent2); margin-bottom: 4px; }
+.protocol-card .axis { font-size: 0.75rem; color: var(--text2); margin-bottom: 6px; }
+.protocol-card p { font-size: 0.85rem; color: var(--text2); }
+
+/* Architecture Diagram - text based */
+.arch-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  overflow-x: auto;
+  margin-bottom: 28px;
+  white-space: pre;
+  color: var(--text2);
+}
+.arch-box .hl { color: var(--accent); }
+.arch-box .hl2 { color: var(--accent2); }
+
+/* Priority */
+.priority-low { border-left-color: var(--text2); }
+.priority-mid { border-left-color: var(--gold); }
+.priority-high { border-left-color: var(--green); }
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 2rem; }
+  .protocol-grid { grid-template-columns: 1fr; }
+  .container { padding: 24px 16px 60px; }
+  .product-card { padding: 24px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <h1>Beyond the Dashboard</h1>
+  <p class="sub">The agent stack (Hermes + OpenClaw) has the legs. What it doesn't have is a control surface worthy of the agents living on it. Web UIs are dead. This is what replaces them.</p>
+  <div class="meta">
+    <span>Research · June 2026</span>
+    <span>Stack: Hermes Agent · OpenClaw · cmux · MCP/A2A</span>
+  </div>
+</div>
+
+<div class="verdict-box">
+  <h2>One-Liner Verdict</h2>
+  <p>The missing layer in every agent stack isn't another framework  -  it's a <strong>unified ambient control surface</strong> that lives where the user already is (terminal, chat, menu bar, voice) and abstracts away whether the agent underneath is Hermes, OpenClaw, or custom. Telegram is uncertain. Discord isn't permanent. The control layer needs to be <strong>platform-agnostic, ambient, and intervention-native</strong>  -  a conductor, not a dashboard.</p>
+</div>
+
+<!-- LANDSCAPE -->
+<div class="section">
+  <h2>Landscape: The Agents We Have</h2>
+  <p>The debate between OpenClaw (~35% community) and Hermes (~30%) dominates the agent space in 2026. ~20% run both. Neither has a communication layer that works across the other.</p>
+
+  <table class="landscape-table">
+    <tr>
+      <th>Dimension</th>
+      <th>OpenClaw</th>
+      <th>Hermes Agent</th>
+    </tr>
+    <tr>
+      <td>Philosophy</td>
+      <td>Gateway-first. Packages an agent around a messaging hub.</td>
+      <td>Agent-first. Packages gateways around a learning runtime.</td>
+    </tr>
+    <tr>
+      <td>Multi-Agent</td>
+      <td>Native. Per-agent workspaces, personas, bindings. 8 concurrent sub-agent span limit.</td>
+      <td>Via delegate_task. Sub-agents in isolated contexts. Max 3 concurrent children.</td>
+    </tr>
+    <tr>
+      <td>Communication</td>
+      <td>sessions_send, sessions_spawn, sessions_history. A2UI/Canvas.</td>
+      <td>delegate_task, send_message. MCP server support.</td>
+    </tr>
+    <tr>
+      <td>Self-Improvement</td>
+      <td>Manual skills marketplace (1800+ skills).</td>
+      <td>Auto-generates skills from experience. Checkpoint/rollback built in.</td>
+    </tr>
+    <tr>
+      <td>Channel Support</td>
+      <td>24+ platforms (WhatsApp, Telegram, Discord, iMessage, Signal, Slack, Matrix...)</td>
+      <td>Telegram, Discord, CLI. Growing fast.</td>
+    </tr>
+    <tr>
+      <td>Control Surfaces</td>
+      <td>Web UI (Lit), CLI, macOS menu bar app, Voice Wake, Talk Mode</td>
+      <td>CLI, Telegram/Discord chat, cron jobs</td>
+    </tr>
+    <tr>
+      <td>Weakness</td>
+      <td>Update instability, memory fragility, complex self-hosting</td>
+      <td>Self-evaluation blindness, overwrites manual edits, immaturity (11 releases)</td>
+    </tr>
+    <tr>
+      <td>Interop</td>
+      <td>Can exchange signed messages with Hermes agents.</td>
+      <td>Can exchange signed messages with OpenClaw agents.</td>
+    </tr>
+  </table>
+
+  <h3>Protocols That Already Exist</h3>
+  <div class="protocol-grid">
+    <div class="protocol-card">
+      <h4>MCP (Anthropic)</h4>
+      <div class="axis">Vertical: Agent → Tool</div>
+      <p>Standardized data/tool interface. Every agent speaks it. But it's agent-to-tool, not agent-to-agent.</p>
+    </div>
+    <div class="protocol-card">
+      <h4>A2A (Google)</h4>
+      <div class="axis">Horizontal: Agent ↔ Agent</div>
+      <p>Agent-to-agent communication protocol. Handles task delegation, status reporting, capability discovery.</p>
+    </div>
+    <div class="protocol-card">
+      <h4>ACP (OpenAI)</h4>
+      <div class="axis">Coordination: Within-org agents</div>
+      <p>Agent Coordination Protocol. Focused on enterprise agent fleets with security/audit layers.</p>
+    </div>
+    <div class="protocol-card">
+      <h4>A2UI (OpenClaw)</h4>
+      <div class="axis">Agent → Generated UI</div>
+      <p>Declarative framework: agents emit HTML with A2UI attributes. Canvas server pushes via WebSocket. Rich but chat-embedded.</p>
+    </div>
+  </div>
+
+  <h3>The cmux Pattern (Closest Precedent)</h3>
+  <p>cmux is a native macOS terminal built on Ghostty/Swift/AppKit that solves the "black box agent" problem with a <strong>vertical sidebar</strong> showing agent status, progress bars, workspace states, and native macOS notifications. Agents control the terminal <em>to report to the human</em> via `notify`, `set-status`, `set-progress`. It's agent-agnostic  -  works with Claude Code, Codex, OpenCode, Gemini CLI. This is the closest thing to the paradigm shift, but it's <strong>coder-only</strong>  -  no OpenClaw/Hermes integration, no cross-agent orchestration.</p>
+</div>
+
+<!-- THE GAP -->
+<div class="section">
+  <h2>The Missing Layer</h2>
+  <p>Here's what doesn't exist yet  -  and this is the product opportunity:</p>
+
+  <div class="gap-item">
+    <strong>No Unified Agent Registry</strong>
+    <p>If you run both Hermes and OpenClaw (20% of users do), there's no single place that knows all your agents. Each framework has its own idea of what agents exist.</p>
+  </div>
+  <div class="gap-item">
+    <strong>No Ambient Awareness</strong>
+    <p>You have to actively check agents. Open a chat. Open a web UI. Open a terminal. No peripheral-vision interface that lets you know "something needs attention" without demanding focus.</p>
+  </div>
+  <div class="gap-item">
+    <strong>No Cross-Agent Intervention</strong>
+    <p>If Hermes agent Tina hits a bug and OpenClaw agent Claw can help, there's no way for the systems to coordinate. The user has to manually context-switch between runtimes.</p>
+  </div>
+  <div class="gap-item">
+    <strong>No Multi-Modal Control Surface</strong>
+    <p>Telegram is uncertain. Discord isn't permanent. Web UIs are dead. Voice isn't there yet. The ideal control surface adapts to where the user is  -  terminal when coding, voice when driving, chat when on phone, menubar glance when at desk.</p>
+  </div>
+  <div class="gap-item">
+    <strong>No Conductor / Meta-Agent Pattern</strong>
+    <p>Nobody has built the agent that manages agents. An orchestrator that abstracts away which runtime is underneath and presents a unified interface to the human.</p>
+  </div>
+</div>
+
+<!-- PRODUCT CONCEPTS -->
+<div class="section">
+  <h2>Product Concepts</h2>
+  <p>These are buildable. Grounded in what exists. Ordered by practicality for Prabha's stack.</p>
+
+  <div class="product-card">
+    <div class="tag">🚀 Build First</div>
+    <h3>A3P  -  Ambient Agent Awareness Protocol</h3>
+    <div class="subtitle">A lightweight message bus that both Hermes and OpenClaw agents publish to. The foundation everything else sits on.</div>
+    <div class="why">Why this exists</div>
+    <p>Before you can build a control surface, agents need a common language to report status. A3P is a minimal JSON schema over Unix socket or local HTTP. Hermes publishes `task_start`, `task_complete`, `error`, `needs_review`. OpenClaw same schema. Any surface subscribes.</p>
+    <p><strong>Schema (one message type):</strong><br>
+    <code>{ type, agent_id, agent_runtime, session_key, status, summary, payload?, ts }</code></p>
+    <p><strong>Implementation path:</strong> Unix domain socket listener in a background Hermes process + OpenClaw gateway plugin. ~200 lines each. No dependencies.</p>
+    <div class="tech-tags">
+      <span>Unix socket</span>
+      <span>JSON</span>
+      <span>Plugin</span>
+      <span>200 LOC</span>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="tag">🚀 Build Second</div>
+    <h3>TINA  -  Terminal Integrated Agent Navigator</h3>
+    <div class="subtitle">A macOS terminal-sidecar app that is NOT a web UI. It's a persistent tmux session with agent concierge  -  the place you glance at to know what's running.</div>
+    <div class="why">Why it's different from web UIs</div>
+    <p>No browser tab, no Electron, no React. Just a <strong>self-healing tmux session</strong> with dedicated panes:</p>
+    <p>• <strong>Left sidebar:</strong> Agent registry (Hermes + OpenClaw + Codex)  -  color-coded status dots<br>
+    • <strong>Main pane:</strong> Real-time activity log  -  every agent's output streams here<br>
+    • <strong>Bottom bar:</strong> Quick command line  -  `/kill debug-agent`, `/focus hermes`, `/pause all`<br>
+    • <strong>Floating alert:</strong> macOS notification banner on agent errors</p>
+    <p><strong>Implementation:</strong> Bash/tmux wrapper + A3P subscriber via `socat`. Opens in your terminal instantly. Survives reboots. CLI-native, scriptable, SSH-able. 0 latency  -  no HTTP, no serialization overhead.</p>
+    <div class="tech-tags">
+      <span>tmux</span>
+      <span>Bash</span>
+      <span>Unix socket</span>
+      <span>macOS</span>
+      <span>SSH-ready</span>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="tag">🔧 Build Third</div>
+    <h3>Conductor Agent  -  One Agent to Rule Them All</h3>
+    <div class="subtitle">A meta-agent running inside Hermes that knows about every agent in your stack. You talk to ONE agent. It delegates to the right runtime.</div>
+    <div class="why">Why this matters</div>
+    <p>The 20% of users running both Hermes and OpenClaw face a cognitive tax: "which agent should I talk to for this?" The Conductor removes that. It maintains a registry of agent capabilities, routes tasks, aggregates status, and intervenes when something goes wrong.</p>
+    <p><strong>Capabilities:</strong> Agent registry (discovers every agent via A3P), task routing (delegates to the right runtime), unified status ("/status" returns everything running across all runtimes), intervention (/kill task-xyz kills it regardless of runtime), daily standup summaries.</p>
+    <p><strong>Implementation:</strong> Hermes skill + OpenClaw gateway plugin. Uses existing session tools (sessions_send, sessions_spawn, sessions_kill) on the OpenClaw side and delegate_task on the Hermes side. Wraps both in a single chat interface.</p>
+    <div class="tech-tags">
+      <span>Hermes skill</span>
+      <span>OpenClaw plugin</span>
+      <span>A3P</span>
+      <span>Meta-agent</span>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="tag">📱 Build Fourth</div>
+    <h3>Ambient Agent Bar  -  macOS Menubar Pulse</h3>
+    <div class="subtitle">A SwiftUI menu bar app showing agent ecosystem state in a single glance. Colored dot. No interface chrome. Ambient.</div>
+    <div class="why">Why not a dashboard</div>
+    <p>You don't open a dashboard. The dashboard comes to you. A <strong>1px colored dot</strong> in the menu bar: green (idle), blue (working), yellow (needs review), red (failed). Click it  -  dropdown shows running tasks, recent completions, error count. Click "kill all" to emergency-stop everything.</p>
+    <p><strong>Implementation:</strong> SwiftUI AppKit wrapper. Subscribes to A3P via local socket. Uses Swift Concurrency (async/await) for zero-overhead polling. ~400 lines of Swift. Install via `brew install agent-bar`.</p>
+    <p><strong>Prabha advantage:</strong> You're an iOS dev. This is SwiftUI on macOS. You can ship this in a weekend.</p>
+    <div class="tech-tags">
+      <span>SwiftUI</span>
+      <span>AppKit</span>
+      <span>Menu bar</span>
+      <span>macOS</span>
+      <span>A3P</span>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="tag">💡 Long-term Vision</div>
+    <h3>Conductor Voice  -  "Hey Tina" Across the Stack</h3>
+    <div class="subtitle">Voice-wake interface for the entire agent estate. No typing. No opening apps. Just speak.</div>
+    <div class="why">Why this is the endgame</div>
+    <p>"Hey Tina, what's running?" → "Two agents active: the MSP research cron finished at 2:14pm, and Codex is still working on the auth refactor, about 60% done."<br>
+    "Hey Tina, stop everything and summarize what I missed." → kills non-essential processes, collects output, speaks back a 30-second briefing.</p>
+    <p><strong>Implementation:</strong> macOS speech recognition (SFSpeechRecognizer) → Conductor Agent → local TTS output. Uses the same Conductor backend  -  voice is just another input surface. The control plane is the same; the interface changes.</p>
+    <div class="tech-tags">
+      <span>Voice</span>
+      <span>Conductor</span>
+      <span>macOS</span>
+      <span>Wake word</span>
+      <span>TTS</span>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<div class="section">
+  <h2>Architecture in One Diagram</h2>
+  <p>How it all fits together:</p>
+  <div class="arch-box">┌─────────────────────────────────────────────────────────┐
+<span class="hl">│                    CONTROL SURFACES                     │</span>
+│                                                         │
+│  ┌──────────┐  ┌────────────┐  ┌─────────┐  ┌───────┐ │
+│  │ Terminal │  │ Menu Bar   │  │ Telegram│  │ Voice │ │
+│  │ (tmux)   │  │ (SwiftUI)  │  │ (Bot)   │  │ ("Hey"│ │
+│  └─────┬────┘  └──────┬─────┘  └────┬────┘  └───┬───┘ │
+│        │              │             │            │      │
+│        └──────────────┴─────────────┴────────────┘      │
+│                          │                              │
+<span class="hl">│                    A3P MESSAGE BUS                     │</span>
+│           (Unix socket · JSON · localhost)               │
+│                          │                              │
+│              ┌───────────┴───────────┐                  │
+│              v                       v                  │
+│  ┌────────────────────┐  ┌──────────────────────┐      │
+│  │                    │  │                      │      │
+│  │   <span class="hl2">Hermes Agent</span>    │  │    <span class="hl2">OpenClaw Gateway</span>   │      │
+│  │  (Tina · crons ·  │  │  (24+ channels ·      │      │
+│  │   skills · memory) │  │   multi-agent · A2UI) │      │
+│  │                    │  │                      │      │
+│  └────────────────────┘  └──────────────────────┘      │
+│           │                          │                  │
+│           v                          v                  │
+│  ┌────────────────────┐  ┌──────────────────────┐      │
+│  │ <span class="hl2">Conductor Agent</span> │  │  <span class="hl2">Conductor Plugin</span>  │      │
+│  │ (Hermes Skill)     │  │ (OpenClaw Plugin)     │      │
+│  └────────────────────┘  └──────────────────────┘      │
+│                                                         │
+<span class="hl">│              UNIFIED AGENT REGISTRY                    │</span>
+│         task status · history · intervention            │
+└─────────────────────────────────────────────────────────┘</div>
+</div>
+
+<!-- PRIORITY -->
+<div class="section">
+  <h2>Build Order</h2>
+  <div class="gap-item priority-high">
+    <strong>Week 1: A3P Protocol</strong>
+    <p>Unix socket listener + publisher. Hermes publish hook (background cron writes to socket). OpenClaw gateway plugin. 200 lines each runtime. Everything downstream depends on this.</p>
+  </div>
+  <div class="gap-item priority-high">
+    <strong>Week 2: tmux Control Plane (TINA)</strong>
+    <p>Persistent tmux session with A3P subscriber. Sidebar pane showing agent status. Bottom command bar for intervention. macOS notification integration via terminal-notifier.</p>
+  </div>
+  <div class="gap-item priority-mid">
+    <strong>Week 3: Conductor Hermes Skill</strong>
+    <p>Hermes skill that discovers agents via A3P, maintains registry, routes tasks, aggregates status, handles interventions. Reuses existing Hermes skills infrastructure.</p>
+  </div>
+  <div class="gap-item priority-mid">
+    <strong>Week 4-5: macOS Menu Bar App</strong>
+    <p>SwiftUI menu bar app with A3P subscriber. Colored dot status indicator, dropdown with running tasks, quick actions. Prabha's iOS experience makes this fast.</p>
+  </div>
+  <div class="gap-item priority-low">
+    <strong>Long-term: Voice Interface</strong>
+    <p>macOS speech recognition → Conductor Agent → TTS output. "Hey Tina" becomes the universal interface for the entire agent stack.</p>
+  </div>
+</div>
+
+<!-- CONCLUSION -->
+<div class="section" style="margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border);">
+  <h2>Why This Works for You</h2>
+  <p><strong>You already run the stack.</strong> Hermes (Tina) on Mac Mini. OpenClaw interest via MSPClaw. iOS development background. Telegram and Discord as current surfaces but you want something better.</p>
+  <p><strong>You don't need another framework.</strong> You need the glue between what you already have. A3P + TINA + Conductor is ~1000 lines of code total, leveraging existing infrastructure.</p>
+  <p><strong>The timing is right.</strong> OpenClaw and Hermes can exchange signed messages (2026 interop). A3P is the natural next step  -  a unified event bus that both runtimes speak. Nobody has shipped this yet. The community split (~20% run both) means there's a hungry audience.</p>
+  <p><strong>This isn't a web UI.</strong> Terminal-native, tmux-native, menu-bar-native, voice-native. No Electron. No React. No login page. The control surface lives where you already are.</p>
+</div>
+
+<div style="text-align: center; padding: 48px 0 24px; color: var(--text2); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 48px;">
+  Agent Tina · Research Artifact · Warehoused at /sketch/<br>
+  "This is the Way." 💀🔥
+</div>
+
+</div>
+</body>
+</html>
