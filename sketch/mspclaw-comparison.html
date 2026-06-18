@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MSPclaw: What's in a name? Analysis</title>
+<style>
+:root {
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --text: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --border: #d2d2d7;
+  --accent: #0071e3;
+  --accent-light: #2997ff;
+  --badge-ours: #0071e3;
+  --badge-theirs: #6e6e73;
+  --shared: #166534;
+  --section-black: #000000;
+  --section-black-text: #f5f5f7;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.47;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* Hero */
+.hero {
+  background: var(--section-black);
+  color: var(--section-black-text);
+  padding: 100px 0 80px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.28px;
+  margin-bottom: 16px;
+}
+
+.hero .subtitle {
+  font-size: 21px;
+  font-weight: 400;
+  color: #a1a1a6;
+  max-width: 680px;
+  margin: 0 auto 24px;
+  line-height: 1.38;
+}
+
+.hero .meta {
+  font-size: 14px;
+  color: #6e6e73;
+  font-family: "SF Mono", ui-monospace, monospace;
+}
+
+.hero .verdict-badge {
+  display: inline-block;
+  background: #2a2a2c;
+  border: 1px solid #424245;
+  border-radius: 100px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #f5f5f7;
+  margin-top: 8px;
+}
+
+.hero .verdict-badge strong {
+  color: var(--accent-light);
+}
+
+/* Sections */
+.section {
+  padding: 80px 0;
+  background: var(--surface);
+}
+
+.section.alt {
+  background: var(--bg);
+}
+
+.section h2 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.10;
+  margin-bottom: 32px;
+  letter-spacing: normal;
+}
+
+.section h3 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.17;
+  margin: 40px 0 12px;
+}
+
+.section p {
+  font-size: 17px;
+  line-height: 1.47;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.section .intro {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+/* Comparison Table */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 24px 0 0;
+}
+
+.comparison-table thead th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comparison-table thead th:first-child { width: 22%; }
+.comparison-table thead th:nth-child(2) { width: 39%; }
+.comparison-table thead th:last-child { width: 39%; }
+
+.comparison-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+.comparison-table td:first-child {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.comparison-table tr:last-child td {
+  border-bottom: none;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-right: 4px;
+}
+
+.badge.ours { background: #e8f0fe; color: #0071e3; }
+.badge.theirs { background: #f0f0f2; color: #6e6e73; }
+.badge.shared { background: #e6f4ea; color: #166534; }
+
+/* Verdict Box */
+.verdict-box {
+  background: var(--section-black);
+  color: var(--section-black-text);
+  border-radius: 16px;
+  padding: 48px;
+  margin: 48px 0;
+}
+
+.verdict-box h3 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 20px;
+  color: #fff;
+}
+
+.verdict-box p {
+  color: #a1a1a6;
+  font-size: 17px;
+  line-height: 1.47;
+  margin-bottom: 16px;
+}
+
+.verdict-box p:last-child { margin-bottom: 0; }
+
+.verdict-box .highlight {
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+/* Similarities Section */
+.similarities {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.similarity-card {
+  background: #f5f5f7;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.similarity-card .badge.shared {
+  margin-bottom: 8px;
+}
+
+.similarity-card h4 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.similarity-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Three-pillar verdict */
+.pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin: 32px 0;
+}
+
+.pillar {
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+}
+
+.pillar.theirs {
+  background: #f5f5f7;
+}
+
+.pillar.ours {
+  background: #e8f0fe;
+}
+
+.pillar h4 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pillar p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.pillar .emoji {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+/* Detail cards in verdict section */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 32px 0;
+}
+
+.detail-card {
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.detail-card.theirs {
+  background: #f5f5f7;
+  border: 1px solid var(--border);
+}
+
+.detail-card.ours {
+  background: #e8f0fe;
+  border: 1px solid #b3d4fc;
+}
+
+.detail-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.detail-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.detail-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.detail-card ul li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 3px 0;
+  line-height: 1.4;
+}
+
+.detail-card ul li::before {
+  content: "- ";
+  color: var(--text-secondary);
+}
+
+/* What this means for Prabha */
+.actions {
+  margin: 32px 0;
+}
+
+.action-item {
+  display: flex;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.action-item:last-child {
+  border-bottom: none;
+}
+
+.action-num {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 28px;
+}
+
+.action-content h4 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.action-content p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Footer nav to original articles */
+.article-links {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.article-links h4 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.article-links ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.article-links ul li a {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: #e8f0fe;
+  transition: background 0.2s;
+}
+
+.article-links ul li a:hover {
+  background: #b3d4fc;
+}
+
+/* Footer */
+.footer {
+  padding: 40px 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container { padding: 0 22px; }
+  .hero { padding: 60px 0 48px; }
+  .hero h1 { font-size: 36px; }
+  .section { padding: 48px 0; }
+  .section h2 { font-size: 32px; }
+  .comparison-table { font-size: 12px; }
+  .comparison-table td, .comparison-table th { padding: 10px 10px; }
+  .similarities { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .verdict-box { padding: 32px 24px; border-radius: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>MSPclaw: What's in a Name?</h1>
+    <p class="subtitle">Two products, one name. A deep-dive comparison between Prabha's open-source MSPclaw and the commercial mspclaw.com product built on OpenClaw + Nvidia NemoClaw.</p>
+    <p class="meta">Analysis &middot; June 2026</p>
+    <div class="verdict-badge">Verdict: <strong>Different products, same problem space, same name</strong></div>
+  </div>
+</section>
+
+<!-- Quick Verdict -->
+<section class="section">
+  <div class="container">
+
+    <p class="intro">Both products target the same pain point - automating L1 MSP operations with AI reasoning - but they come from fundamentally different codebases, architectures, and strategic directions.</p>
+
+    <div class="pillars">
+      <div class="pillar theirs">
+        <div class="emoji">🏢</div>
+        <h4>mspclaw.com</h4>
+        <p>Commercial SaaS built on OpenClaw (Node.js/TS) + Nvidia NemoClaw guardrails. Per-tech pricing. M365-centric. Chat-agent in Slack/Teams.</p>
+      </div>
+      <div class="pillar ours">
+        <div class="emoji">🔧</div>
+        <h4>Prabha's MSPclaw</h4>
+        <p>Open-source (AGPL). Custom ReAct engine in FastAPI/Python. macOS-first. Self-hosted Mac mini server + agent daemon via WebSocket. SuperOps-integrated.</p>
+      </div>
+      <div class="pillar" style="background:#e6f4ea;">
+        <div class="emoji">🎯</div>
+        <h4>Shared DNA</h4>
+        <p>LLM-agnostic, approval-gated destructive actions, audit trails, ticket triage automation, MSP audience. Both targeting the same operational niche.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Full Comparison Table -->
+<section class="section alt">
+  <div class="container">
+    <h2>Side-by-Side Comparison</h2>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th><span class="badge theirs">mspclaw.com</span></th>
+          <th><span class="badge ours">Prabha's MSPclaw</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Base Framework</td>
+          <td>OpenClaw (Peter Steinberger) — Node.js/TS, pnpm monorepo</td>
+          <td>Custom ReAct orchestrator — FastAPI/Python</td>
+        </tr>
+        <tr>
+          <td>Guardrails</td>
+          <td>Nvidia NemoClaw (Colang policy language) — input/output/topical rails + jailbreak detection</td>
+          <td>Custom approval gates + tool whitelisting per playbook + structured escalation</td>
+        </tr>
+        <tr>
+          <td>Delivery Model</td>
+          <td>SaaS (cloud-hosted, on-prem at Enterprise tier)</td>
+          <td>Self-hosted (Mac mini server, launchd daemon). Docker planned</td>
+        </tr>
+        <tr>
+          <td>Pricing</td>
+          <td>$49/tech/mo (Starter), $79/tech/mo (Growth), Enterprise custom</td>
+          <td>Free (AGPL). Cloud hosted $200-500/mo projected. Marketplace rev-share planned</td>
+        </tr>
+        <tr>
+          <td>Platform Focus</td>
+          <td>Cross-platform, M365-heavy (user lifecycle, license management)</td>
+          <td>macOS-first (agent daemon on Mac endpoints). Windows planned for v0.4</td>
+        </tr>
+        <tr>
+          <td>Agent Architecture</td>
+          <td>Lives inside Teams/Slack/email — chat-interface agent</td>
+          <td>Remote agent daemon via WebSocket — installs on endpoint, runs diagnostics/actions</td>
+        </tr>
+        <tr>
+          <td>PSA Integration</td>
+          <td>Generic PSA mention — not specific</td>
+          <td>SuperOps GraphQL bridge (working). ConnectWise, Halo, Ninja planned</td>
+        </tr>
+        <tr>
+          <td>LLM Agnostic</td>
+          <td><span class="badge shared">Yes</span> via OpenClaw (Claude, GPT, local)</td>
+          <td><span class="badge shared">Yes</span> OpenAI, Gemini, Anthropic, Ollama</td>
+        </tr>
+        <tr>
+          <td>Approval Gates</td>
+          <td><span class="badge shared">Yes</span> Role-based thresholds + evidence-gated execution</td>
+          <td><span class="badge shared">Yes</span> Destructive tools require live approval, auto-deny after 5 min</td>
+        </tr>
+        <tr>
+          <td>Audit Trail</td>
+          <td><span class="badge shared">Yes</span> Rail-triggered audit logs with full context</td>
+          <td><span class="badge shared">Yes</span> Append-only JSONL + SQLite</td>
+        </tr>
+        <tr>
+          <td>Playbook System</td>
+          <td>Not detailed on site — likely custom workflows</td>
+          <td>YAML-defined, keyword-scored, tool-whitelisted per playbook. 15+ playbooks shipped</td>
+        </tr>
+        <tr>
+          <td>Cross-Tenant Isolation</td>
+          <td>Hard scope isolation at NeMo rail level</td>
+          <td>Company_id in agent registration planned (current blocker)</td>
+        </tr>
+        <tr>
+          <td>Ticket Coverage</td>
+          <td>Ticket triage & routing, M365 lifecycle, endpoint actions, billing reconcile</td>
+          <td>30 L1 scenarios: account/access, network, devices, performance, people ops</td>
+        </tr>
+        <tr>
+          <td>Open Source</td>
+          <td>No (closed SaaS)</td>
+          <td>Yes — AGPL v3.0 proposed, MIT under consideration</td>
+        </tr>
+        <tr>
+          <td>Community Model</td>
+          <td>Closed marketplace (none)</td>
+          <td>Playbook marketplace planned — one MSP builds, others install</td>
+        </tr>
+        <tr>
+          <td>Maturity</td>
+          <td>Market-ready with pricing, testimonials, pilot program</td>
+          <td>v0.3 production-hardened. Research phase. Working but pre-revenue</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Deep Architecture Differences -->
+<section class="section">
+  <div class="container">
+    <h2>Architectural DNA</h2>
+    <p class="intro">Same surface problem, radically different internal design. Here is where the two diverge at the bones level.</p>
+
+    <div class="detail-grid">
+      <div class="detail-card theirs">
+        <h4><span class="badge theirs">mspclaw.com</span> Chat-First</h4>
+        <p>The agent lives inside your existing chat tools. You talk to it like a teammate. Actions are triggered via natural language in Slack/Teams. Easy adoption, zero install on endpoints.</p>
+        <ul>
+          <li>No endpoint agent needed</li>
+          <li>Works with any device that uses M365/Intune</li>
+          <li>Guardrails run server-side before the LLM</li>
+          <li>Depends on cloud APIs for actions</li>
+        </ul>
+      </div>
+      <div class="detail-card ours">
+        <h4><span class="badge ours">Prabha's MSPclaw</span> Agent-First</h4>
+        <p>A lightweight daemon installs on the endpoint. The server orchestrates diagnostics/tools via WebSocket. Can run real macOS diagnostics (disk, processes, network) - not just API calls.</p>
+        <ul>
+          <li>Direct endpoint control (disk cleanup, process kill, diagnostics)</li>
+          <li>Works offline-capable (agent buffers commands)</li>
+          <li>macOS-native tooling (psutil, AST sandbox)</li>
+          <li>Requires agent install on each managed Mac</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card theirs">
+        <h4><span class="badge theirs">mspclaw.com</span> Nvidia NemoClaw Guardrails</h4>
+        <p>Four-layer defense: input rails (prompt injection), output rails (PII leakage), topical rails (scope enforcement), jailbreak detection (adversarial prompts). Expressed in Colang policy language.</p>
+      </div>
+      <div class="detail-card ours">
+        <h4><span class="badge ours">Prabha's MSPclaw</span> Code-Level Guardrails</h4>
+        <p>Tool whitelisting per playbook, 5-min auto-deny on destructive tools, max 3 clarification questions, structured escalation when stuck. All enforced in orchestrator code, not a policy DSL.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Similarities -->
+<section class="section alt">
+  <div class="container">
+    <h2>Shared DNA</h2>
+    <p class="intro">Despite different architectures, these products are converging on the same problem. The similarities are not coincidental &mdash; both are answering the same market gap.</p>
+
+    <div class="similarities">
+      <div class="similarity-card">
+        <span class="badge shared">Shared</span>
+        <h4>LLM-Agnostic</h4>
+        <p>Both support multiple providers (OpenAI, Anthropic, open-source). Neither locks into a single model vendor.</p>
+      </div>
+      <div class="similarity-card">
+        <span class="badge shared">Shared</span>
+        <h4>Destructive Action Gating</h4>
+        <p>Both require human approval for dangerous actions (password resets, device wipes, user deletions). Neither lets the AI run wild.</p>
+      </div>
+      <div class="similarity-card">
+        <span class="badge shared">Shared</span>
+        <h4>Audit-First Design</h4>
+        <p>Every action is logged. Both understand that in MSP environments, "the AI did something" is not an acceptable incident report.</p>
+      </div>
+      <div class="similarity-card">
+        <span class="badge shared">Shared</span>
+        <h4>Ticket Triage at Core</h4>
+        <p>Both identify L1 ticket summarization, categorization, and routing as the primary value proposition. The entry point is the same.</p>
+      </div>
+      <div class="similarity-card">
+        <span class="badge shared">Shared</span>
+        <h4>Slack/Teams Integration</h4>
+        <p>Both target the tech's existing communication tools as the interface. No separate dashboard required for basic operations.</p>
+      </div>
+      <div class="similarity-card">
+        <span class="badge shared">Shared</span>
+        <h4>MSP-Specific Position</h4>
+        <p>Both explicitly position as MSP-only. Neither tries to be generic ITSM or enterprise IT. Multi-tenant operations are baked in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Verdict -->
+<section class="section">
+  <div class="container">
+    <div class="verdict-box">
+      <h3>Verdict: Different Products, Same Name</h3>
+      <p>This is a name collision between two independent projects solving the same problem from different angles.</p>
+      <p><span class="highlight">mspclaw.com</span> is a commercial SaaS wrapping OpenClaw + Nvidia's guardrail stack. It targets M365-heavy MSPs, works through chat, and charges per tech per month. It is further along as a product with pricing and a pilot program, but closed-source.</p>
+      <p><span class="highlight">Prabha's MSPclaw</span> is an open-source self-hosted orchestrator with a custom ReAct engine, macOS-native agent, and SuperOps integration. It is less polished as a product but architecturally more ambitious - direct endpoint control, playbook marketplace vision, community-driven. Earlier stage (v0.3) but MIT/AGPL-licensed.</p>
+      <p><strong>Key difference:</strong> mspclaw.com is <em>a chat agent that talks to APIs</em>. Prabha's MSPclaw is <em>an orchestration server that drives endpoint agents</em>. The first is an AI copilot in your chat. The second is an automation platform with an AI brain.</p>
+      <p style="margin-top:24px; font-size:14px; color:#6e6e73;">The name collision is a risk. If mspclaw.com gains traction, Prabha's project could face brand confusion and SEO irrelevance. Worth considering a rename before either project reaches critical mass.</p>
+    </div>
+  </div>
+</section>
+
+<!-- What This Means -->
+<section class="section alt">
+  <div class="container">
+    <h2>What This Means for Prabha</h2>
+
+    <div class="actions">
+      <div class="action-item">
+        <div class="action-num">01</div>
+        <div class="action-content">
+          <h4>The name is a liability</h4>
+          <p>If mspclaw.com becomes the default Google result for "MSPclaw", your project becomes invisible. Consider renaming before v1.0 — something that distinguishes the endpoint-agent architecture from the chat-agent model. "MSPReach", "MSPLink", or lean into the macOS angle ("RMMac").</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">02</div>
+        <div class="action-content">
+          <h4>Your differentiator is real — lean into it</h4>
+          <p>mspclaw.com cannot do what your agent does: run real diagnostics on a Mac endpoint, execute offline-capable commands, perform disk cleanup via a daemon. That is your genuine moat. Position as "the AI RMM agent" not "an AI chat for MSPs".</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">03</div>
+        <div class="action-content">
+          <h4>Your open-source model is the real weapon</h4>
+          <p>mspclaw.com is closed SaaS at $49/tech/mo. You can offer self-hosted free forever. That is a brutal competitive advantage for community adoption. The playbook marketplace is your viral loop — they cannot replicate that without opening their code.</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">04</div>
+        <div class="action-content">
+          <h4>Fix the asset mapping blocker first</h4>
+          <p>Your biggest gap vs mspclaw.com is per-tenant isolation. They solved it with NemoClaw rails. You need company_id routing working before you can claim multi-tenant readiness. Sprint 1 in your roadmap is the right priority.</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">05</div>
+        <div class="action-content">
+          <h4>Claim the macOS RMM niche</h4>
+          <p>No open-source RMM covers Mac well. mspclaw.com does not either (they use M365/Intune APIs). By shipping a working macOS agent, you own a segment nobody else is serving. Windows agent v0.4 widens the moat further.</p>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">06</div>
+        <div class="action-content">
+          <h4>Do not compete on branding — compete on architecture</h4>
+          <p>You will not out-market a funded SaaS. Your play is: "Self-hosted. Open source. Direct endpoint control. Your data, your infra, your playbooks." The community that cares about those things will find you — but only if the name does not bury you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Article links -->
+<section class="section">
+  <div class="container">
+    <div class="article-links">
+      <h4>Source Articles</h4>
+      <ul>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-stakeholder-deck.html">Stakeholder Deck</a></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-product-brief.html">Product Brief</a></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-product-strategy-june-2026.html">Product Strategy (June 2026)</a></li>
+        <li><a href="https://vadapayasam.github.io/warehouse/sketch/mspclaw-build-roadmap.html">Build Roadmap</a></li>
+        <li><a href="https://www.mspclaw.com/">mspclaw.com</a></li>
+        <li><a href="https://github.com/thisisprabha/MSPclaw">GitHub: thisisprabha/MSPclaw</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<section class="footer">
+  <div class="container">
+    <p>This is the Way. &bull; Generated via Agent Tina</p>
+  </div>
+</section>
+
+</body>
+</html>
