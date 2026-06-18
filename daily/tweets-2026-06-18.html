@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Tweets · Prabha | 2026-06-18</title>
+<style>
+:root{--bg:#f5f5f7;--text:#1d1d1f;--muted:#6e6e73;--card:#fff;--accent:#0071e3;--border:#d2d2d7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,SF Pro Text,Helvetica Neue,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.47;padding:2rem 1rem;max-width:720px;margin:0 auto;letter-spacing:-0.374px}
+h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:2rem;font-weight:600;letter-spacing:-0.144px;margin-bottom:.25rem}
+.date{color:var(--muted);margin-bottom:2rem;font-size:.9rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.85rem;border:1px solid #eee}
+.stats-bar span{color:var(--muted)}
+.stats-bar strong{color:var(--text)}
+.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid #eee;transition:.15s}
+.tweet-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.num{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600}
+.tag{font-size:.75rem;padding:.2rem .55rem;border-radius:99px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;font-family:SF Mono,ui-monospace,monospace}
+.tag.hermes{background:#ede9fe;color:#5b21b6}
+.tag.workflow{background:#d1fae5;color:#065f46}
+.tag.tips{background:#fef3c7;color:#92400e}
+.tag.interesting{background:#cffafe;color:#155e75}
+.tag.apps{background:#dbeafe;color:#1e40af}
+.time{font-size:.8rem;color:#059669;font-weight:600;margin-left:auto;background:#d1fae5;padding:.2rem .55rem;border-radius:99px;white-space:nowrap}
+.tweet-text{white-space:pre-wrap;font-family:SF Pro Text,Helvetica Neue,Arial,sans-serif;font-size:1rem;line-height:1.5;margin-bottom:1rem}
+.char-count{font-size:.75rem;color:var(--muted);display:inline-block;margin-right:.5rem}
+.copy-btn{padding:.35rem 1rem;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;font-size:.85rem;float:right;transition:.1s}
+.copy-btn:hover{background:#0077ed}
+.copy-btn:active{transform:scale(.97)}
+.copy-all{background:#5b21b6;float:none}
+.copy-all:hover{background:#6d28d9}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+.guide{background:var(--card);padding:1.25rem;border-radius:16px;margin-bottom:2rem;border:1px solid #eee}
+.guide h2{font-size:1rem;font-weight:600;margin-bottom:.75rem}
+.guide ul{margin-left:1.2rem}
+.guide li{margin-bottom:.35rem;font-size:.9rem}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:.75rem;font-size:.85rem}
+.schedule-table td,.schedule-table th{padding:.4rem .5rem;text-align:left;border-bottom:1px solid var(--border)}
+.schedule-table th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.02em}
+.archive-link{display:inline-block;margin-top:.25rem;color:var(--accent);text-decoration:none;font-size:.85rem}
+.archive-link:hover{text-decoration:underline}
+.thread-container{background:var(--card);border-radius:16px;padding:1.5rem 1.5rem 1rem;margin-bottom:1.5rem;border:1px solid #eee}
+.thread-header{font-size:.75rem;color:var(--muted);font-weight:500;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.02em}
+.thread-footer{clear:both;padding-top:.75rem;margin-top:.5rem;text-align:center}
+.thread-container .tweet-card{border:none;padding:0;margin-bottom:1.25rem;box-shadow:none}
+.thread-container .tweet-card:hover{box-shadow:none}
+.thread-footer .copy-btn{float:none;display:inline-block}
+.meta{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-bottom:.5rem}
+.slot-label{font-size:.75rem;padding:.15rem .5rem;border-radius:99px;font-weight:600;background:#e8e8ed;color:#515154;font-family:SF Mono,ui-monospace,monospace}
+.slot-label.thread-part{background:#ede9fe;color:#5b21b6}
+.time-label{font-size:.75rem;font-weight:600;color:#059669}
+.verdict-box{border-left:3px solid var(--accent);padding:.75rem 1rem;margin-top:.75rem;background:#f0f5ff;border-radius:8px;font-size:.85rem;clear:both}
+.verdict-box strong{display:block;margin-bottom:.3rem;font-size:.8rem;color:var(--accent);text-transform:uppercase;letter-spacing:.02em}
+@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
+</style>
+</head>
+<body>
+
+<h1> Daily Tweets</h1>
+<p class="date">Prabha&rsquo;s build log &middot; 2026-06-18 &middot; Thursday edition</p>
+
+<div class="stats-bar">
+<span> <strong>85</strong> artifacts</span>
+<span> <strong>31</strong> skills</span>
+<span> <strong>18</strong> crons</span>
+<span> <strong>14</strong> iOS projects</span>
+<span> <strong>32</strong> scripts</span>
+</div>
+
+<div class="guide">
+<h2> Posting Schedule (IST)</h2>
+<p style="margin-bottom:.75rem;font-size:.85rem;color:var(--muted)">Copy from below &rarr; paste into X at the exact time. Slot 1 is a 2-part thread.</p>
+<table class="schedule-table">
+<tr><th>Time</th><th>Category</th><th>Tweet</th></tr>
+<tr><td>9:00 AM</td><td>#apps (thread 2/2)</td><td>LeaveHack v2: 20 backlog UI tasks, one night's work</td></tr>
+<tr><td>12:00 PM</td><td>#interesting</td><td>RapidMLX: 4 failed approaches before the one that worked</td></tr>
+<tr><td>4:00 PM</td><td>#hermes</td><td>Daily tweet cron was paused with a placeholder prompt</td></tr>
+<tr><td>7:00 PM</td><td>#tips</td><td>Documenting failures is better than documenting wins</td></tr>
+</table>
+<ul style="margin-top:.75rem">
+<li>Space throughout the day -- don't post all at once</li>
+<li>Engage with replies within 30 min for algorithm boost</li>
+</ul>
+</div>
+
+<!-- SLOT 1: THREAD 2/2 -->
+<div class="thread-container">
+<div class="thread-header">
+<span>Slot 1 &middot; 9:00 AM &middot; Builder Moment &middot; 2/2</span>
+</div>
+
+<div class="tweet-card">
+<div class="meta">
+<span class="slot-label thread-part">1/2</span>
+<span class="time-label">Thread</span>
+</div>
+<pre class="tweet-text">20 backlog UI tasks closed in one push last night.
+
+LeaveHack v2 needed a full interface overhaul. Not just new colors -- crumple spec for letter animations, perforated clip SVGs drawn by hand, card components redesigned from scratch. Every screen touched.
+
+TASK-009 through TASK-031. Not features. Pure UI debt that accumulated because the algorithm work took priority for weeks.</pre>
+<div class="char-count">349 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'leavehack part 1')">Copy</button>
+</div>
+
+<div class="tweet-card">
+<div class="meta">
+<span class="slot-label thread-part">2/2</span>
+<span class="time-label">Thread</span>
+</div>
+<pre class="tweet-text">The crumple spec was the hardest part. Each letter in the SVG needs to fold along a specific crease, not just fade or scale. Had to draw the perforation paths by hand because no generative tool understood the geometry of a paper letter tearing open.
+
+What worked: brute-force iteration on SVGs until they looked right. Figma design tokens as reference. NotificationScheduler + NotificationCopy wired in the same push.
+
+What didn't: any attempt to automate the crumple math. Sometimes you just draw.</pre>
+<div class="char-count">400 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'leavehack part 2')">Copy</button>
+</div>
+
+<div class="thread-footer">
+<button class="copy-btn copy-all" onclick="copyAllThread(this)">Copy All Parts</button>
+</div>
+</div>
+
+<!-- SLOT 2 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">2</span>
+<span class="tag interesting">#interesting</span>
+<span class="time">12:00 PM IST</span>
+</div>
+<pre class="tweet-text">RapidMLX went live on my Mac Mini yesterday for local inference. 4 failed approaches before the 5th worked.
+
+Failed 1: Plain-text JSON prompts. 40% pass rate. The 4-bit model hallucinates structure without a schema.
+
+Failed 2: Skipping --no-thinking. 50-72% token waste on mandatory reasoning that doesn't improve output.
+
+Failed 3: Non-API tool calling through Hermes parser. Broken. The parser can't reconstruct the corrupted output.
+
+Failed 4: Missing vision support. Qwen3.5-4B is text-only. The 2B vision model needs a separate install.
+
+What worked: OpenAI tools parameter + --no-thinking + persistent server on port 8765. 100% pass rate. 0 frontier tokens per call. ~1.7GB RAM pinned.</pre>
+<div class="char-count">660 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'rapidmlx failures')">Copy</button>
+
+<div class="verdict-box">
+<strong>Verdict</strong>
+If you're setting up local inference on Apple Silicon, skip the trial-and-error. Exact working config: `rapid-mlx serve --model qwen3.5-4b-4bit --no-thinking --port 8765` + OpenAI tools parameter in your client. No plain-text prompts, no parser tricks. The writeup is on GitHub Pages if you want the full failure log.
+</div>
+</div>
+
+<!-- SLOT 3 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">3</span>
+<span class="tag hermes">#hermes</span>
+<span class="time">4:00 PM IST</span>
+</div>
+<pre class="tweet-text">My daily tweet generator cron was paused for so long that the prompt itself became a placeholder: "[PAUSED] Daily tweet generator -- paused by request. No action needed."
+
+When I asked Tina to run it manually today, the cron fired, did nothing, and re-enabled itself. Had to pause it again.
+
+Lesson: a paused cron with a dead prompt isn't paused -- it's orphaned. The system treats it as a live job with no instructions. Better to either delete it or give it a real prompt that exits early when there's nothing to do.</pre>
+<div class="char-count">421 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'dead cron')">Copy</button>
+</div>
+
+<!-- SLOT 4 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">4</span>
+<span class="tag tips">#tips</span>
+<span class="time">7:00 PM IST</span>
+</div>
+<pre class="tweet-text">Published a 571-line HTML doc about the RapidMLX experiment yesterday. It's mostly about the 4 failed approaches.
+
+The pattern holds: the most-read pages in the warehouse archive are the failure postmortems. The "here's how it works" pages get skimmed. The "here's 4 things I tried and 3 broke" gets shared.
+
+If you're writing about your setup, lead with what broke. The working config is a footnote. The debugging journey is the content.</pre>
+<div class="char-count">420 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'failure docs')">Copy</button>
+</div>
+
+<div class="footer">
+Generated by <a href="https://github.com/vadapayasam/warehouse" style="color:var(--accent);text-decoration:none">Hermes Agent</a> &middot; 2026-06-18<br>
+<a href="https://vadapayasam.github.io/warehouse/daily/tweets-2026-06-17.html" class="archive-link">&larr; Yesterday</a>
+&middot;
+<a href="https://vadapayasam.github.io/warehouse/daily/" class="archive-link">Daily Archive</a>
+</div>
+
+<script>
+function copyText(btn, key) {
+  const card = btn.closest('.tweet-card');
+  const text = card ? card.querySelector('.tweet-text').innerText.trim() : '';
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+function copyAllThread(btn) {
+  const container = btn.closest('.thread-container');
+  const parts = container.querySelectorAll('.tweet-card .tweet-text');
+  const full = Array.from(parts).map(p => p.innerText.trim()).join('\n\n');
+  navigator.clipboard.writeText(full).then(() => {
+    btn.textContent = 'All Copied!';
+    setTimeout(() => btn.textContent = 'Copy All Parts', 1500);
+  });
+}
+</script>
+</body>
+</html>
