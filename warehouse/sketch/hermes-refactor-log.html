@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hermes Refactor Log, 2026-06-18</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f5f5f7;
+    --ink: #1d1d1f;
+    --ink-secondary: #6e6e73;
+    --border: #d2d2d7;
+    --border-strong: #86868b;
+    --accent: #0071e3;
+    --accent-bright: #2997ff;
+    --local-good: #166534;
+    --local-bg: #f5f5f0;
+    --warn: #c2410c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    padding: 0 22px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 64px 0 96px; }
+  header { border-bottom: 1px solid var(--border); padding-bottom: 32px; margin-bottom: 48px; }
+  h1 {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.07;
+    letter-spacing: -0.28px;
+    margin-bottom: 12px;
+  }
+  .meta {
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.33;
+    color: var(--ink-secondary);
+    letter-spacing: -0.12px;
+  }
+  .meta span { margin-right: 18px; }
+  h2 {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: 0.196px;
+    margin: 48px 0 16px;
+  }
+  h3 {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.21;
+    letter-spacing: 0.228px;
+    margin: 24px 0 8px;
+  }
+  p { margin-bottom: 12px; }
+  .lede {
+    font-size: 19px;
+    line-height: 1.42;
+    color: var(--ink);
+    max-width: 720px;
+    margin-bottom: 8px;
+  }
+  .lede-sub {
+    font-size: 14px;
+    color: var(--ink-secondary);
+    line-height: 1.47;
+    max-width: 720px;
+  }
+  code, .mono {
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+  }
+  .cmd {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 8px 0 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .file {
+    display: inline-block;
+    background: var(--ink);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    margin-right: 6px;
+  }
+  ul, ol { padding-left: 22px; margin-bottom: 16px; }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--ink-secondary); }
+
+  /* Change blocks */
+  .change {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 16px 0;
+    background: var(--bg);
+  }
+  .cmd code { background: var(--surface); padding: 1px 6px; border-radius: 8px; font-size: 12.5px; }
+  .change-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .change-title {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.374px;
+  }
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: "SF Mono", ui-monospace, monospace;
+  }
+  .pill-done { background: var(--local-bg); color: var(--local-good); border: 1px solid var(--local-good); }
+  .pill-test { background: #fff7ed; color: var(--warn); border: 1px solid var(--warn); }
+  .pill-pending { background: var(--surface); color: var(--ink-secondary); border: 1px solid var(--border-strong); }
+
+  .key-val {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 8px 16px;
+    margin: 12px 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  .key-val .k { font-family: "SF Mono", ui-monospace, monospace; color: var(--ink-secondary); }
+  .key-val .v { color: var(--ink); }
+
+  /* File tree */
+  .tree {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0 8px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    overflow-x: auto;
+  }
+  .tree .dir { color: var(--ink-secondary); }
+  .tree .new { color: var(--local-good); }
+  .tree .new::before { content: "+ "; }
+  .tree .mod::before { content: "~ "; }
+
+  /* Test block */
+  .test-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 12px 0;
+  }
+  .timer {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    margin: 8px 0;
+  }
+  .timer.warn { color: var(--warn); }
+  .timer.ok { color: var(--local-good); }
+
+  /* Footer */
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-secondary);
+    line-height: 1.47;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    body { padding: 0 18px; }
+    h1 { font-size: 38px; letter-spacing: -0.2px; }
+    h2 { font-size: 22px; }
+    .key-val { grid-template-columns: 1fr; gap: 2px 0; }
+    .key-val .k { margin-top: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Hermes Refactor Log</h1>
+  <p class="meta"><span>date: 2026-06-18</span><span>type: ops change-log</span><span>profiles touched: default, coder, researcher</span><span>files: 4 modified, 3 created</span></p>
+  <p class="lede" style="margin-top:24px;">Local-first routing. Audit turned into action: AGENTS.md dropped at two project roots, subagent delegation rerouted to Qwen3.5-4B-4bit on port 8765, two scoped profiles spun up. Aux slots partially redirected. One open question: does the cheap 4B hold weight as a subagent on real research work.</p>
+</header>
+
+<h2>1. Project Context Files <span class="pill pill-done">done</span></h2>
+<p>Two top-level <span class="file">AGENTS.md</span> dropped. Hermes reads these lazily into the system prompt on any tool call whose path resolves under those roots. Saves npx-style discovery on every iOS or HTML session.</p>
+
+<div class="change">
+  <div class="change-head">
+    <span class="change-title">~/Projects/ios-apps/AGENTS.md</span>
+    <span class="pill pill-done">1221 bytes</span>
+  </div>
+  <div class="key-val">
+    <span class="k">scope</span><span class="v">4 SwiftUI apps (LeaveHack, TimeLeft, WhatImPaying, DrawFont-iPad) + asc CLI pipeline</span></div>
+  <div class="key-val">
+    <span class="k">skills it triggers</span><span class="v">ios-swiftui, ios-asc-xcodebuild-workflow</span></div>
+  <div class="key-val">
+    <span class="k">hard rule</span><span class="v">no destructive ops without approval, no geometry debug without explicit ack</span></div>
+</div>
+
+<div class="change">
+  <div class="change-head">
+    <span class="change-title">~/Projects/vadapayasam.github.io/AGENTS.md</span>
+    <span class="pill pill-done">1311 bytes</span>
+  </div>
+  <div class="key-val">
+    <span class="k">scope</span><span class="v">warehouse/sketch, daily/, weekly/, gh-pages flow</span></div>
+  <div class="key-val">
+    <span class="k">skills it triggers</span><span class="v">prabha-taste (always), research-to-web-publishing, html-design-systems</span></div>
+  <div class="key-val">
+    <span class="k">default target</span><span class="v">vadapayasam.github.io/warehouse/sketch/X.html</span></div>
+</div>
+
+<h2>2. Delegation Reroute <span class="pill pill-done">done</span></h2>
+<p>Subagent (delegate_task) work was inheriting the parent model, DeepSeek on Nvidia, and burning tokens on synthesis-heavy tasks. Both <code>assistant</code> and <code>subagent</code> paths now route to the local 4B. Parent still uses DeepSeek. <strong>Delta:</strong> subagents now ~0$ instead of billed.</p>
+
+<div class="change">
+  <div class="change-head">
+    <span class="change-title">delegation.model + delegation.provider</span>
+    <span class="pill pill-done">0$ per call</span>
+  </div>
+  <div class="cmd">delegation.model = qwen3.5-4b-4bit
+delegation.provider = custom:rapid-mlx
+delegation.max_concurrent_children = 3  (unchanged)
+delegation.max_spawn_depth = 1         (unchanged)
+delegation.subagent_auto_approve = false (unchanged, safety kept)</div>
+  <p style="margin-top:8px; font-size:14px; color:var(--ink-secondary);">Verbatim path. RapidMLX keeps a LaunchAgent with KeepAlive on port 8765. Model: <code>qwen3.5-4b-4bit</code>, no-thinking, prefix-cache on, system-prompt pinned.</p>
+</div>
+
+<h2>3. Profiles Created <span class="pill pill-done">done</span></h2>
+<p>Two new profiles with isolated config, SOUL, and toolsets. Default profile stays as the single-Tina main agent. Switch with <code>hermes profile use <name></code>.</p>
+
+<div class="tree"><span class="dir">~/.hermes/profiles/</span>
+<span class="new">coder/</span>
+  ├── <span class="mod">config.yaml</span>, cli toolset 10 items, no browser or web
+  ├── <span class="mod">SOUL.md</span>, 904 bytes, mission = iOS push + persona HTML
+  ├── .env, cloned from default
+  └── skills/, cloned
+<span class="new">researcher/</span>
+  ├── <span class="mod">config.yaml</span>, cli toolset 12 items, full web and browser
+  ├── <span class="mod">SOUL.md</span>, 1303 bytes, mission = research + HTML publish
+  ├── .env, cloned from default
+  └── skills/, cloned
+
+$(which coder)        → /Users/yoyoboy/.local/bin/coder
+$(which researcher)   → /Users/yoyoboy/.local/bin/researcher</div>
+
+<h3>coder profile toolset</h3>
+<div class="cmd">cli:  clarify, cronjob, delegation, file, memory, session_search, skills, terminal, todo, vision</div>
+<p style="font-size:14px; color:var(--ink-secondary); margin-top:8px;">Dropped: browser, web, code_execution, image_gen, kanban. This is the build-and-ship surface.</p>
+
+<h3>researcher profile toolset</h3>
+<div class="cmd">cli:  browser, clarify, code_execution, delegation, file, memory, session_search, skills, terminal, todo, vision, web</div>
+
+<h3>Auxiliary slots routed to RapidMLX (researcher only)</h3>
+<div class="cmd">auxiliary.title_generation  → custom:rapid-mlx / qwen3.5-4b-4bit
+auxiliary.skills_hub         → custom:rapid-mlx / qwen3.5-4b-4bit
+auxiliary.monitor            → custom:rapid-mlx / qwen3.5-4b-4bit
+auxiliary.flush_memories     → custom:rapid-mlx / qwen3.5-4b-4bit
+auxiliary.mcp                → custom:rapid-mlx / qwen3.5-4b-4bit</div>
+
+<p style="font-size:14px; color:var(--ink-secondary);"><strong>Deliberately not touched:</strong> vision (Qwen2-VL-2B lives on <span class="file">mlx-coder</span> MCP, not the aux slot), compression (4B has 32k ctx, hermes wants 66k for compression jobs, would fail), curator, approval, kanban_decomposer, triage_specifier, web_extract, session_search. Routing more without seeing pass results first is the kind of "automate everything" pattern we kill on sight.</p>
+
+<h2>4. Always-Delegate Behavior <span class="pill pill-test">pending opinion</span></h2>
+<p>The Hermes config does not expose a "always try delegate_task first" toggle. Subagent use is a per-decision thing at the LLM level, driven by tool descriptions and the judgment of the agent. To bias the model toward delegation, the practical levers are:</p>
+
+<ul>
+  <li><strong>SOUL.md instruction</strong>: add a line to each profile's SOUL explicitly framing the default ("for any independently-researchable question, default to delegation"). <em>Effect: soft. Model respects but can override.</em></li>
+  <li><strong>Smart-model-routing for subagents</strong>: already done. Cheaper delegation means we're not punished when the model delegates.</li>
+  <li><strong>Skills as soft enforcement</strong>: a skill named <span class="file">auto-delegate</span> that loads on every turn and lists delegateable patterns. <em>Effect: medium. Depends on disciplined skill loading.</em></li>
+  <li><strong>delegation.subagent_auto_approve: true</strong>: currently <code>false</code>. Flipping it removes the human-in-loop gate on every subagent call. <em>Effect: high throughput, but loses oversight on cron-driven work. Not recommended until we have validated output quality from the 4B.</em></li>
+</ul>
+
+<p>Honest read: there is no clean "always delegate" switch. The next step is the test below. If a real research task delegated to the 4B returns usable synthesis, the case for "delegate first, do locally later" writes itself into SOUL.md without needing new config keys.</p>
+
+<h2>5. Open Test, Subagent Performance <span class="pill pill-test">queue</span></h2>
+<p>Run one real research task through the new delegation path. Goal: confirm the 4B can carry it before we make the SOUL-level "delegate first" push.</p>
+
+<div class="test-card">
+  <h3>Test 1: parallel research x3 on Qwen3.5-4B</h3>
+  <div class="key-val">
+    <span class="k">task type</span><span class="v">3 parallel web-research subagents, fresh-context isolation</span></div>
+  <div class="key-val">
+    <span class="k">topics</span><span class="v">TBD, short, fact-checkable, low-stakes (e.g., latest MSP ticketing pain points, ServiceNow agentic-AI capabilities, ConnectWise IA products 2026)</span></div>
+  <div class="key-val">
+    <span class="k">parent model</span><span class="v">DeepSeek-V4-Flash (Nvidia)</span></div>
+  <div class="key-val">
+    <span class="k">subagent model</span><span class="v">Qwen3.5-4B-4bit (RapidMLX :8765)</span></div>
+  <div class="key-val">
+    <span class="k">toolsets per subagent</span><span class="v">web only, minimum surface, isolates inference quality</span></div>
+  <div class="key-val">
+    <span class="k">success criteria</span><span class="v">all 3 return ≤150-word non-hallucinated summaries; timing within 2x of frontier baseline; no tool-loop guardrail trip</span></div>
+  <div class="key-val">
+    <span class="k">fail criteria</span><span class="v">truncation, hallucinated sources, >5 min per subagent, generic-fluff output</span></div>
+</div>
+
+<h3>Approximate token economics</h3>
+<div class="cmd">frontier subagent  ≈ 1500-2500 tok per parallel batch  → $$  (DeepSeek billed)
+rapidmlx subagent  ≈ 1500-2500 tok per parallel batch  → $0  (local, 0MB incremental RAM)
+delta at ~30 subagent calls/day  →  ~55k tok saved/day  =  steady compression-tier cost</div>
+
+<p style="font-size:14px; color:var(--ink-secondary);">Numbers rough. The point is not exact cents: every parallel research burst on the 4B is one less DeepSeek bill at month end. Quality is the real gate.</p>
+
+<h2>6. Files Affected</h2>
+
+<div class="key-val">
+  <span class="k">created</span><span class="v">~/Projects/ios-apps/AGENTS.md</span></div>
+<div class="key-val">
+  <span class="k">created</span><span class="v">~/Projects/vadapayasam.github.io/AGENTS.md</span></div>
+<div class="key-val">
+  <span class="k">modified</span><span class="v">~/.hermes/config.yaml (delegation.model + delegation.provider)</span></div>
+<div class="key-val">
+  <span class="k">created</span><span class="v">~/.hermes/profiles/coder/ (config.yaml, SOUL.md, .env, skills/)</span></div>
+<div class="key-val">
+  <span class="k">created</span><span class="v">~/.hermes/profiles/researcher/ (config.yaml, SOUL.md, .env, skills/)</span></div>
+<div class="key-val">
+  <span class="k">created</span><span class="v">~/.local/bin/coder, ~/.local/bin/researcher (wrappers)</span></div>
+
+<h2>7. Verifications Run</h2>
+<ul>
+  <li>RapidMLX health: <code>curl http://127.0.0.1:8765/v1/models</code> returns <code>qwen3.5-4b-4bit</code> with status OK</li>
+  <li>delegation.model + delegation.provider: yaml-parsed, both fields present and quoted</li>
+  <li>Profile toolsets: <code>platform_toolsets.cli</code> count = 10 (coder), 12 (researcher)</li>
+  <li>Profile aux routes: <code>[flush_memories, mcp, monitor, skills_hub, title_generation]</code> → custom:rapid-mlx</li>
+  <li>Wrappers: <code>/Users/yoyoboy/.local/bin/{coder,researcher}</code> exist and are executable</li>
+</ul>
+
+<h2>8. Outstanding</h2>
+<ul>
+  <li><strong>Run test 1.</strong> Blocking on user pick of topics.</li>
+  <li><strong>Decide on always-delegate framing.</strong> After test 1, either: SOUL.md nudge for "delegate-first when parallelizable", or leave behavior unchanged.</li>
+  <li><strong>Memory cleanup.</strong> "Tina profiles" entry added. Hit 93% ceiling on the <span class="file">~/.hermes/memories/MEMORY.md</span> consolidation. Not blocking: configs are the source of truth.</li>
+  <li><strong>CDN stale-cache check after push.</strong> <code>curl -sI https://vadapayasam.github.io/warehouse/sketch/hermes-refactor-log.html | grep -i last-modified</code></li>
+</ul>
+
+<footer>
+  <p>generated by Tina · profile: default · model: MiniMax-M3 via Nvidia · push target: <code>~/Projects/vadapayasam.github.io/warehouse/sketch/hermes-refactor-log.html</code> · live URL: <a href="https://vadapayasam.github.io/warehouse/sketch/hermes-refactor-log.html">vadapayasam.github.io/warehouse/sketch/hermes-refactor-log.html</a></p>
+  <p style="margin-top:6px;">design dials: variance 4 · motion 1 · density 6 · palette: apple default + single blue accent</p>
+</footer>
+
+</div>
+</body>
+</html>
