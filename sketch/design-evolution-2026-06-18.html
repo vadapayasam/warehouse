@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Evolution — AI/Agentic UI Patterns in SaaS (June 2026)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --accent: #1a1a2e;
+      --accent2: #16213e;
+      --gold: #e8b84b;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --highlight: #fef3c7;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: 880px; margin: 0 auto; }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--border);
+    }
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+    header .sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    header .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      margin-top: 0.75rem;
+    }
+    .pattern {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 2rem 2rem 1.75rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .pattern h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pattern h2 .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pattern .tagline {
+      font-size: 0.9rem;
+      color: var(--accent2);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-left: 2.25rem;
+    }
+    .pattern p {
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      color: #374151;
+    }
+    .pattern .insight {
+      background: var(--highlight);
+      border-left: 3px solid var(--gold);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9rem;
+    }
+    .pattern .sources {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+    }
+    .pattern .sources a {
+      color: var(--accent2);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .crosscut {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .crosscut h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .crosscut ul {
+      list-style: none;
+    }
+    .crosscut li {
+      padding: 0.4rem 0;
+      font-size: 0.92rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+    .crosscut li::before {
+      content: "→";
+      color: var(--gold);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 2rem 0 1rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+    @media (max-width: 600px) {
+      body { padding: 1rem 0.75rem; }
+      header h1 { font-size: 1.6rem; }
+      .pattern { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AI/Agentic Design Evolution</h1>
+      <div class="sub">Emerging UI/UX patterns in SaaS & B2B — June 2026</div>
+      <div class="badge">Research Scan</div>
+    </header>
+
+    <div class="pattern">
+      <h2><span class="num">1</span> AI as the New UI</h2>
+      <div class="tagline">Conversational, agent-first interfaces replace dashboards</div>
+      <p>ServiceNow's <strong>AI Experience (AIx)</strong> positions a unified, conversational front door as the primary interaction layer for its entire platform. IDC's Phil Carter put it bluntly: <em>"AI is becoming the new UI."</em> Users increasingly interact with enterprise data and business logic through non-deterministic, conversational means rather than traditional point-and-click dashboards.</p>
+      <p>AIx introduces multi-modal inputs — voice commands, visual interpretation (screenshots via AI Lens), natural language queries — all routed through role-aware AI agents that triage, suggest, and execute across the platform. The dashboard becomes a fallback, not the primary surface.</p>
+      <div class="insight">💡 <strong>Implication for product design:</strong> The default interaction model is shifting from "what can I click?" to "what can I ask?" — your UI layer needs to support both modalities, with the latter becoming primary.</div>
+      <div class="sources">
+        Sources: <a href="http://www.cio.com/article/4065541/servicenows-ai-experience-is-an-agentic-ai-ui-for-the-now-platform.html" target="_blank">CIO — ServiceNow AIx</a> ·
+        <a href="https://www.outlookindia.com/xhub/blockchain-insights/the-saaspocalypse-of-2026-how-agentic-ai-killed-per-seat-saas" target="_blank">Outlook India — SaaSpocalypse</a>
+      </div>
+    </div>
+
+    <div class="pattern">
+      <h2><span class="num">2</span> Headless SaaS — Apps Become Deterministic Engines</h2>
+      <div class="tagline">AI replaces the graphical UI; SaaS becomes the referee</div>
+      <p>Boomi's CPTO Ed Macosky articulated a paradigm shift: SaaS applications are transforming into deterministic rules engines where AI — not humans — serves as the primary interface. <em>"The user experience comes through your agentic experiences and makes your applications and your data more ubiquitous."</em> The SaaS layer's value shifts from UX design to being the <strong>referee</strong> that governs what AI agents can and cannot do.</p>
+      <p>This headless pattern means SaaS vendors stop competing on interface design and start competing on API capability, governance boundaries, and deterministic reliability. The UI is no longer the product's face — the agentic access layer is.</p>
+      <div class="insight">💡 <strong>Implication:</strong> If your SaaS product doesn't have a robust, well-documented API layer designed for agent consumption, you're building a legacy product. The "head" (UI) is being decoupled from the "body" (business logic).</div>
+      <div class="sources">
+        Sources: <a href="https://siliconangle.com/2026/05/15/saas-applications-transform-headless-enterprise-boomiworld/" target="_blank">SiliconANGLE — Headless Enterprise</a> ·
+        <a href="https://www.outlookindia.com/xhub/blockchain-insights/the-saaspocalypse-of-2026-how-agentic-ai-killed-per-seat-saas" target="_blank">Outlook India — SaaSpocalypse</a>
+      </div>
+    </div>
+
+    <div class="pattern">
+      <h2><span class="num">3</span> Multi-Modal & Context-Aware Interaction</h2>
+      <div class="tagline">Voice + vision + text — all in one thread</div>
+      <p>ServiceNow AIx demonstrates the multi-modal shift: <strong>AI Voice Agents</strong> for retrieval and record updates via speech, <strong>AI Lens</strong> for interpreting visual input (error screenshot → plain-language diagnosis), <strong>AI Web Agents</strong> that learn from human demonstration to navigate third-party apps without APIs. These aren't separate features — they're unified behind a single conversational interface that routes input to the right modality automatically.</p>
+      <p>The 2026 UI/UX trend roundup from Analytics Insight independently confirms this: voice-first interfaces, hyper-personalized journeys, and inclusive multi-modal design are now mainstream expectations, not differentiators.</p>
+      <div class="insight">💡 <strong>Implication:</strong> Design your interaction model to accept text, voice, image, and file input through the same pipeline. The user shouldn't have to choose a channel — the system should infer it from context.</div>
+      <div class="sources">
+        Sources: <a href="http://www.cio.com/article/4065541/servicenows-ai-experience-is-an-agentic-ai-ui-for-the-now-platform.html" target="_blank">CIO — ServiceNow AIx</a> ·
+        <a href="https://www.analyticsinsight.net/digital-marketing/10-uiux-trends-defining-the-future-of-digital-design-in-2026" target="_blank">Analytics Insight — UI/UX Trends 2026</a>
+      </div>
+    </div>
+
+    <div class="pattern">
+      <h2><span class="num">4</span> Hybrid Deterministic + Agentic Workflows</h2>
+      <div class="tagline">Pure agentic chains are too expensive — pair with deterministic rules</div>
+      <p>A critical cost insight from Boomi World 2026: purely agentic chains (agents calling agents calling agents) can cause token costs to explode. The solution is <strong>hybrid architecture</strong> — use deterministic workflows for stable, predictable tasks (run payroll, submit expense report) and reserve agentic decision-making for ambiguous, context-dependent problems.</p>
+      <p>This directly impacts UI design: the interface needs to communicate what's being handled deterministically vs. agentically. Users need to know when a workflow is being executed by a reliable rule engine vs. an LLM making probabilistic decisions. Transparency builds trust.</p>
+      <div class="insight">💡 <strong>Implication:</strong> Design your UI to show cost/reliability indicators. Mark deterministic steps as "automated (rule-based)" and agentic steps as "AI-assisted" — users and buyers care about predictability.</div>
+      <div class="sources">
+        Sources: <a href="https://siliconangle.com/2026/05/15/saas-applications-transform-headless-enterprise-boomiworld/" target="_blank">SiliconANGLE — Headless Enterprise</a> ·
+        <a href="http://www.cio.com/article/3608072/agentic-ai-design-an-architectural-case-study.html" target="_blank">CIO — Agentic AI Design Case Study</a>
+      </div>
+    </div>
+
+    <div class="pattern">
+      <h2><span class="num">5</span> Per-Seat → Outcome-Based Pricing Reshapes UX Priorities</h2>
+      <div class="tagline">When AI agents are your users, "user experience" means something different</div>
+      <p>The February 2026 "SaaSpocalypse" ($285B wiped out) was triggered by the recognition that agentic AI eliminates the human-per-seat model. When Anthropic's Claude Cowork can operate Salesforce directly — log in, send emails, analyze pipelines, generate reports — the question shifts from "how many employees will use this?" to "how many tasks can this AI complete?"</p>
+      <p>This has a profound UX corollary: if the primary user of your software is an AI agent, <strong>your UX priorities invert</strong> — API design, deterministic behavior, rate limits, and machine-readable documentation become vastly more important than pixel-perfect dashboards. The human UX still matters for configuration, monitoring, and exception handling, but the bulk of interactions shift to machine-to-machine.</p>
+      <div class="insight">💡 <strong>Implication:</strong> Your design system needs a "machine persona" — what does your product look like when consumed by an AI agent vs. a human? Invest in both, but recognize the machine path is becoming primary.</div>
+      <div class="sources">
+        Sources: <a href="https://www.outlookindia.com/xhub/blockchain-insights/the-saaspocalypse-of-2026-how-agentic-ai-killed-per-seat-saas" target="_blank">Outlook India — SaaSpocalypse</a> ·
+        <a href="https://www.forbes.com/sites/peterbendorsamuel/2026/02/18/why-agentic-ai-is-breaking-the-saas-pricing-model/" target="_blank">Forbes — AI Breaking SaaS Pricing</a>
+      </div>
+    </div>
+
+    <div class="pattern">
+      <h2><span class="num">6</span> Engineers as Orchestrators, Not Builders</h2>
+      <div class="tagline">The UI shifts from code editor to agent-workflow canvas</div>
+      <p>Agentic AI reshapes engineering workflows from "write code" to "design agent orchestration." The 2026 engineer spends less time on syntax and more on system architecture, defining guardrails for AI counterparts, and validating output. McKinsey data shows AI-centric orgs achieving 20–40% cost reduction and 12–14 point EBITDA margin improvements.</p>
+      <p>The UI pattern that emerges: <strong>orchestration canvases</strong> (visual agent workflow designers) replace traditional IDEs for many tasks. Prompt engineering fades; orchestration design becomes the core skill. This means your SaaS product's "admin UI" needs to support visual workflow design, not just configuration forms.</p>
+      <div class="insight">💡 <strong>Implication:</strong> If your product has a workflow editor, it needs to support hybrid human-agent task assignment. Visualize which steps are human-executed vs. agent-executed, and let admins toggle between them.</div>
+      <div class="sources">
+        Sources: <a href="http://www.cio.com/article/4134741/how-agentic-ai-will-reshape-engineering-workflows-in-2026.html" target="_blank">CIO — Engineering Workflows 2026</a> ·
+        <a href="http://www.cio.com/article/3608072/agentic-ai-design-an-architectural-case-study.html" target="_blank">CIO — Agentic AI Design Case Study</a>
+      </div>
+    </div>
+
+    <div class="pattern">
+      <h2><span class="num">7</span> Governance UI — The Control Tower Pattern</h2>
+      <div class="tagline">Every AI action must be logged, explained, and auditable</div>
+      <p>ServiceNow's <strong>AI Control Tower</strong> introduces a dedicated governance surface for agentic activity: agent autodiscovery, model risk/compliance dashboards, and full audit trails for every AI-driven action. This is a new UI category that didn't exist 18 months ago — the <strong>agent governance dashboard</strong>.</p>
+      <p>Every autonomous action must be explainable. The UI needs to show: what the agent did, why it did it, which model made the decision, and how to override it. Human-in-the-loop control points for critical decisions are a design requirement, not a nice-to-have.</p>
+      <div class="insight">💡 <strong>Implication:</strong> Start designing your governance UI now. Agent activity feeds, override buttons, audit export, and explainability panels are table stakes for enterprise AI products in 2026.</div>
+      <div class="sources">
+        Sources: <a href="http://www.cio.com/article/4065541/servicenows-ai-experience-is-an-agentic-ai-ui-for-the-now-platform.html" target="_blank">CIO — ServiceNow AIx</a> ·
+        <a href="http://www.cio.com/article/4134741/how-agentic-ai-will-reshape-engineering-workflows-in-2026.html" target="_blank">CIO — Engineering Workflows 2026</a>
+      </div>
+    </div>
+
+    <div class="crosscut">
+      <h3>Cross-Cutting Themes</h3>
+      <ul>
+        <li><strong>Simplicity is back:</strong> After years of feature bloat, 2026 users demand clean, focused interfaces. The AI handles complexity; the UI hides it. (Analytics Insight)</li>
+        <li><strong>No-code design systems accelerate prototyping:</strong> 2026 design tools let teams ship faster, but the bar for quality remains high. Speed without craft fails. (Analytics Insight)</li>
+        <li><strong>Mobile-first is no longer optional:</strong> Every agentic interaction needs a mobile surface — agents trigger actions, humans approve/review from phones. (Analytics Insight)</li>
+        <li><strong>Trust through transparency:</strong> Users need to see <em>how</em> the AI reached a conclusion. "Because the model said so" is not acceptable in enterprise SaaS. (CIO — Agentic AI Design)</li>
+        <li><strong>Cost-aware design:</strong> Every AI interaction costs tokens. Design your UI to minimize unnecessary agent invocations — batch, cache, and confirm before executing expensive operations. (SiliconANGLE — Boomi)</li>
+      </ul>
+    </div>
+
+    <footer>
+      Research compiled by Agent Tina · 2026-06-18<br>
+      Data gathered from SearXNG discovery + jina.ai deep reads across 7 sources
+    </footer>
+  </div>
+</body>
+</html>
