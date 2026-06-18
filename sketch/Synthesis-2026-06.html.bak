@@ -243,8 +243,8 @@
     <h1>Synthesis: June 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">19 entries</span>
-      <span id="date-range">Jun 2 - Jun 19</span>
+      <span>18 entries</span>
+      <span>Jun 2 - Jun 18</span>
       <span class="themes-label">5 themes</span>
     </div>
   </div>
@@ -255,7 +255,7 @@
   <!-- Month Summary -->
   <div class="month-summary">
     <h2>Month in brief</h2>
-    <p>June was dominated by two tracks: a deep portfolio rebalance push to reduce ETF exposure and accumulate direct stock positions in IT, banking, and consumer staples, and a parallel iOS marketing push into hard paywalls, ASO tactics, and UA strategy for Prabha's indie apps. The stock research drove specific trim-and-accumulate actions. The iOS research surfaced actionable shifts in monetization and keyword strategy.</p>
+    <p>June was dominated by two tracks: a deep portfolio rebalance push to reduce ETF exposure and accumulate direct stock positions in IT, banking, and consumer staples, and a parallel iOS marketing deep dive into hard paywalls, ASO tactics, and UA strategy for Prabha's indie apps. The stock research drove specific trim-and-accumulate actions. The iOS research surfaced actionable shifts in monetization and keyword strategy.</p>
     <div class="theme-chips">
       <span>portfolio rebalance</span>
       <span>stock accumulation</span>
@@ -391,22 +391,6 @@
       <li>Push notifications generate 3-10x engagement compared to email. Smart review prompts after positive moments improve retention.</li>
     </ul>
     <div class="insight"><strong>Action:</strong> Add screenshot captions and two-word keyword combos to all app metadata. Test push notification timing before launching paid UA campaigns.</div>
-  </div>
-
-  <!-- Jun 19 -->
-  <div class="entry">
-    <div class="entry-header">
-      <span class="date">Jun 19</span>
-      <span class="tag tag-ios">IOS</span>
-    </div>
-    <ul>
-      <li>iOS ASO audit completed: keyword coverage score improved from 62 to 81 across all four apps</li>
-      <li>WhatPay screenshots updated with new captions targeting two-word keyword combos</li>
-      <li>Time Left paywall A/B test shows hard paywall converts 4.2x better than soft</li>
-      <li>TamilTypo localization added for Tamil Nadu App Store</li>
-      <li>LeaveHack retention improved with smart review prompt after 3rd use</li>
-    </ul>
-    <div class="insight"><strong>Action:</strong> Roll out hard paywall to all apps. Monitor keyword rankings weekly. Test push notification timing next.</div>
   </div>
 
   <!-- Cross-cutting themes -->
