@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Tweets · Prabha | 2026-06-19</title>
+<style>
+:root{--bg:#f5f5f7;--text:#1d1d1f;--muted:#6e6e73;--card:#fff;--accent:#0071e3;--border:#d2d2d7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,SF Pro Text,Helvetica Neue,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.47;padding:2rem 1rem;max-width:720px;margin:0 auto;letter-spacing:-0.374px}
+h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:2rem;font-weight:600;letter-spacing:-0.144px;margin-bottom:.25rem}
+.date{color:var(--muted);margin-bottom:2rem;font-size:.9rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.85rem;border:1px solid #eee}
+.stats-bar span{color:var(--muted)}
+.stats-bar strong{color:var(--text)}
+.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid #eee;transition:.15s}
+.tweet-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.num{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600}
+.tag{font-size:.75rem;padding:.2rem .55rem;border-radius:99px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;font-family:SF Mono,ui-monospace,monospace}
+.tag.hermes{background:#ede9fe;color:#5b21b6}
+.tag.workflow{background:#d1fae5;color:#065f46}
+.tag.tips{background:#fef3c7;color:#92400e}
+.tag.interesting{background:#cffafe;color:#155e75}
+.tag.apps{background:#dbeafe;color:#1e40af}
+.time{font-size:.8rem;color:#059669;font-weight:600;margin-left:auto;background:#d1fae5;padding:.2rem .55rem;border-radius:99px;white-space:nowrap}
+.tweet-text{white-space:pre-wrap;font-family:SF Pro Text,Helvetica Neue,Arial,sans-serif;font-size:1rem;line-height:1.5;margin-bottom:1rem}
+.char-count{font-size:.75rem;color:var(--muted);display:inline-block;margin-right:.5rem}
+.copy-btn{padding:.35rem 1rem;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;font-size:.85rem;float:right;transition:.1s}
+.copy-btn:hover{background:#0077ed}
+.copy-btn:active{transform:scale(.97)}
+.copy-all{background:#5b21b6;float:none}
+.copy-all:hover{background:#6d28d9}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+.guide{background:var(--card);padding:1.25rem;border-radius:16px;margin-bottom:2rem;border:1px solid #eee}
+.guide h2{font-size:1rem;font-weight:600;margin-bottom:.75rem}
+.guide ul{margin-left:1.2rem}
+.guide li{margin-bottom:.35rem;font-size:.9rem}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:.75rem;font-size:.85rem}
+.schedule-table td,.schedule-table th{padding:.4rem .5rem;text-align:left;border-bottom:1px solid var(--border)}
+.schedule-table th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.02em}
+.archive-link{display:inline-block;margin-top:.25rem;color:var(--accent);text-decoration:none;font-size:.85rem}
+.archive-link:hover{text-decoration:underline}
+.thread-container{background:var(--card);border-radius:16px;padding:1.5rem 1.5rem 1rem;margin-bottom:1.5rem;border:1px solid #eee}
+.thread-header{font-size:.75rem;color:var(--muted);font-weight:500;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.02em}
+.thread-footer{clear:both;padding-top:.75rem;margin-top:.5rem;text-align:center}
+.thread-container .tweet-card{border:none;padding:0;margin-bottom:1.25rem;box-shadow:none}
+.thread-container .tweet-card:hover{box-shadow:none}
+.thread-footer .copy-btn{float:none;display:inline-block}
+.meta{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-bottom:.5rem}
+.slot-label{font-size:.75rem;padding:.15rem .5rem;border-radius:99px;font-weight:600;background:#e8e8ed;color:#515154;font-family:SF Mono,ui-monospace,monospace}
+.slot-label.thread-part{background:#ede9fe;color:#5b21b6}
+.time-label{font-size:.75rem;font-weight:600;color:#059669}
+.verdict-box{border-left:3px solid var(--accent);padding:.75rem 1rem;margin-top:.75rem;background:#f0f5ff;border-radius:8px;font-size:.85rem;clear:both}
+.verdict-box strong{display:block;margin-bottom:.3rem;font-size:.8rem;color:var(--accent);text-transform:uppercase;letter-spacing:.02em}
+@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
+</style>
+</head>
+<body>
+
+<h1> Daily Tweets</h1>
+<p class="date">Prabha's build log &middot; 2026-06-19 &middot; Friday edition</p>
+
+<div class="stats-bar">
+<span> <strong>99</strong> artifacts</span>
+<span> <strong>31</strong> skills</span>
+<span> <strong>18</strong> crons</span>
+<span> <strong>14</strong> iOS projects</span>
+<span> <strong>32</strong> scripts</span>
+</div>
+
+<div class="guide">
+<h2> Posting Schedule (IST)</h2>
+<p style="margin-bottom:.75rem;font-size:.85rem;color:var(--muted)">Copy from below &rarr; paste into X at the exact time. Slot 1 is a 2-part thread.</p>
+<table class="schedule-table">
+<tr><th>Time</th><th>Category</th><th>Tweet</th></tr>
+<tr><td>9:00 AM</td><td>#apps (thread 2/2)</td><td>LeaveHack v2: screen freeze on last-card swipe, 8 hours to find 3 lines</td></tr>
+<tr><td>12:00 PM</td><td>#hermes</td><td>3 identical git commits from one cron run - trust signal problem</td></tr>
+<tr><td>4:00 PM</td><td>#tips</td><td>z-index card stacks break with simultaneous transitions</td></tr>
+<tr><td>7:00 PM</td><td>#workflows</td><td>Daily synthesis pipeline live with monthly HTML, stack status</td></tr>
+</table>
+<ul style="margin-top:.75rem">
+<li>Space throughout the day -- don't post all at once</li>
+<li>Engage with replies within 30 min for algorithm boost</li>
+</ul>
+</div>
+
+<!-- SLOT 1: THREAD 2/2 -->
+<div class="thread-container">
+<div class="thread-header">
+<span>Slot 1 &middot; 9:00 AM &middot; Builder Moment &middot; 2/2</span>
+</div>
+
+<div class="tweet-card">
+<div class="meta">
+<span class="slot-label thread-part">1/2</span>
+<span class="time-label">Thread</span>
+</div>
+<pre class="tweet-text">The last card in LeaveHack v2's stack would freeze. Swipe it and nothing happened. The screen sat there with a half-swiped card, no way to reset it.
+
+I blamed the animation. Then the gesture recognizer. Then SwiftUI's rendering pipeline. Eight hours of blame-shifting before I looked at the actual state variable.
+
+The animation state was only being reset inside `nextCard()`. But `nextCard()` never fired on the last card. The swipe completed, the animation finished, and the state stayed locked at 'swiping' forever.</pre>
+<div class="char-count">381 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'leavehack freeze part 1')">Copy</button>
+</div>
+
+<div class="tweet-card">
+<div class="meta">
+<span class="slot-label thread-part">2/2</span>
+<span class="time-label">Thread</span>
+</div>
+<pre class="tweet-text">Fix: always reset animation state at the end of every transition, regardless of card position. Three lines of code. Eight hours to find.
+
+Same push: the monthData bug. June showed July's data, July showed August's. The data model used a single date anchor and interpolated each month from the previous one. So every month was wrong by one offset.
+
+Fix: each month carries its own data bundle. Not derived from a neighbor's values. Not computed. Just stored.
+
+Worst part: the screen freeze and the data bug looked like the same issue at first. Half the debug time was chasing the wrong problem because two unrelated bugs manifested in the same screen.</pre>
+<div class="char-count">525 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'leavehack freeze part 2')">Copy</button>
+</div>
+
+<div class="thread-footer">
+<button class="copy-btn copy-all" onclick="copyAllThread(this)">Copy All Parts</button>
+</div>
+</div>
+
+<!-- SLOT 2 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">2</span>
+<span class="tag hermes">#hermes</span>
+<span class="time">12:00 PM IST</span>
+</div>
+<pre class="tweet-text">Three commits. Same message. Same minute. "synthesis: daily append 19 Jun 2026."
+
+I know what happened. Tina ran the vault pipeline, produced HTML, pushed to GitHub, and wasn't sure the push worked. So it ran again. And again.
+
+This is a real problem with autonomous agents: they don't know when to stop. The work is done, the push succeeded, but there's no built-in "that's enough" signal. So they retry. Because retrying feels safer than trusting the output.
+
+Git log as a trust metric. If your AI agent made three identical commits with the same message, it doesn't trust itself.
+
+I cleaned it up with a `git rebase`. The three commits became one. But the pattern repeats until the agent has a confirmation signal it actually believes.</pre>
+<div class="char-count">640 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'identical commits')">Copy</button>
+
+<div class="verdict-box">
+<strong>Fix</strong>
+Add a post-push verification step that checks the remote SHA matches local before considering the job done. If the agent sees the same SHA on origin, it knows the push landed and stops. Without that, every autonomous push is a potential retry loop.
+</div>
+</div>
+
+<!-- SLOT 3 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">3</span>
+<span class="tag tips">#tips</span>
+<span class="time">4:00 PM IST</span>
+</div>
+<pre class="tweet-text">z-index card stacks look right on paper. They fail the moment two cards need to animate at the same time.
+
+My LeaveHack v2 stack was built with card 0 on top, card 1 behind it, card 2 deeper. Simple. Wrong.
+
+When card 0 swipes out and card 1 slides in, both animate simultaneously. z-index can't handle that without visual flicker because the stacking order has to rearrange mid-transition.
+
+Replaced with an indexed array approach: `cards[0]` is always the front card. When dismissed, `cards[1]` becomes `cards[0]` instantly. No z-index fighting, no flicker. The array swap is atomic.
+
+The z-index approach felt cleaner in code. Looked terrible in the simulator. If you're building animated card stacks, test overlapping transitions before settling on a stacking strategy. z-index looks right on paper. Fails on screen.</pre>
+<div class="char-count">638 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'z-index failure')">Copy</button>
+</div>
+
+<!-- SLOT 4 -->
+<div class="tweet-card">
+<div class="tweet-header">
+<span class="num">4</span>
+<span class="tag workflow">#workflows</span>
+<span class="time">7:00 PM IST</span>
+</div>
+<pre class="tweet-text">June 19 stack check:
+
+99 HTML artifacts on GitHub Pages. Monthly synthesis page live with daily appends -- new vault content auto-merges into one HTML that grows every day.
+
+LeaveHack v2: card stack rebuilt with indexed arrays, screen freeze patched, monthData bug squashed. 351badb carries everything.
+
+5 skills. 18 crons. 14 iOS projects on disk. Local inference on RapidMLX port 8765. Zero frontier tokens burned today for synthesis.
+
+Current pain point: identical commit messages from automation. The pipeline works but the confirmation loop doesn't. Fixing that next. A push verification that the agent actually trusts would eliminate the triple-commit pattern.</pre>
+<div class="char-count">539 chars</div>
+<button class="copy-btn" onclick="copyText(this, 'stack recap')">Copy</button>
+</div>
+
+<div class="footer">
+Generated by <a href="https://github.com/vadapayasam/warehouse" style="color:var(--accent);text-decoration:none">Hermes Agent</a> &middot; 2026-06-19<br>
+<a href="https://vadapayasam.github.io/warehouse/daily/tweets-2026-06-18.html" class="archive-link">&larr; Yesterday</a>
+&middot;
+<a href="https://vadapayasam.github.io/warehouse/daily/" class="archive-link">Daily Archive</a>
+</div>
+
+<script>
+function copyText(btn, key) {
+  const card = btn.closest('.tweet-card');
+  const text = card ? card.querySelector('.tweet-text').innerText.trim() : '';
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+function copyAllThread(btn) {
+  const container = btn.closest('.thread-container');
+  const parts = container.querySelectorAll('.tweet-card .tweet-text');
+  const full = Array.from(parts).map(p => p.innerText.trim()).join('\n\n');
+  navigator.clipboard.writeText(full).then(() => {
+    btn.textContent = 'All Copied!';
+    setTimeout(() => btn.textContent = 'Copy All Parts', 1500);
+  });
+}
+</script>
+</body>
+</html>
