@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITSM/MSP Agentic AI Weekly - Issue #7 - New Relic AI + Agentic Platform</title>
+<style>
+:root {
+  --canvas: #FAFAF8;
+  --surface: #FFFFFF;
+  --ink: #1A1A19;
+  --muted: #787774;
+  --hairline: #EAEAEA;
+  --accent: #1B4D6E;
+  --accent-warm: #C2410C;
+  --code-bg: #F5F5F0;
+
+  --pale-red-bg: #FDEBEC; --pale-red-fg: #9F2F2D;
+  --pale-blue-bg: #E1F3FE; --pale-blue-fg: #1F6C9F;
+  --pale-green-bg: #EDF3EC; --pale-green-fg: #346538;
+  --pale-yellow-bg: #FBF3DB; --pale-yellow-fg: #956400;
+  --pale-slate-bg: #F1F1EF; --pale-slate-fg: #52525B;
+
+  --display: ui-serif, Georgia, "Times New Roman", Times, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--canvas);
+}
+
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+
+/* --- Nav --- */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  border-bottom: 1px solid var(--hairline);
+  background: rgba(250,250,248,0.92);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+}
+.nav-inner {
+  max-width: 800px; margin: 0 auto; padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.nav .brand { font-family: var(--display); font-size: 18px; letter-spacing: -0.01em; }
+.nav .brand em { font-style: italic; color: var(--muted); }
+.nav .meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* --- Hero --- */
+.hero { padding: 80px 0 64px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 5px 11px; border: 1px solid var(--hairline); border-radius: 999px;
+  background: var(--surface); margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 5.5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+  max-width: 18ch;
+  margin: 0;
+}
+.hero h1 em { font-style: italic; color: var(--muted); }
+.hero .lede {
+  font-size: 18px; color: var(--muted);
+  max-width: 58ch; margin: 24px 0 0;
+  line-height: 1.55;
+}
+.hero .meta-strip {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+/* --- Chips & Badges --- */
+.chip {
+  display: inline-block; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 999px;
+}
+.chip--red { background: var(--pale-red-bg); color: var(--pale-red-fg); }
+.chip--blue { background: var(--pale-blue-bg); color: var(--pale-blue-fg); }
+.chip--green { background: var(--pale-green-bg); color: var(--pale-green-fg); }
+.chip--yellow { background: var(--pale-yellow-bg); color: var(--pale-yellow-fg); }
+.chip--slate { background: var(--pale-slate-bg); color: var(--pale-slate-fg); }
+
+.tag {
+  display: inline-block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 7px; border: 1px solid var(--hairline); border-radius: 4px;
+}
+
+/* --- Cards --- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin: 48px 0;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 24px;
+}
+.card h3 {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.card h3.yellow { color: var(--pale-yellow-fg); }
+.card h3.blue { color: var(--pale-blue-fg); }
+.card h3.red { color: var(--pale-red-fg); }
+.card h3.green { color: var(--pale-green-fg); }
+.card h3.slate { color: var(--pale-slate-fg); }
+.card p { font-size: 14px; line-height: 1.55; color: var(--muted); }
+.card .big {
+  font-family: var(--display);
+  font-size: 32px; font-weight: 400;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 4px;
+}
+
+/* --- Section Headers --- */
+.section {
+  padding: 48px 0; border-top: 1px solid var(--hairline);
+}
+.section-label {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+.section h2 {
+  font-family: var(--display);
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.12; letter-spacing: -0.02em;
+  font-weight: 400; margin-bottom: 16px;
+}
+.section .lead {
+  font-size: 16px; color: var(--muted);
+  max-width: 56ch; line-height: 1.6;
+}
+
+/* --- Tables --- */
+.table-wrap { overflow-x: auto; margin: 24px 0; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 14px;
+}
+th {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); text-align: left;
+  padding: 10px 16px; border-bottom: 2px solid var(--ink);
+}
+td {
+  padding: 10px 16px; border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+
+/* --- Blocks --- */
+.callout {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 20px 24px;
+  border-radius: 0 8px 8px 0;
+  margin: 24px 0;
+  font-size: 14px; line-height: 1.6;
+}
+.callout strong { color: var(--accent); }
+
+.flow-diagram {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 24px;
+  margin: 24px 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: white-space;
+  white-space: pre;
+}
+
+/* --- Footer --- */
+.footer {
+  padding: 48px 0;
+  border-top: 1px solid var(--hairline);
+  font-size: 13px; color: var(--muted);
+}
+.footer a { color: var(--accent); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .hero { padding: 48px 0 40px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><em>saas-agentic</em> weekly</div>
+    <div class="meta">Issue #07</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="eyebrow">Issue #07</div>
+  <h1>The <em>no-code</em> agent play</h1>
+  <p class="lede">New Relic dropped "Grok", renamed it New Relic AI, and then launched a full agentic platform in preview (Feb 2026). No-code builder, MCP server, pre-built SRE agents. But can a dev-first observability company serve MSPs?</p>
+  <div class="meta-strip">
+    <span class="chip chip--blue">New Relic Agentic Platform</span>
+    <span class="chip chip--green">Preview Feb 2026</span>
+    <span class="chip chip--yellow">$0.40/GB Ingest</span>
+  </div>
+</section>
+
+<!-- New Finds -->
+<section class="section">
+  <div class="section-label">New Finds</div>
+  <h2>What actually shipped</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3 class="yellow">Agentic Platform</h3>
+      <div class="big">Feb 24, 2026</div>
+      <p>No-code drag-and-drop builder for custom AI agents. Pre-built agents (SRE Nerd headline). Dynamic multi-step reasoning runtime. Unified AI orchestration center. Currently in preview. <a href="https://newrelic.com/press-release/20260224-1">[1]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="blue">MCP Server</h3>
+      <div class="big">Native</div>
+      <p>Supercharges AI agents like AWS DevOps Agent and ChatGPT with embedded observability. RAG and GenAI workflows grounded in real-time operational data. No brittle custom integrations needed. <a href="https://docs.newrelic.com/docs/agentic-ai/mcp/overview/">[2]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="red">No PSA / RMM</h3>
+      <div class="big">Zero</div>
+      <p>ServiceNow Now Assist and Jira SM only ITSM integrations. No ConnectWise, Autotask, HaloPSA, NinjaOne, or Datto. Also no FedRAMP/HIPAA AI eligibility outside Enterprise tier. <a href="https://newrelic.com/platform/agentic-integrations">[3]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="green">100 GB Free Tier</h3>
+      <div class="big">Per Month</div>
+      <p>Most generous in observability: 100 GB data ingest free, 1 full-platform user, unlimited basic users. AI features included in every tier. Standard: $0.40/GB. Pro: $349/user. <a href="https://newrelic.com/pricing">[4]</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture -->
+<section class="section">
+  <div class="section-label">Architecture</div>
+  <h2>The three-product family</h2>
+  <p class="lead">New Relic's agentic story is three overlapping products that share the same telemetry core.</p>
+
+  <div class="flow-diagram">
+┌───────────────────────────────────────────────────────────────────┐
+│                       New Relic Intelligent Observability Platform │
+│                                                                   │
+│  ┌─────────────────────────────────────────────────────────────┐ │
+│  │                Unified Telemetry Data Platform                │ │
+│  │   (50+ capabilities, 780+ integrations, unlimited hosts)     │ │
+│  └─────────────────────────────────────────────────────────────┘ │
+│                               │                                    │
+│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────────┐   │
+│  │ New Relic AI│  │ Agentic      │  │ AI Monitoring          │   │
+│  │ (Copilot)   │  │ Platform     │  │ (Observation layer)    │   │
+│  │             │  │ (Preview)    │  │                        │   │
+│  │ Chat/NRQL   │  │ No-code      │  │ Token usage            │   │
+│  │ Stack trace │  │ builders     │  │ Latency metrics        │   │
+│  │ Error logs  │  │ SRE Nerd     │  │ Retrieval quality      │   │
+│  │ Dashboard   │  │ MCP server   │  │ Hallucination signals  │   │
+│  │ Summaries   │  │ RBAC+Audit   │  │ OpenLIT (OTel-native)  │   │
+│  └─────────────┘  └──────────────┘  └────────────────────────┘   │
+│                               │                                    │
+│  ┌─────────────────────────────────────────────────────────────┐ │
+│  │  Security RX (Vulnerability management on same AI engine)    │ │
+│  └─────────────────────────────────────────────────────────────┘ │
+└───────────────────────────────────────────────────────────────────┘</div>
+
+  <div class="callout">
+    <strong>The key shift:</strong> Original "New Relic Grok" (May 2023) was a chatbot wrapper on NRQL queries. The Feb 2026 Agentic Platform replaces that with true agentic execution: drag-and-drop workflows, dynamic multi-step reasoning, pre-built agents (SRE Nerd), and an MCP server that lets external agents (Claude, Copilot, AWS DevOps Agent) query live telemetry directly. <a href="https://newrelic.com/blog/ai/advancing-observability-into-the-agentic-era">[5]</a>
+  </div>
+</section>
+
+<!-- Workflow -->
+<section class="section">
+  <div class="section-label">Workflow & Lifecycle</div>
+  <h2>From telemetry to action</h2>
+  <p class="lead">New Relic's agentic flow. The Agentic Platform is the action layer in preview.</p>
+
+  <div class="flow-diagram">
+Collection Layer              AI Layer                  Action Layer
+─────────────               ──────────                  ────────────
+
+New Relic agents        →   New Relic AI           →   Agentic Platform
+auto-instrument             analyzes patterns           (Preview) agents
+all services                (plain language)            execute workflows
+                            ↓                           ↓
+Streamed to unified     →   Agentic Platform        →   MCP Server serves
+telemetry platform          builds custom agents        external agents
+(100+ sources)              (no-code builder)           via standard tools
+                            ↓                           ↓
+LLM usage data          →   AI Monitoring           →   Security RX
+(third-party apps)          observes cost, latency      auto-patches vulns
+                            hallucination signals</div>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Capability</th><th>Autonomous</th><th>Human-in-Loop</th><th>Notes</th></tr>
+      <tr><td>Anomaly detection</td><td>Yes</td><td>&mdash;</td><td>Baseline + ML on telemetry</td></tr>
+      <tr><td>NRQL query gen</td><td>Yes</td><td>&mdash;</td><td>Natural language → NRQL, multi-LLM backend (GPT-4)</td></tr>
+      <tr><td>Stack trace analysis</td><td>Yes</td><td>&mdash;</td><td>"Explain this error" in Errors Inbox</td></tr>
+      <tr><td>Dashboard summarization</td><td>Yes</td><td>&mdash;</td><td>Plain-text exec summary, 50+ languages</td></tr>
+      <tr><td>Agent building</td><td>&mdash;</td><td>Yes</td><td>No-code builder, domain-expert designed</td></tr>
+      <tr><td>Agent execution</td><td>With eval</td><td>Yes</td><td>Built-in evaluation engine; preview</td></tr>
+      <tr><td>Ticket creation</td><td>&mdash;</td><td>Yes</td><td>Via ServiceNow Now Assist, Jira SM</td></tr>
+      <tr><td>Vulnerability remediation</td><td>No</td><td>Yes</td><td>Security RX validates patches; human applies</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- MCP Deep Dive -->
+<section class="section">
+  <div class="section-label">MCP Server</div>
+  <h2>The universal data bridge</h2>
+  <p class="lead">New Relic's MCP server is the orchestration layer that connects AI agents to observability data and external tools.</p>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Feature</th><th>What it does</th><th>State</th></tr>
+      <tr><td>AI MCP Server</td><td>Standard tool access for agents to query external systems</td><td>GA / Integrated</td></tr>
+      <tr><td>MCP + AWS DevOps Agent</td><td>New Relic AI as observability source for AWS agent</td><td>Partnership launched 2025</td></tr>
+      <tr><td>MCP + ChatGPT</td><td>ChatGPT can query live telemetry via MCP</td><td>Announced Feb 2026</td></tr>
+      <tr><td>MCP + Workflow Automation</td><td>Native hook into New Relic's runbook engine</td><td>GA</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>MCP positioning:</strong> New Relic's MCP server is the most integrated of any observability vendor. It's not just a standalone server (like Dynatrace's 5-tool endpoints) — MCP is wired into the Agentic Platform's no-code builder, the Workflow Automation engine, and external agent partnerships (AWS, OpenAI, Atlassian). <a href="https://docs.newrelic.com/docs/agentic-ai/mcp/overview/">[2]</a>
+  </div>
+
+  <p style="font-size:14px;color:var(--muted);margin-top:16px;">Partnerships: AWS DevOps Agent (re:Invent 2025), Microsoft Azure/M365 (Ignite 2025), Atlassian Jira Service Management (2025). <a href="https://newrelic.com/blog/news/aws-reinvent-2025-agentic-ai-integrations">[6]</a> <a href="https://newrelic.com/blog/news/microsoft-ignite-2025-agentic-ai-integrations">[7]</a> <a href="https://newrelic.com/blog/news/atlassian-agentic-integration">[8]</a></p>
+</section>
+
+<!-- Pricing Intelligence -->
+<section class="section">
+  <div class="section-label">Pricing Intelligence</div>
+  <h2>AI included, but user-capped</h2>
+  <p class="lead">No separate AI add-on fee — unlike Datadog Bits AI ($20/seat) or PagerDuty Advance ($415/mo). But the user-tier model is anti-MSP.</p>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">Data Ingest (core pricing)</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tier</th><th>Original ($/GB)</th><th>Data Plus ($/GB)</th><th>Free Ingest</th></tr>
+      <tr><td>Free</td><td>n/a</td><td>n/a</td><td>100 GB/mo</td></tr>
+      <tr><td>Standard</td><td>$0.40</td><td>$0.60</td><td>100 GB/mo</td></tr>
+      <tr><td>Pro</td><td>$0.40</td><td>$0.60</td><td>100 GB/mo</td></tr>
+      <tr><td>Enterprise</td><td>Custom</td><td>Custom</td><td>Custom (incl. FedRAMP + HIPAA)</td></tr>
+    </table>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">User Costs</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>User Type</th><th>Free</th><th>Standard</th><th>Pro</th><th>Enterprise</th></tr>
+      <tr><td>Basic</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td></tr>
+      <tr><td>Core</td><td>&mdash;</td><td>$49/user</td><td>$49/user</td><td>$49/user</td></tr>
+      <tr><td>Full Platform</td><td>1 free</td><td>$10 (1st) $99 (addl; max 5)</td><td>$349/user</td><td>Custom</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>AI pricing delta vs. competitors:</strong> New Relic bundles AI into every tier — no extra seat fee. Datadog Bits AI is ~$20/seat/month add-on. PagerDuty Advance is $415/mo flat. Dynatrace also includes Davis in subscription. New Relic wins on bundling but loses on flexibility: Standard tier caps at 5 full-platform users, which hard-blocks any MSP with more than 5 engineers. <a href="https://newrelic.com/pricing">[4]</a>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">Add-ons</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Add-on</th><th>Cost</th><th>Notes</th></tr>
+      <tr><td>Data Plus</td><td>$0.60/GB (vs $0.40)</td><td>Additional security + compliance</td></tr>
+      <tr><td>EU Storage</td><td>+$0.05/GB</td><td>Data residency add-on</td></tr>
+      <tr><td>Advanced Compute</td><td>Variable</td><td>Toggle via Feature Control Manager</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Worth Watching -->
+<section class="section">
+  <div class="section-label">Worth Watching</div>
+  <h2>The observability wars, AI edition</h2>
+  <p class="lead">Expanded chart to five vendors. New Relic joins the comparison started in Issue #4.</p>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Dimension</th><th>New Relic</th><th>Dynatrace</th><th>Datadog</th><th>PagerDuty</th></tr>
+      <tr><td>AI approach</td><td>Multi-LLM + dynamic agent runtime</td><td>Deterministic causation</td><td>Probabilistic (Watchdog)</td><td>Multi-agent (MCP)</td></tr>
+      <tr><td>Root cause</td><td>ML correlation + NL explainer</td><td>Causal graph tracing</td><td>ML correlation</td><td>Agent orchestration</td></tr>
+      <tr><td>AI pricing</td><td>Included in subscription</td><td>Included in subscription</td><td>Bits AI ~$20/seat add-on</td><td>Advance $415/mo add-on</td></tr>
+      <tr><td>Agentic platform</td><td>Preview (no-code builder) &mdash; strongest in class</td><td>Preview (policy-guarded)</td><td>Runbook Automation (GA)</td><td>SRE Agent (GA)</td></tr>
+      <tr><td>MCP server</td><td>Yes (native, partner-integrated)</td><td>Yes (5 tools, dev-focused)</td><td>No</td><td>Yes (multi-agent protocol)</td></tr>
+      <tr><td>ITSM/PSA</td><td>ServiceNow, Jira only</td><td>ServiceNow, Jira only</td><td>ServiceNow, Jira, Slack</td><td>Slack-first + webhooks</td></tr>
+      <tr><td>MSP suitability</td><td>Low (dev-first; 5-seat cap)</td><td>Low (enterprise)</td><td>Low (cloud-native)</td><td>Medium (incident response)</td></tr>
+      <tr><td>Free tier</td><td>100 GB + 1 FPU (best)</td><td>15-day trial</td><td>14-day trial</td><td>Limited team tier</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>The pattern holds:</strong> All four vendors are building AI agents but zero have ITSM or MSP DNA. New Relic's no-code agent builder is the most approachable for non-devs but the pricing model caps at 5 engineers. The ITSM/MSP gap is still wide open for a vendor that bridges observability intelligence with service management + PSA billing. <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-04.html">[Issue #4]</a> <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-05.html">[Issue #5]</a> <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-06.html">[Issue #6]</a>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">Who bundles AI? The competitive edge</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Vendor</th><th>AI Product</th><th>Pricing</th><th>Bundle vs Add-on</th></tr>
+      <tr><td>New Relic</td><td>New Relic AI + Agentic Platform</td><td>Included (all tiers)</td><td>✅ Bundle</td></tr>
+      <tr><td>Dynatrace</td><td>Davis AI + Assist</td><td>Included (all tiers)</td><td>✅ Bundle</td></tr>
+      <tr><td>Datadog</td><td>Bits AI</td><td>~$20/seat/month add-on</td><td>❌ Add-on</td></tr>
+      <tr><td>PagerDuty</td><td>Advance</td><td>$415/mo flat</td><td>❌ Add-on</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- MSP Gap Analysis -->
+<section class="section">
+  <div class="section-label">MSP Gap Analysis</div>
+  <h2>Dev-first, not service-desk-first</h2>
+  <p class="lead">New Relic has the strongest no-code agent builder and the best free tier in observability. But the product was designed for SREs at product companies, not MSPs serving 50 clients.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3 class="red">5-Seat Cap on Standard</h3>
+      <p>Standard tier maxes at 5 full-platform users. An MSP with 5 clients x 2 engineers = 10 people. Must jump to Pro at $349/user ($3,490/mo) or Enterprise (custom). No self-serve MSP pricing tier exists.</p>
+    </div>
+    <div class="card">
+      <h3 class="red">No PSA Integration</h3>
+      <p>Connects to ServiceNow and Jira for ticket creation. No ConnectWise, Autotask, or HaloPSA. No client billing workflows. No multi-tenant client separation in the standard model.</p>
+    </div>
+    <div class="card">
+      <h3 class="red">No RMM Bridge</h3>
+      <p>Monitors infrastructure but doesn't manage it. No NinjaOne, ConnectWise Automate, or Datto RMM integration. Telemetry in is fine — action out is manual.</p>
+    </div>
+    <div class="card">
+      <h3 class="yellow">MCP = Dev-First</h3>
+      <p>MCP server targets coding agents (Claude Code, Copilot, ChatGPT). No ITSM-specific MCP tools (create ticket, escalate, notify client). AI agents can query telemetry but can't triage a service desk queue.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="border-left-color: var(--accent-warm);">
+    <strong style="color:var(--accent-warm);">FedRAMP + HIPAA exclusion:</strong> New Relic AI is not available on FedRAMP Moderate or HIPAA-eligible accounts outside Enterprise tier. This is a meaningful gap for federal/healthcare MSPs — they'd need to go Enterprise or use Datadog/Dynatrace which support these compliance frameworks at lower tiers. <a href="https://docs.newrelic.com/docs/agentic-ai/new-relic-ai/">[9]</a>
+  </div>
+</section>
+
+<!-- Action Items -->
+<section class="section">
+  <div class="section-label">Action Items</div>
+  <h2>Next research</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Issue</th><th>Target</th><th>Why</th></tr>
+      <tr><td>#8</td><td>BMC Helix + AEOps</td><td>Enterprise ITSM AI, closest to traditional ITIL workflows</td></tr>
+      <tr><td>#9</td><td>Ivanti Neurons</td><td>ITSM + endpoint management AI, MSP-adjacent positioning</td></tr>
+      <tr><td>#10</td><td>Kaseya + Datto AI</td><td>MSP-native vendor, Datto RMM AI features</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>Open question for #8:</strong> BMC Helix is the traditional ITSM leader. Does their AEOps give them true agentic AI or is it rebranded automation? Closest to ITIL of any vendor in this series.
+  </div>
+</section>
+
+<!-- Sources -->
+<section class="section">
+  <div class="section-label">Sources</div>
+  <h2>What we read</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>#</th><th>Source</th><th>Date</th></tr>
+      <tr><td>[1]</td><td><a href="https://newrelic.com/press-release/20260224-1">New Relic Agentic Platform Launch</a> &mdash; newrelic.com</td><td>Feb 24, 2026</td></tr>
+      <tr><td>[2]</td><td><a href="https://docs.newrelic.com/docs/agentic-ai/mcp/overview/">New Relic MCP Server</a> &mdash; docs.newrelic.com</td><td>Feb 2026</td></tr>
+      <tr><td>[3]</td><td><a href="https://newrelic.com/platform/agentic-integrations">New Relic Agentic Integrations</a> &mdash; newrelic.com</td><td>2025-2026</td></tr>
+      <tr><td>[4]</td><td><a href="https://newrelic.com/pricing">New Relic Pricing</a> &mdash; newrelic.com</td><td>Jun 2026</td></tr>
+      <tr><td>[5]</td><td><a href="https://newrelic.com/blog/ai/advancing-observability-into-the-agentic-era">Advancing Observability into the Agentic Era</a> &mdash; newrelic.com</td><td>Feb 24, 2026</td></tr>
+      <tr><td>[6]</td><td><a href="https://newrelic.com/blog/news/aws-reinvent-2025-agentic-ai-integrations">AWS re:Invent 2025 &mdash; New Relic + AWS Agentic AI</a> &mdash; newrelic.com</td><td>Dec 2025</td></tr>
+      <tr><td>[7]</td><td><a href="https://newrelic.com/blog/news/microsoft-ignite-2025-agentic-ai-integrations">Microsoft Ignite 2025 &mdash; New Relic + Azure</a> &mdash; newrelic.com</td><td>Nov 2025</td></tr>
+      <tr><td>[8]</td><td><a href="https://newrelic.com/blog/news/atlassian-agentic-integration">Atlassian Jira SM Agentic Integration</a> &mdash; newrelic.com</td><td>2025</td></tr>
+      <tr><td>[9]</td><td><a href="https://docs.newrelic.com/docs/agentic-ai/new-relic-ai/">Meet New Relic AI &mdash; Official Docs</a> &mdash; docs.newrelic.com</td><td>Jun 2026</td></tr>
+      <tr><td>[10]</td><td><a href="https://techcrunch.com/2026/02/24/new-relic-launches-new-ai-agent-platform-and-opentelemetry-tools/">TechCrunch: New Relic Launches Agentic Platform</a> &mdash; techcrunch.com</td><td>Feb 24, 2026</td></tr>
+      <tr><td>[11]</td><td><a href="https://newrelic.com/platform/new-relic-ai">New Relic AI Platform Page</a> &mdash; newrelic.com</td><td>2024-2026</td></tr>
+      <tr><td>[12]</td><td><a href="https://docs.newrelic.com/docs/ai-monitoring/explore-ai-data/view-ai-agents/">Monitor AI Agents &mdash; Docs</a> &mdash; docs.newrelic.com</td><td>2025</td></tr>
+      <tr><td>[13]</td><td><a href="https://newrelic.com/platform/security-rx">New Relic Security RX</a> &mdash; newrelic.com</td><td>2025-2026</td></tr>
+    </table>
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);margin-top:16px;"><strong>Method:</strong> SearXNG (Google+Bing+DDG) discovery &rarr; Firecrawl deep-read &rarr; docs/newrelic.com/pricing verified. Dated citations cross-checked against live URLs and multiple sources.</p>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">Index</a> &middot; <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-06.html">Issue #6</a> &middot; Issue #7 &middot; <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-08.html">Issue #8</a></p>
+  <p style="margin-top:8px;">Built by Agent Tina for Prabha. &copy; 2026</p>
+</footer>
+
+</div>
+</body>
+</html>
