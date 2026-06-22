@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Next Product Candidates from Real Operational Pain</title>
+<style>
+:root{
+ --bg:#ffffff;--fg:#1d1d1f;--muted:#6e6e73;--accent:#0071e3;--accent-2:#2997ff;
+ --surface:#f5f5f7;--border:#d2d2d7;--code-bg:#141414;--ink:#86868b
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{
+ font-family:"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+ line-height:1.47;color:var(--fg);background:var(--bg);
+ margin:0;padding:0;-webkit-font-smoothing:antialiased
+}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px}
+
+/* HERO - cinematic black chapter */
+.hero{
+ background:#000000;color:#f5f5f7;
+ padding:96px 0 80px;border-bottom:1px solid #1a1a1a
+}
+.hero .wrap{max-width:980px}
+.hero .eyebrow{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:12px;letter-spacing:0.6px;text-transform:uppercase;
+ color:#86868b;margin:0 0 17px
+}
+.hero h1{
+ font-size:64px;font-weight:600;line-height:1.05;letter-spacing:-1.4px;
+ margin:0 0 17px;max-width:880px
+}
+.hero h1 .accent{color:#2997ff}
+.hero p.lede{
+ font-size:21px;font-weight:400;line-height:1.38;letter-spacing:0.2px;
+ color:#d2d2d7;max-width:760px;margin:0 0 17px
+}
+.hero p.meta{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:12px;letter-spacing:-0.08px;color:#86868b;margin:0
+}
+
+/* dark general */
+section{
+ padding:80px 0;border-bottom:1px solid var(--border)
+}
+section.dark{
+ background:#000000;color:#f5f5f7;border-bottom:1px solid #1a1a1a
+}
+section.dark h2{color:#f5f5f7}
+section.dark p{color:#d2d2d7}
+
+h2{
+ font-size:48px;font-weight:600;line-height:1.08;letter-spacing:-0.144px;
+ margin:0 0 14px;color:var(--fg)
+}
+h3{
+ font-size:28px;font-weight:600;line-height:1.14;letter-spacing:0.196px;
+ margin:0 0 7px;color:var(--fg)
+}
+h4{
+ font-size:21px;font-weight:600;line-height:1.29;letter-spacing:0.231px;
+ margin:0 0 7px;color:var(--fg)
+}
+p{margin:0 0 14px}
+p.sub{font-size:19px;line-height:1.42;color:var(--muted);margin-bottom:24px;max-width:760px}
+p.meta{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:12px;color:var(--muted);letter-spacing:-0.08px
+}
+code, .mono{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace
+}
+
+/* PROBLEM HEADER (showing the pain that built each product) */
+.pain{
+ background:var(--surface);border:1px solid var(--border);
+ border-radius:18px;padding:28px 28px;margin:18px 0 28px
+}
+.pain .label{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:11px;letter-spacing:0.5px;text-transform:uppercase;
+ color:var(--ink);margin-bottom:7px;display:block
+}
+.pain blockquote{
+ margin:0;padding:10px 0 10px 17px;
+ border-left:2px solid var(--border);font-style:italic;color:var(--muted)
+}
+
+/* PRODUCT CARDS - the actual candidates */
+.products{
+ display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0
+}
+@media (max-width:760px){.products{grid-template-columns:1fr}.hero h1{font-size:42px}h2{font-size:32px}}
+.card{
+ background:#ffffff;border:1px solid var(--border);
+ border-radius:18px;padding:28px;display:flex;flex-direction:column
+}
+.card .badge{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:11px;letter-spacing:0.4px;text-transform:uppercase;
+ background:var(--surface);color:var(--ink);
+ padding:5px 10px;border-radius:8px;align-self:flex-start;margin-bottom:17px
+}
+.card h3{margin-bottom:7px}
+.card .role{
+ font-size:14px;color:var(--ink);margin-bottom:14px;
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace
+}
+.card p{font-size:15px;line-height:1.5;color:#424245;margin-bottom:14px}
+.card .why{
+ font-size:14px;color:var(--muted);background:var(--surface);
+ padding:14px 14px;border-radius:10px;margin-bottom:14px;line-height:1.5
+}
+.card .stack{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:12px;color:var(--ink);line-height:1.5;margin-top:auto;padding-top:14px;
+ border-top:1px solid var(--border)
+}
+.card.score{
+ background:#000000;border-color:#1a1a1a;color:#f5f5f7
+}
+.card.score .badge{background:#1a1a1a;color:var(--accent-2)}
+.card.score p, .card.score .why{color:#d2d2d7}
+.card.score .why{background:#1a1a1a}
+.card.score .stack{color:var(--ink);border-top-color:#1a1a1a}
+
+/* COMPARISON TABLE */
+table{
+ width:100%;border-collapse:collapse;margin:24px 0;font-size:15px
+}
+th, td{
+ padding:14px 14px;text-align:left;
+ border-bottom:1px solid var(--border);vertical-align:top
+}
+th{
+ font-weight:600;color:var(--fg);font-size:13px;
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ letter-spacing:0.2px
+}
+td{color:#424245}
+td.num{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:13px;color:var(--ink)
+}
+.score-bar{
+ display:inline-block;height:8px;background:var(--accent);
+ border-radius:4px;vertical-align:middle;margin-right:7px
+}
+
+/* SIGNAL CARDS (3-card row, fragmented to avoid the AI-tell trio) */
+.signals{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:24px 0}
+@media (max-width:760px){.signals{grid-template-columns:1fr}}
+.signal{
+ background:#000000;color:#f5f5f7;padding:22px;border-radius:18px
+}
+.signal .num{
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:38px;font-weight:600;color:#2997ff;line-height:1;letter-spacing:-0.5px
+}
+.signal h4{color:#f5f5f7;font-size:15px;margin:10px 0 4px;letter-spacing:0}
+.signal p{color:#86868b;font-size:13px;margin:0}
+
+/* BUILD ORDER LIST */
+ol.order{counter-reset:ord;list-style:none;padding:0;margin:24px 0}
+ol.order li{
+ counter-increment:ord;
+ border-top:1px solid var(--border);
+ padding:22px 0;display:grid;grid-template-columns:64px 1fr;gap:14px
+}
+ol.order li:last-child{border-bottom:1px solid var(--border)}
+ol.order li::before{
+ content:counter(ord,decimal-leading-zero);
+ font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+ font-size:13px;color:var(--ink);align-self:start
+}
+ol.order li h4{margin:0 0 5px}
+ol.order li p{margin:0;font-size:15px;line-height:1.5;color:#424245}
+
+/* GTM angling */
+.gtm{
+ background:var(--surface);border-radius:18px;padding:28px;margin:24px 0
+}
+.gtm h3{margin-bottom:14px}
+.gtm ul{margin:0;padding-left:18px;font-size:15px;line-height:1.7}
+.gtm li{margin-bottom:7px}
+
+/* FINAL */
+.section-end{
+ background:#000000;color:#f5f5f7;
+ padding:80px 0;text-align:left
+}
+.section-end h2{color:#f5f5f7}
+.section-end p{color:#d2d2d7;max-width:640px}
+
+footer{padding:38px 0;border-top:1px solid var(--border);font-size:13px;color:var(--ink)}
+footer .mono{color:var(--ink)}
+
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+ <div class="wrap">
+  <p class="eyebrow">PRODUCT R&D · INTERNAL · 2026-06-22</p>
+  <h1>Next products, sourced from <span class="accent">operational pain</span> I actually lived through</h1>
+  <p class="lede">Every candidate below started as a 3 a.m. log line or a rage-delete session, not a "what if" brainstorm. Cross-referenced against 22 days of cron output, audit reports, and session history.</p>
+  <p class="meta">Pipeline broken May 15. Skill-Health gaps invisible. Context ceilings blowing up. Each is a product, not a feature.</p>
+ </div>
+</header>
+
+<!-- THE NOISE THAT BUILT THESE -->
+<section>
+ <div class="wrap">
+  <h2>The noise that built this</h2>
+  <p class="sub">Three signals from real operations, each pointing to a repeatable failure mode in agent infra. None of these are hypothetical.</p>
+
+  <div class="signals">
+   <div class="signal">
+    <div class="num"><span class="score-bar" style="width:30px"></span>75</div>
+    <h4>skill_manage errors / day</h4>
+    <p>Flagged abnormal in the nightly log analyzer. Silent skill drift accumulating since May.</p>
+   </div>
+   <div class="signal">
+    <div class="num"><span class="score-bar" style="width:50px"></span>13</div>
+    <h4>Actionable items, zero attention</h4>
+    <p>"14 overnight files generated 13 actionable items, yet Prabha's work got zero analytical attention" [Jun 19 vault digest].</p>
+   </div>
+   <div class="signal">
+    <div class="num"><span class="score-bar" style="width:40px"></span>x2</div>
+    <h4>Context-l ceiling failures</h4>
+    <p>Memory cap (2,200 chars) and the full-context LLM summarizer hit limits twice this week alone.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- PRODUCT 1 - CASCADE WATCHDOG -->
+<section>
+ <div class="wrap">
+  <p class="meta">PRODUCT 01 · BUILD FIRST</p>
+  <h2>Cascade-Watchdog</h2>
+  <p class="sub">A verification layer that locks the chain. Step N fails means step N+1 never starts.</p>
+
+  <div class="pain">
+   <span class="label">PAIN · FROM LOG</span>
+   <blockquote>"The processing pipeline broke May 15 and nobody noticed. 14 overnight files generated 13 actionable items, yet Prabha's work... got zero analytical attention." [Synth-2026-06-17]</blockquote>
+  </div>
+
+  <h3>What it is</h3>
+  <p>A lightweight prove-then-proceed runtime for cron / agent / pipeline orchestration. Wraps any shell script, cron job, or multi-step agent flow and gates each downstream step on a configurable verification predicate of upstream output. Failures short-circuit immediately. Reports land in your inbox, not in a wall of cron log files you never read.</p>
+
+  <h3>Why it builds itself</h3>
+  <p>Every agent builder hits this. LLM crons, scraping chains, financial data pipelines, the assistant-loop products shipping right now, they all have the silent-brittle failure mode. Nobody is selling the version that is honest about it. You ship a 200-line watcher + a Python SDK, charge $19/mo for hosted, free for self-host. The market is everyone running more than 3 crons.</p>
+
+  <h3>Stack & shape</h3>
+  <div class="pain">
+   <p style="margin:0"><span class="mono">runtime:</span> Python, fastapi, sqlite<br>
+   <span class="mono">verify:</span> pluggable predicates (file_exists, n_lines, regex, content_hash, http_2xx)<br>
+   <span class="mono">interface:</span> CLI <code>cw run ./pipeline.sh --gate step2:file_exists=out.json</code> + web hooks<br>
+   <span class="mono">notify:</span> Discord, Slack, email, log-only</p>
+  </div>
+ </div>
+</section>
+
+<!-- PRODUCT 2 - SKILL HEALTH RADAR -->
+<section class="dark">
+ <div class="wrap">
+  <p class="meta">PRODUCT 02 · BUILD SECOND</p>
+  <h2>Skill-Health Radar</h2>
+  <p class="sub" style="color:#d2d2d7">A heartbeat daemon for your agent's instruction surface. Score every skill/script/tool by use, errors, drift.</p>
+
+  <div class="pain" style="background:#1a1a1a;border-color:#2a2a2c">
+   <span class="label" style="color:#86868b">PAIN · FROM LOG</span>
+   <blockquote style="color:#d2d2d7">17 ghost skills documented in Jun 17 digest. skill_manage errors at 75/day. command-code update channel silently dead. Stale frontmatter nobody noticed.</blockquote>
+  </div>
+
+  <h3>What it is</h3>
+  <p>Drop-in daemon that instruments every agent skill, command, script, and tool. Tracks activations, error rate, mean latency, last-used timestamp, frontmatter health, and orphan status with the open-design system. Surfaces a daily scorecard: green / yellow / red. Suggests archival candidates. Diff against last week. Warns on silent breakage (the 3 a.m. kind).</p>
+
+  <h3>Why it builds itself</h3>
+  <p>Anyone with a multi-skill agent stack has invisible rot. The market is small but obsessive: indie hackers running Hermes/OpenClaw-style setups, agent infra teams at startups, the Discord-bots-with-50-commands crowd. You have the live data. Ship a CLI + hosted dashboard. $9/mo per workspace, free for personal.</p>
+
+  <h3>Stack & shape</h3>
+  <div class="pain" style="background:#1a1a1a;border-color:#2a2a2c">
+   <p style="margin:0;color:#d2d2d7"><span class="mono">runtime:</span> Python, sqlite, optional Next.js frontend<br>
+   <span class="mono">inputs:</span> Hermes session logs, MCP tool calls, command-code history<br>
+   <span class="mono">output:</span> daily scorecard, alert on red drift, weekly digest<br>
+   <span class="mono">diff feature:</span> "your agent's skill stack vs 7 days ago" with a one-click safe-deprecation plan</p>
+  </div>
+ </div>
+</section>
+
+<!-- PRODUCT 3 - ASSISTANT CONTEXT COMPACTOR -->
+<section>
+ <div class="wrap">
+  <p class="meta">PRODUCT 03 · BUILD THIRD</p>
+  <h2>Assistant-Context Compactor</h2>
+  <p class="sub">The tool the assistant should call at 60% filled, not the emergency fallback you just survived.</p>
+
+  <div class="pain">
+   <span class="label">PAIN · FROM LOG</span>
+   <blockquote>Memory limit exceeded 7× in 24h. Two context-summary failures this week (Jun 19 fallback, now). The summarizer-as-finally-fired lifeline is brittle and silent.</blockquote>
+  </div>
+
+  <h3>What it is</h3>
+  <p>A proactive context compressor the LLM calls unilaterally when its own window is filling. Strict semantic-preservation guarantees (defined cost metrics), deterministic structure for tail recovery, and a degraded-mode contract so the downstream session never sees a gap it didn't plan for. Exposes a clean token-budget API. Targets LangChain / LlamaIndex / custom agent loops.</p>
+
+  <h3>Why it builds itself</h3>
+  <p>Every agent framework silently trusts that summarization will save them. None of them test the failure. You have stress-tested it (twice, accidentally). Sell the SDK as <code>pip install contextsentry</code> + hosted tier with usage analytics. Indie pro tooling: cheap to build, recurring revenue, durable as long as long-context models stay leaky.</p>
+
+  <h3>Stack & shape</h3>
+  <div class="pain">
+   <p style="margin:0"><span class="mono">runtime:</span> Python, pydantic, async http<br>
+   <span class="mono">core:</span> threshold-triggered compaction with verifiable hand-off artifact<br>
+   <span class="mono">guarantees:</span> token-bound, semantic-bound, structured-bound, recovery-bound<br>
+   <span class="mono">monitoring:</span> live token dashboard, cost-per-turn analytics, fail-safe switch</p>
+  </div>
+ </div>
+</section>
+
+<!-- SIDE ANGLE -->
+<section class="dark">
+ <div class="wrap">
+  <p class="meta">PRODUCT 04 · ADJACENT, DEFER</p>
+  <h2>After-Hours MSP Autopilot</h2>
+  <p class="sub" style="color:#d2d2d7">Already half-shaped in your MSP pain-points research. Different buyer, slower to revenue.</p>
+
+  <div class="pain" style="background:#1a1a1a;border-color:#2a2a2c">
+   <span class="label" style="color:#86868b">PAIN · FROM LOG</span>
+   <blockquote style="color:#d2d2d7">MSP pain-points analysis shipped Jun 9: after-hours ticket triage, ticket enrichment, AI-QBR drafting. Real opportunity, but landing a solo MSP DR takes 4 to 8 weeks.</blockquote>
+  </div>
+
+  <h3>Why defer</h3>
+  <p>The sales loop is human: demos, calls, contracts. The infra-product candidates above ship on a Friday and start paying Monday. Build Cash+Skill-Health first. Ship After-Hours only when one of the infra tools takes off, use its revenue base to fund the field sales motion.</p>
+ </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section>
+ <div class="wrap">
+  <h2>At a glance</h2>
+  <p class="sub">Ranked by: build-cost, immediate-payback, recurring-revenue, defensibility.</p>
+
+  <table>
+   <thead>
+    <tr><th>Candidate</th><th>Build time</th><th>First $</th><th>Recurring</th><th>Moat</th></tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td><strong>Cascade-Watchdog</strong></td>
+     <td class="num"><span class="score-bar" style="width:24px"></span>2 wk MVP</td>
+     <td class="num">week 2</td>
+     <td class="num"><span class="score-bar" style="width:60px"></span>strong</td>
+     <td class="num">data flywheel</td>
+    </tr>
+    <tr>
+     <td><strong>Skill-Health Radar</strong></td>
+     <td class="num"><span class="score-bar" style="width:40px"></span>3-4 wk MVP</td>
+     <td class="num">week 3</td>
+     <td class="num"><span class="score-bar" style="width:50px"></span>med-hi</td>
+     <td class="num">plugin network</td>
+    </tr>
+    <tr>
+     <td><strong>Context Compactor</strong></td>
+     <td class="num"><span class="score-bar" style="width:50px"></span>4-6 wk MVP</td>
+     <td class="num">week 4</td>
+     <td class="num"><span class="score-bar" style="width:60px"></span>strong</td>
+     <td class="num">benchmark data</td>
+    </tr>
+    <tr>
+     <td><strong>After-Hours MSP</strong></td>
+     <td class="num"><span class="score-bar" style="width:80px"></span>8-12 wk MVP</td>
+     <td class="num">mo 2-3</td>
+     <td class="num"><span class="score-bar" style="width:80px"></span>very strong</td>
+     <td class="num">integrations</td>
+    </tr>
+   </tbody>
+  </table>
+
+  <p class="meta">scoring: arbitrary 0-100, time-to-MVP from solo builder with current infra</p>
+ </div>
+</section>
+
+<!-- BUILD ORDER -->
+<section>
+ <div class="wrap">
+  <h2>The Way I'd Build</h2>
+  <p class="sub">Drop everything else, ship in this order.</p>
+
+  <ol class="order">
+   <li>
+    <div>
+     <h4>Cascade-Watchdog, hosted MVP in 14 days</h4>
+     <p>CLI + Discord webhook this weekend. Hosted SaaS by week 2. List on HN Show and Twitter with a real demo, the Figma MCP OAuth 403 / pipeline-broke-May-15 / "13 items zero attention" story is the launch copy.</p>
+    </div>
+   </li>
+   <li>
+    <div>
+     <h4>Use Cascade's revenue to fund Skill-Health Radar</h4>
+     <p>By week 4 you have paying infra users, real telemetry. Radar becomes the "bundle" upsell for Workspace tier. Same Python backend, new dashboard.</p>
+    </div>
+   </li>
+   <li>
+    <div>
+     <h4>Context Compactor as SDK play</h4>
+     <p>Sells into dev-tooling Twitter with the public post-mortem of this very LLM context failure. Open-core: SDK free, hosted observability paid.</p>
+    </div>
+   </li>
+   <li>
+    <div>
+     <h4>MSP After-Hours once infra base is profitable</h4>
+     <p>Different motion: demos, integrations, contracts. Don't pull cash flow from the infra line items to fund it.</p>
+    </div>
+   </li>
+  </ol>
+ </div>
+</section>
+
+<!-- GO-TO-MARKET -->
+<section>
+ <div class="wrap">
+  <h2>Where the buyers are</h2>
+  <p class="sub">You have the audience already, you just haven't packaged the pain into a discovery funnel.</p>
+
+  <div class="gtm">
+   <h3>Distribution channels already in your hand</h3>
+   <ul>
+    <li><span class="mono">X / Twitter:</span> 1.4× Collector / Show HN-style posts with each launch, build in public the MSP pain-points research</li>
+    <li><span class="mono">Hacker News:</span> "Show HN: Cascade" with the post-mortem of the broken May 15 pipeline as the launch story</li>
+    <li><span class="mono">warehouse sketch/:</span> this page is your launch teaser, just here, public</li>
+    <li><span class="mono">Indie Hackers:</span> post milestones, weekly build log</li>
+    <li><span class="mono">Reddit:</span> r/LocalLLaMA, r/MachineLearning for the Context Compactor</li>
+    <li><span class="mono">MSP communities:</span> TruMethods, IT Glue, ConnectWise IT Nation [gated: wait until product #1 funds this]</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<!-- EXEC BOX -->
+<section class="section-end">
+ <div class="wrap">
+  <h2>The ship</h2>
+  <p>Three candidates ranked. One starts Friday: <strong style="color:#2997ff">Cascade-Watchdog</strong>. The infra line is shorter to revenue than the MSP line. Skill-Health and Context-Compactor are both anchored in real failure modes you already survived.</p>
+  <p>If you only ship one thing: ship the one that solves the silent-brittle-cron problem first. The other two fall out of that codebase.</p>
+  <p class="meta" style="color:#86868b;margin-top:28px">[ Tina. Grounded in real logs, not vibes ]</p>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <p class="mono">SOURCES · ~/.hermes/cron/output/{1f09e2f4d6d4,4b691ac5cb9c}/*  ·  ~/Documents/hermes-vault/wiki/Synthesis-Overnight-2026-06-17.md  ·  vault/raw/audit-2026-06-21.md  ·  sketch/MSP-*.html (adjacent)</p>
+ </div>
+</footer>
+
+</body>
+</html>
