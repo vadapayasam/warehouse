@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Synthesis - June 2026</title>
+  <title>Surprise - June 2026</title>
   <style>
     :root {
       --bg: #faf8f5;
@@ -240,11 +240,11 @@
 
 <div class="hero">
   <div class="hero-inner">
-    <h1>Synthesis: June 2026</h1>
+    <h1>Surprise: June 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">19 entries</span>
-      <span id="date-range">Jun 2 - Jun 19</span>
+      <span id="entry-count">12 entries</span>
+      <span id="date-range">Jun 2 - Jun 21</span>
       <span class="themes-label">5 themes</span>
     </div>
   </div>
@@ -409,7 +409,83 @@
     <div class="insight"><strong>Action:</strong> Roll out hard paywall to all apps. Monitor keyword rankings weekly. Test push notification timing next.</div>
   </div>
 
-  <!-- Cross-cutting themes -->
+  <!-- Jun 20 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 20</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>Figma MCP OAuth 403 -- Registration endpoint rejects client despite valid token, blocks all design work (560 hits, May 30--June 1).</li>
+      <li>API Streaming Timeouts (49 ReadTimeout + 12 failures) on deepseek-v4-pro via ollama, sessions abort mid-turn.</li>
+      <li>skill_manage failures (75/24h) -- systematic YAML frontmatter errors in generated SKILL.md, silent job failures.</li>
+      <li>Ollama billing expired (403 across 101 + 7 hits) -- context compressor dead, cascades to 80% of errors.</li>
+      <li>Xiaomi API "text not set" (31 hits) — cascade effect from Ollama 403, malformed payloads rejected.</li>
+      <li>No new actionable patterns. N files reviewed, nothing to surface.</li>
+      <li>Tag: infrastructure</li>
+      <li>Tag: devops</li>
+      <li>Tag: ios</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Renew Ollama subscription at ollama.com/settings/billing — expires, breaks context compression.</div>
+    <div class="insight"><strong>Action:</strong> Configure kimi-k2.5 credentials in Hermes config, current fallback is dead end.</div>
+    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth registration — investigate MCP SDK version or Figma API change.</div>
+    <div class="insight"><strong>Action:</strong> Add model capability guard — prevent browser_vision calls when model is text-only (deepseek-v4-pro).</div>
+    <div class="insight"><strong>Action:</strong> Investigate skill_manage error rate (75/24h) — add pre-validation before SKILL.md creation.</div>
+    <div class="insight"><strong>Action:</strong> Create session_search skill — referenced by Nightly Log Analyzer cron but doesn't exist.</div>
+  </div>
+
+  <!-- Jun 21 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 21</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li># Synthesis of Overnight/ Files — 2026-06-21</li>
+      <li>## Cross-Cutting Patterns Identified</li>
+      <li>### 1. Figma MCP OAuth 403 Blocking (560+ occurrences)</li>
+      <li>**Root cause**: OAuth registration endpoint returns 403 despite valid tokens (88 days remaining)</li>
+      <li>**Impact**: All Figma tools dead in sessions. Design work blocked.</li>
+      <li>**Priority**: **HIGH** — blocks entire design workflow</li>
+      <li>### 2. API Streaming Timeouts (deepseek-v4-pro via ollama)</li>
+      <li>**Pattern**: 49 ReadTimeout + 12 streaming failures in 24h</li>
+      <li>**Concentration**: May 31 12:00-12:30 PM had 7 failures in 15 minutes</li>
+      <li>**Cascade**: Kimi-k2.5 fallback not configured → sessions abort mid-turn</li>
+      <li>**Priority**: **HIGH** — degrades reliability, requires fallback cascade</li>
+      <li>### 3. skill_manage Failures (75 occurrences in 24h)</li>
+      <li>**Pattern**: Agent fails when creating/patching skills — malformed YAML frontmatter</li>
+      <li>**Frequency**: Abnormal rate suggests systematic issue</li>
+      <li>**Priority**: **MEDIUM** — wastes tokens on broken skill creation</li>
+      <li>### 4. Vault Staleness & Phantom Pages</li>
+      <li>**Wiki last updated**: May 19 — 14+ days unsynced</li>
+      <li>**Phantom pages**: AI-Service-Desk, MoveOKs, Super-Kit-Design-System, ios-apps, CURRENT_WORK</li>
+      <li>**Pipeline broken**: Last raw processing May 15, last synthesis May 15</li>
+      <li>**Priority**: **MEDIUM** — accountability gap, false sense of organization</li>
+      <li>### 5. Two Fully-Spec'd Indie Projects (May 14) — Zero Follow-Through</li>
+      <li>**LinearContext MCP**: 400+ line PRD, architecture, revenue model — 18 days untouched</li>
+      <li>**FulfillSmart Shopify app**: Same state — 18 days untouched</li>
+      <li>**Issue**: Detailed planning without "build or kill" decision</li>
+      <li>**Priority**: **MEDIUM** — indie-product-vetting skill exists, was it used?</li>
+      <li>## Actionable Items</li>
+      <li>| Priority | Action | Effort | Impact |</li>
+      <li>|----------|--------|--------|--------|</li>
+      <li>| **P0** | Fix Figma MCP OAuth registration | 30 min | Unblocks design work |</li>
+      <li>| **P0** | Configure API fallback cascade (kimi-k2.5) | 15 min | Improves reliability |</li>
+      <li>| **P1** | Create missing wiki pages (5 phantom pages) | 20 min | Fixes accountability gap |</li>
+      <li>| **P1** | Decide on LinearContext & FulfillSmart PRDs | 15 min | Clear direction on projects |</li>
+      <li>| **P2** | Fix skill_manage error rate | 20 min | Reduces token waste |</li>
+      <li>## Stale Files (One-Time)</li>
+      <li>deprecated-projects/ — 17+ days dormant (lovable-msp-status-page-prompt, revenueguard files)</li>
+      <li>processed/ — 16 May files, already extracted on May 19</li>
+      <li>links.md — Linear dump from May 10 (dead)</li>
+      <li>## One Insight</li>
+      <li>**The overnight system is optimizing itself into irrelevance.** Log analysis finds real operational bugs (Figma OAuth, API timeouts) but zero insights about Prabha's actual work (design systems, iOS apps, agentic research). The system needs to surface *mission* issues, not just *hermes* bugs.</li>
+      <li>This is the Way.</li>
+    </ul>
+  </div>
+
+  
+<!-- Cross-cutting themes -->
   <div class="themes">
     <h2>Themes</h2>
     <ul>
@@ -422,7 +498,7 @@
   </div>
 
   <div class="footer">
-    <span>Generated by Agent Tina via RapidMLX (Qwen3.5-4B) &middot; 18 Jun 2026</span>
+    <span>Generated by Agent Tina via RapidMLX (Qwen3.5-4B) &middot; 22 Jun 2026</span>
     <a href="https://vadapayasam.github.io/warehouse/sketch/" target="_blank">Back to sketch library</a>
   </div>
 
