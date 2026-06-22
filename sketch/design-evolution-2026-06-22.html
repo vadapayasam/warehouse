@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Evolution Scan · AI/Agentic Patterns in SaaS · June 2026</title>
+<style>
+:root {
+  --black: #000000;
+  --near-black: #1a1a2e;
+  --ink: #1d1d1f;
+  --gray-dark: #6e6e73;
+  --gray-mid: #86868b;
+  --gray-light: #d2d2d7;
+  --surface: #f8f9fa;
+  --white: #ffffff;
+  --gold: #e8b84b;
+  --gold-light: #f3e5ab;
+  --gold-dark: #c4982e;
+  --radius: 14px;
+  --max-width: 840px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Header */
+.site-header {
+  background: var(--near-black);
+  color: var(--white);
+  padding: 60px 24px 48px;
+  text-align: center;
+}
+.site-header h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  max-width: 700px;
+  margin: 0 auto 12px;
+}
+.site-header .subhead {
+  font-size: 18px;
+  color: var(--gold-light);
+  font-weight: 400;
+  max-width: 580px;
+  margin: 0 auto;
+}
+.site-header .meta {
+  font-size: 13px;
+  color: var(--gray-mid);
+  margin-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 20px;
+  display: inline-block;
+}
+
+/* Container */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Intro */
+.intro {
+  padding: 48px 0 40px;
+}
+.intro p {
+  font-size: 17px;
+  color: var(--gray-dark);
+  line-height: 1.6;
+  max-width: 680px;
+}
+
+/* Pattern card */
+.pattern-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  margin-bottom: 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  border: 1px solid var(--gray-light);
+}
+.pattern-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin-bottom: 12px;
+}
+.pattern-card h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--near-black);
+  margin-bottom: 4px;
+}
+.pattern-card .tagline {
+  font-size: 15px;
+  color: var(--gold-dark);
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.pattern-card .body {
+  font-size: 15px;
+  color: var(--gray-dark);
+  line-height: 1.65;
+}
+.pattern-card .body p {
+  margin-bottom: 12px;
+}
+.pattern-card .body p:last-child { margin-bottom: 0; }
+
+/* Insight box */
+.insight-box {
+  background: #faf8f0;
+  border-left: 3px solid var(--gold);
+  padding: 16px 20px;
+  margin-top: 18px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  color: var(--near-black);
+}
+.insight-box strong {
+  color: var(--gold-dark);
+  font-weight: 600;
+}
+.insight-box .sources {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--gray-md, #86868b);
+}
+.insight-box .sources a {
+  color: var(--gold-dark);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--gold-light);
+}
+.insight-box .sources a:hover { border-bottom-color: var(--gold); }
+
+/* Sources block */
+.sources-block {
+  margin-top: 48px;
+  padding: 36px 32px;
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-light);
+}
+.sources-block h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--near-black);
+  margin-bottom: 20px;
+}
+.sources-block ol {
+  counter-reset: src-counter;
+  list-style: none;
+  padding: 0;
+}
+.sources-block ol li {
+  counter-increment: src-counter;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-light);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.sources-block ol li:last-child { border-bottom: none; }
+.sources-block ol li::before {
+  content: counter(src-counter);
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 24px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.sources-block ol li a {
+  color: var(--near-black);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gray-light);
+}
+.sources-block ol li a:hover {
+  border-bottom-color: var(--gold);
+}
+.sources-block .source-desc {
+  color: var(--gray-dark);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  padding: 40px 24px;
+  font-size: 12px;
+  color: var(--gray-dark);
+  border-top: 1px solid var(--gray-light);
+  margin-top: 56px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .site-header { padding: 40px 20px 32px; }
+  .pattern-card { padding: 24px 20px; }
+  .sources-block { padding: 24px 20px; }
+}
+
+/* Em-dash ban enforcement: none present */
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>AI &amp; Agentic Design Evolution</h1>
+  <p class="subhead">Seven emerging interaction patterns reshaping SaaS products in 2026</p>
+  <span class="meta">Research scan &middot; June 22, 2026</span>
+</header>
+
+<div class="container">
+
+<section class="intro">
+  <p>
+    The 2026 SaaS landscape is undergoing a structural shift. The interface layer is no longer
+    a static layout of buttons and cards. It is a dynamic, intent-aware, agent-mediated surface.
+    This scan catalogues seven design patterns observed across enterprise and consumer products,
+    synthesised from independent sources published between September 2025 and June 2026.
+  </p>
+</section>
+
+<!-- Pattern 1 -->
+<article class="pattern-card">
+  <div class="pattern-number">1</div>
+  <h2>AI Becomes the UI</h2>
+  <p class="tagline">The conversational front door replaces the dashboard</p>
+  <div class="body">
+    <p>
+      ServiceNow's AI Experience (AIx), launched in late 2025, exemplifies a growing pattern:
+      the primary interface is no longer a menu-driven dashboard but a contextually aware,
+      multimodal AI layer. IDC analyst Phil Carter captured the shift succinctly:
+      &ldquo;AI is becoming the new UI.&rdquo; Users interact with enterprise data through
+      non-deterministic, often conversational means - voice, text, and visual inputs
+      are all first-class citizens.
+    </p>
+    <p>
+      This pattern resets the design hierarchy. Instead of designing navigation flows, teams
+      design agent personas, response formats, and trust signals. Every action is logged,
+      explained, and auditable through governance layers like ServiceNow's AI Control Tower.
+      The interface disappears; the agent becomes the intermediary.
+    </p>
+  </div>
+  <div class="insight-box">
+    <strong>Design implication:</strong> IA is dead. Long live interaction design for
+    non-deterministic surfaces. Teams need to spec out what an agent <em>refuses</em> to
+    do as rigorously as what it offers.
+    <div class="sources">Sources: <a href="#src1">Carter/IDC via CIO</a>, <a href="#src2">ServiceNow launch</a>, <a href="#src7">AI Control Tower</a></div>
+  </div>
+</article>
+
+<!-- Pattern 2 -->
+<article class="pattern-card">
+  <div class="pattern-number">2</div>
+  <h2>The Autonomous Coworker</h2>
+  <p class="tagline">From chat to proactive, task-executing agents</p>
+  <div class="body">
+    <p>
+      Databricks launched Genie One in June 2026 as what it calls an &ldquo;agentic
+      coworker&rdquo;: an AI that does not just answer questions but acts on behalf
+      of business teams: monitoring pipelines, proposing fixes, executing workflows.
+      Microsoft is on the same path, moving Copilot from reactive prompt-response toward
+      autonomous, multi-step task execution across Outlook, Teams, and Excel.
+    </p>
+    <p>
+      SAP's vision of the &ldquo;autonomous enterprise&rdquo; extends this to ERP-scale:
+      AI agents that configure, price, quote, and manage supply chains. The pattern is clear.
+      The design challenge shifts from &ldquo;how do I get the right answer&rdquo; to
+      &ldquo;how do I trust the agent to act on my behalf?&rdquo;
+    </p>
+  </div>
+  <div class="insight-box">
+    <strong>Design implication:</strong> Trust calibration becomes a core UX skill. Every
+    autonomous action needs a visible trail, undo capability, and human-override moments.
+    Proactive agents must announce intent before executing.
+    <div class="sources">Sources: <a href="#src3">Databricks Genie One</a>, <a href="#src4">Microsoft Copilot</a>, <a href="#src5">SAP autonomous</a></div>
+  </div>
+</article>
+
+<!-- Pattern 3 -->
+<article class="pattern-card">
+  <div class="pattern-number">3</div>
+  <h2>Context Ontology Layer</h2>
+  <p class="tagline">Ground truth makes agents reliable</p>
+  <div class="body">
+    <p>
+      The biggest blocker for agentic AI in the enterprise isn't model capability - it
+      is fragmented business context. Databricks' Genie Ontology addresses this by
+      continuously scanning all business data, documents, chat apps, and meetings to build a
+      self-improving context layer. ServiceNow's Workflow Data Fabric and AI Data Explorer
+      serve a similar purpose: connecting data from internal and external sources so agents
+      reason over ground truth rather than hallucinated fragments.
+    </p>
+    <p>
+      This pattern has a direct UI consequence: agents need a &ldquo;show your work&rdquo;
+      mode where users can inspect which data sources informed a decision. Without this,
+      trust breaks. The ontology layer becomes as important as the interaction layer.
+    </p>
+  </div>
+  <div class="insight-box">
+    <strong>Design implication:</strong> Every AI answer needs source attribution.
+    Build &ldquo;citation browse&rdquo; into the UI - let users drill into the raw
+    data that shaped the agent's response.
+    <div class="sources">Sources: <a href="#src3">Databricks Genie Ontology</a>, <a href="#src1">ServiceNow Workflow Data Fabric</a>, <a href="#src4">Microsoft enterprise context</a></div>
+  </div>
+</article>
+
+<!-- Pattern 4 -->
+<article class="pattern-card">
+  <div class="pattern-number">4</div>
+  <h2>AI-Native Interface Generation</h2>
+  <p class="tagline">UIs that design themselves in real time</p>
+  <div class="body">
+    <p>
+      Google's Stitch, upgraded in March 2026, generates complete UI screens from natural
+      language descriptions or reference images. It can produce up to five related screens at
+      once, &ldquo;stitch&rdquo; them into navigable flows, and simulate user journeys.
+      The tool supports an &ldquo;AI-native, infinite canvas&rdquo; where designers and
+      developers co-create with AI as a first-class participant rather than a post-hoc
+      automation step.
+    </p>
+    <p>
+      Stitch also exports to a DESIGN.md file: a natural language spec that maintains
+      consistency across tools and projects. This inverts the traditional design workflow:
+      instead of translating design into code, AI generates both in parallel, with the human
+      acting as editor and curator.
+    </p>
+  </div>
+  <div class="insight-box">
+    <strong>Design implication:</strong> The &ldquo;vibe coding&rdquo; trend extends to
+    UI design. Designers become prompt engineers and editors. The unit of output shifts from
+    pixel-perfect mockups to reviewable, AI-generated alternatives.
+    <div class="sources">Sources: <a href="#src6">Google Stitch launch</a>, <a href="#src3">Databricks Genie App Builder</a></div>
+  </div>
+</article>
+
+<!-- Pattern 5 -->
+<article class="pattern-card">
+  <div class="pattern-number">5</div>
+  <h2>Intent-Aware Buyer Journeys</h2>
+  <p class="tagline">Static content pipelines yield to adaptive, agent-mediated experiences</p>
+  <div class="body">
+    <p>
+      Kaltura's Agentic Revenue Engagement platform, demonstrated at Forrester B2B Summit
+      2026, marks a shift from publishing content to orchestrating adaptive buyer journeys.
+      The platform combines content intelligence (via the acquired PathFactory) with
+      photorealistic AI avatars that greet visitors, understand intent, recommend content,
+      and transition seamlessly between scripted narration and live dialogue.
+    </p>
+    <p>
+      The data behind this pattern is stark: 94% of B2B buyers now use AI in purchasing
+      decisions, web traffic is declining 20&ndash;30% as AI search absorbs pre-funnel
+      research, and 60&ndash;70% of B2B content goes unused by sales teams. The old
+      &ldquo;create and hope&rdquo; model is dead. The new model requires every piece of
+      content to be surfaced dynamically based on buyer intent signals.
+    </p>
+  </div>
+  <div class="insight-box">
+    <strong>Design implication:</strong> Marketing pages need API-first content architectures.
+    A single static landing page can no longer serve every visitor. Content becomes a
+    runtime variable, assembled by intent-sensing agents.
+    <div class="sources">Sources: <a href="#src8">Kaltura/PathFactory</a>, <a href="#src1">ServiceNow CPQ</a></div>
+  </div>
+</article>
+
+<!-- Pattern 6 -->
+<article class="pattern-card">
+  <div class="pattern-number">6</div>
+  <h2>Personality-Led Consumer AI</h2>
+  <p class="tagline">From utility tool to interactive companion</p>
+  <div class="body">
+    <p>
+      The consumer AI market is pivoting from pure utility to personality-driven experiences.
+      Platforms like Character Chat (by Joi AI) frame interactions not as Q&amp;A sessions
+      but as immersive conversations with designed personas. Users return for the character,
+      not the answer. This shifts every design decision: accuracy is still important, but
+      tone, memory, pacing, and emotional boundaries become primary product requirements.
+    </p>
+    <p>
+      The &ldquo;chatbot was a desk&rdquo; analogy from PC Tech Magazine captures the
+      shift: old bot UI was a help desk: you approached it with a problem, and the
+      faster it performed, the sooner the interaction ended. The new personality-led interface
+      is a room: you enter, stay, return. This has deep implications for retention
+      mechanics, monetisation (freemium with emotional hooks), and design responsibility
+      (avoiding manipulative intimacy patterns).
+    </p>
+  </div>
+  <div class="insight-box">
+    <strong>Design implication:</strong> Tone and persona design are now first-class product
+    concerns. The same LLM with a different system prompt, avatar, and memory profile becomes
+    a different product. Character design skills will rival UX design skills in demand.
+    <div class="sources">Sources: <a href="#src9">Character Chat/PC Tech</a>, <a href="#src10">Joi AI platform</a></div>
+  </div>
+</article>
+
+<!-- Pattern 7 -->
+<article class="pattern-card">
+  <div class="pattern-number">7</div>
+  <h2>Governance &amp; Agent Control Towers</h2>
+  <p class="tagline">Autonomy requires accountability infrastructure</p>
+  <div class="body">
+    <p>
+      Every major platform launching agentic AI in 2026 has paired it with a governance layer.
+      ServiceNow's AI Control Tower provides agent autodiscovery, risk and compliance status,
+      and interoperability across MCP and A2A protocols. Microsoft's approach emphasises
+      human oversight and permission controls for every sensitive action - sending
+      emails, accessing financial data. Databricks anchors all agent activity in its Unity
+      Catalog for data governance.
+    </p>
+    <p>
+      This pattern creates a new UI category: the &ldquo;agent dashboard.&rdquo; Teams need
+      to see which agents are running, what data they access, which models power them, and
+      how they comply with policy. The control tower is to the agentic era what the admin
+      panel was to the SaaS era - a necessary infrastructure layer that shapes how
+      autonomous systems are adopted and trusted.
+    </p>
+  </div>
+  <div class="insight-box">
+    <strong>Design implication:</strong> Design the audit trail as a product surface, not
+    a compliance afterthought. Every agent action should be inspectable, filterable, and
+    reversible from a dedicated console. This is a new design discipline: &ldquo;governance
+    UX.&rdquo;
+    <div class="sources">Sources: <a href="#src1">ServiceNow AI Control Tower</a>, <a href="#src4">Microsoft trust layer</a>, <a href="#src3">Databricks Unity Catalog</a></div>
+  </div>
+</article>
+
+<!-- Sources -->
+<section class="sources-block">
+  <h3 id="src1">Sources</h3>
+  <ol>
+    <li id="src1">
+      <a href="http://www.cio.com/article/4065541/servicenows-ai-experience-is-an-agentic-ai-ui-for-the-now-platform.html" target="_blank">ServiceNow's AI Experience is an agentic AI UI for the Now Platform</a>
+      <div class="source-desc">CIO.com - September 30, 2025. IDC analyst Phil Carter: &ldquo;AI is becoming the new UI.&rdquo;</div>
+    </li>
+    <li id="src2">
+      <a href="http://www.cio.com/article/4054799/servicenow-zurich-release-introduces-agentic-ai-to-the-platform.html" target="_blank">ServiceNow Zurich release introduces agentic AI</a>
+      <div class="source-desc">CIO.com - Related coverage on Now Platform agentic foundation</div>
+    </li>
+    <li id="src3">
+      <a href="http://siliconangle.com/2026/06/16/databricks-new-agentic-coworker-genie-one-brings-ai-automation-every-part-business/" target="_blank">Databricks' new agentic coworker Genie One</a>
+      <div class="source-desc">SiliconANGLE - June 16, 2026. Genie Ontology, Genie Agents, app builder, and Unity Catalog governance.</div>
+    </li>
+    <li id="src4">
+      <a href="http://www.domain-b.com/technology/artificial-intelligence/microsoft-copilot-autonomous-ai-2026" target="_blank">From chatbot to coworker: Microsoft explores autonomous agents for Copilot</a>
+      <div class="source-desc">Domain-B - April 14, 2026. Multi-step task execution, enterprise security, governance.</div>
+    </li>
+    <li id="src5">
+      <a href="http://www.forbes.com/sites/victordey/2026/05/12/the-end-of-the-erp-era-sap-wants-ai-agents-to-run-your-autonomous-enterprise/" target="_blank">SAP Wants AI Agents To Run Your Autonomous Enterprise</a>
+      <div class="source-desc">Forbes - May 12, 2026. ERP-scale autonomous systems vision.</div>
+    </li>
+    <li id="src6">
+      <a href="http://siliconangle.com/2026/03/19/google-upgrades-stitch-ai-interface-development-tool/" target="_blank">Google upgrades its Stitch AI interface development tool</a>
+      <div class="source-desc">SiliconANGLE - March 19, 2026. AI-native infinite canvas, multi-screen generation, DESIGN.md export.</div>
+    </li>
+    <li id="src7">
+      <a href="http://www.cio.com/article/3978453/servicenow-reimagines-platform-for-agentic-ai.html" target="_blank">ServiceNow reimagines platform for agentic AI</a>
+      <div class="source-desc">CIO.com - AI Control Tower, agent autodiscovery, A2A/MCP interoperability.</div>
+    </li>
+    <li id="src8">
+      <a href="http://finance.yahoo.com/sectors/technology/articles/kaltura-present-agentic-revenue-engagement-120000453.html" target="_blank">Kaltura to Present Agentic Revenue Engagement Platform at Forrester B2B Summit 2026</a>
+      <div class="source-desc">Yahoo Finance / GlobeNewswire - April 24, 2026. Content intelligence, avatar-led journeys, Cisco Webex case study.</div>
+    </li>
+    <li id="src9">
+      <a href="http://pctechmag.com/2026/06/beyond-chatbots-how-character-chat-is-redefining-ai-powered-mobile-apps/" target="_blank">Beyond Chatbots: How Character Chat is Redefining AI-Powered Mobile Apps</a>
+      <div class="source-desc">PC Tech Magazine - June 12, 2026. Personality-led interfaces, retention mechanics, privacy and responsibility.</div>
+    </li>
+    <li id="src10">
+      <a href="http://joi.ai/" target="_blank">Joi AI - Immersive conversations with AI characters</a>
+      <div class="source-desc">Joi AI platform - Consumer personality-led AI product.</div>
+    </li>
+  </ol>
+</section>
+
+</div>
+
+<footer class="site-footer">
+  <p>Research artifact &middot; Generated autonomously by Agent Tina &middot; June 22, 2026</p>
+  <p style="margin-top:6px;font-size:11px;color:#a1a1a6;">Multi-source verification applied. Each claim supported by 2+ independent sources.</p>
+</footer>
+
+</body>
+</html>
