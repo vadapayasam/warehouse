@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Radar — Jun 22, 2026</title>
+<style>
+  :root {
+    --base: #f8f5f0;
+    --surface: #ffffff;
+    --text: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #2563eb;
+    --accent-light: #dbeafe;
+    --green: #059669;
+    --amber: #d97706;
+    --red: #dc2626;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+    background: var(--base);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 880px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* Header */
+  .header { margin-bottom: 40px; }
+  .header .meta {
+    display: flex; gap: 12px; align-items: center;
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .header .meta .badge {
+    background: var(--accent); color: white;
+    padding: 2px 10px; border-radius: 100px;
+    font-size: 11px; font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px; font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 16px; color: var(--muted);
+    max-width: 600px;
+  }
+
+  /* Radar Grid */
+  .radar-grid {
+    display: flex; flex-direction: column; gap: 28px;
+  }
+
+  /* Signal Card */
+  .signal {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    transition: box-shadow 0.15s;
+  }
+  .signal:hover { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+
+  .signal .signal-head {
+    display: flex; gap: 12px; align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .signal .signal-pill {
+    flex-shrink: 0;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 10px; border-radius: 100px;
+    margin-top: 3px;
+  }
+  .pill-adopt { background: #d1fae5; color: #065f46; }
+  .pill-watch { background: #fef3c7; color: #92400e; }
+  .pill-learn { background: #dbeafe; color: #1e40af; }
+  .pill-hype { background: #fce7f3; color: #9d174d; }
+
+  .signal .signal-title {
+    font-size: 20px; font-weight: 650;
+    line-height: 1.3;
+  }
+
+  .signal .signal-body {
+    font-size: 15px;
+    color: #374151;
+    margin-bottom: 14px;
+  }
+  .signal .signal-body strong { color: var(--text); }
+
+  .signal .signal-sources {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .signal .signal-sources a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .signal .signal-sources a:hover { border-bottom-color: var(--accent); }
+
+  .signal .signal-quote {
+    background: #f9fafb;
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    margin: 12px 0;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    font-size: 14px;
+    color: #4b5563;
+  }
+
+  /* Snapshot Grid */
+  .snapshot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .snapshot-item {
+    background: #f9fafb;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .snapshot-item .label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 600;
+    display: block; margin-bottom: 2px;
+  }
+
+  /* Sources */
+  .sources-block {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .sources-block h2 {
+    font-size: 18px; font-weight: 650;
+    margin-bottom: 14px;
+  }
+  .sources-block ol {
+    padding-left: 20px;
+    font-size: 13px; color: var(--muted);
+  }
+  .sources-block ol li { margin-bottom: 6px; }
+  .sources-block ol a { color: var(--accent); word-break: break-all; }
+
+  .method-note {
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: #f3f4f6;
+    border-radius: 10px;
+    font-size: 13px; color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 20px 16px 60px; }
+    .header h1 { font-size: 26px; }
+    .signal { padding: 20px; }
+    .snapshot-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="meta">
+    <span>2026-06-22</span>
+    <span>·</span>
+    <span class="badge">Skills Radar</span>
+    <span>·</span>
+    <span>Edition #2</span>
+  </div>
+  <h1>Design Skills Radar</h1>
+  <div class="subtitle">AI-native tools, emerging competencies, and stack shifts shaping design work — tracked for SuperOps relevance.</div>
+</div>
+
+<div class="radar-grid">
+
+  <!-- Signal 1 -->
+  <div class="signal">
+    <div class="signal-head">
+      <span class="signal-pill pill-adopt">Adopt</span>
+      <div class="signal-title">AI-Native Design Tools Are Eating the Stack</div>
+    </div>
+    <div class="signal-body">
+      <p><strong>Context:</strong> Three major AI-native design tools launched within weeks of each other, redrawing the competitive map. Each takes a different angle — and together they compress the space between "idea" and "shipped UI."</p>
+
+      <div class="snapshot-grid">
+        <div class="snapshot-item">
+          <span class="label">Claude Design (Anthropic)</span>
+          Conversational prompts → polished prototypes, slide decks, marketing collateral. Reads team codebases to auto-build design systems. Handoff to Claude Code for implementation. In research preview; free with existing Claude subscriptions.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">Stitch (Google)</span>
+          Real-time streaming agent — UIs render mid-prompt. Voice input + multiplayer editing (free). Exports via AI Studio, Antigravity, or Netlify. MCP server for programmatic triggers. No pricing announced yet.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">Figma AI Agent</span>
+          In-canvas AI agent: generate, edit, automate. Multi-agent support for parallel work. Fine-tuned design models. Q1 2026 revenue: $333.4M (+46% YoY). 60% of enterprise $100K+ customers use Figma Make weekly.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">Adobe Firefly Assistant</span>
+          Cross-app assistant (Photoshop, Illustrator, Premiere, Express). Context-aware, brand-aware, multi-step workflows. Defensive posture: "AI generation is not enough, finishing is what matters."
+        </div>
+      </div>
+
+      <p style="margin-top: 12px;"><strong>Signal:</strong> The "first draft" of design now happens in AI tools, not in Figma. Forbes: "Anthropic wants to own the first move. Adobe wants to own the finish. Figma wants to remain the collaborative place." The real skill shifts from <em>making</em> to <em>choosing which output survives.</em></p>
+
+      <p style="margin-top: 6px;"><strong>For SuperOps relevance:</strong> Evaluate Claude Design's design-system import on internal component libraries. Stitch's free multiplayer could replace Figma for early exploration. DESIGN.md output from Stitch is AI-agent-native — consider it for design→code handoffs.</p>
+    </div>
+    <div class="signal-sources">
+      Sources: <a href="http://venturebeat.com/technology/anthropic-just-launched-claude-design-an-ai-tool-that-turns-prompts-into-prototypes-and-challenges-figma">[1]</a> <a href="http://www.forbes.com/sites/ronschmelzer/2026/04/23/ai-is-coming-for-the-design-stack/">[2]</a> <a href="http://www.techtimes.com/articles/316903/20260520/google-stitch-launches-real-time-ai-agent-multiplayer-editing-figma-charges-15-seat.htm">[3]</a> <a href="http://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/">[4]</a>
+    </div>
+  </div>
+
+  <!-- Signal 2 -->
+  <div class="signal">
+    <div class="signal-head">
+      <span class="signal-pill pill-learn">Learn</span>
+      <div class="signal-title">Agent Experience Optimization (AXO) — Designing for Machine Readers</div>
+    </div>
+    <div class="signal-body">
+      <p><strong>Context:</strong> Oshyn launched an "AI-First UX" practice in April 2026, coining the term <strong>Agent Experience Optimization (AXO)</strong>. The thesis: AI agents and answer engines — not just browsers — are now primary visitors to your website. If your content isn't structured for machine parsability, you're invisible in AI-generated shortlists.</p>
+
+      <div class="signal-quote">
+        "We are entering an era where your website's most important user might not be a person, but an agent acting on their behalf."
+        <br>— Diego Rebosio, CEO Oshyn
+      </div>
+
+      <p><strong>Key competencies for design teams:</strong></p>
+      <ul style="margin: 8px 0 8px 20px; font-size: 14px; color: #374151;">
+        <li><strong>Semantic authority</strong> — structured content that AI systems read as verifiable evidence of expertise, not vague storytelling</li>
+        <li><strong>Parsable design</strong> — treating the machine reader as a first-class citizen alongside the human visitor</li>
+        <li><strong>Structured data hygiene</strong> — schema.org, Open Graph, JSON-LD as design deliverables, not developer afterthoughts</li>
+      </ul>
+
+      <p><strong>Signal:</strong> This is the design equivalent of SEO in 2012 — an emerging competency that will be table-stakes within 18 months. For SuperOps (in ITSM/MSP), agent-discovery readiness matters: when an AI procurement agent evaluates solutions, can it parse SuperOps' value proposition and feature set? If not, competitors with structured content win.</p>
+
+      <p><strong>Cross-verification:</strong> Nielsen Norman Group's State of UX 2026 report confirms AI-powered design tools have made "anyone can make a decent-looking UI" a reality, compressing entry-level roles — which makes AXO-level competency a differentiator for professionals [5][8].</p>
+    </div>
+    <div class="signal-sources">
+      Sources: <a href="http://www.morningstar.com/news/accesswire/1158416msn/oshyn-launches-ai-first-ux-practice-to-bridge-the-enterprise-gap-between-human-design-and-ai-agent-discovery">[5]</a> <a href="http://www.nngroup.com/articles/state-of-ux-2026/">[8]</a>
+    </div>
+  </div>
+
+  <!-- Signal 3 -->
+  <div class="signal">
+    <div class="signal-head">
+      <span class="signal-pill pill-watch">Watch</span>
+      <div class="signal-title">DESIGN.md — Machine-Readable Design Systems Are Becoming a Standard</div>
+    </div>
+    <div class="signal-body">
+      <p><strong>Context:</strong> Google open-sourced <strong>DESIGN.md</strong> under Apache 2.0 in April 2026 — a plain-text format capturing typography, color palette, spacing, and component rules in a file AI agents can read. It's already portable across Stitch, Claude Code, Cursor, and GitHub Copilot.</p>
+
+      <p><strong>Why this matters:</strong> Design systems have traditionally lived inside proprietary tool formats (Figma .fig, Sketch, Adobe libraries). DESIGN.md externalizes them into a portable, version-controllable, agent-readable specification. Teams can export from Stitch, import into Claude Design, or read into a CI pipeline — all from the same file.</p>
+
+      <div class="snapshot-grid">
+        <div class="snapshot-item">
+          <span class="label">Portability</span>
+          Same DESIGN.md works in Stitch, Claude Code, Cursor, GitHub Copilot. Brand rules carry across sessions without manual re-entry.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">License</span>
+          Apache 2.0 — fully open. Any tool can implement the format. Community extension via PRs.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">CI Integration</span>
+          Stitch MCP server lets design generation be triggered programmatically from CI pipelines. DESIGN.md ensures brand consistency.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">Risk</span>
+          Still early — adoption curve unclear. Google Labs experiments can be discontinued. But the concept is architecturally sound.
+        </div>
+      </div>
+
+      <p style="margin-top: 12px;"><strong>For SuperOps:</strong> If you maintain design tokens or a design system, consider adopting DESIGN.md as a secondary output format alongside Figma. It future-proofs your brand system for AI-agent consumption — your Claude Code agent could read SuperOps brand rules directly without manual prompting.</p>
+    </div>
+    <div class="signal-sources">
+      Sources: <a href="http://www.techtimes.com/articles/316903/20260520/google-stitch-launches-real-time-ai-agent-multiplayer-editing-figma-charges-15-seat.htm">[3]</a> <a href="https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-design-md/">[6]</a>
+    </div>
+  </div>
+
+  <!-- Signal 4 -->
+  <div class="signal">
+    <div class="signal-head">
+      <span class="signal-pill pill-learn">Learn</span>
+      <div class="signal-title">AI Fluency: The 4 Ds Organizational Competency Model</div>
+    </div>
+    <div class="signal-body">
+      <p><strong>Context:</strong> Forbes and Anthropic's AI Fluency Framework define four organizational competencies for AI adoption: <strong>Delegation, Description, Discernment, Diligence</strong>. The stat that matters: 85% of orgs are piloting AI, but only 17% have fully integrated it into workflows. The gap is leadership, not technology.</p>
+
+      <div class="snapshot-grid">
+        <div class="snapshot-item">
+          <span class="label">1. Delegation</span>
+          Which tasks to assign AI vs keep human-led? The "90% trap" — AI handles 90% brilliantly, the last 10% of human judgment is where trust lives or dies.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">2. Description</span>
+          Organizational communication with AI systems. Precise language as "new technical infrastructure." Cost of failure: "workslop" — low-quality AI output that increases review time.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">3. Discernment</span>
+          Evaluating AI outputs critically. "AI is a decision-accelerator, not a decision-maker." Cross-LLM validation, reasoning audits, human-in-the-loop.
+        </div>
+        <div class="snapshot-item">
+          <span class="label">4. Diligence</span>
+          Responsible, transparent, accountable AI use. Requires training juniors without AI first so they develop baseline judgment before AI becomes default.
+        </div>
+      </div>
+
+      <p style="margin-top: 12px;"><strong>Signal:</strong> For design teams, the Description and Discernment competencies are immediately actionable. Prompt libraries, structured review gates for AI-generated output, and clear delegation boundaries (what goes to Claude Design vs. stays in human hands) are tangible practices to implement now.</p>
+    </div>
+    <div class="signal-sources">
+      Sources: <a href="http://www.forbes.com/sites/anjalichaudhry/2026/05/19/is-your-organization-ai-fluent-4-competencies-every-leader-needs-now/">[7]</a> <a href="http://www.ciol.com/generative-ai/best-ai-tools-in-2026-25-picks-that-actually-deliver-11750403">[9]</a>
+    </div>
+  </div>
+
+  <!-- Signal 5 -->
+  <div class="signal">
+    <div class="signal-head">
+      <span class="signal-pill pill-hype">Hype</span>
+      <div class="signal-title">No-Code Design Systems &amp; AI Copilots Compress Entry-Level Roles</div>
+    </div>
+    <div class="signal-body">
+      <p><strong>Context:</strong> Multiple sources converge on the same structural shift: AI design tools have lowered the barrier to producing "good enough" UI to near-zero. Analytics Insight's 2026 trends report lists "No-Code Design Systems" as a core trend, alongside AI-powered personalization and hyper-personalized journeys [10]. But the Nielsen Norman Group State of UX 2026 report adds a critical caveat:</p>
+
+      <div class="signal-quote">
+        "AI-powered design tools have made it possible for anyone to make a decent-looking UI — while this shift compresses the entry-level job market and raises the bar for what differentiates professional design work."
+        <br>— Nielsen Norman Group, State of UX 2026
+      </div>
+
+      <p><strong>What's real vs. hype:</strong></p>
+      <ul style="margin: 8px 0 8px 20px; font-size: 14px; color: #374151;">
+        <li><strong>Real:</strong> No-code tools accelerate prototyping 3-5x. AI copilots (Figma Make, Stitch, Claude Design) generate viable first drafts from prompts. 47% of UX practitioners report "some value" from AI in their workflow.</li>
+        <li><strong>Hype:</strong> The idea that "anyone can design now" ignores production-quality needs — accessibility compliance, brand consistency at scale, multi-platform edge cases, stakeholder communication, and the strategic skill of choosing <em>which</em> design direction to pursue.</li>
+        <li><strong>Edge:</strong> The practitioner consensus from multiple independent reviews: "Explore in Stitch, refine in Figma." AI handles speed; human judgment handles <em>which speed wins</em>.</li>
+      </ul>
+
+      <p><strong>For SuperOps:</strong> This compression of entry-level work means senior design skills (strategy, systems thinking, taste, accessibility, cross-product consistency) become the premium differentiator. Invest in these, not in tool-specific crafting skills that AI commoditizes.</p>
+
+      <p style="font-size: 13px; color: var(--muted); margin-top: 8px;">⚠ The 47% figure comes from a UXPA survey cited by NN Group; the "explore in Stitch, refine in Figma" workflow is from practitioner reviews documented in the TechTimes article. Neither claim is independently replicated — treat as indicators, not confirmed benchmarks.</p>
+    </div>
+    <div class="signal-sources">
+      Sources: <a href="http://www.analyticsinsight.net/digital-marketing/10-uiux-trends-defining-the-future-of-digital-design-in-2026">[10]</a> <a href="http://www.nngroup.com/articles/state-of-ux-2026/">[8]</a> <a href="http://www.techtimes.com/articles/316903/20260520/google-stitch-launches-real-time-ai-agent-multiplayer-editing-figma-charges-15-seat.htm">[3]</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Sources -->
+<div class="sources-block">
+  <h2>Sources</h2>
+  <ol>
+    <li><a href="http://venturebeat.com/technology/anthropic-just-launched-claude-design-an-ai-tool-that-turns-prompts-into-prototypes-and-challenges-figma">VentureBeat — Anthropic launches Claude Design, April 17, 2026</a></li>
+    <li><a href="http://www.forbes.com/sites/ronschmelzer/2026/04/23/ai-is-coming-for-the-design-stack/">Forbes — AI Is Coming For The Design Stack, April 23, 2026</a></li>
+    <li><a href="http://www.techtimes.com/articles/316903/20260520/google-stitch-launches-real-time-ai-agent-multiplayer-editing-figma-charges-15-seat.htm">TechTimes — Google Stitch launches real-time streaming AI agent, May 20, 2026</a></li>
+    <li><a href="http://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/">TechCrunch — Figma adds AI assistant to its collaborative canvas, May 20, 2026</a></li>
+    <li><a href="http://www.morningstar.com/news/accesswire/1158416msn/oshyn-launches-ai-first-ux-practice-to-bridge-the-enterprise-gap-between-human-design-and-ai-agent-discovery">Morningstar/AccessWire — Oshyn launches AI-First UX Practice (AXO), April 21, 2026</a></li>
+    <li><a href="https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-design-md/">Google Blog — Stitch DESIGN.md open-sourced under Apache 2.0, April 2026</a></li>
+    <li><a href="http://www.forbes.com/sites/anjalichaudhry/2026/05/19/is-your-organization-ai-fluent-4-competencies-every-leader-needs-now/">Forbes — Is Your Organization AI-Fluent? 4 Competencies, May 19, 2026</a></li>
+    <li><a href="http://www.nngroup.com/articles/state-of-ux-2026/">Nielsen Norman Group — State of UX 2026 (cited in TechTimes article)</a></li>
+    <li><a href="http://www.ciol.com/generative-ai/best-ai-tools-in-2026-25-picks-that-actually-deliver-11750403">CIOL — Best AI Tools in 2026: 25 Picks That Actually Deliver, April 21, 2026</a></li>
+    <li><a href="http://www.analyticsinsight.net/digital-marketing/10-uiux-trends-defining-the-future-of-digital-design-in-2026">Analytics Insight — 10 UI/UX Trends Defining Digital Design in 2026, June 14, 2026</a></li>
+    <li><a href="http://pctechmag.com/2026/06/how-modern-ai-image-tools-are-reshaping-creative-workflows/">PCTechMag — How Modern AI Image Tools Are Reshaping Creative Workflows, June 16, 2026</a></li>
+  </ol>
+</div>
+
+<div class="method-note">
+  <strong>Method:</strong> SearXNG discovery (localhost:8080, 5 queries) → jina.ai extraction (r.jina.ai, 10 articles) → cross-verification (min 2 independent sources per claim). Claims with fewer than two live sources are flagged as uncertain in the report body. All sources dated 2026 unless otherwise noted.
+</div>
+
+</div>
+</body>
+</html>
