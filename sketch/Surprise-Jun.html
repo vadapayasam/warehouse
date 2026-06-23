@@ -237,7 +237,7 @@
     <h1>Synthesis: Jun 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">8 entries</span>
+      <span id="entry-count">9 entries</span>
       <span id="date-range">Jun 22 - Jun 23</span>
       <span class="themes-label">0 themes</span>
     </div>
@@ -528,6 +528,85 @@
       <li>Figma OAuth 403 → blocks all design work</li>
       <li>Operational gaps (agent-publish, portfolio, operations) → 30 min to fill</li>
       <li>Deprecated artifacts → archive or document</li>
+    </ul>
+  </div>
+
+  <!-- Jun 23 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">Jun 23</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>**Figma MCP OAuth 403** — 560+ occurrences (May 30–Jun 1). Registration endpoint rejects client despite valid tokens. Blocks all design work via Hermes.</li>
+      <li>**Ollama billing 403** — Subscription expired. Context compressor dead, causing cascading failures across all sessions.</li>
+      <li>**API Streaming Timeouts** — 49 ReadTimeout + 12 streaming failures on deepseek-v4-pro via ollama. Sessions abort mid-turn.</li>
+      <li>**MCP xcodebuild failures** — 107 occurrences. Server connection repeatedly closes. Binary at `~/xcodebuild-mcp/build/cli.js` likely missing or broken.</li>
+      <li>**OpenRouter payment errors** — 37 occurrences. Credits exhausted, auto-retry burns tokens.</li>
+      <li>**Skill_manage errors** — 75 failures. Likely malformed YAML in generated SKILL.md content.</li>
+      <li>**Deepseek Broken pipe** — 2 occurrences. Retried successfully, but pattern indicates instability.</li>
+      <li>**Xiaomi/mimo-v2-pro unregistered** — 3 occurrences. Model not available on platform.</li>
+      <li>**Telegram timeouts** — 11+ occurrences. DNS/network resolution failures.</li>
+      <li>**Context overflow** — Compressor dead due to Ollama 403 → tokens pile up until overflow.</li>
+      <li>**Credential file handling**: `patch` rejects `.zshrc`, `.bashrc`, `.env`. Use `terminal` + `grep` for shell/rc files.</li>
+      <li>**OAuth sniffing**: Check token files for `YOUR_` placeholders before assuming OAuth works.</li>
+      <li>**Giant metadata dumps**: Abort extraction if >100KB. Use screenshots + vision instead.</li>
+      <li>**SSE streaming**: Never call `.read()` on chunked HTTP responses. Iterate lines.</li>
+      <li>**Tool loop detection**: Hard stop at 3 failures. Pivot immediately.</li>
+      <li>**Visual timeout**: Two strikes on geometry/color edits = flag manual check.</li>
+      <li>**Context summaries**: Treat as untrusted if "Active Task" mismatches user message.</li>
+      <li>**Memory compression**: Telegraphic one-liners only. Compress at 85% usage.</li>
+      <li>**Recurring generation**: Fingerprint gate before expensive work. Same hash = silent exit.</li>
+      <li>**agent-publish** — 18 tests passing, 39-card KANBAN backlog. Zero wiki reference.</li>
+      <li>**Portfolio tracker** — ₹8.85L holdings, weekly research cron. No wiki entry.</li>
+      <li>**Danny X-Ray** — iOS apps monetization audit published. No wiki reference.</li>
+      <li>**Cron schedule changes** — Rescheduled to 5hr buffer. No operational log.</li>
+      <li>**Phantom pages** — Index links to 5+ pages that don't exist (`AI-Service-Desk`, `CURRENT_WORK`, `ios-apps`, `MoveOKs`, `Super-Kit-Design-System`).</li>
+      <li>**Bridge pipeline stalled** — Wiki last synced May 19. 15+ days unsynced.</li>
+      <li>**Ghost skills** — 17 entries with only DESCRIPTION.md, zero usage (apple, data-science, diagramming, email, gaming, gifs, github, inference-sh, media, note-taking, smart-home, social-media).</li>
+      <li>**Stale SKILL files** — `enterprise-software-research` references non-existent `browser_vision` tool. `design` skill is zombie (README points to non-existent subdirectory).</li>
+      <li>**Usage.json orphans** — `competitive-design-research` and `llm-prompt-adaptation` appear in index but have no directories.</li>
+      <li>**Stale backup folder** — `.stale-backup-20260510` with 4 dead-weight files.</li>
+      <li>**Daily log graveyard** — 5 daily summaries from April + 7 personal journal files from April. Zero references.</li>
+      <li>**Transcript noise** — 9 audio-to-text dumps from April. No downstream action.</li>
+      <li>**Processed folder bloat** — 6 processed raw dumps from April 27–30. Raw sources already handled.</li>
+      <li>**Duplicate/versioned dumps** — `financial-dump.md` vs v2, `prabhakaran-profile` dated version, duplicate `professional-overnight-workflow.md`.</li>
+      <li>**Action**: Investigate MCP SDK version or Figma API change. The `figma-mcp-reauth` skill validates tokens but registration still fails.</li>
+      <li>**Risk**: All design work via Hermes is dead until fixed.</li>
+      <li>**Owner**: Prabha (requires API change investigation or SDK upgrade).</li>
+      <li>**Action**: Renew Ollama subscription at `ollama.com/settings/billing`.</li>
+      <li>**Risk**: Context compressor fails → all sessions accumulate uncompressed context until overflow.</li>
+      <li>**Owner**: Prabha (URGENT — breaks every session).</li>
+      <li>**Action**: Run one-time diagnostic: list all files in `raw/` newer than May 10, trace through pipeline, identify where chain breaks.</li>
+      <li>**Risk**: Pipeline reports "nothing actionable" when capture step is dead.</li>
+      <li>**Owner**: Prabha (fix capture or archive pipeline).</li>
+      <li>**Action**: Create `wiki/agent-publish.md`, update `wiki/references.md` with 4 live URLs, create `wiki/operations.md`, rewrite `wiki/links.md`.</li>
+      <li>**Risk**: Index shows phantom pages that don't exist → false sense of organization.</li>
+      <li>**Owner**: Prabha (30 min update).</li>
+      <li>**Action**: Archive dormant skills (`gaming`, `social-media`, `smart-home`, `email`, `domain`, `note-taking`), fix `enterprise-software-research` `browser_vision` reference, delete `design` zombie directory.</li>
+      <li>**Risk**: Skill index pollution, orphaned references.</li>
+      <li>**Owner**: Prabha (clean up).</li>
+      <li>**Action**: Remove `.stale-backup-20260510/`, move April transcripts to archive, clean up processed folder bloat.</li>
+      <li>**Risk**: Data loss if still referenced.</li>
+      <li>**Owner**: Prabha (approve before execution).</li>
+      <li>**15 overnight files reviewed** — No new synthesis note created for today (2026-06-23).</li>
+      <li>**Pattern scout gaps** — Same 5 wiki gaps identified June 2, still unaddressed.</li>
+      <li>**Figma OAuth 403** — Persistent across multiple days, not resolved.</li>
+      <li>**Ollama billing 403** — Root cause of cascading failures, not resolved.</li>
+      <li>`overnight/20260530-archive-consolidate.md`</li>
+      <li>`overnight/20260530-pattern-extract.md`</li>
+      <li>`overnight/20260531-pattern-extract.md`</li>
+      <li>`overnight/20260531-skill-gap-audit.md`</li>
+      <li>`overnight/log-analysis-2026-06-01.md`</li>
+      <li>`overnight/log-analysis-2026-06-09.md`</li>
+      <li>`overnight/log-analysis-2026-06-11.md`</li>
+      <li>`overnight/log-analysis-2026-06-15.md`</li>
+      <li>`overnight/log-analysis-2026-06-16.md`</li>
+      <li>`overnight/log-analysis-2026-06-17.md`</li>
+      <li>`overnight/log-analysis-2026-06-20.md`</li>
+      <li>`overnight/pattern-scout-2026-06-01.md`</li>
+      <li>`overnight/pattern-scout-2026-06-02.md`</li>
+      <li>`overnight/pattern-scout-2026-06-03.md`</li>
     </ul>
   </div>
 
