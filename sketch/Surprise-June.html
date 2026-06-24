@@ -243,8 +243,8 @@
     <h1>Surprise: June 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">21 entries</span>
-      <span id="date-range">Jun 2 - Jun 23</span>
+      <span id="entry-count">22 entries</span>
+      <span id="date-range">Jun 2 - June 24</span>
       <span class="themes-label">5 themes</span>
     </div>
   </div>
@@ -551,6 +551,28 @@
       <li><strong>iOS monetization shift</strong> Hard paywalls, higher prices, localization, and Day 0 optimization are non-negotiable for indie apps.</li>
       <li><strong>ASO evolution</strong> Screenshot captions, keyword field optimization, and Apple Search Ads form the new baseline for app discovery.</li>
     </ul>
+  </div>
+
+  <!-- June 24 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">June 24</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>Figma MCP OAuth 403 blocks all design work — 560+ occurrences, fix registration endpoint or switch to local desktop server</li>
+      <li>API streaming timeouts (49 ReadTimeout + 12 failures) from deepseek-v4-pro via ollama, configure kimi-k2.5 fallback</li>
+      <li>228 terminal execution errors from LLM-generated broken Python, add code-review guard before execution</li>
+      <li>75 skill_manage errors due to YAML frontmatter issues, pre-validate skill creation schema</li>
+      <li>Context summaries untrusted — "Active Task" claims mismatch user message, never trust context compaction</li>
+      <li>Memory compression successful — prose paragraphs (95%) → one-line bullets (73%)</li>
+      <li>Recurring generation needs fingerprint gates — hash search results, silent exit if unchanged</li>
+      <li>Rapid-MLX connection flapping (8 errors in 12h), add circuit breaker for MLX endpoint</li>
+      <li>Vault pipeline dead since May 15 — LinearContext and FulfillSmart PRDs fully spec'd but zero decisions</li>
+      <li>Phantom wiki pages (5+ non-existent pages linked in Index.md), create stubs or delete links</li>
+      <li>links.md is May 10 Linear dump, delete or archive</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth 403 immediately (blocks all design work). Configure API fallback chain (kimi-k2.5 credentials) or remove dead references. Create wiki/agent-publish.md with project overview and KANBAN snapshot. Update wiki/references.md with 4+ new live URLs. Create wiki/operations.md for cron schedules. Archive or document deprecated-projects/. Delete or archive links.md.</div>
   </div>
 
   <div class="footer">
