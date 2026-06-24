@@ -311,6 +311,7 @@
   .model-tag.b3 { background: rgba(96, 165, 250, .15); color: var(--blue); }
   .model-tag.q4 { background: rgba(124, 58, 237, .15); color: var(--accent2); }
   .model-tag.l8 { background: rgba(251, 191, 36, .15); color: var(--yellow); }
+  .model-tag.q8 { background: rgba(52, 211, 153, .15); color: var(--green); }
 
   /* VERDICT */
   .verdict-grid {
@@ -419,14 +420,14 @@
 <header>
   <div class="container">
     <div class="badge-row">
-      <span class="badge run">RUN #1</span>
-      <span class="badge">3 Models</span>
+      <span class="badge run">RUN #2</span>
+      <span class="badge">4 Models</span>
       <span class="badge">11 Tests</span>
       <span class="badge">Mac Mini M2 16GB</span>
     </div>
     <h1>MLX <span class="highlight">Benchmark</span></h1>
     <p class="subtitle">Weekly shootout between our local MLX models. Basic utility + agentic capability, measured at the same temp and token budget.</p>
-    <p class="last-updated">Last updated: 2026-06-16 · next run: 2026-06-23</p>
+    <p class="last-updated">Last updated: 2026-06-24 · next run: 2026-06-30</p>
   </div>
 </header>
 
@@ -442,6 +443,7 @@
             <th>Test</th>
             <th>3B Coder</th>
             <th>Qwen3.5-4B</th>
+            <th>Qwen3-8B <span style="font-weight:400;color:var(--green);font-size:10px">NEW</span></th>
             <th>LFM2.5-8B</th>
           </tr>
         </thead>
@@ -450,36 +452,42 @@
             <td>Python Codegen <span class="champ">WIN</span></td>
             <td><span class="pass">✅</span> 9.2s · 1,309c · 45.9 t/s<br><span class="meta">Clean, complete, correct</span></td>
             <td><span class="pass">✅</span> 21.6s · 401 tok · 18.6 t/s<br><span class="meta">Clean, type hints, no thinking waste</span></td>
+            <td><span class="pass">✅</span> 24.2s · 1,974c · 19.3 t/s<br><span class="meta">Clean, thorough, Pathlib + types</span></td>
             <td><span class="fail">❌</span> 19.0s · 0% usable<br><span class="meta">4096: ⚠️ 94% waste, basname typo</span></td>
           </tr>
           <tr>
             <td>HTML Pricing <span class="champ">WIN</span></td>
             <td><span class="pass">✅</span> 17.5s · 2,537c · 45.4 t/s<br><span class="meta">Complete, working component</span></td>
             <td><span class="warn">⚠️</span> 51.2s · truncated<br><span class="meta">Beautiful CSS, missing &lt;/body&gt; &lt;/html&gt;</span></td>
+            <td><span class="warn">⚠️</span> 35.5s · 2,287c · 19.4 t/s<br><span class="meta">Clean HTML, truncated at 1024 budget</span></td>
             <td><span class="fail">❌</span> 18.2s · 1% usable<br><span class="meta">4096: ⚠️ 67% waste, CSS typos</span></td>
           </tr>
           <tr>
             <td>Text Summary <span class="champ">WIN</span></td>
             <td><span class="pass">✅</span> 4.2s · 286c · 46.4 t/s<br><span class="meta">5 clean bullets, zero overhead</span></td>
             <td><span class="pass">✅✅</span> 9.7s · 239 tok · 24.5 t/s<br><span class="meta">Perfect — file paths, line refs, clean structure</span></td>
+            <td><span class="pass">✅</span> 21.1s · 1,278c · 17.4 t/s<br><span class="meta">Clean bullets, file paths, all 4 errors extracted</span></td>
             <td><span class="warn">⚠️</span> 13.4s · 26% usable<br><span class="meta">4096: 69% waste, clean bullets lost 1 item</span></td>
           </tr>
           <tr>
             <td>RAM Peak</td>
             <td><span class="pass">1.9 GB</span></td>
             <td><span class="warn">3.4 GB</span></td>
+            <td><span class="warn">4.7 GB</span></td>
             <td><span class="pass">1.5 GB</span></td>
           </tr>
           <tr>
             <td>Speed</td>
             <td><span class="pass">46 tok/s</span></td>
             <td><span class="warn">20 tok/s</span></td>
+            <td><span class="warn">19 tok/s</span></td>
             <td><span class="pass">40 tok/s</span></td>
           </tr>
           <tr>
             <td>Thinking overhead</td>
             <td><span class="pass">None</span></td>
             <td><span class="pass">Configurable OFF</span></td>
+            <td><span class="pass">None <span style="font-size:10px;color:var(--text2)">(configurable OFF)</span></span></td>
             <td><span class="fail">Hard-baked — cannot disable</span></td>
           </tr>
         </tbody>
@@ -569,6 +577,13 @@
     </div>
 
     <div class="detail-row">
+      <div class="test-name">Qwen3-8B <small>24.2s · 1,974 chars · 19.3 tok/s · 4.7 GB</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q8">✅</span> Clean code with Pathlib, type hints, docstring. Handles hidden files and no-extension files correctly. Thorough but slower than 3B Coder. Pure attention — zero thinking waste.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
       <div class="test-name">LFM2.5-8B <small>19.0s / 4096: 23.7s · 1.5 GB</small></div>
       <div class="results">
         <div class="result-line"><span class="model-tag l8">❌ 1024</span> 0% usable — every token burned on &lt;think&gt; blocks.</div>
@@ -590,6 +605,13 @@
       <div class="test-name">Qwen3.5-4B <small>51.2s · truncated at 1024 · 20.0 tok/s · 3.4 GB</small></div>
       <div class="results">
         <div class="result-line"><span class="model-tag q4">⚠️</span> Beautiful CSS: custom properties, proper flexbox, hover effects, Popular badge with blue border. But truncated — no &lt;/body&gt;&lt;/html&gt;. Needs 2048+ tokens.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3-8B <small>35.5s · 2,287 chars · 19.4 tok/s · 4.7 GB</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q8">⚠️</span> Clean HTML with proper structure, CSS custom properties, flexbox, Popular badge with blue border. Truncated at 1024 budget — same issue as Qwen3.5-4B. Faster completion though: 35.5s vs 51.2s.</div>
       </div>
     </div>
 
@@ -619,6 +641,13 @@
     </div>
 
     <div class="detail-row">
+      <div class="test-name">Qwen3-8B <small>21.1s · 1,278 chars · 17.4 tok/s · 4.7 GB</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q8">✅</span> Clean bullets with file paths and line numbers. Correctly extracted all 4 errors and 7 warnings. Good structure but slower than Qwen3.5-4B. Pure attention — zero thinking waste.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
       <div class="test-name">LFM2.5-8B <small>13.4s / 4096: 8.3s · 1.5 GB</small></div>
       <div class="results">
         <div class="result-line"><span class="model-tag l8">⚠️ 1024</span> 74% think waste. 13 usable bullets but lost efficiency.</div>
@@ -637,7 +666,7 @@
       <div class="card">
         <h4>Thinking Waste</h4>
         <div class="stat green">0%</div>
-        <div class="label">3B Coder is the only model with zero thinking overhead. Every token is output.</div>
+        <div class="label">3B Coder <strong>and</strong> Qwen3-8B are pure attention — zero thinking overhead. Qwen3.5-4B configurable OFF. LFM8B: 67-100% hard-baked waste.</div>
       </div>
       <div class="card">
         <h4>Qwen3.5 Thinking OFF</h4>
@@ -653,6 +682,11 @@
         <h4>RAM Efficiency</h4>
         <div class="stat blue">1.5 GB</div>
         <div class="label">LFM8B wins on RAM (1.5 GB for 8B MoE params). But useless if 90%+ of output is thinking.</div>
+      </div>
+      <div class="card">
+        <h4>Heavy Synthesis</h4>
+        <div class="stat green">8B / 4.7 GB</div>
+        <div class="label">Qwen3-8B: same speed as Qwen3.5-4B (~19 tok/s) but 2.4x more params for heavier lifting. Pure attention, no thinking waste. Dedicated synthesis crons.</div>
       </div>
       <div class="card">
         <h4>Multi-step</h4>
@@ -685,6 +719,11 @@
         <span class="role">Agentic Complement</span>
         <p>Use when you need <strong>agentic capability</strong>: multi-step tool plans, JSON output, structured formats. Thinking OFF. 2x slower, heavier RAM. Stronger output quality on prose/summary.</p>
       </div>
+      <div class="verdict-card" style="border-color: var(--green); background: linear-gradient(135deg, rgba(52, 211, 153, .06), transparent);">
+        <h4>Qwen3-8B-4bit</h4>
+        <span class="role" style="color: var(--green);">Synthesis Workhorse</span>
+        <p>Use for <strong>heavy synthesis</strong>: long-form summaries, batch research processing, any task needing 8B params with zero thinking waste. Same speed as Qwen3.5-4B but 2.4x more params. Heaviest RAM at 4.7 GB — keep for dedicated synthesis crons.</p>
+      </div>
       <div class="verdict-card bench">
         <h4>LFM2.5-8B-A1B</h4>
         <span class="role">Specialist · Benchwarmer</span>
@@ -694,7 +733,7 @@
 
     <div class="winner-box">
       <h3>This Is the Way</h3>
-      <p><strong>3B Coder stays king.</strong> Qwen3.5-4B enters as agentic complement. LFM8B stays as specialist depth. The 3B was never in danger of being replaced — the others fill gaps it doesn't cover.</p>
+      <p><strong>3B Coder stays king.</strong> Qwen3.5-4B stays as agentic complement. <strong>Qwen3-8B enters as synthesis workhorse</strong> — same speed as Qwen3.5-4B but 2.4x more params for heavier lifting. LFM8B stays as specialist depth. The hierarchy grows, no one replaced.</p>
     </div>
   </div>
 </section>
@@ -706,6 +745,11 @@
     <p>Every weekly benchmark run. New data gets added at the top.</p>
 
     <ul class="changelog">
+      <li>
+        <span class="date-tag">2026-06-24</span>
+        <strong>Run #2</strong> · Qwen3-8B-4bit added. Replaces Qwen3.5-4B as primary synthesis model. Benchmarked 3 tests (Python Codegen, HTML Pricing, Text Summary) at same budget (1024 tok, temp 0.0). Pure attention arch — zero thinking waste. ~19 tok/s, 4.7 GB RAM.
+        <br><span class="meta">Models: +Qwen3-8B-4bit (mlx-community, from RapidMLX). Running with --no-thinking on port 8765. MTP unavailable on 4-bit quant.</span>
+      </li>
       <li>
         <span class="date-tag">2026-06-16</span>
         <strong>Run #1</strong> · Initial benchmark. 3 models x 8 tests (3 basic + 5 agentic). Qwen3.5 tested with thinking OFF via
