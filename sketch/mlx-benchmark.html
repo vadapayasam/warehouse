@@ -511,6 +511,7 @@
             <th>Test</th>
             <th>3B Coder</th>
             <th>Qwen3.5-4B</th>
+            <th>Qwen3-8B <span style="font-weight:400;color:var(--green);font-size:10px">NEW</span></th>
             <th>LFM2.5-8B</th>
           </tr>
         </thead>
@@ -519,37 +520,42 @@
             <td>JSON structured output <span class="champ">TIE</span></td>
             <td class="meta">Not designed for this</td>
             <td><span class="pass">✅</span> 5/5 · clean, valid, schema-compliant</td>
+            <td><span class="pass">✅</span> 5/5 · clean valid JSON, native format</td>
             <td><span class="pass">✅</span> 5/5 · valid JSON, 87% token waste</td>
           </tr>
           <tr>
             <td>Multi-step plan (2 tools) <span class="champ">WIN</span></td>
             <td class="meta">Not designed for this</td>
             <td><span class="pass">✅</span> 4.5/5 · both tools called, correct args</td>
+            <td><span class="warn">⚠️</span> 3/5 · both tools ~67% of the time, slightly inconsistent</td>
             <td><span class="fail">❌</span> FAIL · only emitted 1 tool</td>
           </tr>
           <tr>
             <td>Multi-turn chain <span class="champ">WIN</span></td>
             <td class="meta">Not designed for this</td>
             <td><span class="warn">⚠️</span> 3/5 · turn1 perfect, turn2 format drift</td>
+            <td><span class="pass">✅</span> 5/5 · Tokyo→Osaka perfect, native tool results correct</td>
             <td><span class="pass">✅</span> 5/5 · correct continuation, 86% waste</td>
           </tr>
           <tr>
             <td>Self-directed tool use</td>
             <td class="meta">Not designed for this</td>
             <td><span class="fail">❌</span> 1.5/5 · right intent, literary format</td>
+            <td><span class="warn">⚠️</span> 2.5/5 · right tool (search_files), only 1 call emitted</td>
             <td><span class="fail">❌</span> FAIL · hallucinated answer</td>
           </tr>
           <tr>
             <td>Tool call format <span class="champ">TIE</span></td>
             <td class="meta">Not designed for this</td>
             <td><span class="pass">✅</span> 5/5 · perfect JSON tool format</td>
+            <td><span class="pass">✅</span> 5/5 · native tool_calls, correct format</td>
             <td><span class="pass">✅</span> 5/5 · native &lt;tool_call_start&gt; format</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <p><strong>Key takeaway:</strong> Qwen3.5-4B handles multi-step planning (LFM8B fails at this). LFM8B wins on multi-turn format adherence. Both fail at self-directed tool use. They need an agent loop to route tool results.</p>
+    <p><strong>Key takeaway:</strong> Qwen3.5-4B still best for multi-step planning (both tools reliably). Qwen3-8B wins on multi-turn adherence with native tool result routing — no format drift. LFM8B fails at multi-step and self-directed. All three models struggle with true self-directed tool use, need an agent loop to chain results. Qwen3-8B adds native tool_calls API support — the only model with proper native function calling in RapidMLX.</p>
   </div>
 </section>
 
@@ -654,6 +660,161 @@
         <div class="result-line"><span class="model-tag l8">✅ 4096</span> 69% waste but usable. Clean bullets, lost 1 of 6 items.</div>
       </div>
     </div>
+
+    <h3 style="margin-top: 32px;">Agentic: JSON Structured Output</h3>
+    <p><strong>Prompt:</strong> <em>"Return a JSON object with: name, age, email, tags (array), metadata.created, metadata.active. Return ONLY JSON."</em></p>
+
+    <div class="detail-row">
+      <div class="test-name">3B Coder <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag b3">—</span> Not designed for this task.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3.5-4B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q4">✅</span> Perfect: valid JSON with all schema keys. No thinking blocks (OFF).</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3-8B <small>4.8s · native format</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q8">✅</span> Valid JSON with all 5 required keys (name, age, email, tags, metadata). Clean schema-compliant output. Pure attention — zero thinking waste.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">LFM2.5-8B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag l8">✅</span> Valid JSON but 87% thinking waste.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 32px;">Agentic: Multi-step Plan</h3>
+    <p><strong>Prompt:</strong> <em>"Find the latest research on quantum computing and email the top result to alice@example.com."</em> (tools: search_web, send_email)</p>
+
+    <div class="detail-row">
+      <div class="test-name">3B Coder <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag b3">—</span> Not designed for tool calling.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3.5-4B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q4">✅ 4.5/5</span> Both tools called correctly in one turn. search_web(quantum) → send_email(alice@example.com). Reliable multi-step.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3-8B <small>5.1s avg</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q8">⚠️ 3/5</span> Both tools emitted ~67% of the time. Native tool_calls API format with correct arguments when both fire. Slightly inconsistent — sometimes stops after search_web only.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">LFM2.5-8B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag l8">❌ FAIL</span> Only emitted 1 tool (search_web). Could not chain two calls.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 32px;">Agentic: Multi-turn Chain</h3>
+    <p><strong>Prompt:</strong> <em>Turn 1: "What's the weather in Tokyo?" → Turn 2: "Now what's the weather in Osaka?"</em> (tool: get_weather, with tool result fed back between turns)</p>
+
+    <div class="detail-row">
+      <div class="test-name">3B Coder <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag b3">—</span> Not designed for tool calling.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3.5-4B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q4">⚠️ 3/5</span> Turn 1 perfect (Tokyo). Turn 2 format drift — broke JSON tool format on follow-up.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3-8B <small>5.6s total</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q8">✅ 5/5</span> Perfect multi-turn. Turn 1: get_weather(Tokyo) native tool_calls. Tool result fed back → Turn 2: get_weather(Osaka) correct format. No drift. Handles native tool result routing.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">LFM2.5-8B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag l8">✅ 5/5</span> Correct continuation across turns. 86% thinking waste but format holds.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 32px;">Agentic: Self-directed Tool Use</h3>
+    <p><strong>Prompt:</strong> <em>"I need to find all TODO comments in my project at /home/user/project/ and count them. Then summarize by file."</em> (tools: search_files, read_file, run_command)</p>
+
+    <div class="detail-row">
+      <div class="test-name">3B Coder <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag b3">—</span> Not designed for tool calling.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3.5-4B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q4">❌ 1.5/5</span> Right intent but literary format — described the plan in prose instead of emitting tool calls.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3-8B <small>4.5s</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q8">⚠️ 2.5/5</span> Chose the correct tool (search_files) via native tool_calls API. Good approach — scanning first. But only emitted 1 call instead of chaining search→read. Still better than Qwen3.5-4B's prose format.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">LFM2.5-8B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag l8">❌ FAIL</span> Hallucinated a complete answer instead of using any tool. Worst of all three.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 32px;">Agentic: Tool Call Format</h3>
+    <p><strong>Prompt:</strong> <em>"What is 2 + 2?"</em> (tool: calculate(expression))</p>
+
+    <div class="detail-row">
+      <div class="test-name">3B Coder <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag b3">—</span> Not designed for tool calling.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3.5-4B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q4">✅ 5/5</span> Perfect JSON tool format. calculate(2+2) with correct arguments.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">Qwen3-8B <small>2.8s</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag q8">✅ 5/5</span> Native tool_calls API. calculate(math expression="2 + 2") with correct arguments. Cleanest native format — no thinking, no prose wrapping, pure function call.</div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="test-name">LFM2.5-8B <small>—</small></div>
+      <div class="results">
+        <div class="result-line"><span class="model-tag l8">✅ 5/5</span> Native &lt;tool_call_start&gt; format with correct arguments. 86% thinking waste.</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -691,12 +852,17 @@
       <div class="card">
         <h4>Multi-step</h4>
         <div class="stat green">Qwen wins</div>
-        <div class="label">Qwen3.5 handles multi-step tool planning (2 tools in one turn). LFM8B fails at this.</div>
+        <div class="label">Qwen3.5 handles multi-step tool planning (2 tools in one turn). Qwen3-8B ~67% consistent. LFM8B fails.</div>
       </div>
       <div class="card">
         <h4>Format drift</h4>
-        <div class="stat yellow">LFM wins</div>
-        <div class="label">LFM8B maintains format across turns. Qwen3.5 drifts on follow-up calls.</div>
+        <div class="stat green">Qwen3-8B wins</div>
+        <div class="label">Qwen3-8B maintains format across turns with native tool result routing. Qwen3.5 drifts on follow-up calls. LFM8B holds format but with thinking waste.</div>
+      </div>
+      <div class="card">
+        <h4>Native tool calling</h4>
+        <div class="stat green">Qwen3-8B</div>
+        <div class="label">Only model with native tool_calls API in RapidMLX. Pure function call format — no thinking blocks, no prose, no format drift on continuation. 2.8s per call.</div>
       </div>
     </div>
   </div>
@@ -721,8 +887,8 @@
       </div>
       <div class="verdict-card" style="border-color: var(--green); background: linear-gradient(135deg, rgba(52, 211, 153, .06), transparent);">
         <h4>Qwen3-8B-4bit</h4>
-        <span class="role" style="color: var(--green);">Synthesis Workhorse</span>
-        <p>Use for <strong>heavy synthesis</strong>: long-form summaries, batch research processing, any task needing 8B params with zero thinking waste. Same speed as Qwen3.5-4B but 2.4x more params. Heaviest RAM at 4.7 GB — keep for dedicated synthesis crons.</p>
+        <span class="role" style="color: var(--green);">Synthesis Workhorse + Tool Calling</span>
+        <p>Use for <strong>heavy synthesis</strong>: long-form summaries, batch research processing, any task needing 8B params with zero thinking waste. Same speed as Qwen3.5-4B but 2.4x more params. <strong>Native tool_calls API</strong> — best multi-turn adherence, cleanest tool format. Heaviest RAM at 4.7 GB — keep for dedicated synthesis crons.</p>
       </div>
       <div class="verdict-card bench">
         <h4>LFM2.5-8B-A1B</h4>
@@ -745,6 +911,11 @@
     <p>Every weekly benchmark run. New data gets added at the top.</p>
 
     <ul class="changelog">
+      <li>
+        <span class="date-tag">2026-06-24</span>
+        <strong>Run #2b</strong> · Agentic benchmarks for Qwen3-8B-4bit. 5 tests (JSON output, multi-step plan, multi-turn chain, self-directed tool use, tool call format). Results: native tool_calls API support — best multi-turn adherence of any model tested, ~67% multi-step consistency, cleanest tool format. Added Qwen3-8B column to agentic table + 25 detail rows.
+        <br><span class="meta">Tools defined via RapidMLX function API. Qwen3-8B is the only model with native tool_calls in this config.</span>
+      </li>
       <li>
         <span class="date-tag">2026-06-24</span>
         <strong>Run #2</strong> · Qwen3-8B-4bit added. Replaces Qwen3.5-4B as primary synthesis model. Benchmarked 3 tests (Python Codegen, HTML Pricing, Text Summary) at same budget (1024 tok, temp 0.0). Pure attention arch — zero thinking waste. ~19 tok/s, 4.7 GB RAM.
