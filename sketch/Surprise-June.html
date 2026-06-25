@@ -243,8 +243,8 @@
     <h1>Surprise: June 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">22 entries</span>
-      <span id="date-range">Jun 2 - June 24</span>
+      <span id="entry-count">23 entries</span>
+      <span id="date-range">Jun 2 - June 25</span>
       <span class="themes-label">5 themes</span>
     </div>
   </div>
@@ -518,6 +518,44 @@
       <li>links.md is May 10 Linear dump, delete or archive</li>
     </ul>
     <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth 403 immediately (blocks all design work). Configure API fallback chain (kimi-k2.5 credentials) or remove dead references. Create wiki/agent-publish.md with project overview and KANBAN snapshot. Update wiki/references.md with 4+ new live URLs. Create wiki/operations.md for cron schedules. Archive or document deprecated-projects/. Delete or archive links.md.</div>
+  </div>
+
+  <!-- June 25 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">June 25</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>Figma MCP OAuth 403 — 560+ occurrences (May 30–June 1), blocks all design work. Token check passes (88 days remaining) but OAuth registration endpoint rejects client. Root cause: MCP SDK OAuth flow bug or Figma API change. Frequency: Critical — persistent across all sessions.</li>
+      <li>Ollama billing 403 — 101 occurrences, cascading 80% of errors. Subscription expired, context compressor dead, tokens pile until overflow. Frequency: Critical — 403 since May 30, no resolution.</li>
+      <li>API Streaming Timeouts — 49 ReadTimeout + 12 streaming failures. `deepseek-v4-pro` via ollama times out, fallback `kimi-k2.5` not configured. Frequency: High — bursts every 2–3 hours.</li>
+      <li>skill_manage failures — 75/24h, abnormal rate. Likely malformed YAML frontmatter in generated SKILL.md. Frequency: Medium — systematic issue, needs investigation.</li>
+      <li>Ghost Skills — 17 entries with only DESCRIPTION.md, zero usage (design, gaming, social-media, email, domain, note-taking). Inflate index, waste context. Frequency: Medium — April 17 artifacts, never touched.</li>
+      <li>Stale Files — `.stale-backup-20260510/` (4 files, 30+ days old), `notes/transcripts/` (9 April audio dumps, no backlinks), `processed/2026-04-*/` (6 April intermediates), duplicate/ versioned dumps. Frequency: High — ~30 files total, pure dead weight.</li>
+      <li>Wiki Staleness — 14–19 days unsynced. `wiki/index.md`, `wiki/tasks.md`, `wiki/misc.md`, `wiki/references.md` all frozen since May 19. Bridge pipeline dead since May 15. Frequency: Critical — 16 raw files since May 24, no wiki updates.</li>
+      <li>Missing Pages — 5+ phantom wiki links in Index.md (`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK`). False sense of organization. Frequency: Critical — accountability gap.</li>
+      <li>MCP xcodebuild failures — 107 connection errors, server binary missing/crashing. Frequency: High — blocks iOS dev work.</li>
+      <li>OpenRouter payment errors — 37 credit errors, auto-retries burn tokens. Frequency: Medium — since June 14, unresolved.</li>
+      <li>Vllm_mlx ImportError — StreamPostprocessor missing, package broken. Frequency: Low — single occurrence, new bug.</li>
+      <li>Pattern Scout accountability loop — same gaps identified June 2, June 3, still no action. Scout burning tokens on repeat audits. Frequency: Critical — closed loop missing.</li>
+      <li>[HIGH] Renew Ollama subscription — `ollama.com/settings/billing`. Breaks 80% of errors (billing 403 cascading to context compressor, Xiaomi, everything).</li>
+      <li>[HIGH] Fix Figma MCP OAuth 403 — Investigate MCP SDK OAuth registration flow. Either upgrade MCP SDK, patch Figma OAuth endpoint, or switch to local desktop server (`http://127.0.0.1:3845/mcp` — already working workaround).</li>
+      <li>[HIGH] Configure API fallback chain — `kimi-k2.5` exists but not configured. Add credentials or remove dead reference. Prevent session aborts mid-turn.</li>
+      <li>[HIGH] Create `wiki/agent-publish.md` — biggest missing artifact. Project active, 18 tests passing, 39-card KANBAN backlog. Repo: `thisisprabha/agent-publish`.</li>
+      <li>[HIGH] Update `wiki/references.md` — 4 new live URLs (Danny X-Ray, agent-publish framework, designer-skills-radar, design-evolution, prabha-taste-test).</li>
+      <li>[MEDIUM] Archive 17 ghost skills — design, gaming, social-media, email, domain, note-taking. Remove from `.usage.json`. Reduces context bloat.</li>
+      <li>[MEDIUM] Fix skill_manage error rate — 75/24h is abnormal. Add pre-validation for YAML frontmatter, or catch malformed SKILL.md and skip with `[SILENT]`.</li>
+      <li>[LOW] Triage `.stale-backup-20260510/` and `notes/transcripts/` — ~30 files, pure dead weight. Needs approval before `rm -rf`.</li>
+      <li>[LOW] Create `wiki/operations.md` — cron schedules, change log, current active jobs. Fixes "wiki is glorified directory listing" complaint.</li>
+      <li>[LOW] Fix `synthesis-html-append.py` — script returns output as error. Use `--text-file` flag, not pipe stdin.</li>
+      <li>`.stale-backup-20260510/` folder (4 files: `actions-approved-log.md`, `actions-done.md`, `actions-needs-approval.md`, `actions-pending.md`)</li>
+      <li>`notes/transcripts/` (9 April audio dumps: `23APRIL.md`, `24APRIL.md`, `Kamarajar-Street.md`, `MGR-Film-City-Road` series, `Old-Mahabalipuram-Road` series)</li>
+      <li>`processed/2026-04-*/` (6 April intermediates: `2026-04-27` to `04-30`)</li>
+      <li>Duplicate/ versioned dumps (`financial-dump.md` vs `v2`, `prabhakaran-profile` dated versions)</li>
+      <li>`wiki/links.md` — dead Linear dump from May 10, zero value</li>
+      <li>`deprecated-projects/` — 3 files 19+ days dormant (`lovable-msp-status-page-prompt.md`, `revenueguard-*`), project "on ice"</li>
+    </ul>
   </div>
 
   <div class="footer">
