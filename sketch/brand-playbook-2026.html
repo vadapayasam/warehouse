@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand Playbook 2026 - Prabha</title>
+<style>
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:SF Pro Text,"Helvetica Neue",Helvetica,Arial,sans-serif;background:#fff;color:#1d1d1f;line-height:1.5;padding:0 22px}
+@media(min-width:768px){body{padding:0 48px}}
+
+/* ===== LAYOUT ===== */
+.wrap{max-width:980px;margin:0 auto;padding:80px 0}
+section{padding:80px 0;border-bottom:1px solid #d2d2d7}
+section:last-child{border-bottom:none}
+
+/* ===== TYPOGRAPHY ===== */
+h1{font-family:SF Pro Display,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:48px;font-weight:600;line-height:1.08;letter-spacing:-0.144px;margin-bottom:12px}
+h2{font-family:SF Pro Display,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:38px;font-weight:600;line-height:1.21;margin-bottom:24px;padding-top:12px}
+h3{font-size:21px;font-weight:600;line-height:1.24;margin-bottom:8px;margin-top:20px}
+p,li{font-size:17px;line-height:1.47;letter-spacing:-0.374px;color:#1d1d1f}
+.meta{font-size:14px;color:#6e6e73;margin-bottom:40px;letter-spacing:-0.224px}
+.intro{font-size:19px;line-height:1.5;color:#6e6e73;margin-bottom:40px;max-width:720px}
+.byline{font-size:14px;color:#6e6e73;margin-top:8px}
+
+/* ===== LISTS ===== */
+ol,ul{padding-left:24px;margin:16px 0;max-width:720px}
+li{margin-bottom:8px}
+ul.bullet{padding-left:20px;list-style:none}
+ul.bullet li::before{content:"- ";color:#6e6e73}
+
+/* ===== STEPS ===== */
+.step{display:flex;gap:20px;margin-bottom:48px;align-items:flex-start}
+.step-num{font-family:SF Pro Display;font-size:28px;font-weight:600;color:#0071e3;line-height:1;min-width:48px;padding-top:2px}
+.step-body{flex:1}
+.step-body h3{font-family:SF Pro Display;font-size:24px;font-weight:600;line-height:1.17;margin:0 0 12px;padding:0}
+.step-body p,.step-body li{font-size:15px;line-height:1.5}
+
+/* ===== TABLES ===== */
+table{width:100%;border-collapse:collapse;margin:24px 0;font-size:15px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid #d2d2d7;vertical-align:top}
+th{font-weight:600;color:#6e6e73;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid #d2d2d7}
+td:first-child{font-weight:600}
+
+/* ===== TWO-COLUMN ===== */
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
+.col{padding:24px;border-radius:12px;font-size:15px}
+.col-cringe{background:#f5f5f7}
+.col-opposite{background:#f5f5f7;border-left:3px solid #0071e3}
+.col h4{font-size:15px;font-weight:600;margin-bottom:12px;color:#1d1d1f}
+.col ul{font-size:14px;padding-left:16px;margin:0}
+.col li{margin-bottom:6px;font-size:14px}
+
+/* ===== TIMELINE ===== */
+.timeline{position:relative;margin:32px 0;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:#d2d2d7}
+.tl-item{position:relative;margin-bottom:32px;padding-left:16px}
+.tl-item::before{content:'';position:absolute;left:-28px;top:6px;width:12px;height:12px;border-radius:50%;background:#0071e3}
+.tl-item h4{font-size:17px;font-weight:600;margin-bottom:2px}
+.tl-item .tl-date{font-size:13px;color:#6e6e73;margin-bottom:6px;font-weight:400}
+.tl-item p{font-size:14px;line-height:1.4;color:#6e6e73}
+
+/* ===== CHECKLIST ===== */
+.checklist{list-style:none;padding:0;margin:16px 0}
+.checklist li{font-size:15px;padding:8px 0 8px 28px;position:relative;border-bottom:1px solid #f5f5f7}
+.checklist li::before{content:'';position:absolute;left:0;top:10px;width:16px;height:16px;border:1.5px solid #d2d2d7;border-radius:4px}
+
+/* ===== CALLOUT ===== */
+.callout{padding:20px 24px;background:#f5f5f7;border-radius:12px;margin:24px 0;max-width:720px}
+.callout-title{font-size:13px;font-weight:600;color:#6e6e73;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.callout p{font-size:15px;color:#1d1d1f}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #d2d2d7;z-index:100;padding:0 22px}
+@media(min-width:768px){nav{padding:0 48px}}
+.nav-inner{max-width:980px;margin:0 auto;display:flex;gap:24px;padding:12px 0;overflow-x:auto}
+.nav-inner a{font-size:13px;color:#6e6e73;text-decoration:none;white-space:nowrap;font-weight:500;letter-spacing:0.2px}
+.nav-inner a:hover{color:#0071e3}
+
+/* ===== META ===== */
+.tag{display:inline-block;font-size:11px;font-family:SF Mono,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;padding:3px 8px;background:#f5f5f7;color:#6e6e73;border-radius:4px;margin-right:4px;margin-bottom:4px;letter-spacing:0.2px}
+.footer{text-align:center;padding:40px 0;font-size:13px;color:#6e6e73}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:767px){
+  h1{font-size:32px;letter-spacing:-0.096px}
+  h2{font-size:28px;line-height:1.14}
+  .step{flex-direction:column;gap:8px}
+  .step-num{font-size:21px;min-width:auto}
+  .columns{grid-template-columns:1fr}
+  .wrap{padding:60px 0}
+  section{padding:48px 0}
+  .timeline{padding-left:24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="nav-inner">
+<a href="#foundation">Foundation</a>
+<a href="#contrarian">Contrarian</a>
+<a href="#trust">Trust</a>
+<a href="#pairing">Pairing</a>
+<a href="#cases">Case Studies</a>
+<a href="#plan">90 Day Plan</a>
+<a href="#metrics">Metrics</a>
+</div>
+</nav>
+
+<div class="wrap">
+
+<!-- ===== HERO ===== -->
+<section style="border:none;padding-top:100px">
+<p class="tag" style="margin-bottom:16px">Personal Branding 2026</p>
+<h1>Build a brand<br>that follows the code.</h1>
+<p class="intro">A 5-step framework, applied to your context. You already do the work. This is about making sure people see it.</p>
+<p class="meta">June 27, 2026 &middot; Based on a Reddit post by u/thisiscalebralstonsstrategy (17 years building brands) &middot; Tailored for Prabha</p>
+</section>
+
+<!-- ===== FOUNDATION ===== -->
+<section id="foundation">
+<h2>1. Start with the end in mind</h2>
+<p style="margin-bottom:24px;max-width:720px">What outcome do you want? What do you need to be known for to get there? What do you have to do to earn that reputation? What do you need to learn first? That sequence is your roadmap.</p>
+
+<h3>Your endgame</h3>
+<p style="max-width:720px">Be the person who defined <strong>AI-native IT operations</strong>. When someone thinks "open-source MSP tools" or "AI agents for IT," your name should surface in the first three results. Not from SEO spam, but from real work people have seen you ship.</p>
+
+<table>
+<tr><th>Question</th><th>Your Answer</th></tr>
+<tr><td>What outcome do you want?</td><td>Recognized authority on AI-native MSP tooling. Speak at events, contribute to the conversation, have a following that cares about what you build next.</td></tr>
+<tr><td>What do you need to be known for?</td><td>Building MSPclaw (open-source AI RMM). Designing with taste. Shipping fast. Writing clearly about complex systems.</td></tr>
+<tr><td>What do you have to do to earn that?</td><td>Sustain open-source contribution. Write publicly (X, LinkedIn, blog). Share decision logs from actual builds. Publish regularly to warehouse. Show up where MSP/ITSM conversations happen.</td></tr>
+<tr><td>What do you need to learn?</td><td>How to tell the story of your work. How to frame technical decisions for a wider audience. How to build an audience one useful post at a time.</td></tr>
+</table>
+
+<div class="callout">
+<div class="callout-title">Your existing advantage</div>
+<p>You already publish to warehouse (117 sketch files, regular daily content). You ship open-source (MSPclaw v0.3). You run Agent Tina. The gap isn't output, it's distribution and framing.</p>
+</div>
+</section>
+
+<!-- ===== CONTRARIAN ===== -->
+<section id="contrarian">
+<h2>2. Find your contrarian belief</h2>
+<p style="margin-bottom:16px;max-width:720px">Brands don't pop from tactics. They pop from a different worldview, repeated over and over. The two-column exercise: left side, everything your space does that you find cringe or wrong. Right side, the exact opposite.</p>
+
+<p style="font-size:13px;color:#6e6e73;margin-bottom:16px">YOUR TWO COLUMNS</p>
+
+<div class="columns">
+<div class="col col-cringe">
+<h4>Status quo (cringe or wrong)</h4>
+<ul>
+<li>MSP software looks like Windows 95. Ugly, dense, overwhelming.</li>
+<li>Locked into per-device pricing. You pay forever.</li>
+<li>RMM tools take weeks to deploy and configure.</li>
+<li>IT ops is reactive firefighting. Alerts, dashboards, panic.</li>
+<li>Enterprise MSP products are closed-source and slow to change.</li>
+<li>"AI in IT" means adding a chatbot that can't actually do anything.</li>
+</ul>
+</div>
+<div class="col col-opposite">
+<h4>Your opposite</h4>
+<ul>
+<li>MSP tools should be beautiful. Design-first, because ops deserves it.</li>
+<li>Open-source, transparent pricing. Own your infrastructure.</li>
+<li>AI-native. The LLM loop is the orchestrator, not a bolt-on.</li>
+<li>Proactive calm. AI detects and fixes before the user notices.</li>
+<li>Fast iteration. Ship weekly. Break things publicly. Improve.</li>
+<li>AI that actually executes actions, not just recommends them.</li>
+</ul>
+</div>
+</div>
+
+<div class="callout">
+<div class="callout-title">Your contrarian thesis (repeat this everywhere)</div>
+<p>"MSP tools don't need to be bloated enterprise garbage. AI-native, open-source, designed-first. The incumbents have terrible UX and are overpriced. AI makes it possible to build better with less."</p>
+</div>
+
+<h3>Where to plant this flag</h3>
+<ul style="max-width:720px">
+<li><strong>X/Twitter bio:</strong> "Building the open-source future of MSP IT management. AI-native RMM that actually works."</li>
+<li><strong>GitHub profile README:</strong> Lead with MSPclaw, your contrarian take, and your open-source philosophy.</li>
+<li><strong>LinkedIn headline:</strong> "Lead PD @ SuperOps. Building MSPclaw — AI-native open-source RMM. Design + AI for IT ops."</li>
+<li><strong>Every post:</strong> Contrast your approach with the status quo. Don't name names, just describe the better way.</li>
+</ul>
+</section>
+
+<!-- ===== TRUST ===== -->
+<section id="trust">
+<h2>3. Optimize for trust, not virality</h2>
+<p style="max-width:720px;margin-bottom:24px">Views don't convert. Trust does. Virality is a side effect of consistently useful content, not a goal to optimize for.</p>
+
+<h3>How trust compounds for a builder</h3>
+
+<table>
+<tr><th>Trust signal</th><th>Your current status</th><th>Next step</th></tr>
+<tr><td>Open-source project</td><td>MSPclaw v0.3, shipped. MIT licensed.</td><td>Write an architecture walkthrough. Make it easy to contribute.</td></tr>
+<tr><td>Public build log</td><td>117 sketch files but no narrative thread.</td><td>Start a "Building MSPclaw" series. First post: why AI-native RMM exists.</td></tr>
+<tr><td>Consistent publishing</td><td>Daily tweets and sketch files, irregular.</td><td>Commit to one long-form post per week. X, LinkedIn, warehouse.</td></tr>
+<tr><td>Product design skill</td><td>Lead PD @ SuperOps. This is your superpower.</td><td>Publish UI/UX critiques of MSP tools. Show what good looks like.</td></tr>
+<tr><td>Real results</td><td>MSPclaw runs on real machines.</td><td>Screencast a live MSPclaw session. Show it resolving an issue.</td></tr>
+</table>
+
+<div class="callout">
+<div class="callout-title">Trust building is a long game</div>
+<p>One deep MSPclaw architecture post is worth 100 hot takes. Your edge: you run a real product design team AND ship code. No one else in the MSP space can say both.</p>
+</div>
+</section>
+
+<!-- ===== PAIRING ===== -->
+<section id="pairing">
+<h2>4. Branding is intentional pairing, done consistently</h2>
+<p style="max-width:720px;margin-bottom:24px">You pair yourself with success stories so often that the audience associates you with them. That's the whole game.</p>
+
+<h3>Your pairing targets</h3>
+
+<table>
+<tr><th>Category</th><th>Who / What to pair with</th><th>How</th></tr>
+<tr><td>Open-source AI community</td><td>Ollama, MLX, LangChain ecosystem, Nous Research</td><td>Build MSPclaw on these. Write about integrations. Contribute upstream.</td></tr>
+<tr><td>MSP / ITSM community</td><td>SuperOps community, MSP subreddits, IT Nation, DattoCon</td><td>Show up. Share. Don't sell. Comment usefully on others' posts.</td></tr>
+<tr><td>Indie dev / builder community</td><td>Levelsio, Pieter Levels, Marc Lou, Alex Fish</td><td>Your vibe matches theirs. Ship fast, post builds, show numbers.</td></tr>
+<tr><td>Design community</td><td>Figma community, design Twitter, UI/UX thought leaders</td><td>You're a PD. Critique MSP tool UI publicly. Show what good B2B design looks like.</td></tr>
+<tr><td>Your own work</td><td>Agent Tina, MSPclaw, SuperOps, warehouse, networth app</td><td>Cross-link everything. Agent Tina writes about MSPclaw. Warehouse hosts both.</td></tr>
+</table>
+
+<h3>Platform strategy</h3>
+
+<table>
+<tr><th>Platform</th><th>What to post</th><th>Frequency</th></tr>
+<tr><td>X / Twitter</td><td>Build snippets, contrarian takes, MSPclaw screenshots, hot takes on MSP tools</td><td>2-3x daily</td></tr>
+<tr><td>LinkedIn</td><td>Long-form posts: architecture decisions, design philosophy, lessons from shipping</td><td>1-2x weekly</td></tr>
+<tr><td>GitHub</td><td>Profile README with narrative. Pinned projects. Active contributions.</td><td>Weekly updates</td></tr>
+<tr><td>Warehouse (your site)</td><td>Deep reference: architecture docs, research artifacts, project logs</td><td>As you do now</td></tr>
+</table>
+</section>
+
+<!-- ===== CASE STUDIES ===== -->
+<section id="cases">
+<h2>5. Make case studies your content</h2>
+<p style="max-width:720px;margin-bottom:24px">Share wins you got for clients or yourself. This shifts perception from "you are successful" to "you create success for others." That's when trust goes through the roof.</p>
+
+<h3>Case studies you can write this week</h3>
+
+<ol style="max-width:720px">
+<li><strong>How I reduced my server management workload by 80% using AI agents.</strong> Show MSPclaw in action. Before/after. Real metrics.</li>
+<li><strong>What I learned designing a modern RMM interface.</strong> Walk through MSPclaw's UI decisions. Contrast with Datto, NinjaOne, ConnectWise.</li>
+<li><strong>AI-native vs bolt-on AI: why your MSP tool's "AI feature" is lying to you.</strong> Technical comparison. Show the architecture gap.</li>
+<li><strong>How Agent Tina handles my vault curation autonomously.</strong> Meta case study about your own system working for you.</li>
+<li><strong>From zero to production RMM in 6 months.</strong> The honest journey of building MSPclaw.</li>
+</ol>
+
+<div class="callout">
+<div class="callout-title">Format for each case study</div>
+<p>Problem → What I tried → What actually worked → Results (real numbers) → What I'd do differently. No filler. No "elevate your workflow." Just real decisions and outcomes.</p>
+</div>
+</section>
+
+<!-- ===== 90 DAY PLAN ===== -->
+<section id="plan">
+<h2>The 90 Day Plan</h2>
+<p style="max-width:720px;margin-bottom:32px">One thing per week. No more. Consistency beats intensity.</p>
+
+<h3>Month 1: Foundation (Weeks 1-4)</h3>
+<div class="timeline">
+<div class="tl-item">
+<h4>Week 1: Fix GitHub profile</h4>
+<p>Add profile README with contrarian thesis, pinned MSPclaw + Agent Tina + networth, write narrative bio. Remove repos that don't represent you (javascript-basics).</p>
+</div>
+<div class="tl-item">
+<h4>Week 2: Create X account (or revitalize existing one)</h4>
+<p>Bio with contrarian take. First posts: MSPclaw intro thread, why you're building it, what makes it different.</p>
+</div>
+<div class="tl-item">
+<h4>Week 3: Publish first "Building MSPclaw" post</h4>
+<p>Deep architecture walkthrough. Why AI-native RMM exists. Publish to X, LinkedIn, and warehouse. Repurpose the same content across platforms.</p>
+</div>
+<div class="tl-item">
+<h4>Week 4: Two-column exercise content</h4>
+<p>Write your contrarian take as a standalone post. "5 things wrong with MSP tools (and how AI fixes them)." This is your signature piece.</p>
+</div>
+</div>
+
+<h3>Month 2: Distribution (Weeks 5-8)</h3>
+<div class="timeline">
+<div class="tl-item">
+<h4>Week 5: First MSPclaw screencast</h4>
+<p>Record a 3-minute terminal session. Show MSPclaw resolving an issue in real time. Post to X.</p>
+</div>
+<div class="tl-item">
+<h4>Week 6: Case study #1 published</h4>
+<p>Pick one from the list above. Full writeup on warehouse, threaded version on X.</p>
+</div>
+<div class="tl-item">
+<h4>Week 7: Engage with MSP community</h4>
+<p>Comment usefully on 5 posts per week in MSP subreddits, X threads, LinkedIn. No self-promotion. Just helpful.</p>
+</div>
+<div class="tl-item">
+<h4>Week 8: Cross-link everything</h4>
+<p>Warehouse gets a proper index page. Each sketch references its X thread. GitHub README links to warehouse. Bio links to everything.</p>
+</div>
+</div>
+
+<h3>Month 3: Amplify (Weeks 9-12)</h3>
+<div class="timeline">
+<div class="tl-item">
+<h4>Week 9: Write for a publication</h4>
+<p>Submit a technical post to dev.to, Hacker News, or an MSP industry blog. "Building an AI-native RMM with MLX and FastAPI."</p>
+</div>
+<div class="tl-item">
+<h4>Week 10: Case study #2 + metrics</h4>
+<p>Second case study. Include a "what I measured" section with real numbers.</p>
+</div>
+<div class="tl-item">
+<h4>Week 11: Open-source contribution outside MSPclaw</h4>
+<p>Contribute to MLX, LangChain, or another project MSPclaw depends on. Shows you're part of the ecosystem, not just building in isolation.</p>
+</div>
+<div class="tl-item">
+<h4>Week 12: Audit and adjust</h4>
+<p>Review: what got engagement? What felt natural? Double down on what worked. Cut what didn't.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== METRICS ===== -->
+<section id="metrics">
+<h2>Metrics that actually matter</h2>
+<p style="max-width:720px;margin-bottom:24px">Ignore vanity metrics. Track only what predicts real outcomes.</p>
+
+<table>
+<tr><th>Track this</th><th>Why it matters</th><th>Target (90 days)</th></tr>
+<tr><td>GitHub stars on MSPclaw</td><td>Signal that developers find it interesting</td><td>50-100 stars</td></tr>
+<tr><td>X followers (organic only)</td><td>Audience that sees your posts without boosting</td><td>200-500 real followers</td></tr>
+<tr><td>MSPclaw GitHub issues / PRs from others</td><td>Community adoption, not just passive interest</td><td>3-5 external contributions</td></tr>
+<tr><td>Warehouse page views</td><td>People reading your long-form content</td><td>500+ unique visits/month</td></tr>
+<tr><td>One meaningful connection per week</td><td>A DM, a reply that turns into a conversation, a collaborator reachout</td><td>12 in 90 days</td></tr>
+<tr><td>Content published (consistency)</td><td>You showed up every week</td><td>12+ long-form posts</td></tr>
+</table>
+
+<div class="callout">
+<div class="callout-title">Ignore these</div>
+<p>Impressions, reach, profile views, "engagement rate" without context, virality on a single post. One good post going mini-viral is a distraction. Ten consistently useful posts are a brand.</p>
+</div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<section style="border:none;padding:40px 0">
+<p style="font-size:14px;color:#6e6e73;max-width:720px">
+You already do the real work. You ship open-source. You publish research. You build things that work. This playbook isn't about becoming someone else. It's about making sure people see what you're already doing.</p>
+<p style="font-size:14px;color:#6e6e73;margin-top:16px">
+Do epic shit worth following. If you haven't done dope things yet, be the vessel. Share the journey, the trial and error. Let people learn from your mistakes. That's your edge on the way up.</p>
+<p class="meta" style="margin-top:32px">Inspired by a Reddit post by u/thisiscalebralstonsstrategy. Tailored for Prabha by Agent Tina. June 27, 2026.</p>
+</section>
+
+</div><!-- /wrap -->
+</body>
+</html>
