@@ -243,8 +243,8 @@
     <h1>Surprise: June 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">23 entries</span>
-      <span id="date-range">Jun 2 - June 25</span>
+      <span id="entry-count">24 entries</span>
+      <span id="date-range">Jun 2 - June 26</span>
       <span class="themes-label">5 themes</span>
     </div>
   </div>
@@ -555,6 +555,86 @@
       <li>Duplicate/ versioned dumps (`financial-dump.md` vs `v2`, `prabhakaran-profile` dated versions)</li>
       <li>`wiki/links.md` — dead Linear dump from May 10, zero value</li>
       <li>`deprecated-projects/` — 3 files 19+ days dormant (`lovable-msp-status-page-prompt.md`, `revenueguard-*`), project "on ice"</li>
+    </ul>
+  </div>
+
+  <!-- June 26 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">June 26</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>---</li>
+      <li>title: Overnight Synthesis — 2026-06-26</li>
+      <li>created: 2026-06-26</li>
+      <li>updated: 2026-06-26</li>
+      <li>type: overnight</li>
+      <li>tags: [hermes, self-improvement, analysis, patterns]</li>
+      <li>---</li>
+      <li>-</li>
+      <li># Overnight Synthesis — 2026-06-26</li>
+      <li>-</li>
+      <li>## Patterns Found</li>
+      <li>-</li>
+      <li>- **Figma MCP OAuth 403** — 560+ occurrences, blocking design work — fires every session, token validates but registration endpoint rejects client</li>
+      <li>- **Ollama billing 403** — 101 occurrences, root cause of 80% errors — subscription past due, breaks ALL context compression</li>
+      <li>- **Tool loop failures** — 3 consecutive failures = pivot immediately — never hammer same broken tool</li>
+      <li>- **SSE chunked responses** — `.read()` crashes after 121s — iterate lines, never bulk read on streaming</li>
+      <li>- **Memory bloat** — 95% usage with prose paragraphs — telegraphic bullets compress at 85%</li>
+      <li>- **Ghost skills** — 17 entries with zero content — waste context, inflate index</li>
+      <li>- **API fallback chain broken** — no configured fallback when primary times out — dead end</li>
+      <li>- **Context summaries untrusted** — "Active Task" mismatches user message — always verify against actual message</li>
+      <li>- **Phantom wiki pages** — 5+ pages linked but don't exist — false organization</li>
+      <li>- **Pipeline dead since May 15** — raw→synthesis→actions flow broken — reports Hermes bugs but zero insights</li>
+      <li>-</li>
+      <li>## Actionable Items</li>
+      <li>-</li>
+      <li>| Priority | Action |</li>
+      <li>|----------|--------|</li>
+      <li>| **HIGH** | Fix Figma MCP OAuth registration — 560 errors blocking design work |</li>
+      <li>| **HIGH** | Renew Ollama subscription at ollama.com/settings/billing |</li>
+      <li>| **HIGH** | Create `wiki/agent-publish.md` — project actively shipping |</li>
+      <li>| **HIGH** | Update `wiki/references.md` with 4+ new live URLs |</li>
+      <li>| **MED** | Archive 17 ghost skills (gaming, social-media, smart-home, email, domain, note-taking, design) |</li>
+      <li>| **MED** | Fix `synthesis-html-append.py` — use `--text-file` flag, not pipe stdin |</li>
+      <li>| **MED** | Create `wiki/operations.md` — cron schedules, change log |</li>
+      <li>| **MED** | Fix `wiki/index.md` — list active projects, not just file counts |</li>
+      <li>| **LOW** | Triage `deprecated-projects/` — add README or archive |</li>
+      <li>| **LOW** | Fix Nightly Log Analyzer cron — pin qwen3.5-9b jobs to deepseek-v4-flash |</li>
+      <li>-</li>
+      <li>## Stale Items</li>
+      <li>-</li>
+      <li>- `wiki/links.md` — Linear dump from May 10, zero value — delete</li>
+      <li>- `processed/2026-04-*/` — 6 April files, superseded</li>
+      <li>- `notes/transcripts/*.md` — 9 April audio dumps, no backlinks</li>
+      <li>- `notes/daily-summaries/2026-04-*.md` — 5 April files, superseded</li>
+      <li>- `.usage.json` orphaned entries — `competitive-design-research`, `llm-prompt-adaptation`</li>
+      <li>- `enterprise-software-research` skill — references dead `browser_vision` tool</li>
+      <li>-</li>
+      <li>## Source Files</li>
+      <li>-</li>
+      <li>[[20260530-archive-consolidate.md]] — stale backup folder, April graveyards</li>
+      <li>[[20260530-pattern-extract.md]] — 6 Figma MCP/OAuth failure patterns</li>
+      <li>[[20260531-pattern-extract.md]] — 7 Figma/LLM runtime patterns</li>
+      <li>[[20260531-skill-gap-audit.md]] — 17 ghost skills, zombie entries</li>
+      <li>[[log-analysis-2026-06-01.md]] — 560 Figma OAuth 403s, API timeouts</li>
+      <li>[[log-analysis-2026-06-09.md]] — Ollama billing 403 cascade</li>
+      <li>[[log-analysis-2026-06-11.md]] — ddgs module missing</li>
+      <li>[[log-analysis-2026-06-15.md]] — Deepseek broken pipe, Nvidia timeouts</li>
+      <li>[[log-analysis-2026-06-16.md]] — MCP xcodebuild failures, OpenRouter payment</li>
+      <li>[[log-analysis-2026-06-17.md]] — Discord empty message, vllm_mlx ImportError</li>
+      <li>[[log-analysis-2026-06-20.md]] — Telegram timeouts, API errors</li>
+      <li>[[log-analysis-2026-06-23.md]] — Qwen3.5-4B-4bit connection errors</li>
+      <li>[[pattern-scout-2026-06-01.md]] — 119 lines, 5 forgotten threads, phantom pages</li>
+      <li>[[pattern-scout-2026-06-02.md]] — 119 lines, wiki staleness, actionable recs</li>
+      <li>[[pattern-scout-2026-06-03.md]] — 128 lines, accountability flag, wiki gaps</li>
+      <li>-</li>
+      <li>---</li>
+      <li>-</li>
+      <li>*Synthesis generated: 2026-06-26 by Agent Tina*</li>
+      <li>-</li>
+      <li>This is the Way.</li>
     </ul>
   </div>
 
