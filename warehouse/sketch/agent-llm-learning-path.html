@@ -17,7 +17,10 @@ h2{font-size:28px;font-weight:600;line-height:1.2;margin-bottom:20px}
 .week-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
 .week-card{background:var(--white);border-radius:var(--radius);padding:20px;border:1px solid var(--border)}
 .week-card h3{font-size:17px;font-weight:600;margin-bottom:6px}
-.week-card p{font-size:14px;color:var(--muted);line-height:1.5}
+.week-card p{font-size:14px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+.week-card .links{display:flex;flex-direction:column;gap:4px}
+.week-card .links a{font-size:13px;color:var(--blue);text-decoration:none;font-weight:500}
+.week-card .links a:hover{text-decoration:underline}
 .tag{display:inline-block;background:#e8f0fe;color:#1a56db;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;margin-bottom:12px}
 .resources{background:var(--white);border-radius:var(--radius);padding:24px;border:1px solid var(--border);margin-bottom:24px}
 .resources h3{font-size:19px;font-weight:600;margin-bottom:16px}
@@ -48,22 +51,51 @@ h2{font-size:28px;font-weight:600;line-height:1.2;margin-bottom:20px}
 <p class="phase-tag">Month 1</p>
 <h2>Foundation</h2>
 <div class="week-grid">
+
 <div class="week-card">
 <h3>Week 1 - How LLM Agents Work</h3>
 <p>ReAct (Reason + Act), tool use, planning loops, memory systems. Core architecture patterns.</p>
+<div class="links">
+<a href="https://www.anthropic.com/research/building-effective-agents" target="_blank">Anthropic: Building Effective Agents</a>
+<a href="https://arxiv.org/abs/2204.07758" target="_blank">ReAct Paper (arxiv.org)</a>
+<a href="https://arxiv.org/abs/2512.06576" target="_blank">Language Agent Tree Search (LATS)</a>
+<a href="https://medium.com/@akankshasinha247/react-toolformer-autogpt-family-autonomous-agent-frameworks-2c4f780654b8" target="_blank">ReAct, Toolformer, AutoGPT Family Explained</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 2 - Reinforcement Learning Basics</h3>
 <p>MDPs, Q-learning, policy gradient. The math that powers agent training.</p>
+<div class="links">
+<a href="https://spinningup.openai.com/" target="_blank">Spinning Up in Deep RL (OpenAI)</a>
+<a href="https://www.youtube.com/watch?v=dZches_jJ6w" target="_blank">Deep RL Course - YouTube</a>
+<a href="https://arxiv.org/abs/1707.06347" target="_blank">PPO Paper - Schulman et al.</a>
+<a href="https:// StableRLBook.com" target="_blank">Foundation Models for Decision Making</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 3 - Search Algorithms for Agents</h3>
 <p>A*, MCTS, Tree of Thoughts. How agents explore decision spaces.</p>
+<div class="links">
+<a href="https://www.redblobgames.com/pathfinding/a-star/" target="_blank">A* Algorithm Explained (Red Blob Games)</a>
+<a href="https://notes.muthu.co/2025/10/monte-carlo-tree-search-from-games-to-llms/" target="_blank">MCTS from Games to LLMs</a>
+<a href="https://arxiv.org/abs/2305.10601" target="_blank">Tree of Thoughts Paper</a>
+<a href="https://www.youtube.com/watch?v=Wqyc2NjOdRo" target="_blank">Build Your Own AI Agent with MCTS</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 4 - Physics of Agent Systems</h3>
 <p>Emergent behavior, phase transitions in LLM reasoning, information theory basics.</p>
+<div class="links">
+<a href="https://arxiv.org/abs/2304.15018" target="_blank">Emergent Abilities of Large Language Models</a>
+<a href="https://transformer-circuits.pub/2022/battlestar/index.html" target="_blank">A Mathematical Framework for Transformer Behavior</a>
+<a href="https://arxiv.org/abs/2210.09261" target="_blank">Phase Transitions in Reasoning Models</a>
+<a href="https://www.quantamagazine.org/how-do-language-models-store-facts-20240925/" target="_blank">How LLMs Store Facts (Quanta Magazine)</a>
 </div>
+</div>
+
 </div>
 </div>
 
@@ -71,22 +103,51 @@ h2{font-size:28px;font-weight:600;line-height:1.2;margin-bottom:20px}
 <p class="phase-tag">Month 2</p>
 <h2>Deep Work</h2>
 <div class="week-grid">
+
 <div class="week-card">
 <h3>Week 5 - Prompt Engineering & Tool Use</h3>
 <p>Structured outputs, function calling, multi-step reasoning chains.</p>
+<div class="links">
+<a href="https://platform.openai.com/docs/guides/function-calling" target="_blank">OpenAI Function Calling Docs</a>
+<a href="https://docs.anthropic.com/endocs/" target="_blank">Anthropic Tool Use Docs</a>
+<a href="https://www.prompteng.org/" target="_blank">Prompt Engineering Guide</a>
+<a href="https://dspy.ai/" target="_blank">DSPy: Compile Your Prompts</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 6 - Memory & State Management</h3>
 <p>Semantic memory, episodic buffers, vector retrieval, context window management.</p>
+<div class="links">
+<a href="https://docs.llamaindex.ai/" target="_blank">LlamaIndex Docs (RAG Framework)</a>
+<a href="https://www.pinecone.io/learn/vector-database/" target="_blank">Vector Database Explained (Pinecone)</a>
+<a href="https://mem0.ai/" target="_blank">Mem0 - Memory Layer for AI Agents</a>
+<a href="https://arxiv.org/abs/2212.02834" target="_blank">Vector Retrieval for Long Context</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 7 - Agent Orchestration</h3>
 <p>Multi-agent systems, role assignment, consensus, conflict resolution.</p>
+<div class="links">
+<a href="https://docs.crewai.com/" target="_blank">CrewAI - Multi-Agent Orchestration</a>
+<a href="https://github.com/microsoft/autogen" target="_blank">AutoGen (Microsoft) - Agent Framework</a>
+<a href="https://langchain-ai.github.io/langgraph/" target="_blank">LangGraph - Cycle-Based Agent Graphs</a>
+<a href="https://arxiv.org/abs/2308.10868" target="_blank">Multi-Agent Collaboration Survey</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 8 - RLHF & Alignment</h3>
 <p>How agents learn from feedback. PPO, reward modeling, RLHF fundamentals.</p>
+<div class="links">
+<a href="https://arxiv.org/abs/2204.05862" target="_blank">InstructGPT / RLHF Paper</a>
+<a href="https://arxiv.org/abs/2212.08073" target="_blank">Constitutional AI (Anthropic)</a>
+<a href="https://huggingface.co/blog/rlhf" target="_blank">RLHF Explained (Hugging Face)</a>
+<a href="https://arxiv.org/abs/2404.04213" target="_blank">Direct Preference Optimization (DPO)</a>
 </div>
+</div>
+
 </div>
 </div>
 
@@ -94,22 +155,51 @@ h2{font-size:28px;font-weight:600;line-height:1.2;margin-bottom:20px}
 <p class="phase-tag">Month 3</p>
 <h2>Ship Things</h2>
 <div class="week-grid">
+
 <div class="week-card">
 <h3>Week 9 - On-Device LLM (iOS)</h3>
 <p>CoreML, MLX, Apple Foundation Models, local model deployment.</p>
+<div class="links">
+<a href="https://developer.apple.com/videos/play/wwdc2025/315/" target="_blank">Get Started with MLX - WWDC25 Video</a>
+<a href="https://developer.apple.com/machine-learning/" target="_blank">Apple ML & AI Developer Portal</a>
+<a href="https://ml.makerepo.com/" target="_blank">MLX Community - Apple Silicon ML</a>
+<a href="https://levelup.gitconnected.com/ios-on-device-llms-foundation-models-ml-frameworks-you-can-actually-ship-with-code-4cddf3f0b352" target="_blank">iOS On-Device LLMs: What You Can Ship</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 10 - SwiftUI + AI Integration</h3>
 <p>Integrating LLMs into iOS apps. Streaming responses, chat UI, tool bridging.</p>
+<div class="links">
+<a href="https://developer.apple.com/documentation/apple-intelligence" target="_blank">Apple Intelligence - Swift Docs</a>
+<a href="https://developer.apple.com/documentation/mlkit" target="_blank">MLKit - On-Device ML on iOS</a>
+<a href="https://github.com/apple/ml-stable-diffusion" target="_blank">Apple's Stable Diffusion on CoreML</a>
+<a href="https://swift.org/package-manager/" target="_blank">Swift Package Manager - LLM Integrations</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 11 - Build an Agent App</h3>
 <p>End-to-end project: agent with memory, tools, and iOS frontend.</p>
+<div class="links">
+<a href="https://github.com/features/actions" target="_blank">GitHub Actions - CI/CD for AI Workflows</a>
+<a href="https://python.langchain.com/" target="_blank">LangChain Python - Agent Dev Framework</a>
+<a href="https://www.getting-started-with-airflow.com/" target="_blank">Airflow for Agent Workflow Orchestration</a>
+<a href="https://www.ainaura.net/p/reactive-ios" target="_blank">Reactive iOS with AI Integration - Tutorial</a>
 </div>
+</div>
+
 <div class="week-card">
 <h3>Week 12 - Evaluation & Iteration</h3>
 <p>Benchmarking agents, trap tests, red-teaming your own app.</p>
+<div class="links">
+<a href="https://github.com/princeton-nlp/SWE-agent" target="_blank">SWE-bench - Agent Benchmark</a>
+<a href="https://arxiv.org/abs/2306.11698" target="_blank">AgentBench - Multi-Domain Agent Benchmark</a>
+<a href="https://github.com/agentops.ai/agentops" target="_blank">AgentOps - Agent Observability</a>
+<a href="https://promptkit.app/eval" target="_blank">PromptKit - LLM Evaluation Tools</a>
 </div>
+</div>
+
 </div>
 </div>
 
@@ -143,55 +233,55 @@ h2{font-size:28px;font-weight:600;line-height:1.2;margin-bottom:20px}
 <div class="res-item">
 <span class="res-type">Article</span>
 <div>
-<a href="https://www.anthropic.com/research/building-effective-agents">Anthropic: Building Effective Agents</a>
+<a href="https://www.anthropic.com/research/building-effective-agents" target="_blank">Anthropic: Building Effective Agents</a>
 <span class="source">anthropic.com - Core agent patterns from the source</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">Article</span>
-<div>
-<a href="https://futureagi.com/blog/llm-agent-architectures-core-components/">LLM Agent Architectures in 2026</a>
-<span class="source">futureagi.com - Six-layer architecture breakdown</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">ArXiv</span>
-<div>
-<a href="https://arxiv.org/html/2601.01743v1">AI Agent Systems: Architectures, Applications, Evaluation</a>
-<span class="source">arxiv.org - Comprehensive 2026 survey</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">Article</span>
-<div>
-<a href="https://todatabeyond.substack.com/p/top-free-learning-resources-to-master">Top Free Resources for LLM Agents</a>
-<span class="source">substack - Curated free learning path</span>
 </div>
 </div>
 
 <div class="res-item">
 <span class="res-type">GitHub</span>
 <div>
-<a href="https://github.com/arvindcr4/awesome-agents">Awesome Agents</a>
-<span class="source">UC Berkeley MOOC resource list</span>
+<a href="https://github.com/arvindcr4/awesome-agents" target="_blank">Awesome Agents - Berkeley MOOC List</a>
+<span class="source">UC Berkeley - curated agent resources</span>
 </div>
 </div>
 
 <div class="res-item">
 <span class="res-type">Course</span>
 <div>
-<a href="https://agenticai-learning.org/sp25">Advanced LLM Agents - AgenticaAI</a>
+<a href="https://agenticai-learning.org/sp25" target="_blank">Advanced LLM Agents - AgenticaAI</a>
 <span class="source">agenticai-learning.org - Reasoning, math, code gen</span>
+</div>
+</div>
+
+<div class="res-item">
+<span class="res-type">ArXiv</span>
+<div>
+<a href="https://arxiv.org/html/2601.01743v1" target="_blank">AI Agent Systems: Architectures, Applications, Evaluation</a>
+<span class="source">arxiv.org - Comprehensive 2026 survey</span>
+</div>
+</div>
+
+<div class="res-item">
+<span class="res-type">GitHub</span>
+<div>
+<a href="https://github.com/luo-junyu/Awesome-Agent-Papers" target="_blank">Awesome Agent Papers</a>
+<span class="source">Curated agent research paper list</span>
+</div>
+</div>
+
+<div class="res-item">
+<span class="res-type">Article</span>
+<div>
+<a href="https://futureagi.com/blog/llm-agent-architectures-core-components/" target="_blank">LLM Agent Architectures in 2026</a>
+<span class="source">futureagi.com - Six-layer architecture breakdown</span>
 </div>
 </div>
 
 <div class="res-item">
 <span class="res-type">Video</span>
 <div>
-<a href="https://www.youtube.com/watch?v=VnpRp7ZglfA">FASTEST RL Introduction</a>
+<a href="https://www.youtube.com/watch?v=VnpRp7ZglfA" target="_blank">FASTEST RL Introduction</a>
 <span class="source">YouTube - Reinforcement learning fundamentals</span>
 </div>
 </div>
@@ -199,56 +289,8 @@ h2{font-size:28px;font-weight:600;line-height:1.2;margin-bottom:20px}
 <div class="res-item">
 <span class="res-type">Article</span>
 <div>
-<a href="https://notes.muthu.co/2025/10/monte-carlo-tree-search-from-games-to-llms/">MCTS from Games to LLMs</a>
-<span class="source">notes.muthu.co - Tree search meets language models</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">Video</span>
-<div>
-<a href="https://www.youtube.com/watch?v=Wqyc2NjOdRo">Write Your Own AI Agent with MCTS</a>
-<span class="source">YouTube - Code along, from scratch</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">Article</span>
-<div>
-<a href="https://developer.apple.com/videos/play/wwdc2025/315/">Get Started with MLX for Apple Silicon</a>
+<a href="https://developer.apple.com/videos/play/wwdc2025/315/" target="_blank">Get Started with MLX for Apple Silicon</a>
 <span class="source">WWDC25 - On-device ML on your Mac</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">Article</span>
-<div>
-<a href="https://developer.apple.com/machine-learning/">Apple ML & AI - Developer Portal</a>
-<span class="source">developer.apple.com - CoreML, Create ML, Apple Intelligence</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">Article</span>
-<div>
-<a href="https://levelup.gitconnected.com/ios-on-device-llms-foundation-models-ml-frameworks-you-can-actually-ship-with-code-4cddf3f0b352">iOS On-Device LLMs: What You Can Actually Ship</a>
-<span class="source">levelup.gitconnected.com - Practical iOS + LLM guide with code</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">Article</span>
-<div>
-<a href="https://medium.com/@akankshasinha247/react-toolformer-autogpt-family-autonomous-agent-frameworks-2c4f780654b8">ReAct, Toolformer, AutoGPT Family</a>
-<span class="source">medium.com - Agent framework landscape explained</span>
-</div>
-</div>
-
-<div class="res-item">
-<span class="res-type">GitHub</span>
-<div>
-<a href="https://github.com/luo-junyu/Awesome-Agent-Papers">Awesome Agent Papers</a>
-<span class="source">Curated agent research paper list</span>
 </div>
 </div>
 
