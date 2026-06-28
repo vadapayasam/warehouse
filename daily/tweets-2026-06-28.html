@@ -23,6 +23,7 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
 .tag.tips{background:#fef3c7;color:#92400e}
 .tag.apps{background:#dbeafe;color:#1e40af}
 .tag.interesting{background:#cffafe;color:#155e75}
+.tag.failures{background:#fee2e2;color:#991b1b}
 .time{font-size:.8rem;color:#059669;font-weight:600;margin-left:auto;background:#d1fae5;padding:.2rem .55rem;border-radius:99px;white-space:nowrap}
 .tweet-text{white-space:pre-wrap;font-family:SF Pro Text,Helvetica Neue,Arial,sans-serif;font-size:1rem;line-height:1.5;margin-bottom:1rem}
 .char-count{font-size:.75rem;color:var(--muted);display:inline-block;margin-right:.5rem}
@@ -50,7 +51,7 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
   <span><strong>4</strong> tweets</span>
   <span><strong>0</strong> cloud cost</span>
   <span><strong>1</strong> thread</span>
-  <span><strong>4</strong> slots</span>
+  <span><strong>109</strong> HTML files</span>
 </div>
 
 <table class="schedule-table">
@@ -63,72 +64,97 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
   </tbody>
 </table>
 
+<!-- SLOT 1: Thread 2/2 -->
 <div class="thread-container">
   <div class="thread-header">Slot 1 · Builder Moment Thread (2/2)</div>
 
   <div class="tweet-card">
     <div class="tweet-header">
       <span class="num">1</span>
-      <span class="tag hermes">hermes</span>
+      <span class="tag failures">failures</span>
       <span class="time">9:00 AM</span>
     </div>
-    <div class="tweet-text">The daily tweet cron broke 24 days ago.
+    <div class="tweet-text">Wrote agent-llm-learning-path to warehouse/warehouse/sketch/.
 
-Stub was writing to /tmp/, never touching the repo.
+The git tree said sketch/ was at repo root. The local folder said otherwise.
 
-Found it, fixed the model swap to minimax 2.7, updated delivery to Discord. Next run: tomorrow 6am IST.</div>
-    <span class="char-count">197 chars</span>
+Doubled repo name in the URL. HTTP 200 on the wrong path. 404 on the real one.</div>
+    <span class="char-count">219 chars</span>
     <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
   </div>
 
   <div class="tweet-card">
     <div class="tweet-header">
       <span class="num">2</span>
-      <span class="tag hermes">hermes</span>
+      <span class="tag tips">tips</span>
       <span class="time">9:00 AM</span>
     </div>
-    <div class="tweet-text">Lesson: a cron that does not publish is not a cron.
+    <div class="tweet-text">Rule: always run git ls-tree -r HEAD --name-only | grep sketch/ before writing anything to the warehouse repo.
 
-Check git log for the real story, not just the skill description.</div>
-    <span class="char-count">118 chars</span>
+The local folder name is irrelevant. The git tree is the only source of truth for the live URL.
+
+Also removed a duplicate mlx-benchmark.html while fixing this. Cleanup as a side effect.</div>
+    <span class="char-count">297 chars</span>
     <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
   </div>
 
   <button class="copy-btn copy-all" onclick="var p=this.parentElement.querySelectorAll('.tweet-text');navigator.clipboard.writeText([...p].map(e=>e.textContent).join('\n\n'))">Copy All Parts</button>
 </div>
 
+<!-- SLOT 2 -->
 <div class="tweet-card">
   <div class="tweet-header">
     <span class="num">3</span>
     <span class="tag workflow">workflow</span>
     <span class="time">12:00 PM</span>
   </div>
-  <div class="tweet-text">3-month LLM agent curriculum shipped.
+  <div class="tweet-text">The Brand Playbook 2026 v2 shipped.
 
-Covers ReAct, RLHF, tool calling, iOS integration, physics grounding.
+5-step framework: from personal brand to designer + iOS + AI-native builder positioning.
 
-12 weeks, real links per topic, zero fluff.</div>
-  <span class="char-count">153 chars</span>
+Replaced the old personal-brand-plan that had no clear audience. New one has edges.
+
+81 files indexed at the last count. Now 109 HTML artifacts in the repo. The pile grows.</div>
+  <span class="char-count">299 chars</span>
   <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
 </div>
 
+<!-- SLOT 3 -->
 <div class="tweet-card">
   <div class="tweet-header">
     <span class="num">4</span>
-    <span class="tag tips">tips</span>
+    <span class="tag interesting">interesting</span>
     <span class="time">4:00 PM</span>
   </div>
-  <div class="tweet-text">Fixed 6 broken links in one commit.
+  <div class="tweet-text">The skill radar runs on SearXNG across multiple queries: agentic AI, local models, iOS automation.
 
-ReAct arxiv, StableRL, Anthropic docs, MLX repo, Airflow, AgentOps.
+Signal categorization splits results into Products, Research, and Tools.
 
-One broken link kills trust. Audit regularly.</div>
-  <span class="char-count">151 chars</span>
+The hardest part is not the scraping. It's deciding what counts as signal versus noise when everything in the LLM space claims to be revolutionary.</div>
+  <span class="char-count">321 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<!-- SLOT 4 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">5</span>
+    <span class="tag hermes">hermes</span>
+    <span class="time">7:00 PM</span>
+  </div>
+  <div class="tweet-text">Sunday stats: 109 HTML files, zero external dependencies, $0 hosting via GitHub Pages.
+
+The vault raw/ layer has every research artifact backed up locally. GitHub Pages has the public face.
+
+Revision history lives in git. The CDN caches what we push. The local vault is the real source of truth.
+
+Tomorrow: another 6am IST run.</div>
+  <span class="char-count">327 chars</span>
   <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
 </div>
 
 <p class="footer">
-  Generated by Hermes Agent · 2026-06-28 · RapidMLX Qwen3.5-4B · $0 total cost<br>
+  Generated by Hermes Agent · 2026-06-28 · minimax-m2.7 · $0 total cost<br>
   <a class="archive-link" href="https://vadapayasam.github.io/warehouse/daily/">Daily Archive</a>
 </p>
 </body>
