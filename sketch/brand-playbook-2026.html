@@ -32,8 +32,8 @@ body{font-family:'SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;backg
 .action-box h5{font-size:17px;font-weight:600;margin-bottom:8px;color:#1d1d1f}
 .section-dark .action-box h5{color:#f5f5f7}
 .action-box p{font-size:14px;color:#6e6e73;margin-bottom:0}
-ul{margin:12px 0 16px 20px;font-size:15px;color:#6e6e73;line-height:1.6}
-.section-dark ul{color:#86868b}
+ul,ol{margin:12px 0 16px 20px;font-size:15px;color:#6e6e73;line-height:1.6}
+.section-dark ul,.section-dark ol{color:#86868b}
 li{margin-bottom:4px}
 .tag{display:inline-block;font-size:12px;font-family:'SF Mono',ui-monospace,monospace;padding:4px 10px;border-radius:100px;background:#e8e8ed;color:#424245;margin-right:6px;margin-bottom:6px}
 .section-dark .tag{background:#2a2a2c;color:#86868b}
@@ -68,6 +68,21 @@ li{margin-bottom:4px}
 .cta-section p{font-size:17px;color:#86868b;max-width:600px;margin:0 auto 32px}
 .footer{text-align:center;padding:24px;font-size:12px;color:#86868b}
 .footer a{color:#0066cc;text-decoration:none}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin:20px 0}
+@media(max-width:640px){.metric-grid{grid-template-columns:1fr 1fr}}
+.metric-card{text-align:center;padding:20px 12px;border:1px solid #d2d2d7;border-radius:12px}
+.metric-card .num{font-family:'SF Pro Display','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:32px;font-weight:600;color:#1d1d1f}
+.metric-card .label{font-size:12px;color:#6e6e73;margin-top:4px}
+.checkpoint-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.checkpoint-table th,.checkpoint-table td{padding:10px 12px;text-align:left;border-bottom:1px solid #d2d2d7}
+.checkpoint-table th{font-weight:600;color:#1d1d1f;font-size:12px;text-transform:uppercase;letter-spacing:0.5px}
+.checkpoint-table td{color:#6e6e73}
+.placeholder{background:#e8e8ed;border:2px dashed #d2d2d7;border-radius:8px;padding:40px;text-align:center;margin:16px 0;font-size:12px;color:#86868b;font-family:'SF Mono',ui-monospace,monospace}
+.section-dark .placeholder{background:#272729;border-color:#424245}
+.section-dark .placeholder{background:#1d1d1f;border-color:#424245}
+.checklist-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+.checklist-item input[type=checkbox]{margin-top:3px}
+.checklist-item label{font-size:14px;color:#6e6e73}
 </style>
 </head>
 <body>
@@ -75,13 +90,14 @@ li{margin-bottom:4px}
 <div class="hero">
   <h1>Brand Playbook 2026</h1>
   <p>A practical 4-week roadmap for a designer who builds AI-native iOS products.</p>
-  <p class="subtitle">Based on the 5-step brand foundation framework · Tailored for Prabha</p>
+  <p class="subtitle">Based on the 5-step brand foundation framework &middot; Tailored for Prabha &middot; Updated with real baselines</p>
 </div>
 
+<!-- DIAGNOSIS -->
 <div class="section">
   <div class="container">
     <h2>The Diagnosis</h2>
-    <p>You build across three lanes - iOS apps, AI-native agents, and product design - but the world sees disconnected outputs, not the designer-engineer behind them. Your portfolio is scattered: an MSP automation tool here, an indie iOS app there, a local AI agent over here. There's no thread.</p>
+    <p>You build across three lanes -- iOS apps, AI-native agents, and product design -- but the world sees disconnected outputs, not the designer-engineer behind them. Your portfolio is scattered: an MSP automation tool here, an indie iOS app there, a local AI agent over here. There's no thread.</p>
     <p>The Reddit framework says: <strong>you skipped the foundation.</strong> The fix isn't more projects. It's a worldview that ties them together.</p>
 
     <div class="two-col" style="margin-top:32px">
@@ -90,7 +106,7 @@ li{margin-bottom:4px}
         <ul>
           <li>Projects announced, then forgotten</li>
           <li>iOS dev? AI builder? MSP founder? No one knows</li>
-          <li>Building in silence - no journey shared</li>
+          <li>Building in silence -- no journey shared</li>
           <li>Repos look like separate people built them</li>
           <li>Design taste invisible in public work</li>
         </ul>
@@ -99,7 +115,7 @@ li{margin-bottom:4px}
         <h5>Where you're going (the opposite column)</h5>
         <ul>
           <li>One narrative: designer who builds AI-native products</li>
-          <li>Consistent voice - sharp, visual, unfiltered</li>
+          <li>Consistent voice -- sharp, visual, unfiltered</li>
           <li>Share the process, not just the ship</li>
           <li>Projects linked by aesthetic + philosophy</li>
           <li>Design is visible in everything you publish</li>
@@ -109,11 +125,51 @@ li{margin-bottom:4px}
   </div>
 </div>
 
+<!-- CURRENT BASELINE (NEW) -->
+<div class="section-alt">
+  <div class="container">
+    <h2>Current Baseline</h2>
+    <p>Numbers as of <strong>June 2026</strong>. Fill in the blanks -- no vanity, no guessing. This is the starting line. Everything in the 4-week sprint is measured from here.</p>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="num">[&mdash;]</div>
+        <div class="label">X / Twitter followers</div>
+      </div>
+      <div class="metric-card">
+        <div class="num">[&mdash;]</div>
+        <div class="label">GitHub followers</div>
+      </div>
+      <div class="metric-card">
+        <div class="num">[&mdash;]</div>
+        <div class="label">Discord members</div>
+      </div>
+      <div class="metric-card">
+        <div class="num">[&mdash;]</div>
+        <div class="label">App Store downloads</div>
+      </div>
+    </div>
+
+    <div class="action-box" style="background:#fff;margin-top:8px">
+      <h5>Trust signals (fill these too)</h5>
+      <ul style="margin:8px 0 0 0">
+        <li>DMs per week from designers asking about your approach: <strong>[&mdash;]</strong></li>
+        <li>GitHub stars across all repos: <strong>[&mdash;]</strong></li>
+        <li>People building on your open-source tools: <strong>[&mdash;]</strong></li>
+        <li>App Store reviews mentioning design: <strong>[&mdash;]</strong></li>
+      </ul>
+    </div>
+
+    <p style="margin-top:20px;font-size:14px">Return here after Week 4. Compare. That's how you know if it worked.</p>
+  </div>
+</div>
+
+<!-- CONTRARIAN BELIEF -->
 <div class="section-alt">
   <div class="container">
     <h2>The Contrarian Belief</h2>
     <p style="font-size:21px;font-weight:600;color:#1d1d1f;margin:16px 0 8px;line-height:1.3">"Most AI tools are built by engineers who don't understand design. And most design tools are built by designers who don't understand AI."</p>
-    <p>Your contrarian frame: <strong>Design is the product. AI is the material. Code is the medium.</strong> Every project - iOS apps, Agent Tina, MSPclaw - shares one belief: tools should feel as good as they work, and the people building them should understand both halves.</p>
+    <p>Your contrarian frame: <strong>Design is the product. AI is the material. Code is the medium.</strong> Every project -- iOS apps, Agent Tina, MSPclaw -- shares one belief: tools should feel as good as they work, and the people building them should understand both halves.</p>
 
     <div class="action-box" style="background:#e8e8ed;border-color:transparent;margin-top:24px">
       <h5>Your brand statement</h5>
@@ -122,6 +178,7 @@ li{margin-bottom:4px}
   </div>
 </div>
 
+<!-- PORTFOLIO OF THREE (updated with MSPclaw note) -->
 <div class="section">
   <div class="container">
     <h2>Your Portfolio of Three</h2>
@@ -144,17 +201,24 @@ li{margin-bottom:4px}
         <p>Design systems. UI reviews. Figma-to-code. The taste layer that makes everything else sing.</p>
       </div>
     </div>
+
+    <div class="action-box" style="background:#fef9e7;border-color:#f5d76e;margin-top:24px">
+      <h5 style="color:#b7950b">Where MSPclaw fits</h5>
+      <p style="font-size:14px;color:#6e6e73">MSPclaw is intentionally not a separate lane here. It is a product that pulls from all three: iOS design thinking + AI agent infrastructure + product craft. The brand does not center on MSP, but MSPclaw is proof you can build across all three categories at once. Reference it in case studies. Do not lead with it.</p>
+    </div>
   </div>
 </div>
 
+<!-- 5-STEP FRAMEWORK (Step 1 rewritten) -->
 <div class="section">
   <div class="container">
     <h2>The 5-Step Framework</h2>
 
     <div class="step-card">
       <div class="step-num">Step 1</div>
-      <h4>Reverse-engineer your brand journey</h4>
-      <p>Outcome: Known as the designer who builds AI-native iOS products. To be known for that: ship 3 iOS apps publicly, document AI agent architecture, publish design critiques. To do that: finish current iOS app, write Agent Tina case study, start a design-in-code newsletter.</p>
+      <h4>Reverse-engineer your brand journey -- starting from where you are</h4>
+      <p><strong>You are not starting from zero.</strong> You have shipped apps. You have built Agent Tina and idli. You have a Discord community. The reverse-engineering exercise is: what does the designer who builds AI-native iOS products look like at the NEXT level?</p>
+      <p style="margin-top:12px"><strong>Your next level:</strong> Ship the current iOS app publicly. Write the Tina case study. Publish 3 design critiques. Start a design-in-code newsletter. <strong>Immediate next action:</strong> finish the current iOS app and announce it with a build-in-public thread.</p>
     </div>
 
     <div class="step-card">
@@ -172,17 +236,42 @@ li{margin-bottom:4px}
     <div class="step-card">
       <div class="step-num">Step 4</div>
       <h4>Intentional pairing</h4>
-      <p>You're already doing this - design + code, iOS + AI, product + infrastructure. Double down. Be the person who can critique a Figma file and then write the Swift patch to fix it. Speak at design conferences about AI. Speak at AI meetups about design. Own the gap.</p>
+      <p>You're already doing this -- design + code, iOS + AI, product + infrastructure. Double down. Be the person who can critique a Figma file and then write the Swift patch to fix it. Speak at design conferences about AI. Speak at AI meetups about design. Own the gap.</p>
     </div>
 
     <div class="step-card">
       <div class="step-num">Step 5</div>
       <h4>Case studies as content</h4>
-      <p>Case study 1: "Designing an AI agent with personality - the Tina playbook." Case study 2: "I shipped an iOS app solo in 3 weeks - here's every design decision." Case study 3: "From Figma to production: how I design UI for AI agents." Each establishes: this person ships beautiful, functional things.</p>
+      <p>Case study 1: "Designing an AI agent with personality -- the Tina playbook." Case study 2: "I shipped an iOS app solo in 3 weeks -- here's every design decision." Case study 3: "From Figma to production: how I design UI for AI agents." Each establishes: this person ships beautiful, functional things.</p>
     </div>
   </div>
 </div>
 
+<!-- CASE STUDY DRAFT: AGENT TINA (NEW) -->
+<div class="section-dark">
+  <div class="container">
+    <h2>Case Study Draft: Agent Tina</h2>
+    <p>This is a rough skeleton. Fill in the real answers. Ship this as your first case study in Week 2.</p>
+
+    <div class="step-card">
+      <h4 style="color:#f5f5f7;margin-bottom:16px">Sections to write</h4>
+      <ol style="color:#86868b;line-height:2">
+        <li><strong style="color:#f5f5f7">What is Agent Tina?</strong> One paragraph. What problem does she solve? Why not just use ChatGPT?</li>
+        <li><strong style="color:#f5f5f7">Designing a personality, not a chatbot.</strong> Why Tina isn't neutral. The Mandalorian persona decision. How tone affects trust.</li>
+        <li><strong style="color:#f5f5f7">Architecture at a glance.</strong> Local MLX models + DeepSeek fallback + tool-calling pipeline. Diagram it (sketch or screenshot goes here).</li>
+        <li><strong style="color:#f5f5f7">What broke.</strong> Three specific failures. What you learned. Be honest -- this is what builds trust.</li>
+        <li><strong style="color:#f5f5f7">What worked.</strong> Three specific wins. Things Tina does that surprise people.</li>
+        <li><strong style="color:#f5f5f7">Design decisions that mattered.</strong> 3-5 decisions. For each: what you chose, what you rejected, why.</li>
+      </ol>
+    </div>
+
+    <div class="placeholder">
+      [ Drop screenshots here: Tina architecture diagram, Discord interaction screenshot, model routing flowchart ]
+    </div>
+  </div>
+</div>
+
+<!-- PLATFORM STRATEGY -->
 <div class="section-dark">
   <div class="container">
     <h2>Platform Strategy</h2>
@@ -213,35 +302,87 @@ li{margin-bottom:4px}
   </div>
 </div>
 
+<!-- 4-WEEK SPRINT (Week 4 concrete + Week 1 improved) -->
 <div class="section">
   <div class="container">
     <h2>4-Week Sprint</h2>
 
     <div class="timeline">
       <div class="timeline-item">
-        <div class="week">WEEK 1 - Foundation</div>
+        <div class="week">WEEK 1 -- Foundation</div>
         <h4>Define your frame + clean up profiles</h4>
-        <p>Write your contrarian belief. Do the two-column exercise properly. Update X bio, LinkedIn headline, GitHub profile README. Plant the flag: one thread introducing "designer who builds AI-native iOS products."</p>
+        <p>Write your contrarian belief. Do the two-column exercise properly. Update X bio, LinkedIn headline, GitHub profile README. Fill in the Current Baseline numbers above. Plant the flag: one thread introducing "designer who builds AI-native iOS products."</p>
       </div>
       <div class="timeline-item">
-        <div class="week">WEEK 2 - First case study</div>
+        <div class="week">WEEK 2 -- First case study</div>
         <h4>Ship the Agent Tina story</h4>
-        <p>Write and publish your first case study: what Tina is, why you designed her this way, what broke, what worked. Publish on X (thread) and LinkedIn (article). Cross-post to r/design and AI communities.</p>
+        <p>Write and publish the case study using the draft skeleton above. Fill in the real answers. Add screenshots. Publish on X (thread) and LinkedIn (article). Cross-post to relevant communities.</p>
       </div>
       <div class="timeline-item">
-        <div class="week">WEEK 3 - Consistency loop</div>
+        <div class="week">WEEK 3 -- Consistency loop</div>
         <h4>3 posts/day, 1 thread, 1 LinkedIn</h4>
         <p>Daily posting rhythm established. One design take. One build-in-public update. One interaction (reply to someone in your space). Weekend: write weeknotes with screenshots.</p>
       </div>
       <div class="timeline-item">
-        <div class="week">WEEK 4 - Amplify</div>
-        <h4>Collaborate + expand reach</h4>
-        <p>Reply to design Twitter accounts. Quote-tweet takes with your perspective. Offer to review someone's app UI publicly. Submit a talk to a design conference. End week: audit - what got trust signals (DMs, GitHub stars, collaboration requests) vs vanity metrics.</p>
+        <div class="week">WEEK 4 -- Measure + decide</div>
+        <h4>Audit against baseline. Pick the next lane.</h4>
+        <p><strong>This is the accountability week.</strong> Compare your Current Baseline numbers (filled in Week 1) to where you are now. Target: at least one trust signal showing movement (DMs, GitHub stars, collaboration requests, or App Store reviews). If nothing moved, diagnose why. Then decide: double down on what worked, or pivot to a different lane. <strong>Ship a second case study</strong> only if Week 2's performed. Otherwise, iterate on Week 2's case study with what you learned.</p>
       </div>
     </div>
   </div>
 </div>
 
+<!-- MONTHLY CHECKPOINT (NEW) -->
+<div class="section-alt">
+  <div class="container">
+    <h2>Monthly Checkpoint</h2>
+    <p>Run this at the end of every month. Three questions. Brutal honesty. No skipping.</p>
+
+    <table class="checkpoint-table">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Answer (fill in)</th>
+          <th>Next move</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. What shipped?</strong></td>
+          <td>[ List everything that went live: posts, threads, case studies, app updates, repos ]</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>2. What didn't ship that should have?</strong></td>
+          <td>[ The honest list. No excuses. ]</td>
+          <td>[ Root cause: time? motivation? direction? ]</td>
+        </tr>
+        <tr>
+          <td><strong>3. What's the single highest-leverage move for next month?</strong></td>
+          <td>[ Pick ONE. Not three. ]</td>
+          <td>[ First action step for that move ]</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="action-box" style="background:#fff;margin-top:24px">
+      <h5>Trust signal tracker (update monthly)</h5>
+      <table class="checkpoint-table" style="margin:8px 0 0 0">
+        <thead>
+          <tr><th>Signal</th><th>June</th><th>July</th><th>Aug</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>DMs from designers</td><td>[&mdash;]</td><td>[&mdash;]</td><td>[&mdash;]</td></tr>
+          <tr><td>GitHub Issues with thoughtful feedback</td><td>[&mdash;]</td><td>[&mdash;]</td><td>[&mdash;]</td></tr>
+          <tr><td>People building on your tools</td><td>[&mdash;]</td><td>[&mdash;]</td><td>[&mdash;]</td></tr>
+          <tr><td>App Store reviews mentioning design</td><td>[&mdash;]</td><td>[&mdash;]</td><td>[&mdash;]</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT IDEAS BANK -->
 <div class="section-alt">
   <div class="container">
     <h2>Content Ideas Bank</h2>
@@ -260,12 +401,12 @@ li{margin-bottom:4px}
 
 <div class="cta-section">
   <h2>Start today, not Monday</h2>
-  <p>Spend 30 minutes today on the two-column exercise. That's all it takes to find your frame. The rest is repetition.</p>
+  <p>Spend 30 minutes filling in the Current Baseline numbers and the Agent Tina case study skeleton. That's the fastest path from plan to artifact.</p>
   <p style="color:#6e6e73;font-size:14px;margin-top:24px">Brands don't pop from tactics. They pop from a worldview repeated over and over.</p>
 </div>
 
 <div class="footer">
-  <p>Built for Prabha · <a href="https://vadapayasam.github.io/warehouse/sketch/brand-playbook-2026.html">permalink</a> · June 2026</p>
+  <p>Built for Prabha &middot; <a href="https://vadapayasam.github.io/warehouse/sketch/brand-playbook-2026.html">permalink</a> &middot; June 2026 &middot; Updated with baselines + case study draft</p>
 </div>
 
 </body>
