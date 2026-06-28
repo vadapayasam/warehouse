@@ -243,7 +243,7 @@
     <h1>Surprise: June 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">26 entries</span>
+      <span id="entry-count">27 entries</span>
       <span id="date-range">Jun 2 - June 28</span>
       <span class="themes-label">5 themes</span>
     </div>
@@ -735,6 +735,27 @@
       <li>OpenRouter Payment Errors — 37 hits, retry loop burns tokens. Fix: top up or switch aux provider.</li>
       <li>MCP xcodebuild Failures — 107 hits, "Connection closed". Binary may be missing or broken.</li>
       <li>Vault Pipeline Dead — Last meaningful actions May 10. Raw→processed→synthesis→bridge→actions chain broken.</li>
+      <li>Tag: infrastructure</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth (P0). Renew Ollama subscription (P0). Configure API fallback chain (P1). Create wiki/agent-publish.md (P1). Update wiki/references.md (P1). Archive dormant skills (P2). Fix qwen3.5-9b cron jobs (P2). Triage deprecated-projects/ (P2).</div>
+  </div>
+
+  <!-- June 28 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">June 28</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>Figma MCP OAuth 403 -- 560 hits, blocking design work. MCP SDK or Figma API change.</li>
+      <li>Ollama billing expired -- 101 hits since May 31. Context compressor dead -- cascades Xiaomi errors.</li>
+      <li>API Streaming Timeouts -- 49 ReadTimeout + 12 streaming failures. deepseek-v4-pro via ollama times out. Fallback (kimi-k2.5) not configured.</li>
+      <li>17 Ghost Skills -- apple, data-science, domain-intel, design (README points to non-existent folder). Wastes context.</li>
+      <li>Wiki Staleness -- 15 days unsynchronized. Phantom pages: AI-Service-Desk, MoveOKs, CURRENT_WORK, ios-apps.</li>
+      <li>Cron Jobs Using qwen3.5-9b -- 8K context < 64K minimum. Pin to deepseek-v4-flash or remove.</li>
+      <li>OpenRouter Payment Errors -- 37 hits, retry loop burns tokens. Fix: top up or switch aux provider.</li>
+      <li>MCP xcodebuild Failures -- 107 hits, "Connection closed". Binary may be missing or broken.</li>
+      <li>Vault Pipeline Dead -- Last meaningful actions May 10. Raw→processed→synthesis→bridge→actions chain broken.</li>
       <li>Tag: infrastructure</li>
     </ul>
     <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth (P0). Renew Ollama subscription (P0). Configure API fallback chain (P1). Create wiki/agent-publish.md (P1). Update wiki/references.md (P1). Archive dormant skills (P2). Fix qwen3.5-9b cron jobs (P2). Triage deprecated-projects/ (P2).</div>
