@@ -3,166 +3,713 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI/Agentic UI Evolution 2026</title>
+    <title>AI-Driven UI/UX Evolution in SaaS (2026)</title>
     <style>
         :root {
             --bg: #0d1117;
-            --card-bg: #161b22;
-            --text: #c9d1d9;
-            --accent: #58a6ff;
-            --accent-hover: #1f6feb;
+            --card: #161b22;
             --border: #30363d;
+            --text: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
             --success: #3fb950;
+            --warning: #d29922;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
             padding: 2rem;
         }
-        h1 { font-size: 2rem; margin-bottom: 1rem; color: var(--text); }
-        h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
-        h3 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; color: var(--text); }
-        p { margin-bottom: 1rem; }
-        .card {
-            background: var(--card-bg);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 1rem;
+        }
+        h2 {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        h3 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+        }
+        p, li { margin-bottom: 0.75rem; }
+        .meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .pattern {
+            background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 1.25rem;
-            margin-bottom: 1.5rem;
+            margin: 1.5rem 0;
         }
-        .pattern-grid {
+        .pattern-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .pattern-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent), #238636);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .pattern-title {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.15rem;
+        }
+        .pattern-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .pattern-details {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1rem;
+            margin-top: 1rem;
         }
-        .pattern-item {
-            background: var(--bg);
-            border: 1px solid var(--border);
+        .detail-item {
+            background: rgba(88, 166, 255, 0.08);
+            border-left: 3px solid var(--accent);
+            padding: 0.75rem 1rem;
+            border-radius: 0 6px 6px 0;
+        }
+        .detail-label {
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .detail-value {
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+        .quote {
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .example {
+            background: rgba(63, 185, 80, 0.08);
+            border: 1px solid #3fb950;
             border-radius: 6px;
             padding: 1rem;
+            margin: 1rem 0;
         }
-        .pattern-name {
+        .example-title {
+            color: #3fb950;
             font-weight: 600;
-            color: var(--accent);
+            font-size: 0.95rem;
             margin-bottom: 0.5rem;
             display: block;
         }
-        .pattern-desc { font-size: 0.9rem; }
-        .source-block {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 6px;
+        .example-content {
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        .formula {
+            background: linear-gradient(135deg, rgba(95, 210, 212, 0.1), rgba(95, 210, 212, 0.03));
+            border: 1px solid #58a6ff;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+        .formula-code {
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            color: #7ee787;
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .metric:last-child { border-bottom: none; }
+        .metric-value {
+            color: #3fb950;
+            font-weight: 600;
+        }
+        .sources {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+        .sources h3 {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1rem;
         }
         .source-list {
             list-style: none;
+            padding: 0;
         }
-        .source-list li {
-            margin-bottom: 0.75rem;
-            padding-left: 1rem;
-            position: relative;
+        .source-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
         }
-        .source-list li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-        .source-list a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        .source-list a:hover {
-            text-decoration: underline;
-        }
-        .meta {
+        .source-number {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
             font-size: 0.85rem;
-            color: #8b949e;
-            margin-top: 1.5rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            min-width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
-        .highlight { color: var(--accent); }
+        .source-info {
+            flex: 1;
+        }
+        .source-title {
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .source-meta {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .source-url {
+            color: var(--accent);
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+        .multi-source-badge {
+            background: #238636;
+            color: #d2f543;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
-    <h1>AI/Agentic UI Evolution in SaaS & B2B (2026)</h1>
+    <div class="container">
+        <h1>🚀 AI-Driven UI/UX Evolution in SaaS (2026)</h1>
+        
+        <div class="meta">
+            Research compiled June 29, 2026 | 20+ sources analyzed | Multi-source verification applied
+        </div>
 
-    <div class="card">
-        <h2>Key Design Patterns</h2>
-
-        <div class="pattern-grid">
-            <div class="pattern-item">
-                <span class="pattern-name">1. AI-Native Interfaces</span>
-                <p class="pattern-desc">AI is embedded into core workflows, not gated behind chat interfaces. 80% of companies deploy AI-enabled apps by 2026, with users expecting it as a fundamental layer.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">2. Emotional Onboarding</span>
-                <p class="pattern-desc">Delight is a retention metric. Human copy and clear direction in the first interaction prevent early churn. Products like Asana and Notion lead here.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">3. Strategic Minimalism</span>
-                <p class="pattern-desc">Everything earns its place. Vercel and Linear use single CTAs and essential data surfaces. Strategic minimalism prioritizes goal alignment over aesthetic cleanliness.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">4. Role-Based Dashboards</span>
-                <p class="pattern-desc">Dashboards adapt by user role. Tenant screens use lower information density; power users see deeper metrics. Adaptive interfaces reduce cognitive load.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">5. Progressive Disclosure</span>
-                <p class="pattern-desc">High-level summary first; drill-downs for details. Prevents overwhelm. Notion's dashboard design exemplifies this pattern across enterprise tools.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">6. Calm Design</span>
-                <p class="pattern-desc">Removes visual competition. Single CTA per screen. Focuses on user confidence, not feature breadth. Emotional engagement scores correlate with lower 30-day churn.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">7. Automated Accessibility</span>
-                <p class="pattern-desc">AI generates semantic layouts, contrast-safe designs, keyboard navigation, ARIA labels, and screen-reader optimization. Reduces manual compliance burden.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">8. Human-in-the-Loop</span>
-                <p class="pattern-desc">Audit trails + HITL checkpoints for high-stakes decisions. Enterprise deployments with HITL reduce compliance incidents by ~73%. Every AI action is logged with justification.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">9. Modular Design Systems</span>
-                <p class="pattern-desc">Component libraries with tokens, AI interaction patterns (chat, generative previews, predictive search). Chakra UI exemplifies this approach.</p>
-            </div>
-
-            <div class="pattern-item">
-                <span class="pattern-name">10. AI Design Assistants</span>
-                <p class="pattern-desc">67% of developers use TypeScript in 2026. AI accelerates design system creation, reduces churn, and boosts conversion 10–25% through personalization.</p>
+        <div class="formula">
+            <div class="formula-code">Confidence &gt; Complexity</div>
+            <div style="color: var(--text-muted); margin-top: 0.5rem;">
+                The unifying principle behind 2026 SaaS UI design: reduce cognitive load, increase user certainty, and make complexity feel manageable.
             </div>
         </div>
-    </div>
 
-    <div class="source-block">
-        <h3>Sources</h3>
-        <ul class="source-list">
-            <li><a href="https://hashbyt.com/blog/ai-ui-generation-saas-product-design-2026" target="_blank">AI UI Generation in 2026: How SaaS Product Design Services Drive Conversions & ROI</a></li>
-            <li><a href="https://www.saasui.design/blog/7-saas-ui-design-trends-2026" target="_blank">7 SaaS UI Design Trends for 2026, Shown With Real Screens</a></li>
-            <li><a href="https://www.theskinsfactory.com/uiux-design-blog/b2b-saas-ai-design-system-playbook" target="_blank">The 2026 B2B SaaS AI Design System Playbook</a></li>
-            <li><a href="https://pixxen.com/blog/progressive-disclosure-saas/" target="_blank">Progressive Disclosure in SaaS Dashboards: The Playbook</a></li>
-            <li><a href="https://www.algolia.com/blog/ux/information-density-and-progressive-disclosure-search-ux" target="_blank">Information Density and Progressive Disclosure in UX</a></li>
-            <li><a href="https://abstra.co/blog/human-on-the-loop-ai/" target="_blank">The Rise of Agentic AI: Why Human-on-the-Loop Is Essential</a></li>
-            <li><a href="https://www.orbix.studio/blogs/ai-product-design-guide" target="_blank">AI Product Design for SaaS Guide: Process, Patterns & Examples</a></li>
-            <li><a href="https://www.forasoft.com/blog/article/ai-tools-ui-ux-design-software" target="_blank">AI Tools for UI/UX Design Software: 2026 Buying Guide</a></li>
-        </ul>
-    </div>
+        <h2>1. Core UI/UX Patterns Dominating 2026</h2>
 
-    <div class="meta">
-        Generated: Monday, June 29, 2026<br>
-        Total Sources: 8 (Multi-source verified)
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">1</div>
+                <div class="pattern-title">Emotional Design as Retention Mechanic</div>
+            </div>
+            <div class="pattern-desc">Delight is not a "nice-to-have" but a critical business metric. Products with higher emotional engagement scores see significantly lower churn in the first 30 days.</div>
+            <div class="example">
+                <span class="example-title">📍 Real-World Example: Asana</span>
+                <div class="example-content">
+                    Human copy and clear direction make the first experience memorable. The focus is on onboarding experience, where delight is built into the product from the first interaction.
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">2</div>
+                <div class="pattern-title">Strategic Minimalism (Spotlight UX)</div>
+            </div>
+            <div class="pattern-desc">"Not 'less is more.' More like: everything earns its place or gets cut." 2026 minimalism ensures every element directly moves the user closer to their goal. Every CTA must be singular per screen. Progressive complexity is available but not default.</div>
+            <div class="pattern-details">
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Strategic vs Aesthetic</span>
+                    <div class="detail-value">Strategic: Stripped-back UI surfaces key data at the right moment. Aesthetic: Minimal because it looks clean, even if important info is buried.</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📍 Real-World Examples</span>
+                    <div class="detail-value">Vercel (Dashboard): "The right data, zero noise. Every element earns its place in this deployment overview." Linear (Dashboard): Strips the project view to essentials — status, priority, assignee. Nothing else competes for attention.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">3</div>
+                <div class="pattern-title">AI-Personalized Flows & Automated Decision Workflows</div>
+            </div>
+            <div class="pattern-desc">Moving beyond static reporting to decision automation. Users act immediately rather than manually interpreting data. Embed automation directly into workflows to convert insights into action without delay.</div>
+            <div class="pattern-details">
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Intelligent Onboarding</span>
+                    <div class="detail-value">Users act immediately rather than manually interpreting data</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Predictive Automation</span>
+                    <div class="detail-value">Embed automation directly into workflows to convert insights into action without delay</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📍 Real-World Examples</span>
+                    <div class="detail-value">Salesforce Einstein: conjures customised dashboards. Microsoft Office 365: automatically highlights frequently used features. YouTube's automatic dark mode at night. Tesla's adaptive car settings based on driver preferences.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">4</div>
+                <div class="pattern-title">Generative UI (AG-UI Protocol)</div>
+            </div>
+            <div class="pattern-desc">Generative UI refers to any user interface that is partially or fully produced by an AI agent, rather than authored exclusively by human designers. The UI itself becomes a dynamic output of the system — able to adapt, reorganize, and respond to user intent.</div>
+            <div class="pattern-details">
+                <div class="detail-item">
+                    <span class="detail-label">💡 Three Application Surfaces</span>
+                    <div class="detail-value">
+                        <strong>Chat (Threaded):</strong> Slack-like conversational interface. Slack bots, Discord bots, Intercom AI Agent, GitHub Copilot Chat, Notion AI Chat.
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">💡 Chat+ (Co-Creator Workspace)</span>
+                    <div class="detail-value">Side-by-side or multi-pane layout: chat in one pane, dynamic canvas in another. Figma AI, Notion AI workspace, Google Workspace Duet side-panel, Replit Ghostwriter paired editor.
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">💡 Chatless (Generative UI in App)</span>
+                    <div class="detail-value">No chat surface. Agent communicates via APIs, app renders generative UI as part of native interface. Microsoft 365 Copilot (inline editing), Linear Insights, HubSpot AI Assist, Datadog Notebooks AI panels.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">5</div>
+                <div class="pattern-title">Immersive 3D & Spatial Interfaces</div>
+            </div>
+            <div class="pattern-desc">3D UI enables visualization of complex systems, layered data, and real-time relationships that flat dashboards cannot handle. Users identify patterns faster and reduce interpretation errors, leading to more confident decision-making.</div>
+            <div class="pattern-details">
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Pattern Recognition</span>
+                    <div class="detail-value">Users identify patterns faster and reduce interpretation errors, leading to more confident decision-making</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Simulation & Validation</span>
+                    <div class="detail-value">Use of 3D prototyping tools and simulation frameworks to test high-stakes interfaces before engineering investment, reducing rework</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📍 AR for Operations</span>
+                    <div class="detail-value">AR overlays instructions and compliance checks directly into physical environments (logistics, manufacturing, field services). Reduces first-time errors and improves task completion rates</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">6</div>
+                <div class="pattern-title">Proactive UX (PX)</div>
+            </div>
+            <div class="pattern-desc">A shift where design moves from reactive problem-solving to anticipating user actions. AI-driven insights enable suggestions and adaptive interfaces that guide users naturally through tasks, minimising effort and frustration.</div>
+            <div class="example">
+                <span class="example-title">📍 Real-World Examples</span>
+                <div class="example-content">
+                    Google Maps predicting optimal routes before the app is even opened. LinkedIn pre-filling job applications based on a user's profile. Silent authentication via biometric data and behavioural patterns (Apple Face ID, Google Smart Lock).
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">7</div>
+                <div class="pattern-title">Ambient Personalization</div>
+            </div>
+            <div class="pattern-desc">Interfaces change based on cues like time of day, location, or established user habits, all without requiring explicit input. A natural, flowing experience where the system adapts unobtrusively.</div>
+            <div class="pattern-details">
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Adaptive Triggers</span>
+                    <div class="detail-value">Time of day, location, user habits, device context</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📍 Real-World Examples</span>
+                    <div class="detail-value">YouTube's automatic dark mode at night. Tesla's adaptive car settings based on driver preferences. Salesforce Einstein with customised dashboards.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">8</div>
+                <div class="pattern-title">Multimodal Interaction Models</div>
+            </div>
+            <div class="pattern-desc">Adoption of voice and gesture interactions to improve operational throughput. Contextual AI guidance providing AI-driven help that adapts to the user's current context.</div>
+            <div class="pattern-details">
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Beyond Clicks</span>
+                    <div class="detail-value">Voice and gesture interactions to improve operational throughput</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Contextual AI Guidance</span>
+                    <div class="detail-value">AI-driven help that adapts to the user's current context</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">9</div>
+                <div class="pattern-title">Governance-Centric Admin UX</div>
+            </div>
+            <div class="pattern-desc">Ensures governance, compliance, and multi-role complexity do not lead to user frustration. For multi-tenant SaaS, Enterprise UX is treated as infrastructure strategy, safeguarding performance, reliability, and scalability.</div>
+            <div class="pattern-details">
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Role-Based Access</span>
+                    <div class="detail-value">Secure access management, version controls, and admin transparency integrated into the product core</div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎯 Enterprise Strategy</span>
+                    <div class="detail-value">Treated as infrastructure strategy, safeguarding performance, reliability, and scalability</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pattern">
+            <div class="pattern-header">
+                <div class="pattern-icon">10</div>
+                <div class="pattern-title">Transparent Security UX (Zero-Trust)</div>
+            </div>
+            <div class="pattern-desc">Modern trends focus on making security transparent rather than hidden, essential for Zero-Trust SaaS models. Reducing friction while increasing clarity on data protection.</div>
+        </div>
+
+        <h2>2. Key Metrics & Business Impact</h2>
+
+        <div class="metric">
+            <span>📈 Conversion Lift</span>
+            <span class="metric-value">10–25% higher conversion rates</span>
+        </div>
+        <div class="metric">
+            <span>💻 Developer Adoption (TypeScript)</span>
+            <span class="metric-value">67% adoption rate in 2026</span>
+        </div>
+        <div class="metric">
+            <span>🏢 Market Reach</span>
+            <span class="metric-value">200+ SaaS companies (Hashbyt)</span>
+        </div>
+
+        <div class="pattern">
+            <h3>🎯 How Bad UX Costs You</h3>
+            <ul style="margin-left: 1.5rem; color: var(--text-muted);">
+                <li><strong>Poor UX lowers adoption:</strong> Users who can't figure out your product don't keep using it.</li>
+                <li><strong>Confusing UI increases churn:</strong> A product that feels hard to use is a product people look to replace.</li>
+                <li><strong>Friction raises support costs:</strong> Every confusing screen generates a ticket. Multiply that across thousands of users.</li>
+                <li><strong>Weak usability damages retention:</strong> The product that is easier to use wins — regardless of feature parity.</li>
+            </ul>
+        </div>
+
+        <h2>3. Strategic Shifts in 2026</h2>
+
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+            <thead>
+                <tr style="background: var(--card); border-bottom: 1px solid var(--border);">
+                    <th style="padding: 0.75rem 1rem; text-align: left; color: var(--text-muted);">Old Paradigm</th>
+                    <th style="padding: 0.75rem 1rem; text-align: left; color: var(--text-muted);">New Paradigm (2026)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);">Feature-Led Growth</td>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);"><strong>Experience-Led Growth</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);">Static Reporting</td>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);"><strong>Decision Automation</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);">Flat Dashboards</td>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);"><strong>Intelligent, Adaptive Environments</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);">Hidden Security</td>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);"><strong>Transparent Security UX</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);">Visual Polish Only</td>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);"><strong>Data-Instrumented Design</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);">Single-Role Focus</td>
+                    <td style="padding: 0.75rem 1rem;"><strong>Role-Specific Modular Dashboards</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="sources">
+            <h3>📚 Sources (20+ verified, multi-source)</h3>
+            <ul class="source-list">
+                <li class="source-item">
+                    <span class="source-number">1</span>
+                    <div class="source-info">
+                        <span class="source-title">AI-Driven UX Patterns for SaaS Products: 10 That Work in 2026</span>
+                        <div class="source-meta">
+                            <span>orbix.studio</span>
+                            <span class="source-url">https://www.orbix.studio/blogs/ai-driven-ux-patterns-saas</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">2</span>
+                    <div class="source-info">
+                        <span class="source-title">7 SaaS UI Design Trends for 2026, Shown With Real Screens</span>
+                        <div class="source-meta">
+                            <span>saasui.design</span>
+                            <span class="source-url">https://www.saasui.design/blog/7-saas-ui-design-trends-2026</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">3</span>
+                    <div class="source-info">
+                        <span class="source-title">AI UI Generation in 2026: How SaaS Product Design Services Drive Conversions & ROI</span>
+                        <div class="source-meta">
+                            <span>hashbyt.com</span>
+                            <span class="source-url">https://hashbyt.com/blog/ai-ui-generation-saas-product-design-2026</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">4</span>
+                    <div class="source-info">
+                        <span class="source-title">Top 10 SaaS UX Design Trends for 2026 to Drive Product Growth</span>
+                        <div class="source-meta">
+                            <span>millipixels.com</span>
+                            <span class="source-url">https://millipixels.com/blog/saas-ux-design</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">5</span>
+                    <div class="source-info">
+                        <span class="source-title">Next-Gen UX in AI: Redefining SaaS Products in the Age of AI</span>
+                        <div class="source-meta">
+                            <span>medium.com/@surdattack</span>
+                            <span class="source-url">https://medium.com/@surdattack/next-gen-ux-in-ai-redefining-saas-products-in-the-age-of-ai-296c0e427b45</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">6</span>
+                    <div class="source-info">
+                        <span class="source-title">2025/2026 UX/UI Trends for SaaS Products</span>
+                        <div class="source-meta">
+                            <span>yozucreative.com</span>
+                            <span class="source-url">https://yozucreative.com/insights/user-experience-for-ai-in-saas-products/</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">7</span>
+                    <div class="source-info">
+                        <span class="source-title">Smart Frontends: AI-Driven UI Case Studies & Adaptive UX Examples</span>
+                        <div class="source-meta">
+                            <span>medium.com/kairi-ai</span>
+                            <span class="source-url">https://medium.com/kairi-ai/smart-frontends-ai-driven-ui-case-studies-adaptive-ux-examples-2025-guide-69cb42d00697</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">8</span>
+                    <div class="source-info">
+                        <span class="source-title">SaaS UI/UX Design: Best Practices for Enterprise Apps in 2026</span>
+                        <div class="source-meta">
+                            <span>theskinsfactory.com</span>
+                            <span class="source-url">https://www.theskinsfactory.com/uiux-design-blog/saas-ui-ux-design-best-practices-2026</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">9</span>
+                    <div class="source-info">
+                        <span class="source-title">Generative UI: Understanding Agent-Powered Interfaces</span>
+                        <div class="source-meta">
+                            <span>copilotkit.ai</span>
+                            <span class="source-url">https://www.copilotkit.ai/generative-ui</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">10</span>
+                    <div class="source-info">
+                        <span class="source-title">Agentic UI: Frameworks, GenUI Protocols & Design Patterns</span>
+                        <div class="source-meta">
+                            <span>thesys.dev</span>
+                            <span class="source-url">https://www.thesys.dev/blogs/agentic-ui</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">11</span>
+                    <div class="source-info">
+                        <span class="source-title">Towards a Working Definition of Designing Generative User Interfaces</span>
+                        <div class="source-meta">
+                            <span>arxiv.org/abs/2505.15049</span>
+                            <span class="source-url">https://arxiv.org/html/2505.15049v1</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">12</span>
+                    <div class="source-info">
+                        <span class="source-title">Generative UI: The AI-Powered Future of User Interfaces</span>
+                        <div class="source-meta">
+                            <span>medium.com/@knbrahmbhatt_4883</span>
+                            <span class="source-url">https://medium.com/@knbrahmbhatt_4883/generative-ui-the-ai-powered-future-of-user-interfaces-920074f32f33</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">13</span>
+                    <div class="source-info">
+                        <span class="source-title">Choose a design pattern for your agentic AI system</span>
+                        <div class="source-meta">
+                            <span>cloud.google.com/architecture</span>
+                            <span class="source-url">https://docs.cloud.google.com/architecture/choose-design-pattern-agentic-ai-system</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">14</span>
+                    <div class="source-info">
+                        <span class="source-title">Imagining Design Workflows in Agentic AI Futures</span>
+                        <div class="source-meta">
+                            <span>arxiv.org/abs/2509.20731</span>
+                            <span class="source-url">https://arxiv.org/html/2509.20731v1</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">15</span>
+                    <div class="source-info">
+                        <span class="source-title">AG-UI Overview - Agent User Interaction Protocol</span>
+                        <div class="source-meta">
+                            <span>docs.ag-ui.com</span>
+                            <span class="source-url">https://docs.ag-ui.com/introduction</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">16</span>
+                    <div class="source-info">
+                        <span class="source-title">Generative UI: Revolutionizing User Interfaces with Real-Time Adaptability</span>
+                        <div class="source-meta">
+                            <span>freyafusion.com</span>
+                            <span class="source-url">https://www.freyafusion.com/blog/generative-ui-revolutionizing-user-interfaces-with-real-time-adaptability</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">17</span>
+                    <div class="source-info">
+                        <span class="source-title">SaaS Product Design in the AI Era: Patterns & Best Practices</span>
+                        <div class="source-meta">
+                            <span>albato.com</span>
+                            <span class="source-url">https://albato.com/blog/publications/saas-design-in-ai-first-era</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">18</span>
+                    <div class="source-info">
+                        <span class="source-title">How to Build an AI SaaS Product from Scratch</span>
+                        <div class="source-meta">
+                            <span>logiquad.com</span>
+                            <span class="source-url">https://logiquad.com/blogs/how-to-build-an-ai-saas-product-from-scratch/</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">19</span>
+                    <div class="source-info">
+                        <span class="source-title">AI Product Design for SaaS Guide: Process, Patterns & Examples</span>
+                        <div class="source-meta">
+                            <span>orbix.studio</span>
+                            <span class="source-url">https://www.orbix.studio/blogs/ai-product-design-guide</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">20</span>
+                    <div class="source-info">
+                        <span class="source-title">AI-Driven UI Generation for SaaS Frontends in 2026</span>
+                        <div class="source-meta">
+                            <span>hashbyt.com</span>
+                            <span class="source-url">https://hashbyt.com/blog/ai-ui-generation-saas-frontends</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">21</span>
+                    <div class="source-info">
+                        <span class="source-title">Exploring AI design patterns in SaaS products</span>
+                        <div class="source-meta">
+                            <span>uxstudioteam.com</span>
+                            <span class="source-url">https://www.uxstudioteam.com/ux-blog/ai-design-patterns-in-saas-products</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">22</span>
+                    <div class="source-info">
+                        <span class="source-title">AI Workflow Design for B2B SaaS Teams</span>
+                        <div class="source-meta">
+                            <span>candystudio.design</span>
+                            <span class="source-url">https://candystudio.design/blog/ai-workflow-design-for-b2b-saas-teams</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
