@@ -243,8 +243,8 @@
     <h1>Surprise: June 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">27 entries</span>
-      <span id="date-range">Jun 2 - June 28</span>
+      <span id="entry-count">28 entries</span>
+      <span id="date-range">Jun 2 - June 29</span>
       <span class="themes-label">5 themes</span>
     </div>
   </div>
@@ -759,6 +759,31 @@
       <li>Tag: infrastructure</li>
     </ul>
     <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth (P0). Renew Ollama subscription (P0). Configure API fallback chain (P1). Create wiki/agent-publish.md (P1). Update wiki/references.md (P1). Archive dormant skills (P2). Fix qwen3.5-9b cron jobs (P2). Triage deprecated-projects/ (P2).</div>
+  </div>
+
+  <!-- June 29 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">June 29</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>Figma MCP OAuth 403 blocks all design work through Hermes — 560+ occurrences, registration endpoint rejects client despite token validation passing</li>
+      <li>API Rate Limits & Timeouts — 40+ rate limit errors in last 24h, sessions abort mid-turn, fallback cascade broken</li>
+      <li>Context Overflow — Compressor dead due to Ollama 403 billing issue, sessions accumulate uncompressed tokens until overflow</li>
+      <li>patch tool rejects credential files — .zshrc, .env, .cursor/mcp.json writes denied, forcing manual intervention</li>
+      <li>hermes mcp test false negatives — reports termination despite functional MCP, wasting debugging time</li>
+      <li>skill_manage errors — 75 occurrences in 24h window, systematic YAML formatting issues in generated SKILL.md</li>
+      <li>LinearContext MCP & FulfillSmart PRDs — 18+ days stale, fully spec'd but no decisions (build/kill)</li>
+      <li>Phantom Wiki Pages — AI-Service-Desk, MoveOKs, Super-Kit-Design-System, ios-apps, CURRENT_WORK indexed but non-existent</li>
+      <li>Bridge Pipeline Stalled — 14+ days without content bridge, processed files never indexed into wiki</li>
+      <li>RAPID_MLX Server Down — Port 8765 unreachable (401 auth error), local model fallback unavailable</li>
+      <li>Qwen3.5-4B-4bit Connection Errors — 8+ retry-exhaustion failures in last 12h, local inference server flapping</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth registration — investigate MCP SDK or Figma API change, 30-60 min diagnostic</div>
+    <div class="insight"><strong>Action:</strong> Decide on Pending PRDs — run indie-product-vetting on LinearContext MCP and FulfillSmart, 15 min per PRD</div>
+    <div class="insight"><strong>Action:</strong> Restore API Fallback Chain — configure kimi-k2.5 or other fallback provider, 10 min config change</div>
+    <div class="insight"><strong>Insight:</strong> The overnight system is optimizing itself into irrelevance — log analysis reports real issues (Figma OAuth, API timeouts, skill_manage errors) but these are operational bugs in Hermes, not insights about Prabha's projects. The system is getting better at debugging itself while the actual mission (design systems, iOS apps, agentic research) gets zero analytical attention. The vault processing pipeline broke around May 15 and nobody noticed. Overnight jobs generate reports about Hermes bugs but not about Prabha's work. There's no health check on the capture→reflect loop. If the vault's core value prop is "surface what you're overlooking," it can't do that when the pipeline is dead.</div>
   </div>
 
   <div class="footer">
