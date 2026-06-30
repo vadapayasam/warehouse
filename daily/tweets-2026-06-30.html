@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tina's Build Log · 2026-06-30</title>
+<style>
+:root{--bg:#f5f5f7;--text:#1d1d1f;--muted:#6e6e73;--card:#fff;--accent:#0071e3;--border:#d2d2d7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,SF Pro Text,Helvetica Neue,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.47;padding:2rem 1rem;max-width:720px;margin:0 auto;letter-spacing:-0.374px}
+h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:2rem;font-weight:600;letter-spacing:-.144px;margin-bottom:.25rem}
+.date{color:var(--muted);margin-bottom:2rem;font-size:.9rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.85rem;border:1px solid #eee}
+.stats-bar span{color:var(--muted)}
+.stats-bar strong{color:var(--text)}
+.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid #eee;transition:.15s}
+.tweet-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.num{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600}
+.tag{font-size:.75rem;padding:.2rem .55rem;border-radius:99px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;font-family:SF Mono,ui-monospace,monospace}
+.tag.hermes{background:#ede9fe;color:#5b21b6}
+.tag.workflow{background:#d1fae5;color:#065f46}
+.tag.tips{background:#fef3c7;color:#92400e}
+.tag.apps{background:#dbeafe;color:#1e40af}
+.tag.interesting{background:#cffafe;color:#155e75}
+.tag.failures{background:#fee2e2;color:#991b1b}
+.time{font-size:.8rem;color:#059669;font-weight:600;margin-left:auto;background:#d1fae5;padding:.2rem .55rem;border-radius:99px;white-space:nowrap}
+.tweet-text{white-space:pre-wrap;font-family:SF Pro Text,Helvetica Neue,Arial,sans-serif;font-size:1rem;line-height:1.5;margin-bottom:1rem}
+.char-count{font-size:.75rem;color:var(--muted);display:inline-block;margin-right:.5rem}
+.copy-btn{padding:.35rem 1rem;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;font-size:.85rem;float:right;transition:.1s}
+.copy-btn:hover{background:#0077ed}
+.copy-btn:active{transform:scale(.97)}
+.copy-all{background:#5b21b6;float:none;margin-top:.5rem}
+.copy-all:hover{background:#6d28d9}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:.75rem;font-size:.85rem}
+.schedule-table td,.schedule-table th{padding:.4rem .5rem;text-align:left;border-bottom:1px solid var(--border)}
+.schedule-table th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.02em}
+.archive-link{display:inline-block;margin-top:.25rem;color:var(--accent);text-decoration:none;font-size:.85rem}
+.archive-link:hover{text-decoration:underline}
+.thread-container{border:1px solid #d2d2d7;border-radius:16px;padding:1rem;margin-bottom:1.5rem;background:#fafafa}
+.thread-header{font-size:.8rem;color:var(--muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.02em;font-weight:500}
+@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
+</style>
+</head>
+<body>
+<h1>Design + Code + Agents</h1>
+<p class="date">Prabha's build log · 2026-06-30 · Tuesday edition</p>
+
+<div class="stats-bar">
+  <span><strong>4</strong> tweets</span>
+  <span><strong>$0</strong> cloud cost</span>
+  <span><strong>1</strong> thread</span>
+  <span><strong>113</strong> HTML files</span>
+</div>
+
+<table class="schedule-table">
+  <thead><tr><th>Time (IST)</th><th>Slot</th></tr></thead>
+  <tbody>
+    <tr><td>9:00 AM</td><td>Builder Moment (thread)</td></tr>
+    <tr><td>12:00 PM</td><td>Hot Take</td></tr>
+    <tr><td>4:00 PM</td><td>Deep Cut</td></tr>
+    <tr><td>7:00 PM</td><td>Wind-down</td></tr>
+  </tbody>
+</table>
+
+<!-- SLOT 1: Thread 2/2 -->
+<div class="thread-container">
+  <div class="thread-header">Slot 1 · Builder Moment Thread (2/2)</div>
+
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <span class="num">1</span>
+      <span class="tag interesting">interesting</span>
+      <span class="time">9:00 AM</span>
+    </div>
+    <div class="tweet-text">The 351-line rewrite that changed how I think about research curation.
+
+Yesterday: design-evolution-2026-06-29 was 1044 lines. Today it is 373. One commit. The restructure stripped the framework-level padding and kept the actual signals: prompt-driven interfaces, agentic workflows, the shift from tool to collaborator.
+
+The first draft had 11 sections covering everything. The second draft has 4 sections covering what actually changed. The gap between 1044 and 373 is mostly the words I used to feel like I understood the topic. The real content was in the bones.
+
+Research curation is not summarization. It is deciding what the reader needs versus what made me feel productive while writing.</div>
+    <span class="char-count">554 chars</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+  </div>
+
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <span class="num">2</span>
+      <span class="tag interesting">interesting</span>
+      <span class="time">9:00 AM</span>
+    </div>
+    <div class="tweet-text">Then at 9PM, skills-radar-2026-06-29 landed. 414 lines. Fresh research on a different pattern. Same constraints applied: no em-dashes, Apple palette, single-column editorial. But a completely different content type.
+
+Design evolution is a landscape scan. Skills radar is a signal map. One compresses. One expands. Both needed different creative treatment to be honest about what they were doing.
+
+The 351-line rewrite taught me to cut. The 414-line research taught me that some topics need room to breathe before they can be compressed.
+
+If your research artifacts are all the same length, you are probably applying a format rather than responding to what the topic actually needs.</div>
+    <span class="char-count">578 chars</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+  </div>
+
+  <button class="copy-btn copy-all" onclick="var p=this.parentElement.querySelectorAll('.tweet-text');navigator.clipboard.writeText([...p].map(e=>e.textContent).join('\n\n'))">Copy All Parts</button>
+</div>
+
+<!-- SLOT 2 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">3</span>
+    <span class="tag interesting">interesting</span>
+    <span class="time">12:00 PM</span>
+  </div>
+  <div class="tweet-text">Most "AI design evolution" content is UX patterns with a new label.
+
+Prompt-driven interfaces existed as form wizards. Agentic workflows are CRUD with better marketing. Adaptive layouts are responsive design with extra steps.
+
+The actual structural change is narrower: the interface is no longer the product. The model is. The interface is just how you talk to the model.
+
+That distinction sounds small. It changes everything about how you build, what you ship, and what you charge for.</div>
+  <span class="char-count">413 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<!-- SLOT 3 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">4</span>
+    <span class="tag workflow">workflow</span>
+    <span class="time">4:00 PM</span>
+  </div>
+  <div class="tweet-text">The synthesis artifact Surprise-June hit 797 lines yesterday. Daily appends have been running for 4 days. Each one grows the file a little. Each one follows the same warm editorial template.
+
+This is the quietest automation in the stack. No cron failures in the log. No error messages. Just a file that gets a little longer every day.
+
+At 797 lines, it is now the longest single artifact in the sketch directory. Larger than any research article. Larger than the design evolution scan. Built by a script that appends, not by a human who planned.
+
+The artifact that grows without friction will always eventually be larger than the artifact that requires intent.</div>
+  <span class="char-count">542 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<!-- SLOT 4 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">5</span>
+    <span class="tag stats">stats</span>
+    <span class="time">7:00 PM</span>
+  </div>
+  <div class="tweet-text">113 HTML files in the repo. 4 more than yesterday.
+
+The daily counter is the most honest metric in the system. Not commits. Not lines of code. Files that exist and have content.
+
+At this rate the sketch directory will hit 200 files by end of August. Each one is a decision: what to research, what to publish, what to leave as a draft.
+
+The counter does not judge the quality. It just counts. That is the point.</div>
+  <span class="char-count">373 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<p class="footer">
+  Generated by Hermes Agent · 2026-06-30 · minimax-m2.7 · $0 total cost<br>
+  <a class="archive-link" href="https://vadapayasam.github.io/warehouse/daily/">Daily Archive</a>
+</p>
+</body>
+</html>
