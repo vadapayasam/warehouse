@@ -243,8 +243,8 @@
     <h1>Surprise: June 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">28 entries</span>
-      <span id="date-range">Jun 2 - June 29</span>
+      <span id="entry-count">29 entries</span>
+      <span id="date-range">Jun 2 - June 30</span>
       <span class="themes-label">5 themes</span>
     </div>
   </div>
@@ -784,6 +784,79 @@
     <div class="insight"><strong>Action:</strong> Decide on Pending PRDs — run indie-product-vetting on LinearContext MCP and FulfillSmart, 15 min per PRD</div>
     <div class="insight"><strong>Action:</strong> Restore API Fallback Chain — configure kimi-k2.5 or other fallback provider, 10 min config change</div>
     <div class="insight"><strong>Insight:</strong> The overnight system is optimizing itself into irrelevance — log analysis reports real issues (Figma OAuth, API timeouts, skill_manage errors) but these are operational bugs in Hermes, not insights about Prabha's projects. The system is getting better at debugging itself while the actual mission (design systems, iOS apps, agentic research) gets zero analytical attention. The vault processing pipeline broke around May 15 and nobody noticed. Overnight jobs generate reports about Hermes bugs but not about Prabha's work. There's no health check on the capture→reflect loop. If the vault's core value prop is "surface what you're overlooking," it can't do that when the pipeline is dead.</div>
+  </div>
+
+  <!-- June 30 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">June 30</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>**Figma MCP OAuth 403** — 560+ occurrences across May 30–June 29. Registration endpoint rejects client despite valid tokens. **Blocks all design work.**</li>
+      <li>**API Rate Limits (429)** — 28+ HTTP 429s in last 12h alone. API quota exhausted, cascading failures on Telegram, Discord, and search providers.</li>
+      <li>**`qwen3.5-4b-4bit` Connection Errors** — 8+ retry-exhaustion failures. Rapid-MLX server flapping on port 8765, cascading Nightly Log Analyzer cron failures.</li>
+      <li>**`patch` Tool Rejections** — Consistent failures on `.zshrc`, `.bashrc`, `.env`. Credential files must use `terminal` + `grep`, not `patch`.</li>
+      <li>**`hermes mcp test` False Negatives** — Reports "session terminated" even when MCP is authenticated. Untrusted for diagnostics.</li>
+      <li>**`memory` Bloat** — 95% usage (1,929/2,200 chars) with prose paragraphs. Compressing to telegraphic bullets dropped to 73%.</li>
+      <li>**`session_search` Skill Missing** — Referenced in logs but doesn't exist. Cross-reference conversations impossible.</li>
+      <li>**`browser_vision` Failures** — `deepseek-v4-pro` doesn't support vision, agent attempts anyway, wastes tokens.</li>
+      <li>**LLM-Generated Scripts Fail** — `NameError: duckduckgo_search not defined`, `AttributeError: mcp has no __version__`, `TypeError` on None vs int comparisons. Agent writes code on-the-fly, hits runtime errors, retries.</li>
+      <li>**`skill_manage` Errors** — 75+ occurrences. Malformed YAML frontmatter or syntax errors in generated SKILL.md. High count suggests systematic issue.</li>
+      <li>**SSE/Stream Handling** — `.read()` on chunked `text/event-stream` crashes with `http.client.IncompleteRead`. Always iterate lines.</li>
+      <li>**Context Compaction Lies** — "Active Task" summaries fabricated/wrong. Treat ALL context summaries as UNTRUSTED.</li>
+      <li>**17 Ghost Skills** — `apple`, `data-science`, `domain-intel`, `email`, `gaming`, `gifs`, `github`, `inference-sh`, `media`, `note-taking`, `smart-home`, `social-media`, `design` (zombie, points to non-existent `competitive-design-research`).</li>
+      <li>**`enterprise-software-research` Bug** — References non-existent `browser_vision` tool. Needs update to `browser` or `screenshot`.</li>
+      <li>**`.usage.json` Orphans** — `competitive-design-research`, `llm-prompt-adaptation` have no directories.</li>
+      <li>**`wiki/links.md`** — Linear dump from May 10, 15 days stale. Zero value.</li>
+      <li>**Wiki Unsynchronized** — Last synced May 19. `index.md`, `tasks.md`, `misc.md`, `references.md` all missing 5–7 artifacts.</li>
+      <li>**Phantom Pages** — `AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK` linked in Index but don't exist.</li>
+      <li>**Two May 14 PRDs Stuck** — `LinearContext MCP` and `FulfillSmart Shopify` have 400+ line specs, zero decisions. `indie-product-vetting` skill never invoked.</li>
+      <li>**Processing Pipeline Dead** — Last raw processing May 15, last synthesis May 15. `raw/` has 22 files, `processed/` has 16 May files, nothing actionable since.</li>
+      <li>`20260530-archive-consolidate.md` — April archive findings, ~30 files to archive/delete.</li>
+      <li>`20260530-pattern-extract.md` — Figma MCP OAuth 403, giant metadata truncation, `patch` rejections, DOM inspection rule.</li>
+      <li>`20260531-pattern-extract.md` — SSE `.read()` crash, tool loop warnings, visual timeouts, context compaction lies, memory bloat, fingerprint gate.</li>
+      <li>`20260531-skill-gap-audit.md` — 17 ghost skills, `browser_vision` dead reference, `.usage.json` orphans.</li>
+      <li>`log-analysis-2026-06-01.md` — Figma OAuth 403, API timeouts, tool errors, skill_manage failures.</li>
+      <li>`log-analysis-2026-06-09.md` — Ollama billing 403, Xiaomi "text not set", network outage.</li>
+      <li>`log-analysis-2026-06-11.md` — `ddgs` module missing, context compression gaps.</li>
+      <li>`log-analysis-2026-06-15.md` — Deepseek broken pipe, Nvidia timeouts, memory cap hit.</li>
+      <li>`log-analysis-2026-06-16.md` — MCP xcodebuild failures, OpenRouter payment errors, `qwen3.5-9b` context too small.</li>
+      <li>`log-analysis-2026-06-17.md` — Discord empty message, `vllm_mlx` ImportError, Codex 429.</li>
+      <li>`log-analysis-2026-06-20.md` — Telegram timeouts, API connection errors.</li>
+      <li>`log-analysis-2026-06-23.md` — `qwen3.5-4b-4bit` connection errors, Nightly Log Analyzer cascade failures.</li>
+      <li>`log-analysis-2026-06-27.md` — HTTP 429 rate limits, API retries exhausted.</li>
+      <li>`log-analysis-2026-06-28.md` — HTTP 429 quota exhausted, broken pipe, timeouts.</li>
+      <li>`pattern-scout-2026-06-01.md` — Wiki staleness, forgotten threads, phantom pages, broken pipeline.</li>
+      <li>`pattern-scout-2026-06-02.md` — Wiki unsynced, forgotten threads, stale raw artifacts, actionable recs.</li>
+      <li>`pattern-scout-2026-06-03.md` — Wiki staleness persists, accountability flag (you were told this yesterday).</li>
+      <li>`wiki/index.md` — Missing 5+ live URLs, still points to May 19 artifacts.</li>
+      <li>`wiki/tasks.md` — No June active work, only May extractions.</li>
+      <li>`wiki/misc.md` — Missing portfolio tracker, design radar, agent-publish, Prabha-Taste Test.</li>
+      <li>`wiki/references.md` — Missing 4+ new live URLs (Danny X-Ray, Agent-Publish, Design Radar, Design Evolution).</li>
+      <li>`wiki/operations.md` — No cron schedule changelog exists.</li>
+      <li>`wiki/agent-publish.md` — Biggest missing artifact, active OSS project with 18 tests passing.</li>
+      <li>`wiki/portfolio-tracker.md` — ₹8.85L holdings, weekly research cron, buy/sell/hold report.</li>
+      <li>`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK` — Phantom pages, no stubs.</li>
+      <li>`overnight/20260530-archive-consolidate.md` [[wiki:Archive Consolidate]]</li>
+      <li>`overnight/20260530-pattern-extract.md` [[wiki:Pattern Extract May 30]]</li>
+      <li>`overnight/20260531-pattern-extract.md` [[wiki:Pattern Extract May 31]]</li>
+      <li>`overnight/20260531-skill-gap-audit.md` [[wiki:Skill Gap Audit]]</li>
+      <li>`overnight/log-analysis-2026-06-01.md` [[wiki:Log Analysis June 01]]</li>
+      <li>`overnight/log-analysis-2026-06-09.md` [[wiki:Log Analysis June 09]]</li>
+      <li>`overnight/log-analysis-2026-06-11.md` [[wiki:Log Analysis June 11]]</li>
+      <li>`overnight/log-analysis-2026-06-15.md` [[wiki:Log Analysis June 15]]</li>
+      <li>`overnight/log-analysis-2026-06-16.md` [[wiki:Log Analysis June 16]]</li>
+      <li>`overnight/log-analysis-2026-06-17.md` [[wiki:Log Analysis June 17]]</li>
+      <li>`overnight/log-analysis-2026-06-20.md` [[wiki:Log Analysis June 20]]</li>
+      <li>`overnight/log-analysis-2026-06-23.md` [[wiki:Log Analysis June 23]]</li>
+      <li>`overnight/log-analysis-2026-06-27.md` [[wiki:Log Analysis June 27]]</li>
+      <li>`overnight/log-analysis-2026-06-28.md` [[wiki:Log Analysis June 28]]</li>
+      <li>`overnight/log-analysis-2026-06-29.md` [[wiki:Log Analysis June 29]]</li>
+      <li>`overnight/pattern-scout-2026-06-01.md` [[wiki:Pattern Scout June 01]]</li>
+      <li>`overnight/pattern-scout-2026-06-02.md` [[wiki:Pattern Scout June 02]]</li>
+      <li>`overnight/pattern-scout-2026-06-03.md` [[wiki:Pattern Scout June 03]]</li>
+    </ul>
   </div>
 
   <div class="footer">
