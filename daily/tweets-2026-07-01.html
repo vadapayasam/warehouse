@@ -40,18 +40,21 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
 .archive-link:hover{text-decoration:underline}
 .thread-container{border:1px solid #d2d2d7;border-radius:16px;padding:1rem;margin-bottom:1.5rem;background:#fafafa}
 .thread-header{font-size:.8rem;color:var(--muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.02em;font-weight:500}
+.sources{font-size:.8rem;color:var(--muted);margin:2rem 0;padding:1rem;background:var(--card);border-radius:16px;border:1px solid #eee}
+.sources a{color:var(--accent);text-decoration:none}
+.sources a:hover{text-decoration:underline}
 @media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
 </style>
 </head>
 <body>
 <h1>Design + Code + Agents</h1>
-<p class="date">Prabha's build log · 2026-07-01 · Wednesday edition</p>
+<p class="date">Prabha's build log · 2026-07-01 · Wednesday design-news edition</p>
 
 <div class="stats-bar">
   <span><strong>4</strong> tweets</span>
   <span><strong>$0</strong> cloud cost</span>
   <span><strong>1</strong> thread</span>
-  <span><strong>114</strong> HTML files</span>
+  <span><strong>115</strong> HTML files</span>
 </div>
 
 <table class="schedule-table">
@@ -64,93 +67,106 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
   </tbody>
 </table>
 
-<!-- SLOT 1: Thread 2/2 -->
 <div class="thread-container">
-  <div class="thread-header">Slot 1 · Builder Moment Thread (2/2)</div>
-
+  <div class="thread-header">Slot 1 · Design News Thread (2/2)</div>
   <div class="tweet-card">
     <div class="tweet-header">
       <span class="num">1</span>
-      <span class="tag failures">failures</span>
+      <span class="tag interesting">interesting</span>
       <span class="time">9:00 AM</span>
     </div>
-    <div class="tweet-text">41 skills defined. 0 scripts to run them. The audit ran and found nothing wrong, technically. The skills exist. The files are valid. The system says healthy. The system is lying.
+    <div class="tweet-text">Design tools are quietly turning into tiny operating systems.
 
-The .hermes/skills/ directory has folders for apple, autonomous-ai-agents, computer-use, creative, data-science, design, devops, domain, email, gaming, gifs, humanizer, inference-sh, klipy-reactions, media, meta-workflow, mlops, note-taking, output-skill, pp-company-goat, pp-figma, pp-obsidian, pp-yahoo-finance, productivity, research, social-media, software-development, tm-scripts, todoist. 29 orphaned skill names. A graveyard with no headstones.
+Figma's Config 2026 recap said Code Layers start rolling out in July 2026: code becomes a native canvas material, not a thing you throw over the wall after the design is done. Motion gets a real timeline. Shader fills become editable materials. The agent can build custom tools and plugins from prompts.
 
-And the ticker service still reports healthy.</div>
-    <span class="char-count">678 chars</span>
+Then Pixso dropped AI Smart Design on June 30 with the same message from another angle: don't generate pretty random screens, generate inside the team's actual design system. Tokens, components, handoff, checklists, specs, all in one canvas.
+
+The pattern is obvious now. The design file is no longer a picture of the product. It is becoming the place where the product starts behaving.</div>
+    <span class="char-count">753 chars</span>
     <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
   </div>
-
   <div class="tweet-card">
     <div class="tweet-header">
       <span class="num">2</span>
-      <span class="tag failures">failures</span>
+      <span class="tag interesting">interesting</span>
       <span class="time">9:00 AM</span>
     </div>
-    <div class="tweet-text">The 429 errors started June 28. HTTP 429. Too many requests. After 3 retries the cron just stops. The weekly audit script detected the pattern, logged it, and kept running. It called the results "insights." The insight is that 429 means the rate limit exists and the jobs are not handling it.
+    <div class="tweet-text">The funny part: designers wanted AI to remove grunt work. The tools heard that and started eating the whole workflow around the canvas.
 
-Six point eight gigabytes in .hermes. That is the local model cache, the session history, the vault raw files, the skill definitions that point nowhere. The disk health check says 36Gi free out of 228Gi. Healthy, technically. The 6.8Gi is not trending down.
+Figma Motion removes the After Effects detour. Code Layers attack handoff. Generative plugins attack team chores. Pixso is selling design-system-constrained generation so enterprise teams don't spend half the day cleaning up AI soup.
 
-The system reports nominal. The skills point nowhere. The jobs fail silently. The disk fills. The audit says insightful.</div>
-    <span class="char-count">662 chars</span>
+This is not 'AI makes mockups faster.' That is the boring headline.
+
+The real headline is that the canvas is becoming multiplayer, executable, and opinionated. The designer's job shifts from pushing rectangles to setting taste, constraints, rules, exceptions, motion language, and product judgment.
+
+Bad designers get faster at making garbage. Good designers get a bigger cockpit.</div>
+    <span class="char-count">752 chars</span>
     <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
   </div>
-
   <button class="copy-btn copy-all" onclick="var p=this.parentElement.querySelectorAll('.tweet-text');navigator.clipboard.writeText([...p].map(e=>e.textContent).join('\n\n'))">Copy All Parts</button>
 </div>
 
-<!-- SLOT 2 -->
 <div class="tweet-card">
   <div class="tweet-header">
     <span class="num">3</span>
-    <span class="tag workflow">workflow</span>
+    <span class="tag tips">tips</span>
     <span class="time">12:00 PM</span>
   </div>
-  <div class="tweet-text">The stale-warehouse dir problem happened again. June 29. Someone ran a research cron and wrote to warehouse/sketch/ because a warehouse/ directory existed locally. But the git tree had sketch/ at repo root, not under warehouse/.
+  <div class="tweet-text">Stop asking whether AI will replace UX designers. That question is stale.
 
-The fix was rm -rf warehouse/ and a force-push to correct the path. 10 minutes of 404s on the live URL while the correct file sat in the wrong directory in git history. A local folder that existed on disk, from a previous session, was enough to send a published artifact into a directory that does not exist on the live site.
+The better question is: which 40% of your design work actually needs you?
 
-Local state and git state are not the same thing. They should be. They are not.</div>
-  <span class="char-count">636 chars</span>
+Figr's June 30 writeup framed UX work as a 60/40 split: AI can chew through mechanical work like state expansion, token application, prototype assembly, spec drafts, and variations. The human keeps the judgment-heavy part: problem framing, research synthesis, tradeoffs, trust, tone, weird edge cases, and knowing when the generated thing is technically correct but emotionally wrong.
+
+Figma's 2026 AI report points the same direction with bigger numbers: designers participating in development doubled to 41%, developers doing design work rose to 60%, and 90% of respondents said design is at least as important as before AI.
+
+Translation: the wall between design and build is cracking. The taste gap is not.</div>
+  <span class="char-count">859 chars</span>
   <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
 </div>
 
-<!-- SLOT 3 -->
 <div class="tweet-card">
   <div class="tweet-header">
     <span class="num">4</span>
-    <span class="tag tips">tips</span>
+    <span class="tag workflow">workflow</span>
     <span class="time">4:00 PM</span>
   </div>
-  <div class="tweet-text">The pre-flight gate for HTML publishing catches em-dashes, AI-slop phrases, and border-radius inconsistency. It does not catch path errors. The pre-flight is a style checker. It runs after the decision to write to a path has already been made. The path was wrong. The style was correct. The 404 was real.
+  <div class="tweet-text">Motion becoming native in Figma is a bigger deal than it sounds.
 
-The skill doc now says audit the git tree before writing. The check is: git ls-tree HEAD --name-only, then git ls-tree -r HEAD --name-only | grep sketch/. Verify where the file actually lives, not where you think it lives, not where a local folder says it should live.
+Not because designers can make things bounce. Please, no more random bounce.
 
-Git tree is authoritative. Local disk is a hypothesis.</div>
-  <span class="char-count">630 chars</span>
+The interesting bit is that Figma Motion treats timing, easing, keyframes, and presets like part of the system. Dev Mode can inspect motion values and copy animation code in CSS, JSON, or React-ready formats. Figma says animated frames can even pass to coding agents through MCP-compatible workflows.
+
+That changes motion from a decorative export problem into a design-system problem. A button press, loading state, drawer, onboarding step, and error recovery can share motion rules the same way they share color and type.
+
+Motion stops being the fancy thing someone adds at the end. It becomes a token with manners.</div>
+  <span class="char-count">760 chars</span>
   <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
 </div>
 
-<!-- SLOT 4 -->
 <div class="tweet-card">
   <div class="tweet-header">
     <span class="num">5</span>
-    <span class="tag hermes">hermes</span>
+    <span class="tag interesting">interesting</span>
     <span class="time">7:00 PM</span>
   </div>
-  <div class="tweet-text">The synthesis artifact reached 797 lines on June 30. One script, running daily, appending to a single file since June 26. No commits to its own repo. No version history. Just append.
+  <div class="tweet-text">Pixso's June 30 AI Smart Design launch is worth watching because it is not trying to win on 'look, AI made a screen.' Everyone can make a screen now. Most of them look like a fintech landing page got trapped in a blender.
 
-At 797 lines it is the longest single artifact in the sketch directory. Larger than any research article. The script does not make decisions about what to append. It just runs. The decisions were made on June 26 when the script was written.
+Pixso is aiming at the boring enterprise pain: generate UI inside existing component libraries and design tokens, then keep specs, checklists, annotations, and handoff in the same editor. It also talks about private deployment and Figma migration support, which is exactly the kind of unsexy detail procurement teams care about.
 
-What you build in a single session becomes what the system does every day. The original intent compounds. The script is the architecture.</div>
-  <span class="char-count">563 chars</span>
+That is the design-tool market in one sentence: the demo has to look magical, but the buyer wants governance.
+
+Pretty pixels get applause. Controlled pixels get budget.</div>
+  <span class="char-count">721 chars</span>
   <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
 </div>
 
+<div class="sources">
+  Sources checked: <a href="https://www.figma.com/blog/config-2026-recap/">Figma Config 2026 recap</a>, <a href="https://www.figma.com/blog/2026-ai-report/">Figma 2026 AI report</a>, <a href="https://www.figma.com/blog/agent-custom-tools-context-skills/">Figma design agent update</a>, <a href="https://au.finance.yahoo.com/news/pixso-launches-ai-smart-design-141000523.html">Pixso AI Smart Design launch</a>, <a href="https://figr.design/blog/will-ai-replace-ux-designers">Figr UX + AI writeup</a>.
+</div>
+
 <p class="footer">
-  Generated by Hermes Agent · 2026-07-01 · minimax-m2.7 · $0 total cost<br>
+  Generated by Hermes Agent · 2026-07-01 · rewritten with online design news · $0 total cost<br>
   <a class="archive-link" href="https://vadapayasam.github.io/warehouse/daily/">Daily Archive</a>
 </p>
 </body>
