@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SuperOps Design Process</title>
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --text: #111827;
+      --text-secondary: #6b7280;
+      --accent: #f2673c;
+      --accent-soft: #fef3ee;
+      --border: #e5e7eb;
+      --border-strong: #d1d5db;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+      --radius: 6px;
+      --radius-lg: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--surface);
+      border-bottom: 2px solid var(--accent);
+      padding: 0 24px;
+    }
+    nav .inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; align-items: center; gap: 24px;
+      height: 52px;
+      font-size: 14px; font-weight: 500;
+    }
+    nav a {
+      color: var(--text-secondary); text-decoration: none;
+      transition: color 0.15s;
+    }
+    nav a:hover, nav a.active { color: var(--accent); }
+    nav .brand {
+      font-weight: 700; font-size: 15px; color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    nav .brand span { color: var(--accent); }
+
+    /* Main */
+    main { max-width: 960px; margin: 0 auto; padding: 48px 24px 96px; }
+
+    /* Hero */
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      margin-bottom: 40px;
+    }
+    .hero .meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 36px; font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      max-width: 24ch;
+    }
+    .hero .deck {
+      font-size: 17px; color: var(--text-secondary);
+      max-width: 64ch; line-height: 1.55;
+    }
+    .hero .badges {
+      display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight: 500;
+      padding: 4px 10px;
+      border-radius: var(--radius);
+      background: var(--accent-soft);
+      color: var(--accent);
+      letter-spacing: 0.03em;
+    }
+
+    /* Sections */
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 40px;
+      margin-bottom: 24px;
+    }
+    section h2 {
+      font-size: 24px; font-weight: 700;
+      line-height: 1.25; letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--accent);
+    }
+    section h3 {
+      font-size: 18px; font-weight: 700;
+      line-height: 1.35; letter-spacing: -0.01em;
+      margin: 28px 0 12px;
+      color: var(--text);
+    }
+    section h3:first-of-type { margin-top: 0; }
+    section h4 {
+      font-size: 15px; font-weight: 600;
+      margin: 20px 0 8px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    section p {
+      margin-bottom: 14px;
+      color: var(--text);
+      max-width: 72ch;
+    }
+    section p:last-child { margin-bottom: 0; }
+
+    /* Lists */
+    section ul, section ol {
+      margin: 8px 0 16px 20px;
+      color: var(--text);
+    }
+    section li {
+      margin-bottom: 6px;
+      line-height: 1.55;
+    }
+    section li:last-child { margin-bottom: 0; }
+
+    /* Inline code */
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0 24px;
+    }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 14px; line-height: 1.5;
+    }
+    thead th {
+      text-align: left;
+      font-weight: 600; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--accent);
+      background: var(--accent-soft);
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f9fafb; }
+
+    /* Blockquote / callout */
+    blockquote {
+      margin: 16px 0;
+      padding: 16px 20px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 15px;
+      color: var(--text);
+    }
+    blockquote p { margin: 0; max-width: none; }
+
+    /* Quality gate checklist */
+    .checklist {
+      list-style: none; margin: 12px 0 0; padding: 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px;
+    }
+    .checklist li {
+      font-size: 14px;
+      padding: 6px 0;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .checklist li::before {
+      content: "";
+      display: inline-block; width: 8px; height: 8px;
+      margin-top: 6px;
+      background: var(--accent);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Strong / emphasis */
+    strong { font-weight: 600; color: var(--text); }
+
+    /* Rule divider */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 32px 24px 48px;
+      font-size: 13px; color: var(--text-secondary);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      main { padding: 24px 16px 64px; }
+      .hero { padding: 32px 24px; }
+      .hero h1 { font-size: 28px; }
+      section { padding: 24px 20px; }
+      section h2 { font-size: 20px; }
+      .checklist { grid-template-columns: 1fr; }
+      nav .inner { gap: 12px; height: 44px; }
+      nav a { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <span class="brand">SuperOps<span>.</span>design</span>
+    <a href="#mindset">Mindset</a>
+    <a href="#process">Process</a>
+    <a href="#ai-native">AI-Native</a>
+    <a href="#quality-gate">Quality Gate</a>
+    <a href="#ux-laws">UX Laws</a>
+    <a href="#foundations">Foundations</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="meta">Design Process &middot; v1.0 &middot; Internal Reference</div>
+  <h1>SuperOps Design Process</h1>
+  <p class="deck">
+    How the SuperOps design team thinks and works when designing any AI-native ITSM / MSP product surface.
+    Goal-directed, reduced to essentials, obsessively persona-first, and AI-native by default.
+  </p>
+  <div class="badges">
+    <span class="badge">Goal-Directed Design</span>
+    <span class="badge">AI-Native ITSM</span>
+    <span class="badge">Persona-First</span>
+    <span class="badge">MSP + Client Layers</span>
+  </div>
+</div>
+
+<!-- Scope -->
+<section>
+  <h2>Scope Boundary</h2>
+  <p>
+    This skill is about <strong>how to think and what to decide</strong>. It deliberately does <strong>not</strong>
+    cover visual styling, component choices, color, or tokens  -  those belong to the
+    <strong>Super Kit design-system skill</strong>. When you reach the point of visual execution, hand off to that skill.
+    Here, work in structure, behavior, states, and rationale.
+  </p>
+</section>
+
+<!-- Mindset -->
+<section id="mindset">
+  <h2>Mindset  -  Hold These Before Touching a Layout</h2>
+
+  <h3>Design for the Goal, Not the Task (Goal-Directed Design)</h3>
+  <p>
+    People's goals  -  not their tasks  -  motivate their behavior. A technician's task is "close the ticket";
+    their goal is to stay unblocked, look competent to their MSP, and get through the queue without a mistake.
+    Tasks are intermediate steps toward a goal; design for the end state the person actually wants.
+    A design that satisfies business goals but ignores the person's goal will eventually fail.
+  </p>
+
+  <h3>Reduce</h3>
+  <p>
+    Start with clarity  -  state the problem and which personas are in the journey. Isolate the core issues;
+    strip assumptions and unnecessary complexity. Pursue element minimalism: the core features that deliver value, nothing decorative.
+  </p>
+
+  <h3>Keep the User at the Center</h3>
+  <p>
+    Every element aligns to the persona and the objective. Aim for coherence across the surface,
+    and treat the design as something you refine iteratively  -  never "final."
+  </p>
+
+  <h3>Model Two User Layers (Specific to MSP)</h3>
+  <p>
+    SuperOps serves the <strong>MSP</strong> (our customer) <em>and</em> the MSP's own <strong>clients</strong>
+    (our customer's customer). Before designing, state which layer this surface is for and which persona
+    within it  -  an MSP owner, an L1/L2 technician, and an end client have different goals and mental models
+    and must not be blurred into one "user."
+  </p>
+</section>
+
+<!-- Process -->
+<section id="process">
+  <h2>Process  -  Run This When Given a PRD, Brief, or Request</h2>
+
+  <h3>1. Discover  -  Where It Fits, Who It's For, Why</h3>
+  <ul>
+    <li>Locate the work in the product vision/strategy: what outcome is this really chasing, and how does it differentiate SuperOps?</li>
+    <li>Identify the persona(s) across both user layers, and for each, their <strong>most frequent</strong> and <strong>most important</strong> task, their day-in-the-life context, and the problems they face.</li>
+    <li>Answer the Goal-Directed questions: Who are the users? What are they trying to accomplish, and how do they <em>think</em> about it? What would feel rewarding? How should the product behave, take form, introduce itself, and handle problems  -  for both novice and expert?</li>
+    <li>State what "better" means as a measurable signal (e.g., fewer steps to resolve, faster time-to-first-action), so you design toward an outcome rather than a feeling.</li>
+  </ul>
+
+  <h3>2. Define  -  Frame the Right Problem</h3>
+  <ul>
+    <li>Identify the <em>right</em> problem beneath the PRD's proposed solution. The PRD often describes a feature; find the job underneath it.</li>
+    <li>Map the <strong>persona-based Jobs-To-Be-Done journey</strong> and anchor to the highest-value job.</li>
+    <li>Identify priorities: the critical features and the critical elements <em>within</em> each feature. Make every choice trace back to the persona + objective  -  this alone removes most complexity.</li>
+    <li>Write one benefit-first problem statement you can design against.</li>
+  </ul>
+
+  <h3>3. Design  -  Structure, Hierarchy, Completeness, Experience</h3>
+  <p>Work in four passes. (Visual/component decisions defer to the Super Kit skill.)</p>
+
+  <h4>Structure</h4>
+  <p>Wireframe the idea, decide the layout, define the information architecture. Chunk content so it fits working memory (see UX laws).</p>
+
+  <h4>Hierarchy &amp; Interaction</h4>
+  <p>Establish typography hierarchy, distinguish primary vs. secondary actions, use consistent UI elements and intuitive iconography, and create clear visual distinctions and grouping. Apply the UX laws below as reasoning tools here.</p>
+
+  <h4>Completeness  -  Design Every State, Not Just the Happy Path</h4>
+  <p>A screen is not designed until you've handled: data validation, state maintenance, loading states, empty states, error handling with a recovery path, and graceful degradation (the surface stays usable when something fails). Missing states are the most common failure  -  check them explicitly.</p>
+
+  <h4>Experience Layers  -  What Makes It Feel World-Class</h4>
+  <ul>
+    <li><strong>Efficiency &amp; speed</strong>  -  streamline the persona's job to minimise steps and friction; prioritise fast access to primary information; automate repetitive tasks; give real-time feedback on every action.</li>
+    <li><strong>Emotional engagement</strong>  -  responsive feedback that gives a sense of accomplishment, empathetic and user-centric copy, delightful details.</li>
+    <li><strong>Trust &amp; security</strong>  -  consistency/reliability of patterns; visible data protection; extra care and confirmation around destructive actions (e.g. deletion).</li>
+    <li><strong>Contextual relevance &amp; personalisation</strong>  -  adapt content and recommendations to the user's profile, behaviour, and vertical (e.g. medical, education, legal MSP clients).</li>
+    <li><strong>Education &amp; guidance</strong>  -  persona-based onboarding, in-app assistance (tooltips, tutorials, new-feature moments).</li>
+    <li><strong>Differentiation</strong>  -  surface the USP; use visual storytelling to convey it.</li>
+    <li><strong>Reach</strong>  -  responsive layout, accessibility, and plan-based feature gating where the product model requires it.</li>
+  </ul>
+</section>
+
+<!-- AI-Native -->
+<section id="ai-native">
+  <h2>4. AI-Native Interaction  -  A Required Pass, Not an Afterthought</h2>
+  <p>SuperOps is AI-native ITSM. For every AI touchpoint on the surface, decide and design:</p>
+
+  <ul>
+    <li>
+      <strong>Autonomy level</strong> on the gradient:
+      <em>suggest → draft → act-with-approval → act autonomously</em>.
+      Choose deliberately per task; don't default to full autonomy.
+    </li>
+    <li>
+      <strong>Explainability</strong>  -  show <em>why</em> the AI acted or recommended, traceable to its source,
+      in a way the user can inspect and reverse. Treat this as layout, not a tooltip.
+    </li>
+    <li>
+      <strong>Human-in-the-loop &amp; audit</strong>  -  for consequential actions, design the approval step and an audit trail.
+    </li>
+    <li>
+      <strong>Uncertainty &amp; failure states</strong>  -  design for low confidence, missing data, and wrong answers,
+      and always give the human a clean override.
+    </li>
+  </ul>
+
+  <h3>5. Validate &amp; Measure</h3>
+  <ul>
+    <li>Pressure-test the design against the persona's <em>goal</em> (not just its tasks) and against the quality gate below.</li>
+    <li>Note what should be validated with real users before build, and confirm the measurable signal from Discover can actually be observed once shipped.</li>
+  </ul>
+</section>
+
+<!-- Quality Gate -->
+<section id="quality-gate">
+  <h2>Quality Gate  -  A Design Isn't Done Until You've Addressed Each</h2>
+  <ol class="checklist">
+    <li>1. Right problem identified</li>
+    <li>2. Persona-based JTBD journey mapped</li>
+    <li>3. Wireframe</li>
+    <li>4. Layout decided</li>
+    <li>5. Information architecture</li>
+    <li>6. Typography hierarchy</li>
+    <li>7. Primary &amp; secondary actions</li>
+    <li>8. Data validation</li>
+    <li>9. State maintenance</li>
+    <li>10. Visual distinctions</li>
+    <li>11. Consistent UI elements</li>
+    <li>12. Intuitive iconography &amp; symbols</li>
+    <li>13. Loading states</li>
+    <li>14. Error handling &amp; recovery path</li>
+    <li>15. Empty states</li>
+    <li>16. Emotional engagement</li>
+    <li>17. Responsive layout</li>
+    <li>18. User personalisation</li>
+    <li>19. USP highlighted</li>
+    <li>20. Plan-based feature gating (if applicable)</li>
+    <li>21. Onboarding</li>
+    <li>22. Accessibility</li>
+    <li>23. Education &amp; guidance</li>
+    <li>24. Visual storytelling</li>
+    <li>25. AI: autonomy level, explainability, approval + audit, uncertainty states</li>
+    <li>26. Validated (or a validation plan) with customers</li>
+    <li>27. A measurable behavioral signal defined</li>
+    <li>28. Refinement path noted</li>
+  </ol>
+</section>
+
+<!-- UX Laws -->
+<section id="ux-laws">
+  <h2>UX Laws  -  Reasoning Heuristics</h2>
+  <p>Use these to justify and pressure-test layout and interaction decisions. They're grouped by what they help you reason about.</p>
+
+  <h3>Perception &amp; Grouping (Gestalt)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Law</th><th>Application</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Law of Pragnanz</strong></td><td>The eye prefers the simplest interpretation; favor simple shapes.</td></tr>
+        <tr><td><strong>Law of Proximity</strong></td><td>Place related things near each other; they read as a group.</td></tr>
+        <tr><td><strong>Law of Similarity</strong></td><td>Style related elements alike; differentiate interactive elements consistently.</td></tr>
+        <tr><td><strong>Law of Uniform Connectedness</strong></td><td>Connect related functions with a shared color, line, or frame.</td></tr>
+        <tr><td><strong>Law of Common Region</strong></td><td>Elements inside a shared boundary read as one group; use cards/containers to bind related data and controls (a ticket card, an asset panel).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Attention &amp; Memory</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Law</th><th>Application</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Miller's Law</strong></td><td>Working memory holds ~7+/-2; chunk content into groups of 5-9.</td></tr>
+        <tr><td><strong>Serial Position Effect</strong></td><td>People recall the first and last items best; put the most important nav items and list entries at the ends, not buried in the middle.</td></tr>
+        <tr><td><strong>Von Restorff (Isolation) Effect</strong></td><td>The item that differs is the one remembered; make the single primary action and the USP visually distinct from everything around them.</td></tr>
+        <tr><td><strong>Zeigarnik Effect</strong></td><td>Open, unfinished tasks stay top of mind; use progress indicators and keep open tickets / incomplete onboarding visibly unresolved to pull the user back.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Action &amp; Effort</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Law</th><th>Application</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Fitts's Law</strong></td><td>Make primary actions prominent and give them large, easy targets.</td></tr>
+        <tr><td><strong>Hick's Law</strong></td><td>More options slow decisions; break complex tasks into steps (a 4-stage / 5-option flow beats one 20-field form).</td></tr>
+        <tr><td><strong>Jakob's Law</strong></td><td>Users expect familiar patterns; reuse conventions so they don't relearn.</td></tr>
+        <tr><td><strong>Tesler's Law (Conservation of Complexity)</strong></td><td>Every workflow has irreducible complexity, so decide <em>who absorbs it</em>. In AI-native ITSM, push it onto the system/agent  -  auto-triage, pre-filled fields, drafted replies  -  so the technician doesn't carry it.</td></tr>
+        <tr><td><strong>Postel's Law (Robustness)</strong></td><td>Be liberal in what you accept, strict in what you emit; tolerate messy input (varied formats, natural-language queries to the AI) and return clean, predictable output.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Speed, Motivation &amp; Feel</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Law</th><th>Application</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Doherty Threshold</strong></td><td>Keep perceived response under ~400ms; when the AI needs longer, acknowledge instantly and stream or show a skeleton so momentum holds.</td></tr>
+        <tr><td><strong>Goal-Gradient Effect</strong></td><td>Motivation rises as a goal nears; show progress (setup checklists, resolution steps) and shrink the perceived remaining effort toward the end.</td></tr>
+        <tr><td><strong>Peak-End Rule</strong></td><td>An experience is judged by its most intense moment and its ending; invest in the resolution moment and the close of a flow (ticket resolved, incident cleared), not just the average screen.</td></tr>
+        <tr><td><strong>Aesthetic-Usability Effect</strong></td><td>Polished, coherent design is perceived as more usable and more trustworthy; craft drives adoption and buys goodwill that carries users past minor friction.</td></tr>
+        <tr><td><strong>Parkinson's Law</strong></td><td>Work expands to fill the time given; constrain scope and surface only what matters so effort concentrates on the essential.</td></tr>
+        <tr><td><strong>Pareto Principle (80/20)</strong></td><td>A small share of tasks drives most of the value; make the vital few paths effortless before polishing edge cases.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Foundations -->
+<section id="foundations">
+  <h2>Foundations  -  The Canon This Process Thinks From</h2>
+  <p>Four bodies of work underpin everything above. Reach for their concepts when a decision is hard.</p>
+
+  <h3>Jobs-To-Be-Done (JTBD)</h3>
+  <p>People "hire" a product to make progress in a specific circumstance  -  design for the <em>job</em>, not the feature or the demographic.</p>
+  <ul>
+    <li>Frame the job as: <em>When [situation], I want to [motivation], so I can [outcome].</em></li>
+    <li>A job has functional, emotional, and social dimensions  -  a technician wants to clear the queue (functional), not look incompetent (emotional), and be seen as reliable by the MSP (social). Serve all three.</li>
+    <li>The real competition is anything that gets the job done  -  the old way, a spreadsheet, or doing nothing. Your AI competes with the technician's own muscle memory.</li>
+    <li>Forces of progress: increase the <em>push</em> of the current pain and the <em>pull</em> of the new way; reduce the <em>anxiety</em> of switching and the <em>habit</em> of the status quo. Onboarding and AI-trust design mostly fight anxiety and habit.</li>
+  </ul>
+
+  <h3>Don't Make Me Think (Krug)</h3>
+  <p>Every question the interface raises  -  "where am I? what does this do? is this clickable?"  -  is cognitive tax. Remove it.</p>
+  <ul>
+    <li>Make things self-evident; at worst, self-explanatory.</li>
+    <li>People scan rather than read, and they satisfice  -  they take the first workable option, not the best one. Make the obvious path the right one.</li>
+    <li>Cut copy hard: write it, remove half the words, then remove half of what's left. This matters most on dense ITSM screens.</li>
+  </ul>
+
+  <h3>The Design of Everyday Things (Norman)</h3>
+  <p>Design so the system is understandable and forgiving.</p>
+  <ul>
+    <li><strong>Affordances &amp; signifiers</strong>  -  make possible actions discoverable and clearly signal where to act.</li>
+    <li><strong>Feedback</strong>  -  every action gets immediate, clear feedback (echoes the real-time-feedback pillar).</li>
+    <li><strong>Mapping</strong>  -  controls should map naturally to their effects.</li>
+    <li><strong>Constraints &amp; forcing functions</strong>  -  limit actions to prevent error; guard destructive actions.</li>
+    <li><strong>Conceptual model</strong>  -  give users an accurate model of how the system <em>and the AI</em> work, so behavior is never surprising.</li>
+    <li><strong>The two gulfs</strong>  -  bridge the <em>Gulf of Execution</em> (can I tell how to do this?) and the <em>Gulf of Evaluation</em> (can I tell what happened and what state it's in?). For AI, the evaluation gulf <em>is</em> explainability.</li>
+    <li>Treat most "user error" as design error, and make actions reversible.</li>
+  </ul>
+
+  <h3>About Face / Goal-Directed Design (Cooper)</h3>
+  <p>The source of this skill's mindset  -  design for goals, expressed through precise personas.</p>
+  <ul>
+    <li><strong>Commit to a persona; reject the "elastic user."</strong> "The user" as a vague everyone lets you justify anything  -  design for a specific primary persona.</li>
+    <li><strong>Design for the perpetual intermediate</strong>  -  most people are neither novices nor experts for long; ease entry, enable mastery, but optimize the everyday middle.</li>
+    <li><strong>Match the posture</strong>  -  a technician's console is <em>sovereign</em> (full attention, expert daily use → dense, keyboard-driven, efficient); an occasional client portal is <em>transient</em> (must be obvious and self-explaining); background agents are <em>daemonic</em>. Design to how the surface occupies attention.</li>
+    <li><strong>Minimize excise</strong>  -  cut work that serves the tool rather than the goal: redundant steps, needless navigation, ceremony.</li>
+    <li><strong>Be considerate</strong>  -  software should behave like a considerate, intelligent colleague, and forgive mistakes with generous undo.</li>
+  </ul>
+</section>
+
+<!-- Deliverables -->
+<section>
+  <h2>What to Produce in a Design Session</h2>
+  <ul>
+    <li>A one-line, benefit-first problem statement + the persona and the layer (MSP vs. client) it serves.</li>
+    <li>The primary job and journey.</li>
+    <li>Flows / wireframes covering the happy path <strong>and</strong> the required states (loading, empty, error/recovery, validation, degraded).</li>
+    <li>Explicit AI-interaction decisions (autonomy, explainability, approval/audit, uncertainty).</li>
+    <li>Rationale that ties each significant decision back to the persona's goal and, where useful, a UX law.</li>
+    <li>A note on what to validate and the signal that proves it worked.</li>
+  </ul>
+  <p>Then hand visual execution  -  components, tokens, styling  -  to the <strong>Super Kit design-system skill</strong>.</p>
+</section>
+
+<!-- Never -->
+<section>
+  <h2>Never</h2>
+  <ul>
+    <li>Never design only the happy path. Missing states are the default failure.</li>
+    <li>Never blur the two user layers or "average" personas into one.</li>
+    <li>Never bolt on AI without deciding its autonomy level and how it explains itself.</li>
+    <li>Never make the user feel stupid, cause them to make big mistakes, demand too much effort, or ship something joyless  -  these are the four ways a design fails its user's goal.</li>
+    <li>Never optimise for the business goal at the expense of the person's goal; the business goal is best served by meeting the person's.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  SuperOps Design Process &middot; Internal Reference &middot;
+  <a href="#">Back to top</a>
+</footer>
+
+</body>
+</html>
