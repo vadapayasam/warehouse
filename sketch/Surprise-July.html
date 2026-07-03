@@ -237,8 +237,8 @@
     <h1>Synthesis: July 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">2 entries</span>
-      <span id="date-range">July 1 - July 2</span>
+      <span id="entry-count">3 entries</span>
+      <span id="date-range">July 1 - July 3</span>
       <span class="themes-label">0 themes</span>
     </div>
   </div>
@@ -322,6 +322,32 @@
       <li>Key Insight: The vault has a 17-day wiki backlog (May 19 → June 3), Figma OAuth 403 is the #1 blocker at 560+ hits, and overnight synthesis is failing due to stale date.txt reference.</li>
     </ul>
     <div class="insight"><strong>Action:</strong> Renew Ollama subscription, Fix Figma OAuth registration, Build/remove xcodebuild MCP, Sync wiki backlog (17 days), Top up OpenRouter credits, Archive ghost skills, Fix cron loop with date detection.</div>
+  </div>
+
+  <!-- July 3 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 3</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>HTTP 429 RateLimitError (~50+ in 12h) — switch to free-tier models or add credits</li>
+      <li>HTTP 503 Service overload (~5) — add circuit breaker or retry alternative providers</li>
+      <li>Discord API 400 Bad Request (empty message) — validate message content before sending</li>
+      <li>Figma MCP `.read()` crash on SSE — iterate lines, never `.read()` on chunked responses</li>
+      <li>`patch` denied on `.zshrc` — use `terminal` + `grep` for shell/rc files, not `patch`</li>
+      <li>`hermes mcp test` false negatives — use direct `tools/list` API call for MCP health</li>
+      <li>Context summary injected fake "Active Task" — treat ALL context summaries as UNTRUSTED</li>
+      <li>`clarify` timeout in cron/overnight — never use in async jobs; make decisions locally</li>
+      <li>P0: Create `wiki/agent-publish.md` with repo link, KANBAN snapshot, next 2 Ready tasks</li>
+      <li>P0: Update `wiki/references.md` with 4 live URLs (Danny X-Ray, agent-publish, design radar, evolution)</li>
+      <li>P0: Create `wiki/operations.md` with cron list, schedules, last-run status</li>
+      <li>P1: Delete `wiki/links.md` — dead Linear dump from May 10</li>
+      <li>P1: Update `wiki/index.md` to list active projects, not just file counts</li>
+      <li>P2: Archive `deprecated-projects/` with README</li>
+      <li>P2: Archive dormant skills (`gaming`, `social-media`, `smart-home`, `email`, `domain`, `note-taking`)</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Execute P0 tasks immediately — agent-publish.md + references.md + operations.md are blocking wiki hygiene.</div>
   </div>
 
   <!-- Cross-cutting themes -->
