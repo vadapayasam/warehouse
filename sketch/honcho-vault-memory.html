@@ -543,7 +543,7 @@ footer a:hover { text-decoration: underline; }
   <h3>How It Works</h3>
   <ul class="feature-list honcho">
     <li><strong>Auto-injection</strong> - Every session gets context from Honcho (session summaries, peer cards, surface patterns)</li>
-    <li><strong>Dialectic</strong> - Background reasoning layer that connects sessions. Disabled (cadence=0) to save ~$9/mo in LLM costs</li>
+    <li><strong>Dialectic</strong> - Background reasoning layer that connects sessions. Disabled (cadence=0) — unnecessary for a self-hosted memory stack</li>
     <li><strong>Deriver</strong> - Background processor that builds embeddings and semantic indexes from conversation history</li>
     <li><strong>Peer cards</strong> - Curated fact lists about the user (name, role, preferences, patterns) maintained automatically</li>
   </ul>
@@ -643,7 +643,7 @@ footer a:hover { text-decoration: underline; }
     <tr><td>Source</td><td>Written, curated, edited</td><td>Conversational, observed</td></tr>
     <tr><td>Query method</td><td>Filesystem grep or REST API</td><td>Semantic search or LLM reasoning</td></tr>
     <tr><td>Update latency</td><td>Write when processed (daily)</td><td>Auto after every message</td></tr>
-    <tr><td>Cost</td><td>Zero (filesystem)</td><td>~$1/mo (embeddings + Claude Haiku)</td></tr>
+    <tr><td>Cost</td><td>Zero (filesystem)</td><td>Zero (self-hosted, local only)</td></tr>
     <tr><td>Retention</td><td>Permanent. No auto-deletion.</td><td>Session-based. Durable facts persist.</td></tr>
     <tr><td>Autonomy</td><td>Agent-initiated reads</td><td>Auto-injected every turn</td></tr>
   </table>
@@ -687,7 +687,7 @@ footer a:hover { text-decoration: underline; }
 
 <section>
   <h2>Infrastructure & Costs</h2>
-  <p>Both systems run locally on a Mac Mini. No cloud dependencies (except Honcho's OpenAI embeddings at ~$0.02/M tokens).</p>
+  <p>Both systems run locally on a Mac Mini. Zero cloud dependencies. Zero subscription costs. Honcho is fully self-hosted — no paid service involved.</p>
 
   <div class="infra-grid">
     <div class="infra-card">
@@ -697,8 +697,8 @@ footer a:hover { text-decoration: underline; }
     </div>
     <div class="infra-card">
       <h4>Honcho API</h4>
-      <div class="cost">~$1/mo</div>
-      <p>Docker on local Mac Mini. PostgreSQL + pgvector. Claude Haiku 4.5 for dialectic (disabled). OpenAI embeddings.</p>
+      <div class="cost">Free (self-hosted)</div>
+      <p>Docker on local Mac Mini. PostgreSQL + pgvector. Embeddings via local model. No cloud dependency, no API key needed.</p>
     </div>
     <div class="infra-card">
       <h4>Honcho DB</h4>
@@ -711,9 +711,6 @@ footer a:hover { text-decoration: underline; }
       <p>Background processor that builds embeddings and generates session summaries. Low CPU, runs on idle.</p>
     </div>
   </div>
-
-  <h3>Cost History</h3>
-  <p>Honcho was burning ~$10/mo on Claude Sonnet 4 for dialectic analysis every 3 messages. Switched to Claude Haiku 4.5 and set <code>dialectic_cadence: 0</code>. Savings: ~90%. The dialectic processor is now disabled entirely - Honcho stores context but doesn't run background LLM analysis.</p>
 
   <h3>Troubleshooting</h3>
   <pre>
