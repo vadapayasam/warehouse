@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tina's Build Log · 2026-07-02</title>
+<style>
+:root{--bg:#f5f5f7;--text:#1d1d1f;--muted:#6e6e73;--card:#fff;--accent:#0071e3;--border:#d2d2d7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,SF Pro Text,Helvetica Neue,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.47;padding:2rem 1rem;max-width:720px;margin:0 auto;letter-spacing:-0.374px}
+h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:2rem;font-weight:600;letter-spacing:-.144px;margin-bottom:.25rem}
+.date{color:var(--muted);margin-bottom:2rem;font-size:.9rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.85rem;border:1px solid #eee}
+.stats-bar span{color:var(--muted)}
+.stats-bar strong{color:var(--text)}
+.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid #eee;transition:.15s}
+.tweet-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.num{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600}
+.tag{font-size:.75rem;padding:.2rem .55rem;border-radius:99px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;font-family:SF Mono,ui-monospace,monospace}
+.tag.hermes{background:#ede9fe;color:#5b21b6}
+.tag.workflow{background:#d1fae5;color:#065f46}
+.tag.tips{background:#fef3c7;color:#92400e}
+.tag.apps{background:#dbeafe;color:#1e40af}
+.tag.interesting{background:#cffafe;color:#155e75}
+.tag.failures{background:#fee2e2;color:#991b1b}
+.time{font-size:.8rem;color:#059669;font-weight:600;margin-left:auto;background:#d1fae5;padding:.2rem .55rem;border-radius:99px;white-space:nowrap}
+.tweet-text{white-space:pre-wrap;font-family:SF Pro Text,Helvetica Neue,Arial,sans-serif;font-size:1rem;line-height:1.5;margin-bottom:1rem}
+.char-count{font-size:.75rem;color:var(--muted);display:inline-block;margin-right:.5rem}
+.copy-btn{padding:.35rem 1rem;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;font-size:.85rem;float:right;transition:.1s}
+.copy-btn:hover{background:#0077ed}
+.copy-btn:active{transform:scale(.97)}
+.copy-all{background:#5b21b6;float:none;margin-top:.5rem}
+.copy-all:hover{background:#6d28d9}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:.75rem;font-size:.85rem}
+.schedule-table td,.schedule-table th{padding:.4rem .5rem;text-align:left;border-bottom:1px solid var(--border)}
+.schedule-table th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.02em}
+.archive-link{display:inline-block;margin-top:.25rem;color:var(--accent);text-decoration:none;font-size:.85rem}
+.archive-link:hover{text-decoration:underline}
+.thread-container{border:1px solid #d2d2d7;border-radius:16px;padding:1rem;margin-bottom:1.5rem;background:#fafafa}
+.thread-header{font-size:.8rem;color:var(--muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.02em;font-weight:500}
+.sources{font-size:.8rem;color:var(--muted);margin:2rem 0;padding:1rem;background:var(--card);border-radius:16px;border:1px solid #eee}
+.sources a{color:var(--accent);text-decoration:none}
+.sources a:hover{text-decoration:underline}
+@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
+</style>
+</head>
+<body>
+<h1>Design + Code + Agents</h1>
+<p class="date">Prabha's build log · 2026-07-02 · Thursday edition</p>
+
+<div class="stats-bar">
+  <span><strong>4</strong> tweets</span>
+  <span><strong>$0</strong> cloud cost</span>
+  <span><strong>1</strong> thread</span>
+  <span><strong>116</strong> HTML files</span>
+</div>
+
+<table class="schedule-table">
+  <thead><tr><th>Time (IST)</th><th>Slot</th></tr></thead>
+  <tbody>
+    <tr><td>9:00 AM</td><td>Builder Moment (thread)</td></tr>
+    <tr><td>12:00 PM</td><td>Hot Take</td></tr>
+    <tr><td>4:00 PM</td><td>Deep Cut</td></tr>
+    <tr><td>7:00 PM</td><td>Wind-down</td></tr>
+  </tbody>
+</table>
+
+<!-- SLOT 1: Thread 2/2 -->
+<div class="thread-container">
+  <div class="thread-header">Slot 1 · Hermes v0.18 Thread (2/2)</div>
+
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <span class="num">1</span>
+      <span class="tag hermes">hermes</span>
+      <span class="time">9:00 AM</span>
+    </div>
+    <div class="tweet-text">Hermes v0.18 shipped July 1. They called it The Judgment Release.
+
+1,720 commits. 998 merged PRs. Every P0 and P1 issue closed before ship.
+
+That last part is the whole point.
+
+An agent that keeps improving is table stakes. An agent that knows when to stop polishing and ship is the actual product. Judgment is not a feature. It is the product.</div>
+    <span class="char-count">344 chars</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+  </div>
+
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <span class="num">2</span>
+      <span class="tag hermes">hermes</span>
+      <span class="time">9:00 AM</span>
+    </div>
+    <div class="tweet-text">The team could have shipped v0.18 with new features. They spent ten days closing 949 issues instead.
+
+That is the judgment call most teams get wrong: new features feel like progress. Fixing old problems feels like housekeeping. But an agent that breaks in known ways is an agent users stop trusting.
+
+Trust is a function of reliability, not capability.
+
+The release name is not marketing. It is a design decision about what the team actually shipped.</div>
+    <span class="char-count">450 chars</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+  </div>
+
+  <button class="copy-btn copy-all" onclick="var p=this.parentElement.querySelectorAll('.tweet-text');navigator.clipboard.writeText([...p].map(e=>e.textContent).join('\n\n'))">Copy All Parts</button>
+</div>
+
+<!-- SLOT 2 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">3</span>
+    <span class="tag interesting">interesting</span>
+    <span class="time">12:00 PM</span>
+  </div>
+  <div class="tweet-text">180k GitHub stars in four months.
+
+The Instagram post called it "an open-source AI agent." The actual product is a self-hosted daemon that writes its own skills, runs scheduled cron jobs, and remembers who you are across sessions.
+
+The gap between the headline and the product is a 45-minute setup and a config file.
+
+The stars measure hype. The setup count measures loyalty.</div>
+  <span class="char-count">375 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<!-- SLOT 3 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">4</span>
+    <span class="tag apps">apps</span>
+    <span class="time">4:00 PM</span>
+  </div>
+  <div class="tweet-text">Apple updated App Store rejection policy for 2026. Three changes that actually matter:
+
+1. Account deletion is now mandatory. Not a link to a web form. A functional button inside the app.
+
+2. Age ratings expanded to 13+, 16+, and 18+ tiers.
+
+3. CI rejections happen before a reviewer touches the build. Teams with outdated pipelines get blocked at upload.
+
+The third one is the real shift. Used to be a reviewer would catch it. Now the pipeline catches it. Colder, faster, and ultimately more fair because it is consistent.
+
+Automated enforcement at scale is not coming. It is here.</div>
+  <span class="char-count">582 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<!-- SLOT 4 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">5</span>
+    <span class="tag tips">tips</span>
+    <span class="time">7:00 PM</span>
+  </div>
+  <div class="tweet-text">Your morning workflow is probably too complicated.
+
+The setup that looks good in a screenshot and the one that survives 6:45am with three notifications and half a coffee are different things.
+
+Test your workflow the way it will actually be used. Not how you designed it.</div>
+  <span class="char-count">270 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<div class="sources">
+  Sources checked: <a href="https://github.com/NousResearch/hermes-agent/releases">Hermes v0.18 release notes</a>, <a href="https://news.ycombinator.com/item?id=48187581">HN thread on Hermes</a>, <a href="https://www.openspaceservices.com/blog/mobile-app-development/apple-app-store-rejection-guide-2026-the-15-most-common-reasons-and-how-to-fix-each">App Store rejection guide 2026</a>, <a href="https://www.bitcot.com/ios-app-development-problems-2026/">iOS development problems 2026</a>.
+</div>
+
+<p class="footer">
+  Generated by Hermes Agent · 2026-07-02 · minimax-m2.7 · $0 total cost<br>
+  <a class="archive-link" href="https://vadapayasam.github.io/warehouse/daily/">Daily Archive</a>
+</p>
+</body>
+</html>

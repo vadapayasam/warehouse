@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Honcho + Vault: Prabha's Dual Memory System</title>
+<style>
+:root {
+  --bg: #f5f5f7;
+  --fg: #1d1d1f;
+  --muted: #6e6e73;
+  --accent: #0071e3;
+  --accent-soft: #e0f0ff;
+  --border: #d2d2d7;
+  --card: #ffffff;
+  --ok: #166534;
+  --ok-bg: #dcfce7;
+  --warn: #c2410c;
+  --warn-bg: #ffedd5;
+  --code-bg: #f5f5f4;
+  --vault: #7c3aed;
+  --vault-soft: #f3e8ff;
+  --honcho: #0891b2;
+  --honcho-soft: #e0faff;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  padding: 0;
+}
+
+/* Header */
+header {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 2.5rem;
+}
+header h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 0.6rem;
+}
+header .subtitle {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 650px;
+  line-height: 1.5;
+}
+header .meta {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+header .layers {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+header .layer-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.layer-tag.vault {
+  background: var(--vault-soft);
+  color: var(--vault);
+}
+.layer-tag.honcho {
+  background: var(--honcho-soft);
+  color: var(--honcho);
+}
+.layer-tag.both {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--fg);
+}
+
+/* Sections */
+section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+section + section {
+  border-top: 1px solid var(--border);
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+h2 .layer-icon {
+  margin-right: 0.4rem;
+}
+h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+}
+p { margin-bottom: 1rem; color: var(--fg); line-height: 1.6; }
+
+/* Architecture callout */
+.arch-summary {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+.arch-half {
+  text-align: center;
+  padding: 0.5rem;
+}
+.arch-half .title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.arch-half .title.v { color: var(--vault); }
+.arch-half .title.h { color: var(--honcho); }
+.arch-half .desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.arch-symbol {
+  font-size: 1.5rem;
+  color: var(--muted);
+  font-weight: 300;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .arch-summary {
+    grid-template-columns: 1fr;
+  }
+  .arch-symbol {
+    display: none;
+  }
+}
+
+/* Comparison table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+}
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+td:first-child {
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.vault-cell { border-left: 3px solid var(--vault); }
+.honcho-cell { border-left: 3px solid var(--honcho); }
+
+/* Tool cards */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.tool-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.tool-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.tool-card .cmd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  background: var(--code-bg);
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+.tool-card.honcho-card .cmd { color: var(--honcho); }
+.tool-card.vault-card .cmd { color: var(--vault); }
+.tool-card h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.tool-card p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Decision matrix */
+.decision-grid {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+.dg-header {
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+}
+.dg-item {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.dg-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+.badge-vault { background: var(--vault-soft); color: var(--vault); }
+.badge-honcho { background: var(--honcho-soft); color: var(--honcho); }
+.badge-both { background: #fff; border: 1px solid var(--border); color: var(--fg); }
+
+/* Infra cards */
+.infra-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.infra-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+.infra-card h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.infra-card .cost {
+  font-size: 0.85rem;
+  color: var(--ok);
+  font-weight: 600;
+}
+.infra-card p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-top: 0.3rem;
+}
+
+/* Verticals */
+.verdict-box {
+  background: #000;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.verdict-box h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+}
+.verdict-box p {
+  color: #a1a1a6;
+  font-size: 0.95rem;
+}
+
+/* Code */
+pre {
+  background: var(--code-bg);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.1rem 0.3rem;
+  border-radius: 6px;
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+.stat .num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.stat .num.v { color: var(--vault); }
+.stat .num.h { color: var(--honcho); }
+.stat .label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.4rem;
+}
+
+/* Agent section */
+.agent-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.agent-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+}
+.agent-step .step-num {
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.agent-step h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.agent-step p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Footer */
+footer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 480px) {
+  header h1 { font-size: 1.8rem; }
+}
+
+/* Badge (generic) */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Feature list */
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+.feature-list li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.feature-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+.feature-list.vault li::before { background: var(--vault); }
+.feature-list.honcho li::before { background: var(--honcho); }
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Honcho + Vault</h1>
+  <p class="subtitle">Prabha's dual-layer memory system. One side is curated, file-based, structured. The other is conversational, semantic, and self-learning. Together they form the memory layer for everything Agent Tina does.</p>
+  <div class="layers">
+    <span class="layer-tag vault">Vault</span>
+    <span class="layer-tag honcho">Honcho</span>
+    <span class="layer-tag both">Agent Tina</span>
+  </div>
+  <p class="meta">Updated July 4, 2026 &middot; <code>~/Documents/hermes-vault</code> + <code>localhost:8000</code></p>
+</header>
+
+<section>
+  <h2>Architecture</h2>
+  <p>Two memory systems. One decision. Every time Agent Tina starts a task, she checks both layers automatically. The vault holds the structured past. Honcho holds the conversational context. Neither is complete without the other.</p>
+
+  <div class="arch-summary">
+    <div class="arch-half">
+      <div class="title v">Vault</div>
+      <div class="desc">Obsidian PKM with atomic notes, MOCs, daily digests, and a REST API. Structured, curated, permanent.</div>
+    </div>
+    <div class="arch-symbol">+</div>
+    <div class="arch-half">
+      <div class="title h">Honcho</div>
+      <div class="desc">Self-hosted RAG on PostgreSQL+pgvector. Conversations, preferences, patterns. Semantic, conversational, auto-injected.</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num v">50+</div>
+      <div class="label">Vault wiki notes</div>
+    </div>
+    <div class="stat">
+      <div class="num h">90+</div>
+      <div class="label">Sessions in Honcho</div>
+    </div>
+    <div class="stat">
+      <div class="num v">5</div>
+      <div class="label">Active MOCs</div>
+    </div>
+    <div class="stat">
+      <div class="num h">5</div>
+      <div class="label">Honcho query tools</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="layer-icon">V</span> Layer 1: The Vault</h2>
+  <p>Obsidian-based knowledge management at <code>~/Documents/hermes-vault/</code> (symlinked to <code>~/.hermes/obsidian-vault/</code>). File-based, curated, permanent. This is where structured knowledge lives: MOCs, wiki notes, finance portfolios, design tokens, research artifacts.</p>
+
+  <h3>How It Works</h3>
+  <ul class="feature-list vault">
+    <li><strong>Raw inbox</strong> (<code>raw/</code>) - Daily drops, transcripts, screenshots, voice memos land here first</li>
+    <li><strong>Processing pipeline</strong> - Agent distills raw into atomic wiki notes with frontmatter, tags, and wikilinks</li>
+    <li><strong>Maps of Content</strong> (<code>wiki/MOC-*.md</code>) - Domain entry points: Agent-Tina, Finance, Design, Research, iOS</li>
+    <li><strong>Daily digest</strong> - Cron at 1800 IST processes overnight files, generates digests, appends to monthly synthesis</li>
+    <li><strong>REST API</strong> - Obsidian Local REST API on <code>127.0.0.1:27124</code>, Bearer auth, enables agent reads/writes without opening the app</li>
+  </ul>
+
+  <h3>Vault Tools</h3>
+  <div class="tool-grid">
+    <div class="tool-card vault-card">
+      <div class="cmd">vault-injection</div>
+      <h4>Pre-Task Context</h4>
+      <p>Loaded before every task. Searches vault MOCs and wiki notes for relevant context, injects findings into agent reasoning.</p>
+    </div>
+    <div class="tool-card vault-card">
+      <div class="cmd">pkm-vault-ops</div>
+      <h4>Vault Operations</h4>
+      <p>Full pipeline: map, read, reconcile Index.md, distill atomic notes, build MOCs, verify integrity, retire raw files.</p>
+    </div>
+    <div class="tool-card vault-card">
+      <div class="cmd">read_file / search_files</div>
+      <h4>Filesystem Access</h4>
+      <p>Direct file reads and grep searches across the vault. Used as fallback when REST API is unreachable.</p>
+    </div>
+    <div class="tool-card vault-card">
+      <div class="cmd">VAULT.md</div>
+      <h4>Agent Operating Manual</h4>
+      <p>CLAUD.md equivalent stored at vault root. Defines protocol, directory policy, frontmatter conventions, and output rules.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="layer-icon">H</span> Layer 2: Honcho</h2>
+  <p>Self-hosted memory/RAG stack at <code>localhost:8000</code>. PostgreSQL + pgvector backend, OpenAI embeddings (<code>text-embedding-3-small</code>). Conversation-native - learns from what we say, not from what we write. Auto-injects relevant context into every agent turn.</p>
+
+  <h3>How It Works</h3>
+  <ul class="feature-list honcho">
+    <li><strong>Auto-injection</strong> - Every session gets context from Honcho (session summaries, peer cards, surface patterns)</li>
+    <li><strong>Dialectic</strong> - Background reasoning layer that connects sessions. Disabled (cadence=0) to save ~$9/mo in LLM costs</li>
+    <li><strong>Deriver</strong> - Background processor that builds embeddings and semantic indexes from conversation history</li>
+    <li><strong>Peer cards</strong> - Curated fact lists about the user (name, role, preferences, patterns) maintained automatically</li>
+  </ul>
+
+  <h3>Honcho Query Tools</h3>
+  <div class="tool-grid">
+    <div class="tool-card honcho-card">
+      <div class="cmd">honcho_profile</div>
+      <h4>Quick Facts</h4>
+      <p>"What do we know about Prabha?" Returns curated peer card. Fast, cheap, no LLM call.</p>
+    </div>
+    <div class="tool-card honcho-card">
+      <div class="cmd">honcho_search</div>
+      <h4>Raw Excerpts</h4>
+      <p>Semantic search over stored memory. Returns ranked excerpts. No LLM synthesis. Use for finding specific past facts.</p>
+    </div>
+    <div class="tool-card honcho-card">
+      <div class="cmd">honcho_context</div>
+      <h4>Session Snapshot</h4>
+      <p>"What happened recently?" Returns session summary, recent messages, peer representation. No LLM cost.</p>
+    </div>
+    <div class="tool-card honcho-card">
+      <div class="cmd">honcho_reasoning</div>
+      <h4>Synthesized Answers</h4>
+      <p>Natural language questions over stored context. Depth levels from minimal to max. Costs more (Honcho LLM call).</p>
+    </div>
+    <div class="tool-card honcho-card">
+      <div class="cmd">honcho_conclude</div>
+      <h4>Save Facts</h4>
+      <p>Persist durable facts across sessions. "User prefers screenshot-centric QA." Never save temporary task state.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>How They Work Together</h2>
+  <p>The vault holds the <em>what</em> - structured data, research artifacts, permanent knowledge. Honcho holds the <em>why</em> - preferences, patterns, conversational memory. The decision of which to use depends on the question.</p>
+
+  <h3>Decision Matrix</h3>
+  <div class="decision-grid">
+    <div class="dg-header">Question Type</div>
+    <div class="dg-header">Layer</div>
+    <div class="dg-header">Why</div>
+
+    <div class="dg-item">"What did I say yesterday?"</div>
+    <div class="dg-item"><span class="dg-badge badge-honcho">Honcho</span></div>
+    <div class="dg-item">Conversation memory</div>
+
+    <div class="dg-item">"What's my portfolio allocation?"</div>
+    <div class="dg-item"><span class="dg-badge badge-vault">Vault</span></div>
+    <div class="dg-item">Structured data in wiki/finance/</div>
+
+    <div class="dg-item">"Do I prefer dark mode?"</div>
+    <div class="dg-item"><span class="dg-badge badge-honcho">Honcho</span></div>
+    <div class="dg-item">Preference pattern across sessions</div>
+
+    <div class="dg-item">"What are the Super Kit atoms?"</div>
+    <div class="dg-item"><span class="dg-badge badge-vault">Vault</span></div>
+    <div class="dg-item">Reference catalog in notes/figma/</div>
+
+    <div class="dg-item">"Should I ship X?"</div>
+    <div class="dg-item"><span class="dg-badge badge-both">Both</span></div>
+    <div class="dg-item">Honcho for preferences, Vault for current state</div>
+
+    <div class="dg-item">"What have I learned about Y?"</div>
+    <div class="dg-item"><span class="dg-badge badge-both">Both</span></div>
+    <div class="dg-item">Honcho for cross-session synthesis. Vault for sourced notes.</div>
+  </div>
+
+  <h3>Synthesis Workflow</h3>
+  <p>The combined flow when Agent Tina answers a cross-domain question:</p>
+  <pre>
+1. Trigger: User asks a cross-domain question
+   ("Should I raise WhatPay pricing?")
+
+2. Honcho reasoning (medium/high):
+   - Pull peer card for monetization preferences
+   - Search past mentions of "pricing" + "WhatPay"
+   - Synthesize patterns from conversation history
+
+3. Vault lookup:
+   - Check wiki/MOC-iOS for app status
+   - Check wiki/finance/ for portfolio context
+
+4. Deliver: Blended answer with sources cited
+   ("Based on RevenueCat research [vault] + your past
+    preference for testing before shipping [honcho]...")
+
+5. Conclude (if new insight):
+   - Save durable fact to Honcho for next session
+  </pre>
+
+  <h3>Key Principle</h3>
+  <table>
+    <tr><th>Aspect</th><th>Vault</th><th>Honcho</th></tr>
+    <tr><td>Data model</td><td>File-based atomic notes</td><td>Vector embeddings + relational</td></tr>
+    <tr><td>Source</td><td>Written, curated, edited</td><td>Conversational, observed</td></tr>
+    <tr><td>Query method</td><td>Filesystem grep or REST API</td><td>Semantic search or LLM reasoning</td></tr>
+    <tr><td>Update latency</td><td>Write when processed (daily)</td><td>Auto after every message</td></tr>
+    <tr><td>Cost</td><td>Zero (filesystem)</td><td>~$1/mo (embeddings + Claude Haiku)</td></tr>
+    <tr><td>Retention</td><td>Permanent. No auto-deletion.</td><td>Session-based. Durable facts persist.</td></tr>
+    <tr><td>Autonomy</td><td>Agent-initiated reads</td><td>Auto-injected every turn</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Agent Tina Integration</h2>
+  <p>Both memory systems are wired into Agent Tina's operating loop. Every task starts with a vault injection check and includes Honcho context. The flow is automatic:</p>
+
+  <div class="agent-flow">
+    <div class="agent-step">
+      <div class="step-num">1</div>
+      <h4>Load vault-injection Skill</h4>
+      <p>Triggers on task start. Extracts domain terms (finance, iOS, design), reads the relevant MOC, queries vault REST API for matching notes.</p>
+    </div>
+    <div class="agent-step">
+      <div class="step-num">2</div>
+      <h4>Receive Honcho Context</h4>
+      <p>Every turn has auto-injected context: peer card, session summary, recent patterns. No explicit query needed.</p>
+    </div>
+    <div class="agent-step">
+      <div class="step-num">3</div>
+      <h4>Choose Memory Layer</h4>
+      <p>Based on the question, pick the right tool. Honcho for preferences/patterns. Vault for structured data. Both for synthesis questions.</p>
+    </div>
+    <div class="agent-step">
+      <div class="step-num">4</div>
+      <h4>Save New Knowledge</h4>
+      <p>Durable facts go to Honcho (<code>honcho_conclude</code>). Wiki notes go to the vault (<code>write_file</code>). MOCs updated when domains change.</p>
+    </div>
+  </div>
+
+  <h3>Memory vs Profile Distinction</h3>
+  <p>Agent Tina maintains two separate memory stores alongside the vault and Honcho:</p>
+  <ul class="feature-list vault">
+    <li><strong>Memory</strong> (<code>memory tool, target='memory'</code>) - Agent's personal notes. Environment facts, tool quirks, conventions. Things the agent needs to remember about how to operate.</li>
+    <li><strong>User Profile</strong> (<code>memory tool, target='user'</code>) - Who the user is. Role, preferences, style, corrections. Things that stay stable across sessions.</li>
+  </ul>
+  <p>These are compact, injected-every-turn stores. They do NOT replace the vault or Honcho - they're the agent's operating memory, not the knowledge base.</p>
+</section>
+
+<section>
+  <h2>Infrastructure & Costs</h2>
+  <p>Both systems run locally on a Mac Mini. No cloud dependencies (except Honcho's OpenAI embeddings at ~$0.02/M tokens).</p>
+
+  <div class="infra-grid">
+    <div class="infra-card">
+      <h4>Vault (Obsidian)</h4>
+      <div class="cost">Free</div>
+      <p>Local filesystem. REST API via community plugin. No compute cost, no network dependency.</p>
+    </div>
+    <div class="infra-card">
+      <h4>Honcho API</h4>
+      <div class="cost">~$1/mo</div>
+      <p>Docker on local Mac Mini. PostgreSQL + pgvector. Claude Haiku 4.5 for dialectic (disabled). OpenAI embeddings.</p>
+    </div>
+    <div class="infra-card">
+      <h4>Honcho DB</h4>
+      <div class="cost">Free (local)</div>
+      <p>PostgreSQL with pgvector extension. Stores session data + vector embeddings for semantic search.</p>
+    </div>
+    <div class="infra-card">
+      <h4>Honcho Deriver</h4>
+      <div class="cost">Included</div>
+      <p>Background processor that builds embeddings and generates session summaries. Low CPU, runs on idle.</p>
+    </div>
+  </div>
+
+  <h3>Cost History</h3>
+  <p>Honcho was burning ~$10/mo on Claude Sonnet 4 for dialectic analysis every 3 messages. Switched to Claude Haiku 4.5 and set <code>dialectic_cadence: 0</code>. Savings: ~90%. The dialectic processor is now disabled entirely - Honcho stores context but doesn't run background LLM analysis.</p>
+
+  <h3>Troubleshooting</h3>
+  <pre>
+# Env var naming (critical)
+Honcho uses LLM_ prefix: LLM_OPENAI_API_KEY, not bare OPENAI_API_KEY
+Using wrong prefix fails silently - no logs, no errors, just no responses.
+
+# Health check
+curl http://localhost:8000/health
+
+# Logs
+docker compose logs -f honcho-api
+docker compose logs -f honcho-deriver
+
+# Config
+~/hermes-stack/docker-compose.yml
+~/hermes-stack/honcho-hermes-config.yaml
+  </pre>
+</section>
+
+<div class="verdict-box">
+  <h3>Why Two Layers?</h3>
+  <p>A single memory system can't be both a curated wiki and a conversational log. The vault requires deliberate writing to be useful - that's its strength and its weakness. Honcho captures everything automatically but has no curation - every message is equal weight. Together they approximate how human memory works: some things you deliberately study and record (vault), others you just remember from experience (Honcho). Agent Tina bridges both. This is the Way.</p>
+</div>
+
+<footer>
+  <p>
+    Source: <code>~/Projects/vadapayasam.github.io/sketch/honcho-vault-memory.html</code> &middot;
+    Repo: <a href="https://github.com/vadapayasam/warehouse">vadapayasam/warehouse</a> &middot;
+    Vault: <code>~/Documents/hermes-vault</code> &middot;
+    Honcho: <code>localhost:8000</code><br>
+    Generated July 4, 2026 &middot;
+    <a href="https://vadapayasam.github.io/warehouse/sketch/">More sketches</a>
+  </p>
+</footer>
+
+</body>
+</html>
