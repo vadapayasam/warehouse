@@ -237,8 +237,8 @@
     <h1>Synthesis: July 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">3 entries</span>
-      <span id="date-range">July 1 - July 3</span>
+      <span id="entry-count">4 entries</span>
+      <span id="date-range">July 1 - July 4</span>
       <span class="themes-label">0 themes</span>
     </div>
   </div>
@@ -348,6 +348,67 @@
       <li>P2: Archive dormant skills (`gaming`, `social-media`, `smart-home`, `email`, `domain`, `note-taking`)</li>
     </ul>
     <div class="insight"><strong>Action:</strong> Execute P0 tasks immediately — agent-publish.md + references.md + operations.md are blocking wiki hygiene.</div>
+  </div>
+
+  <!-- July 4 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 4</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li># Overnight Synthesis — 2026-07-04</li>
+      <li>## Patterns Found</li>
+      <li>**Figma MCP OAuth 403 — Persistent Blocker** — 560+ occurrences (May 30–July 3), registration endpoint rejects client despite valid token. Root cause: MCP SDK bug or Figma API change. **Impact:** All design work blocked via Hermes. **Priority: High**</li>
+      <li>**API Rate Exhaustion — Multi-Provider Quota Blowout** — 429 errors across deepseek, kimi-k2.5/k2.6, nvidia, gpt-5.3-codex, openai-codex (~150+ combined). Session usage limits hit, fallback models not triggered. **Pattern:** Single sessions without model override exhaust quotas faster than cron jobs. **Priority: High**</li>
+      <li>**OpenFile Limit (24 FDs) — Cascading Service Refuses** — Honcho, MCP tools, Telegram all hit "Too many open files". Network services refuse connections after ~20 FDs open. Root cause: no FD cleanup on session end. **Priority: Medium**</li>
+      <li>**xcodebuild-mcp / Honcho / Cua-Driver Socket Refused (61)** — MCP and cron jobs hang waiting for services that never start. Binary at `~/xcodebuild-mcp/build/cli.js` missing/crashes. **Impact:** iOS builds and device logs dead. **Priority: High**</li>
+      <li>**qwen3.5-9b Context Overflow — Cron Cascade Failures** — Two cron jobs (`Weekly Agentic SaaS`, `daily-wiki-summary`) use 8K-context model, overflow 64K context, compressions dead, jobs fail silently. Fix: pin to `deepseek-v4-flash`. **Priority: Medium**</li>
+      <li>**Discord API Errors — Empty Messages & 429s** — 5+ empty message errors in 2 min burst, 429 on reactions endpoint. Channel ID type coercion failing (snowflake vs string). **Priority: Low**</li>
+      <li>**patch Tool Rejection — Credential Files** — `.zshrc`, `.env` writes denied. Pattern: never use `patch` for shell/rc/credential files. **Priority: Low**</li>
+      <li>**Stale Archive Bloat — 30+ Dead Files** — `.stale-backup-20260510/`, `transcripts/`, `processed/2026-04*/`, duplicate v1 dumps. Signal-to-noise degrading weekly. **Priority: Medium**</li>
+      <li>**RapidMLX Endpoint Flap (Port 8765)** — 8 retry-exhaustion failures in 12h, Nightly Log Analyzer cron failed as cascade. Circuit breaker needed. **Priority: Medium**</li>
+      <li>**Memory Bloat → Compression Gap** — Memory hit 95% with prose paragraphs, compressed to 73% with telegraphic bullets. Pattern: never write memory in prose. **Priority: Low**</li>
+      <li>**Context Compaction — Untrusted "Active Task"** — Summaries claim wrong task, agent proceeds incorrectly. Rule: treat ALL context summaries as untrusted. **Priority: Low**</li>
+      <li>## Actionable Items</li>
+      <li>**P0:** Fix Figma MCP OAuth 403 — verify MCP SDK version, rotate client metadata, or switch to local desktop server (`http://127.0.0.1:3845/mcp`). Blocker for all design work.</li>
+      <li>**P0:** Rotate API providers — add exponential backoff, rotate models per session, pin cron jobs to `deepseek-v4-flash` or free-tier models.</li>
+      <li>**P0:** Increase FD limit (`ulimit -n 65535`) + add FD cleanup on session end (close unused handles, use context manager for file handles).</li>
+      <li>**P0:** Fix xcodebuild-mcp binary — build `~/xcodebuild-mcp/build/cli.js` or remove from config if unused. iOS builds blocked.</li>
+      <li>**P1:** Pin `qwen3.5-9b` cron jobs to `deepseek-v4-flash` (64K context).</li>
+      <li>**P1:** Validate Discord channel ID format (string snowflake, not integer) before sending. Add content-length check > 0.</li>
+      <li>**P1:** Audit and archive stale vault files (`.stale-backup-20260510/`, `transcripts/`, `processed/2026-04*/`, v1 dumps) — ~30 files.</li>
+      <li>**P2:** Add circuit breaker for rapid-mlx endpoint (port 8765), retry with 5s backoff on 429.</li>
+      <li>**P2:** Compress memory entries to one-liners when usage > 85%, never prose paragraphs.</li>
+      <li>## Stale Items</li>
+      <li>13 overnight files with no new cross-cutting patterns beyond above (May 30–July 3 log analyses, pattern scouts, skill audits). Most are error-check summaries — useful for trend tracking, but no fresh actionable items surfaced.</li>
+      <li>`date.txt` in overnight/ is stale (2026-06-28), should be updated to today's date or removed.</li>
+      <li>## Source Files</li>
+      <li>`20260530-archive-consolidate.md` — Stale archive analysis, ~30 dead files identified</li>
+      <li>`20260530-pattern-extract.md` — Figma MCP OAuth, patch tool, DOM inspection patterns</li>
+      <li>`20260531-pattern-extract.md` — SSE streaming, honcho failures, visual timeout patterns</li>
+      <li>`20260531-skill-gap-audit.md` — Ghost skills, browser_vision dead reference</li>
+      <li>`pattern-scout-2026-06-01.md` — Wiki staleness, agent-publish missing</li>
+      <li>`pattern-scout-2026-06-02.md` — Wiki gaps, forgotten threads</li>
+      <li>`pattern-scout-2026-06-03.md` — Wiki bridge gap, agent-publish documentation</li>
+      <li>`log-analysis-2026-06-01.md` — Figma OAuth 403, API streaming timeouts</li>
+      <li>`log-analysis-2026-06-09.md` — Ollama billing 403, context overflow</li>
+      <li>`log-analysis-2026-06-11.md` — ddgs module missing, context compression gap</li>
+      <li>`log-analysis-2026-06-15.md` — Deepseek broken pipe, Nvidia timeouts</li>
+      <li>`log-analysis-2026-06-16.md` — MCP xcodebuild, OpenRouter payment errors</li>
+      <li>`log-analysis-2026-06-17.md` — Discord empty messages, vllm_mlx ImportError</li>
+      <li>`log-analysis-2026-06-20.md` — Telegram timeout, API connection errors</li>
+      <li>`log-analysis-2026-06-23.md` — rapid-mlx connection errors, cron cascade failures</li>
+      <li>`log-analysis-2026-06-27.md` — API 429 bursts, agent idle timeout</li>
+      <li>`log-analysis-2026-06-28.md` — Rate limit exhaustion, HTTP 429 quota exhausted</li>
+      <li>`log-analysis-2026-06-29.md` — Discord 400/429, Telegram timeouts</li>
+      <li>`log-analysis-2026-06-30.md` — Honcho/OAuth rate limits, socket connection refused</li>
+      <li>`log-analysis-2026-07-01.md` — Provider usage limits, too many open files</li>
+      <li>`log-analysis-2026-07-02.md` — Async task exception, telegram.ext get_updates errors</li>
+      <li>`log-analysis-2026-07-03.md` — Rate limiting across providers, open file limit</li>
+      <li>---</li>
+      <li>This is the Way.</li>
+    </ul>
   </div>
 
   <!-- Cross-cutting themes -->
