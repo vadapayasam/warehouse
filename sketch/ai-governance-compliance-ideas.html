@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internal AI Governance &amp; Compliance - ITSM/MSP Project Ideas</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f7;
+    --ink: #1d1d1f;
+    --secondary: #6e6e73;
+    --accent: #0071e3;
+    --accent-bright: #2997ff;
+    --border: #d2d2d7;
+    --border-strong: #86868b;
+    --graphite: #272729;
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 28px;
+    --max-w: 980px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .container { max-width: var(--max-w); margin: 0 auto; padding: 0 22px; }
+  @media (min-width: 768px) { .container { padding: 0 48px; } }
+
+  /* Nav */
+  .nav {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    padding: 12px 0;
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand { font-weight: 600; font-size: 15px; color: var(--ink); letter-spacing: -0.12px; }
+  .nav-links { display: flex; gap: 20px; font-size: 13px; }
+  .nav-links a { color: var(--secondary); }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero {
+    background: var(--bg-alt);
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    line-height: 1.07;
+    letter-spacing: -0.28px;
+    margin-bottom: 16px;
+  }
+  .hero .sub {
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.38;
+    color: var(--secondary);
+    max-width: 720px;
+  }
+  .meta-bar {
+    display: flex; gap: 16px; align-items: center;
+    margin-top: 24px; font-size: 13px; color: var(--secondary);
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+  .meta-bar span { display: flex; align-items: center; gap: 6px; }
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 100px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2px;
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+  .badge-live { background: #e8f5e9; color: #1b5e20; }
+  .badge-source { background: #e3f2fd; color: #0d47a1; }
+
+  /* Sections */
+  section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 32px; font-weight: 600; line-height: 1.13;
+    letter-spacing: -0.144px; margin-bottom: 24px;
+  }
+  h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px; font-weight: 600; line-height: 1.17;
+    letter-spacing: 0.216px; margin: 40px 0 16px;
+  }
+  h4 {
+    font-size: 19px; font-weight: 600; line-height: 1.21;
+    letter-spacing: 0.228px; margin: 28px 0 10px;
+  }
+  p { margin-bottom: 14px; }
+  ul { margin: 12px 0 20px 20px; }
+  li { margin-bottom: 8px; }
+
+  /* Cards */
+  .card {
+    background: var(--bg-alt); border-radius: var(--radius-md);
+    padding: 24px 28px; margin: 20px 0;
+  }
+  .card + .card { margin-top: 16px; }
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  .card-title { font-size: 20px; font-weight: 600; line-height: 1.2; }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px; font-weight: 600; padding: 3px 10px;
+    border-radius: 100px; letter-spacing: 0.2px;
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+  .tag-urgent { background: #ffebee; color: #b71c1c; }
+  .tag-high { background: #fff3e0; color: #e65100; }
+  .tag-medium { background: #fffde7; color: #f57f17; }
+  .tag-tier { background: var(--ink); color: #fff; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-weight: 600; font-size: 13px; color: var(--secondary); letter-spacing: -0.12px; text-transform: uppercase; }
+  tr:hover td { background: var(--bg-alt); }
+  td:first-child { font-weight: 600; }
+
+  /* Source blocks */
+  .source-box {
+    border-left: 3px solid var(--accent); background: var(--bg-alt);
+    padding: 14px 18px; margin: 16px 0; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 14px; line-height: 1.5;
+  }
+  .source-box .src-url {
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px; color: var(--secondary); margin-top: 6px; word-break: break-all;
+  }
+
+  /* CTA band */
+  .cta-band {
+    background: var(--ink); color: #fff; padding: 40px 0;
+    text-align: center; border-radius: var(--radius-lg); margin: 40px 0;
+  }
+  .cta-band h3 { color: #fff; margin: 0 0 12px; font-size: 28px; }
+  .cta-band p { color: rgba(255,255,255,0.7); margin: 0; }
+
+  /* Footer */
+  footer {
+    padding: 32px 0; text-align: center;
+    font-size: 13px; color: var(--secondary); border-top: 1px solid var(--border);
+  }
+
+  /* TOC */
+  .toc { background: var(--bg-alt); border-radius: var(--radius-md); padding: 20px 24px; margin: 24px 0; }
+  .toc h4 { margin: 0 0 12px; font-size: 16px; }
+  .toc ol { margin: 0 0 0 20px; font-size: 14px; }
+  .toc li { margin-bottom: 6px; }
+  .toc a { color: var(--ink); }
+  .toc a:hover { color: var(--accent); }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 32px; }
+    .hero .sub { font-size: 18px; }
+    h2 { font-size: 26px; }
+    h3 { font-size: 20px; }
+    .card { padding: 18px 20px; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <span class="nav-brand">Agent Tina / Research</span>
+    <div class="nav-links">
+      <a href="#context">Context</a>
+      <a href="#projects">Projects</a>
+      <a href="#roi">Priority</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <h1>Internal AI Governance &amp; Compliance</h1>
+    <p class="sub">10 org-level project ideas for ITSM/MSP teams to govern AI agents, build audit trails, and stay ahead of the EU AI Act enforcement deadline.</p>
+    <div class="meta-bar">
+      <span><span class="badge badge-live">LIVE</span> 2026-07-06</span>
+      <span><span class="badge badge-source">SOURCES</span> ITSM.tools, Zylos Research, Microsoft CAF</span>
+      <span>Domain: ITSM / MSP</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section id="context">
+    <h2>Context: Why This Now</h2>
+    <p>Three converging pressures make internal AI governance the next compliance battleground for ITSM teams.</p>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">1. AI adoption is saturating</span>
+        <div class="card-tags"><span class="tag tag-urgent">75% adoption</span></div>
+      </div>
+      <p>ITSM.tools survey (Jun 2026, n=256) found nearly three-quarters of organizations already use AI capabilities in their ITSM tools. SailPoint 2025 research found 82% of enterprises are running AI agents - yet only 44% have thought about how to govern them.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">2. Regulators are activating</span>
+        <div class="card-tags"><span class="tag tag-urgent">Aug 2, 2026</span></div>
+      </div>
+      <p>EU AI Act full enforcement begins <strong>August 2, 2026</strong>. Penalties up to &euro;35 million or 7% of global annual revenue. High-risk AI systems must have: technical documentation, conformity assessments, human oversight, and automatic log generation retained for a minimum of <strong>6 months</strong> (Article 19).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">3. ITSM teams are the logical owners</span>
+        <div class="card-tags"><span class="tag tag-high">30% barrier</span></div>
+      </div>
+      <p>AI agents are service participants. They access systems, pull data, make decisions, and trigger downstream actions. The controls ITSM already runs - risk classification, change management, access governance, incident response - apply directly. 30% of surveyed ITSM professionals name governance as their top barrier to AI adoption.</p>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>The 10 Projects</h2>
+
+    <div class="toc">
+      <h4>Jump to a tier</h4>
+      <ol>
+        <li><a href="#tier1">Tier 1: Agent Inventory &amp; Risk Classification</a> - Governance Register, Shadow Discovery</li>
+        <li><a href="#tier2">Tier 2: Audit Trails &amp; Accountability</a> - Decision Audit Trail, Delegation Logger</li>
+        <li><a href="#tier3">Tier 3: Policy Enforcement &amp; Change Control</a> - Change Management Gate, Policy Engine</li>
+        <li><a href="#tier4">Tier 4: Internal AI Usage Monitoring</a> - Employee Monitor, CAIO Dashboard</li>
+        <li><a href="#tier5">Tier 5: Cross-Framework AI Compliance</a> - Framework Mapper, Incident Response</li>
+      </ol>
+    </div>
+
+    <h3 id="tier1"><span class="tag tag-tier">TIER 1</span> Agent Inventory &amp; Risk Classification</h3>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">1. AI Agent Governance Register</span>
+        <div class="card-tags"><span class="tag tag-urgent">Critical</span><span class="tag tag-tier">Foundation</span></div>
+      </div>
+      <p><strong>Problem:</strong> Most orgs cannot answer "How many AI agents do we have?" Agents sit in shadow with no registry, no owner, no risk tier, no oversight.</p>
+      <p><strong>Idea:</strong> A central governance register where every AI agent must be catalogued before production operation. Captures owner, risk classification, system access scope, data sensitivity, approval status, and compliance framework obligations.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Risk classification wizard (decision-making authority, systems touched, data sensitivity, service impact)</li>
+        <li>Agent-to-system access mapping (APIs, databases, directories)</li>
+        <li>Compliance framework tagging (EU AI Act high-risk? SOC 2? HIPAA?)</li>
+        <li>Ownership assignment with escalation path</li>
+        <li>Self-service registration for dev teams, gated by ITSM approval</li>
+        <li>Auto-discovery via API logs, OAuth tokens, and service account scans</li>
+      </ul>
+      <p><strong>Market gap:</strong> IAM/PAM tools track human access. CMDBs track infrastructure. No product tracks AI agent identity, risk, and governance status in one place.</p>
+      <div class="source-box">
+        <em>"82% of enterprises are running AI agents. Only 44% have thought about how to govern them."</em>
+        <div class="src-url">ITSM.tools - AI Agent Governance in ITSM (Jun 2026)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">2. Shadow AI Agent Discovery &amp; Attestation Engine</span>
+        <div class="card-tags"><span class="tag tag-urgent">Critical</span><span class="tag tag-tier">Foundation</span></div>
+      </div>
+      <p><strong>Problem:</strong> AI agents are deployed by dev teams, shadow IT, and business users with low-code tools. They authenticate via OAuth tokens and API keys that persist indefinitely. Traditional security scans do not flag "this is an AI agent."</p>
+      <p><strong>Idea:</strong> An engine that discovers non-human identities with AI-like behavior patterns - frequent API calls, LLM API endpoints, RAG retrieval patterns - then forces attestation through the governance register before allowing continued operation.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>NHI pattern detection (LLM API traffic, vector DB queries, tool-use sequences)</li>
+        <li>Unattested agent quarantine (revoke tokens, block API access until registered)</li>
+        <li>Attestation workflow: register &rarr; classify risk &rarr; assign owner &rarr; approve</li>
+        <li>Integration with IdP (Okta, Entra ID) and secret scanners (GitGuardian, TruffleHog)</li>
+        <li>Weekly shadow agent drift report</li>
+      </ul>
+      <p><strong>Market gap:</strong> Secret scanners find leaked keys. SIEMs find anomalous traffic. Neither connects the dots to identify unauthorized AI agents in production.</p>
+      <div class="source-box">
+        <em>"Shadow agents - those operating without IT knowledge - often retain high-privilege access long after their original purpose was served."</em>
+        <div class="src-url">Zylos Research - AI Agent Governance and Compliance in 2026 (May 2026)</div>
+      </div>
+    </div>
+
+    <h3 id="tier2"><span class="tag tag-tier">TIER 2</span> Audit Trails &amp; Accountability</h3>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">3. Agent Decision Audit Trail (EU AI Act-Ready)</span>
+        <div class="card-tags"><span class="tag tag-urgent">Critical</span><span class="tag tag-tier">Compliance</span></div>
+      </div>
+      <p><strong>Problem:</strong> The EU AI Act mandates 6-month log retention for high-risk AI systems. Traditional app logs capture what happened. They do not capture <em>why</em> an agent decided it, what context it had, or whether it was consistent with policy. Auditors ask four questions. Most orgs cannot answer them.</p>
+      <p><strong>Idea:</strong> An audit trail system purpose-built for AI agents. Every decision gets a structured log entry: authorization context, input context, reasoning trace, action taken, policy consistency check, and evidence hash.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Four-question log schema: Who authorized? What context? What decided? Consistent with policy?</li>
+        <li>Tamper-evident evidence chain (hashed, timestamped, exportable)</li>
+        <li>6-month+ retention with tiered storage (hot 30 days, warm 6 months, cold archive)</li>
+        <li>Policy consistency engine (did this decision violate a registered policy?)</li>
+        <li>Auditor self-service export (PDF/CSV with chain of custody)</li>
+        <li>Integration with SIEM and ITSM ticket systems</li>
+      </ul>
+      <p><strong>Market gap:</strong> Observability tools (LangSmith, Langfuse) trace agent runs for debugging. They are not audit-grade, tamper-evident, or policy-aware.</p>
+      <div class="source-box">
+        <em>"An agent's trustworthiness is only as strong as its audit trail. You cannot govern what you cannot observe, and you cannot attribute what you did not log."</em>
+        <div class="src-url">Zylos Research - AI Agent Governance and Compliance in 2026 (May 2026)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">4. Agent-to-Agent Delegation Chain Logger</span>
+        <div class="card-tags"><span class="tag tag-medium">Medium</span><span class="tag tag-tier">Advanced</span></div>
+      </div>
+      <p><strong>Problem:</strong> Multi-agent systems delegate tasks across chains. An orchestrator calls a sub-agent which calls an API which modifies a database. When something goes wrong, accountability is diffuse. Traditional "who authenticated" models break down.</p>
+      <p><strong>Idea:</strong> A real-time attribution layer that instruments every agent-to-agent handoff with pre-action governance hooks, authority scope enforcement, and visual chain reconstruction.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Pre-action governance hooks (log delegation before it happens, not after)</li>
+        <li>Authority scope enforcement (sub-agent cannot exceed delegated permissions)</li>
+        <li>Attribution chain reconstruction (visual trace from orchestrator to sub-agent to API to database)</li>
+        <li>Chain-of-custody export for compliance investigations</li>
+        <li>Integration with MCP (Model Context Protocol) and agent orchestration frameworks</li>
+      </ul>
+      <p><strong>Market gap:</strong> No standard protocol for agent-to-agent accountability. PagerDuty's MCP-based protocol is ops-native, not governance-native.</p>
+      <div class="source-box">
+        <em>"Multi-agent accountability requires pre-action governance, not post-hoc forensics. Attribution chains that are not instrumented in real-time cannot be reliably reconstructed after the fact."</em>
+        <div class="src-url">Zylos Research - AI Agent Governance and Compliance in 2026 (May 2026)</div>
+      </div>
+    </div>
+
+    <h3 id="tier3"><span class="tag tag-tier">TIER 3</span> Policy Enforcement &amp; Change Control</h3>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">5. AI Agent Change Management Gate</span>
+        <div class="card-tags"><span class="tag tag-high">High</span><span class="tag tag-tier">Operations</span></div>
+      </div>
+      <p><strong>Problem:</strong> AI agents modify infrastructure, provision accounts, route incidents, and initiate change tickets. But they often bypass the same change management (CAB, risk assessment, rollback plan) that human-initiated changes must pass.</p>
+      <p><strong>Idea:</strong> A change management gate specifically for AI-initiated changes. Any agent proposing a change must pass a risk-scored change workflow before execution.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Change classification engine (standard / normal / emergency, risk-scored by agent tier + impact)</li>
+        <li>CAB approval workflow for high-risk agent changes</li>
+        <li>Automated rollback plan generation (pre-capture state, define revert steps)</li>
+        <li>Integration with ITSM change module (ServiceNow, Jira SM, Freshservice)</li>
+        <li>Post-implementation review automation for agent changes</li>
+        <li>Human-in-the-loop for critical infrastructure changes</li>
+      </ul>
+      <p><strong>Market gap:</strong> Existing change management tools assume human requesters. They do not handle agent-initiated changes with pre-built risk classification for non-human actors.</p>
+      <div class="source-box">
+        <em>"AI agents are already initiating change tickets, provisioning access, and routing incidents. They're operating in the same environment as your other services, and they need to be governed like it."</em>
+        <div class="src-url">ITSM.tools - AI Agent Governance in ITSM (Jun 2026)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">6. AI Policy Enforcement Engine</span>
+        <div class="card-tags"><span class="tag tag-high">High</span><span class="tag tag-tier">Operations</span></div>
+      </div>
+      <p><strong>Problem:</strong> Agents can be prompt-injected to leak data, violate policy, or take unauthorized actions. In regulated industries, a prompt injection is a <em>compliance event</em>, not just a security incident. Data-layer access controls are the only reliable defense.</p>
+      <p><strong>Idea:</strong> A policy enforcement layer between the agent runtime and the systems it accesses. Intercepts prompts, checks against registered policies, blocks violations, and logs incidents.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Pre-action policy check (before the agent acts, verify against registered policies)</li>
+        <li>Data-layer access controls (independent of the model - what data can this agent actually access?)</li>
+        <li>Prompt injection detection and blocking</li>
+        <li>Policy violation incident creation (auto-create ITSM ticket with evidence)</li>
+        <li>Framework-aware policies (EU AI Act high-risk = stricter controls; SOC 2 = different data rules)</li>
+        <li>Real-time circuit breaker (kill switch for agents exceeding authority)</li>
+      </ul>
+      <p><strong>Market gap:</strong> LLM firewalls (LlamaGuard) detect toxic outputs. This is an organizational policy enforcement layer tied to ITSM governance, not a content safety filter.</p>
+      <div class="source-box">
+        <em>"Prompt injection in regulated industries is a compliance event, not just a security incident. Data-layer access controls - independent of the model - are the only reliable defense."</em>
+        <div class="src-url">Zylos Research - AI Agent Governance and Compliance in 2026 (May 2026)</div>
+      </div>
+    </div>
+
+    <h3 id="tier4"><span class="tag tag-tier">TIER 4</span> Internal AI Usage Monitoring</h3>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">7. Employee AI Usage Compliance Monitor</span>
+        <div class="card-tags"><span class="tag tag-high">High</span><span class="tag tag-tier">Monitoring</span></div>
+      </div>
+      <p><strong>Problem:</strong> Employees use ChatGPT, Copilot, Claude, Midjourney, and dozens of AI tools without IT knowledge. Sensitive data gets pasted into public LLMs. No visibility, no policy enforcement, no audit trail.</p>
+      <p><strong>Idea:</strong> A compliance monitor that tracks internal AI tool usage at the org level, enforces approved-tool policies, flags data exposure risks, and generates compliance reports.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Approved AI tool catalog (whitelist + risk tier per tool)</li>
+        <li>Shadow AI detection (network traffic, browser extensions, DNS logs)</li>
+        <li>Data exposure risk scoring (what type of data was sent to which tool?)</li>
+        <li>DLP-style blocking for high-sensitivity data to unapproved AI tools</li>
+        <li>Per-department usage dashboards</li>
+        <li>Compliance report export</li>
+      </ul>
+      <p><strong>Market gap:</strong> CASB tools monitor SaaS usage broadly. They do not have AI-specific risk models (LLM prompt exposure, model training opt-out, generative AI data retention policies).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">8. CAIO Governance Dashboard</span>
+        <div class="card-tags"><span class="tag tag-high">High</span><span class="tag tag-tier">Reporting</span></div>
+      </div>
+      <p><strong>Problem:</strong> 76% of enterprises now have a Chief AI Officer, but only 13% believe they have adequate AI governance. CAIOs need a single pane to report posture to the board, regulators, and auditors. They currently stitch spreadsheets.</p>
+      <p><strong>Idea:</strong> A governance dashboard that rolls up agent inventory, risk classification distribution, framework compliance status, audit trail health, policy violation trends, and shadow agent count.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Agent inventory with risk heatmap</li>
+        <li>Framework compliance scorecards (EU AI Act, NIST AI RMF, ISO 42001)</li>
+        <li>Audit readiness gauge (can we answer the four questions for all high-risk agents?)</li>
+        <li>Policy violation trend chart</li>
+        <li>Shadow agent count with attestation progress</li>
+        <li>Export to PPT/PDF for board presentations</li>
+      </ul>
+      <p><strong>Market gap:</strong> GRC tools cover enterprise risk broadly. No tool is AI-governance-native with agent-specific metrics and attestation tracking.</p>
+      <div class="source-box">
+        <em>"76% of enterprises now have a CAIO, but only 13% believe they have adequate AI governance."</em>
+        <div class="src-url">Zylos Research - AI Agent Governance and Compliance in 2026 (May 2026)</div>
+      </div>
+    </div>
+
+    <h3 id="tier5"><span class="tag tag-tier">TIER 5</span> Cross-Framework AI Compliance</h3>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">9. Multi-Framework AI Compliance Mapper</span>
+        <div class="card-tags"><span class="tag tag-medium">Medium</span><span class="tag tag-tier">Strategic</span></div>
+      </div>
+      <p><strong>Problem:</strong> AI governance is fragmenting across frameworks: EU AI Act, NIST AI RMF, ISO/IEC 42001, SOC 2 AI addendums, HIPAA AI guidance. An org's controls may satisfy EU AI Act but fail SOC 2, or vice versa. No tool reconciles them.</p>
+      <p><strong>Idea:</strong> A mapping engine that takes an organization's AI governance controls and shows which frameworks they satisfy, which gaps remain, and what additional controls are needed per framework.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Control library for AI governance (model cards, risk assessments, human oversight, log retention, bias testing)</li>
+        <li>Framework-to-control mapping (EU AI Act Annex III &harr; NIST AI RMF &harr; ISO 42001)</li>
+        <li>Gap analysis per framework</li>
+        <li>Framework change impact alerts</li>
+        <li>Evidence linking (attach audit trails, agent registers, policy docs to specific controls)</li>
+      </ul>
+      <p><strong>Market gap:</strong> Compliance mapping is delivered by consultants at $100K+ engagements. No productized tool exists for AI-specific multi-framework mapping at mid-market price points.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">10. AI Agent Incident Response &amp; Compliance Forensics</span>
+        <div class="card-tags"><span class="tag tag-medium">Medium</span><span class="tag tag-tier">Strategic</span></div>
+      </div>
+      <p><strong>Problem:</strong> When an AI agent causes a compliance incident, incident response teams lack the right forensics. Standard IR playbooks assume human actors. Agent incidents need reasoning trace, policy context, delegation chain, and model version.</p>
+      <p><strong>Idea:</strong> An incident response module for AI agent compliance events. Auto-collects agent identity, decision audit trail, violated policy, remediation evidence, and root cause analysis.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li>Agent incident taxonomy (prompt injection, policy violation, unauthorized delegation, data leak, model drift)</li>
+        <li>Auto-evidence collection (pulls from Audit Trail, Delegation Logger, Policy Engine)</li>
+        <li>Compliance incident ticket with structured fields</li>
+        <li>Root cause analysis template for agent incidents</li>
+        <li>Retraining / redeployment workflow (after fix, verify, re-register)</li>
+        <li>Integration with ITSM incident module</li>
+      </ul>
+      <p><strong>Market gap:</strong> IR tools (Splunk SOAR, Palo Alto XSOAR) have no agent-specific playbooks. The forensics required for AI agents are structurally different from human-actor incidents.</p>
+    </div>
+  </section>
+
+  <section id="roi">
+    <h2>Build Priority Ranking</h2>
+    <p>Ranked by pain level, regulatory urgency, and build complexity.</p>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Project</th><th>Pain</th><th>Urgency</th><th>Complexity</th><th>Why Build It</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>AI Agent Governance Register</td><td><span class="tag tag-urgent">Critical</span></td><td>Immediate</td><td>Medium</td><td>No product tracks AI agent identity + risk + governance together</td></tr>
+        <tr><td>2</td><td>Agent Decision Audit Trail</td><td><span class="tag tag-urgent">Critical</span></td><td>Immediate</td><td>Medium-High</td><td>Observability tools debug; this audits. Tamper-evident, policy-aware.</td></tr>
+        <tr><td>3</td><td>Shadow AI Agent Discovery</td><td><span class="tag tag-urgent">Critical</span></td><td>Immediate</td><td>Medium</td><td>Secret scanners find keys. This finds agents.</td></tr>
+        <tr><td>4</td><td>AI Policy Enforcement Engine</td><td><span class="tag tag-high">High</span></td><td>High</td><td>High</td><td>LLM firewalls filter content. This enforces organizational policy on actions.</td></tr>
+        <tr><td>5</td><td>CAIO Governance Dashboard</td><td><span class="tag tag-high">High</span></td><td>High</td><td>Low</td><td>Pure aggregation UI; massive perceived value for board reporting</td></tr>
+        <tr><td>6</td><td>AI Agent Change Management Gate</td><td><span class="tag tag-high">High</span></td><td>Medium</td><td>Medium</td><td>Change tools assume humans. This gates agent-initiated changes.</td></tr>
+        <tr><td>7</td><td>Employee AI Usage Monitor</td><td><span class="tag tag-high">High</span></td><td>Medium</td><td>Medium</td><td>CASBs monitor SaaS. This monitors AI-specific data exposure.</td></tr>
+        <tr><td>8</td><td>Agent Delegation Chain Logger</td><td><span class="tag tag-medium">Medium</span></td><td>Medium</td><td>High</td><td>Multi-agent accountability is emergent; early mover advantage</td></tr>
+        <tr><td>9</td><td>Multi-Framework AI Compliance Mapper</td><td><span class="tag tag-medium">Medium</span></td><td>Low</td><td>High</td><td>Consultant-delivered today ($100K+). Productizable at mid-market.</td></tr>
+        <tr><td>10</td><td>AI Agent Incident Response</td><td><span class="tag tag-medium">Medium</span></td><td>Low</td><td>Medium</td><td>IR tools lack agent-specific playbooks. Add-on to #2 and #4.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Recommended Build Sequence</h3>
+    <ol>
+      <li><strong>Foundation:</strong> Start with #1 Agent Register + #3 Shadow Discovery. Cannot govern what you cannot see.</li>
+      <li><strong>Compliance core:</strong> Add #2 Audit Trail. Mandatory for EU AI Act. The 6-month clock is ticking.</li>
+      <li><strong>Operational controls:</strong> Layer #6 Change Management Gate + #4 Policy Enforcement.</li>
+      <li><strong>Reporting:</strong> Wrap with #5 CAIO Dashboard + #7 Employee Monitor.</li>
+      <li><strong>Advanced governance:</strong> #8 Delegation Logger + #9 Framework Mapper + #10 Incident Response.</li>
+    </ol>
+  </section>
+
+  <section id="connections">
+    <h2>How These Connect to Existing Work</h2>
+    <p>These 10 AI governance projects are the <em>internal org-level</em> complement to the 11 <em>asset/vendor-level</em> compliance projects already documented in the asset compliance research.</p>
+    <table>
+      <thead>
+        <tr><th>Layer</th><th>Asset / Vendor Level</th><th>Internal AI Governance (New)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Discovery</strong></td><td>SaaS Subscription Crawler, CIS Drift Detector</td><td>Shadow AI Agent Discovery</td></tr>
+        <tr><td><strong>Inventory</strong></td><td>License True-Up Engine, Hardware Tracker</td><td>AI Agent Governance Register</td></tr>
+        <tr><td><strong>Audit</strong></td><td>Vendor Audit Defense Toolkit</td><td>Agent Decision Audit Trail, Delegation Chain Logger</td></tr>
+        <tr><td><strong>Policy</strong></td><td>Compliance-as-Code Engine, Framework Mapper</td><td>AI Policy Enforcement Engine, Multi-Framework AI Mapper</td></tr>
+        <tr><td><strong>Reporting</strong></td><td>Client Compliance Scorecard</td><td>CAIO Governance Dashboard, Employee AI Usage Monitor</td></tr>
+        <tr><td><strong>Remediation</strong></td><td>Agentic Compliance Remediation Loop</td><td>AI Agent Incident Response, Change Management Gate</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="sources">
+    <h2>Key Sources</h2>
+    <p>All sources live-verified on 2026-07-06.</p>
+    <div class="source-box">
+      <strong>ITSM.tools</strong> - Why AI Agent Governance Belongs in ITSM (Jun 25, 2026)
+      <br>Risk classification, change management, access governance, incident response for AI agents.
+      <div class="src-url">https://itsm.tools/ai-agent-governance-itsm-controls/</div>
+    </div>
+    <div class="source-box">
+      <strong>ITSM.tools</strong> - The State of Agentic AI in ITSM 2026 (Jun 8, 2026)
+      <br>256-respondent survey. 75% use AI, 94% report efficiency, 30% cite governance as top barrier.
+      <div class="src-url">https://itsm.tools/state-of-agentic-ai-in-itsm-2026/</div>
+    </div>
+    <div class="source-box">
+      <strong>Zylos Research</strong> - AI Agent Governance and Compliance in 2026 (May 1, 2026)
+      <br>EU AI Act enforcement, shadow agent crisis, audit trail architecture, multi-agent accountability.
+      <div class="src-url">https://zylos.ai/research/2026-05-01-ai-agent-governance-compliance-2026/</div>
+    </div>
+    <div class="source-box">
+      <strong>Microsoft CAF</strong> - Govern and secure AI agents across the organization
+      <br>Control plane governance, ownership, identity, lifecycle, policy enforcement.
+      <div class="src-url">https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/governance-security-across-organization</div>
+    </div>
+    <div class="source-box">
+      <strong>Gartner Peer Insights</strong> - AI Governance Platforms (2026)
+      <br>Market landscape for AI governance tooling.
+      <div class="src-url">https://www.gartner.com/reviews/market/ai-governance-platforms</div>
+    </div>
+    <div class="source-box">
+      <strong>SailPoint 2025</strong> - The Rising Risk of AI Agents
+      <br>82% enterprises running AI agents, 44% have governance.
+      <div class="src-url">https://docs.sailpoint.com/pdf/en/special-report/SailPoint-The-Rising-Risk-of-AI-Agents...</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>Agent Tina / ITSM-MSP Agentic Research &middot; Published 2026-07-06 &middot; <a href="https://github.com/vadapayasam/warehouse">Source</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
