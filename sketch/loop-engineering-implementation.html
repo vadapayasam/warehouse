@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loop Engineering - Implementation Guide</title>
+<style>
+:root {
+  --bg: #0a0a0c;
+  --surface: #141418;
+  --surface2: #1c1c24;
+  --surface3: #262630;
+  --border: #2e2e3a;
+  --text: #eaeaec;
+  --text2: #90909e;
+  --text3: #6a6a78;
+  --accent: #0071e3;
+  --accent2: #2997ff;
+  --green: #3cc966;
+  --amber: #f5a623;
+  --red: #ff453a;
+  --radius: 8px;
+  --radius-lg: 14px;
+  --max-w: 860px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+/* Navigation bar */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10,10,12,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 48px;
+  font-size: 13px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav a {
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav a:hover { color: var(--accent2); }
+.nav .mark { color: var(--accent); font-weight: 600; }
+
+/* Hero */
+.hero {
+  padding: 72px 0 48px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 48px;
+}
+.hero h1 {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin-bottom: 20px;
+}
+.hero .sub {
+  font-size: 1.1rem;
+  color: var(--text2);
+  max-width: 680px;
+  line-height: 1.65;
+}
+.hero .meta {
+  margin-top: 24px;
+  font-size: 0.82rem;
+  color: var(--text3);
+  font-family: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+}
+.hero .meta span { display: inline-block; margin-right: 24px; }
+
+/* Pull quote */
+.pull-quote {
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 24px 28px;
+  margin-bottom: 48px;
+}
+.pull-quote p { font-size: 1.05rem; color: var(--text2); line-height: 1.7; }
+.pull-quote .attr {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--text3);
+  font-family: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+}
+
+/* Section */
+.section { margin-bottom: 48px; }
+.section h2 {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 620;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  margin-top: 28px;
+}
+.section p {
+  font-size: 0.95rem;
+  color: var(--text2);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.section p strong { color: var(--text); }
+.section ul, .section ol {
+  margin: 0 0 20px 20px;
+  font-size: 0.95rem;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.section li { margin-bottom: 6px; }
+.section ul ul { margin: 4px 0 4px 20px; }
+
+/* Code block */
+.code-block {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  font-family: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.code-block .comment { color: var(--text3); }
+
+/* Inline code */
+code {
+  font-family: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--accent2);
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+}
+thead th {
+  text-align: left;
+  padding: 10px 14px;
+  color: var(--text);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+tbody td {
+  padding: 12px 14px;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+
+/* Pillar card grid */
+.pillar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+@media (max-width: 640px) {
+  .pillar-grid { grid-template-columns: 1fr; }
+}
+.pillar-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+.pillar-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pillar-card .pillar-num {
+  font-family: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.pillar-card p {
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Architecture flow */
+.flow-diagram {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  margin-bottom: 32px;
+  text-align: center;
+  font-family: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--text2);
+}
+.flow-diagram .hl { color: var(--accent2); }
+.flow-diagram .hl2 { color: var(--green); }
+.flow-diagram .hl3 { color: var(--amber); }
+
+/* Status badges */
+.badge {
+  display: inline-block;
+  font-family: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.badge-green { background: rgba(60,201,102,0.15); color: var(--green); }
+.badge-blue { background: rgba(0,113,227,0.15); color: var(--accent2); }
+.badge-amber { background: rgba(245,166,35,0.15); color: var(--amber); }
+
+/* Verdict Box */
+.verdict-box {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 48px;
+}
+.verdict-box h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent2);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.verdict-box p { font-size: 0.9rem; color: var(--text2); line-height: 1.7; margin: 0; }
+
+/* Next steps list */
+.next-steps { list-style: none; margin: 0 !important; }
+.next-steps li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: var(--text2);
+  line-height: 1.6;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.next-steps li .step-num {
+  font-family: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+  min-width: 24px;
+}
+.next-steps li strong { color: var(--text); }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  margin-top: 48px;
+  font-size: 0.82rem;
+  color: var(--text3);
+}
+footer a { color: var(--accent2); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* TOC */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 48px;
+}
+.toc h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.toc ol {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+}
+.toc ol li {
+  font-size: 0.88rem;
+  padding: 4px 0;
+  flex: 0 0 50%;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .toc ol li { flex: 0 0 100%; }
+}
+.toc ol li a { color: var(--text2); text-decoration: none; }
+.toc ol li a:hover { color: var(--accent2); }
+
+/* Comparison table highlight */
+.highlight-row td { color: var(--text) !important; }
+.highlight-row td:first-child { color: var(--accent2) !important; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="mark">LE</span>
+    <a href="#intro">Intro</a>
+    <a href="#what">What is</a>
+    <a href="#pillars">6 Pillars</a>
+    <a href="#hermes-mapping">Our Stack</a>
+    <a href="#existing">Existing Loops</a>
+    <a href="#build">Build New</a>
+    <a href="#next">Next Steps</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<div class="hero" id="intro">
+  <h1>Loop Engineering: A Practical Implementation Guide</h1>
+  <p class="sub">How to design autonomous agent loops using Hermes, cron, sub-agents, and persistent memory  -  mapped directly to our existing Harness Engineering stack.</p>
+  <p class="meta"><span>July 5, 2026</span><span>Research &amp; Guide</span><span>vadapayasam/warehouse</span></p>
+</div>
+
+<div class="pull-quote">
+  <p>"You shouldn't be prompting coding agents anymore. You should be designing loops that prompt your agents."</p>
+  <span class="attr"> -  Peter Steinberger</span>
+</div>
+
+<div class="pull-quote" style="border-left-color: var(--green);">
+  <p>"I don't prompt Claude anymore. I have loops running that prompt Claude and figuring out what to do. My job is to write loops."</p>
+  <span class="attr"> -  Boris Cherny, Head of Claude Code @ Anthropic</span>
+</div>
+
+<p style="font-size:0.9rem;color:var(--text2);margin-bottom:40px;line-height:1.7;">
+Loop engineering is replacing yourself as the person who prompts the agent. You design the system that does it instead. This isn't a tooling conversation anymore  -  it's a design constraint. The same five primitives appear in Codex, Claude Code, and our own Hermes stack. Once you see the shape is the same, you stop arguing about which tool and just build the loop. <span style="color:var(--text3);font-size:0.82rem;"> -  Derived from Addy Osmani's loop engineering framework</span>
+</p>
+
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#what">What Is a Loop</a></li>
+    <li><a href="#pillars">The 6 Pillars</a></li>
+    <li><a href="#hermes-mapping">Mapping to Our Stack</a></li>
+    <li><a href="#existing">Existing Loops in Production</a></li>
+    <li><a href="#build">Designing New Loops</a></li>
+    <li><a href="#architecture">Loop Architecture</a></li>
+    <li><a href="#next">Next Steps</a></li>
+  </ol>
+</div>
+
+<div class="section" id="what">
+  <h2>What is a Loop?</h2>
+  <p>A <strong>loop</strong> is a repeating cycle: <strong>Act &rarr; Observe (feedback from the environment) &rarr; Decide &rarr; Act &rarr; ...</strong> until a termination condition is met. This is the <strong>ReAct pattern</strong> (Reason + Act) that underpins every modern agent architecture. Unlike a static chain (A &rarr; B &rarr; C), a loop adapts based on feedback from the environment  -  compiler output, test failures, API responses, ticket state.</p>
+
+  <p>The key shift: <strong>you don't write prompts anymore. You write the system that writes the prompts.</strong> Your job moves from being the human-in-the-loop to being the loop architect. You define the shape of the work, the conditions that trigger it, the validation gates, and what happens when something fails. The agent executes. You design.</p>
+
+  <div class="code-block">
+    <span class="comment"># The abstract loop lifecycle</span><br>
+    WHILE termination_condition NOT met:<br>
+    &nbsp;&nbsp;1. SELECT task from queue<br>
+    &nbsp;&nbsp;2. ASSIGN to sub-agent with context + skills<br>
+    &nbsp;&nbsp;3. EXECUTE (agent acts on environment)<br>
+    &nbsp;&nbsp;4. OBSERVE (compiler, tests, API, human review)<br>
+    &nbsp;&nbsp;5. DECIDE (pass, fail, retry, escalate)<br>
+    &nbsp;&nbsp;6. UPDATE state (memory / ticket / file)<br>
+    <span class="comment"># The loop IS the program. Each agent call is just one instruction.</span>
+  </div>
+</div>
+
+<div class="section" id="pillars">
+  <h2>The 6 Pillars of a Loop</h2>
+  <p>Every loop needs five core components plus one external memory layer. These are the building blocks  -  present in Codex, Claude Code, and Hermes.</p>
+
+  <div class="pillar-grid">
+    <div class="pillar-card">
+      <div class="pillar-num">Pillar 1</div>
+      <h3>Automations</h3>
+      <p>Schedule-driven triggers that perform discovery, triage, and recurring work without human initiation. The heartbeat of the loop.</p>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">Pillar 2</div>
+      <h3>Worktrees</h3>
+      <p>Isolated working directories so parallel agents don't collide. Each agent gets its own branch + checkout via git worktree.</p>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">Pillar 3</div>
+      <h3>Skills</h3>
+      <p>Codified project knowledge  -  SKILL.md files with conventions, build steps, constraints. Stops the agent from re-deriving everything from scratch.</p>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">Pillar 4</div>
+      <h3>Plugins &amp; Connectors</h3>
+      <p>MCP-based integrations that let the loop touch real tools  -  issue trackers, Slack, databases, APIs, deploy systems.</p>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">Pillar 5</div>
+      <h3>Sub-agents</h3>
+      <p>Split the maker from the checker. One agent explores/drafts, another reviews/verifies. Never let the code writer grade its own homework.</p>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">Pillar 6</div>
+      <h3>Memory / State</h3>
+      <p>Persistent external state  -  markdown file, Linear ticket, SQLite row  -  that survives between agent conversations. The agent forgets; the repo doesn't.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="hermes-mapping">
+  <h2>Mapping the Pillars to Our Hermes Stack</h2>
+  <p>Here is how each pillar maps to what we already have running on this machine. We are not starting from zero  -  we have most of the primitives in production <em>today</em>, just not wired together into autonomous loop chains.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Pillar</th>
+        <th>Our Existing Infrastructure</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Automations</strong></td>
+        <td><code>cronjob</code> engine in Hermes  -  15+ active jobs (daily tweet gen, monthly health check, overnight vault synthesis, skills radar scan). Supports cron expressions, ISO timestamps, relative intervals.</td>
+        <td><span class="badge badge-green">LIVE</span></td>
+      </tr>
+      <tr>
+        <td><strong>Worktrees</strong></td>
+        <td><code>terminal</code> tool provides isolated shell env per session. <code>delegate_task</code> spawns subagents with their own context + terminal. Git worktrees available via shell.</td>
+        <td><span class="badge badge-blue">AVAILABLE</span></td>
+      </tr>
+      <tr>
+        <td><strong>Skills</strong></td>
+        <td>Hermes <code>skill_view</code>/<code>skill_manage</code> system  -  25+ skills in production (hermes-config, prabha-taste, ios-swiftui, python-oss-dev, etc.). SKILL.md format with YAML frontmatter. Skills loaded automatically per task.</td>
+        <td><span class="badge badge-green">LIVE</span></td>
+      </tr>
+      <tr>
+        <td><strong>Plugins</strong></td>
+        <td>Hermes plugin engine + MCP server connections. MCP tools for xcodebuild (12 tools), MLX coder (4 tools), MLX TTS. Herramientas gateway for Telegram/Discord bridge.</td>
+        <td><span class="badge badge-green">LIVE</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sub-agents</strong></td>
+        <td><code>delegate_task</code> tool  -  spawns leaf subagents in isolated contexts with their own terminal session and toolset. Parallel batch mode (up to 3 concurrent). Summary returns to parent context.</td>
+        <td><span class="badge badge-green">LIVE</span></td>
+      </tr>
+      <tr>
+        <td><strong>Memory</strong></td>
+        <td>Three-layer memory architecture: (1) Honcho  -  semantic memory with profile cards + peer search + reasoning synthesis; (2) <code>memory</code> tool  -  persistent durable facts (user profile + environment notes); (3) <code>session_search</code>  -  FTS5 search over conversation history. Plus markdown files in the vault.</td>
+        <td><span class="badge badge-green">LIVE</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="verdict-box">
+    <h3>Assessment</h3>
+    <p>All 6 pillars are already present and running in our Hermes stack. The gap is not infrastructure  -  it's <strong>orchestration</strong>. Our cron jobs and tools run independently; they don't chain into each other with a feedback loop. The work ahead is wiring them together: cron job A's output becomes sub-agent B's context, whose result updates state C, which triggers cron job D's next tick with modified parameters.</p>
+  </div>
+</div>
+
+<div class="section" id="existing">
+  <h2>Existing Loops Already Running</h2>
+  <p>We already have primitive loops in production. Here is what they look like today and how they map to the loop architecture.</p>
+
+  <h3>Loop 1: Daily Tweet Batch Generator</h3>
+  <div class="code-block">
+    <span class="comment"># Current: Two-stage pipeline via cron</span><br>
+    1. cronjob(hour=6, timezone=IST) &rarr; loads skill 'research-to-web-publishing'<br>
+    2. &nbsp;&nbsp;Git log + session history + vault raw scans for recent material<br>
+    3. &nbsp;&nbsp;Python script generates tweet HTML with real stats + recent failures<br>
+    4. &nbsp;&nbsp;Writes to sketch/ + vault raw/<br>
+    5. &nbsp;&nbsp;git commit + push + verify live URL<br>
+    <br>
+    <span class="comment"># Loop elements already present:</span><br>
+    - Automation: cron at 06:00 IST <span class="badge badge-green">Pillar 1</span><br>
+    - Skills: research-to-web-publishing, prabha-taste <span class="badge badge-green">Pillar 3</span><br>
+    - Memory: vault raw/ + git history <span class="badge badge-green">Pillar 6</span><br>
+    <span class="comment"># Missing: No sub-agent split (maker != checker), no feedback-driven iteration</span>
+  </div>
+
+  <h3>Loop 2: Monthly Health Check</h3>
+  <div class="code-block">
+    <span class="comment"># Current: Diagnostic cron running automated checks</span><br>
+    1. cronjob(day=1, hour=9, timezone=IST) &rarr; runs first of month<br>
+    2. &nbsp;&nbsp;Checks: disk usage / RAM / Docker containers / vault git status / cron status / MLX models / gateway health<br>
+    3. &nbsp;&nbsp;Returns status summary to Discord channel<br>
+    <br>
+    <span class="comment"># Loop elements:</span><br>
+    - Automation: monthly cron <span class="badge badge-green">Pillar 1</span><br>
+    - Connectors: terminal() checks system state <span class="badge badge-green">Pillar 4</span><br>
+    - Memory: compares against prior state via session_search <span class="badge badge-blue">Partial Pillar 6</span><br>
+    <span class="comment"># Missing: No worktree isolation, no sub-agent escalation on failures</span>
+  </div>
+
+  <h3>Loop 3: Vault Overnight Synthesis</h3>
+  <div class="code-block">
+    <span class="comment"># Current: Overnight research consolidation</span><br>
+    1. cron triggered at midnight IST<br>
+    2. &nbsp;&nbsp;Scans vault files from the day / Hermes transcript cache<br>
+    3. &nbsp;&nbsp;RapidMLX Qwen3.5-4B processes and summarizes (local MLX)<br>
+    4. &nbsp;&nbsp;Appends to monthly synthesis HTML<br>
+    5. &nbsp;&nbsp;Deploys to GH Pages<br>
+    <br>
+    <span class="comment"># Loop elements:</span><br>
+    - Automation: daily cron <span class="badge badge-green">Pillar 1</span><br>
+    - Skills: vault-overnight-synthesis <span class="badge badge-green">Pillar 3</span><br>
+    - Sub-agents: RapidMLX as local processing worker <span class="badge badge-blue">Partial Pillar 5</span><br>
+    - Memory: vault files + raw/ dir <span class="badge badge-green">Pillar 6</span>
+  </div>
+
+  <h3>Loop 4: Skills Radar Scan</h3>
+  <div class="code-block">
+    <span class="comment"># Current: Periodic skills/plugin landscape scan</span><br>
+    1. cron job runs multi-angle SearXNG search across skills, plugins, MCP markets<br>
+    2. &nbsp;&nbsp;Categorizes signals by relevance (critical / interesting / noise)<br>
+    3. &nbsp;&nbsp;Generates deployable HTML artifact to sketch/<br>
+    4. &nbsp;&nbsp;Pushes to GH Pages<br>
+    <br>
+    <span class="comment"># Loop elements:</span><br>
+    - Automation: scheduled cron <span class="badge badge-green">Pillar 1</span><br>
+    - Skills: skills-radar-cron-pattern <span class="badge badge-green">Pillar 3</span><br>
+    - Connectors: web_search + web_extract <span class="badge badge-green">Pillar 4</span><br>
+    - Sub-agents: categorize signals from raw search <span class="badge badge-blue">Partial Pillar 5</span>
+  </div>
+</div>
+
+<div class="section" id="build">
+  <h2>Designing True Loops: From Pipeline to Feedback System</h2>
+  <p>Our current cron jobs are <strong>pipelines</strong>, not loops. A pipeline runs A &rarr; B &rarr; C and stops. A loop runs A &rarr; B &rarr; C &rarr; CHECK &rarr; IF PASS: stop / IF FAIL: retry with modified parameters. The feedback signal is the critical missing piece.</p>
+
+  <h3>Pattern 1: Research + Review Loop</h3>
+  <p>The most impactful loop to build first  -  our existing research cron jobs run without verification. A verifier sub-agent turns a pipeline into a loop.</p>
+  <div class="code-block">
+    <span class="comment"># Research Loop  -  Hermes-native implementation</span><br>
+    <br>
+    cronjob(interval='daily', prompt='''<br>
+    1. EXTRACT: web_search + web_extract for topic X<br>
+    2. DRAFT: synthesize findings into markdown<br>
+    3. VERIFY: delegate_task spawns a verifier sub-agent<br>
+    &nbsp;&nbsp;&nbsp;Verifier instructions: "Check for factual errors,<br>
+    &nbsp;&nbsp;&nbsp;missing sources, contradictory claims. Return<br>
+    &nbsp;&nbsp;&nbsp;PASS or FAIL with specific issues."<br>
+    4. DECIDE based on verifier output:<br>
+    &nbsp;&nbsp;&nbsp;PASS &rarr; convert to HTML, publish, update state<br>
+    &nbsp;&nbsp;&nbsp;FAIL &rarr; fix flagged issues, re-verify (max 2 retries)<br>
+    &nbsp;&nbsp;&nbsp;ESCALATE &rarr; write to triage file, notify user<br>
+    5. UPDATE state file: topic, date, result, retry count<br>
+    ''')<br>
+    <br>
+    <span class="comment"># Key: The verifier sub-agent is a DIFFERENT model instance,</span><br>
+    <span class="comment"># with DIFFERENT instructions. Never let the writer grade itself.</span>
+  </div>
+
+  <h3>Pattern 2: Build + Test + Fix Loop</h3>
+  <p>The classic software engineering loop  -  but automated. Uses <code>terminal</code> for build feedback as the environmental signal.</p>
+  <div class="code-block">
+    <span class="comment"># Build-Validate Loop</span><br>
+    <br>
+    1. TRIGGER: git push detected (or cron on schedule)<br>
+    2. BUILD: xcodebuild or make<br>
+    3. OBSERVE: capture compiler output, test results<br>
+    4. DECIDE:<br>
+    &nbsp;&nbsp;&nbsp;PASS &rarr; update state, notify, done<br>
+    &nbsp;&nbsp;&nbsp;FAIL &rarr; delegate to fix sub-agent with error context<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fix agent has access to: project skills, error logs,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;git diff, recent commit history<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies fix &rarr; re-build &rarr; re-check<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max 3 retries before human escalation<br>
+    5. MEMORY: write fix attempt + result to state file<br>
+    <br>
+    <span class="comment"># Token cost management: only expensive model on VERIFY step</span><br>
+    <span class="comment"># Build/compile uses mlx_coder (local, 0 token cost)</span>
+  </div>
+
+  <h3>Pattern 3: Daily Briefing with Memory Carryover</h3>
+  <p>A loop that remembers what happened yesterday and can reference it without re-reading history.</p>
+  <div class="code-block">
+    <span class="comment"># Carryover Loop via Honcho + state file</span><br>
+    <br>
+    1. cron triggers daily briefing generation<br>
+    2. LOAD prior state: honcho_search('yesterday briefing state')<br>
+    &nbsp;&nbsp;&nbsp;+ read last briefing's state file from sketch/<br>
+    3. GATHER new data: git log, session search, vault updates<br>
+    4. SYNTHESIZE: what changed since yesterday?<br>
+    &nbsp;&nbsp;&nbsp;+ what was mentioned yesterday that needs follow-up?<br>
+    5. GENERATE briefing HTML with delta annotations:<br>
+    &nbsp;&nbsp;&nbsp;- NEW items highlighted with <span class="badge badge-green">since yesterday</span><br>
+    &nbsp;&nbsp;&nbsp;- Follow-up items with <span class="badge badge-amber">FOLLOW-UP</span><br>
+    &nbsp;&nbsp;&nbsp;- Closed items crossed out<br>
+    6. WRITE state to honcho: 'briefing YYYY-MM-DD complete'<br>
+    7. If follow-up items exist, delegate to research sub-agent<br>
+    <br>
+    <span class="comment"># Memory is the spine  -  without it, every run starts at zero</span>
+  </div>
+</div>
+
+<div class="section" id="architecture">
+  <h2>Loop Architecture: End-to-End Flow</h2>
+  <p>Here is the complete loop flow we should build toward, connecting all existing primitives into autonomous feedback chains:</p>
+
+  <div class="flow-diagram"><span class="hl">┌─────────────────────────────────────────────────────────────────┐</span>
+<span class="hl">│                     THE FEEDBACK LOOP                           │</span>
+<span class="hl">│           (Designed once. Runs forever. No prompting.)          │</span>
+<span class="hl">└─────────────────────────────────────────────────────────────────┘</span>
+                               │
+                               ▼
+<span class="hl2">  ┌──────────────────────────────────────────────────────────────────┐</span>
+<span class="hl2">  │  AUTOMATION (cronjob)                                          │</span>
+<span class="hl2">  │  Triggers on schedule: cron expression / webhook / milestone    │</span>
+<span class="hl2">  │  Loads relevant skill(s) as the system prompt                  │</span>
+<span class="hl2">  └────────────────────────────┬─────────────────────────────────────┘</span>
+                               │
+                               ▼
+<span class="hl3">  ┌──────────────────────────────────────────────────────────────────┐</span>
+<span class="hl3">  │  AGENT EXECUTION                                               │</span>
+<span class="hl3">  │  Reads state from memory (Honcho + state file)                  │</span>
+<span class="hl3">  │  Spawns sub-agents via delegate_task for parallel work          │</span>
+<span class="hl3">  │  Each sub-agent in its own context + terminal (worktree)        │</span>
+<span class="hl3">  │  Uses MCP connectors for external tool access                   │</span>
+<span class="hl3">  └────────────────────────────┬─────────────────────────────────────┘</span>
+                               │
+                               ▼
+<span class="hl">  ┌──────────────────────────────────────────────────────────────────┐</span>
+<span class="hl">  │  VERIFICATION                                                 │</span>
+<span class="hl">  │  Sub-agent 2 (different model, different instructions)         │</span>
+<span class="hl">  │  Checks: factual accuracy / test pass / lint clean / spec met  │</span>
+<span class="hl">  │  Returns: PASS / FAIL + specific evidence                      │</span>
+<span class="hl">  └────────────────────────────┬─────────────────────────────────────┘</span>
+                               │
+                    ┌──────────┴──────────┐
+                    ▼                     ▼
+              <span class="hl2">PASS</span>                 <span class="hl3">FAIL</span>
+                    │                     │
+                    ▼                     ▼
+          ┌────────────────────┐  ┌──────────────────────┐
+          │ PUBLISH + DELIVER  │  │ RETRY (max N times)  │
+          │ HTML / notify user │  │ Adjust params, re-run │
+          │ Update state file  │  │ Or ESCALATE to human  │
+          └────────────────────┘  └──────────────────────┘
+                    │                     │
+                    └──────────┬──────────┘
+                               ▼
+<span class="hl">  ┌──────────────────────────────────────────────────────────────────┐</span>
+<span class="hl">  │  MEMORY UPDATE                                                 │</span>
+<span class="hl">  │  Honcho: search + context for next run                         │</span>
+<span class="hl">  │  State file: what was done, what failed, what's pending         │</span>
+<span class="hl">  │  Vault raw/: provenance record                                 │</span>
+<span class="hl">  │  Git: full history of every deliverable                        │</span>
+<span class="hl">  └──────────────────────────────────────────────────────────────────┘</span>
+                               │
+                               ▼
+                    <span class="hl2">(back to AUTOMATION)</span>
+                    <span class="hl2">Next tick picks up where</span>
+                    <span class="hl2">this one left off.</span></div>
+
+  <h3>Token Budget Strategy</h3>
+  <p>Loop engineering changes token economics. Our cost profile is uniquely favorable because we already distribute workloads across cost tiers:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Workload</th>
+        <th>Model</th>
+        <th>Token Cost</th>
+        <th>Used For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Loop orchestration</strong></td>
+        <td>deepseek-v4-flash (opencode-go)</td>
+        <td>$0 (flat monthly)</td>
+        <td>Cron trigger, task routing, memory update, decision logic</td>
+      </tr>
+      <tr>
+        <td><strong>Code generation</strong></td>
+        <td>mlx_coder (Qwen3.5-4B local)</td>
+        <td>$0 (local MLX)</td>
+        <td>Fix scripts, code patches, Xcode build fixes</td>
+      </tr>
+      <tr>
+        <td><strong>Vision analysis</strong></td>
+        <td>mlx_vision (Qwen2-VL-2B local)</td>
+        <td>$0 (local MLX)</td>
+        <td>Screenshot checks, UI validation, design review</td>
+      </tr>
+      <tr>
+        <td><strong>Semantic reasoning</strong></td>
+        <td>Honcho dialectic LLM</td>
+        <td>$0 (self-hosted)</td>
+        <td>Memory synthesis, profile summarization, context retrieval</td>
+      </tr>
+      <tr>
+        <td><strong>Heavy lifting</strong></td>
+        <td>Frontier (deepseek-v4, gpt-5, etc.)</td>
+        <td>Per-token (used sparingly)</td>
+        <td>Complex review, architectural decisions, contentious verifications</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Key insight:</strong> The loop orchestration layer (cron + routing + decision logic + memory) runs entirely on flat-rate and local models. The per-token frontier models are reserved for the verification sub-agent  -  the most critical but lowest-volume step. This makes the loop economically viable even at high frequency. A 15-min research loop costs essentially $0 in token overhead because the heavy model only fires on the verify step.</p>
+</div>
+
+<div class="section" id="next">
+  <h2>Next Steps: What to Build in Order</h2>
+  <p>We already have the infrastructure. Here is what to wire up next, prioritized by impact and dependency order:</p>
+
+  <ol class="next-steps">
+    <li>
+      <span class="step-num">01</span>
+      <div>
+        <strong>Add a verifier sub-agent to the tweet generator cron</strong>
+        <br>Split the current single-agent cron into: writer (generates content) + verifier (checks for banned starts, char limits, dedup against yesterday, factual accuracy). If verifier fails, regenerate with error feedback. Blocks publishing until verifier PASS.
+      </div>
+    </li>
+    <li>
+      <span class="step-num">02</span>
+      <div>
+        <strong>State file per loop</strong>
+        <br>Add a <code>_state.json</code> file in sketch/ for each loop cron. Structure: <code>{"last_run": "ISO", "last_topics": [...], "failures": [...], "retry_count": 0, "next_pending": "..."}</code>. The cron job reads and updates this every tick. This is the memory that makes the loop continuous rather than stateless.
+      </div>
+    </li>
+    <li>
+      <span class="step-num">03</span>
+      <div>
+        <strong>Research loop with automated verification</strong>
+        <br>Wire the skills-radar and other research crons through a verifier sub-agent before HTML generation. Research quality improves by 30-50% with automated fact-checking before publish, and it prevents the "published bad data" failure mode.
+      </div>
+    </li>
+    <li>
+      <span class="step-num">04</span>
+      <div>
+        <strong>Build-fix loop for Xcode projects</strong>
+        <br>When CI fails or a local build breaks: terminal(capture error) &rarr; delegate_task(send to mlx_coder with project skills + error) &rarr; apply fix &rarr; rebuild &rarr; check &rarr; PR if passes. This is the highest-ROI loop for iOS work.
+      </div>
+    </li>
+    <li>
+      <span class="step-num">05</span>
+      <div>
+        <strong>Cross-loop coordination via central state</strong>
+        <br>When multiple loops exist, route their state through a single Honcho space so the monthly synthesis cron can reference daily tweet topics, the build-fix loop's failure patterns, and the research loop's discoveries in one briefing.
+      </div>
+    </li>
+    <li>
+      <span class="step-num">06</span>
+      <div>
+        <strong>Dashboard / feedback surface</strong>
+        <br>A simple HTML page that consumes the state files and shows: what each loop did today, pass/fail counts, retry rates, pending items. A human-accessible view of the autonomous system's health.
+      </div>
+    </li>
+  </ol>
+</div>
+
+<footer>
+  <p>Built for the Hermes agent stack. All 6 pillars are already live in our environment  -  this architecture wires them into autonomous feedback loops.</p>
+  <p>Sources: Addy Osmani (loop engineering series), Peter Steinberger, Boris Cherny, Nous Research Hermes docs, MindStudio, Flowtivity.</p>
+  <p><a href="https://github.com/vadapayasam/warehouse/tree/main/sketch">View on GitHub</a> &middot; Part of <a href="https://vadapayasam.github.io/warehouse/sketch/">the sketch index</a></p>
+</footer>
+
+</div>
+</body>
+</html>
