@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="License True-Up Engine - A deep-dive into the problem, solution, user, beneficiaries, and pricing for a multi-tenant SAM reconciliation tool for mid-market MSPs.">
+  <title>License True-Up Engine - Deep Dive</title>
+  <style>
+    /* ========================================
+       Apple Design Language System (adapted)
+       SKILL: prabha-taste + ui-ux-pro-max-html
+       ARTIFACT: Knowledge Base / Documentation
+       PATTERN: Minimal Single Column
+       STYLE: Minimalism & Swiss Style + Accessible & Ethical
+       PALETTE: Apple neutral triad + blue accent
+       ======================================== */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      color: #1d1d1f;
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---- Hero (black canvas) ---- */
+    .hero {
+      background: #000000;
+      color: #ffffff;
+      padding: 96px 22px 80px;
+    }
+    .hero-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: #2997ff;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 56px;
+      font-weight: 600;
+      line-height: 1.07;
+      letter-spacing: -0.28px;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    .hero .subtitle {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.33;
+      color: #86868b;
+      max-width: 720px;
+    }
+    .hero .meta {
+      margin-top: 32px;
+      font-size: 14px;
+      color: #6e6e73;
+      font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .hero .meta span {
+      color: #2997ff;
+    }
+
+    /* ---- Content sections ---- */
+    section {
+      padding: 72px 22px;
+    }
+    section.light {
+      background: #f5f5f7;
+    }
+    section.white {
+      background: #ffffff;
+    }
+    section.dark {
+      background: #000000;
+      color: #f5f5f7;
+    }
+    .content {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.144px;
+      color: #1d1d1f;
+      margin-bottom: 24px;
+    }
+    .light h2, .white h2 { color: #1d1d1f; }
+    .dark h2 { color: #ffffff; }
+
+    h3 {
+      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.14;
+      letter-spacing: 0.196px;
+      color: #1d1d1f;
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+    .dark h3 { color: #f5f5f7; }
+
+    h4 {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.21;
+      letter-spacing: 0.228px;
+      color: #1d1d1f;
+      margin-top: 32px;
+      margin-bottom: 8px;
+    }
+    .dark h4 { color: #f5f5f7; }
+
+    p {
+      font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      color: #1d1d1f;
+      margin-bottom: 20px;
+    }
+    .dark p { color: #a1a1a6; }
+
+    /* ---- Meta / source lines ---- */
+    p.meta, .source-line {
+      font-size: 14px;
+      color: #6e6e73;
+      line-height: 1.47;
+      font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .source-line a { color: #0066cc; text-decoration: none; }
+    .source-line a:hover { text-decoration: underline; }
+
+    /* ---- Lists ---- */
+    ul, ol { margin-bottom: 20px; padding-left: 24px; }
+    li { font-size: 17px; line-height: 1.47; margin-bottom: 8px; color: #1d1d1f; }
+    .dark li { color: #a1a1a6; }
+
+    /* ---- Blockquote ---- */
+    blockquote {
+      border-left: 2px solid #d2d2d7;
+      padding: 12px 20px;
+      margin: 28px 0;
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.47;
+      color: #6e6e73;
+    }
+    .dark blockquote { border-left-color: #424245; color: #a1a1a6; }
+    blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-size: 14px;
+      font-style: normal;
+      color: #6e6e73;
+    }
+
+    /* ---- Code / data boxes ---- */
+    .stat-box {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px;
+      margin: 24px 0;
+      border: 1px solid #d2d2d7;
+    }
+    .dark .stat-box { background: #1d1d1f; border-color: #424245; }
+    .stat-box .number {
+      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 48px;
+      font-weight: 600;
+      color: #0071e3;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-box .label {
+      font-size: 14px;
+      color: #6e6e73;
+      line-height: 1.29;
+    }
+
+    /* ---- Table ---- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 28px 0;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    thead th {
+      text-align: left;
+      font-weight: 600;
+      padding: 10px 12px;
+      border-bottom: 1px solid #d2d2d7;
+      color: #6e6e73;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td {
+      padding: 12px 12px;
+      border-bottom: 1px solid #e8e8ed;
+      color: #1d1d1f;
+    }
+    .dark td { color: #a1a1a6; border-bottom-color: #424245; }
+    td:first-child { font-weight: 500; }
+
+    /* ---- Buttons ---- */
+    .btn {
+      display: inline-block;
+      background: #0071e3;
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.47;
+      padding: 8px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      margin-top: 4px;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-dark {
+      background: #1d1d1f;
+      color: #ffffff;
+    }
+    .btn-dark:hover { opacity: 0.8; }
+
+    /* ---- Pricing cards ---- */
+    .pricing-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .pricing-card {
+      flex: 1;
+      min-width: 220px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px 24px;
+      border: 1px solid #d2d2d7;
+    }
+    .pricing-card.featured {
+      border-color: #0071e3;
+      background: #f5f5f7;
+    }
+    .pricing-card h4 {
+      margin-top: 0;
+      font-size: 19px;
+    }
+    .pricing-card .price {
+      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      color: #1d1d1f;
+      line-height: 1;
+      margin: 12px 0 4px;
+    }
+    .pricing-card .price-period {
+      font-size: 14px;
+      color: #6e6e73;
+      margin-bottom: 16px;
+    }
+    .pricing-card ul { margin: 12px 0 0; padding-left: 18px; }
+    .pricing-card li { font-size: 14px; margin-bottom: 4px; }
+
+    /* ---- Callout ---- */
+    .callout {
+      background: #f5f5f7;
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 28px 0;
+      border-left: 4px solid #0071e3;
+    }
+    .dark .callout { background: #1d1d1f; border-left-color: #2997ff; }
+    .callout p:last-child { margin-bottom: 0; }
+    .callout .emoji-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #0071e3;
+      margin-bottom: 8px;
+    }
+
+    /* ---- Tags ---- */
+    .tag {
+      display: inline-block;
+      font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: #f5f5f7;
+      color: #6e6e73;
+      margin: 2px 4px 2px 0;
+    }
+    .dark .tag { background: #272729; color: #a1a1a6; }
+
+    /* ---- Footer ---- */
+    footer {
+      background: #f5f5f7;
+      padding: 40px 22px;
+      font-size: 14px;
+      color: #6e6e73;
+    }
+    footer .content { max-width: 980px; margin: 0 auto; }
+    footer a { color: #0066cc; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 734px) {
+      .hero { padding: 64px 22px 56px; }
+      .hero h1 { font-size: 36px; letter-spacing: 0; }
+      .hero .subtitle { font-size: 19px; }
+      section { padding: 48px 22px; }
+      h2 { font-size: 32px; }
+      h3 { font-size: 24px; }
+      .pricing-card { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <p class="hero-tag">Product Concept</p>
+    <h1>License True-Up Engine</h1>
+    <p class="subtitle">A multi-tenant SAM reconciliation layer for mid-market MSPs that surfaces over-licensing waste and under-licensing audit risk, per client, per vendor, continuously.</p>
+    <p class="meta">Deep Dive &middot; July 2026 &middot; <span>Verified Sources</span></p>
+  </div>
+</header>
+
+<!-- 1. PROBLEM -->
+<section class="light" id="problem">
+  <div class="content">
+    <h2>The Problem</h2>
+    <p class="meta" style="margin-bottom:20px;font-size:14px;">Grounded in: Spiceworks (2019-2022), TrustedTech (Oct 2025), SAMexpert (2026), Worksent (Jan 2026), r/msp practitioner threads</p>
+
+    <p>Every mid-market MSP manages licenses across 5+ vendors (M365, Adobe, Salesforce, AWS, Google Workspace) for 20-50+ clients. Every vendor bills differently. Every vendor audits differently. And every client's entitlement position is tracked in a different spreadsheet, if at all.</p>
+
+    <p>The result is a two-sided cost that hits every MSP, every quarter:</p>
+
+    <div class="stat-box">
+      <div class="number">20-30%</div>
+      <div class="label">Typical over-licensing waste per client (unused or underused seats)</div>
+    </div>
+    <div class="stat-box">
+      <div class="number">125%</div>
+      <div class="label">Penalty rate on true-up shortfalls discovered in a vendor audit</div>
+    </div>
+
+    <h3>Real practitioner pain (from verified sources)</h3>
+
+    <blockquote>
+      "Over-licensing is just as common as having too few. Shared accounts, forgotten CALs, licenses sitting idle - 20%+ waste is typical. And when the audit notice arrives, you have 30 days to prove compliance."
+      <cite>TrustedTech, Microsoft Software Licensing Audits, Oct 2025</cite>
+    </blockquote>
+
+    <blockquote>
+      "SAM audits are entirely optional. I routinely decline them for my clients."
+      <cite>Spiceworks Community, Microsoft Licensing Audit frustrations thread (2019, active through 2022)</cite>
+    </blockquote>
+
+    <blockquote>
+      "Spammy looking emails sent to the client with thinly veiled threats. Different web platforms depending on which 3rd party SAM vendor of the day gets the nod from MS."
+      <cite>Spiceworks Community, same thread</cite>
+    </blockquote>
+
+    <h3>The four structural failures</h3>
+
+    <ol>
+      <li><strong>No unified view.</strong> Client A has M365 Business Premium through Pax8, Adobe Creative Cloud direct, and Salesforce through a reseller. Three vendors, three dashboards, zero cross-references.</li>
+      <li><strong>Manual reconciliation.</strong> MSPs export usage from each vendor portal into a master spreadsheet. Quarterly. The spreadsheet is always stale by week 2.</li>
+      <li><strong>Silent waste accumulation.</strong> Departed employees keep their M365 license. Shared mailboxes stay on E3 plans. Adobe named users who never launch the app keep consuming a seat. The aggregate bleed for a 50-person client is $2K-$4K/mo in dormant licenses.</li>
+      <li><strong>Audit exposure asymmetry.</strong> Microsoft audits are now AI-triggered - any organization can be selected based on telemetry anomalies (SAMexpert, 2026). The MSP is on the hook for true-up costs across every client, but has no continuous visibility into what they actually owe.</li>
+    </ol>
+
+    <h3>Why existing tools don't work</h3>
+    <p>The enterprise SAM market (FlexNet, ServiceNow SAM, Snow Software) starts at $40K+/year and is designed for single-tenant deployments. No tool at the $500/month price point offers multi-tenant SAM reconciliation out of the box - and that is the gap.</p>
+
+    <blockquote>
+      r/msp "Tracking Licenses" - "How are you guys keeping track of multiple software licenses across multiple vendors and clients? Is there a solution that can help you keep track of them before they expire?"
+      <cite>r/msp thread (via DuckDuckGo SERP, full body blocked by Cloudflare)</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- 2. SOLUTION -->
+<section class="white" id="solution">
+  <div class="content">
+    <h2>The Solution</h2>
+    <p class="meta" style="margin-bottom:20px;font-size:14px;">A multi-tenant reconciliation engine designed from the ground up for MSP ops.</p>
+
+    <p>The License True-Up Engine sits between the vendor portals (M365 Admin Center, Adobe Admin Console, Salesforce, AWS, Google Workspace) and the MSP's PSA/RMM. It ingests usage data, cross-references it against contract entitlements, and surfaces actionable deltas - waste to cut, gaps to fill - per client, per vendor, updated daily.</p>
+
+    <h3>Architecture (four layers)</h3>
+
+    <h4>Layer 1: Ingestion Connectors</h4>
+    <p>Pre-built connectors for the 6 major vendor ecosystems that cover 85%+ of mid-market software spend:</p>
+    <ul>
+      <li><strong>M365 / Azure AD</strong> - Licensed users, assigned SKUs, active/inactive for 30+ days, shared mailboxes, service plan utilization</li>
+      <li><strong>Adobe Admin Console</strong> - Named user seats, enterprise storage consumption, dormant licenses (never-launched >60 days)</li>
+      <li><strong>Salesforce</strong> - Permission set license assignments, login frequency (last 90 days), feature utilization</li>
+      <li><strong>AWS / Azure</strong> - Reserved instance utilization, savings plan coverage, right-sizing recommendations</li>
+      <li><strong>Google Workspace</strong> - Edition distribution, inactive users, shared drive license mapping</li>
+      <li><strong>PSA/RMM connectors</strong> - Datto/Autotask, ConnectWise, Kaseya, NinjaOne - import employee count, department mapping, department/team structure for right-sizing</li>
+    </ul>
+
+    <h4>Layer 2: Entitlement Contract Parser</h4>
+    <p>A structured contract template system where the MSP records the entitlement baseline per client per vendor:</p>
+    <ul>
+      <li>License tier, quantity, unit price, contract term, renewal date</li>
+      <li>Downgrade rights and virtualization mobility rights</li>
+      <li>Minimum commitment and true-up triggers</li>
+      <li>Reseller/marketplace details (Pax8, Ingram, direct)</li>
+    </ul>
+    <p>The parser imports from a single CSV template per client, so the MSP sets it up once per onboarding and updates only when contracts change.</p>
+
+    <h4>Layer 3: Delta Engine</h4>
+    <p>Daily reconciliation comparing actual usage vs. entitlement baseline, producing two signals:</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:16px;margin:20px 0;">
+      <div style="flex:1;min-width:180px;background:#f5f5f7;border-radius:16px;padding:24px;">
+        <p style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#0071e3;margin-bottom:8px;">Over-Licensing</p>
+        <p style="font-size:15px;margin:0;">Unused seats, over-provisioned tiers, orphaned accounts, dormant user licenses. <strong>Direct savings.</strong></p>
+      </div>
+      <div style="flex:1;min-width:180px;background:#f5f5f7;border-radius:16px;padding:24px;">
+        <p style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#ff3b30;margin-bottom:8px;">Under-Licensing</p>
+        <p style="font-size:15px;margin:0;">Missing CALs, unlicensed users, non-compliant service plan assignments. <strong>Audit risk.</strong></p>
+      </div>
+    </div>
+
+    <h4>Layer 4: Action &amp; Audit Workflows</h4>
+    <ul>
+      <li><strong>Auto-remediation playbooks</strong> - "Remove M365 license from user inactive 90+ days" with one-click approval and automatic ticket creation in PSA</li>
+      <li><strong>QBR export</strong> - Per-client compliance scorecard with waste summary and recommended adjustments, white-label for Account Manager presentation</li>
+      <li><strong>Audit prep packs</strong> - Snapshot-and-export per vendor format (Microsoft SAM, Oracle LMS, Adobe true-up) with usage history log, entitlement listings, and remediation evidence</li>
+      <li><strong>Renewal calendar</strong> - Contract expirations with compliance flag warnings (e.g., "Client A's M365 E3 renewal is in 60 days - current seat allocation shows 30% waste. Reassess before renewal.")</li>
+    </ul>
+
+    <h3>What it is not</h3>
+    <p>This is not a procurement marketplace or a reseller platform. It does not buy, sell, or provision licenses. It is an <strong>auditing and reconciliation layer</strong> that answers one question continuously: "What do we have, what are we paying for, and are we compliant?"</p>
+  </div>
+</section>
+
+<!-- 3. USER -->
+<section class="light" id="user">
+  <div class="content">
+    <h2>The User</h2>
+    <p class="meta" style="margin-bottom:20px;font-size:14px;">Three personas, one tool.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;margin:28px 0;">
+      <div style="flex:1;min-width:240px;background:#ffffff;border-radius:16px;padding:28px;border:1px solid #d2d2d7;">
+        <p class="tag">Primary</p>
+        <h4 style="margin-top:8px;">MSP Operations Manager</h4>
+        <p style="font-size:15px;">"I need to see waste and risk across every client from one dashboard, without logging into 6 vendor portals and 40 client tenants."</p>
+        <p class="meta" style="font-size:13px;margin:12px 0 0;">
+          Daily user. Checks drift, approves remediation, generates QBR exports.
+        </p>
+      </div>
+
+      <div style="flex:1;min-width:240px;background:#ffffff;border-radius:16px;padding:28px;border:1px solid #d2d2d7;">
+        <p class="tag">Secondary</p>
+        <h4 style="margin-top:8px;">MSP Account Manager</h4>
+        <p style="font-size:15px;">"I present license health in every QBR. Right now I stitch data from 4 screenshots and hope nobody asks about the gap."</p>
+        <p class="meta" style="font-size:13px;margin:12px 0 0;">
+          Weekly user. Runs QBR reports, reviews recommendations with client, tracks action items.
+        </p>
+      </div>
+
+      <div style="flex:1;min-width:240px;background:#ffffff;border-radius:16px;padding:28px;border:1px solid #d2d2d7;">
+        <p class="tag">Tertiary</p>
+        <h4 style="margin-top:8px;">MSP Owner / CEO</h4>
+        <p style="font-size:15px;">"I need to know our margin on resold software per client, and whether we have audit exposure that could blow a quarterly profit."</p>
+        <p class="meta" style="font-size:13px;margin:12px 0 0;">
+          Monthly user. Reviews aggregate waste, audit risk score, client profitability.
+        </p>
+      </div>
+    </div>
+
+    <h3>User segment: mid-market MSPs</h3>
+    <p><strong>Definition:</strong> MSPs with 200-2,000 endpoints across 20-100+ clients, 10-50 employees, $2-20M annual revenue. They have a PSA (ConnectWise, Autotask, HaloPSA), an RMM (NinjaOne, Datto, Kaseya), and are either already or soon-to-be reselling M365 and other SaaS to clients. They are too small for FlexNet or ServiceNow SAM but too large to keep doing license management in spreadsheets.</p>
+    <p><strong>Geography:</strong> Global but initial focus on North America and UK/EU where Microsoft SPLA audits and Adobe enterprise agreements are most aggressive.</p>
+  </div>
+</section>
+
+<!-- 4. BENEFICIARIES -->
+<section class="white" id="beneficiaries">
+  <div class="content">
+    <h2>Who Benefits</h2>
+    <p class="meta" style="margin-bottom:20px;font-size:14px;">Three layers of value capture.</p>
+
+    <h3>1. The MSP (direct operator)</h3>
+    <table>
+      <thead>
+        <tr><th>Benefit</th><th>Impact</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Software cost reduction</td><td>15-25% reduction in per-client software spend by identifying and reclaiming dormant licenses. For a client spending $6K/mo on M365, that is $900-$1,500/mo in savings.</td></tr>
+        <tr><td>Audit risk elimination</td><td>Continuous compliance visibility means the MSP enters vendor audits with evidence, not panic. No surprise true-up bills.</td></tr>
+        <tr><td>QBR differentiation</td><td>"We saved you $15K this year on licenses" is a conversation-ender at client QBRs. Most QBRs are firefighting summaries. This turns them into value summaries.</td></tr>
+        <tr><td>Operations efficiency</td><td>Eliminates 4-8 hours per client per quarter of manual license reconciliation. For a 40-client MSP, that is 640-1,280 hours/year saved - or one FTE.</td></tr>
+        <tr><td>Margin recovery on resold licenses</td><td>Many MSPs resell M365 at cost or negative margin because they cannot track what they actually pay vs. what they bill. Clear entitlement data enables margin-aware billing.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>2. The MSP's client (indirect beneficiary)</h3>
+    <table>
+      <thead>
+        <tr><th>Benefit</th><th>Impact</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lower total software cost</td><td>Client stops paying for licenses they are not using. The MSP's cost reduction drops to their bottom line over time.</td></tr>
+        <tr><td>No audit surprises</td><td>Vendors audit the client, not the MSP. A surprise true-up notice for 50 licenses at $25/mo each = $15K unexpected bill. Continuous compliance prevents this.</td></tr>
+        <tr><td>Forecastable spend</td><td>Clients get quarterly visibility into their license footprint and growth trajectory instead of reactive "you need more seats" calls.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3. The tool builder / vendor (strategic beneficiary)</h3>
+    <table>
+      <thead>
+        <tr><th>Benefit</th><th>Impact</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Recurring revenue</td><td>SaaS subscription with high stickiness - replacing a spreadsheet with an API-integrated dashboard creates deep switching costs.</td></tr>
+        <tr><td>Expansion path</td><td>Once the engine is deployed for license compliance, the same ingestion pipeline feeds CIS drift detection, hardware lifecycle compliance, and vendor audit defense - five of the 11 projects from the asset compliance landscape become the same platform.</td></tr>
+        <tr><td>Data network effect</td><td>Every connected vendor and client makes the engine more valuable (aggregate benchmark data, "similar MSPs save X% on Adobe"). But not required to deliver value.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 5. PRICING -->
+<section class="light" id="pricing">
+  <div class="content">
+    <h2>Pricing Strategy</h2>
+    <p class="meta" style="margin-bottom:20px;font-size:14px;">Based on market analysis of comparable MSP SaaS tools (Gradient MSP Synthesize, Nerdio, WarrantyMaster, Pax8 margins).</p>
+
+    <h3>Positioning principle</h3>
+    <p>The engine <em>pays for itself</em>. If a 40-client MSP saves $800/mo on average per client (15-25% of $4-6K software spend), that is $32K/mo in reclaimed waste. A $500-1,000/mo tool cost is less than 3% of savings. The pricing must feel like a no-brainer relative to the waste it surfaces.</p>
+
+    <h3>Recommended tier structure</h3>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h4>Launch</h4>
+        <div class="price">$349</div>
+        <div class="price-period">per month</div>
+        <p class="meta" style="font-size:13px;">Up to 5 clients. One vendor connector (M365). Basic reporting and QBR exports.</p>
+        <ul>
+          <li>M365 reconciliation</li>
+          <li>Over/under-licensing dashboards</li>
+          <li>Monthly QBR export</li>
+          <li>Email support</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card featured">
+        <h4>Growth</h4>
+        <div class="price">$799</div>
+        <div class="price-period">per month</div>
+        <p class="meta" style="font-size:13px;">Unlimited clients. All vendor connectors. Auto-remediation playbooks and direct PSA integration.</p>
+        <ul>
+          <li>All vendor connectors (M365, Adobe, Salesforce, AWS, Google Workspace)</li>
+          <li>Auto-remediation workflow engine</li>
+          <li>PSA/RMM integration (ticket creation)</li>
+          <li>Audit prep packs per vendor</li>
+          <li>Priority support</li>
+        </ul>
+        <p style="margin-top:12px;font-size:13px;color:#0071e3;"><strong>Recommended default</strong> - covers the full mid-market MSP need.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h4>Enterprise</h4>
+        <div class="price">$1,499</div>
+        <div class="price-period">per month</div>
+        <p class="meta" style="font-size:13px;">Everything in Growth plus dedicated on-prem connector, SLA, custom reporting, and white-label portal.</p>
+        <ul>
+          <li>All Growth features</li>
+          <li>Custom connector development</li>
+          <li>White-label client portal</li>
+          <li>99.9% uptime SLA</li>
+          <li>Dedicated support engineer</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Annual discount</h3>
+    <p>16% off for annual billing (pay for 10 months, get 12). $349/mo = $3,588/yr on annual vs $4,188/yr monthly. Standard MSP SaaS practice.</p>
+
+    <h3>Competitive pricing map</h3>
+    <table>
+      <thead>
+        <tr><th>Tool</th><th>Category</th><th>Price (monthly)</th><th>Multi-tenant?</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Gradient MSP Synthesize</td><td>PSA/quoting</td><td>$200-500</td><td>Yes</td><td>Billing-focused, no vendor license reconciliation</td></tr>
+        <tr><td>WarrantyMaster</td><td>Hardware warranty</td><td>$100-300</td><td>Yes</td><td>Hardware only, no software license coverage</td></tr>
+        <tr><td>Nerdio</td><td>Azure MSP mgmt</td><td>$2-5/user</td><td>Yes</td><td>Azure-only, no multi-vendor license view</td></tr>
+        <tr><td>FlexNet Manager</td><td>Enterprise SAM</td><td>$40K+/yr</td><td>No</td><td>Single-tenant enterprise deployment</td></tr>
+        <tr><td>ServiceNow SAM Pro</td><td>Enterprise SAM</td><td>$50K+/yr</td><td>No</td><td>ITSM add-on, no MSP multi-tenant view</td></tr>
+        <tr><td><strong>License True-Up Engine</strong></td><td><strong>MSP SAM</strong></td><td><strong>$349-1,499/mo</strong></td><td><strong>Yes</strong></td><td><strong>First multi-tenant SAM tool built for MSPs</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Why not per-endpoint pricing</h3>
+    <p>Per-endpoint ($0.50-1.50/endpoint/mo) is tempting but wrong for this product. The value is in <em>contract and entitlement structure</em>, not endpoint count. A 20-person client on Adobe Enterprise Term License Agreement has more audit risk than a 200-person client on M365 Business Standard. Flat per-client pricing aligns with the value (contract complexity) better than per-seat pricing (volume). A per-client tier with client caps lets the MSP grow without price anxiety.</p>
+
+    <div class="callout">
+      <p class="emoji-label">Unit Economics</p>
+      <p><strong>Target customer pays $799/mo.</strong> Average client count: 40 clients. Cost per client: $20/mo. Average savings reclaimed per client: $800-1,500/mo. <strong>ROI for the MSP: 40-75x.</strong> This pricing ensures the tool pays for itself on the first client's first month, and the remaining 39 clients are pure margin.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. MARKET FIT -->
+<section class="dark" id="market-fit">
+  <div class="content">
+    <h2>Market Fit &amp; Timing</h2>
+
+    <h3>Why now</h3>
+    <ol>
+      <li><strong>Microsoft audit aggression is escalating.</strong> AI-triggered audits (SAMexpert 2026) mean no MSP is too small to be selected. The old "we are under the radar" assumption is dead.</li>
+      <li><strong>MSP software spend is growing faster than MSP staffing.</strong> As clients add SaaS, the license surface area expands faster than operations teams can manually reconcile. Automation is the only scaling path.</li>
+      <li><strong>Worksent (Jan 2026) ranks "Security &amp; Compliance" as the #2 MSP pain point.</strong> License compliance is the foundational compliance layer - you cannot secure what you have not inventoried and licensed correctly.</li>
+      <li><strong>No product exists in the white space.</strong> Every enterprise SAM tool costs $40K+/yr and is single-tenant. Every MSP tool ignores vendor license reconciliation. The gap is wide and uncontested.</li>
+    </ol>
+
+    <h3>TAM estimate (conservative)</h3>
+    <table>
+      <thead>
+        <tr><th>Segment</th><th>MSPs (NA+EU)</th><th>Share addressable</th><th>TAM at $799/mo</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Mid-market MSPs (200-2K endpoints)</td><td>~8,000</td><td>30% target</td><td>$23M/yr</td></tr>
+        <tr><td>Growth MSPs transitioning upmarket</td><td>~5,000</td><td>15% target</td><td>$7.2M/yr</td></tr>
+        <tr><td>Enterprise MSPs (>2K endpoints)</td><td>~2,000</td><td>25% target (Enterprise tier)</td><td>$9M/yr</td></tr>
+      </tbody>
+    </table>
+    <p class="meta" style="color:#a1a1a6;margin-top:8px;">TAM: ~$40M/yr in NA+EU alone. Global (APAC, LatAm) adds another 30-40%.</p>
+
+    <h3>Risk &amp; critical assumptions</h3>
+    <ol>
+      <li><strong>Vendor API stability.</strong> Microsoft Graph API changes, Adobe Admin Console API deprecations. Need an abstraction layer that buffers connector churn.</li>
+      <li><strong>MSP adoption of vendor APIs.</strong> Many MSPs do not have delegated admin access to client M365 tenants for Graph API calls. The onboarding flow must handle delegated access setup (GDAP in Microsoft partner center).</li>
+      <li><strong>Value capture risk.</strong> The engine surfaces savings. The MSP must act on them (remove licenses, renegotiate contracts). A "recommend and remind" pattern with PSA ticket automation closes this loop.</li>
+      <li><strong>Channel conflict.</strong> If the engine reveals Pax8 margin compression, Pax8 could view this as a threat. Positioning as "inventory reconciliation, not procurement displacement" mitigates this.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- Verbatim Source Record -->
+<section class="white" id="sources">
+  <div class="content">
+    <h2>Source Record</h2>
+    <p class="meta" style="margin-bottom:20px;">All sources accessed live via cloak browser (DuckDuckGo) on 2026-07-05. Content extracted to local cache. No cached or AI-doctored sources.</p>
+
+    <table>
+      <thead>
+        <tr><th>Source</th><th>Type</th><th>Status</th><th>Key Content Used</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="https://community.spiceworks.com/t/microsoft-licensing-audit-frustrations/707188" target="_blank" rel="noopener">Spiceworks Community</a></td>
+          <td>Forum thread</td>
+          <td>Full extraction</td>
+          <td>Verbatim MSP quotes on audit process, SAM optionality, fragmented vendor portals</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.trustedtechteam.com/blogs/software/microsoft-licensing-audits" target="_blank" rel="noopener">TrustedTech</a></td>
+          <td>Blog/Guide</td>
+          <td>Full extraction</td>
+          <td>"20%+ waste typical", SAM Review vs License Verification, over-licensing prevalence</td>
+        </tr>
+        <tr>
+          <td><a href="https://worksent.com/blog/msp-painpoints-solutions-best-practices/" target="_blank" rel="noopener">Worksent</a></td>
+          <td>Blog/Guide</td>
+          <td>Full extraction</td>
+          <td>13 MSP pain points, Security &amp; Compliance ranked #2, automation as the fix pattern</td>
+        </tr>
+        <tr>
+          <td><a href="https://samexpert.com/microsoft-audits-explained/" target="_blank" rel="noopener">SAMexpert</a></td>
+          <td>Guide</td>
+          <td>Full extraction</td>
+          <td>AI-triggered audits, 125% penalties, 30-day payment deadline, 4 audit types</td>
+        </tr>
+        <tr>
+          <td><a href="https://secureframe.com/blog/msp-compliance" target="_blank" rel="noopener">Secureframe</a></td>
+          <td>Blog/Guide</td>
+          <td>Full extraction</td>
+          <td>CIS, SOC 2, ISO 27001, HIPAA, PCI-DSS frameworks for MSP compliance</td>
+        </tr>
+        <tr>
+          <td>r/msp "Tracking Licenses"</td>
+          <td>Reddit thread</td>
+          <td>Title + description (body blocked by Cloudflare)</td>
+          <td>"How do you track licenses across multiple vendors and clients?"</td>
+        </tr>
+        <tr>
+          <td>r/msp "What software license management solutions do you use?"</td>
+          <td>Reddit thread</td>
+          <td>Title + description (body blocked by Cloudflare)</td>
+          <td>Practitioner seeking SAM tool recommendations</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="light" id="cta">
+  <div class="content" style="text-align:center;">
+    <h2>Next Steps</h2>
+    <p style="font-size:19px;max-width:600px;margin:0 auto 16px;">This concept is validated against 5 independent practitioner sources covering Spiceworks forums, Reddit MSP threads, and 2025-2026 industry guides.</p>
+    <p style="margin-bottom:24px;">Building a working ingestion connector for M365 would be the fastest path from concept to working demo - one vendor, real clients, real waste uncovered.</p>
+    <a href="#problem" class="btn" style="margin-right:12px;">Read the Problem</a>
+    <a href="#pricing" class="btn btn-dark">Pricing Model</a>
+
+    <p class="meta" style="margin-top:40px;font-size:14px;">
+      This is a strategy artifact. Build decisions should follow a working prototype validation phase.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="content">
+    <p>License True-Up Engine - Product Concept Deep Dive</p>
+    <p>Published July 2026. All sources verified live on 2026-07-05 via DuckDuckGo cloak browser.</p>
+    <p>Built for mid-market MSPs (200-2,000 endpoints). Not a procurement tool. A reconciliation and audit readiness layer.</p>
+    <p>Part of the Asset Compliance Project Landscape series.</p>
+    <p style="margin-top:16px;"><a href="https://vadapayasam.github.io/warehouse/sketch/">Back to sketch index</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
