@@ -3,9 +3,9 @@
 Public HTML publishing repo. Owns: agent-publish, MSP research artifacts, daily/weekly sketches.
 
 ## Layout
-- `warehouse/sketch/` — primary artifact dir (numerous review sketches)
-- `daily/` — daily research drops
-- `weekly/` — weekly summarizations  
+- `sketch/` — primary artifact dir (numerous review sketches)
+- `daily/` — daily tweet logs and research drops
+- `weekly/` — weekly summarizations
 - `landing/` — landing pages
 - `assets/` — shared CSS/JS/images
 - Root: index.html, agent-publish-twitter-thread.html, mspclaw-*.html
@@ -13,11 +13,18 @@ Public HTML publishing repo. Owns: agent-publish, MSP research artifacts, daily/
 ## Workflow
 1. Research markdown lives in `~/.hermes/raw/` (cron output drops here)
 2. Tina converts → HTML via research-to-web-publishing skill
-3. File lands in `warehouse/sketch/<name>.html`
-4. `git commit` + push — site auto-deploys (gh-pages)
+3. File lands in `sketch/<name>.html` or `daily/<name>.html`
+4. Use `tm deploy-html /path/to/file.html --dir sketch|daily` — commits and pushes
+5. Site auto-deploys via GitHub Pages
+
+## Deploy Commands
+- Sketches: `tm deploy-html /path/to/file.html --dir sketch`
+- Daily tweets: `tm deploy-html /path/to/file.html --dir daily`
+- Default dir is `sketch` (hardcoded in script)
 
 ## Rules
 - Default output target: `vadapayasam.github.io/warehouse/sketch/`
+- Daily tweets ALWAYS go to `daily/` dir, never `sketch/`
 - `thisisprabha.github.io` ONLY when Prabha explicitly says so
 - ALWAYS load `prabha-taste` skill before writing HTML
 - No em dashes in public-facing copy. Tasteful profanity OK.
