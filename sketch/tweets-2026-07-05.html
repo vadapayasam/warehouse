@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tina's Build Log · 2026-07-05</title>
+<style>
+:root{--bg:#f5f5f7;--text:#1d1d1f;--muted:#6e6e73;--card:#fff;--accent:#0071e3;--border:#d2d2d7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,SF Pro Text,Helvetica Neue,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.47;padding:2rem 1rem;max-width:720px;margin:0 auto;letter-spacing:-0.374px}
+h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:2rem;font-weight:600;letter-spacing:-.144px;margin-bottom:.25rem}
+.date{color:var(--muted);margin-bottom:2rem;font-size:.9rem}
+.stats-bar{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;padding:1rem;background:var(--card);border-radius:16px;font-size:.85rem;border:1px solid #eee}
+.stats-bar span{color:var(--muted)}
+.stats-bar strong{color:var(--text)}
+.tweet-card{background:var(--card);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid #eee;transition:.15s}
+.tweet-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.tweet-header{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.num{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600}
+.tag{font-size:.75rem;padding:.2rem .55rem;border-radius:99px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;font-family:SF Mono,ui-monospace,monospace}
+.tag.hermes{background:#ede9fe;color:#5b21b6}
+.tag.workflow{background:#d1fae5;color:#065f46}
+.tag.tips{background:#fef3c7;color:#92400e}
+.tag.apps{background:#dbeafe;color:#1e40af}
+.tag.interesting{background:#cffafe;color:#155e75}
+.tag.failures{background:#fee2e2;color:#991b1b}
+.time{font-size:.8rem;color:#059669;font-weight:600;margin-left:auto;background:#d1fae5;padding:.2rem .55rem;border-radius:99px;white-space:nowrap}
+.tweet-text{white-space:pre-wrap;font-family:SF Pro Text,Helvetica Neue,Arial,sans-serif;font-size:1rem;line-height:1.5;margin-bottom:1rem}
+.char-count{font-size:.75rem;color:var(--muted);display:inline-block;margin-right:.5rem}
+.copy-btn{padding:.35rem 1rem;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;font-size:.85rem;float:right;transition:.1s}
+.copy-btn:hover{background:#0077ed}
+.copy-btn:active{transform:scale(.97)}
+.copy-all{background:#5b21b6;float:none;margin-top:.5rem}
+.copy-all:hover{background:#6d28d9}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+.schedule-table{width:100%;border-collapse:collapse;margin-top:.75rem;font-size:.85rem}
+.schedule-table td,.schedule-table th{padding:.4rem .5rem;text-align:left;border-bottom:1px solid var(--border)}
+.schedule-table th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.02em}
+.archive-link{display:inline-block;margin-top:.25rem;color:var(--accent);text-decoration:none;font-size:.85rem}
+.archive-link:hover{text-decoration:underline}
+.thread-container{border:1px solid #d2d2d7;border-radius:16px;padding:1rem;margin-bottom:1.5rem;background:#fafafa}
+.thread-header{font-size:.8rem;color:var(--muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.02em;font-weight:500}
+.sources{font-size:.8rem;color:var(--muted);margin:2rem 0;padding:1rem;background:var(--card);border-radius:16px;border:1px solid #eee}
+.sources a{color:var(--accent);text-decoration:none}
+.sources a:hover{text-decoration:underline}
+@media(max-width:480px){body{padding:1rem}.stats-bar{gap:1rem}}
+</style>
+</head>
+<body>
+<h1>Design + Code + Agents</h1>
+<p class="date">Prabha's build log · 2026-07-05 · Sunday edition</p>
+
+<div class="stats-bar">
+  <span><strong>5</strong> tweets</span>
+  <span><strong>$0</strong> cloud cost</span>
+  <span><strong>1</strong> thread</span>
+  <span><strong>122</strong> HTML files</span>
+</div>
+
+<table class="schedule-table">
+  <thead><tr><th>Time (IST)</th><th>Slot</th></tr></thead>
+  <tbody>
+    <tr><td>9:00 AM</td><td>Builder Moment (thread)</td></tr>
+    <tr><td>12:00 PM</td><td>Hot Take</td></tr>
+    <tr><td>4:00 PM</td><td>Deep Cut</td></tr>
+    <tr><td>7:00 PM</td><td>Wind-down</td></tr>
+  </tbody>
+</table>
+
+<!-- SLOT 1: Thread -->
+<div class="thread-container">
+  <div class="thread-header">Slot 1 · Dual-Layer Memory System Thread</div>
+
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <span class="num">1</span>
+      <span class="tag interesting">interesting</span>
+      <span class="time">9:00 AM</span>
+    </div>
+    <div class="tweet-text">Two memory systems running in parallel.
+
+Vault (Obsidian): file-based, deliberate, structured. You write notes knowing they will be read.
+
+Honcho (PostgreSQL + pgvector): conversation-native, learns from dialogue, no writing required.
+
+The question "what did I say about X?" and "what do I actually think about X?" need different memory systems.</div>
+    <span class="char-count">345 chars</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+  </div>
+
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <span class="num">2</span>
+      <span class="tag interesting">interesting</span>
+      <span class="time">9:00 AM</span>
+    </div>
+    <div class="tweet-text">Vault answers: what are my portfolio holdings, what are the design tokens, what did I decide last quarter.
+
+Honcho answers: what do I actually prefer when pressed, what patterns show up across conversations, what did I say I would do versus what I actually did.
+
+Same question, different memory, different answer. Both are true.</div>
+    <span class="char-count">328 chars</span>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+  </div>
+
+  <button class="copy-btn copy-all" onclick="var p=this.parentElement.querySelectorAll('.tweet-text');navigator.clipboard.writeText([...p].map(e=>e.textContent).join('\n\n'))">Copy All Parts</button>
+</div>
+
+<!-- SLOT 2 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">3</span>
+    <span class="tag hermes">hermes</span>
+    <span class="time">12:00 PM</span>
+  </div>
+  <div class="tweet-text">"Free" AI is never actually free.
+
+It is venture subsidized (temporary), ad-supported (you are the product), or referral-funded (same problem).
+
+Self-hosted on a Mac Mini: you pay for electricity and hardware once. No subscription. No data leaving your house.
+
+That is the actual definition of free.</div>
+  <span class="char-count">299 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<!-- SLOT 3 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">4</span>
+    <span class="tag tips">tips</span>
+    <span class="time">4:00 PM</span>
+  </div>
+  <div class="tweet-text">The daily synthesis cron ran this morning at 2:30 AM IST. Appended to the journal, generated the HTML index, pushed to git.
+
+I did not touch it.
+
+The pipeline is boring in the best way: curl to fetch, sed to parse, template to render, git to publish. No agent reasoning required for routine output.
+
+The 2:30 AM slot is the one that runs while I sleep.</div>
+  <span class="char-count">352 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<!-- SLOT 4 -->
+<div class="tweet-card">
+  <div class="tweet-header">
+    <span class="num">5</span>
+    <span class="tag apps">apps</span>
+    <span class="time">7:00 PM</span>
+  </div>
+  <div class="tweet-text">Honcho had a description problem.
+
+"Fully self-hosted" and "zero subscription cost" sound like marketing when you are used to SaaS framing.
+
+The fix was not the product. The fix was removing the marketing language entirely and describing what it actually does: two commands to start, your data stays on your machine, no account required.</div>
+  <span class="char-count">337 chars</span>
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
+</div>
+
+<div class="sources">
+  Sources checked: internal git log (commits f81baa0, 9710678), <a href="https://vadapayasam.github.io/warehouse/sketch/honcho-vault-memory.html">honcho-vault-memory sketch</a>, hermes-vault raw notes.
+</div>
+
+<p class="footer">
+  Generated by Hermes Agent · 2026-07-05 · minimax-m2.7 · $0 total cost<br>
+  <a class="archive-link" href="https://vadapayasam.github.io/warehouse/daily/">Daily Archive</a>
+</p>
+</body>
+</html>
