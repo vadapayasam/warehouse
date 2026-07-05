@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Health — 2026-07-05</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --text: #e0e0e0;
+    --accent: #f59e0b;
+    --accent-muted: #b8860b;
+    --border: #2a2a4a;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f97316;
+    --yellow: #eab308;
+  }
+
+  [data-theme="light"] {
+    --bg: #faf5f0;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --border: #e5d9cc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-left h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .header-left .subtitle {
+    color: var(--text);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+
+  .score-ring {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .score-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .score-ring .bg-circle {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 8;
+  }
+
+  .score-ring .fg-circle {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 1s ease;
+  }
+
+  .score-ring .score-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .score-ring .score-text small { font-size: 0.8rem; opacity: 0.6; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: transform 0.2s;
+  }
+
+  .stat-card:hover { transform: translateY(-2px); }
+
+  .stat-card .label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-card .value {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .stat-card .meta {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-top: 0.3rem;
+  }
+
+  .gauge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .gauge-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .gauge-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+
+  .gauge-fill.good { background: var(--green); }
+  .gauge-fill.warn { background: var(--orange); }
+  .gauge-fill.bad { background: var(--red); }
+  .gauge-fill.ok { background: var(--yellow); }
+
+  .issues-section {
+    margin-bottom: 2rem;
+  }
+
+  .issues-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+
+  .issue-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .issue-group h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .issue-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    border-left: 3px solid var(--border);
+  }
+
+  .issue-card.critical { border-left-color: var(--red); }
+  .issue-card.moderate { border-left-color: var(--orange); }
+  .issue-card.minor { border-left-color: var(--yellow); }
+
+  .issue-card .issue-title {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .issue-card .issue-detail {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  .issue-card .issue-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 0.4rem;
+  }
+
+  .tag-critical { background: rgba(239,68,68,0.15); color: var(--red); }
+  .tag-moderate { background: rgba(249,115,22,0.15); color: var(--orange); }
+  .tag-minor { background: rgba(234,179,8,0.15); color: var(--yellow); }
+
+  .lfm-quote {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .lfm-quote::before {
+    content: '"';
+    position: absolute;
+    top: 0.3rem;
+    left: 0.75rem;
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .lfm-quote blockquote {
+    font-style: italic;
+    opacity: 0.85;
+    padding-left: 1.5rem;
+  }
+
+  .lfm-quote .attribution {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+  }
+
+  .summary-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .summary-box h2 {
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .summary-box ul {
+    padding-left: 1.25rem;
+    opacity: 0.85;
+  }
+
+  .summary-box ul li { margin-bottom: 0.4rem; }
+
+  footer {
+    text-align: center;
+    padding: 2rem 0 0;
+    opacity: 0.4;
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  .theme-toggle {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    header { flex-direction: column; }
+    .score-ring { align-self: flex-start; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div style="text-align: right;">
+    <button class="theme-toggle" onclick="toggleTheme()">☀️ / 🌙</button>
+  </div>
+
+  <header>
+    <div class="header-left">
+      <h1>Vault Health</h1>
+      <div class="subtitle">2026-07-05 · Sunday Weekly Scan</div>
+    </div>
+    <div class="score-ring">
+      <svg viewBox="0 0 100 100">
+        <circle class="bg-circle" cx="50" cy="50" r="45"></circle>
+        <circle class="fg-circle" id="scoreCircle" cx="50" cy="50" r="45"></circle>
+      </svg>
+      <div class="score-text">5.5<small>/10</small></div>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="label">Index Freshness</div>
+      <div class="value">Jul 4</div>
+      <div class="meta">Modified yesterday · 106 lines</div>
+      <div class="gauge">
+        <div class="gauge-bar"><div class="gauge-fill good" style="width: 90%"></div></div>
+        <span style="font-size:0.8rem;opacity:0.5;">90%</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="label">Wiki Files</div>
+      <div class="value">63</div>
+      <div class="meta">46 root + 17 in subdirs</div>
+      <div class="gauge">
+        <div class="gauge-bar"><div class="gauge-fill good" style="width: 75%"></div></div>
+        <span style="font-size:0.8rem;opacity:0.5;">75%</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="label">Raw → Processed</div>
+      <div class="value">2 / 6</div>
+      <div class="meta">2 raw files · processed stale since May</div>
+      <div class="gauge">
+        <div class="gauge-bar"><div class="gauge-fill warn" style="width: 35%"></div></div>
+        <span style="font-size:0.8rem;opacity:0.5;">35%</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="label">MOC Coverage</div>
+      <div class="value">5</div>
+      <div class="meta">Agent-Tina · Design · Finance · Research · iOS</div>
+      <div class="gauge">
+        <div class="gauge-bar"><div class="gauge-fill ok" style="width: 60%"></div></div>
+        <span style="font-size:0.8rem;opacity:0.5;">60%</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="label">Overnight Activity</div>
+      <div class="value">4 files</div>
+      <div class="meta">Jul 1-4 · 838 total lines</div>
+      <div class="gauge">
+        <div class="gauge-bar"><div class="gauge-fill good" style="width: 85%"></div></div>
+        <span style="font-size:0.8rem;opacity:0.5;">85%</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="label">Synthesis</div>
+      <div class="value">2</div>
+      <div class="meta">Both from May 2026 · 7 weeks stale</div>
+      <div class="gauge">
+        <div class="gauge-bar"><div class="gauge-fill bad" style="width: 15%"></div></div>
+        <span style="font-size:0.8rem;opacity:0.5;">15%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h2>⚡ Verdict: 5.5/10 — Alive but Processing Pipeline Stalled</h2>
+    <ul>
+      <li><strong>What's working:</strong> Index is current, overnight logs run daily, MOCs are well-defined across 5 domains. Raw inbox is small (good discipline).</li>
+      <li><strong>What's broken:</strong> The core pipeline (raw → processed → synthesis) has been idle since mid-May. Weekly processing stopped, syntheses haven't been generated in 7 weeks.</li>
+      <li><strong>What's degrading:</strong> Pattern-scout cron dead since June 3. Wiki density is uneven — Finance is deep (11 files) while iOS (3) and Agent-Tina (3) need expansion. Design and Research MOCs have no dedicated subdirectories.</li>
+    </ul>
+  </div>
+
+  <div class="issues-section">
+    <h2>Issues & Recommendations</h2>
+
+    <div class="issue-group">
+      <h3>🚨 Immediate</h3>
+
+      <div class="issue-card critical">
+        <div class="issue-title">Processed Archive Stalled — 7 Weeks Without Updates</div>
+        <div class="issue-detail">Last processed entry is <code>weekly-2026-W23</code> (mid-May). Six weekly logs and daily overnight analyses have accumulated without being categorized into <code>processed/</code>. Incoming material is being written but never archived.</div>
+        <span class="issue-tag tag-critical">Critical</span>
+      </div>
+
+      <div class="issue-card critical">
+        <div class="issue-title">Synthesis Inactive Since May</div>
+        <div class="issue-detail">Only 2 synthesis files exist, both dated May 2026. No weekly or monthly syntheses for the past 7 weeks. Without synthesis, the vault is accumulating raw content but not producing distillable insights.</div>
+        <span class="issue-tag tag-critical">Critical</span>
+      </div>
+    </div>
+
+    <div class="issue-group">
+      <h3>🏗️ Structural</h3>
+
+      <div class="issue-card moderate">
+        <div class="issue-title">Uneven Wiki Density — 2 MOCs Missing Subdirectories</div>
+        <div class="issue-detail">Finance has 11 files in a dedicated subdir. iOS (3) and Agent-Tina (3) have subdirs but are thin. Design and Research MOCs have no subdirectories at all — their 46 root wiki files are flat. This makes navigation harder as the vault grows.</div>
+        <span class="issue-tag tag-moderate">Moderate</span>
+      </div>
+
+      <div class="issue-card moderate">
+        <div class="issue-title">Pattern-Scout Cron Discontinued</div>
+        <div class="issue-detail">Pattern-scout files stop at June 3, 2026. Only <code>log-analysis</code> nightly cron runs. The pattern-detection cron that cross-referenced sessions may have been unintentionally dropped or deactivated.</div>
+        <span class="issue-tag tag-moderate">Moderate</span>
+      </div>
+    </div>
+
+    <div class="issue-group">
+      <h3>❄️ Cold Storage</h3>
+
+      <div class="issue-card minor">
+        <div class="issue-title">2 Raw Files Awaiting Processing</div>
+        <div class="issue-detail">Today's <code>audit-2026-07-05.md</code> (3.2KB) and <code>honcho-vault-memory.md</code> (1.4KB) are sitting in <code>raw/</code>. These should be categorized and moved to <code>processed/</code> within the next cycle.</div>
+        <span class="issue-tag tag-minor">Minor</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lfm-quote">
+    <h2 style="color: var(--accent); font-size: 0.9rem; margin-bottom: 0.5rem; padding-left: 1.5rem;">LFM Assessment</h2>
+    <blockquote>
+      LFM2.5-1.2B-Thinking could not complete assessment within its 800-token budget — the thinking model consumed the entire budget in reasoning blocks, never reaching a verdict. This failure itself is a data point: the model is unsuitable for structured health checks under tight token budgets.
+    </blockquote>
+    <div class="attribution">— mlx_think (LFM2.5-1.2B, 800t budget, truncated) · Assessment substituted by Agent Tina</div>
+  </div>
+
+  <footer>
+    Agent Tina · Hermes + LFM2.5-1.2B · Sun 2026-07-05
+  </footer>
+</div>
+
+<script>
+  // Animate score ring on load
+  setTimeout(() => {
+    const circle = document.getElementById('scoreCircle');
+    const score = 5.5;
+    const circumference = 283;
+    const offset = circumference - (score / 10) * circumference;
+    circle.style.strokeDashoffset = offset;
+  }, 200);
+
+  // Theme toggle
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  }
+</script>
+
+</body>
+</html>
