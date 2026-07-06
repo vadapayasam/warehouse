@@ -2,55 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Design Evolution Scan - AI/Agentic Design in SaaS/B2B</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design Evolution Scan - Generative UI Patterns, July Week 2</title>
   <style>
     :root {
-      --bg: #f8f9fa;
-      --card: #ffffff;
-      --accent: #1a1a2e;
-      --accent2: #16213e;
-      --gold: #e8b84b;
-      --text: #1a1a2e;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --highlight: #fef3c7;
+      --canvas-black: #000000;
+      --canvas-light: #f5f5f7;
+      --canvas-white: #ffffff;
+      --text-primary: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --text-on-black: #f5f5f7;
+      --accent: #0071e3;
+      --accent-bright: #2997ff;
+      --border: #d2d2d7;
+      --border-strong: #86868b;
+      --surface-card: #ffffff;
+      --highlight-bg: #f0f4ff;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--canvas-white);
+      color: var(--text-primary);
       line-height: 1.6;
-      padding: 2rem 1rem;
+      -webkit-font-smoothing: antialiased;
     }
+
     .container {
-      max-width: 800px;
+      max-width: 980px;
       margin: 0 auto;
+      padding: 0 48px;
     }
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 2px solid var(--border);
+
+    /* Hero / Showcase Chapter */
+    .hero {
+      background: var(--canvas-black);
+      color: var(--text-on-black);
+      padding: 5rem 0 4rem;
     }
-    header h1 {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
+    .hero .container {
+      text-align: left;
+    }
+    .hero h1 {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.144px;
       margin-bottom: 0.75rem;
     }
-    header .sub {
-      color: var(--muted);
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
+    .hero .sub {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.21;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      max-width: 680px;
     }
-    header .badge {
+    .hero .badge {
       display: inline-block;
-      background: var(--accent);
-      color: #fff;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: var(--text-on-black);
       font-size: 0.7rem;
       font-weight: 600;
       text-transform: uppercase;
@@ -58,94 +71,202 @@
       padding: 0.3rem 0.8rem;
       border-radius: 4px;
     }
-    .meta-line {
+    .hero .meta-line {
       display: flex;
-      justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
-      margin: 1rem 0 0;
+      margin-top: 1rem;
       font-size: 0.8rem;
-      color: var(--muted);
+      color: var(--text-secondary);
     }
 
-    .pattern {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 2rem 2rem 1.75rem;
-      margin-bottom: 1.75rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-      border: 1px solid var(--border);
+    /* Feature Band (pale gray sections) */
+    .section {
+      background: var(--canvas-light);
+      padding: 3.5rem 0;
     }
-    .pattern h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .section-white {
+      background: var(--canvas-white);
+      padding: 3.5rem 0;
+    }
+
+    .pattern-group h2 {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.14;
+      letter-spacing: 0.196px;
       margin-bottom: 0.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
     }
-    .pattern h2 .num {
+    .pattern-group h2 .num {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
+      min-width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: var(--accent);
       color: #fff;
-      font-size: 0.8rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .pattern .tagline {
-      font-size: 0.9rem;
-      color: var(--accent2);
+      font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 1rem;
-      padding-left: 2.25rem;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
-    .pattern p {
+    .pattern-group .tagline {
+      font-size: 17px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.47;
+      margin-bottom: 1.25rem;
+      padding-left: 2.75rem;
+    }
+    .pattern-group p {
+      font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
       margin-bottom: 0.75rem;
-      font-size: 0.95rem;
     }
-    .pattern .insight {
-      background: var(--highlight);
-      border-left: 3px solid var(--gold);
+    .pattern-group .insight {
+      background: var(--highlight-bg);
+      border-left: 3px solid var(--accent);
       padding: 0.75rem 1rem;
-      margin: 1rem 0;
+      margin: 1rem 0 1.25rem;
       border-radius: 0 6px 6px 0;
-      font-size: 0.9rem;
+      font-size: 15px;
+      line-height: 1.5;
     }
-    .pattern .sources {
+    .pattern-group .insight strong {
+      color: var(--accent);
+    }
+    .pattern-group .stats {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .pattern-group .stat-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      flex: 1;
+      min-width: 140px;
+    }
+    .pattern-group .stat-card .num {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+    .pattern-group .stat-card .label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.3;
+      margin-top: 0.25rem;
+    }
+    .pattern-group .sources {
       margin-top: 1rem;
       font-size: 0.8rem;
-      color: var(--muted);
+      color: var(--text-secondary);
       border-top: 1px solid var(--border);
       padding-top: 0.75rem;
     }
-    .pattern .sources a {
-      color: var(--accent2);
-      text-decoration: underline;
-      text-underline-offset: 2px;
+    .pattern-group .sources a {
+      color: var(--accent);
+      text-decoration: none;
     }
-    .pattern .sources a:hover {
-      color: var(--gold);
+    .pattern-group .sources a:hover {
+      text-decoration: underline;
     }
 
+    .pattern-hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* Protocol Stack Table */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .stack-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+    .stack-card h4 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .stack-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 0;
+    }
+    .stack-card .protocol-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Decision Tree */
+    .decision-tree {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .tree-node {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+    .tree-node h4 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .tree-node .condition {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .tree-node .arrow {
+      color: var(--accent);
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    /* Cross-Cutting */
     .crosscut {
-      background: var(--card);
+      background: var(--canvas-white);
       border-radius: 12px;
       padding: 1.5rem 2rem;
-      margin-bottom: 2rem;
+      margin: 2rem 0;
       border: 1px solid var(--border);
     }
     .crosscut h3 {
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 17px;
+      font-weight: 600;
       margin-bottom: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
+      color: var(--text-primary);
     }
     .crosscut ul {
       list-style: none;
@@ -153,206 +274,304 @@
     }
     .crosscut li {
       margin-bottom: 0.5rem;
-      font-size: 0.9rem;
+      font-size: 15px;
+      line-height: 1.5;
       padding-left: 1.2rem;
       position: relative;
     }
     .crosscut li::before {
-      content: "\2192";
-      color: var(--gold);
-      font-weight: 700;
+      content: ">";
+      color: var(--accent);
+      font-weight: 600;
       position: absolute;
       left: 0;
     }
     .crosscut li strong {
-      color: var(--accent);
+      color: var(--text-primary);
     }
 
     footer {
+      background: var(--canvas-black);
+      color: var(--text-secondary);
       text-align: center;
-      padding: 2rem 0;
-      color: var(--muted);
+      padding: 2.5rem 0;
       font-size: 0.8rem;
-      border-top: 2px solid var(--border);
-      margin-top: 2rem;
     }
     footer a {
-      color: var(--accent2);
+      color: var(--accent-bright);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 600px) {
-      header h1 { font-size: 1.6rem; }
-      .pattern { padding: 1.5rem 1.25rem 1.5rem; }
-      .pattern h2 { font-size: 1.1rem; }
-      .pattern .tagline { padding-left: 0; }
+      .container { padding: 0 22px; }
+      .hero h1 { font-size: 32px; }
+      .hero .sub { font-size: 17px; }
+      .pattern-group h2 { font-size: 22px; }
+      .pattern-group .tagline { padding-left: 0; }
+      .pattern-group .stats { flex-direction: column; }
+      .stack-grid { grid-template-columns: 1fr; }
+      .decision-tree { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>AI/Agentic Design Evolution in SaaS/B2B</h1>
-      <div class="sub">Patterns and shifts shaping enterprise software interfaces in 2026</div>
-      <div class="badge">Research Scan</div>
+
+  <!-- Hero Chapter -->
+  <div class="hero">
+    <div class="container">
+      <div class="badge">Design Pattern Scan</div>
+      <h1>Generative UI Design Patterns</h1>
+      <div class="sub">The GenUI design taxonomy that went production in July 2026. Controlled, Declarative, Open-ended. Each with a job, each with a cost.</div>
       <div class="meta-line">
         <span>July 6, 2026</span>
-        <span>8 patterns</span>
-        <span>14 sources</span>
-      </div>
-    </header>
-
-    <!-- Pattern 1 -->
-    <div class="pattern">
-      <h2><span class="num">1</span> Headless SaaS: UIs Become Optional</h2>
-      <div class="tagline">AI agents bypass the application UI entirely. SaaS transforms from user interface to execution engine.</div>
-      <p>SaaS applications are quietly shedding their graphical interfaces. The emerging architecture treats the traditional UI as one access path among many, where AI agents interact directly with APIs and data layers. Boomi's CEO David Meredith describes SaaS as "headless" deterministic engines that agents call programmatically, without a human ever seeing a dashboard.</p>
-      <p>The implication is stark: if an AI agent can do the work of a human operator, the visual interface that the human needed becomes optional. Enterprise procurement patterns are already shifting. Instead of buying 100 seats for operators, companies are buying 10 seats plus agent execution credits. The app becomes middleware, not a destination.</p>
-      <p>Salesforce's Agentforce, SAP's Joule, and ServiceNow's AI agents all point in the same direction: the UI layer that defined SaaS for two decades is being unbundled from the execution layer.</p>
-      <div class="insight"><strong>Implication for product design:</strong> If your SaaS product's primary interface is a dashboard, ask what happens when agents replace the human operator. The API surface area and deterministic execution paths matter more than pixel-perfect UI.</div>
-      <div class="sources">
-        Sources:
-        <a href="http://siliconangle.com/2026/05/15/saas-applications-transform-headless-enterprise-boomiworld/" target="_blank">SiliconANGLE (Boomi)</a>
-        ·
-        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: 6 Ways Agentic AI Will Reshape Enterprise Software</a>
-        ·
-        <a href="https://www.uncoveralpha.com/p/the-great-saas-unbundling-why-ai" target="_blank">UncoverAlpha: The Great SaaS Unbundling</a>
+        <span>5 patterns</span>
+        <span>8 sources</span>
       </div>
     </div>
+  </div>
 
-    <!-- Pattern 2 -->
-    <div class="pattern">
-      <h2><span class="num">2</span> AI as the Primary Interface Layer</h2>
-      <div class="tagline">Conversational and agent-driven interfaces replace dashboards as the primary interaction model.</div>
-      <p>IDC analyst Bo Lykkegaard puts it bluntly: "Complexity is the Achilles' heel of the SaaS model. Each SaaS application demands its own learning curve and user interface, often used sporadically and inefficiently. AI offers a compelling remedy." Instead of navigating multiple dashboards, users interact with agent-driven conversational interfaces that perform tasks across systems.</p>
-      <p>InfoWorld's analysis of AI-first UX draws a clear trajectory: from forms to conversations. From dashboards to narrative copilots. From fixed workflows to agentic collaborations. The design pattern that dominated enterprise software for 30 years (the tabbed form, the left-nav menu, the data table) is being replaced by a unified natural-language interface that orchestrates behind the scenes.</p>
-      <p>Microsoft, OpenAI, and Anthropic all ship products where the primary interaction is text input, not mouse clicks. Claude's Cowork pauses at agent decision points. ChatGPT's Canvas shows a side panel of context. These aren't dashboards with chat bolted on. They are conversation-first systems where traditional UI elements surface only when needed.</p>
-      <div class="insight"><strong>Implication for product design:</strong> Design for the conversation, not the screen. Every UI element should justify why it can't be a natural language interaction. The default enterprise UX is now a text input at the top of the page.</div>
-      <div class="sources">
-        Sources:
-        <a href="http://www.infoworld.com/article/4178415/what-will-ai-first-ux-look-like.html" target="_blank">InfoWorld: What Will AI-First UX Look Like?</a>
-        ·
-        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Agentic AI Reshapes Enterprise Software</a>
-        ·
-        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: The Agentic Reckoning</a>
+  <!-- Pattern 1: The Three GenUI Patterns -->
+  <div class="section">
+    <div class="container">
+      <div class="pattern-group">
+        <h2><span class="num">1</span> The Three GenUI Design Patterns</h2>
+        <div class="tagline">Controlled, Declarative, Open-ended. Every GenUI framework in 2026 lives somewhere on this line.</div>
+
+        <p>Generative UI (GenUI) is no longer a prototype concept. It is shipping in production. The last seven days saw two major milestones: <strong>Google ADK 2.0</strong> (July 1) shipping native workflow support that blends deterministic code with agent-generated UI, and <strong>Amazon Bedrock AgentCore</strong> (June 30) adopting AG-UI as a first-class protocol, making GenUI production-ready on the largest cloud platform.</p>
+
+        <p>But these launches codify something more fundamental. A clear taxonomy has crystallized for how agents communicate UI to users. Every framework, from CopilotKit to MCP Apps to A2UI, lives on a spectrum defined by how much control stays in the frontend versus how much freedom the agent has.</p>
+
+        <div class="stack-grid">
+          <div class="stack-card">
+            <h4>Controlled</h4>
+            <p>Frontend pre-builds every component. The agent selects which to render and fills data. High control, low freedom.</p>
+          </div>
+          <div class="stack-card">
+            <h4>Declarative</h4>
+            <p>Agent emits a structured UI schema (A2UI, Open-JSON-UI). Frontend maps schemas to components. Shared control.</p>
+          </div>
+          <div class="stack-card">
+            <h4>Open-ended</h4>
+            <p>Agent returns raw HTML/UI. Frontend sandboxes it. Low control, maximum freedom. Good for disposable UIs, risky as a primary surface.</p>
+          </div>
+        </div>
+
+        <p>The architectural choice is not cosmetic. Each pattern breaks your app in a different way at scale. Controlled blows up the context window with tool descriptions (400 tokens per component, 25 components = 10,000 tokens per turn before the user speaks). Declarative scales flat via a schema catalog. Open-ended introduces iframe sandbox risks.</p>
+
+        <div class="insight"><strong>Implication for product design:</strong> Ship Controlled for the top 3-5 pixel-perfect flows. Default to Declarative for the long tail. Reserve Open-ended for one-shot throwaway UIs. Count your render tools. Past 15, you are in Controlled and the wall is close. Wire a declarative schema this quarter.</div>
+
+        <div class="sources">
+          Sources:
+          <a href="https://www.theunwindai.com/p/generative-ui-is-the-new-frontend" target="_blank">Unwind AI: Generative UI Is the New Frontend (Jun 3)</a>
+          &middot;
+          <a href="https://www.copilotkit.ai/blog/the-developer-s-guide-to-generative-ui-in-2026" target="_blank">CopilotKit: The Developer's Guide to Generative UI in 2026</a>
+          &middot;
+          <a href="https://www.copilotkit.ai/blog/generative-ui-on-agentcore-with-copilotkit" target="_blank">CopilotKit: GenUI on Bedrock AgentCore (Jun 30)</a>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Pattern 3 -->
-    <div class="pattern">
-      <h2><span class="num">3</span> Deterministic vs. Probabilistic Bifurcation</h2>
-      <div class="tagline">SaaS companies split into two camps. Deterministic systems strengthen. Probabilistic systems get commoditized.</div>
-      <p>The most consequential design shift in SaaS is not about aesthetics. It is architectural. Systems where precision is critical and errors cascade into serious consequences (accounting, ERP, compliance, payroll) are becoming more valuable in an AI world, not less. They become the deterministic execution layer that agents rely on. As one Rippling engineer put it: "Traditional enterprise functions like HR are inherently deterministic; decisions like employee termination are binary and require rigid logic where specific inputs trigger precise, unvarying sequences."</p>
-      <p>Meanwhile, probabilistic systems (chatbots, content generators, simple workflow tools, basic support automation) face commoditization. LLMs can replicate 90% of their quality at 1% of the cost. The margin compression is already here: SaaS multiples dropped from a pandemic peak of 18-19x to 5.1x by December 2025.</p>
-      <p>The design consequence is that deterministic platforms are investing in agent-facing APIs and orchestration layers, not UI polish. Probabilistic platforms are racing to add sticky execution features before their margins vanish.</p>
-      <div class="insight"><strong>Implication for product design:</strong> Know which camp you're in. Deterministic products should invest in API surface area and agent integration, not UI redesigns. Probabilistic products must find an execution anchor before they become features of the deterministic stack.</div>
-      <div class="sources">
-        Sources:
-        <a href="https://www.uncoveralpha.com/p/the-great-saas-unbundling-why-ai" target="_blank">UncoverAlpha: The Great SaaS Unbundling</a>
-        ·
-        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Agentic AI Market Restructuring</a>
-        ·
-        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: Polyglot Orchestration & Architectural Bets</a>
+  <!-- Pattern 2: ADK 2.0 -->
+  <div class="section-white">
+    <div class="container">
+      <div class="pattern-group">
+        <h2><span class="num">2</span> Hybrid Agentic Workflows</h2>
+        <div class="tagline">Google ADK 2.0 (July 1) replaces pure-LLM orchestration with a graph of deterministic code nodes and bounded LLM agents.</div>
+
+        <p>The most significant design pattern launch this week is Google's <strong>ADK 2.0</strong>, which introduces a structured workflow runtime that separates execution routing from language processing. Instead of asking an LLM to orchestrate a multi-step business process end-to-end, developers can now compose a directed graph where deterministic nodes (tool calls, human-in-the-loop, conditional routing) run at programmatic speed, while LLM nodes handle only the ambiguous cognitive work.</p>
+
+        <p>The benchmark data tells the story. In a standard refund processing flow, a vanilla LLM agent consumed 5,152 tokens per run with 7.2s latency. The ADK 2.0 workflow consumed 2,265 tokens (~50% savings) at 5.7s (~20% latency reduction). The savings come from not paying the LLM to infer what comes next when B always follows A.</p>
+
+        <div class="stats">
+          <div class="stat-card">
+            <div class="num">50%</div>
+            <div class="label">Token savings vs. pure LLM orchestration</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">20%</div>
+            <div class="label">Latency reduction per workflow run</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">July 1</div>
+            <div class="label">ADK 2.0 launch date (Python + Go)</div>
+          </div>
+        </div>
+
+        <p>This is a direct response to the structural failure pattern of autonomous agents: context bloat, execution derailment, hallucinated step-skipping, and unbounded token costs. ADK 2.0's workflow graph controls data passing between nodes programmatically, preventing tool output from accumulating in the conversation history and degrading the model's focus.</p>
+
+        <p>The design philosophy is explicit: <strong>if you can clearly map the workflow, use determinism</strong>. LLMs are optimized for variety and creativity. Business processes require exact execution. The spectrum of control ranges from pure autonomous agents (no predetermined structure) through hybrid workflows (deterministic graph + bounded LLM nodes) to pure deterministic code (no LLM at all). Most production applications should live in the middle.</p>
+
+        <div class="insight"><strong>Implication for product design:</strong> Map every multi-step user flow as a directed graph before writing code. Identify which nodes genuinely need LLM reasoning (ambiguous inputs, subjective decisions) and which are deterministic (tool calls, API writes, routing). The hybrid workflow is the default production architecture. Pure autonomous agents are the exception, not the rule.</div>
+
+        <div class="sources">
+          Sources:
+          <a href="https://developers.googleblog.com/why-we-built-adk-20/" target="_blank">Google Developers Blog: Why We Built ADK 2.0 (Jul 1)</a>
+          &middot;
+          <a href="https://adk.dev/2.0/" target="_blank">ADK 2.0 Documentation</a>
+          &middot;
+          <a href="https://developers.googleblog.com/build-agentic-full-stack-apps-with-genkit/" target="_blank">Google: Agentic Full-Stack Apps with Genkit (Jul 1)</a>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Pattern 4 -->
-    <div class="pattern">
-      <h2><span class="num">4</span> The Runtime Reckoning: Infrastructure Eats Agentic AI</h2>
-      <div class="tagline">The AI model is not the problem. The runtime infrastructure around it is where enterprise AI deployments fail.</div>
-      <p>VentureBeat's Pulse Research (May 2026, 132 qualified enterprise respondents) delivers a sobering finding: 47% of organizations cite the Integration/Governance Gap as the primary friction point. 37% say stateless infrastructure is too fragile for production. And crucially, 77% of engineering teams spend meaningful sprint capacity on infrastructure plumbing rather than agentic logic.</p>
-      <p>State amnesia from container restarts is the quiet killer. Agents lose context mid-workflow, ghost failures (silent API timeouts with no traceback) accumulate, and the ROI ceiling hits when token costs + infrastructure overhead exceed the project's total business value. The "Complexity Cliff" is real: multi-step agent workflows fail at rates that make production deployment untenable when built on stateless Python/LangChain architectures.</p>
-      <p>The market response is fragmentation. 39% of enterprises are making the Polyglot Bet: hybrid layered orchestration using model-native reasoning for non-deterministic planning with deterministic rules engines for mission-critical execution. 20% are still committed to stateless architectures, attempting to solve structural durability through better prompting. History suggests they are repeating the RPA failure pattern.</p>
-      <div class="insight"><strong>Implication for product design:</strong> A durable runtime is the new competitive moat. The SaaS product that wraps its APIs in a reliable, stateful agent execution layer wins the enterprise AI vote. Stateless architectures are technical debt, not innovation.</div>
-      <div class="sources">
-        Sources:
-        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: The Agentic Reckoning (Full Survey)</a>
-        ·
-        <a href="http://www.infoworld.com/article/4178415/what-will-ai-first-ux-look-like.html" target="_blank">InfoWorld: AI-First UX Infrastructure Implications</a>
+  <!-- Pattern 3: Bedrock AgentCore -->
+  <div class="section">
+    <div class="container">
+      <div class="pattern-group">
+        <h2><span class="num">3</span> AG-UI Goes Production on AWS</h2>
+        <div class="tagline">Amazon Bedrock AgentCore (June 30) adopts AG-UI as a first-class streaming protocol, making GenUI deployable at scale with managed auth, sessions, and auto-scaling.</div>
+
+        <p>Before this week, deploying a GenUI agent to production meant manually configuring SSE endpoints, writing auth middleware, managing session isolation across users, and setting up auto-scaling. Amazon Bedrock AgentCore Runtime eliminates that entire category of work. It is a fully managed, framework-agnostic hosting environment that speaks AG-UI natively alongside HTTP, MCP, and A2A.</p>
+
+        <p>The impact on design patterns is concrete. AG-UI defines typed event categories that any frontend can consume: lifecycle events (run starts, finishes, errors), text events (token-by-token streaming), tool call events (tool firing and results), and state events (shared objects both agent and UI read/write). This standardized wire format means one frontend parser handles multiple backend frameworks (Strands, LangGraph, ADK) without changes.</p>
+
+        <p>CopilotKit's integration, published June 30, demonstrates a working agent on AgentCore that renders charts inline, keeps a todo canvas in sync with the agent (bidirectional), and pauses for human-in-the-loop approval. All three patterns run on the same AG-UI stream. The frontend never touches the backend directly. It consumes events.</p>
+
+        <div class="insight"><strong>Implication for product design:</strong> The integration boundary between agent backends and user-facing UIs has standardized. AG-UI is the wire format. If your product generates UI from agent output, you should target AG-UI as your output protocol, not a custom JSON format. This decouples frontend evolution from backend architecture changes. The frontend becomes a thin renderer of typed events.</div>
+
+        <div class="sources">
+          Sources:
+          <a href="https://www.copilotkit.ai/blog/generative-ui-on-agentcore-with-copilotkit" target="_blank">CopilotKit: Generative UI on Bedrock AgentCore with AG-UI (Jun 30)</a>
+          &middot;
+          <a href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-agui.html" target="_blank">AWS Bedrock AgentCore AG-UI Docs</a>
+          &middot;
+          <a href="https://github.com/awslabs/fullstack-solution-template-for-agentcore" target="_blank">FAST Template (AWS)</a>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Pattern 5 -->
-    <div class="pattern">
-      <h2><span class="num">5</span> Consensus-Driven Production Metrics: The UAR Standard</h2>
-      <div class="tagline">User Acceptance Rate displaces technical metrics as the primary agentic SLA. Enterprises measure trust, not speed.</div>
-      <p>The enterprise agentic AI industry is settling on a surprising production standard. Not latency. Not tool selection accuracy. Not even context fidelity, though it's close. The primary metric is User Acceptance Rate (UAR): the percentage of autonomous actions accepted as-is without human intervention. 47% of organizations now use it as their primary A-SLA indicator.</p>
-      <p>This is a human-trust measure, not a technical performance measure. It does not ask whether the agent ran fast or maintained state. It asks whether a human who reviewed its output chose to accept it. That's a field-level Turing test applied at the action level, and it reflects where most enterprise agentic deployments sit: human-in-the-loop, with considerable skepticism about full autonomy.</p>
-      <p>Context Fidelity (the agent's ability to maintain state over a 48-hour+ execution window) ranks second at 30%. Latency Jitter has collapsed from 25% to 11%, confirming that raw speed is no longer the primary anxiety. Correctness and durability have taken its place.</p>
-      <div class="insight"><strong>Implication for product design:</strong> Ship confidence indicators, not speed indicators. Design your agent-facing dashboards around transparency into decision justification, not latency benchmarks. The metric that matters for production approval is how often a human says "yes."</div>
-      <div class="sources">
-        Sources:
-        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: Agentic Reckoning Finding 9 (UAR)</a>
-        ·
-        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Human-in-the-Loop Agentic AI Rollout</a>
+  <!-- Pattern 4: The Four-Protocol Stack -->
+  <div class="section-white">
+    <div class="container">
+      <div class="pattern-group">
+        <h2><span class="num">4</span> The Four-Protocol Stack</h2>
+        <div class="tagline">MCP, A2A, AG-UI, and A2UI. One job each. The composable agentic UI stack is standardizing in real time.</div>
+
+        <p>A theme running through every launch this week is the consolidation of agent communication protocols into a composable stack. Each protocol has exactly one job, and the layering is becoming the de facto enterprise pattern:</p>
+
+        <div class="stack-grid">
+          <div class="stack-card">
+            <div class="protocol-tag">MCP</div>
+            <h4>Model Context Protocol</h4>
+            <p>Connects agents to tools, data sources, and APIs. The retrieval layer.</p>
+          </div>
+          <div class="stack-card">
+            <div class="protocol-tag">A2A 1.0</div>
+            <h4>Agent-to-Agent Protocol</h4>
+            <p>Connects agents to other agents. Multi-agent orchestration and delegation.</p>
+          </div>
+          <div class="stack-card">
+            <div class="protocol-tag">AG-UI</div>
+            <h4>Agent-User Interaction</h4>
+            <p>Connects agents to users. Streams events (text, tool calls, state) over SSE. The runtime transport.</p>
+          </div>
+          <div class="stack-card">
+            <div class="protocol-tag">A2UI</div>
+            <h4>Agent-to-User Interface</h4>
+            <p>Google's declarative spec for agents emitting UI schema. Rides on AG-UI. Defines what users touch.</p>
+          </div>
+        </div>
+
+        <p>Oracle's approach from last month illustrates the composability best: <strong>Agent Spec + AG-UI + A2UI</strong>. Agent Spec defines what runs, AG-UI carries the interaction, and A2UI defines what the user touches. You can swap implementations at any layer while keeping the experience stable. AWS AgentCore supports MCP, A2A, and AG-UI on the same runtime. CopilotKit is the AG-UI client that decodes the stream for frontends.</p>
+
+        <p>Vercel's json-renderer (recent launch) supports A2UI as a proof of concept. Oracle shipped Agent Spec with A2UI + AG-UI support. The AG-UI + A2UI middleware system means any agent that speaks AG-UI can drive A2UI v0.9 on day zero with no custom integration.</p>
+
+        <div class="insight"><strong>Implication for product design:</strong> Design your agent's output layer to target AG-UI + A2UI, not a custom schema. Your frontend becomes a renderer of standardized events. You can swap agent backends (ADK, LangGraph, Strands, Bedrock) without touching the UI. This is the same decoupling pattern that REST APIs brought to backend services, now applied to agent-generated interfaces.</div>
+
+        <div class="sources">
+          Sources:
+          <a href="https://developers.googleblog.com/a2ui-v0-9-generative-ui/" target="_blank">Google: A2UI v0.9 (Apr 17, reference)</a>
+          &middot;
+          <a href="https://docs.ag-ui.com/" target="_blank">AG-UI Protocol Docs</a>
+          &middot;
+          <a href="https://a2a-protocol.org/latest/announcing-1.0/" target="_blank">A2A 1.0 Protocol Launch</a>
+          &middot;
+          <a href="https://blogs.oracle.com/ai-and-datascience/announcing-agent-spec-for-a2ui-copilotkit-ag-ui" target="_blank">Oracle: Agent Spec + A2UI + AG-UI</a>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Pattern 6 -->
-    <div class="pattern">
-      <h2><span class="num">6</span> Pricing Model Revolution: From Seats to Outcomes</h2>
-      <div class="tagline">The subscription seat model is dying. Consumption and outcome-based pricing are the new standard for AI-era SaaS.</div>
-      <p>Bain & Company's report on AI's impact on SaaS is definitive: "If an agent replaces a human task, customers will expect to pay based on outcomes, not log-ons. Leaders such as Intercom and Salesforce are already shifting in this direction. The fundamental shift is to stop charging for access and start charging for work done."</p>
-      <p>IDC's FutureScape: Worldwide Agentic AI 2026 Predictions goes further: by 2028, pure seat-based pricing will be obsolete, with 70% of software vendors refactoring their pricing strategies around consumption, outcomes, or organizational capability. Forrester analyst Liz Leggett describes a transition where a CIO with a 100-seat subscription could swap 10-20 of those seats for consumption-based pricing, creating hybrid models that vendors must support simultaneously.</p>
-      <p>The design implication is subtle but profound. If pricing is outcome-based, every UI element that doesn't directly produce an outcome is a cost center. Feature discovery tours, status dashboards, analytics overviews, admin panels. They don't generate outcomes that can be priced. The product design incentives flip: build features that agents can execute, not features that humans can browse.</p>
-      <div class="insight"><strong>Implication for product design:</strong> Audit every screen in your product. If it doesn't contribute to a measurable outcome, it is not a revenue-generating surface in the agentic era. Invest in execution interfaces, not browsing interfaces.</div>
-      <div class="sources">
-        Sources:
-        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Agentic AI Pricing Model Shift (Bain, IDC, Forrester)</a>
-        ·
-        <a href="http://www.forbes.com/sites/victordey/2026/05/12/the-end-of-the-erp-era-sap-wants-ai-agents-to-run-your-autonomous-enterprise/" target="_blank">Forbes: SAP Autonomous Enterprise & The End of ERP</a>
-        ·
-        <a href="https://www.uncoveralpha.com/p/the-great-saas-unbundling-why-ai" target="_blank">UncoverAlpha: Pricing Compression in SaaS</a>
+  <!-- Pattern 5: The GenUI Cost Wall -->
+  <div class="section">
+    <div class="container">
+      <div class="pattern-group">
+        <h2><span class="num">5</span> The GenUI Token Tax</h2>
+        <div class="tagline">Every registered component costs ~400 tokens in the agent's context before the user speaks. At 25 components, that is 10,000 tokens per turn. The economic shape of GenUI architecture.</div>
+
+        <p>Beyond the protocol stack and the pattern taxonomy, a practical economic constraint is shaping GenUI design decisions. Every UI component you register as a Controlled tool sits in the agent's context window <strong>before the user has said anything</strong>. A typical tool description with JSON schema runs ~400 tokens. Twenty-five components = 10,000 tokens on every single turn, whether the agent uses them or not.</p>
+
+        <p>The token tax creates a design tension. Controlled patterns offer pixel-perfect UI but scale linearly with cost. Declarative patterns (A2UI) offload the UI generation to a schema catalog, so adding a new card type requires no additional context window budget. The agent emits the schema; the frontend renders it from a single registered tool.</p>
+
+        <p>This is not a theoretical concern. CopilotKit's own infrastructure story is a cautionary data point. In June 2026, they swapped coding agents to a new model and ran up a $22,000 Anthropic bill in under 24 hours. The root cause was not a bug or runaway script. Five engineers doing normal work triggered it because the new model interpreted their English-prose behavioral rules more loosely. The result: bloated sub-agents, runaway review loops, exploding fanout, and oversized single turns. Their fix lived at the rules layer, swapping vague adjectives for hard numeric budgets and machine-checkable gates.</p>
+
+        <div class="insight"><strong>Implication for product design:</strong> The token tax is a design constraint, not just a cost concern. It dictates how many UI primitives you can offer an agent. Defaulting to Declarative (A2UI) patterns gives you unbounded UI variety at fixed context cost. Every Controlled component added to the catalog should justify its 400-token-per-turn cost. Design for token budgets the way you design for API rate limits.</div>
+
+        <div class="sources">
+          Sources:
+          <a href="https://www.copilotkit.ai/blog/the-tuesday-that-cost-twenty-two-thousand-dollars" target="_blank">CopilotKit: The Tuesday That Cost $22,000 (Jun 12)</a>
+          &middot;
+          <a href="https://www.theunwindai.com/p/generative-ui-is-the-new-frontend" target="_blank">Unwind AI: Token Tax Section</a>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- Pattern 7 -->
-    <div class="pattern">
-      <h2><span class="num">7</span> The Observability Tax Is Unevenly Distributed</h2>
-      <div class="tagline">Microsoft and OpenAI ecosystems demand the most custom instrumentation. Visibility costs are a hidden competitive factor.</div>
-      <p>VentureBeat's survey asked which platform requires the most custom telemetry, manual instrumentation, and "logging glue" to achieve basic production visibility. 42% named Microsoft (GitHub Copilot Workspaces / Agent Framework). 30% named OpenAI (Codex / Agents SDK). 16% named Google. 12% named Anthropic.</p>
-      <p>This is not noise. It is a structural characteristic of the Microsoft agentic ecosystem. The same Azure/Copilot stack that dominates enterprise AI adoption requires the most instrumentation overhead to see inside. Red Hat's Brian Gracely warned at VentureBeat's Boston event that building your control system entirely inside one cloud provider's toolset means "renting a cage."</p>
-      <p>The design implication for product teams: a platform that appears cheaper at the API layer may impose substantially higher engineering costs at the telemetry layer. The 45% of respondents who named Microsoft as having the biggest hype-reality gap in agentic coding reliability reinforces the pattern: marketing is ahead of production observability.</p>
-      <div class="insight"><strong>Implication for product design:</strong> When evaluating agentic platforms, budget for observability as a line item. A platform with built-in, zero-instrumentation telemetry (designed for the agentic runtime model, not retrofitted) is worth a premium at the API layer.</div>
-      <div class="sources">
-        Sources:
-        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: Agentic Reckoning Findings 4 & 5 (Observability Tax & Hype-Reality Gap)</a>
-        ·
-        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Platform Convergence & Vendor Lock-in Risks</a>
+  <!-- Cross-Cutting Themes -->
+  <div class="section-white">
+    <div class="container">
+      <div class="crosscut">
+        <h3>Design Decision Tree: Pick on Purpose</h3>
+        <p style="margin-bottom: 1rem; font-size: 15px; color: var(--text-secondary); line-height: 1.5;">Before writing a line of GenUI code, run the decision tree. Not picking is the most expensive choice.</p>
+        <div class="decision-tree">
+          <div class="tree-node">
+            <div class="arrow">if</div>
+            <h4>Pixel-perfect mockups exist</h4>
+            <div class="condition">Designer has exact specs for this flow? Use Controlled. Ship the top 3-5 flows this way.</div>
+          </div>
+          <div class="tree-node">
+            <div class="arrow">else if</div>
+            <h4>Dozens of card types or widgets</h4>
+            <div class="condition">Catalog of UI variations with shared structure? Use Declarative (A2UI). One tool, infinite UIs.</div>
+          </div>
+          <div class="tree-node">
+            <div class="arrow">else if</div>
+            <h4>One-shot throwaway visualization</h4>
+            <div class="condition">User will never see this exact view twice? Use Open-ended (MCP Apps). Sandbox it. Never as primary surface.</div>
+          </div>
+          <div class="tree-node">
+            <div class="arrow">default</div>
+            <h4>Declarative schema</h4>
+            <div class="condition">Can't decide? Default to Declarative. Upgrade to Controlled for top 3 flows. Never Open-ended as default.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="crosscut">
+        <h3>Cross-Cutting Observations</h3>
+        <ul>
+          <li><strong>The GenUI taxonomy is now table stakes.</strong> Every major platform (Google, AWS, Oracle, Microsoft via CopilotKit) shipped or adopted GenUI protocol support this month. The question is no longer whether your app will have generative UI, but which pattern you will use.</li>
+          <li><strong>The hybrid workflow is the new default architecture.</strong> Pure autonomous agents and pure deterministic code are both edge cases. Production applications will blend them in a directed graph where LLM nodes handle only ambiguous reasoning and code nodes handle everything else.</li>
+          <li><strong>Protocols are the new platform moats.</strong> MCP, A2A, AG-UI, and A2UI compose into a stack that is framework-agnostic. The vendor that owns the protocol layer (not the agent framework) owns the ecosystem. Google's AG-UI adoption across AWS, Oracle, and LangChain signals that the protocol layer, not the model, is where the platform value is consolidating.</li>
+          <li><strong>The token tax is a design constraint.</strong> GenUI architecture is economically bounded by context window costs. Declarative patterns win at scale because they offer unbounded UI variety at fixed per-turn cost. Products that ignore this constraint will price themselves out of production.</li>
+        </ul>
       </div>
     </div>
+  </div>
 
-    <!-- Pattern 8 -->
-    <div class="pattern">
-      <h2><span class="num">8</span> Security Architecture: Policy-as-Code and NHI Lead the Pack</h2>
-      <div class="tagline">Enterprises are building the security mesh from scratch. No dominant pattern has emerged, but NHI and Policy-as-Code are neck-and-neck.</div>
-      <p>Because AI agents can actively call APIs, traverse file systems, and execute code, the blast radius of a security failure in an agentic system is qualitatively different from static model deployment. Enterprises are responding with four approaches in rough parity: Policy-as-Code (30%), Deterministic Data Masking (25%), Least-Privilege Non-Human Identities (23%), and Egress-Locked Sandboxing (22%).</p>
-      <p>NHI (Non-Human Identity) is identity-centric: "who is this agent and what is it allowed to touch?" Policy-as-Code is rule-centric: "regardless of what the model decides, what hard stops exist at the infrastructure level?" The near-parity between these two philosophies signals that the market has not converged and likely won't anytime soon.</p>
-      <p>Egress-Locked Sandboxing, the most technically intensive approach, is already at 22%. As agentic systems gain more terminal-level access, this approach may prove more important than its adoption rate suggests. The design insight: security UX for agentic systems is an unsolved problem. Every enterprise is solving it from first principles, and none of the solutions are elegant yet.</p>
-      <div class="insight"><strong>Implication for product design:</strong> Agent-facing UI needs a security display layer that makes audit trails legible. The current state (grep logs for agent actions) is not scalable. Products that ship integrated, legible agent security dashboards will have a meaningful enterprise adoption advantage.</div>
-      <div class="sources">
-        Sources:
-        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: Agentic Reckoning Finding 6 (Security Mesh)</a>
-        ·
-        <a href="https://www.uncoveralpha.com/p/the-great-saas-unbundling-why-ai" target="_blank">UncoverAlpha: Security Considerations for Deterministic Stack Integration</a>
-      </div>
-    </div>
-
-    <!-- Cross-Cutting Themes -->
-    <div class="crosscut">
-      <h3>Cross-Cutting Themes</h3>
-      <ul>
-        <li><strong>UI is becoming a debugging layer:</strong> The primary user of traditional SaaS interfaces is shifting from "operator" to "supervisor." Dashboards now serve to monitor agent actions, not perform work. This changes everything about information density, permission models, and interaction patterns.</li>
-        <li><strong>Convergence of platform categories:</strong> CRM and ERP boundaries are dissolving under agentic AI. Oracle, Microsoft, Salesforce, SAP, and ServiceNow all aim to be the agent orchestration layer, not just a record system. Product categories that survived for 30 years are merging in real time.</li>
-        <li><strong>The Polyglot Bet is the leading architectural philosophy:</strong> 39% of enterprises are building hybrid orchestration layers that mix model-native reasoning for non-deterministic planning with deterministic rules engines for execution. No single provider owns the stack. The integration layer is the product.</li>
-        <li><strong>Agent-facing design is the new UX frontier:</strong> The products that win will be those that design for agent consumption first and human supervision second. API surface quality, deterministic reliability, and state durability matter more than visual polish. The UI is becoming an agent protocol.</li>
-      </ul>
-    </div>
-
-    <footer>
-      <p>Research compiled from SearXNG discovery + jina.ai deep reading across 8 sources.</p>
+  <footer>
+    <div class="container">
+      <p>Research compiled from web extraction across 8 sources.</p>
       <p>Published to <a href="https://vadapayasam.github.io/warehouse/sketch/design-evolution-2026-07-06.html">vadapayasam.github.io/warehouse/sketch/design-evolution-2026-07-06.html</a></p>
       <p>This is the Way.</p>
-    </footer>
-  </div>
+    </div>
+  </footer>
+
 </body>
 </html>
