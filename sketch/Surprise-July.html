@@ -237,8 +237,8 @@
     <h1>Synthesis: July 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">5 entries</span>
-      <span id="date-range">July 1 - July 5</span>
+      <span id="entry-count">6 entries</span>
+      <span id="date-range">July 1 - July 6</span>
       <span class="themes-label">0 themes</span>
     </div>
   </div>
@@ -432,6 +432,129 @@
     <div class="insight"><strong>Action:</strong> Top up OpenRouter credits or switch provider (15 min)</div>
     <div class="insight"><strong>Action:</strong> Clean up credential files (.zshrc, .env edits via terminal not patch) (10 min)</div>
     <div class="insight"><strong>Insight:</strong> Vault is optimizing itself into irrelevance — operational Hermes bugs vs Prabha's actual work</div>
+  </div>
+
+  <!-- July 6 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 6</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li># Overnight Synthesis — 2026-07-06</li>
+      <li>## Patterns Found</li>
+      <li>**Stale Vault Bloat (30+ files, ~30 actions):**</li>
+      <li>`.stale-backup-20260510/` folder with 4 dead files — never deleted despite May 10 flag</li>
+      <li>April daily summaries (5 files) + personal journals (7 files) — superseded, zero references</li>
+      <li>`notes/transcripts/` 9 audio-to-text dumps from April — pure dead weight</li>
+      <li>`processed/2026-04-27` to `04-30` (6 files) — intermediates no longer needed</li>
+      <li>Duplicate dumps: `financial-dump.md` vs `v2`, `prabhakaran-profile08april2026.md` vs main, duplicate workflow docs</li>
+      <li>**Total: ~30 files to archive/delete**</li>
+      <li>**Figma MCP OAuth 403 — Blocking, 560+ occurrences (May 30 – July 03):**</li>
+      <li>`OAuthRegistrationError: Registration failed: 403 Forbidden` on every MCP server init</li>
+      <li>Fires in bursts: ~4 attempts per session (1/3, 2/3, 3/3 retries, then gives up)</li>
+      <li>Paradox: `figma-mcp-reauth` skill validates tokens (88 days remaining, HTTP 200) but registration endpoint still 403</li>
+      <li>Root cause: Figma MCP OAuth registration endpoint rejects client, not user token. Possible API change or MCP SDK bug</li>
+      <li>**Impact:** Figma tools dead in sessions. Design work blocked via Hermes.</li>
+      <li>**API Streaming Timeouts — 67 total (49 ReadTimeout + 12 streaming failures):**</li>
+      <li>Deepseek-v4-pro via ollama endpoint: `Streaming failed after partial delivery, not retrying`</li>
+      <li>Concentration: May 31 12:00-12:30 PM had 7 failures in 15 minutes</li>
+      <li>Fallback cascade broken: `kimi-k2.5` APITimeoutError, fallback not configured</li>
+      <li>**Impact:** Sessions abort mid-turn, requiring restarts</li>
+      <li>**Honcho Connection Failures — 788 occurrences (os error 61):**</li>
+      <li>`Honcho session sync/connection refused` — Verify Honcho server availability</li>
+      <li>Cascades into Nightly Log Analyzer cron failures</li>
+      <li>**Rate Limit Exhaustion (429 Too Many Requests):**</li>
+      <li>Deepseek, kimi-k2.5, kimi-k2.6, gpt-5.3-codex, openai-codex all hitting quotas</li>
+      <li>28–45+ occurrences across providers — suggests quota exhaustion</li>
+      <li>Pattern: Backoff + retry logic insufficient; need exponential backoff or quota upgrade</li>
+      <li>**Skill Gaps (17 ghost skills, stale references):**</li>
+      <li>17 skills with only DESCRIPTION.md, zero usage (apple, data-science, diagramming, email, gaming, gifs, github, inference-sh, media, note-taking, smart-home, social-media)</li>
+      <li>`enterprise-software-research` references non-existent `browser_vision` tool</li>
+      <li>`design` skill is zombie — README.md points to non-existent subdirectory</li>
+      <li>`.usage.json` has phantom entries (`competitive-design-research`, `llm-prompt-action-adaptation`)</li>
+      <li>**Pattern Extraction Rules (7 critical):**</li>
+      <li>SSE/streaming HTTP: Iterate lines, never `.read()`</li>
+      <li>Tool loop detection: Hard stop at 3 failures. Pivot immediately</li>
+      <li>Visual timeout: Two strikes on geometry/color = flag manual check</li>
+      <li>`hermes mcp test`: Untrusted for diagnostics. Use direct API</li>
+      <li>Context summaries: Untrusted if "Active Task" mismatches user message</li>
+      <li>Memory format: Telegraphic one-liners only. Compress at 85%</li>
+      <li>Recurring generation: Fingerprint gate before expensive work. Same hash = silent exit</li>
+      <li>**Phantom Wiki Links (5+ missing pages):**</li>
+      <li>`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK`, `daily-summaries/`</li>
+      <li>Index.md confidently links to pages that don't exist — creates false sense of organization</li>
+      <li>**Two Fully-Spec'd Indie Projects, Zero Follow-Through:**</li>
+      <li>LinearContext MCP PRD (May 14) — 400+ lines, architecture, revenue model, implementation plan, zero updates</li>
+      <li>FulfillSmart Shopify app PRD (May 14) — same state</li>
+      <li>`indie-product-vetting` skill exists to gatekeep but wasn't used</li>
+      <li>**Vault Pipeline Dead (since May 10):**</li>
+      <li>Last raw processing: May 15</li>
+      <li>Last synthesis: May 15</li>
+      <li>Last meaningful actions: May 10 ("Focus on WhatPay iOS app")</li>
+      <li>Actions since then: Two files, both say "nothing actionable"</li>
+      <li>Bridge pipeline (`raw → processed → synthesis → bridge → actions`) appears broken</li>
+      <li>**Daily Log Analysis — 9 critical patterns (May 30 – July 03):**</li>
+      <li>Figma MCP OAuth 403 — blocking</li>
+      <li>API streaming timeouts (deepseek-v4-pro via ollama)</li>
+      <li>Tool execution failures (228 terminal errors)</li>
+      <li>skill_manage errors (75 occurrences)</li>
+      <li>browser_vision failures (6 occurrences)</li>
+      <li>Discord empty messages (5 occurrences)</li>
+      <li>vllm_mlx ImportError (StreamPostprocessor missing)</li>
+      <li>OpenRouter payment/credit errors (37 occurrences)</li>
+      <li>HTTP 429 rate limits (35+ occurrences)</li>
+      <li>## Actionable Items</li>
+      <li>**HIGH (Immediate):**</li>
+      <li>**Fix Figma MCP OAuth registration** — Investigate whether MCP SDK needs update for Figma's current API. The `figma-mcp-reauth` skill validates tokens but registration step is broken upstream. Check if newer MCP SDK version fixes this, or if Figma changed their OAuth registration endpoint.</li>
+      <li>**Configure API fallback chain** — Set up `kimi-k2.5` (or another model) as a properly configured fallback in Hermes config. The fallback exists but has no credentials. Either configure it or remove the dead reference.</li>
+      <li>**Add model capability guard** — Create a small skill or system prompt rule that prevents `browser_vision` calls when the active model is text-only (`deepseek-v4-pro`). Saves token waste and confusion.</li>
+      <li>**Triage `deprecated-projects/`** — Move `lovable-msp-status-page-prompt.md`, `revenueguard-competitive-analysis-2026-05-16.md`, `revenueguard-evolution-plan.md` to `archive/` and remove from raw. Or add a `README.md` explaining what lives there.</li>
+      <li>**Update `.usage.json` hygiene** — Remove entries for `competitive-design-research` and `llm-prompt-adaptation` — they have no directories.</li>
+      <li>**MEDIUM:**</li>
+      <li>**Archive dormant skills** — `gaming`, `social-media`, `smart-home`, `email`, `domain`, `note-taking` — all unused since Apr 17 (46+ days). Archive or delete.</li>
+      <li>**Create `wiki/agent-publish.md`** — Biggest missing artifact. Project is actively shipping (18 tests passing, 39-card KANBAN backlog).</li>
+      <li>**Create `wiki/portfolio-tracker.md`** — Holdings snapshot (₹8.85L), cron schedule (Tue 10PM), last report summary, top action items.</li>
+      <li>**Create `wiki/operations.md`** — Cron schedules, change log, current active jobs.</li>
+      <li>**Update `wiki/index.md`** — List active projects, not just file counts. Remove phantom links (`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK`).</li>
+      <li>**Add live URLs to `wiki/references.md`** — Danny X-Ray report, agent-publish framework, designer skills radar, design evolution, prabha-taste test page.</li>
+      <li>**Fix `synthesis-html-append.py`** — Uses `--text-file` flag instead of pipe input. Script doesn't accept piped stdin.</li>
+      <li>**LOW:**</li>
+      <li>**Increase terminal timeout thresholds** — Multiple timeouts (15s, 120s) suggest commands are too long. Increase or split into steps.</li>
+      <li>**Add exponential backoff to API calls** — Rate limits indicate quota exhaustion. Add delays or throttle request rate.</li>
+      <li>**Fix Discord channel ID format** — Invalid channel_id (`set-home`) causing 400 Bad Requests. Verify channel ID format.</li>
+      <li>**Resolve qwen3.5-4b-4bit connection errors** — 8 retry-exhaustion failures suggest rapid-mlx server is flapping. Check rapid-mlx process on :8765, add circuit breaker.</li>
+      <li>**Stale Items:**</li>
+      <li>All `log-analysis-2026-06-01` through `2026-07-04` files — reviewed, no new cross-cutting patterns emerged</li>
+      <li>All `pattern-extract-*` and `pattern-scout-*` files — patterns extracted above</li>
+      <li>`skill-gap-audit.md` (May 31) — informs ghost skills section</li>
+      <li>**Source Files:**</li>
+      <li>`overnight/20260530-archive-consolidate.md` [[wikilink]]</li>
+      <li>`overnight/20260530-pattern-extract.md` [[wikilink]]</li>
+      <li>`overnight/20260531-pattern-extract.md` [[wikilink]]</li>
+      <li>`overnight/20260531-skill-gap-audit.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-01.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-02.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-09.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-11.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-15.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-16.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-17.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-20.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-23.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-27.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-28.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-29.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-06-30.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-07-01.md` [[wikilink]]</li>
+      <li>`overnight/log-analysis-2026-07-02.md` [[wikilink]]</li>
+      <li>`overnight/pattern-scout-2026-06-01.md` [[wikilink]]</li>
+      <li>`overnight/pattern-scout-2026-06-02.md` [[wikilink]]</li>
+      <li>`overnight/pattern-scout-2026-06-03.md` [[wikilink]]</li>
+      <li>---</li>
+      <li>*Synthesis generated: 2026-07-06 by Agent Tina*</li>
+      <li>*This is the Way. 💀🔥*</li>
+    </ul>
   </div>
 
   <!-- Cross-cutting themes -->
