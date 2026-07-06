@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITSM/MSP Agentic AI Weekly - Issue #9 - Ivanti Neurons Agentic AI</title>
+<style>
+:root {
+  --canvas: #FAFAF8;
+  --surface: #FFFFFF;
+  --ink: #1A1A19;
+  --muted: #787774;
+  --hairline: #EAEAEA;
+  --accent: #1B4D6E;
+  --accent-warm: #C2410C;
+  --code-bg: #F5F5F0;
+
+  --pale-red-bg: #FDEBEC; --pale-red-fg: #9F2F2D;
+  --pale-blue-bg: #E1F3FE; --pale-blue-fg: #1F6C9F;
+  --pale-green-bg: #EDF3EC; --pale-green-fg: #346538;
+  --pale-yellow-bg: #FBF3DB; --pale-yellow-fg: #956400;
+  --pale-slate-bg: #F1F1EF; --pale-slate-fg: #52525B;
+
+  --display: ui-serif, Georgia, "Times New Roman", Times, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--canvas);
+}
+
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+
+/* --- Nav --- */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  border-bottom: 1px solid var(--hairline);
+  background: rgba(250,250,248,0.92);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+}
+.nav-inner {
+  max-width: 800px; margin: 0 auto; padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.nav .brand { font-family: var(--display); font-size: 18px; letter-spacing: -0.01em; }
+.nav .brand em { font-style: italic; color: var(--muted); }
+.nav .meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* --- Hero --- */
+.hero { padding: 80px 0 64px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 5px 11px; border: 1px solid var(--hairline); border-radius: 999px;
+  background: var(--surface); margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 5.5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+  max-width: 18ch;
+  margin: 0;
+}
+.hero h1 em { font-style: italic; color: var(--muted); }
+.hero .lede {
+  font-size: 18px; color: var(--muted);
+  max-width: 58ch; margin: 24px 0 0;
+  line-height: 1.55;
+}
+.hero .meta-strip {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+/* --- Chips & Badges --- */
+.chip {
+  display: inline-block; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 999px;
+}
+.chip--red { background: var(--pale-red-bg); color: var(--pale-red-fg); }
+.chip--blue { background: var(--pale-blue-bg); color: var(--pale-blue-fg); }
+.chip--green { background: var(--pale-green-bg); color: var(--pale-green-fg); }
+.chip--yellow { background: var(--pale-yellow-bg); color: var(--pale-yellow-fg); }
+.chip--slate { background: var(--pale-slate-bg); color: var(--pale-slate-fg); }
+
+.tag {
+  display: inline-block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 7px; border: 1px solid var(--hairline); border-radius: 4px;
+}
+
+/* --- Cards --- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin: 48px 0;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 24px;
+}
+.card h3 {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.card h3.yellow { color: var(--pale-yellow-fg); }
+.card h3.blue { color: var(--pale-blue-fg); }
+.card h3.red { color: var(--pale-red-fg); }
+.card h3.green { color: var(--pale-green-fg); }
+.card h3.slate { color: var(--pale-slate-fg); }
+.card p { font-size: 14px; line-height: 1.55; color: var(--muted); }
+.card .big {
+  font-family: var(--display);
+  font-size: 32px; font-weight: 400;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 4px;
+}
+.card a { color: var(--accent); text-decoration: none; font-size: 13px; }
+.card a:hover { text-decoration: underline; }
+
+/* --- Section Headers --- */
+.section {
+  padding: 48px 0; border-top: 1px solid var(--hairline);
+}
+.section-label {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+.section h2 {
+  font-family: var(--display);
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.12; letter-spacing: -0.02em;
+  font-weight: 400; margin-bottom: 16px;
+}
+.section .lead {
+  font-size: 16px; color: var(--muted);
+  max-width: 56ch; line-height: 1.6;
+}
+
+/* --- Tables --- */
+.table-wrap { overflow-x: auto; margin: 24px 0; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 14px;
+}
+th {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); text-align: left;
+  padding: 10px 16px; border-bottom: 2px solid var(--ink);
+}
+td {
+  padding: 10px 16px; border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+
+/* --- Blocks --- */
+.callout {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 20px 24px;
+  border-radius: 0 8px 8px 0;
+  margin: 24px 0;
+  font-size: 14px; line-height: 1.6;
+}
+.callout strong { color: var(--accent); }
+
+.flow-diagram {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 24px;
+  margin: 24px 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* --- Lists --- */
+ul, ol { margin: 16px 0 16px 24px; font-size: 14px; color: var(--ink); }
+li { margin-bottom: 8px; line-height: 1.55; }
+li a { color: var(--accent); text-decoration: none; }
+li a:hover { text-decoration: underline; }
+
+/* --- Footer --- */
+.footer {
+  padding: 48px 0;
+  border-top: 1px solid var(--hairline);
+  font-size: 13px; color: var(--muted);
+}
+.footer a { color: var(--accent); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .hero { padding: 48px 0 40px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><em>saas-agentic</em> weekly</div>
+    <div class="meta">Issue #09</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="eyebrow">Issue #09</div>
+  <h1>The <em>system-of-record</em> AI</h1>
+  <p class="lede">Ivanti Neurons is the only ITSM platform where AI agents operate on discovery-verified ground truth instead of assumptions. Unified endpoint + service desk + security under one AI layer. But is enterprise DNA a liability for MSPs?</p>
+  <div class="meta-strip">
+    <span class="chip chip--blue">Ivanti Neurons</span>
+    <span class="chip chip--green">Self-Service Agent GA 2026</span>
+    <span class="chip chip--yellow">~$25-59/user/yr</span>
+  </div>
+</section>
+
+<!-- New Finds -->
+<section class="section">
+  <div class="section-label">New Finds</div>
+  <h2>What actually shipped</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3 class="yellow">Self-Service Agent</h3>
+      <div class="big">GA 2026</div>
+      <p>Conversational front door that deflects 30-40% of tickets via natural language intake, KB search, and autonomous resolution of common issues (password resets, software installs, access grants). LLM-based with multi-step planning. <a href="https://www.ivanti.com/ai/agenticai">[1]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="blue">Autonomous Endpoint Mgmt</h3>
+      <div class="big">Jan 2026</div>
+      <p>Unifies Digital Employee Experience (DEX), UEM, and security into one AI-powered solution. Unique in the market — competitors keep these separate. Proactive remediation, reduced incident volume. <a href="https://www.ivanti.com/company/press-releases/2026/ivanti-unveils-ai-driven-innovations-to-the-neurons-platform-to-power-the-future-of-it-and-security">[5]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="green">Closed-Loop Architecture</h3>
+      <div class="big">System of Record</div>
+      <p>AI operates on discovery-verified ground truth. Every interaction feeds back into CMDB and Knowledge Base, creating a learning loop. Ivanti controls the full pipeline: discovery to CMDB to AI action. <a href="https://www.ivanti.com/blog/agentic-ai-itsm-system-of-record">[2]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="red">No PSA / Multi-Tenancy</h3>
+      <div class="big">Enterprise Only</div>
+      <p>No native ConnectWise/Autotask/Kaseya PSA connectors. No per-client billing. No multi-tenant architecture — each client needs a separate instance. Quote-based enterprise licensing only. <a href="https://superops.com/blog/ivanti-pricing">[7]</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture -->
+<section class="section">
+  <div class="section-label">Architecture</div>
+  <h2>The three-layer platform</h2>
+  <p class="lead">Ivanti's architecture is built on a "system of record" principle — AI agents operate on data verified by the discovery engine, not assumptions.</p>
+
+  <div class="flow-diagram">
+┌───────────────────────────────────────────────────────────────────┐
+│                    Ivanti Neurons Platform                          │
+│                                                                     │
+│  ┌─────────────┐  ┌──────────────┐  ┌─────────────┐                │
+│  │  Discovery   │  │    CMDB      │  │    ITAM     │                │
+│  │  Engine      │  │ (Relations + │  │ (Assets,    │                │
+│  │ (Ground      │  │  Dependen-   │  │ Ownership,  │                │
+│  │  Truth)      │  │  cies)       │  │ Lifecycle)  │                │
+│  └─────────────┘  └──────────────┘  └─────────────┘                │
+│                            │                                        │
+│  ┌────────────────────────────────────────────────────────────┐    │
+│  │              Neurons AI / Conversational AI Framework        │    │
+│  └────────────────────────────────────────────────────────────┘    │
+│                            │                                        │
+│  ┌────────────────────────────────────────────────────────────┐    │
+│  │  Self-Service Agent    │  Incident Agent   │  Request Agent │    │
+│  │  (Conversational IT)   │  (Triage + Route) │  (Catalog)     │    │
+│  └────────────────────────────────────────────────────────────┘    │
+│                            │                                        │
+│  ┌────────────────────────────────────────────────────────────┐    │
+│  │  Channels: Portal │ Chat │ Email │ API │ Mobile │ Teams     │    │
+│  └────────────────────────────────────────────────────────────┘    │
+└───────────────────────────────────────────────────────────────────┘</div>
+
+  <div class="callout">
+    <strong>The key differentiator:</strong> Ivanti is the only ITSM vendor that owns the entire pipeline from infrastructure discovery to AI agent action. ServiceNow relies on third-party discovery tools for CMDB data. Microsoft has no native ITSM. This vertical integration means Ivanti's AI agents have access to both service desk data AND endpoint telemetry from day one. <a href="https://www.ivanti.com/ivanti-neurons">[4]</a>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:24px;margin:32px 0 16px;">Agent Capabilities</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Agent</th><th>Purpose</th><th>Capabilities</th></tr>
+      <tr><td><strong>Self-Service Agent</strong></td><td>Conversational front door for IT support <a href="https://www.ivanti.com/ai/agenticai">[1]</a></td><td>Natural language intake, guided troubleshooting, autonomous resolution of common issues. Multi-step planning: gather context, search KB, execute actions, update CMDB. <a href="https://www.ivanti.com/blog/agentic-ai-itsm-system-of-record">[2]</a></td></tr>
+      <tr><td><strong>Incident Creation Agent</strong></td><td>Convert natural language to structured incidents <a href="https://www.ivanti.com/ai/agenticai">[1]</a></td><td>Auto-populates priority, category, impact, urgency from conversation context. Eliminates manual ticket creation. <a href="https://www.ivanti.com/resources/solution-briefs/transform-it-service-management-with-agentic-ai">[3]</a></td></tr>
+      <tr><td><strong>Service Request Agent</strong></td><td>Service catalog fulfillment (software, access, hardware) <a href="https://www.ivanti.com/releases/2026/q2">[6]</a></td><td>Validates eligibility, checks asset availability, routes approval chain, triggers fulfillment. Pulls from ITAM + HR system. <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td></tr>
+      <tr><td><strong>Discovery Agent</strong></td><td>Continuous asset discovery <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td><td>Native agents + API for network, endpoints, cloud, SaaS. Establishes ground truth for CMDB. <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Workflow -->
+<section class="section">
+  <div class="section-label">Workflow & Lifecycle</div>
+  <h2>From natural language to resolution</h2>
+  <p class="lead">Ivanti's agentic lifecycle — every step feeds back into the system of record.</p>
+
+  <div class="flow-diagram">
+Employee submits     ->  AI Self-Service Agent  ->  Knowledge-aware   ->  Resolution or
+via chat/natural        interprets intent,         automation looks      escalation to
+language                asks clarifying            up KB + policies     service desk
+                        questions                  + past resolutions
+                                                         |
+                                                  Ticket created in
+                                                  Neurons for ITSM
+                                                  (if cannot resolve)</div>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Step</th><th>Action</th><th>AI Role</th></tr>
+      <tr><td>1. Intake</td><td>Employee types natural language request <a href="https://www.ivanti.com/ai/agenticai">[2]</a></td><td>Full (classify, route, deflect)</td></tr>
+      <tr><td>2. Intent Detection</td><td>AI interprets intent using NLU + LLM <a href="https://www.ivanti.com/blog/agentic-ai-itsm-system-of-record">[2]</a></td><td>Full (autonomous)</td></tr>
+      <tr><td>3. Clarification</td><td>Agent asks follow-up questions for full context <a href="https://www.ivanti.com/resources/solution-briefs/transform-it-service-management-with-agentic-ai">[3]</a></td><td>Full (guided capture)</td></tr>
+      <tr><td>4. Knowledge Grounding</td><td>Searches KB + policies + past tickets <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td><td>Full (automated search)</td></tr>
+      <tr><td>5. Autonomous Resolution</td><td>Within policy: password reset, software install, access grant <a href="https://www.ivanti.com/releases/2026/q2">[6]</a></td><td>Full (known issues)</td></tr>
+      <tr><td>6. Ticket Creation</td><td>Structured incident created with full context <a href="https://www.ivanti.com/releases/2026/q2">[6]</a></td><td>Partial (autonomous with human override)</td></tr>
+      <tr><td>7. Routing</td><td>AI-assisted triage to right team <a href="https://www.ivanti.com/company/press-releases/2026/ivanti-unveils-ai-driven-innovations-to-the-neurons-platform-to-power-the-future-of-it-and-security">[5]</a></td><td>Full (policy-based)</td></tr>
+      <tr><td>8. Closure</td><td>Resolution recorded to KB for future use <a href="https://www.ivanti.com/resources/solution-briefs/transform-it-service-management-with-agentic-ai">[3]</a></td><td>Partial (human confirms)</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>Claimed impact:</strong> Ivanti says this closed-loop architecture reduces ticket deflection rates by 30-40%. The AI can autonomously resolve password resets, software installs, and access grants. Any action with financial or security impact requires human approval. If confidence drops below a configurable threshold, the agent escalates with full context preserved. <a href="https://www.ivanti.com/ai/agenticai">[2]</a>
+  </div>
+</section>
+
+<!-- Pricing Intelligence -->
+<section class="section">
+  <div class="section-label">Pricing Intelligence</div>
+  <h2>Quote-based, not self-serve</h2>
+  <p class="lead">Ivanti does NOT publish prices publicly. All figures are third-party estimates from SuperOps pricing analysis.</p>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tier</th><th>Use Case</th><th>Est. Cost (per user/yr)</th></tr>
+      <tr><td>ITSM Professional</td><td>Core incident, service request, asset management</td><td>~$25/user/yr <a href="https://superops.com/blog/ivanti-pricing">[7]</a></td></tr>
+      <tr><td>ITSM Enterprise</td><td>Multi-department (HR, Facilities, IT)</td><td>~$35/user/yr <a href="https://superops.com/blog/ivanti-pricing">[7]</a></td></tr>
+      <tr><td>ITSM Premium</td><td>AI-assisted routing, intelligent automation, proactive problem mgmt</td><td>~$45/user/yr <a href="https://superops.com/blog/ivanti-pricing">[7]</a></td></tr>
+      <tr><td>ITSM Enterprise Premium</td><td>Full AI capability set, enterprise-wide</td><td>~$59/user/yr <a href="https://superops.com/blog/ivanti-pricing">[7]</a></td></tr>
+      <tr><td>MDM/UEM (per device)</td><td>Mobile device management</td><td>~$90/device/yr <a href="https://www.xurrent.com/blog/ivanti-pricing">[8]</a></td></tr>
+    </table>
+  </div>
+
+  <div class="callout" style="border-left-color: var(--accent-warm);">
+    <strong>Pricing red flags:</strong> AI Self-Service Agent pricing is NOT yet publicly disclosed as of June 2026 (likely bundled into Premium tiers). Implementation/onboarding is a separate cost. Schneider Electric reported up to 20% uplift for perpetual maintenance renewals (Feb 2025). Variable costs for endpoint management, patch management, and security modules add up quickly. The quote-based model means no self-service comparison shopping. <a href="https://superops.com/blog/ivanti-pricing">[7]</a>
+  </div>
+</section>
+
+<!-- Integration Architecture -->
+<section class="section">
+  <div class="section-label">Integration Architecture</div>
+  <h2>Native stack, closed ecosystem</h2>
+  <p class="lead">Ivanti's integrations are strongest within its own platform. External connections are limited.</p>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Type</th><th>Method</th><th>Systems</th></tr>
+      <tr><td>Discovery</td><td>Native agents + API <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td><td>Network devices, endpoints, cloud, SaaS</td></tr>
+      <tr><td>CMDB</td><td>Native (built-in) <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td><td>All discovered assets</td></tr>
+      <tr><td>ITSM</td><td>Native (built-in) <a href="https://www.ivanti.com/company/press-releases/2026/ivanti-unveils-ai-driven-innovations-to-the-neurons-platform-to-power-the-future-of-it-and-security">[5]</a></td><td>Neurons for ITSM</td></tr>
+      <tr><td>UEM</td><td>Native (built-in) <a href="https://www.ivanti.com/company/press-releases/2026/ivanti-unveils-ai-driven-innovations-to-the-neurons-platform-to-power-the-future-of-it-and-security">[5]</a></td><td>Neurons for UEM/MDM</td></tr>
+      <tr><td>Identity</td><td>SAML/OIDC <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td><td>Azure AD, Okta, Ping</td></tr>
+      <tr><td>HR</td><td>API connectors <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td><td>Workday, SAP SuccessFactors</td></tr>
+      <tr><td>Collaboration</td><td>Chat connectors <a href="https://www.ivanti.com/blog/agentic-ai-itsm-system-of-record">[2]</a></td><td>Teams, Slack</td></tr>
+      <tr><td>IT Operations</td><td>API <a href="https://www.ivanti.com/ivanti-neurons">[4]</a></td><td>ServiceNow (bridge), Splunk</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>Data flow advantage:</strong> Real-time discovery updates flow into the CMDB, which feeds the AI context for action. This all happens within a single platform, unlike ServiceNow which requires third-party CMDB integration. The AI Self-Service Agent pulls context from all three layers — discovery data, CMDB relationships, and past ticket patterns — to ground its responses. <a href="https://www.ivanti.com/blog/agentic-ai-itsm-system-of-record">[2]</a>
+  </div>
+</section>
+
+<!-- Worth Watching -->
+<section class="section">
+  <div class="section-label">Worth Watching</div>
+  <h2>The vertical integration bet</h2>
+  <p class="lead">Ivanti is the only vendor that owns ITSM + UEM + Security under one AI umbrella. But the enterprise DNA creates a structural gap for MSPs.</p>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Dimension</th><th>Ivanti Neurons</th><th>ServiceNow Now Assist</th><th>Freshworks Freddy AI</th><th>NinjaOne AI Co-Pilot</th><th>ConnectWise Copilot</th></tr>
+      <tr><td>AI approach</td><td>System-of-record AI on discovery-verified data</td><td>AI Marketplace (Moveworks, etc.)</td><td>Freddy AI (embedded LLM)</td><td>AI Co-Pilot (agent-assisted)</td><td>Copilot (PSA-native)</td></tr>
+      <tr><td>Native UEM</td><td>Yes (Neurons for UEM)</td><td>No</td><td>No</td><td>Yes (RMM-native)</td><td>No</td></tr>
+      <tr><td>Native CMDB</td><td>Yes (built-in discovery)</td><td>Third-party dependent</td><td>Limited</td><td>No</td><td>No</td></tr>
+      <tr><td>PSA integration</td><td>None</td><td>ServiceNow platform</td><td>Limited</td><td>Native (Ninja PSA)</td><td>Native (CW PSA)</td></tr>
+      <tr><td>AI pricing</td><td>Likely bundled (TBD)</td><td>Now Assist add-on</td><td>Included</td><td>Included</td><td>Included</td></tr>
+      <tr><td>Multi-tenancy</td><td>No (per-instance)</td><td>Enterprise (skus)</td><td>Limited</td><td>Yes (MSP-native)</td><td>Yes (MSP-native)</td></tr>
+      <tr><td>MCP support</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+      <tr><td>MSP suitability</td><td>Low (enterprise ITSM, no multi-tenancy)</td><td>Medium (expensive but capable)</td><td>Medium (SMB-friendly)</td><td>High (MSP-native)</td><td>High (PSA-native)</td></tr>
+      <tr><td>Deployment</td><td>Heavy (full platform)</td><td>Heavy (full platform)</td><td>Light (SaaS)</td><td>Light (SaaS)</td><td>Light (SaaS)</td></tr>
+    </table>
+  </div>
+
+  <div class="callout" style="border-left-color: var(--accent-warm);">
+    <strong>The vertical integration thesis:</strong> Ivanti's unique differentiator is owning the entire pipeline from infrastructure discovery to AI agent action. No other vendor can match this. But the enterprise-only packaging (single-tenant, quote-based, no PSA integration) means it's irrelevant for the MSP market out of the box. The agentic AI is impressive, but locked inside a platform designed for 5,000-user enterprise deployments, not 50-client MSPs. <a href="https://superops.com/blog/ivanti-pricing">[7]</a>
+  </div>
+</section>
+
+<!-- Known Gaps -->
+<section class="section">
+  <div class="section-label">Known Gaps</div>
+  <h2>Enterprise DNA, MSP blocker</h2>
+  <p class="lead">Ivanti Neurons is enterprise ITSM with AI agents, not an MSP platform. The gaps are structural, not fixable with a config change.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3 class="red">No PSA Integration</h3>
+      <p>No native ConnectWise, Autotask, or Kaseya PSA connectors. Limited utility for MSPs running mixed stacks. The only ITSM bridge is to ServiceNow (a competitor). <a href="https://superops.com/blog/ivanti-pricing">[7]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="red">No Multi-Tenancy</h3>
+      <p>Each client needs a separate instance. No MSP dashboard to view all clients. No cross-client reporting. This is a deal-breaker for any MSP with more than 5 clients. <a href="https://superops.com/blog/ivanti-pricing">[7]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="red">Quote-Based Pricing</h3>
+      <p>No self-serve pricing, no per-client billing model. Implementation is a separate cost. AI add-on costs unknown (not yet disclosed). Cannot factor into MSP service pricing. <a href="https://superops.com/blog/ivanti-pricing">[7]</a></p>
+    </div>
+    <div class="card">
+      <h3 class="yellow">Closed AI Ecosystem</h3>
+      <p>AI agents only work within Ivanti Neurons. No MCP protocol support (unlike PagerDuty Advance). No cross-platform agentic AI. Can't participate in multi-vendor agent workflows. <a href="https://www.ivanti.com/blog/agentic-ai-itsm-system-of-record">[2]</a></p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>User complaints (third-party aggregators):</strong> Steep learning curve for configuration. Reporting capabilities less flexible than competitors. Customization requires Ivanti-specific scripting knowledge. Support quality varies by region. These are consistent with an enterprise product that optimizes for depth, not ease of use. <a href="https://superops.com/blog/ivanti-pricing">[7]</a>
+  </div>
+</section>
+
+<!-- Action Items -->
+<section class="section">
+  <div class="section-label">Action Items</div>
+  <h2>Next research</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Issue</th><th>Target</th><th>Why</th></tr>
+      <tr><td>#10</td><td>Kaseya + Datto AI</td><td>MSP-native vendor with RMM + PSA + AI. How does their agentic story compare to Ivanti's enterprise approach?</td></tr>
+      <tr><td>#11</td><td>NinjaOne AI Co-Pilot deep dive</td><td>Fastest-growing MSP platform, AI Co-Pilot launched 2025. How does it compare to Ivanti's self-service agent?</td></tr>
+      <tr><td>#12</td><td>SuperOps Monica AI</td><td>MSP-native with built-in AI. Closest to an "Ivanti for MSPs" if one existed.</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>The open question:</strong> If Ivanti's AI is the most vertically integrated in ITSM, but the platform is enterprise-only, does the agentic AI matter for MSPs? Or is the MSP path through NinjaOne/ConnectWise/SuperOps — which lack Ivanti's CMDB depth but have multi-tenant, PSA-native, MSP-priced models? The Universal Connector Bus pattern (open-source AI agent protocol for tool bridging) could make Ivanti's agents available to MSPs without switching platforms — but Ivanti's closed architecture and lack of MCP support makes this non-trivial.
+  </div>
+</section>
+
+<!-- Sources -->
+<section class="section">
+  <div class="section-label">Sources</div>
+  <h2>What we read</h2>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>#</th><th>Source</th><th>Date</th></tr>
+      <tr><td>[1]</td><td><a href="https://www.ivanti.com/ai/agenticai">Ivanti Agentic AI for ITSM</a> - ivanti.com</td><td>Jun 2026</td></tr>
+      <tr><td>[2]</td><td><a href="https://www.ivanti.com/blog/agentic-ai-itsm-system-of-record">Ivanti Blog: Agentic AI for ITSM Is Here</a> - ivanti.com</td><td>Apr 20, 2026</td></tr>
+      <tr><td>[3]</td><td><a href="https://www.ivanti.com/resources/solution-briefs/transform-it-service-management-with-agentic-ai">Ivanti Solution Brief: Transform ITSM with Agentic AI</a> - ivanti.com</td><td>2026</td></tr>
+      <tr><td>[4]</td><td><a href="https://www.ivanti.com/ivanti-neurons">Ivanti Neurons Platform</a> - ivanti.com</td><td>2026</td></tr>
+      <tr><td>[5]</td><td><a href="https://www.ivanti.com/company/press-releases/2026/ivanti-unveils-ai-driven-innovations-to-the-neurons-platform-to-power-the-future-of-it-and-security">Ivanti Press Release: AI-Driven Innovations to the Neurons Platform</a> - ivanti.com</td><td>Jan 27, 2026</td></tr>
+      <tr><td>[6]</td><td><a href="https://www.ivanti.com/releases/2026/q2">Ivanti Q2 2026 Product Releases</a> - ivanti.com</td><td>Q2 2026</td></tr>
+      <tr><td>[7]</td><td><a href="https://superops.com/blog/ivanti-pricing">SuperOps: Ivanti Pricing Analysis 2026</a> - superops.com</td><td>2026</td></tr>
+      <tr><td>[8]</td><td><a href="https://www.xurrent.com/blog/ivanti-pricing">Xurrent: Ivanti Pricing Guide 2026</a> - xurrent.com</td><td>2026</td></tr>
+      <tr><td>[9]</td><td><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-07.html">Issue #7: New Relic Agentic Platform</a> - warehouse</td><td>Jun 29, 2026</td></tr>
+      <tr><td>[10]</td><td>Weekly ITSM Research - Skill cross-references from prior issues #4-#7</td><td>2026</td></tr>
+    </table>
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);margin-top:16px;"><strong>Method:</strong> SearXNG (Google+Bing+DDG) discovery, jina.ai content extraction, docs/blog deep-read. Pricing from third-party aggregators (Ivanti does not publish publicly). Dated citations cross-checked against live URLs where possible.</p>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p><a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">Index</a> &middot; <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-08.html">Issue #8</a> &middot; Issue #09</p>
+  <p style="margin-top:8px;">Built by Agent Tina for Prabha. &copy; 2026</p>
+</footer>
+
+</div>
+</body>
+</html>
