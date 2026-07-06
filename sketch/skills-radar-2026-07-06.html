@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Radar — July 2026</title>
+<style>
+  :root {
+    --bg: #0f0f12;
+    --surface: #1a1a22;
+    --surface2: #252533;
+    --border: #2e2e3e;
+    --text: #e8e8f0;
+    --muted: #8888a0;
+    --accent: #7c5cfc;
+    --accent2: #f04c6e;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.6;
+    padding: 0;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .header {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+  .header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .header .meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .header .meta span { display: inline-block; margin-right: 1.5rem; }
+  .section { margin-bottom: 3rem; }
+  .section-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .badge-critical { background: var(--accent2); color: #fff; }
+  .badge-watch { background: var(--amber); color: #000; }
+  .badge-learn { background: var(--green); color: #000; }
+  .badge-hype { background: #6366f1; color: #fff; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .card h3 .tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--surface2);
+    color: var(--muted);
+  }
+  .card p { color: #ccc; font-size: 0.95rem; margin-bottom: 0.75rem; }
+  .card .insight {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    padding: 0.75rem 1rem;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    color: #ddd;
+    margin-bottom: 0.75rem;
+  }
+  .card .insight strong { color: var(--accent); }
+  .card .evidence {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .card .evidence a { color: var(--accent); text-decoration: none; }
+  .card .evidence a:hover { text-decoration: underline; }
+  .uncertain { opacity: 0.7; font-style: italic; }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 1rem;
+  }
+  .sources {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+  .sources h3 { margin-bottom: 1rem; }
+  .sources ol { padding-left: 1.5rem; font-size: 0.85rem; }
+  .sources li { margin-bottom: 0.5rem; }
+  .sources a { color: var(--accent); text-decoration: none; word-break: break-all; }
+  .sources a:hover { text-decoration: underline; }
+  .method {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 1.5rem 0;
+  }
+  .key-takeaways {
+    background: linear-gradient(135deg, var(--surface), var(--surface2));
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .key-takeaways h3 {
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .key-takeaways ul { padding-left: 1.25rem; }
+  .key-takeaways li { margin-bottom: 0.4rem; font-size: 0.95rem; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  @media (max-width: 640px) {
+    .container { padding: 1rem; }
+    .header h1 { font-size: 1.6rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>⚡ Skills Radar · July 2026</h1>
+  <div class="meta">
+    <span>📅 2026-07-06</span>
+    <span>🎯 Designer + AI tooling landscape</span>
+    <span>⏱ Weekly scan</span>
+  </div>
+</div>
+
+<!-- Key Takeaways -->
+<div class="key-takeaways">
+  <h3>🎯 Key Takeaways</h3>
+  <ul>
+    <li><strong>Figma Code Layers</strong> — design and code now coexist in the same canvas. This is the single biggest skill shift: designers who understand code will collaborate directly, not hand off.</li>
+    <li><strong>Claude Design</strong> — Anthropic's standalone prototype tool threatens Figma's dominance. Non-designers can now create production-quality prototypes from prompts. The design user base just expanded to everyone.</li>
+    <li><strong>Agentic design automation</strong> — Uber's uSpec + Figma Console MCP shows how AI agents automate spec writing, accessibility docs, and design system maintenance. MCP is the bridge; agent skills are the expertise.</li>
+    <li><strong>Vibe coding &amp; the SaaSpocalypse</strong> — AI coding tools are eating thin SaaS vendors. For SuperOps, the play is deep platform + AI agents, not thin UI. Design tooling must absorb code or be bypassed.</li>
+    <li><strong>Tool fragmentation is real</strong> — No single AI design tool dominates all stages. Pick by workflow stage: Midjourney for concepts, Figma for UI, Claude Design for rapid prototypes, Framer for shipping websites.</li>
+  </ul>
+</div>
+
+<!-- Critical: Must Learn Now -->
+<div class="section">
+  <div class="section-title">
+    🔴 Critical · Must Learn Now
+    <span class="badge badge-critical">SEISMIC</span>
+  </div>
+
+  <div class="card">
+    <h3>Figma Code Layers — Design &amp; Code in One Canvas <span class="tag">figma</span></h3>
+    <p>Figma's Config 2026 dropped the biggest shift in design tooling this year: <strong>Code Layers</strong> bring executable code directly onto the design canvas. Teams can clone GitHub repos, import npm packages, and edit React components <em>inside</em> Figma. The designer-developer handoff that defined product design for a decade is collapsing.</p>
+    <div class="insight">
+      <strong>Why it matters for SuperOps:</strong> The product design workflow at an ITSM SaaS company involves constant handoffs between design specs and frontend implementation. Code Layers mean designers who understand React can prototype, test, and ship without leaving Figma. This changes who you hire and what skills you prioritize on a design team.
+    </div>
+    <div class="evidence">
+      Sources: <a href="https://diginomica.com/config-2026-ai-blurs-lines-figma-code-motion-agent-workflows-design-canvas">[1]</a>
+      <a href="https://thenextweb.com/news/figma-config-code-layers-ai-skills-plugins-animations">[2]</a>
+      <a href="https://techcrunch.com/2026/06/24/figma-adds-code-layers-support-for-animations-more-ai-features-in-new-update/">[3]</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Claude Design — Anthropic's Full-Stack Design Play <span class="tag">anthropic</span></h3>
+    <p>Anthropic launched <strong>Claude Design</strong> (powered by Opus 4.7), a standalone tool that turns text prompts into polished prototypes, slide decks, and interactive mockups. It reads your codebase to extract design systems, exports handoff bundles to Claude Code, and works for non-designers. Mike Krieger (Anthropic CPO) resigned from Figma's board the same week. This is a direct competitor to Figma — and it's free with existing Claude subscriptions.</p>
+    <div class="insight">
+      <strong>Why it matters:</strong> Claude Design lets product managers, founders, and marketers create production-quality prototypes without opening Figma. This expands the "designer" workforce to everyone. For SuperOps, the risk is that prospects prototype their ideal workflows in Claude Design and bypass traditional design tools entirely. The skill to learn: prompting for visual output + understanding design system extraction.
+    </div>
+    <div class="evidence">
+      Sources: <a href="https://venturebeat.com/technology/anthropic-just-launched-claude-design-an-ai-tool-that-turns-prompts-into-prototypes-and-challenges-figma">[4]</a>
+      <a href="https://www.anthropic.com/news/claude-design-anthropic-labs">[5]</a>
+      <a href="https://techcrunch.com/2026/04/16/anthropic-cpo-leaves-figmas-board-after-reports-he-will-offer-a-competing-product/">[6]</a>
+    </div>
+  </div>
+</div>
+
+<!-- Emerging: Watch Closely -->
+<div class="section">
+  <div class="section-title">
+    🟡 Emerging · Watch Closely
+    <span class="badge badge-watch">MONITOR</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Agentic Design Spec Automation <span class="tag">mcp</span></h3>
+      <p>Uber published how their design systems team uses <strong>uSpec</strong> — an agentic system connecting Cursor to Figma via the open-source Figma Console MCP. It generates complete component specs (anatomy, API, accessibility, token mapping) in under 2 minutes per component. Previously this took weeks.</p>
+      <div class="insight">
+        <strong>The pattern:</strong> MCP bridges + agent skills = design automation. This is replicable for any design system at scale. The skills to learn: Figma Console MCP, writing agent skills for design tasks, local AI pipelines.
+      </div>
+      <div class="evidence">
+        <a href="https://www.uber.com/us/en/blog/automate-design-specs/">[7]</a>
+        <a href="https://github.com/southleft/figma-console-mcp">[8]</a>
+        <a href="https://uspec.design/">[9]</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Figma Multiplayer AI &amp; Skills <span class="tag">figma</span></h3>
+      <p>Figma's AI agent is now generally available, with <strong>Skills</strong> that let teams encode expertise directly into prompts. Agent conversations are visible by default, so teams learn from each other's AI usage. Users can build custom plugins from text prompts. Figma is betting that AI collaboration beats individual AI productivity.</p>
+      <div class="insight">
+        <strong>Takeaway:</strong> The most valuable Figma skill in 2026 is building Shareable AI Skills for your team. Not just using AI, but encoding process into reusable prompts.
+      </div>
+      <div class="evidence">
+        <a href="https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/">[10]</a>
+        <a href="https://diginomica.com/config-2026-ai-blurs-lines-figma-code-motion-agent-workflows-design-canvas">[1]</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Vibe Coding Eating Thin SaaS <span class="tag">saas</span></h3>
+      <p>The "SaaSpocalypse" — AI coding tools (Claude Code, Codex, Cursor) destroying thin SaaS vendors — may be stabilizing, but the structural shift is permanent. Products with thin UI layers are now at risk. The winners are platforms with deep data, compliance, and agentic workflows built in. Salesforce, ServiceNow, and SuperOps's category (ITSM) are well-positioned — but only if they embed AI agents, not just AI features.</p>
+      <div class="insight">
+        <strong>For design:</strong> If your product's UI is replicable by a single vibe-coding session, the design moat is gone. Design teams at SaaS companies must focus on complex workflow orchestration, not pixel-perfect screens.
+      </div>
+      <div class="evidence">
+        <a href="https://www.forbes.com/sites/timkeary/2026/06/30/the-saaspocalypse-maybe-ending-but-saas-will-never-be-the-same-again/">[11]</a>
+        <a href="https://nerdbot.com/2026/06/29/topickz-crunched-816-saas-tools-the-2026-buyer-behavior-stats-free-to-cite/">[12]</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Figma Motion &amp; Shaders — Animation Becomes Native <span class="tag">motion</span></h3>
+      <p>Figma acquired Modyfi last year and now ships <strong>Figma Motion</strong> — native animation timeline and 3D transforms directly in the canvas. Combined with AI-generated shader effects and <strong>Figma Weave</strong> (node-based AI media workflows), Figma is absorbing motion design and VFX. Designers who only do static UI are at risk; motion design literacy becomes baseline.</p>
+      <div class="evidence">
+        <a href="https://diginomica.com/config-2026-ai-blurs-lines-figma-code-motion-agent-workflows-design-canvas">[1]</a>
+        <a href="https://www.figma.com/blog/introducing-figma-motion/">[13]</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hype vs Real -->
+<div class="section">
+  <div class="section-title">
+    🟣 Hype vs. Real
+    <span class="badge badge-hype">REALITY CHECK</span>
+  </div>
+
+  <div class="card">
+    <h3>AI Design Agents (Lovart, Framer AI) <span class="tag">hype</span></h3>
+    <p><strong>Real:</strong> Claude Design and Figma AI produce usable prototypes from prompts. Lovart shows genuine brand consistency across assets. The "design agent" category is real — for early-stage exploration and marketing volume.</p>
+    <p><strong>Hype:</strong> The claim that AI replaces professional designers is false (2026 data confirms it). Every tool tested still requires human refinement — spacing, typography hierarchy, brand judgment, accessibility decisions. Tools that promise "one-click production-ready" deliver usable starting points, not finished work.</p>
+    <div class="evidence">
+      <a href="https://memeburn.com/best-ai-design-tools/">[14]</a> (tested 10+ tools, all needed refinement)
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Non-Designers Replacing Designers <span class="tag">hype</span></h3>
+    <p><strong>Uncertain claim — needs verification.</strong> Claude Design lets PMs and founders prototype without designers. But the evidence from Brilliant and Datadog [5] shows designers are <em>using it to explore more</em>, not being replaced. The actual shift: the design user base expands, but professional designers who master AI-assisted workflows will be <em>more</em> valuable, not less. Expect the role to bifurcate: strategic design directors (AI-assisted) vs. production designers (mostly automated).</p>
+    <div class="evidence">
+      <a href="https://www.anthropic.com/news/claude-design-anthropic-labs">[5]</a>
+    </div>
+  </div>
+</div>
+
+<!-- Tool Landscape -->
+<div class="section">
+  <div class="section-title">
+    🧰 AI Design Tool Landscape — July 2026
+    <span class="badge badge-learn">GUIDE</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>UI/UX &amp; Product Design</h3>
+      <p><strong>Figma AI</strong> ($20/seat) — Industry standard, now with AI layout generation, Skills, and Code Layers. Best for collaborative teams already in Figma.</p>
+      <p><strong>Claude Design</strong> (included) — Prompt-to-prototype, design system extraction, Claude Code handoff. Best for rapid exploration and non-designer prototyping.</p>
+      <p><strong>Uizard</strong> ($19/mo) — Sketch-to-screen prototyping. Best for early-stage whiteboard-to-digital.</p>
+      <p><strong>Galileo AI</strong> — High-fidelity UI from prompts. Best for polished starting points.</p>
+      <div class="evidence">
+        <a href="https://memeburn.com/best-ai-design-tools/">[14]</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Website Generation &amp; Publishing</h3>
+      <p><strong>Framer</strong> ($15/mo) — Prompt-to-published, responsive, fully editable. Best for design-forward sites.</p>
+      <p><strong>Webflow</strong> — AI site builder + deep CMS. Best for marketing teams needing structure.</p>
+      <p><strong>v0 by Vercel</strong> — Generates production React/Next.js code. Best for developer-led teams.</p>
+      <p><strong>Bolt.new / Lovable</strong> — Full-stack app generation. Best for founders validating ideas.</p>
+      <div class="evidence">
+        <a href="https://officechai.com/learn/ai-for-website-design/">[15]</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Visual Assets &amp; Brand</h3>
+      <p><strong>Midjourney v7</strong> ($10/mo) — Best quality for concept art, marketing visuals, mood boards.</p>
+      <p><strong>Adobe Firefly</strong> ($9.99/mo) — Best commercial safety (IP indemnification). Deep CC integration.</p>
+      <p><strong>Canva Magic Studio</strong> ($18/mo) — Best all-in-one for marketing teams. Brand Kit, Magic Resize.</p>
+      <p><strong>Lovart</strong> ($19/mo) — AI Design Agent with brand memory. Good for agencies.</p>
+      <div class="evidence">
+        <a href="https://memeburn.com/best-ai-design-tools/">[14]</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Design Automation &amp; Documentation</h3>
+      <p><strong>uSpec + Figma Console MCP</strong> (open source) — AI agent generates component specs in Figma via MCP bridge. Uber's system.</p>
+      <p><strong>Relume</strong> ($38/mo) — AI sitemaps + wireframes → Figma/Webflow export.</p>
+      <p><strong>Visily</strong> — Screenshot-to-wireframe, text-to-flow. Good for product managers.</p>
+      <p><strong>Locofy</strong> — Figma design → production frontend code.</p>
+      <div class="evidence">
+        <a href="https://www.uber.com/us/en/blog/automate-design-specs/">[7]</a>
+        <a href="https://officechai.com/learn/ai-for-website-design/">[15]</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Skills to Learn -->
+<div class="section">
+  <div class="section-title">
+    📚 Skills to Learn Now
+    <span class="badge badge-learn">ACTION</span>
+  </div>
+
+  <div class="card">
+    <h3>1. Code Literacy for Designers <span class="tag">core</span></h3>
+    <p>Figma Code Layers mean designers who can read/write React will collaborate directly with engineers. The designer who only exports static mockups is at a disadvantage. <strong>Action:</strong> Learn React component structure, Tailwind CSS, and basic git workflows. Figma's code composer runs React with npm packages — being able to tweak a component inside Figma is now a baseline skill.</p>
+  </div>
+
+  <div class="card">
+    <h3>2. Writing AI Skills (Figma) <span class="tag">high-value</span></h3>
+    <p>Figma's new Skills system lets you encode design processes into reusable AI prompts. Teams that build shared Skills gain compounding productivity. <strong>Action:</strong> Document your workflow as step-by-step prompts. Create Skills for: component auditing, accessibility review, design system compliance checks, spec generation.</p>
+  </div>
+
+  <div class="card">
+    <h3>3. MCP-Connected Design Automation <span class="tag">future-proof</span></h3>
+    <p>The Figma Console MCP bridges AI agents to Figma locally. Uber's uSpec shows the playbook: agent skills + MCP = automated design documentation, accessibility specs, and token management. <strong>Action:</strong> Learn how MCP servers work. Set up Figma Console MCP. Build one agent skill for a repetitive design task (spec generation, changelog updates).</p>
+  </div>
+
+  <div class="card">
+    <h3>4. Prompt Engineering for Visual Output <span class="tag">cross-tool</span></h3>
+    <p>Claude Design, Midjourney v7, Figma AI, and Framer all work through prompts — but each requires different prompting strategies. <strong>Action:</strong> Build a personal prompt library across tools. Understand how to describe: layout hierarchy, brand constraints, accessibility requirements, and animation intent in natural language.</p>
+  </div>
+
+  <div class="card">
+    <h3>5. Motion &amp; Interactive Design <span class="tag">expanding</span></h3>
+    <p>Figma Motion, Weave (node-based AI media), and shader effects are native now. Static UI design is shrinking as a skill boundary. <strong>Action:</strong> Learn animation principles (easing, timing, choreography). Explore Figma Motion's timeline. Experiment with Weave for AI image/video workflows.</p>
+  </div>
+</div>
+
+<hr>
+
+<!-- Sources -->
+<div class="sources">
+  <h3>📖 Sources</h3>
+  <ol>
+    <li><a href="https://diginomica.com/config-2026-ai-blurs-lines-figma-code-motion-agent-workflows-design-canvas">Config 2026 — AI blurs the lines as Figma brings code, motion and agent workflows into its design canvas — Diginomica</a> (2026-06-29)</li>
+    <li><a href="https://thenextweb.com/news/figma-config-code-layers-ai-skills-plugins-animations">Figma adds code layers to the canvas and lets users build custom AI plugins at Config 2026 — TNW</a> (2026-06-24)</li>
+    <li><a href="https://techcrunch.com/2026/06/24/figma-adds-code-layers-support-for-animations-more-ai-features-in-new-update/">Figma adds code layers, support for animations, more AI features — TechCrunch</a> (2026-06-24)</li>
+    <li><a href="https://venturebeat.com/technology/anthropic-just-launched-claude-design-an-ai-tool-that-turns-prompts-into-prototypes-and-challenges-figma">Anthropic just launched Claude Design — VentureBeat</a> (2026-04-17)</li>
+    <li><a href="https://www.anthropic.com/news/claude-design-anthropic-labs">Introducing Claude Design by Anthropic Labs — Anthropic</a> (2026-04-17)</li>
+    <li><a href="https://techcrunch.com/2026/04/16/anthropic-cpo-leaves-figmas-board-after-reports-he-will-offer-a-competing-product/">Anthropic CPO leaves Figma's board — TechCrunch</a> (2026-04-16)</li>
+    <li><a href="https://www.uber.com/us/en/blog/automate-design-specs/">How Uber Built an Agentic System to Automate Design Specs in Minutes — Uber Blog</a> (2026-07-05)</li>
+    <li><a href="https://github.com/southleft/figma-console-mcp">Figma Console MCP — GitHub (Southleft)</a> (open source)</li>
+    <li><a href="https://uspec.design/">uSpec — Design spec automation</a> (open source)</li>
+    <li><a href="https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/">Figma adds an AI assistant to its collaborative canvas — TechCrunch</a> (2026-05-20)</li>
+    <li><a href="https://www.forbes.com/sites/timkeary/2026/06/30/the-saaspocalypse-maybe-ending-but-saas-will-never-be-the-same-again/">The SaaSpocalypse Maybe Ending, But SaaS Will Never Be The Same Again — Forbes</a> (2026-06-30)</li>
+    <li><a href="https://nerdbot.com/2026/06/29/topickz-crunched-816-saas-tools-the-2026-buyer-behavior-stats-free-to-cite/">Topickz Crunched 816 SaaS Tools: The 2026 Buyer-Behavior Stats — Nerdbot</a> (2026-06-29)</li>
+    <li><a href="https://www.figma.com/blog/introducing-figma-motion/">Introducing Figma Motion — Figma Blog</a> (2026)</li>
+    <li><a href="https://memeburn.com/best-ai-design-tools/">Best AI Design Tools in 2026: Tested and Ranked by Use Case — Memeburn</a> (2026-07-06)</li>
+    <li><a href="https://officechai.com/learn/ai-for-website-design/">23 Best AI Tools For Website Design [2026] — OfficeChai</a> (2026-07-04)</li>
+  </ol>
+</div>
+
+<div class="method">
+  <strong>Method:</strong> SearXNG discovery → jina.ai extraction → cross-verification. All sources published 2026 unless otherwise noted. Claims without live source links are flagged as uncertain.
+</div>
+
+</div>
+</body>
+</html>
