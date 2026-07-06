@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Evolution Scan - AI/Agentic Design in SaaS/B2B</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --accent: #1a1a2e;
+      --accent2: #16213e;
+      --gold: #e8b84b;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --highlight: #fef3c7;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--border);
+    }
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    header .sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    header .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+    }
+    .meta-line {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1rem 0 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .pattern {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 2rem 2rem 1.75rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .pattern h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .pattern h2 .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pattern .tagline {
+      font-size: 0.9rem;
+      color: var(--accent2);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-left: 2.25rem;
+    }
+    .pattern p {
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+    .pattern .insight {
+      background: var(--highlight);
+      border-left: 3px solid var(--gold);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9rem;
+    }
+    .pattern .sources {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+    }
+    .pattern .sources a {
+      color: var(--accent2);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .pattern .sources a:hover {
+      color: var(--gold);
+    }
+
+    .crosscut {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+    }
+    .crosscut h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .crosscut ul {
+      list-style: none;
+      padding: 0;
+    }
+    .crosscut li {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .crosscut li::before {
+      content: "\2192";
+      color: var(--gold);
+      font-weight: 700;
+      position: absolute;
+      left: 0;
+    }
+    .crosscut li strong {
+      color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 2px solid var(--border);
+      margin-top: 2rem;
+    }
+    footer a {
+      color: var(--accent2);
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.6rem; }
+      .pattern { padding: 1.5rem 1.25rem 1.5rem; }
+      .pattern h2 { font-size: 1.1rem; }
+      .pattern .tagline { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AI/Agentic Design Evolution in SaaS/B2B</h1>
+      <div class="sub">Patterns and shifts shaping enterprise software interfaces in 2026</div>
+      <div class="badge">Research Scan</div>
+      <div class="meta-line">
+        <span>July 6, 2026</span>
+        <span>8 patterns</span>
+        <span>14 sources</span>
+      </div>
+    </header>
+
+    <!-- Pattern 1 -->
+    <div class="pattern">
+      <h2><span class="num">1</span> Headless SaaS: UIs Become Optional</h2>
+      <div class="tagline">AI agents bypass the application UI entirely. SaaS transforms from user interface to execution engine.</div>
+      <p>SaaS applications are quietly shedding their graphical interfaces. The emerging architecture treats the traditional UI as one access path among many, where AI agents interact directly with APIs and data layers. Boomi's CEO David Meredith describes SaaS as "headless" deterministic engines that agents call programmatically, without a human ever seeing a dashboard.</p>
+      <p>The implication is stark: if an AI agent can do the work of a human operator, the visual interface that the human needed becomes optional. Enterprise procurement patterns are already shifting. Instead of buying 100 seats for operators, companies are buying 10 seats plus agent execution credits. The app becomes middleware, not a destination.</p>
+      <p>Salesforce's Agentforce, SAP's Joule, and ServiceNow's AI agents all point in the same direction: the UI layer that defined SaaS for two decades is being unbundled from the execution layer.</p>
+      <div class="insight"><strong>Implication for product design:</strong> If your SaaS product's primary interface is a dashboard, ask what happens when agents replace the human operator. The API surface area and deterministic execution paths matter more than pixel-perfect UI.</div>
+      <div class="sources">
+        Sources:
+        <a href="http://siliconangle.com/2026/05/15/saas-applications-transform-headless-enterprise-boomiworld/" target="_blank">SiliconANGLE (Boomi)</a>
+        ·
+        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: 6 Ways Agentic AI Will Reshape Enterprise Software</a>
+        ·
+        <a href="https://www.uncoveralpha.com/p/the-great-saas-unbundling-why-ai" target="_blank">UncoverAlpha: The Great SaaS Unbundling</a>
+      </div>
+    </div>
+
+    <!-- Pattern 2 -->
+    <div class="pattern">
+      <h2><span class="num">2</span> AI as the Primary Interface Layer</h2>
+      <div class="tagline">Conversational and agent-driven interfaces replace dashboards as the primary interaction model.</div>
+      <p>IDC analyst Bo Lykkegaard puts it bluntly: "Complexity is the Achilles' heel of the SaaS model. Each SaaS application demands its own learning curve and user interface, often used sporadically and inefficiently. AI offers a compelling remedy." Instead of navigating multiple dashboards, users interact with agent-driven conversational interfaces that perform tasks across systems.</p>
+      <p>InfoWorld's analysis of AI-first UX draws a clear trajectory: from forms to conversations. From dashboards to narrative copilots. From fixed workflows to agentic collaborations. The design pattern that dominated enterprise software for 30 years (the tabbed form, the left-nav menu, the data table) is being replaced by a unified natural-language interface that orchestrates behind the scenes.</p>
+      <p>Microsoft, OpenAI, and Anthropic all ship products where the primary interaction is text input, not mouse clicks. Claude's Cowork pauses at agent decision points. ChatGPT's Canvas shows a side panel of context. These aren't dashboards with chat bolted on. They are conversation-first systems where traditional UI elements surface only when needed.</p>
+      <div class="insight"><strong>Implication for product design:</strong> Design for the conversation, not the screen. Every UI element should justify why it can't be a natural language interaction. The default enterprise UX is now a text input at the top of the page.</div>
+      <div class="sources">
+        Sources:
+        <a href="http://www.infoworld.com/article/4178415/what-will-ai-first-ux-look-like.html" target="_blank">InfoWorld: What Will AI-First UX Look Like?</a>
+        ·
+        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Agentic AI Reshapes Enterprise Software</a>
+        ·
+        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: The Agentic Reckoning</a>
+      </div>
+    </div>
+
+    <!-- Pattern 3 -->
+    <div class="pattern">
+      <h2><span class="num">3</span> Deterministic vs. Probabilistic Bifurcation</h2>
+      <div class="tagline">SaaS companies split into two camps. Deterministic systems strengthen. Probabilistic systems get commoditized.</div>
+      <p>The most consequential design shift in SaaS is not about aesthetics. It is architectural. Systems where precision is critical and errors cascade into serious consequences (accounting, ERP, compliance, payroll) are becoming more valuable in an AI world, not less. They become the deterministic execution layer that agents rely on. As one Rippling engineer put it: "Traditional enterprise functions like HR are inherently deterministic; decisions like employee termination are binary and require rigid logic where specific inputs trigger precise, unvarying sequences."</p>
+      <p>Meanwhile, probabilistic systems (chatbots, content generators, simple workflow tools, basic support automation) face commoditization. LLMs can replicate 90% of their quality at 1% of the cost. The margin compression is already here: SaaS multiples dropped from a pandemic peak of 18-19x to 5.1x by December 2025.</p>
+      <p>The design consequence is that deterministic platforms are investing in agent-facing APIs and orchestration layers, not UI polish. Probabilistic platforms are racing to add sticky execution features before their margins vanish.</p>
+      <div class="insight"><strong>Implication for product design:</strong> Know which camp you're in. Deterministic products should invest in API surface area and agent integration, not UI redesigns. Probabilistic products must find an execution anchor before they become features of the deterministic stack.</div>
+      <div class="sources">
+        Sources:
+        <a href="https://www.uncoveralpha.com/p/the-great-saas-unbundling-why-ai" target="_blank">UncoverAlpha: The Great SaaS Unbundling</a>
+        ·
+        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Agentic AI Market Restructuring</a>
+        ·
+        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: Polyglot Orchestration & Architectural Bets</a>
+      </div>
+    </div>
+
+    <!-- Pattern 4 -->
+    <div class="pattern">
+      <h2><span class="num">4</span> The Runtime Reckoning: Infrastructure Eats Agentic AI</h2>
+      <div class="tagline">The AI model is not the problem. The runtime infrastructure around it is where enterprise AI deployments fail.</div>
+      <p>VentureBeat's Pulse Research (May 2026, 132 qualified enterprise respondents) delivers a sobering finding: 47% of organizations cite the Integration/Governance Gap as the primary friction point. 37% say stateless infrastructure is too fragile for production. And crucially, 77% of engineering teams spend meaningful sprint capacity on infrastructure plumbing rather than agentic logic.</p>
+      <p>State amnesia from container restarts is the quiet killer. Agents lose context mid-workflow, ghost failures (silent API timeouts with no traceback) accumulate, and the ROI ceiling hits when token costs + infrastructure overhead exceed the project's total business value. The "Complexity Cliff" is real: multi-step agent workflows fail at rates that make production deployment untenable when built on stateless Python/LangChain architectures.</p>
+      <p>The market response is fragmentation. 39% of enterprises are making the Polyglot Bet: hybrid layered orchestration using model-native reasoning for non-deterministic planning with deterministic rules engines for mission-critical execution. 20% are still committed to stateless architectures, attempting to solve structural durability through better prompting. History suggests they are repeating the RPA failure pattern.</p>
+      <div class="insight"><strong>Implication for product design:</strong> A durable runtime is the new competitive moat. The SaaS product that wraps its APIs in a reliable, stateful agent execution layer wins the enterprise AI vote. Stateless architectures are technical debt, not innovation.</div>
+      <div class="sources">
+        Sources:
+        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: The Agentic Reckoning (Full Survey)</a>
+        ·
+        <a href="http://www.infoworld.com/article/4178415/what-will-ai-first-ux-look-like.html" target="_blank">InfoWorld: AI-First UX Infrastructure Implications</a>
+      </div>
+    </div>
+
+    <!-- Pattern 5 -->
+    <div class="pattern">
+      <h2><span class="num">5</span> Consensus-Driven Production Metrics: The UAR Standard</h2>
+      <div class="tagline">User Acceptance Rate displaces technical metrics as the primary agentic SLA. Enterprises measure trust, not speed.</div>
+      <p>The enterprise agentic AI industry is settling on a surprising production standard. Not latency. Not tool selection accuracy. Not even context fidelity, though it's close. The primary metric is User Acceptance Rate (UAR): the percentage of autonomous actions accepted as-is without human intervention. 47% of organizations now use it as their primary A-SLA indicator.</p>
+      <p>This is a human-trust measure, not a technical performance measure. It does not ask whether the agent ran fast or maintained state. It asks whether a human who reviewed its output chose to accept it. That's a field-level Turing test applied at the action level, and it reflects where most enterprise agentic deployments sit: human-in-the-loop, with considerable skepticism about full autonomy.</p>
+      <p>Context Fidelity (the agent's ability to maintain state over a 48-hour+ execution window) ranks second at 30%. Latency Jitter has collapsed from 25% to 11%, confirming that raw speed is no longer the primary anxiety. Correctness and durability have taken its place.</p>
+      <div class="insight"><strong>Implication for product design:</strong> Ship confidence indicators, not speed indicators. Design your agent-facing dashboards around transparency into decision justification, not latency benchmarks. The metric that matters for production approval is how often a human says "yes."</div>
+      <div class="sources">
+        Sources:
+        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: Agentic Reckoning Finding 9 (UAR)</a>
+        ·
+        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Human-in-the-Loop Agentic AI Rollout</a>
+      </div>
+    </div>
+
+    <!-- Pattern 6 -->
+    <div class="pattern">
+      <h2><span class="num">6</span> Pricing Model Revolution: From Seats to Outcomes</h2>
+      <div class="tagline">The subscription seat model is dying. Consumption and outcome-based pricing are the new standard for AI-era SaaS.</div>
+      <p>Bain & Company's report on AI's impact on SaaS is definitive: "If an agent replaces a human task, customers will expect to pay based on outcomes, not log-ons. Leaders such as Intercom and Salesforce are already shifting in this direction. The fundamental shift is to stop charging for access and start charging for work done."</p>
+      <p>IDC's FutureScape: Worldwide Agentic AI 2026 Predictions goes further: by 2028, pure seat-based pricing will be obsolete, with 70% of software vendors refactoring their pricing strategies around consumption, outcomes, or organizational capability. Forrester analyst Liz Leggett describes a transition where a CIO with a 100-seat subscription could swap 10-20 of those seats for consumption-based pricing, creating hybrid models that vendors must support simultaneously.</p>
+      <p>The design implication is subtle but profound. If pricing is outcome-based, every UI element that doesn't directly produce an outcome is a cost center. Feature discovery tours, status dashboards, analytics overviews, admin panels. They don't generate outcomes that can be priced. The product design incentives flip: build features that agents can execute, not features that humans can browse.</p>
+      <div class="insight"><strong>Implication for product design:</strong> Audit every screen in your product. If it doesn't contribute to a measurable outcome, it is not a revenue-generating surface in the agentic era. Invest in execution interfaces, not browsing interfaces.</div>
+      <div class="sources">
+        Sources:
+        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Agentic AI Pricing Model Shift (Bain, IDC, Forrester)</a>
+        ·
+        <a href="http://www.forbes.com/sites/victordey/2026/05/12/the-end-of-the-erp-era-sap-wants-ai-agents-to-run-your-autonomous-enterprise/" target="_blank">Forbes: SAP Autonomous Enterprise & The End of ERP</a>
+        ·
+        <a href="https://www.uncoveralpha.com/p/the-great-saas-unbundling-why-ai" target="_blank">UncoverAlpha: Pricing Compression in SaaS</a>
+      </div>
+    </div>
+
+    <!-- Pattern 7 -->
+    <div class="pattern">
+      <h2><span class="num">7</span> The Observability Tax Is Unevenly Distributed</h2>
+      <div class="tagline">Microsoft and OpenAI ecosystems demand the most custom instrumentation. Visibility costs are a hidden competitive factor.</div>
+      <p>VentureBeat's survey asked which platform requires the most custom telemetry, manual instrumentation, and "logging glue" to achieve basic production visibility. 42% named Microsoft (GitHub Copilot Workspaces / Agent Framework). 30% named OpenAI (Codex / Agents SDK). 16% named Google. 12% named Anthropic.</p>
+      <p>This is not noise. It is a structural characteristic of the Microsoft agentic ecosystem. The same Azure/Copilot stack that dominates enterprise AI adoption requires the most instrumentation overhead to see inside. Red Hat's Brian Gracely warned at VentureBeat's Boston event that building your control system entirely inside one cloud provider's toolset means "renting a cage."</p>
+      <p>The design implication for product teams: a platform that appears cheaper at the API layer may impose substantially higher engineering costs at the telemetry layer. The 45% of respondents who named Microsoft as having the biggest hype-reality gap in agentic coding reliability reinforces the pattern: marketing is ahead of production observability.</p>
+      <div class="insight"><strong>Implication for product design:</strong> When evaluating agentic platforms, budget for observability as a line item. A platform with built-in, zero-instrumentation telemetry (designed for the agentic runtime model, not retrofitted) is worth a premium at the API layer.</div>
+      <div class="sources">
+        Sources:
+        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: Agentic Reckoning Findings 4 & 5 (Observability Tax & Hype-Reality Gap)</a>
+        ·
+        <a href="http://www.cio.com/article/4157474/6-ways-agentic-ai-will-reshape-the-enterprise-software-market.html" target="_blank">CIO: Platform Convergence & Vendor Lock-in Risks</a>
+      </div>
+    </div>
+
+    <!-- Pattern 8 -->
+    <div class="pattern">
+      <h2><span class="num">8</span> Security Architecture: Policy-as-Code and NHI Lead the Pack</h2>
+      <div class="tagline">Enterprises are building the security mesh from scratch. No dominant pattern has emerged, but NHI and Policy-as-Code are neck-and-neck.</div>
+      <p>Because AI agents can actively call APIs, traverse file systems, and execute code, the blast radius of a security failure in an agentic system is qualitatively different from static model deployment. Enterprises are responding with four approaches in rough parity: Policy-as-Code (30%), Deterministic Data Masking (25%), Least-Privilege Non-Human Identities (23%), and Egress-Locked Sandboxing (22%).</p>
+      <p>NHI (Non-Human Identity) is identity-centric: "who is this agent and what is it allowed to touch?" Policy-as-Code is rule-centric: "regardless of what the model decides, what hard stops exist at the infrastructure level?" The near-parity between these two philosophies signals that the market has not converged and likely won't anytime soon.</p>
+      <p>Egress-Locked Sandboxing, the most technically intensive approach, is already at 22%. As agentic systems gain more terminal-level access, this approach may prove more important than its adoption rate suggests. The design insight: security UX for agentic systems is an unsolved problem. Every enterprise is solving it from first principles, and none of the solutions are elegant yet.</p>
+      <div class="insight"><strong>Implication for product design:</strong> Agent-facing UI needs a security display layer that makes audit trails legible. The current state (grep logs for agent actions) is not scalable. Products that ship integrated, legible agent security dashboards will have a meaningful enterprise adoption advantage.</div>
+      <div class="sources">
+        Sources:
+        <a href="https://venturebeat.com/resources/the-agentic-reckoning-enterprise-ai-organizations-have-a-runtime-problem-not-a-model-problem" target="_blank">VentureBeat: Agentic Reckoning Finding 6 (Security Mesh)</a>
+        ·
+        <a href="https://www.uncoveralpha.com/p/the-great-saas-unbundling-why-ai" target="_blank">UncoverAlpha: Security Considerations for Deterministic Stack Integration</a>
+      </div>
+    </div>
+
+    <!-- Cross-Cutting Themes -->
+    <div class="crosscut">
+      <h3>Cross-Cutting Themes</h3>
+      <ul>
+        <li><strong>UI is becoming a debugging layer:</strong> The primary user of traditional SaaS interfaces is shifting from "operator" to "supervisor." Dashboards now serve to monitor agent actions, not perform work. This changes everything about information density, permission models, and interaction patterns.</li>
+        <li><strong>Convergence of platform categories:</strong> CRM and ERP boundaries are dissolving under agentic AI. Oracle, Microsoft, Salesforce, SAP, and ServiceNow all aim to be the agent orchestration layer, not just a record system. Product categories that survived for 30 years are merging in real time.</li>
+        <li><strong>The Polyglot Bet is the leading architectural philosophy:</strong> 39% of enterprises are building hybrid orchestration layers that mix model-native reasoning for non-deterministic planning with deterministic rules engines for execution. No single provider owns the stack. The integration layer is the product.</li>
+        <li><strong>Agent-facing design is the new UX frontier:</strong> The products that win will be those that design for agent consumption first and human supervision second. API surface quality, deterministic reliability, and state durability matter more than visual polish. The UI is becoming an agent protocol.</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Research compiled from SearXNG discovery + jina.ai deep reading across 8 sources.</p>
+      <p>Published to <a href="https://vadapayasam.github.io/warehouse/sketch/design-evolution-2026-07-06.html">vadapayasam.github.io/warehouse/sketch/design-evolution-2026-07-06.html</a></p>
+      <p>This is the Way.</p>
+    </footer>
+  </div>
+</body>
+</html>
