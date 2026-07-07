@@ -47,14 +47,14 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
 </style>
 </head>
 <body>
-<h1>The Agentic Debt Trap</h1>
+<h1>What Actually Shipped This Week</h1>
 <p class="date">Prabha's build log · 2026-07-07 · Tuesday edition</p>
 
 <div class="stats-bar">
   <span><strong>5</strong> tweets</span>
   <span><strong>$0</strong> cloud cost</span>
   <span><strong>1</strong> thread</span>
-  <span><strong>132</strong> sketch files</span>
+  <span><strong>131</strong> sketch files</span>
 </div>
 
 <table class="schedule-table">
@@ -69,56 +69,30 @@ h1{font-family:SF Pro Display,Helvetica Neue,Helvetica,Arial,sans-serif;font-siz
 
 <!-- SLOT 1: Thread -->
 <div class="thread-container">
-  <div class="thread-header">Slot 1 · The Thing Nobody Talks About Thread</div>
+  <div class="thread-header">Slot 1 · CloakBrowser v0.3.28 Security Thread</div>
 
   <div class="tweet-card">
     <div class="tweet-header">
       <span class="num">1</span>
-      <span class="tag hermes">hermes</span>
+      <span class="tag failures">failures</span>
       <span class="time">9:00 AM</span>
     </div>
-    <div class="tweet-text">Nobody warns you about how AI agents actually break in production.
+    <div class="tweet-text">Found a path traversal bug in CloakBrowser v0.3.28. Seed string used for cache paths wasn't sanitized. Malformed seed could write outside the cache directory.
 
-Everyone discusses what agents can do. Nobody discusses what breaks them.
-
-The unglamorous answer: integration glue, state management, and observability tax.
-
-That is where teams actually burn cycles.</div>
-    <span class="char-count">246 chars</span>
+Two hours to trace. One line to fix. That ratio feels familiar.</div>
+    <span class="char-count">223 chars</span>
     <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
   </div>
 
   <div class="tweet-card">
     <div class="tweet-header">
       <span class="num">2</span>
-      <span class="tag hermes">hermes</span>
+      <span class="tag workflow">workflow</span>
       <span class="time">9:00 AM</span>
     </div>
-    <div class="tweet-text">VentureBeat Pulse Research (132 enterprise respondents) tells the story:
+    <div class="tweet-text">CloakBrowser v0.3.28 shipped four security fixes. Path traversal, SSRF guard, iframe isolation, dep bump.
 
-47% cite integration/governance gap as primary friction
-37% say stateless infra is too fragile for production
-77% spend meaningful capacity on plumbing, not agentic logic
-
-The complexity cliff: multi-step workflows fail at rates that make stateless Python/LangChain untenable.</div>
-    <span class="char-count">350 chars</span>
-    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
-  </div>
-
-  <div class="tweet-card">
-    <div class="tweet-header">
-      <span class="num">3</span>
-      <span class="tag interesting">interesting</span>
-      <span class="time">9:00 AM</span>
-    </div>
-    <div class="tweet-text">The observability tax hits unevenly:
-
-Microsoft ecosystem: 42% custom instrumentation
-OpenAI: 30%
-Google: 16%
-Anthropic: 12%
-
-The provider that looks cheapest at the API layer may impose the highest costs at the telemetry layer. Red Hat calls it renting a cage.</div>
+12-item checklist before every tag now. Catches something every third release. Just a markdown file in the repo. A list of things I have forgotten before.</div>
     <span class="char-count">261 chars</span>
     <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
   </div>
@@ -129,57 +103,47 @@ The provider that looks cheapest at the API layer may impose the highest costs a
 <!-- SLOT 2: Hot Take -->
 <div class="tweet-card">
   <div class="tweet-header">
-    <span class="num">4</span>
-    <span class="tag interesting">interesting</span>
+    <span class="num">3</span>
+    <span class="tag tips">tips</span>
     <span class="time">12:00 PM</span>
   </div>
-  <div class="tweet-text">Skip the context window arms race. Here is what actually constrains agents in production:
+  <div class="tweet-text">Two weeks on a paper-crumple swipe for LeaveHack. Physics shader, 60fps. Five users tested it. Zero mentioned it. They just checked leave balance.
 
-The real constraint is not context length. It is state durability.
-
-An agent with a million-token context that forgets everything on container restart is less useful than one that reliably maintains state across a twelve-step workflow.</div>
-  <span class="char-count">296 chars</span>
+Removed yesterday. 400 lines gone. 0.2s fade instead. App feels faster. Lesson: ship simple first. Nobody asked for fancy.</div>
+  <span class="char-count">270 chars</span>
   <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
 </div>
 
 <!-- SLOT 3: Deep Cut -->
 <div class="tweet-card">
   <div class="tweet-header">
-    <span class="num">5</span>
+    <span class="num">4</span>
     <span class="tag workflow">workflow</span>
     <span class="time">4:00 PM</span>
   </div>
-  <div class="tweet-text">The practical pivot when the complexity cliff hits:
+  <div class="tweet-text">GitHub Pages served stale content for three days. Stale index.html shadowed the redirect to sketch/. Commit went through. CDN served old file anyway.
 
-You do not need a smarter model. You need a deterministic execution layer underneath it, one that catches failures, preserves state, and gives you a replay button.
-
-The polyglot bet (model-native reasoning + deterministic rules) at 39% adoption is the boring choice that wins.</div>
-  <span class="char-count">330 chars</span>
+Fix: delete stale file, force fresh commit. Now 30s curl check in deploy script. Caught three cache lag issues this month. Verify live URL, not just git status.</div>
+  <span class="char-count">311 chars</span>
   <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
 </div>
 
 <!-- SLOT 4: Wind-down -->
 <div class="tweet-card">
   <div class="tweet-header">
-    <span class="num">6</span>
-    <span class="tag interesting">interesting</span>
+    <span class="num">5</span>
+    <span class="tag hermes">hermes</span>
     <span class="time">7:00 PM</span>
   </div>
-  <div class="tweet-text">The gap between prototype and production for AI agents is not model quality. It is execution infrastructure.
+  <div class="tweet-text">131 HTML artifacts published. 30 Hermes skills. 4 iOS apps, various states of broken. 1 daily cron, 30 runs without missing.
 
-Stateless architectures win demos. Deterministic systems win deployments.
-
-If you are building agents today and not thinking about state durability, you are building demos.</div>
-  <span class="char-count">285 chars</span>
+Everything to GitHub Pages. No build step. No CMS. Total cloud cost: $0. MLX local. Time is the only expense, and most of that is automated.</div>
+  <span class="char-count">266 chars</span>
   <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.previousElementSibling.textContent)">Copy</button>
 </div>
 
-<div class="sources">
-  Sources checked: <a href="https://venturebeat.com/ai/enterprise-agentic-ai-survey-2026/">VentureBeat Pulse Research (132 enterprise respondents)</a>, <a href="https://www.cio.com/article/3847494/6-ways-agentic-ai-will-reshape-enterprise-software.html">CIO: Agentic AI Reshapes Enterprise Software</a>, <a href="https://www.infoworld.com/article/2335454/what-will-ai-first-ux-look-like.html">InfoWorld: What Will AI-First UX Look Like?</a>.
-</div>
-
 <p class="footer">
-  Generated by Hermes Agent · 2026-07-07 · minimax-m2.7 · $0 total cost<br>
+  Generated by Hermes Agent · 2026-07-07 · $0 total cost<br>
   <a class="archive-link" href="https://vadapayasam.github.io/warehouse/daily/">Daily Archive</a>
 </p>
 </body>
