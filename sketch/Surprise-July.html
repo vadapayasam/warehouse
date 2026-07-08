@@ -304,8 +304,8 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Pattern scout accountability loop — June 2/3 reports same gaps, no action taken.</li>
-      <li>Ghost skills — 17 entries, zero usage. Archive/delete unused skills.</li>
+      <li>Pattern scout accountability loop – June 2/3 reports same gaps, no action taken.</li>
+      <li>Ghost skills – 17 entries, zero usage. Archive/delete unused skills.</li>
     </ul>
   </div>
 
@@ -316,20 +316,20 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>HTTP 503 Service overload (~5) — add circuit breaker or retry alternative providers</li>
-      <li>Discord API 400 Bad Request (empty message) — validate message content before sending</li>
-      <li>`patch` denied on `.zshrc` — use `terminal` + `grep` for shell/rc files, not `patch`</li>
-      <li>`hermes mcp test` false negatives — use direct `tools/list` API call for MCP health</li>
-      <li>`clarify` timeout in cron/overnight — never use in async jobs; make decisions locally</li>
+      <li>HTTP 503 Service overload (~5) – add circuit breaker or retry alternative providers</li>
+      <li>Discord API 400 Bad Request (empty message) – validate message content before sending</li>
+      <li>`patch` denied on `.zshrc` – use `terminal` + `grep` for shell/rc files, not `patch`</li>
+      <li>`hermes mcp test` false negatives – use direct `tools/list` API call for MCP health</li>
+      <li>`clarify` timeout in cron/overnight – never use in async jobs; make decisions locally</li>
       <li>P0: Create `wiki/agent-publish.md` with repo link, KANBAN snapshot, next 2 Ready tasks</li>
       <li>P0: Update `wiki/references.md` with 4 live URLs (Danny X-Ray, agent-publish, design radar, evolution)</li>
       <li>P0: Create `wiki/operations.md` with cron list, schedules, last-run status</li>
-      <li>P1: Delete `wiki/links.md` — dead Linear dump from May 10</li>
+      <li>P1: Delete `wiki/links.md` – dead Linear dump from May 10</li>
       <li>P1: Update `wiki/index.md` to list active projects, not just file counts</li>
       <li>P2: Archive `deprecated-projects/` with README</li>
       <li>P2: Archive dormant skills (`gaming`, `social-media`, `smart-home`, `email`, `domain`, `note-taking`)</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Execute P0 tasks immediately — agent-publish.md + references.md + operations.md are blocking wiki hygiene.</div>
+    <div class="insight"><strong>Action:</strong> Execute P0 tasks immediately – agent-publish.md + references.md + operations.md are blocking wiki hygiene.</div>
   </div>
 
   <!-- July 4 -->
@@ -339,45 +339,45 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li># Overnight Synthesis — 2026-07-04</li>
+      <li># Overnight Synthesis – 2026-07-04</li>
       <li>## Patterns Found</li>
-      <li>**OpenFile Limit (24 FDs) — Cascading Service Refuses** — Honcho, MCP tools, Telegram all hit "Too many open files". Network services refuse connections after ~20 FDs open. Root cause: no FD cleanup on session end. **Priority: Medium**</li>
-      <li>**xcodebuild-mcp / Honcho / Cua-Driver Socket Refused (61)** — MCP and cron jobs hang waiting for services that never start. Binary at `~/xcodebuild-mcp/build/cli.js` missing/crashes. **Impact:** iOS builds and device logs dead. **Priority: High**</li>
-      <li>**qwen3.5-9b Context Overflow — Cron Cascade Failures** — Two cron jobs (`Weekly Agentic SaaS`, `daily-wiki-summary`) use 8K-context model, overflow 64K context, compressions dead, jobs fail silently. Fix: pin to `deepseek-v4-flash`. **Priority: Medium**</li>
-      <li>**patch Tool Rejection — Credential Files** — `.zshrc`, `.env` writes denied. Pattern: never use `patch` for shell/rc/credential files. **Priority: Low**</li>
-      <li>**Stale Archive Bloat — 30+ Dead Files** — `.stale-backup-20260510/`, `transcripts/`, `processed/2026-04*/`, duplicate v1 dumps. Signal-to-noise degrading weekly. **Priority: Medium**</li>
-      <li>**Context Compaction — Untrusted "Active Task"** — Summaries claim wrong task, agent proceeds incorrectly. Rule: treat ALL context summaries as untrusted. **Priority: Low**</li>
+      <li>**OpenFile Limit (24 FDs) – Cascading Service Refuses** – Honcho, MCP tools, Telegram all hit "Too many open files". Network services refuse connections after ~20 FDs open. Root cause: no FD cleanup on session end. **Priority: Medium**</li>
+      <li>**xcodebuild-mcp / Honcho / Cua-Driver Socket Refused (61)** – MCP and cron jobs hang waiting for services that never start. Binary at `~/xcodebuild-mcp/build/cli.js` missing/crashes. **Impact:** iOS builds and device logs dead. **Priority: High**</li>
+      <li>**qwen3.5-9b Context Overflow – Cron Cascade Failures** – Two cron jobs (`Weekly Agentic SaaS`, `daily-wiki-summary`) use 8K-context model, overflow 64K context, compressions dead, jobs fail silently. Fix: pin to `deepseek-v4-flash`. **Priority: Medium**</li>
+      <li>**patch Tool Rejection – Credential Files** – `.zshrc`, `.env` writes denied. Pattern: never use `patch` for shell/rc/credential files. **Priority: Low**</li>
+      <li>**Stale Archive Bloat – 30+ Dead Files** – `.stale-backup-20260510/`, `transcripts/`, `processed/2026-04*/`, duplicate v1 dumps. Signal-to-noise degrading weekly. **Priority: Medium**</li>
+      <li>**Context Compaction – Untrusted "Active Task"** – Summaries claim wrong task, agent proceeds incorrectly. Rule: treat ALL context summaries as untrusted. **Priority: Low**</li>
       <li>## Actionable Items</li>
-      <li>**P0:** Rotate API providers — add exponential backoff, rotate models per session, pin cron jobs to `deepseek-v4-flash` or free-tier models.</li>
+      <li>**P0:** Rotate API providers – add exponential backoff, rotate models per session, pin cron jobs to `deepseek-v4-flash` or free-tier models.</li>
       <li>**P0:** Increase FD limit (`ulimit -n 65535`) + add FD cleanup on session end (close unused handles, use context manager for file handles).</li>
       <li>**P1:** Pin `qwen3.5-9b` cron jobs to `deepseek-v4-flash` (64K context).</li>
       <li>**P1:** Validate Discord channel ID format (string snowflake, not integer) before sending. Add content-length check > 0.</li>
-      <li>**P1:** Audit and archive stale vault files (`.stale-backup-20260510/`, `transcripts/`, `processed/2026-04*/`, v1 dumps) — ~30 files.</li>
+      <li>**P1:** Audit and archive stale vault files (`.stale-backup-20260510/`, `transcripts/`, `processed/2026-04*/`, v1 dumps) – ~30 files.</li>
       <li>**P2:** Add circuit breaker for rapid-mlx endpoint (port 8765), retry with 5s backoff on 429.</li>
       <li>**P2:** Compress memory entries to one-liners when usage > 85%, never prose paragraphs.</li>
       <li>## Stale Items</li>
-      <li>13 overnight files with no new cross-cutting patterns beyond above (May 30–July 3 log analyses, pattern scouts, skill audits). Most are error-check summaries — useful for trend tracking, but no fresh actionable items surfaced.</li>
+      <li>13 overnight files with no new cross-cutting patterns beyond above (May 30–July 3 log analyses, pattern scouts, skill audits). Most are error-check summaries – useful for trend tracking, but no fresh actionable items surfaced.</li>
       <li>`date.txt` in overnight/ is stale (2026-06-28), should be updated to today's date or removed.</li>
       <li>## Source Files</li>
-      <li>`20260530-archive-consolidate.md` — Stale archive analysis, ~30 dead files identified</li>
-      <li>`20260530-pattern-extract.md` — Figma MCP OAuth, patch tool, DOM inspection patterns</li>
-      <li>`20260531-pattern-extract.md` — SSE streaming, honcho failures, visual timeout patterns</li>
-      <li>`20260531-skill-gap-audit.md` — Ghost skills, browser_vision dead reference</li>
-      <li>`pattern-scout-2026-06-01.md` — Wiki staleness, agent-publish missing</li>
-      <li>`pattern-scout-2026-06-02.md` — Wiki gaps, forgotten threads</li>
-      <li>`pattern-scout-2026-06-03.md` — Wiki bridge gap, agent-publish documentation</li>
-      <li>`log-analysis-2026-06-11.md` — ddgs module missing, context compression gap</li>
-      <li>`log-analysis-2026-06-15.md` — Deepseek broken pipe, Nvidia timeouts</li>
-      <li>`log-analysis-2026-06-17.md` — Discord empty messages, vllm_mlx ImportError</li>
-      <li>`log-analysis-2026-06-20.md` — Telegram timeout, API connection errors</li>
-      <li>`log-analysis-2026-06-23.md` — rapid-mlx connection errors, cron cascade failures</li>
-      <li>`log-analysis-2026-06-27.md` — API 429 bursts, agent idle timeout</li>
-      <li>`log-analysis-2026-06-28.md` — Rate limit exhaustion, HTTP 429 quota exhausted</li>
-      <li>`log-analysis-2026-06-29.md` — Discord 400/429, Telegram timeouts</li>
-      <li>`log-analysis-2026-06-30.md` — Honcho/OAuth rate limits, socket connection refused</li>
-      <li>`log-analysis-2026-07-01.md` — Provider usage limits, too many open files</li>
-      <li>`log-analysis-2026-07-02.md` — Async task exception, telegram.ext get_updates errors</li>
-      <li>`log-analysis-2026-07-03.md` — Rate limiting across providers, open file limit</li>
+      <li>`20260530-archive-consolidate.md` – Stale archive analysis, ~30 dead files identified</li>
+      <li>`20260530-pattern-extract.md` – Figma MCP OAuth, patch tool, DOM inspection patterns</li>
+      <li>`20260531-pattern-extract.md` – SSE streaming, honcho failures, visual timeout patterns</li>
+      <li>`20260531-skill-gap-audit.md` – Ghost skills, browser_vision dead reference</li>
+      <li>`pattern-scout-2026-06-01.md` – Wiki staleness, agent-publish missing</li>
+      <li>`pattern-scout-2026-06-02.md` – Wiki gaps, forgotten threads</li>
+      <li>`pattern-scout-2026-06-03.md` – Wiki bridge gap, agent-publish documentation</li>
+      <li>`log-analysis-2026-06-11.md` – ddgs module missing, context compression gap</li>
+      <li>`log-analysis-2026-06-15.md` – Deepseek broken pipe, Nvidia timeouts</li>
+      <li>`log-analysis-2026-06-17.md` – Discord empty messages, vllm_mlx ImportError</li>
+      <li>`log-analysis-2026-06-20.md` – Telegram timeout, API connection errors</li>
+      <li>`log-analysis-2026-06-23.md` – rapid-mlx connection errors, cron cascade failures</li>
+      <li>`log-analysis-2026-06-27.md` – API 429 bursts, agent idle timeout</li>
+      <li>`log-analysis-2026-06-28.md` – Rate limit exhaustion, HTTP 429 quota exhausted</li>
+      <li>`log-analysis-2026-06-29.md` – Discord 400/429, Telegram timeouts</li>
+      <li>`log-analysis-2026-06-30.md` – Honcho/OAuth rate limits, socket connection refused</li>
+      <li>`log-analysis-2026-07-01.md` – Provider usage limits, too many open files</li>
+      <li>`log-analysis-2026-07-02.md` – Async task exception, telegram.ext get_updates errors</li>
+      <li>`log-analysis-2026-07-03.md` – Rate limiting across providers, open file limit</li>
       <li>---</li>
       <li>This is the Way.</li>
     </ul>
@@ -394,7 +394,7 @@
       <li>Discord API Failures (400/429 rate limits: 25–35 total)</li>
       <li>Figma MCP Metadata Dumps (>100KB truncation, 1–2 per session)</li>
     </ul>
-    <div class="insight"><strong>Insight:</strong> Vault is optimizing itself into irrelevance — operational Hermes bugs vs Prabha's actual work</div>
+    <div class="insight"><strong>Insight:</strong> Vault is optimizing itself into irrelevance – operational Hermes bugs vs Prabha's actual work</div>
   </div>
 
   <!-- July 6 -->
@@ -404,13 +404,13 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li># Overnight Synthesis — 2026-07-06</li>
+      <li># Overnight Synthesis – 2026-07-06</li>
       <li>## Patterns Found</li>
       <li>**Stale Vault Bloat (30+ files, ~30 actions):**</li>
-      <li>`.stale-backup-20260510/` folder with 4 dead files — never deleted despite May 10 flag</li>
-      <li>April daily summaries (5 files) + personal journals (7 files) — superseded, zero references</li>
-      <li>`notes/transcripts/` 9 audio-to-text dumps from April — pure dead weight</li>
-      <li>`processed/2026-04-27` to `04-30` (6 files) — intermediates no longer needed</li>
+      <li>`.stale-backup-20260510/` folder with 4 dead files – never deleted despite May 10 flag</li>
+      <li>April daily summaries (5 files) + personal journals (7 files) – superseded, zero references</li>
+      <li>`notes/transcripts/` 9 audio-to-text dumps from April – pure dead weight</li>
+      <li>`processed/2026-04-27` to `04-30` (6 files) – intermediates no longer needed</li>
       <li>Duplicate dumps: `financial-dump.md` vs `v2`, `prabhakaran-profile08april2026.md` vs main, duplicate workflow docs</li>
       <li>**Total: ~30 files to archive/delete**</li>
       <li>`OAuthRegistrationError: Registration failed: 403 Forbidden` on every MCP server init</li>
@@ -422,14 +422,14 @@
       <li>Concentration: May 31 12:00-12:30 PM had 7 failures in 15 minutes</li>
       <li>Fallback cascade broken: `kimi-k2.5` APITimeoutError, fallback not configured</li>
       <li>**Impact:** Sessions abort mid-turn, requiring restarts</li>
-      <li>`Honcho session sync/connection refused` — Verify Honcho server availability</li>
+      <li>`Honcho session sync/connection refused` – Verify Honcho server availability</li>
       <li>Cascades into Nightly Log Analyzer cron failures</li>
       <li>Deepseek, kimi-k2.5, kimi-k2.6, gpt-5.3-codex, openai-codex all hitting quotas</li>
-      <li>28–45+ occurrences across providers — suggests quota exhaustion</li>
+      <li>28–45+ occurrences across providers – suggests quota exhaustion</li>
       <li>Pattern: Backoff + retry logic insufficient; need exponential backoff or quota upgrade</li>
       <li>17 skills with only DESCRIPTION.md, zero usage (apple, data-science, diagramming, email, gaming, gifs, github, inference-sh, media, note-taking, smart-home, social-media)</li>
       <li>`enterprise-software-research` references non-existent `browser_vision` tool</li>
-      <li>`design` skill is zombie — README.md points to non-existent subdirectory</li>
+      <li>`design` skill is zombie – README.md points to non-existent subdirectory</li>
       <li>`.usage.json` has phantom entries (`competitive-design-research`, `llm-prompt-action-adaptation`)</li>
       <li>**Pattern Extraction Rules (7 critical):**</li>
       <li>SSE/streaming HTTP: Iterate lines, never `.read()`</li>
@@ -440,10 +440,10 @@
       <li>Memory format: Telegraphic one-liners only. Compress at 85%</li>
       <li>Recurring generation: Fingerprint gate before expensive work. Same hash = silent exit</li>
       <li>`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK`, `daily-summaries/`</li>
-      <li>Index.md confidently links to pages that don't exist — creates false sense of organization</li>
+      <li>Index.md confidently links to pages that don't exist – creates false sense of organization</li>
       <li>**Two Fully-Spec'd Indie Projects, Zero Follow-Through:**</li>
-      <li>LinearContext MCP PRD (May 14) — 400+ lines, architecture, revenue model, implementation plan, zero updates</li>
-      <li>FulfillSmart Shopify app PRD (May 14) — same state</li>
+      <li>LinearContext MCP PRD (May 14) – 400+ lines, architecture, revenue model, implementation plan, zero updates</li>
+      <li>FulfillSmart Shopify app PRD (May 14) – same state</li>
       <li>`indie-product-vetting` skill exists to gatekeep but wasn't used</li>
       <li>**Vault Pipeline Dead (since May 10):**</li>
       <li>Last raw processing: May 15</li>
@@ -451,7 +451,7 @@
       <li>Last meaningful actions: May 10 ("Focus on WhatPay iOS app")</li>
       <li>Actions since then: Two files, both say "nothing actionable"</li>
       <li>Bridge pipeline (`raw → processed → synthesis → bridge → actions`) appears broken</li>
-      <li>**Daily Log Analysis — 9 critical patterns (May 30 – July 03):**</li>
+      <li>**Daily Log Analysis – 9 critical patterns (May 30 – July 03):**</li>
       <li>Tool execution failures (228 terminal errors)</li>
       <li>browser_vision failures (6 occurrences)</li>
       <li>Discord empty messages (5 occurrences)</li>
@@ -459,25 +459,25 @@
       <li>OpenRouter payment/credit errors (37 occurrences)</li>
       <li>## Actionable Items</li>
       <li>**HIGH (Immediate):**</li>
-      <li>**Configure API fallback chain** — Set up `kimi-k2.5` (or another model) as a properly configured fallback in Hermes config. The fallback exists but has no credentials. Either configure it or remove the dead reference.</li>
-      <li>**Add model capability guard** — Create a small skill or system prompt rule that prevents `browser_vision` calls when the active model is text-only (`deepseek-v4-pro`). Saves token waste and confusion.</li>
-      <li>**Triage `deprecated-projects/`** — Move `lovable-msp-status-page-prompt.md`, `revenueguard-competitive-analysis-2026-05-16.md`, `revenueguard-evolution-plan.md` to `archive/` and remove from raw. Or add a `README.md` explaining what lives there.</li>
-      <li>**Update `.usage.json` hygiene** — Remove entries for `competitive-design-research` and `llm-prompt-adaptation` — they have no directories.</li>
+      <li>**Configure API fallback chain** – Set up `kimi-k2.5` (or another model) as a properly configured fallback in Hermes config. The fallback exists but has no credentials. Either configure it or remove the dead reference.</li>
+      <li>**Add model capability guard** – Create a small skill or system prompt rule that prevents `browser_vision` calls when the active model is text-only (`deepseek-v4-pro`). Saves token waste and confusion.</li>
+      <li>**Triage `deprecated-projects/`** – Move `lovable-msp-status-page-prompt.md`, `revenueguard-competitive-analysis-2026-05-16.md`, `revenueguard-evolution-plan.md` to `archive/` and remove from raw. Or add a `README.md` explaining what lives there.</li>
+      <li>**Update `.usage.json` hygiene** – Remove entries for `competitive-design-research` and `llm-prompt-adaptation` – they have no directories.</li>
       <li>**MEDIUM:**</li>
-      <li>**Archive dormant skills** — `gaming`, `social-media`, `smart-home`, `email`, `domain`, `note-taking` — all unused since Apr 17 (46+ days). Archive or delete.</li>
-      <li>**Create `wiki/agent-publish.md`** — Biggest missing artifact. Project is actively shipping (18 tests passing, 39-card KANBAN backlog).</li>
-      <li>**Create `wiki/portfolio-tracker.md`** — Holdings snapshot (₹8.85L), cron schedule (Tue 10PM), last report summary, top action items.</li>
-      <li>**Create `wiki/operations.md`** — Cron schedules, change log, current active jobs.</li>
-      <li>**Update `wiki/index.md`** — List active projects, not just file counts. Remove phantom links (`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK`).</li>
-      <li>**Add live URLs to `wiki/references.md`** — Danny X-Ray report, agent-publish framework, designer skills radar, design evolution, prabha-taste test page.</li>
-      <li>**Fix `synthesis-html-append.py`** — Uses `--text-file` flag instead of pipe input. Script doesn't accept piped stdin.</li>
+      <li>**Archive dormant skills** – `gaming`, `social-media`, `smart-home`, `email`, `domain`, `note-taking` – all unused since Apr 17 (46+ days). Archive or delete.</li>
+      <li>**Create `wiki/agent-publish.md`** – Biggest missing artifact. Project is actively shipping (18 tests passing, 39-card KANBAN backlog).</li>
+      <li>**Create `wiki/portfolio-tracker.md`** – Holdings snapshot (₹8.85L), cron schedule (Tue 10PM), last report summary, top action items.</li>
+      <li>**Create `wiki/operations.md`** – Cron schedules, change log, current active jobs.</li>
+      <li>**Update `wiki/index.md`** – List active projects, not just file counts. Remove phantom links (`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK`).</li>
+      <li>**Add live URLs to `wiki/references.md`** – Danny X-Ray report, agent-publish framework, designer skills radar, design evolution, prabha-taste test page.</li>
+      <li>**Fix `synthesis-html-append.py`** – Uses `--text-file` flag instead of pipe input. Script doesn't accept piped stdin.</li>
       <li>**LOW:**</li>
-      <li>**Increase terminal timeout thresholds** — Multiple timeouts (15s, 120s) suggest commands are too long. Increase or split into steps.</li>
-      <li>**Add exponential backoff to API calls** — Rate limits indicate quota exhaustion. Add delays or throttle request rate.</li>
+      <li>**Increase terminal timeout thresholds** – Multiple timeouts (15s, 120s) suggest commands are too long. Increase or split into steps.</li>
+      <li>**Add exponential backoff to API calls** – Rate limits indicate quota exhaustion. Add delays or throttle request rate.</li>
       <li>**Stale Items:**</li>
-      <li>All `log-analysis-2026-06-01` through `2026-07-04` files — reviewed, no new cross-cutting patterns emerged</li>
-      <li>All `pattern-extract-*` and `pattern-scout-*` files — patterns extracted above</li>
-      <li>`skill-gap-audit.md` (May 31) — informs ghost skills section</li>
+      <li>All `log-analysis-2026-06-01` through `2026-07-04` files – reviewed, no new cross-cutting patterns emerged</li>
+      <li>All `pattern-extract-*` and `pattern-scout-*` files – patterns extracted above</li>
+      <li>`skill-gap-audit.md` (May 31) – informs ghost skills section</li>
       <li>**Source Files:**</li>
       <li>`overnight/20260530-archive-consolidate.md` [[wikilink]]</li>
       <li>`overnight/20260530-pattern-extract.md` [[wikilink]]</li>
@@ -524,20 +524,20 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>HTTP 429 rate limits (45+ occurrences) across Nvidia/Deepseek/Nemotron — quota exhaustion</li>
-      <li>404 model not found (qwen3.5-4b-4bit) — update configs to use mlx-community/Qwen3-8B-4bit</li>
-      <li>MCP server failures (12+) — credential mismatches or server unavailability</li>
-      <li>Discord API errors (400, 403, 429) — invalid channel IDs, payload validation, throttling</li>
-      <li>Telegram timeouts (8+) — API rate limits, network flakiness</li>
-      <li>iOS Simulator build failures (3+) — device state, bundle ID mismatches</li>
-      <li>Wiki staleness (15 days unsynced) — index.md, references.md, misc.md, links.md</li>
+      <li>HTTP 429 rate limits (45+ occurrences) across Nvidia/Deepseek/Nemotron – quota exhaustion</li>
+      <li>404 model not found (qwen3.5-4b-4bit) – update configs to use mlx-community/Qwen3-8B-4bit</li>
+      <li>MCP server failures (12+) – credential mismatches or server unavailability</li>
+      <li>Discord API errors (400, 403, 429) – invalid channel IDs, payload validation, throttling</li>
+      <li>Telegram timeouts (8+) – API rate limits, network flakiness</li>
+      <li>iOS Simulator build failures (3+) – device state, bundle ID mismatches</li>
+      <li>Wiki staleness (15 days unsynced) – index.md, references.md, misc.md, links.md</li>
       <li>Forgotten threads: agent-publish (P0), portfolio-tracker (P1), design-radar/design-evolution (P1), operations.md (P1)</li>
       <li>Stale raw artifacts: deprecated-projects/ (19+ days dormant)</li>
       <li>Unused skills: gaming, social-media, smart-home, email, domain, note-taking (46+ days)</li>
     </ul>
     <div class="insight"><strong>Action:</strong> Prioritize P0 items (wiki/agent-publish.md, wiki/references.md with 4 URLs, wiki/operations.md)</div>
     <div class="insight"><strong>Key:</strong> Service degradation (rate limits, 404s, MCP failures) indicates infrastructure health check needed</div>
-    <div class="insight"><strong>Insight:</strong> Overnight system is reporting operational Hermes bugs, not Prabha's actual work — vault capture→reflect loop may be broken</div>
+    <div class="insight"><strong>Insight:</strong> Overnight system is reporting operational Hermes bugs, not Prabha's actual work – vault capture→reflect loop may be broken</div>
   </div>
 
   <!-- Cross-cutting themes -->
