@@ -416,19 +416,14 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Figma MCP OAuth 403 -- Registration endpoint rejects client despite valid token, blocks all design work (560 hits, May 30--June 1).</li>
-      <li>API Streaming Timeouts (49 ReadTimeout + 12 failures) on deepseek-v4-pro via ollama, sessions abort mid-turn.</li>
       <li>skill_manage failures (75/24h) -- systematic YAML frontmatter errors in generated SKILL.md, silent job failures.</li>
-      <li>Ollama billing expired (403 across 101 + 7 hits) -- context compressor dead, cascades to 80% of errors.</li>
       <li>Xiaomi API "text not set" (31 hits) — cascade effect from Ollama 403, malformed payloads rejected.</li>
       <li>No new actionable patterns. N files reviewed, nothing to surface.</li>
       <li>Tag: infrastructure</li>
       <li>Tag: devops</li>
       <li>Tag: ios</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Renew Ollama subscription at ollama.com/settings/billing — expires, breaks context compression.</div>
     <div class="insight"><strong>Action:</strong> Configure kimi-k2.5 credentials in Hermes config, current fallback is dead end.</div>
-    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth registration — investigate MCP SDK version or Figma API change.</div>
     <div class="insight"><strong>Action:</strong> Add model capability guard — prevent browser_vision calls when model is text-only (deepseek-v4-pro).</div>
     <div class="insight"><strong>Action:</strong> Investigate skill_manage error rate (75/24h) — add pre-validation before SKILL.md creation.</div>
     <div class="insight"><strong>Action:</strong> Create session_search skill — referenced by Nightly Log Analyzer cron but doesn't exist.</div>
@@ -443,11 +438,9 @@
     <ul>
       <li># Synthesis of Overnight/ Files — 2026-06-21</li>
       <li>## Cross-Cutting Patterns Identified</li>
-      <li>### 1. Figma MCP OAuth 403 Blocking (560+ occurrences)</li>
       <li>**Root cause**: OAuth registration endpoint returns 403 despite valid tokens (88 days remaining)</li>
       <li>**Impact**: All Figma tools dead in sessions. Design work blocked.</li>
       <li>**Priority**: **HIGH** — blocks entire design workflow</li>
-      <li>### 2. API Streaming Timeouts (deepseek-v4-pro via ollama)</li>
       <li>**Pattern**: 49 ReadTimeout + 12 streaming failures in 24h</li>
       <li>**Concentration**: May 31 12:00-12:30 PM had 7 failures in 15 minutes</li>
       <li>**Cascade**: Kimi-k2.5 fallback not configured → sessions abort mid-turn</li>
@@ -469,7 +462,6 @@
       <li>## Actionable Items</li>
       <li>| Priority | Action | Effort | Impact |</li>
       <li>|----------|--------|--------|--------|</li>
-      <li>| **P0** | Fix Figma MCP OAuth registration | 30 min | Unblocks design work |</li>
       <li>| **P0** | Configure API fallback cascade (kimi-k2.5) | 15 min | Improves reliability |</li>
       <li>| **P1** | Create missing wiki pages (5 phantom pages) | 20 min | Fixes accountability gap |</li>
       <li>| **P1** | Decide on LinearContext & FulfillSmart PRDs | 15 min | Clear direction on projects |</li>
@@ -505,11 +497,7 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Figma MCP OAuth 403 blocks all design work — 560+ occurrences, fix registration endpoint or switch to local desktop server</li>
-      <li>API streaming timeouts (49 ReadTimeout + 12 failures) from deepseek-v4-pro via ollama, configure kimi-k2.5 fallback</li>
       <li>228 terminal execution errors from LLM-generated broken Python, add code-review guard before execution</li>
-      <li>75 skill_manage errors due to YAML frontmatter issues, pre-validate skill creation schema</li>
-      <li>Context summaries untrusted — "Active Task" claims mismatch user message, never trust context compaction</li>
       <li>Memory compression successful — prose paragraphs (95%) → one-line bullets (73%)</li>
       <li>Recurring generation needs fingerprint gates — hash search results, silent exit if unchanged</li>
       <li>Rapid-MLX connection flapping (8 errors in 12h), add circuit breaker for MLX endpoint</li>
@@ -517,7 +505,6 @@
       <li>Phantom wiki pages (5+ non-existent pages linked in Index.md), create stubs or delete links</li>
       <li>links.md is May 10 Linear dump, delete or archive</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth 403 immediately (blocks all design work). Configure API fallback chain (kimi-k2.5 credentials) or remove dead references. Create wiki/agent-publish.md with project overview and KANBAN snapshot. Update wiki/references.md with 4+ new live URLs. Create wiki/operations.md for cron schedules. Archive or document deprecated-projects/. Delete or archive links.md.</div>
   </div>
 
   <!-- June 25 -->
@@ -527,24 +514,15 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Figma MCP OAuth 403 — 560+ occurrences (May 30–June 1), blocks all design work. Token check passes (88 days remaining) but OAuth registration endpoint rejects client. Root cause: MCP SDK OAuth flow bug or Figma API change. Frequency: Critical — persistent across all sessions.</li>
-      <li>Ollama billing 403 — 101 occurrences, cascading 80% of errors. Subscription expired, context compressor dead, tokens pile until overflow. Frequency: Critical — 403 since May 30, no resolution.</li>
-      <li>API Streaming Timeouts — 49 ReadTimeout + 12 streaming failures. `deepseek-v4-pro` via ollama times out, fallback `kimi-k2.5` not configured. Frequency: High — bursts every 2–3 hours.</li>
       <li>skill_manage failures — 75/24h, abnormal rate. Likely malformed YAML frontmatter in generated SKILL.md. Frequency: Medium — systematic issue, needs investigation.</li>
       <li>Ghost Skills — 17 entries with only DESCRIPTION.md, zero usage (design, gaming, social-media, email, domain, note-taking). Inflate index, waste context. Frequency: Medium — April 17 artifacts, never touched.</li>
       <li>Stale Files — `.stale-backup-20260510/` (4 files, 30+ days old), `notes/transcripts/` (9 April audio dumps, no backlinks), `processed/2026-04-*/` (6 April intermediates), duplicate/ versioned dumps. Frequency: High — ~30 files total, pure dead weight.</li>
       <li>Wiki Staleness — 14–19 days unsynced. `wiki/index.md`, `wiki/tasks.md`, `wiki/misc.md`, `wiki/references.md` all frozen since May 19. Bridge pipeline dead since May 15. Frequency: Critical — 16 raw files since May 24, no wiki updates.</li>
-      <li>Missing Pages — 5+ phantom wiki links in Index.md (`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK`). False sense of organization. Frequency: Critical — accountability gap.</li>
-      <li>MCP xcodebuild failures — 107 connection errors, server binary missing/crashing. Frequency: High — blocks iOS dev work.</li>
-      <li>OpenRouter payment errors — 37 credit errors, auto-retries burn tokens. Frequency: Medium — since June 14, unresolved.</li>
       <li>Vllm_mlx ImportError — StreamPostprocessor missing, package broken. Frequency: Low — single occurrence, new bug.</li>
       <li>Pattern Scout accountability loop — same gaps identified June 2, June 3, still no action. Scout burning tokens on repeat audits. Frequency: Critical — closed loop missing.</li>
-      <li>[HIGH] Renew Ollama subscription — `ollama.com/settings/billing`. Breaks 80% of errors (billing 403 cascading to context compressor, Xiaomi, everything).</li>
-      <li>[HIGH] Fix Figma MCP OAuth 403 — Investigate MCP SDK OAuth registration flow. Either upgrade MCP SDK, patch Figma OAuth endpoint, or switch to local desktop server (`http://127.0.0.1:3845/mcp` — already working workaround).</li>
       <li>[HIGH] Configure API fallback chain — `kimi-k2.5` exists but not configured. Add credentials or remove dead reference. Prevent session aborts mid-turn.</li>
       <li>[HIGH] Create `wiki/agent-publish.md` — biggest missing artifact. Project active, 18 tests passing, 39-card KANBAN backlog. Repo: `thisisprabha/agent-publish`.</li>
       <li>[HIGH] Update `wiki/references.md` — 4 new live URLs (Danny X-Ray, agent-publish framework, designer-skills-radar, design-evolution, prabha-taste-test).</li>
-      <li>[MEDIUM] Archive 17 ghost skills — design, gaming, social-media, email, domain, note-taking. Remove from `.usage.json`. Reduces context bloat.</li>
       <li>[MEDIUM] Fix skill_manage error rate — 75/24h is abnormal. Add pre-validation for YAML frontmatter, or catch malformed SKILL.md and skip with `[SILENT]`.</li>
       <li>[LOW] Triage `.stale-backup-20260510/` and `notes/transcripts/` — ~30 files, pure dead weight. Needs approval before `rm -rf`.</li>
       <li>[LOW] Create `wiki/operations.md` — cron schedules, change log, current active jobs. Fixes "wiki is glorified directory listing" complaint.</li>
@@ -577,14 +555,11 @@
       <li>-</li>
       <li>## Patterns Found</li>
       <li>-</li>
-      <li>- **Figma MCP OAuth 403** — 560+ occurrences, blocking design work — fires every session, token validates but registration endpoint rejects client</li>
-      <li>- **Ollama billing 403** — 101 occurrences, root cause of 80% errors — subscription past due, breaks ALL context compression</li>
       <li>- **Tool loop failures** — 3 consecutive failures = pivot immediately — never hammer same broken tool</li>
       <li>- **SSE chunked responses** — `.read()` crashes after 121s — iterate lines, never bulk read on streaming</li>
       <li>- **Memory bloat** — 95% usage with prose paragraphs — telegraphic bullets compress at 85%</li>
       <li>- **Ghost skills** — 17 entries with zero content — waste context, inflate index</li>
       <li>- **API fallback chain broken** — no configured fallback when primary times out — dead end</li>
-      <li>- **Context summaries untrusted** — "Active Task" mismatches user message — always verify against actual message</li>
       <li>- **Phantom wiki pages** — 5+ pages linked but don't exist — false organization</li>
       <li>- **Pipeline dead since May 15** — raw→synthesis→actions flow broken — reports Hermes bugs but zero insights</li>
       <li>-</li>
@@ -592,11 +567,8 @@
       <li>-</li>
       <li>| Priority | Action |</li>
       <li>|----------|--------|</li>
-      <li>| **HIGH** | Fix Figma MCP OAuth registration — 560 errors blocking design work |</li>
-      <li>| **HIGH** | Renew Ollama subscription at ollama.com/settings/billing |</li>
       <li>| **HIGH** | Create `wiki/agent-publish.md` — project actively shipping |</li>
       <li>| **HIGH** | Update `wiki/references.md` with 4+ new live URLs |</li>
-      <li>| **MED** | Archive 17 ghost skills (gaming, social-media, smart-home, email, domain, note-taking, design) |</li>
       <li>| **MED** | Fix `synthesis-html-append.py` — use `--text-file` flag, not pipe stdin |</li>
       <li>| **MED** | Create `wiki/operations.md` — cron schedules, change log |</li>
       <li>| **MED** | Fix `wiki/index.md` — list active projects, not just file counts |</li>
@@ -617,15 +589,10 @@
       <li>[[20260530-archive-consolidate.md]] — stale backup folder, April graveyards</li>
       <li>[[20260530-pattern-extract.md]] — 6 Figma MCP/OAuth failure patterns</li>
       <li>[[20260531-pattern-extract.md]] — 7 Figma/LLM runtime patterns</li>
-      <li>[[20260531-skill-gap-audit.md]] — 17 ghost skills, zombie entries</li>
-      <li>[[log-analysis-2026-06-01.md]] — 560 Figma OAuth 403s, API timeouts</li>
-      <li>[[log-analysis-2026-06-09.md]] — Ollama billing 403 cascade</li>
       <li>[[log-analysis-2026-06-11.md]] — ddgs module missing</li>
       <li>[[log-analysis-2026-06-15.md]] — Deepseek broken pipe, Nvidia timeouts</li>
-      <li>[[log-analysis-2026-06-16.md]] — MCP xcodebuild failures, OpenRouter payment</li>
       <li>[[log-analysis-2026-06-17.md]] — Discord empty message, vllm_mlx ImportError</li>
       <li>[[log-analysis-2026-06-20.md]] — Telegram timeouts, API errors</li>
-      <li>[[log-analysis-2026-06-23.md]] — Qwen3.5-4B-4bit connection errors</li>
       <li>[[pattern-scout-2026-06-01.md]] — 119 lines, 5 forgotten threads, phantom pages</li>
       <li>[[pattern-scout-2026-06-02.md]] — 119 lines, wiki staleness, actionable recs</li>
       <li>[[pattern-scout-2026-06-03.md]] — 128 lines, accountability flag, wiki gaps</li>
@@ -650,7 +617,6 @@
       <li>**Transcript noise** — 9 files in `notes/transcripts/` (23APRIL.md, 24APRIL.md, Kamarajar-Street.md, MGR-Film-City-Road series, Old-Mahabalipuram-Road series) — audio-to-text dumps, no downstream action, pure dead weight</li>
       <li>**Processed folder bloat** — 6 files from April 27–30 in `processed/` — raw sources already handled, intermediates serve no purpose</li>
       <li>**Duplicate/versioned dumps** — `financial-dump.md` vs `financial-dump-v2.md` (v1 obsolete), `prabhakaran-profile.md` vs dated version, `professional-overnight-workflow.md` duplicate across `notes/` and `notes/personal/`</li>
-      <li>**Figma MCP OAuth 403** — 560 occurrences spanning May 30–June 1, fires in bursts (~4 attempts/session), blocking all design work through Hermes</li>
       <li>**Token placeholder bug** — `~/.hermes/mcp-tokens/figma.client.json` contains literal `YOUR_CLIENT_ID` / `YOUR_CLIENT_SECRET` — never valid OAuth without Prabha completing OAuth flow</li>
       <li>**Metadata dump truncation** — `get_metadata` on wide flows (>100KB) causes Hermes truncation, can't extract text content — abort dumps, use screenshots + vision instead</li>
       <li>**patch tool rejections** — `.zshrc`, `.bashrc`, `.env` files protected from patch tool — always use `terminal` + grep for credential files</li>
@@ -661,17 +627,12 @@
       <li>**Tool loop warning** — honor count 3 failure immediately, pivot to different persistence mechanism (memory, local file, skill)</li>
       <li>**Visual/geometry edits** — 2x timeout on color/position change = flag "manual verification needed", don't burn iterations</li>
       <li>**Memory bloat** — prose paragraphs in memory entries → compress to one-line telegraphic bullets at 85% usage threshold</li>
-      <li>**17 ghost skills** — DESCRIPTION.md only, zero usage: apple, data-science, diagramming, domain-intel, email, gaming, gifs, github, inference-sh, media, note-taking, smart-home, social-media, design (zombie, README points to non-existent subdirectory), figma-create-new-file, figma-generate-design (25KB, may overlap with figma-use)</li>
       <li>**enterprise-software-research** — references dead `browser_vision` tool — needs patch to use `browser` or `screenshot`</li>
       <li>**usage.json orphans** — `competitive-design-research` and `llm-prompt-adaptation` appear in usage.json but have no directories — likely deleted skills, index not cleaned</li>
       <li>**design skill zombie** — README.md points to `competitive-design-research` which doesn't exist — archive or delete directory</li>
-      <li>**Figma MCP OAuth 403** — 560 occurrences, blocking every session, root cause: MCP SDK OAuth registration endpoint rejects client (not user token)</li>
-      <li>**API streaming timeouts** — 49 ReadTimeout + 12 failures on deepseek-v4-pro via ollama endpoint, concentration May 31 12:00–12:30 PM (7 failures in 15 min)</li>
       <li>**Tool execution failures** — 228 terminal errors: bad Python code (duckduckgo_search undefined, mcp module version errors, NoneType comparisons)</li>
-      <li>**skill_manage errors** — 75 occurrences, likely malformed YAML frontmatter in generated SKILL.md content</li>
       <li>**browser_vision failures** — 6 occurrences, model doesn't support vision — add capability guard</li>
       <li>**One-offs** — honcho conclusion delete (4x), Todoist MCP transient (1x), background review denied (13x), browser_navigate SSL errors (7x), cron job missing skill (session_search), gateway agent error (1x)</li>
-      <li>**Ollama billing 403** — 101 hits, subscription past due, breaks context compression (root cause of cascading errors)</li>
       <li>**Kimi-k2.6 403** — same billing issue</li>
       <li>**Xiaomi API "text not set"** — 31 hits, cascade from Ollama 403</li>
       <li>**ModuleNotFoundError: no ddgs** — 2 hits, pip install duckduckgo-search</li>
@@ -682,7 +643,6 @@
       <li>**Unknown provider 'github-copilot'** — 33 hits, remove dead reference</li>
       <li>**Telegram timeouts** — 20+ hits (11+19), DNS/network issues</li>
       <li>**Cron qwen3.5-9b context too small** — 12 hits, pin to deepseek-v4-flash (8K context below Hermes 64K minimum)</li>
-      <li>**qwen3.5-4b-4bit Connection errors** — 8 hits, circuit breaker for rapid-mlx server</li>
       <li>**vault-daily-digest cron failed** — 1 hit, script returns output as error</li>
       <li>**yfinance ModuleNotFoundError** — 1 hit, pip install yfinance</li>
       <li>**synthesis-html-append.py unrecognized arguments** — 1 hit, use `--text-file` flag instead of pipe</li>
@@ -704,15 +664,12 @@
       <li>`20260530-archive-consolidate.md` — stale backup & daily log graveyard analysis</li>
       <li>`20260530-pattern-extract.md` — 6 Figma MCP & tooling failure patterns</li>
       <li>`20260531-pattern-extract.md` — 7 SSE, tool loop, memory compression patterns</li>
-      <li>`20260531-skill-gap-audit.md` — 17 ghost skills, dead references, orphaned usage.json</li>
       <li>`log-analysis-2026-06-01.md` — 802 errors, 9,673 lines, Figma OAuth blocking</li>
-      <li>`log-analysis-2026-06-09.md` — Ollama billing 403, Xiaomi cascade</li>
       <li>`log-analysis-2026-06-11.md` — ddgs module, context compression gap</li>
       <li>`log-analysis-2026-06-15.md` — deepseek broken pipe, Nvidia timeouts, xcodebuild MCP</li>
       <li>`log-analysis-2026-06-16.md` — OpenRouter payment, github-copilot dead reference</li>
       <li>`log-analysis-2026-06-17.md` — Discord empty message, vllm_mlx ImportError</li>
       <li>`log-analysis-2026-06-20.md` — Telegram timeouts, API connection errors</li>
-      <li>`log-analysis-2026-06-23.md` — qwen3.5-4b-4bit connection errors, script return code bug</li>
       <li>`pattern-scout-2026-06-01.md` — wiki staleness, phantom pages, broken pipeline</li>
       <li>`pattern-scout-2026-06-02.md` — 14 days unsynced, agent-publish forgotten, Danny X-Ray</li>
       <li>`pattern-scout-2026-06-03.md` — 15 days unsynced, accountability flag, links.md dead</li>
@@ -726,18 +683,11 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Figma MCP OAuth 403 — 560 hits, blocking design work. MCP SDK or Figma API change.</li>
-      <li>Ollama billing expired — 101 hits since May 31. Context compressor dead → cascades Xiaomi errors.</li>
-      <li>API Streaming Timeouts — 49 ReadTimeout + 12 streaming failures. deepseek-v4-pro via ollama times out. Fallback (kimi-k2.5) not configured.</li>
-      <li>17 Ghost Skills — apple, data-science, domain-intel, design (README points to non-existent folder). Wastes context.</li>
       <li>Wiki Staleness — 15 days unsynchronized. Phantom pages: AI-Service-Desk, MoveOKs, CURRENT_WORK, ios-apps.</li>
       <li>Cron Jobs Using qwen3.5-9b — 8K context < 64K minimum. Pin to deepseek-v4-flash or remove.</li>
-      <li>OpenRouter Payment Errors — 37 hits, retry loop burns tokens. Fix: top up or switch aux provider.</li>
-      <li>MCP xcodebuild Failures — 107 hits, "Connection closed". Binary may be missing or broken.</li>
       <li>Vault Pipeline Dead — Last meaningful actions May 10. Raw→processed→synthesis→bridge→actions chain broken.</li>
       <li>Tag: infrastructure</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth (P0). Renew Ollama subscription (P0). Configure API fallback chain (P1). Create wiki/agent-publish.md (P1). Update wiki/references.md (P1). Archive dormant skills (P2). Fix qwen3.5-9b cron jobs (P2). Triage deprecated-projects/ (P2).</div>
   </div>
 
   <!-- June 28 -->
@@ -747,18 +697,11 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Figma MCP OAuth 403 -- 560 hits, blocking design work. MCP SDK or Figma API change.</li>
-      <li>Ollama billing expired -- 101 hits since May 31. Context compressor dead -- cascades Xiaomi errors.</li>
-      <li>API Streaming Timeouts -- 49 ReadTimeout + 12 streaming failures. deepseek-v4-pro via ollama times out. Fallback (kimi-k2.5) not configured.</li>
-      <li>17 Ghost Skills -- apple, data-science, domain-intel, design (README points to non-existent folder). Wastes context.</li>
       <li>Wiki Staleness -- 15 days unsynchronized. Phantom pages: AI-Service-Desk, MoveOKs, CURRENT_WORK, ios-apps.</li>
       <li>Cron Jobs Using qwen3.5-9b -- 8K context < 64K minimum. Pin to deepseek-v4-flash or remove.</li>
-      <li>OpenRouter Payment Errors -- 37 hits, retry loop burns tokens. Fix: top up or switch aux provider.</li>
-      <li>MCP xcodebuild Failures -- 107 hits, "Connection closed". Binary may be missing or broken.</li>
       <li>Vault Pipeline Dead -- Last meaningful actions May 10. Raw→processed→synthesis→bridge→actions chain broken.</li>
       <li>Tag: infrastructure</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth (P0). Renew Ollama subscription (P0). Configure API fallback chain (P1). Create wiki/agent-publish.md (P1). Update wiki/references.md (P1). Archive dormant skills (P2). Fix qwen3.5-9b cron jobs (P2). Triage deprecated-projects/ (P2).</div>
   </div>
 
   <!-- June 29 -->
@@ -768,22 +711,15 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Figma MCP OAuth 403 blocks all design work through Hermes — 560+ occurrences, registration endpoint rejects client despite token validation passing</li>
-      <li>API Rate Limits & Timeouts — 40+ rate limit errors in last 24h, sessions abort mid-turn, fallback cascade broken</li>
       <li>Context Overflow — Compressor dead due to Ollama 403 billing issue, sessions accumulate uncompressed tokens until overflow</li>
       <li>patch tool rejects credential files — .zshrc, .env, .cursor/mcp.json writes denied, forcing manual intervention</li>
-      <li>hermes mcp test false negatives — reports termination despite functional MCP, wasting debugging time</li>
-      <li>skill_manage errors — 75 occurrences in 24h window, systematic YAML formatting issues in generated SKILL.md</li>
       <li>LinearContext MCP & FulfillSmart PRDs — 18+ days stale, fully spec'd but no decisions (build/kill)</li>
       <li>Phantom Wiki Pages — AI-Service-Desk, MoveOKs, Super-Kit-Design-System, ios-apps, CURRENT_WORK indexed but non-existent</li>
       <li>Bridge Pipeline Stalled — 14+ days without content bridge, processed files never indexed into wiki</li>
       <li>RAPID_MLX Server Down — Port 8765 unreachable (401 auth error), local model fallback unavailable</li>
-      <li>Qwen3.5-4B-4bit Connection Errors — 8+ retry-exhaustion failures in last 12h, local inference server flapping</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Fix Figma MCP OAuth registration — investigate MCP SDK or Figma API change, 30-60 min diagnostic</div>
     <div class="insight"><strong>Action:</strong> Decide on Pending PRDs — run indie-product-vetting on LinearContext MCP and FulfillSmart, 15 min per PRD</div>
     <div class="insight"><strong>Action:</strong> Restore API Fallback Chain — configure kimi-k2.5 or other fallback provider, 10 min config change</div>
-    <div class="insight"><strong>Insight:</strong> The overnight system is optimizing itself into irrelevance — log analysis reports real issues (Figma OAuth, API timeouts, skill_manage errors) but these are operational bugs in Hermes, not insights about Prabha's projects. The system is getting better at debugging itself while the actual mission (design systems, iOS apps, agentic research) gets zero analytical attention. The vault processing pipeline broke around May 15 and nobody noticed. Overnight jobs generate reports about Hermes bugs but not about Prabha's work. There's no health check on the capture→reflect loop. If the vault's core value prop is "surface what you're overlooking," it can't do that when the pipeline is dead.</div>
   </div>
 
   <!-- June 30 -->
@@ -793,8 +729,6 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>**Figma MCP OAuth 403** — 560+ occurrences across May 30–June 29. Registration endpoint rejects client despite valid tokens. **Blocks all design work.**</li>
-      <li>**API Rate Limits (429)** — 28+ HTTP 429s in last 12h alone. API quota exhausted, cascading failures on Telegram, Discord, and search providers.</li>
       <li>**`qwen3.5-4b-4bit` Connection Errors** — 8+ retry-exhaustion failures. Rapid-MLX server flapping on port 8765, cascading Nightly Log Analyzer cron failures.</li>
       <li>**`patch` Tool Rejections** — Consistent failures on `.zshrc`, `.bashrc`, `.env`. Credential files must use `terminal` + `grep`, not `patch`.</li>
       <li>**`hermes mcp test` False Negatives** — Reports "session terminated" even when MCP is authenticated. Untrusted for diagnostics.</li>
@@ -805,7 +739,6 @@
       <li>**`skill_manage` Errors** — 75+ occurrences. Malformed YAML frontmatter or syntax errors in generated SKILL.md. High count suggests systematic issue.</li>
       <li>**SSE/Stream Handling** — `.read()` on chunked `text/event-stream` crashes with `http.client.IncompleteRead`. Always iterate lines.</li>
       <li>**Context Compaction Lies** — "Active Task" summaries fabricated/wrong. Treat ALL context summaries as UNTRUSTED.</li>
-      <li>**17 Ghost Skills** — `apple`, `data-science`, `domain-intel`, `email`, `gaming`, `gifs`, `github`, `inference-sh`, `media`, `note-taking`, `smart-home`, `social-media`, `design` (zombie, points to non-existent `competitive-design-research`).</li>
       <li>**`enterprise-software-research` Bug** — References non-existent `browser_vision` tool. Needs update to `browser` or `screenshot`.</li>
       <li>**`.usage.json` Orphans** — `competitive-design-research`, `llm-prompt-adaptation` have no directories.</li>
       <li>**`wiki/links.md`** — Linear dump from May 10, 15 days stale. Zero value.</li>
@@ -814,18 +747,12 @@
       <li>**Two May 14 PRDs Stuck** — `LinearContext MCP` and `FulfillSmart Shopify` have 400+ line specs, zero decisions. `indie-product-vetting` skill never invoked.</li>
       <li>**Processing Pipeline Dead** — Last raw processing May 15, last synthesis May 15. `raw/` has 22 files, `processed/` has 16 May files, nothing actionable since.</li>
       <li>`20260530-archive-consolidate.md` — April archive findings, ~30 files to archive/delete.</li>
-      <li>`20260530-pattern-extract.md` — Figma MCP OAuth 403, giant metadata truncation, `patch` rejections, DOM inspection rule.</li>
       <li>`20260531-pattern-extract.md` — SSE `.read()` crash, tool loop warnings, visual timeouts, context compaction lies, memory bloat, fingerprint gate.</li>
-      <li>`20260531-skill-gap-audit.md` — 17 ghost skills, `browser_vision` dead reference, `.usage.json` orphans.</li>
-      <li>`log-analysis-2026-06-01.md` — Figma OAuth 403, API timeouts, tool errors, skill_manage failures.</li>
-      <li>`log-analysis-2026-06-09.md` — Ollama billing 403, Xiaomi "text not set", network outage.</li>
       <li>`log-analysis-2026-06-11.md` — `ddgs` module missing, context compression gaps.</li>
       <li>`log-analysis-2026-06-15.md` — Deepseek broken pipe, Nvidia timeouts, memory cap hit.</li>
-      <li>`log-analysis-2026-06-16.md` — MCP xcodebuild failures, OpenRouter payment errors, `qwen3.5-9b` context too small.</li>
       <li>`log-analysis-2026-06-17.md` — Discord empty message, `vllm_mlx` ImportError, Codex 429.</li>
       <li>`log-analysis-2026-06-20.md` — Telegram timeouts, API connection errors.</li>
       <li>`log-analysis-2026-06-23.md` — `qwen3.5-4b-4bit` connection errors, Nightly Log Analyzer cascade failures.</li>
-      <li>`log-analysis-2026-06-27.md` — HTTP 429 rate limits, API retries exhausted.</li>
       <li>`log-analysis-2026-06-28.md` — HTTP 429 quota exhausted, broken pipe, timeouts.</li>
       <li>`pattern-scout-2026-06-01.md` — Wiki staleness, forgotten threads, phantom pages, broken pipeline.</li>
       <li>`pattern-scout-2026-06-02.md` — Wiki unsynced, forgotten threads, stale raw artifacts, actionable recs.</li>

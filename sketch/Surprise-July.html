@@ -237,8 +237,8 @@
     <h1>Synthesis: July 2026</h1>
     <p class="subtitle">Overnight vault research, portfolio analysis, and iOS app marketing research distilled.</p>
     <div class="meta">
-      <span id="entry-count">7 entries</span>
-      <span id="date-range">July 1 - July 7</span>
+      <span id="entry-count">8 entries</span>
+      <span id="date-range">July 1 - July 8</span>
       <span class="themes-label">0 themes</span>
     </div>
   </div>
@@ -262,18 +262,11 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>**Figma MCP OAuth 403 -- 560+ occurrences** across May 30–Jun 30. Every session gets 403 on OAuth registration despite `figma-mcp-reauth` skill passing token check. Root: Figma MCP SDK/reg API change, not user token expiry. **Impact:** All Figma tools dead. Design work blocked.</li>
-      <li>**API Streaming Timeouts (49 total)** on deepseek-v4-pro via ollama endpoint. kimi-k2.5 APITimeoutError (1). Concentration: May 31 12:00-12:30 had 7 failures in 15 minutes.</li>
-      <li>**Ollama Billing 403 -- 101 occurrences**. Subscription past due, breaking context compression. Cascaded into Xiaomi API 400 errors (31), 80% of errors today.</li>
       <li>**MCP xcodebuild Connection Failed -- 107 occurrences**. `~/xcodebuild-mcp/build/cli.js` binary missing/crashes. Runtime: "Connection closed" repeatedly.</li>
-      <li>**HTTP 429 Rate Limits (35+ total)**. OpenRouter, opencode-go, glm-5.1, discord, Telegram. Indicates API quota exhaustion affecting service availability.</li>
       <li>**Honcho Session Sync Refused -- 788 occurrences**. Critical: Honcho server unavailable, network connectivity broken.</li>
       <li>**Wiki Staleness -- 14-15 days unsynced**. index.md, tasks.md, misc.md, references.md all missing 5-7 new artifacts. Phantom pages: AI-Service-Desk, MoveOKs, Super-Kit-Design-System, ios-apps, CURRENT_WORK.</li>
       <li>**Forgotten Threads -- 6+ topics never moved past PRD**. LinearContext MCP, FulfillSmart Shopify, WhatPay App Store screenshots, ITSM agentic AI research, AI Service Desk design, iOS apps portfolio.</li>
-      <li>**Ghost Skills -- 17 entries with only DESCRIPTION.md, zero usage**. apple, data-science, diagramming, domain-intel, email, gaming, gifs, github, inference-sh, media, note-taking, smart-home, social-media.</li>
       <li>**Daily Log Graveyard Bloat**. April daily logs (5 files), personal journals (7 files), transcripts (9 files), processed dumps (6 files). `.stale-backup-20260510` folder hanging with 4 files.</li>
-      <li>**Fix Figma OAuth 403** -- Skip OAuth, use local desktop server `http://127.0.0.1:3845/mcp` (already worked per `figma-mcp-reauth` skill)</li>
-      <li>**Renew Ollama Subscription** -- ollama.com/settings/billing -- breaks context compression, cascading failures</li>
       <li>**Fix Honcho Server** -- 788 failures. Verify `~/xcodebuild-mcp/build/cli.js` exists and builds</li>
       <li>**Update OpenRouter Quota** -- Top up credits or switch aux provider</li>
       <li>**Sync Wiki** -- 14-15 days stale. Create: `wiki/agent-publish.md`, `wiki/portfolio-tracker.md`, `wiki/operations.md`, `wiki/references.md` updates</li>
@@ -311,17 +304,9 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Figma OAuth 403 — 560+ hits blocking design work. Fix MCP SDK or switch to local desktop MCP.</li>
-      <li>Honcho sync refused — 788 hits! Binary at ~/xcodebuild-mcp/build/cli.js likely missing.</li>
-      <li>HTTP 429 rate limits — ~100 hits across providers. Quota exhausted, need credits.</li>
-      <li>Ollama billing expired — 101 hits. Renew subscription at ollama.com/settings/billing.</li>
       <li>Pattern scout accountability loop — June 2/3 reports same gaps, no action taken.</li>
-      <li>MCP xcodebuild failures — 107 hits. Build binary or remove from config.</li>
       <li>Ghost skills — 17 entries, zero usage. Archive/delete unused skills.</li>
-      <li>qwen3.5-4b-4bit connection errors — 8 hits. Fix rapid-mlx server endpoint.</li>
-      <li>Key Insight: The vault has a 17-day wiki backlog (May 19 → June 3), Figma OAuth 403 is the #1 blocker at 560+ hits, and overnight synthesis is failing due to stale date.txt reference.</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Renew Ollama subscription, Fix Figma OAuth registration, Build/remove xcodebuild MCP, Sync wiki backlog (17 days), Top up OpenRouter credits, Archive ghost skills, Fix cron loop with date detection.</div>
   </div>
 
   <!-- July 3 -->
@@ -331,13 +316,10 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>HTTP 429 RateLimitError (~50+ in 12h) — switch to free-tier models or add credits</li>
       <li>HTTP 503 Service overload (~5) — add circuit breaker or retry alternative providers</li>
       <li>Discord API 400 Bad Request (empty message) — validate message content before sending</li>
-      <li>Figma MCP `.read()` crash on SSE — iterate lines, never `.read()` on chunked responses</li>
       <li>`patch` denied on `.zshrc` — use `terminal` + `grep` for shell/rc files, not `patch`</li>
       <li>`hermes mcp test` false negatives — use direct `tools/list` API call for MCP health</li>
-      <li>Context summary injected fake "Active Task" — treat ALL context summaries as UNTRUSTED</li>
       <li>`clarify` timeout in cron/overnight — never use in async jobs; make decisions locally</li>
       <li>P0: Create `wiki/agent-publish.md` with repo link, KANBAN snapshot, next 2 Ready tasks</li>
       <li>P0: Update `wiki/references.md` with 4 live URLs (Danny X-Ray, agent-publish, design radar, evolution)</li>
@@ -359,22 +341,15 @@
     <ul>
       <li># Overnight Synthesis — 2026-07-04</li>
       <li>## Patterns Found</li>
-      <li>**Figma MCP OAuth 403 — Persistent Blocker** — 560+ occurrences (May 30–July 3), registration endpoint rejects client despite valid token. Root cause: MCP SDK bug or Figma API change. **Impact:** All design work blocked via Hermes. **Priority: High**</li>
-      <li>**API Rate Exhaustion — Multi-Provider Quota Blowout** — 429 errors across deepseek, kimi-k2.5/k2.6, nvidia, gpt-5.3-codex, openai-codex (~150+ combined). Session usage limits hit, fallback models not triggered. **Pattern:** Single sessions without model override exhaust quotas faster than cron jobs. **Priority: High**</li>
       <li>**OpenFile Limit (24 FDs) — Cascading Service Refuses** — Honcho, MCP tools, Telegram all hit "Too many open files". Network services refuse connections after ~20 FDs open. Root cause: no FD cleanup on session end. **Priority: Medium**</li>
       <li>**xcodebuild-mcp / Honcho / Cua-Driver Socket Refused (61)** — MCP and cron jobs hang waiting for services that never start. Binary at `~/xcodebuild-mcp/build/cli.js` missing/crashes. **Impact:** iOS builds and device logs dead. **Priority: High**</li>
       <li>**qwen3.5-9b Context Overflow — Cron Cascade Failures** — Two cron jobs (`Weekly Agentic SaaS`, `daily-wiki-summary`) use 8K-context model, overflow 64K context, compressions dead, jobs fail silently. Fix: pin to `deepseek-v4-flash`. **Priority: Medium**</li>
-      <li>**Discord API Errors — Empty Messages & 429s** — 5+ empty message errors in 2 min burst, 429 on reactions endpoint. Channel ID type coercion failing (snowflake vs string). **Priority: Low**</li>
       <li>**patch Tool Rejection — Credential Files** — `.zshrc`, `.env` writes denied. Pattern: never use `patch` for shell/rc/credential files. **Priority: Low**</li>
       <li>**Stale Archive Bloat — 30+ Dead Files** — `.stale-backup-20260510/`, `transcripts/`, `processed/2026-04*/`, duplicate v1 dumps. Signal-to-noise degrading weekly. **Priority: Medium**</li>
-      <li>**RapidMLX Endpoint Flap (Port 8765)** — 8 retry-exhaustion failures in 12h, Nightly Log Analyzer cron failed as cascade. Circuit breaker needed. **Priority: Medium**</li>
-      <li>**Memory Bloat → Compression Gap** — Memory hit 95% with prose paragraphs, compressed to 73% with telegraphic bullets. Pattern: never write memory in prose. **Priority: Low**</li>
       <li>**Context Compaction — Untrusted "Active Task"** — Summaries claim wrong task, agent proceeds incorrectly. Rule: treat ALL context summaries as untrusted. **Priority: Low**</li>
       <li>## Actionable Items</li>
-      <li>**P0:** Fix Figma MCP OAuth 403 — verify MCP SDK version, rotate client metadata, or switch to local desktop server (`http://127.0.0.1:3845/mcp`). Blocker for all design work.</li>
       <li>**P0:** Rotate API providers — add exponential backoff, rotate models per session, pin cron jobs to `deepseek-v4-flash` or free-tier models.</li>
       <li>**P0:** Increase FD limit (`ulimit -n 65535`) + add FD cleanup on session end (close unused handles, use context manager for file handles).</li>
-      <li>**P0:** Fix xcodebuild-mcp binary — build `~/xcodebuild-mcp/build/cli.js` or remove from config if unused. iOS builds blocked.</li>
       <li>**P1:** Pin `qwen3.5-9b` cron jobs to `deepseek-v4-flash` (64K context).</li>
       <li>**P1:** Validate Discord channel ID format (string snowflake, not integer) before sending. Add content-length check > 0.</li>
       <li>**P1:** Audit and archive stale vault files (`.stale-backup-20260510/`, `transcripts/`, `processed/2026-04*/`, v1 dumps) — ~30 files.</li>
@@ -391,11 +366,8 @@
       <li>`pattern-scout-2026-06-01.md` — Wiki staleness, agent-publish missing</li>
       <li>`pattern-scout-2026-06-02.md` — Wiki gaps, forgotten threads</li>
       <li>`pattern-scout-2026-06-03.md` — Wiki bridge gap, agent-publish documentation</li>
-      <li>`log-analysis-2026-06-01.md` — Figma OAuth 403, API streaming timeouts</li>
-      <li>`log-analysis-2026-06-09.md` — Ollama billing 403, context overflow</li>
       <li>`log-analysis-2026-06-11.md` — ddgs module missing, context compression gap</li>
       <li>`log-analysis-2026-06-15.md` — Deepseek broken pipe, Nvidia timeouts</li>
-      <li>`log-analysis-2026-06-16.md` — MCP xcodebuild, OpenRouter payment errors</li>
       <li>`log-analysis-2026-06-17.md` — Discord empty messages, vllm_mlx ImportError</li>
       <li>`log-analysis-2026-06-20.md` — Telegram timeout, API connection errors</li>
       <li>`log-analysis-2026-06-23.md` — rapid-mlx connection errors, cron cascade failures</li>
@@ -418,19 +390,10 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>HTTP 429 Rate Limits (300+ hits across Nvidia, Deepseek, OpenRouter, Kimi, Ollama)</li>
-      <li>MCP Connection Failures (100+ failures: xcodebuild, Figma, Lovable; Honcho 788 errors)</li>
-      <li>Figma MCP OAuth Registration 403 (296+ occurrences, blocks design sessions)</li>
-      <li>Context Compression Expired (Ollama billing 403: 101 hits + cascade effects)</li>
       <li>Terminal Tool Errors (patch rejects credential files, skill_manage failures, ModuleNotFound)</li>
       <li>Discord API Failures (400/429 rate limits: 25–35 total)</li>
       <li>Figma MCP Metadata Dumps (>100KB truncation, 1–2 per session)</li>
-      <li>Clarify Tool in Cron (sync timeouts, blocking prompts in async flows)</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Renew Ollama subscription (10 min)</div>
-    <div class="insight"><strong>Action:</strong> Fix Figma MCP registration (30 min)</div>
-    <div class="insight"><strong>Action:</strong> Top up OpenRouter credits or switch provider (15 min)</div>
-    <div class="insight"><strong>Action:</strong> Clean up credential files (.zshrc, .env edits via terminal not patch) (10 min)</div>
     <div class="insight"><strong>Insight:</strong> Vault is optimizing itself into irrelevance — operational Hermes bugs vs Prabha's actual work</div>
   </div>
 
@@ -450,25 +413,20 @@
       <li>`processed/2026-04-27` to `04-30` (6 files) — intermediates no longer needed</li>
       <li>Duplicate dumps: `financial-dump.md` vs `v2`, `prabhakaran-profile08april2026.md` vs main, duplicate workflow docs</li>
       <li>**Total: ~30 files to archive/delete**</li>
-      <li>**Figma MCP OAuth 403 — Blocking, 560+ occurrences (May 30 – July 03):**</li>
       <li>`OAuthRegistrationError: Registration failed: 403 Forbidden` on every MCP server init</li>
       <li>Fires in bursts: ~4 attempts per session (1/3, 2/3, 3/3 retries, then gives up)</li>
       <li>Paradox: `figma-mcp-reauth` skill validates tokens (88 days remaining, HTTP 200) but registration endpoint still 403</li>
       <li>Root cause: Figma MCP OAuth registration endpoint rejects client, not user token. Possible API change or MCP SDK bug</li>
       <li>**Impact:** Figma tools dead in sessions. Design work blocked via Hermes.</li>
-      <li>**API Streaming Timeouts — 67 total (49 ReadTimeout + 12 streaming failures):**</li>
       <li>Deepseek-v4-pro via ollama endpoint: `Streaming failed after partial delivery, not retrying`</li>
       <li>Concentration: May 31 12:00-12:30 PM had 7 failures in 15 minutes</li>
       <li>Fallback cascade broken: `kimi-k2.5` APITimeoutError, fallback not configured</li>
       <li>**Impact:** Sessions abort mid-turn, requiring restarts</li>
-      <li>**Honcho Connection Failures — 788 occurrences (os error 61):**</li>
       <li>`Honcho session sync/connection refused` — Verify Honcho server availability</li>
       <li>Cascades into Nightly Log Analyzer cron failures</li>
-      <li>**Rate Limit Exhaustion (429 Too Many Requests):**</li>
       <li>Deepseek, kimi-k2.5, kimi-k2.6, gpt-5.3-codex, openai-codex all hitting quotas</li>
       <li>28–45+ occurrences across providers — suggests quota exhaustion</li>
       <li>Pattern: Backoff + retry logic insufficient; need exponential backoff or quota upgrade</li>
-      <li>**Skill Gaps (17 ghost skills, stale references):**</li>
       <li>17 skills with only DESCRIPTION.md, zero usage (apple, data-science, diagramming, email, gaming, gifs, github, inference-sh, media, note-taking, smart-home, social-media)</li>
       <li>`enterprise-software-research` references non-existent `browser_vision` tool</li>
       <li>`design` skill is zombie — README.md points to non-existent subdirectory</li>
@@ -481,7 +439,6 @@
       <li>Context summaries: Untrusted if "Active Task" mismatches user message</li>
       <li>Memory format: Telegraphic one-liners only. Compress at 85%</li>
       <li>Recurring generation: Fingerprint gate before expensive work. Same hash = silent exit</li>
-      <li>**Phantom Wiki Links (5+ missing pages):**</li>
       <li>`AI-Service-Desk`, `MoveOKs`, `Super-Kit-Design-System`, `ios-apps`, `CURRENT_WORK`, `daily-summaries/`</li>
       <li>Index.md confidently links to pages that don't exist — creates false sense of organization</li>
       <li>**Two Fully-Spec'd Indie Projects, Zero Follow-Through:**</li>
@@ -495,18 +452,13 @@
       <li>Actions since then: Two files, both say "nothing actionable"</li>
       <li>Bridge pipeline (`raw → processed → synthesis → bridge → actions`) appears broken</li>
       <li>**Daily Log Analysis — 9 critical patterns (May 30 – July 03):**</li>
-      <li>Figma MCP OAuth 403 — blocking</li>
-      <li>API streaming timeouts (deepseek-v4-pro via ollama)</li>
       <li>Tool execution failures (228 terminal errors)</li>
-      <li>skill_manage errors (75 occurrences)</li>
       <li>browser_vision failures (6 occurrences)</li>
       <li>Discord empty messages (5 occurrences)</li>
       <li>vllm_mlx ImportError (StreamPostprocessor missing)</li>
       <li>OpenRouter payment/credit errors (37 occurrences)</li>
-      <li>HTTP 429 rate limits (35+ occurrences)</li>
       <li>## Actionable Items</li>
       <li>**HIGH (Immediate):**</li>
-      <li>**Fix Figma MCP OAuth registration** — Investigate whether MCP SDK needs update for Figma's current API. The `figma-mcp-reauth` skill validates tokens but registration step is broken upstream. Check if newer MCP SDK version fixes this, or if Figma changed their OAuth registration endpoint.</li>
       <li>**Configure API fallback chain** — Set up `kimi-k2.5` (or another model) as a properly configured fallback in Hermes config. The fallback exists but has no credentials. Either configure it or remove the dead reference.</li>
       <li>**Add model capability guard** — Create a small skill or system prompt rule that prevents `browser_vision` calls when the active model is text-only (`deepseek-v4-pro`). Saves token waste and confusion.</li>
       <li>**Triage `deprecated-projects/`** — Move `lovable-msp-status-page-prompt.md`, `revenueguard-competitive-analysis-2026-05-16.md`, `revenueguard-evolution-plan.md` to `archive/` and remove from raw. Or add a `README.md` explaining what lives there.</li>
@@ -522,8 +474,6 @@
       <li>**LOW:**</li>
       <li>**Increase terminal timeout thresholds** — Multiple timeouts (15s, 120s) suggest commands are too long. Increase or split into steps.</li>
       <li>**Add exponential backoff to API calls** — Rate limits indicate quota exhaustion. Add delays or throttle request rate.</li>
-      <li>**Fix Discord channel ID format** — Invalid channel_id (`set-home`) causing 400 Bad Requests. Verify channel ID format.</li>
-      <li>**Resolve qwen3.5-4b-4bit connection errors** — 8 retry-exhaustion failures suggest rapid-mlx server is flapping. Check rapid-mlx process on :8765, add circuit breaker.</li>
       <li>**Stale Items:**</li>
       <li>All `log-analysis-2026-06-01` through `2026-07-04` files — reviewed, no new cross-cutting patterns emerged</li>
       <li>All `pattern-extract-*` and `pattern-scout-*` files — patterns extracted above</li>
@@ -564,18 +514,30 @@
       <span class="tag tag-portfolio">PORTFOLIO</span>
     </div>
     <ul>
-      <li>Figma MCP OAuth 403 cascade (560+ errors) blocking design work — check MCP SDK version and Figma OAuth docs</li>
-      <li>HTTP 429 rate limits (35+), Discord 429 (15+), Telegram timeouts (8+) — add exponential backoff</li>
-      <li>Terminal errors (124, 32, 128) — raise timeout thresholds or add retry backoff</li>
-      <li>Honcho sync refused (788 hits) — verify server running, check ulimit</li>
-      <li>skill_manage errors (75) — add YAML pre-validation before skill creation</li>
-      <li>Model capability mismatch (browser_vision on text-only) — add guard in system prompt</li>
-      <li>Ollama billing 403 (~100 hits) broke context compression — renew subscription</li>
-      <li>Agent idle timeout (1800s) — increase timeout or split long tasks</li>
-      <li>Vault daily digest RuntimeError — fix synthesis-html-append.py return code</li>
-      <li>pattern-scout June gaps (agent-publish, portfolio tracker, operations.md) — unresolved</li>
     </ul>
-    <div class="insight"><strong>Action:</strong> Fix Figma MCP registration (P0), configure API fallback chain (P0), add model capability guard (P1), increase terminal timeouts (P1), tackle Honcho sync (P2), fix skill_manage pattern matching (P2)</div>
+  </div>
+
+  <!-- July 8 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 8</span>
+      <span class="tag tag-portfolio">PORTFOLIO</span>
+    </div>
+    <ul>
+      <li>HTTP 429 rate limits (45+ occurrences) across Nvidia/Deepseek/Nemotron — quota exhaustion</li>
+      <li>404 model not found (qwen3.5-4b-4bit) — update configs to use mlx-community/Qwen3-8B-4bit</li>
+      <li>MCP server failures (12+) — credential mismatches or server unavailability</li>
+      <li>Discord API errors (400, 403, 429) — invalid channel IDs, payload validation, throttling</li>
+      <li>Telegram timeouts (8+) — API rate limits, network flakiness</li>
+      <li>iOS Simulator build failures (3+) — device state, bundle ID mismatches</li>
+      <li>Wiki staleness (15 days unsynced) — index.md, references.md, misc.md, links.md</li>
+      <li>Forgotten threads: agent-publish (P0), portfolio-tracker (P1), design-radar/design-evolution (P1), operations.md (P1)</li>
+      <li>Stale raw artifacts: deprecated-projects/ (19+ days dormant)</li>
+      <li>Unused skills: gaming, social-media, smart-home, email, domain, note-taking (46+ days)</li>
+    </ul>
+    <div class="insight"><strong>Action:</strong> Prioritize P0 items (wiki/agent-publish.md, wiki/references.md with 4 URLs, wiki/operations.md)</div>
+    <div class="insight"><strong>Key:</strong> Service degradation (rate limits, 404s, MCP failures) indicates infrastructure health check needed</div>
+    <div class="insight"><strong>Insight:</strong> Overnight system is reporting operational Hermes bugs, not Prabha's actual work — vault capture→reflect loop may be broken</div>
   </div>
 
   <!-- Cross-cutting themes -->
