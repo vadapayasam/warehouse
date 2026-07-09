@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FeaturePing for SuperOps-style SaaS</title>
+  <style>
+    :root {
+      --black: #000000;
+      --ink: #1d1d1f;
+      --muted: #6e6e73;
+      --pale: #f5f5f7;
+      --white: #ffffff;
+      --blue: #0071e3;
+      --link: #0066cc;
+      --border: #d2d2d7;
+      --graphite: #272729;
+      --radius-card: 18px;
+      --radius-pill: 980px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--pale);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: -0.374px;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 92px 48px 76px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: var(--radius-pill);
+      color: #f5f5f7;
+      font: 600 12px/1.2 "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 840px;
+      font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(46px, 7vw, 80px);
+      line-height: 1.02;
+      font-weight: 650;
+      letter-spacing: -1.2px;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 26px 0 0;
+      color: #d2d2d7;
+      font-size: 21px;
+      line-height: 1.38;
+      letter-spacing: -0.2px;
+    }
+
+    .meta {
+      margin-top: 28px;
+      color: #a1a1a6;
+      font: 500 13px/1.4 "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+    }
+
+    section {
+      padding: 68px 48px;
+    }
+
+    section.white { background: var(--white); }
+    section.pale { background: var(--pale); }
+    section.dark { background: var(--graphite); color: var(--white); }
+
+    h2 {
+      margin: 0 0 18px;
+      font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(32px, 4.6vw, 48px);
+      line-height: 1.08;
+      font-weight: 620;
+      letter-spacing: -0.144px;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.17;
+      font-weight: 650;
+      letter-spacing: -0.1px;
+    }
+
+    p {
+      font-size: 17px;
+      line-height: 1.47;
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .dark p { color: #d2d2d7; }
+    .lead { max-width: 780px; font-size: 19px; line-height: 1.42; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 24px;
+    }
+
+    .pale .card { background: var(--white); }
+    .white .card { background: var(--pale); }
+    .dark .card { background: #2a2a2c; border-color: #424245; }
+
+    .card p:last-child { margin-bottom: 0; }
+
+    .pillrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .pill {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 8px 12px;
+      background: var(--white);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .dark .pill { background: #1d1d1f; color: #f5f5f7; border-color: #424245; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 26px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      display: block;
+    }
+
+    tbody, tr { display: table; width: 100%; table-layout: fixed; }
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+      line-height: 1.42;
+    }
+    th { color: var(--ink); font-weight: 700; background: #fafafa; }
+    td { color: var(--muted); }
+    tr:last-child td { border-bottom: 0; }
+
+    .flow {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      align-items: start;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 18px;
+    }
+
+    .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font: 700 13px/1 "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .quote {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: var(--radius-card);
+      background: var(--ink);
+      color: var(--white);
+      font-size: 24px;
+      line-height: 1.28;
+      letter-spacing: -0.2px;
+    }
+
+    .source-list {
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .source-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      background: var(--blue);
+      color: var(--white);
+      font-weight: 650;
+      margin-top: 20px;
+    }
+    .cta:hover { text-decoration: none; background: #0066cc; }
+
+    @media (max-width: 760px) {
+      .hero, section { padding-left: 22px; padding-right: 22px; }
+      .grid, .grid.three { grid-template-columns: 1fr; }
+      table { overflow-x: auto; }
+      tbody, tr { min-width: 720px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">FeaturePing strategy note</div>
+      <h1>Release education for SuperOps-style SaaS</h1>
+      <p class="subtitle">FeaturePing fits complex ITSM and MSP products because the core pain is not first-time onboarding. It is repeated re-education after every product release.</p>
+      <p class="meta">Published 2026-07-09 IST · HTML research artifact · Source-backed product memo</p>
+    </div>
+  </header>
+
+  <section class="white">
+    <div class="wrap">
+      <h2>Verdict</h2>
+      <p class="lead">Yes, this solution can work for a full SaaS product like SuperOps. The pain is stronger there because updates ship across many modules, many roles, and many workflows.</p>
+      <div class="quote">New release shipped. Users missed it. FeaturePing turns that release into contextual in-product education and routes the user to the exact place where the change matters.</div>
+      <a class="cta" href="#evolution">See the evolution path</a>
+    </div>
+  </section>
+
+  <section class="pale">
+    <div class="wrap">
+      <h2>Why SuperOps-style products are a fit</h2>
+      <p class="lead">Public SuperOps pages show a broad IT and MSP platform: RMM, PSA, IT documentation, remote access, endpoint management, patch management, software management, cross-OS MDM, service desk, policy management, alerting, automation, compliance reporting, dashboards, and AI features.</p>
+      <div class="pillrow">
+        <span class="pill">MSP owner</span>
+        <span class="pill">Service desk manager</span>
+        <span class="pill">Endpoint admin</span>
+        <span class="pill">Patch admin</span>
+        <span class="pill">Technician</span>
+        <span class="pill">Billing admin</span>
+        <span class="pill">Client portal user</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><th>Release type</th><th>User who cares</th><th>Where education should land</th></tr>
+          <tr><td>Apple MDM custom payloads</td><td>MSP endpoint admin, IT admin</td><td>MDM policy builder, asset fields, profile deployment flow</td></tr>
+          <tr><td>Android kiosk pin or unpin</td><td>Field device admin, technician</td><td>Android asset page, kiosk policy page</td></tr>
+          <tr><td>Remote desktop privacy permissions</td><td>Remote support lead, Mac admin</td><td>Remote desktop policy setup</td></tr>
+          <tr><td>Windows patch categories</td><td>Patch admin, service manager</td><td>Approval matrix, filters, schedule conditions</td></tr>
+          <tr><td>Hidden ticket conversations</td><td>Technician, service desk manager</td><td>Ticket thread controls and customer portal visibility</td></tr>
+          <tr><td>Dependent fields expansion</td><td>Service desk admin</td><td>Ticket form builder and custom fields setup</td></tr>
+          <tr><td>Dashboard chart persistence</td><td>Ops manager, executive viewer</td><td>Dashboard editor and PDF export flow</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="white">
+    <div class="wrap">
+      <h2>What it solves</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Release notes miss the right person</h3>
+          <p>A billing admin, patch admin, technician, and MSP owner do not need the same update card. FeaturePing should target by role, module access, workspace type, and page context.</p>
+        </article>
+        <article class="card">
+          <h3>Users do not know where to go</h3>
+          <p>The missing link is location. Show me routes to the page, highlights the exact UI element, and links the longer solution article through Read more.</p>
+        </article>
+        <article class="card">
+          <h3>CS repeats the same explanation</h3>
+          <p>When updates are missed, support and CS answer repeated questions. FeaturePing turns the release into a reusable education package.</p>
+        </article>
+        <article class="card">
+          <h3>Large products have too many surfaces</h3>
+          <p>A single changelog cannot teach settings, ticketing, dashboards, endpoint flows, automations, and client portal changes at the right moment.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="pale">
+    <div class="wrap">
+      <h2>Recommended workflow</h2>
+      <p class="lead">Start controlled. Do not pretend AI knows every product route and selector. Let AI draft, but make the release owner approve targeting and publishing.</p>
+      <div class="flow">
+        <div class="step"><span class="num">1</span><div><h3>Release owner creates an update</h3><p>Paste the release note or import from the release source.</p></div></div>
+        <div class="step"><span class="num">2</span><div><h3>AI drafts the education package</h3><p>Generate announcement, why it matters, tooltip, short help text, and Read more copy.</p></div></div>
+        <div class="step"><span class="num">3</span><div><h3>Human selects the target</h3><p>Pick module, role, page, selector, and help article URL.</p></div></div>
+        <div class="step"><span class="num">4</span><div><h3>Preview and publish</h3><p>Confirm what the user sees, what Show me highlights, and where Read more opens.</p></div></div>
+        <div class="step"><span class="num">5</span><div><h3>Measure feedback</h3><p>Track views, Show me clicks, dismissals, stale selectors, and ignored updates.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark" id="evolution">
+    <div class="wrap">
+      <h2>How it should evolve</h2>
+      <p class="lead">The long-term version can be agentic, but approval-gated. Full auto-publish is unsafe for customer-facing release education.</p>
+      <div class="grid three">
+        <article class="card"><h3>Stage 0</h3><p>Manual update, manual target, widget handles display and highlight.</p></article>
+        <article class="card"><h3>Stage 1</h3><p>AI drafts copy and help text. Human reviews before publish.</p></article>
+        <article class="card"><h3>Stage 2</h3><p>Import from changelog, Jira, Linear, GitHub, docs, or release notes.</p></article>
+        <article class="card"><h3>Stage 3</h3><p>Suggest audience, target page, selector, and Read more URL.</p></article>
+        <article class="card"><h3>Stage 4</h3><p>Approval-gated agent proposes a full update package.</p></article>
+        <article class="card"><h3>Stage 5</h3><p>Feedback loop flags ignored updates, stale selectors, and low adoption.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="white">
+    <div class="wrap">
+      <h2>Use cases</h2>
+      <div class="grid">
+        <article class="card"><h3>Feature discovery inside large modules</h3><p>Show a module-specific update, route to the right page, highlight the field or button, and link the help article.</p></article>
+        <article class="card"><h3>Role-based release education</h3><p>Split one monthly release into targeted cards for technicians, admins, finance, MSP owners, and client portal users.</p></article>
+        <article class="card"><h3>New workflow adoption</h3><p>Catch users still using an old workaround and route them to the new action with a short explanation.</p></article>
+        <article class="card"><h3>Help article bridge</h3><p>Widget gives the short version. Read more opens the full solution article. Show me opens the product location.</p></article>
+        <article class="card"><h3>CS deflection</h3><p>Create one education package that support and CS can reuse across product, docs, changelog, and macros.</p></article>
+        <article class="card"><h3>Stale release follow-up</h3><p>If users ignore an important update, the product team gets signal and can adjust copy, audience, or placement.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="pale">
+    <div class="wrap">
+      <h2>What not to claim yet</h2>
+      <p class="lead">Do not say FeaturePing fully detects every release and teaches users without setup. That requires reliable route mapping, selector inference, release classification, audience targeting, and publishing safety.</p>
+      <div class="quote">Use this positioning: FeaturePing helps complex SaaS teams turn every release into contextual in-product education: explain what changed, show where it lives, and link to the right solution article.</div>
+    </div>
+  </section>
+
+  <section class="white">
+    <div class="wrap">
+      <h2>Sources checked</h2>
+      <ul class="source-list">
+        <li><a href="https://forum.superops.com/msp/product-release-notes/">SuperOps release notes forum</a> · Public release notes with frequent multi-feature updates.</li>
+        <li><a href="https://superops.com/msp">SuperOps MSP product page</a> · Public module and positioning reference for MSP workflows.</li>
+        <li><a href="https://superops.com/">SuperOps home page</a> · Public ITSuite and MSPSuite positioning.</li>
+      </ul>
+    </div>
+  </section>
+</body>
+</html>
