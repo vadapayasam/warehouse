@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FeaturePing - Product Update Explainer Widget</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-dark: #000000;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --text-muted: #6e6e73;
+      --accent: #0071e3;
+      --accent-bright: #2997ff;
+      --border: #d2d2d7;
+      --border-strong: #86868b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+
+    @media (min-width: 768px) {
+      .container { padding: 0 48px; }
+    }
+
+    /* Header */
+    .site-header {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .site-header a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .site-header a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      padding: 5rem 0 4rem;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      line-height: 1.6;
+      max-width: 640px;
+    }
+    .hero-meta {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    /* Sections */
+    section {
+      padding: 4rem 0;
+    }
+    section.dark {
+      background: var(--bg-dark);
+      color: var(--surface);
+    }
+    section.dark .section-label,
+    section.dark p,
+    section.dark li {
+      color: #a1a1a6;
+    }
+    section.dark h2 {
+      color: var(--surface);
+    }
+    section.surface {
+      background: var(--surface);
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+    h2 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 2rem 0 0.75rem;
+    }
+    p {
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+    p.lead {
+      color: var(--text);
+      font-size: 1.1rem;
+      line-height: 1.55;
+    }
+
+    /* Lists */
+    ul {
+      margin: 1rem 0 1.5rem 1.5rem;
+      color: var(--text-muted);
+    }
+    ul li {
+      margin-bottom: 0.5rem;
+      line-height: 1.55;
+    }
+
+    /* Blockquote */
+    blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+    blockquote strong {
+      color: var(--text);
+      font-style: normal;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-strong);
+    }
+    tr:last-child td { border-bottom: none; }
+    td { color: var(--text-muted); }
+    td strong { color: var(--text); }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .card h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .card p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+
+    /* Code / Mono */
+    code, .mono {
+      font-family: SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85em;
+      background: rgba(0,0,0,0.04);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+    }
+    section.dark code {
+      background: rgba(255,255,255,0.1);
+      color: #f5f5f7;
+    }
+
+    /* Status badge */
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+    .status-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34c759;
+    }
+
+    /* Sources */
+    .source-list {
+      list-style: none;
+      margin-left: 0;
+    }
+    .source-list li {
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+    .source-list a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .source-list a:hover { text-decoration: underline; }
+
+    /* Footer */
+    .page-footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Details / accordion */
+    details {
+      margin: 1rem 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+    }
+    summary {
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      font-size: 0.95rem;
+    }
+    details[open] summary {
+      margin-bottom: 0.75rem;
+    }
+    details p, details ul {
+      margin-bottom: 0.5rem;
+    }
+    details ul {
+      margin-left: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="container">
+      <a href="/warehouse/sketch/">Sketch</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="container">
+      <span class="hero-badge">Product Concept</span>
+      <h1>FeaturePing</h1>
+      <p class="hero-sub">Turn product release notes into in-app explanations users actually understand. A narrow widget for teams that ship often and need users to notice, try, and adopt new features without building a full onboarding suite.</p>
+      <div class="hero-meta">Scanned 2026-07-09 · 7 sources verified · 132 HTML artifacts in vault</div>
+    </div>
+  </div>
+
+  <section class="dark">
+    <div class="container">
+      <div class="section-label">The Problem</div>
+      <h2>Changelogs are cemeteries.</h2>
+      <p class="lead">SaaS teams ship faster than users absorb. Release notes live outside the product. Emails get ignored. Slack posts scroll away. Support repeats the same "where is this?" explanation.</p>
+      <p>The existing onboarding market answers this with broad suites: tours, checklists, surveys, NPS, session replay, resource centers, and enterprise procurement. Small teams do not need another platform. They need a lightweight loop:</p>
+      <blockquote>
+        <strong>Product update &rarr; in-app explanation &rarr; "Show me" action.</strong>
+      </blockquote>
+      <p>That is the entire job FeaturePing targets.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-label">The Wedge</div>
+      <h2>Not an onboarding platform. A feature explainer.</h2>
+      <p class="lead">FeaturePing converts a rough release note into short user-facing copy, an in-app announcement, and a "Show me" button that navigates to and highlights the changed UI element. No full tours. No analytics dashboards. No enterprise procurement.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <h4>1. Paste the note</h4>
+          <p>Drop a raw release note or changelog entry into the composer. AI rewrites it into announcement, tooltip, why-it-matters, and help text.</p>
+        </div>
+        <div class="card">
+          <h4>2. Pick the target</h4>
+          <p>Set the page URL and optional DOM selector. The widget knows where the feature lives and can navigate to it cross-page.</p>
+        </div>
+        <div class="card">
+          <h4>3. Embed the widget</h4>
+          <p>A single async JS snippet renders the "What is New" feed. Users click "Show me" and the widget scrolls, highlights, and points.</p>
+        </div>
+        <div class="card">
+          <h4>4. Export everything</h4>
+          <p>Markdown and JSON exports keep updates portable. No lock-in. No migration tax if you outgrow the tool.</p>
+        </div>
+      </div>
+
+      <h3>Target users</h3>
+      <table>
+        <thead>
+          <tr><th>Persona</th><th>Goal</th><th>Pain</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Founder-led SaaS builder</strong></td><td>Tell users what changed without building comms</td><td>Users miss new features</td></tr>
+          <tr><td><strong>Product Manager</strong></td><td>Explain value and drive adoption</td><td>Changelog/email channels are ignored</td></tr>
+          <tr><td><strong>Customer Success</strong></td><td>Reduce repeated support explanations</td><td>Users ask how to use shipped features</td></tr>
+          <tr><td><strong>Growth / Product Ops</strong></td><td>Nudge users toward useful actions</td><td>Full DAP tools are too heavy or expensive</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="surface">
+    <div class="container">
+      <div class="section-label">Competitive Scan</div>
+      <h2>The market is crowded. The wedge is narrow.</h2>
+      <p class="lead">Seven competitors checked on 2026-07-09. All of them bundle. None of them optimize for the single loop FeaturePing targets.</p>
+
+      <table>
+        <thead>
+          <tr><th>Product</th><th>Starting price</th><th>Scope</th><th>Why not compete</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Userpilot</strong></td><td>$299 / mo</td><td>Tours, segmentation, analytics, NPS, email, session replay</td><td>Analytics-first, expensive for small teams</td></tr>
+          <tr><td><strong>Chameleon</strong></td><td>$279 / mo</td><td>Tours, AI Copilot, HelpBar, self-serve Pro at $750</td><td>Design-heavy, mid-market pricing</td></tr>
+          <tr><td><strong>Appcues</strong></td><td>~$249 / mo</td><td>Full lifecycle engagement, AI flow creation</td><td>Broad suite, enterprise drift</td></tr>
+          <tr><td><strong>Product Fruits</strong></td><td>~$96 / mo</td><td>Tours, hints, checklists, AI Copilot, help center</td><td>Already low-cost; competing on price is weak</td></tr>
+          <tr><td><strong>UserGuiding</strong></td><td>~$89 / mo</td><td>Tours, AI Assistant, MCP Server, analytics</td><td>Mid-market bundling with AI/data access</td></tr>
+          <tr><td><strong>WalkMe</strong></td><td>Enterprise</td><td>Digital adoption platform</td><td>Procurement-heavy, not solo-friendly</td></tr>
+          <tr><td><strong>Whatfix</strong></td><td>Enterprise</td><td>DAP, analytics, enterprise workflows</td><td>Implementation-heavy, large-company focus</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>The gap:</strong> Every competitor either costs $200+ / month or bundles so many features that a small team pays for noise. FeaturePing targets under $50 / month, one job, five minutes to live.</p>
+
+      <h3>Pricing hypothesis</h3>
+      <table>
+        <thead>
+          <tr><th>Plan</th><th>Price</th><th>Scope</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Starter</strong></td><td>$19 / mo</td><td>1 product, 5 active updates, basic widget</td></tr>
+          <tr><td><strong>Growth</strong></td><td>$49 / mo</td><td>3 products, 25 updates, AI generation, basic targeting</td></tr>
+          <tr><td><strong>Team</strong></td><td>$149 / mo</td><td>10 products, collaboration, exports, advanced targeting</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-label">Architecture</div>
+      <h2>Four layers. TypeScript everywhere. JSON-first.</h2>
+
+      <div class="card-grid">
+        <div class="card">
+          <h4>1. Admin Composer</h4>
+          <p>Web dashboard for creating updates, pasting raw notes, choosing tone, setting target URL and DOM selector, and previewing widget output.</p>
+        </div>
+        <div class="card">
+          <h4>2. AI Copy Generator</h4>
+          <p>Converts raw release notes into announcement, why-it-matters, tooltip, and help snippet. Hard rule: no invention. Missing context is flagged, not fabricated.</p>
+        </div>
+        <div class="card">
+          <h4>3. Widget Runtime</h4>
+          <p>Vanilla TypeScript, framework-agnostic, async-loaded. Fetches active updates, filters by URL and audience, renders feed or modal, handles dismiss state, and executes "Show me" navigation and highlight.</p>
+        </div>
+        <div class="card">
+          <h4>4. Event + Export</h4>
+          <p>Lightweight counters only: views, dismisses, show-me clicks. Exports to Markdown and JSON. No deep analytics in MVP.</p>
+        </div>
+      </div>
+
+      <h3>Data model</h3>
+      <p>The <code>Update</code> entity is the core contract:</p>
+      <ul>
+        <li><code>id</code>, <code>product_id</code>, <code>title</code>, <code>raw_note</code></li>
+        <li><code>status</code>: draft | published | archived</li>
+        <li><code>target_url</code> and optional <code>target_selector</code></li>
+        <li><code>audience</code>: plans, roles</li>
+        <li><code>copy</code>: announcement, why_it_matters, tooltip, help_snippet</li>
+        <li><code>created_at</code>, <code>published_at</code></li>
+      </ul>
+
+      <h3>Stack (locked 2026-07-09)</h3>
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Choice</th><th>Rationale</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Demo / admin</strong></td><td>Vite + React + TypeScript</td><td>Fast local dev, enough structure for later dashboard</td></tr>
+          <tr><td><strong>Widget runtime</strong></td><td>Vanilla TS, Vite library mode</td><td>Lightweight, framework-agnostic, embeddable anywhere</td></tr>
+          <tr><td><strong>API prototype</strong></td><td>Node.js + Fastify + TypeScript</td><td>Same language, small surface, quick routes</td></tr>
+          <tr><td><strong>Storage</strong></td><td>JSON files first, then SQLite</td><td>Portable, inspectable, avoids premature DB setup</td></tr>
+          <tr><td><strong>Validation</strong></td><td>JSON Schema + Ajv</td><td>Shared contract for widget, API, exports, AI output</td></tr>
+          <tr><td><strong>AI copy</strong></td><td>Provider adapter, mocked first</td><td>Draft-only, replaceable, no provider lock-in</td></tr>
+          <tr><td><strong>Testing</strong></td><td>Vitest unit, Playwright later</td><td>Test schema/export now, browser tests after interaction stabilizes</td></tr>
+          <tr><td><strong>Auth</strong></td><td>Deferred</td><td>No auth rabbit hole before the core loop is proven</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="surface">
+    <div class="container">
+      <div class="section-label">Status</div>
+      <h2>Built in one day. MVP is live locally.</h2>
+      <p class="lead">FeaturePing went from scoped docs to working widget, API, schema validation, export scripts, and demo page in a single session on 2026-07-09.</p>
+
+      <div class="status-row">
+        <span class="status-pill"><span class="dot"></span> Widget runtime</span>
+        <span class="status-pill"><span class="dot"></span> Show me highlighter</span>
+        <span class="status-pill"><span class="dot"></span> API prototype</span>
+        <span class="status-pill"><span class="dot"></span> Schema validation</span>
+        <span class="status-pill"><span class="dot"></span> AI copy prompt</span>
+        <span class="status-pill"><span class="dot"></span> Export scripts</span>
+        <span class="status-pill"><span class="dot"></span> Static demo</span>
+      </div>
+
+      <h3>What is done</h3>
+      <ul>
+        <li>JSON schema for updates with Ajv validation and sample data</li>
+        <li>Framework-agnostic widget: feed, modal, dismiss persistence, cross-page "Show me" navigation</li>
+        <li>Fastify API: <code>GET /api/products/:productId/updates</code> returns published updates only</li>
+        <li>AI copy prompt spec with strict no-fabrication rule and good/bad examples</li>
+        <li>Markdown and JSON export scripts with test coverage</li>
+        <li>Vite demo page with target element, widget card, and highlight interaction</li>
+        <li>Vitest test suites for schema, export, highlighter, and API (12 tests passing)</li>
+      </ul>
+
+      <h3>What is next</h3>
+      <ul>
+        <li>Audience targeting by plan and role</li>
+        <li>Hosted admin dashboard (currently local only)</li>
+        <li>Import from GitHub releases, Linear, Jira, or markdown changelog</li>
+        <li>Screenshot-assisted target picker (currently manual selector input)</li>
+        <li>Stale selector detection and flow health checks</li>
+        <li>Pilot customers: goal is 10 products, 100+ updates, 30%+ show-me click rate in 6 months</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-label">Sources</div>
+      <h2>Verified research</h2>
+      <ul class="source-list">
+        <li>Appcues product tour software comparison (2026) - <a href="https://www.appcues.com/blog/15-best-product-tour-software" target="_blank" rel="noopener">appcues.com</a></li>
+        <li>Jimo product onboarding tools comparison (2026) - <a href="https://jimo.ai/blog/product-onboarding-tools" target="_blank" rel="noopener">jimo.ai</a></li>
+        <li>Product Fruits product tour guide and pricing - <a href="https://productfruits.com/blog/tools-for-product-tours-software" target="_blank" rel="noopener">productfruits.com</a></li>
+        <li>Userpilot pricing and features - <a href="https://www.userpilot.com/pricing" target="_blank" rel="noopener">userpilot.com</a></li>
+        <li>Chameleon pricing and AI features - <a href="https://www.chameleon.io/pricing" target="_blank" rel="noopener">chameleon.io</a></li>
+        <li>UserGuiding AI Assistant - <a href="https://userguiding.com/ai-assistant" target="_blank" rel="noopener">userguiding.com</a></li>
+        <li>Reddit extraction attempted but blocked (403/captcha). Not treated as verified evidence.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="page-footer">
+    <div class="container">
+      FeaturePing research artifact · Generated by Agent Tina · 2026-07-09<br>
+      This is the Way.
+    </div>
+  </div>
+
+</body>
+</html>
