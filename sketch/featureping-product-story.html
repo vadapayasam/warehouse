@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FeaturePing Product Story</title>
+  <meta name="description" content="Interactive product presentation for FeaturePing, an in-product release education layer for SuperOps-style SaaS teams.">
+  <style>
+    :root {
+      --black: #000000;
+      --ink: #1d1d1f;
+      --muted: #6e6e73;
+      --line: #d2d2d7;
+      --blue: #0071e3;
+      --blue-dark: #005bb5;
+      --blue-soft: #e8f2ff;
+      --surface: #f5f5f7;
+      --white: #ffffff;
+      --green: #0a7a4b;
+      --amber: #b15d00;
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.08);
+      --max: 1120px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--surface);
+      line-height: 1.47;
+      letter-spacing: -0.01em;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    img { display: block; max-width: 100%; }
+
+    button {
+      font: inherit;
+      min-height: 44px;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(210, 210, 215, 0.74);
+    }
+
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      background: var(--black);
+      color: var(--white);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 7px 10px;
+      border-radius: 999px;
+    }
+
+    .nav a.active,
+    .nav a:hover {
+      background: var(--ink);
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 86px 28px 54px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #9fd0ff;
+      margin-bottom: 18px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      font-size: clamp(48px, 8vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      color: #d4d4d8;
+      font-size: clamp(18px, 2vw, 23px);
+      line-height: 1.36;
+      max-width: 680px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 11px 17px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); text-decoration: none; }
+    .btn-primary { background: var(--blue); color: var(--white); }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-dark { background: var(--ink); color: var(--white); }
+    .btn-light { background: var(--white); color: var(--ink); }
+    .btn-ghost { border: 1px solid rgba(255, 255, 255, 0.22); color: var(--white); }
+
+    .hero-card {
+      background: #111113;
+      border: 1px solid #303033;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+    }
+
+    .release-post {
+      background: #f5f5f7;
+      color: var(--ink);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .forum-line {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .release-post h3 { font-size: 24px; line-height: 1.1; margin-bottom: 10px; }
+    .release-post p { color: var(--muted); font-size: 15px; line-height: 1.45; margin-bottom: 16px; }
+
+    .inside-product {
+      margin-top: 16px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid var(--line);
+    }
+
+    .product-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+
+    .mini-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-tab { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; color: var(--muted); }
+    .mini-tab.on { background: var(--blue-soft); color: var(--blue); border-color: #b7d8ff; }
+
+    .ping-card {
+      border: 1px solid #b7d8ff;
+      border-radius: var(--radius-md);
+      background: #f7fbff;
+      padding: 16px;
+      position: relative;
+    }
+
+    .ping-card h4 { margin: 0 0 6px; font-size: 17px; }
+    .ping-card p { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+
+    .ping-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .small-btn { min-height: 36px; padding: 8px 11px; border-radius: 9px; font-size: 13px; font-weight: 700; }
+    .small-blue { background: var(--blue); color: var(--white); }
+    .small-white { background: var(--white); color: var(--blue); border: 1px solid #b7d8ff; }
+
+    section { padding: 72px 28px; }
+    .wrap { max-width: var(--max); margin: 0 auto; }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 32px;
+      align-items: end;
+      margin-bottom: 32px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.03;
+      letter-spacing: -0.05em;
+      margin-bottom: 0;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid rgba(210, 210, 215, 0.84);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 { font-size: 24px; line-height: 1.12; margin-bottom: 10px; letter-spacing: -0.03em; }
+    .card p { color: var(--muted); margin-bottom: 0; }
+
+    .metric {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: var(--blue);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .surface-white { background: var(--white); }
+    .surface-dark { background: var(--black); color: var(--white); }
+    .surface-dark .section-head p, .surface-dark .card p { color: #bdbdc2; }
+    .surface-dark .card { background: #171719; border-color: #303033; box-shadow: none; }
+    .surface-dark .metric { color: #9fd0ff; }
+
+    .story-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .strip-item {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: var(--white);
+      border: 1px solid var(--line);
+    }
+
+    .strip-item strong { display: block; font-size: 18px; margin-bottom: 8px; }
+    .strip-item span { color: var(--muted); font-size: 14px; }
+
+    .persona-panel {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .persona-buttons {
+      display: grid;
+      gap: 8px;
+    }
+
+    .persona-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--white);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 15px;
+      font-weight: 700;
+    }
+
+    .persona-btn.active {
+      background: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+
+    .persona-view {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      min-height: 320px;
+      box-shadow: var(--shadow);
+    }
+
+    .persona-view h3 { font-size: 34px; line-height: 1.08; margin-bottom: 12px; }
+
+    .bullets {
+      display: grid;
+      gap: 10px;
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .bullets li {
+      padding: 12px 14px;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+    }
+
+    .demo-frame {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .frame-top {
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      background: #fbfbfd;
+    }
+
+    .traffic { display: flex; gap: 7px; }
+    .traffic span { width: 11px; height: 11px; border-radius: 50%; background: #c7c7cc; }
+    .traffic span:first-child { background: #ff5f57; }
+    .traffic span:nth-child(2) { background: #ffbd2e; }
+    .traffic span:nth-child(3) { background: #28c840; }
+
+    .frame-body { padding: 18px; }
+
+    .screen-img {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .caption {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .release-selector {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .release-list {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .release-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 13px;
+      text-align: left;
+      color: var(--ink);
+      min-height: 56px;
+    }
+
+    .release-btn strong { display: block; margin-bottom: 3px; }
+    .release-btn span { color: var(--muted); font-size: 13px; }
+    .release-btn.active { background: var(--blue-soft); border-color: #b7d8ff; }
+
+    .release-output {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .output-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .output-box {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .output-box strong { display: block; margin-bottom: 6px; }
+    .output-box span { color: var(--muted); font-size: 14px; }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: 96px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      background: #171719;
+      border: 1px solid #303033;
+      border-radius: var(--radius-md);
+    }
+
+    .stage-num {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+      color: #9fd0ff;
+      font-size: 13px;
+    }
+
+    .stage h3 { margin-bottom: 5px; font-size: 22px; }
+    .stage p { margin: 0; color: #bdbdc2; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      white-space: nowrap;
+      background: #24384d;
+      color: #cfe7ff;
+    }
+
+    .agent-box {
+      border: 1px solid #303033;
+      border-radius: var(--radius-lg);
+      background: #111113;
+      padding: 24px;
+      margin-top: 22px;
+    }
+
+    .agent-flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .flow-step {
+      background: #1f1f22;
+      border: 1px solid #303033;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      min-height: 132px;
+    }
+
+    .flow-step strong { display: block; margin-bottom: 8px; }
+    .flow-step span { color: #bdbdc2; font-size: 13px; }
+
+    details {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+    }
+
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; font-weight: 700; }
+    details p { color: var(--muted); margin: 10px 0 0; }
+
+    .quote {
+      background: var(--ink);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      font-size: clamp(24px, 4vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-top: 24px;
+    }
+
+    .footer {
+      padding: 42px 28px;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: #bdbdc2;
+      font-size: 14px;
+    }
+
+    .source-list {
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mobile-only { display: none; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .section-head, .grid-2, .release-selector, .persona-panel { grid-template-columns: 1fr; }
+      .grid-3, .story-strip, .agent-flow { grid-template-columns: 1fr; }
+      .stage { grid-template-columns: 1fr; }
+      .topbar-inner { align-items: flex-start; flex-direction: column; }
+      .nav { justify-content: flex-start; }
+      section { padding: 56px 22px; }
+      .hero { padding: 66px 22px 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .btn, .nav a { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" aria-label="Presentation navigation">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-mark">FP</span> FeaturePing Story</div>
+      <nav class="nav" aria-label="Sections">
+        <a href="#problem">Problem</a>
+        <a href="#product">Product</a>
+        <a href="#audiences">Audiences</a>
+        <a href="#superops">SuperOps</a>
+        <a href="#future">Agent future</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Built from the FeaturePing repo</div>
+          <h1>Release notes should live where users act.</h1>
+          <p>FeaturePing turns a shipped product update into an in-product card, a short explanation, a Show me action, and a Read more bridge back to the full release note.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#product">Walk through the product</a>
+            <a class="btn btn-ghost" href="https://forum.superops.com/msp/product-release-notes" target="_blank" rel="noreferrer">Open SuperOps release notes</a>
+          </div>
+        </div>
+        <div class="hero-card" aria-label="Forum release converted into product card">
+          <div class="release-post">
+            <div class="forum-line">forum.superops.com / Release notes</div>
+            <h3>New Windows Patch Categories</h3>
+            <p>Windows patches now include Updates and Tools across Approval Matrix, Filters, and Schedule Conditions.</p>
+            <div class="inside-product">
+              <div class="product-bar">
+                <strong>Patch Management</strong>
+                <div class="mini-tabs"><span class="mini-tab">Devices</span><span class="mini-tab on">Approval Matrix</span><span class="mini-tab">Schedules</span></div>
+              </div>
+              <div class="ping-card">
+                <h4>Patch categories are more precise now</h4>
+                <p>Use Updates and Tools to tune approvals without reading a long monthly post.</p>
+                <div class="ping-actions">
+                  <span class="small-btn small-blue">Show me</span>
+                  <span class="small-btn small-white">Read more</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="problem" class="surface-white">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>The release note is not the adoption moment.</h2>
+          <p>SuperOps-style products ship across many surfaces. A monthly forum post records what shipped, but users still need to know if it matters to them and where to use it.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <div class="metric">Problem 1</div>
+            <h3>Wrong distance</h3>
+            <p>The release note lives outside the product. The changed workflow lives inside Patch Management, MDM, Tickets, Billing, or Dashboards.</p>
+          </article>
+          <article class="card">
+            <div class="metric">Problem 2</div>
+            <h3>Wrong audience</h3>
+            <p>A technician, MSP owner, endpoint admin, and billing user should not all receive the same generic update blast.</p>
+          </article>
+          <article class="card">
+            <div class="metric">Problem 3</div>
+            <h3>Wrong next step</h3>
+            <p>Even if the user reads the release note, they still ask: where is this, how do I enable it, and is it for my role?</p>
+          </article>
+        </div>
+        <div class="quote">Forum release notes tell users what shipped. FeaturePing shows users where it matters inside the product.</div>
+      </div>
+    </section>
+
+    <section id="product">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>What you built.</h2>
+          <p>A narrow release education layer: admin composer, update JSON, in-product widget, Show me target highlight, and Read more link.</p>
+        </div>
+        <div class="grid-2">
+          <div class="demo-frame">
+            <div class="frame-top"><div class="traffic"><span></span><span></span><span></span></div><strong>Admin composer</strong></div>
+            <div class="frame-body">
+              <div class="screen-img"><img src="assets/featureping-presentation/admin-composer.png" alt="FeaturePing admin composer screenshot"></div>
+              <p class="caption">PM or marketing writes the update, sets audience, target URL, selector, and Read more URL.</p>
+            </div>
+          </div>
+          <div class="demo-frame">
+            <div class="frame-top"><div class="traffic"><span></span><span></span><span></span></div><strong>Widget preview</strong></div>
+            <div class="frame-body">
+              <div class="screen-img"><img src="assets/featureping-presentation/admin-widget-preview.png" alt="FeaturePing widget preview screenshot"></div>
+              <p class="caption">The preview shows how users will see the update inside the product before anyone publishes it.</p>
+            </div>
+          </div>
+        </div>
+        <div class="story-strip">
+          <div class="strip-item"><strong>1. Draft</strong><span>Turn a rough release note into short user-facing copy.</span></div>
+          <div class="strip-item"><strong>2. Target</strong><span>Pick page, selector, role, plan, and help link.</span></div>
+          <div class="strip-item"><strong>3. Verify</strong><span>Preview the widget and test Show me before publishing.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="audiences" class="surface-white">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Three audiences, one story.</h2>
+          <p>FeaturePing is easy to explain because each team already feels the pain from a different angle. Click each audience.</p>
+        </div>
+        <div class="persona-panel">
+          <div class="persona-buttons" role="tablist" aria-label="Audience selector">
+            <button class="persona-btn active" data-persona="founder" role="tab">Founder / GTM</button>
+            <button class="persona-btn" data-persona="pm" role="tab">Product Manager</button>
+            <button class="persona-btn" data-persona="marketing" role="tab">Marketing Team</button>
+          </div>
+          <div class="persona-view" id="personaView" role="tabpanel">
+            <div class="metric">Founder / GTM</div>
+            <h3>Ship value that users actually notice.</h3>
+            <p>FeaturePing turns shipped work into visible product value without buying a heavy onboarding platform.</p>
+            <ul class="bullets">
+              <li>Clear wedge: release note to in-product action.</li>
+              <li>Low setup: widget plus update JSON.</li>
+              <li>Stronger proof for demos: Show me makes the feature tangible.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="superops">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>SuperOps example: split one release post into many product moments.</h2>
+          <p>The forum remains the archive. FeaturePing creates smaller in-product cards for the module and user role that cares.</p>
+        </div>
+        <div class="release-selector">
+          <div class="release-list" role="tablist" aria-label="Release examples">
+            <button class="release-btn active" data-release="patch" role="tab"><strong>Windows Patch Categories</strong><span>Patch admin, approval matrix</span></button>
+            <button class="release-btn" data-release="mdm" role="tab"><strong>Apple MDM Custom Payloads</strong><span>Endpoint admin, policy builder</span></button>
+            <button class="release-btn" data-release="ticket" role="tab"><strong>Hide Ticket Conversations</strong><span>Technician, ticket thread</span></button>
+            <button class="release-btn" data-release="billing" role="tab"><strong>Real-Time Invoice Sync</strong><span>Finance user, billing page</span></button>
+          </div>
+          <div class="release-output" id="releaseOutput" role="tabpanel">
+            <div class="metric">In-product education card</div>
+            <h3>Patch categories are more precise now</h3>
+            <p>Windows patches now include Updates and Tools. Use them to refine approvals and schedules without scanning the whole monthly release post.</p>
+            <div class="output-grid">
+              <div class="output-box"><strong>Where it appears</strong><span>Patch Management, Approval Matrix, Filters, Schedule Conditions</span></div>
+              <div class="output-box"><strong>Actions</strong><span>Show me highlights the category filter. Read more opens the release note or support article.</span></div>
+              <div class="output-box"><strong>Audience</strong><span>Patch admins, service managers, MSP endpoint teams</span></div>
+              <div class="output-box"><strong>Why it connects</strong><span>The user sees the update at the exact point where they can use it.</span></div>
+            </div>
+          </div>
+        </div>
+        <ul class="source-list">
+          <li>Source release page: <a href="https://forum.superops.com/msp/product-release-notes" target="_blank" rel="noreferrer">SuperOps product release notes forum</a></li>
+          <li>FeaturePing does not replace the forum. It turns the forum into contextual product education.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="surface-white" id="evidence">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Current proof from the repo.</h2>
+          <p>This is not only a concept deck. The repo has the admin flow, widget runtime, schema validation, target highlighter, and screenshots.</p>
+        </div>
+        <div class="grid-2">
+          <div class="demo-frame">
+            <div class="frame-top"><div class="traffic"><span></span><span></span><span></span></div><strong>Show target verified</strong></div>
+            <div class="frame-body">
+              <div class="screen-img"><img src="assets/featureping-presentation/admin-show-target.png" alt="Show target highlight screenshot"></div>
+              <p class="caption">Show target verifies the selector before publishing so broken guidance does not reach users.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="metric">Implemented pieces</div>
+            <h3>Small but real product foundation</h3>
+            <ul class="bullets">
+              <li>React and TypeScript admin composer.</li>
+              <li>Vanilla TypeScript widget runtime.</li>
+              <li>Update JSON schema with validation.</li>
+              <li>Show me target highlighter.</li>
+              <li>Read more link for docs or release notes.</li>
+              <li>Human-approved draft and publish flow.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="future" class="surface-dark">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Future: approval-gated release education agent.</h2>
+          <p>If FeaturePing gets access to multiple git repos, changelogs, tickets, docs, and route metadata, it can propose update packages. It should still ask before publishing.</p>
+        </div>
+        <div class="timeline">
+          <div class="stage"><div class="stage-num">Stage 0</div><div><h3>Manual composer</h3><p>Human writes the release, selects target URL, selector, audience, and Read more URL.</p></div><span class="badge">built now</span></div>
+          <div class="stage"><div class="stage-num">Stage 1</div><div><h3>Import-assisted</h3><p>Pull from release notes, internal changelog markdown, GitHub releases, PR labels, Linear, Jira, and docs.</p></div><span class="badge">next</span></div>
+          <div class="stage"><div class="stage-num">Stage 2</div><div><h3>Suggestion engine</h3><p>Suggest audience, product route, selector, help article, and copy variants with confidence labels.</p></div><span class="badge">needs review</span></div>
+          <div class="stage"><div class="stage-num">Stage 3</div><div><h3>Agent package builder</h3><p>Build a complete update package from code changes and docs, then send it to PM or marketing for approval.</p></div><span class="badge">approval gate</span></div>
+          <div class="stage"><div class="stage-num">Stage 4</div><div><h3>Feedback loop</h3><p>Report ignored updates, stale selectors, missed adoption, and roles that need follow-up education.</p></div><span class="badge">later</span></div>
+        </div>
+        <div class="agent-box">
+          <div class="metric">Agent operating model</div>
+          <h3>Watch, understand, package, ask, publish.</h3>
+          <div class="agent-flow">
+            <div class="flow-step"><strong>Git access</strong><span>Read merged PRs, changed routes, component names, data-testid values, and release tags.</span></div>
+            <div class="flow-step"><strong>Changelog access</strong><span>Read public notes, internal markdown, product board tickets, and help-center drafts.</span></div>
+            <div class="flow-step"><strong>Package proposal</strong><span>Create title, why it matters, tooltip, target page, selector, role, and Read more URL.</span></div>
+            <div class="flow-step"><strong>Human approval</strong><span>PM or marketing edits, verifies target, and approves the final package.</span></div>
+            <div class="flow-step"><strong>Product delivery</strong><span>Widget shows the update inside the right module and guides the user to the exact control.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="surface-white" id="narrative">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>The pitch.</h2>
+          <p>Use this framing when presenting the project to product, marketing, and founder audiences.</p>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="metric">Short version</div>
+            <h3>FeaturePing is release education inside the product.</h3>
+            <p>It helps SaaS teams explain what changed, guide users to the exact feature, and connect back to the full release note or help article.</p>
+          </div>
+          <div class="card">
+            <div class="metric">SuperOps version</div>
+            <h3>From monthly forum post to module-level adoption.</h3>
+            <p>One SuperOps release note can become different contextual cards for Patch Management, MDM, Tickets, Billing, and Dashboards.</p>
+          </div>
+        </div>
+        <details open>
+          <summary>What should not be promised yet?</summary>
+          <p>Do not claim fully automatic release detection or customer-facing auto-publish. The correct promise is AI-assisted, human-approved release communication with guided in-product action.</p>
+        </details>
+        <details>
+          <summary>Why this is better than only release notes?</summary>
+          <p>Release notes are a record. FeaturePing is a prompt at the moment of use. It reduces the distance between knowing something shipped and trying it.</p>
+        </details>
+        <details>
+          <summary>Why this is not a full onboarding platform?</summary>
+          <p>The wedge is narrower: shipped update to contextual explanation to Show me. That keeps the MVP small and avoids competing head-on with large DAP products.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>FeaturePing product story, generated 2026-07-09.</div>
+      <div><a href="https://github.com/thisisprabha/featureping" target="_blank" rel="noreferrer">FeaturePing repo</a> · <a href="https://forum.superops.com/msp/product-release-notes" target="_blank" rel="noreferrer">SuperOps release notes</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const personas = {
+      founder: {
+        label: 'Founder / GTM',
+        title: 'Ship value that users actually notice.',
+        body: 'FeaturePing turns shipped work into visible product value without buying a heavy onboarding platform.',
+        bullets: ['Clear wedge: release note to in-product action.', 'Low setup: widget plus update JSON.', 'Stronger proof for demos: Show me makes the feature tangible.']
+      },
+      pm: {
+        label: 'Product Manager',
+        title: 'Close the gap between shipped and adopted.',
+        body: 'PMs can turn release notes into role-specific product education and verify the target before publishing.',
+        bullets: ['Split large monthly notes into smaller product moments.', 'Preview the exact card users will see.', 'Keep every update approval-gated.']
+      },
+      marketing: {
+        label: 'Marketing Team',
+        title: 'Make release communication useful inside the product.',
+        body: 'Marketing can connect announcement copy, help articles, and in-product guidance without asking users to search a forum.',
+        bullets: ['Turn one launch message into audience-specific cards.', 'Use Read more to bridge to docs and release notes.', 'Support CS with reusable education packages.']
+      }
+    };
+
+    const releases = {
+      patch: {
+        title: 'Patch categories are more precise now',
+        body: 'Windows patches now include Updates and Tools. Use them to refine approvals and schedules without scanning the whole monthly release post.',
+        where: 'Patch Management, Approval Matrix, Filters, Schedule Conditions',
+        actions: 'Show me highlights the category filter. Read more opens the release note or support article.',
+        audience: 'Patch admins, service managers, MSP endpoint teams',
+        why: 'The user sees the update at the exact point where they can use it.'
+      },
+      mdm: {
+        title: 'Custom Apple MDM payloads are ready',
+        body: 'Deploy custom mobileconfig payloads and use asset fields to populate device-specific values during deployment.',
+        where: 'MDM policy builder, Apple device profiles, asset fields',
+        actions: 'Show me opens the policy builder. Read more links to the support article.',
+        audience: 'Endpoint admins, Mac admins, MSP technicians',
+        why: 'The release becomes useful when the admin is already configuring devices.'
+      },
+      ticket: {
+        title: 'Hide selected ticket conversations',
+        body: 'Keep internal technician context visible to authorized users while hiding selected conversation blocks from requester-facing views.',
+        where: 'Ticket thread, customer portal visibility controls',
+        actions: 'Show me highlights the hide conversation control. Read more opens the workflow doc.',
+        audience: 'Technicians, service desk managers, support leads',
+        why: 'This prevents misuse by teaching the feature at the exact thread control.'
+      },
+      billing: {
+        title: 'Invoice sync updates appear faster',
+        body: 'Accounting sync changes from QuickBooks or Xero show up in the UI without forcing a manual refresh.',
+        where: 'Billing, invoice list, accounting integration status',
+        actions: 'Show me highlights sync status. Read more opens the billing support article.',
+        audience: 'Billing admins, finance operators, MSP owners',
+        why: 'Finance users learn the improvement in the page they already check.'
+      }
+    };
+
+    function renderPersona(key) {
+      const data = personas[key];
+      const el = document.getElementById('personaView');
+      el.innerHTML = '<div class="metric">' + data.label + '</div><h3>' + data.title + '</h3><p>' + data.body + '</p><ul class="bullets">' + data.bullets.map(item => '<li>' + item + '</li>').join('') + '</ul>';
+    }
+
+    function renderRelease(key) {
+      const data = releases[key];
+      const el = document.getElementById('releaseOutput');
+      el.innerHTML = '<div class="metric">In-product education card</div><h3>' + data.title + '</h3><p>' + data.body + '</p><div class="output-grid"><div class="output-box"><strong>Where it appears</strong><span>' + data.where + '</span></div><div class="output-box"><strong>Actions</strong><span>' + data.actions + '</span></div><div class="output-box"><strong>Audience</strong><span>' + data.audience + '</span></div><div class="output-box"><strong>Why it connects</strong><span>' + data.why + '</span></div></div>';
+    }
+
+    document.querySelectorAll('.persona-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.persona-btn').forEach(item => item.classList.remove('active'));
+        btn.classList.add('active');
+        renderPersona(btn.dataset.persona);
+      });
+    });
+
+    document.querySelectorAll('.release-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.release-btn').forEach(item => item.classList.remove('active'));
+        btn.classList.add('active');
+        renderRelease(btn.dataset.release);
+      });
+    });
+
+    const navLinks = Array.from(document.querySelectorAll('.nav a'));
+    const sections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
