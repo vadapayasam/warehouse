@@ -544,20 +544,15 @@
   <div class="entry">
     <div class="entry-header">
       <span class="date">July 9</span>
-      <span class="tag tag-portfolio">PORTFOLIO</span>
+      <span class="tag tag-product">PRODUCT</span>
     </div>
     <ul>
-      <li>API Rate Limit Cascade  --  13 new HTTP 429 hits (openai-codex 5, generic 8), combined with July 8's 12 Nvidia hits. Quota exhaustion spreading to openai-codex for the first time.</li>
-      <li>Discord Configuration Failures  --  6 HTTP 404 Unknown Channel errors across delivery and channel ID patterns. New failure mode  --  previously only 400/403/429. Channel references likely stale.</li>
-      <li>Timeouts Compounding  --  3 timeouts (120s limit), continuing weeks-long pattern with no resolution.</li>
-      <li>MLX/Tool Dependency Drift  --  yfinance ModuleNotFoundError, mlx.__version__ import broken, TypeError slicing, KeyError dict. Multiple venvs drifting apart.</li>
-      <li>Agent Idle Timeout  --  1801s (July 8). Same as prior 3 occurrences.</li>
-      <li>Discord 404 delivery error (2)  --  verify channel IDs and re-authenticate if needed.</li>
-      <li>FeaturePing deck deployed (commit b70e526) but GitHub Pages build errored  --  stuck on stale version.</li>
-      <li>Vault synthesis pipeline gap  --  no dedicated cron exists for overnight synthesis. July 8 note was a stochastic one-off from vault-daily-digest.</li>
+      <li><strong>FeaturePing</strong> -- Full day build (10 commits, 52 files). Core schema + API + demo widget + admin composer GUI + 5 test files + research (competitive scan, release-education fit)</li>
+      <li><strong>GitHub Pages</strong> -- Published 4 FeaturePing artifacts: product story deck, release education memo, explainer widget, updated index (89 files)</li>
+      <li><strong>License True-Up Engine</strong> -- Repositioned for ITSM/MSP license governance with market research</li>
+      <li><strong>Vault</strong> -- Added SuperOps Design Process skill + 3 FeaturePing research artifacts to raw/</li>
     </ul>
-    <div class="insight"><strong>Insight:</strong> Documentation-vs-reality gap  --  vault-overnight-synthesis skill describes a pipeline never automated. Output is stochastic.</div>
-    <div class="insight"><strong>Action:</strong> Fix Discord channel references first (6 fresh 404s). Then create dedicated overnight synthesis cron with stable prompt.</div>
+    <div class="insight"><strong>Outcome:</strong> 17 commits, 3 projects, 4 HTML artifacts live. FeaturePing zero to working demo in one day.</div>
   </div>
 
   <!-- Cross-cutting themes -->
