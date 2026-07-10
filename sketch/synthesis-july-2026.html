@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthesis — July 2026 (Retrospective)</title>
+  <style>
+    :root {
+      --bg: #faf8f5; --fg: #1c1917; --muted: #78716c;
+      --accent: #0077b6; --accent-light: rgba(0,119,182,0.08);
+      --border: #e7e5e4; --surface: #ffffff;
+      --badge-bg: #f0eeeb; --badge-fg: #78716c;
+      --green: #228b44; --green-bg: #eaf6ee;
+      --blue: #0077b6; --blue-bg: #e8f4fa;
+      --amber: #b65c00; --amber-bg: #faf0e6;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { font-size:16px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7; color: var(--fg); background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    .hero {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 3rem 1.75rem 2rem;
+    }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .hero h1 {
+      font-size: 2.2rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 0.35rem;
+    }
+    .hero .subtitle { font-size: 1rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .hero .meta { display: flex; gap: 0.5rem; font-size: 0.85rem; color: var(--muted); flex-wrap: wrap; }
+    .hero .meta span {
+      background: var(--badge-bg); color: var(--badge-fg);
+      padding: 0.15rem 0.6rem; border-radius: 99px; font-size: 0.8rem;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 2.5rem 1.75rem 3rem; }
+
+    .entry {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem 1.75rem; margin-bottom: 1.25rem;
+    }
+    .entry-header {
+      display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem;
+    }
+    .entry-header .date { font-size: 1.1rem; font-weight: 600; color: var(--fg); }
+    .entry-header .tag {
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.04em; padding: 0.15rem 0.5rem; border-radius: 4px;
+    }
+    .tag-product   { background: var(--green-bg); color: var(--green); }
+    .tag-research  { background: var(--blue-bg); color: var(--blue); }
+    .tag-writing   { background: var(--amber-bg); color: var(--amber); }
+    .tag-infra     { background: var(--accent-light); color: var(--accent); }
+
+    .entry ul { list-style: none; padding: 0; margin: 0 0 0.75rem; }
+    .entry ul li {
+      padding: 0.25rem 0 0.25rem 1.2rem; position: relative; font-size: 0.9rem; color: #444;
+    }
+    .entry ul li::before {
+      content: ""; position: absolute; left: 0; top: 0.75rem;
+      width: 6px; height: 6px; background: var(--accent); border-radius: 1px; opacity: 0.5;
+    }
+    .entry .insight {
+      padding-top: 0.6rem; border-top: 1px solid var(--border); font-size: 0.85rem;
+    }
+    .entry .insight strong { color: var(--accent); }
+
+    .footer {
+      margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+      font-size: 0.8rem; color: var(--muted);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 2rem 1.25rem 1.5rem; }
+      .container { padding: 1.5rem 1.25rem; }
+      .hero h1 { font-size: 1.8rem; }
+      .entry { padding: 1.25rem; }
+    }
+    @media(prefers-color-scheme:dark) {
+      :root { --bg:#1c1917; --fg:#e7e5e4; --muted:#a8a29e; --border:#292524;
+              --surface:#292524; --badge-bg:#44403c; --badge-fg:#a8a29e;
+              --accent-light:rgba(0,119,182,0.15); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Synthesis: July 2026 (Retrospective)</h1>
+    <p class="subtitle">What was built. Research published. Writing shipped. July 1 through 9, 2026.</p>
+    <div class="meta">
+      <span id="entry-count">9 entries</span>
+      <span id="date-range">July 1 -- July 9</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- July 9 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 9</span>
+      <span class="tag tag-product">PRODUCT</span>
+    </div>
+    <ul>
+      <li>FeaturePing -- Full day build, 10 commits, 52 files. Schema + MVP widget + admin composer GUI + 5 test files + documentation</li>
+      <li>GitHub Pages -- Published 4 FeaturePing artifacts (product story deck, SuperOps release education, explainer widget, index update)</li>
+      <li>License True-Up Engine -- Repositioned for ITSM and MSP license governance</li>
+      <li>Vault -- 4 new raw files (SuperOps design process, FeaturePing research artifacts)</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> FeaturePing went from zero to working demo in one day. 17 commits across 3 projects. 4 HTML artifacts live.</div>
+  </div>
+
+  <!-- July 8 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 8</span>
+      <span class="tag tag-product">PRODUCT</span>
+    </div>
+    <ul>
+      <li>License True-Up Engine -- Initial project scaffold: structure, docs, research, kanban. M365 data model validation, positioning refinement</li>
+      <li>Tweet thread -- Builder Moment thread + Figma hot take + Hermes deep cut + Apple wind-down</li>
+      <li>GitHub Pages -- Daily synthesis entry appended</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> License True-Up Engine project structure and research landed. Second project in two days.</div>
+  </div>
+
+  <!-- July 7 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 7</span>
+      <span class="tag tag-writing">WRITING</span>
+    </div>
+    <ul>
+      <li>Twitter -- Two threads: "What Actually Shipped This Week" (real builds, real numbers) + "The Agentic Debt Trap" (runtime reckoning)</li>
+      <li>GitHub Pages -- Daily synthesis entry appended</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> Content cadence maintained. Shipped-week thread became a recurring format.</div>
+  </div>
+
+  <!-- July 6 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 6</span>
+      <span class="tag tag-research">RESEARCH</span>
+    </div>
+    <ul>
+      <li>Design Evolution Scan -- AI/Agentic UI patterns in SaaS, July 2026 edition</li>
+      <li>Skills Radar -- 2026-07-06 skill inventory and health check</li>
+      <li>Ivanti Neurons Agentic AI -- Issue #09 research artifact published</li>
+      <li>Twitter -- Figma Config 2026, Apple design kit updates, design.md pattern</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> Design research pipeline active. Three research artifacts published to GitHub Pages.</div>
+  </div>
+
+  <!-- July 5 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 5</span>
+      <span class="tag tag-research">RESEARCH</span>
+    </div>
+    <ul>
+      <li>Loop Engineering -- Implementation guide published: 6 pillars mapped to Hermes stack with next-step action plan</li>
+      <li>License True-Up Engine -- Deep-dive research: problem, solution, user, pricing, market fit</li>
+      <li>AI Governance &amp; Compliance -- Project ideas for ITSM/MSP domain</li>
+      <li>Infrastructure -- Warehouse redirect setup, vault health check, AGENTS.md updated with --dir flag for deploy</li>
+      <li>Twitter -- Dual-layer memory systems + Honcho self-hosted explainer + cron health lesson</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> Loop engineering implementation guide complete. License True-Up research validated. Infrastructure tidy-up.</div>
+  </div>
+
+  <!-- July 4 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 4</span>
+      <span class="tag tag-research">RESEARCH</span>
+    </div>
+    <ul>
+      <li>Honcho + Vault -- Dual-layer memory system deep-dive published to GitHub Pages</li>
+      <li>Fixed framing -- Stripped all paid/cost language from Honcho content (it's self-hosted, free, zero cloud dependency)</li>
+      <li>Twitter -- Design system page rebuild + Figma component contracts + Metal spline renderer + cron health lesson</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> Honcho positioning corrected. Dual-layer memory architecture documented and published.</div>
+  </div>
+
+  <!-- July 3 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 3</span>
+      <span class="tag tag-writing">WRITING</span>
+    </div>
+    <ul>
+      <li>Twitter -- SuperOps design process rewrite thread + Friday picks</li>
+      <li>GitHub Pages -- Daily synthesis entry appended</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> Content cadence maintained. Synthesis pipeline active.</div>
+  </div>
+
+  <!-- July 2 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 2</span>
+      <span class="tag tag-research">RESEARCH</span>
+    </div>
+    <ul>
+      <li>SuperOps Design Process -- Reference page published with flat design system and UI UX Pro Max theme applied</li>
+      <li>GitHub Pages -- Daily synthesis entry appended</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> SuperOps design process documented as a reusable reference page.</div>
+  </div>
+
+  <!-- July 1 -->
+  <div class="entry">
+    <div class="entry-header">
+      <span class="date">July 1</span>
+      <span class="tag tag-infra">INFRA</span>
+    </div>
+    <ul>
+      <li>Infrastructure -- Auto-index rebuilt, July synthesis entry seeded</li>
+      <li>Twitter -- July 1 thread rewritten with design news</li>
+    </ul>
+    <div class="insight"><strong>Outcome:</strong> Month kicked off clean. Index and synthesis pipeline ready.</div>
+  </div>
+
+  <div class="footer">
+    <span>Generated by Agent Tina -- 2026-07-10</span>
+    <a href="https://vadapayasam.github.io/warehouse/sketch/" target="_blank">Back to sketch library</a>
+  </div>
+
+</div>
+
+</body>
+</html>
