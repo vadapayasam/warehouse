@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tooling Update - July Week 3</title>
+  <style>
+    :root {
+      --canvas-black: #000000;
+      --canvas-light: #f5f5f7;
+      --canvas-white: #ffffff;
+      --text-primary: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --text-on-black: #f5f5f7;
+      --accent: #0071e3;
+      --accent-bright: #2997ff;
+      --border: #d2d2d7;
+      --ui-dark: #1d1d1f;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--canvas-black);
+      color: var(--text-on-black);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* HERO CHAPTER */
+    .hero {
+      background: var(--canvas-black);
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.28px;
+      line-height: 1.07;
+      color: #fff;
+    }
+    .hero .meta {
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      letter-spacing: -0.374px;
+    }
+    .hero .badge-row {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.1);
+      color: var(--text-on-black);
+      padding: 4px 12px;
+      border-radius: 100px;
+      letter-spacing: -0.12px;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, monospace;
+    }
+
+    /* LIGHT CHAPTERS */
+    .feature-band {
+      background: var(--canvas-light);
+      padding: 60px 48px;
+      color: var(--text-primary);
+    }
+    .feature-band:nth-of-type(even) {
+      background: var(--canvas-white);
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .feature-band h2 {
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1.21;
+      letter-spacing: 0.152px;
+      margin-bottom: 6px;
+    }
+    .feature-band .date-tag {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      letter-spacing: -0.224px;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, monospace;
+    }
+    .feature-band p {
+      font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      margin-bottom: 16px;
+    }
+    .feature-band p:last-child {
+      margin-bottom: 0;
+    }
+
+    .source-link {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+      letter-spacing: -0.224px;
+    }
+    .source-link:hover {
+      border-color: var(--accent);
+    }
+    .source-link::before {
+      content: "-> ";
+      opacity: 0.5;
+    }
+
+    .key-points {
+      background: rgba(0,0,0,0.03);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    .key-points p {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.47;
+      margin-bottom: 4px;
+      color: var(--text-secondary);
+    }
+    .key-points p strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .key-points p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* BLOCKQUOTE */
+    blockquote {
+      border-left: 2px solid var(--border);
+      margin: 20px 0;
+      padding: 0 0 0 20px;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--text-secondary);
+      letter-spacing: -0.224px;
+    }
+
+    /* DIVIDER */
+    .section-divider {
+      background: var(--canvas-light);
+      padding: 0;
+    }
+    .section-divider .container {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* FOOTER */
+    .footer-chapter {
+      background: var(--canvas-black);
+      padding: 40px 48px;
+      text-align: center;
+    }
+    .footer-chapter p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      letter-spacing: -0.224px;
+    }
+
+    @media (max-width: 735px) {
+      .hero { padding: 60px 22px 40px; }
+      .hero h1 { font-size: 40px; letter-spacing: -0.144px; }
+      .feature-band { padding: 40px 22px; }
+      .feature-band h2 { font-size: 28px; line-height: 1.14; letter-spacing: 0.196px; }
+      .container { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1>Tooling Update</h1>
+    <p class="meta">July 13, 2026 &middot; Week 3</p>
+    <div class="badge-row">
+      <span class="badge">AI Coding</span>
+      <span class="badge">Design Tools</span>
+      <span class="badge">Models</span>
+      <span class="badge">VS Code</span>
+      <span class="badge">Figma</span>
+    </div>
+  </header>
+
+  <section class="feature-band">
+    <div class="container">
+      <h2>Figma Make Gets GPT-5.6</h2>
+      <p class="date-tag">Jul 9, 2026</p>
+      <p>Figma dropped GPT-5.6 into Figma Make, its AI prototyping engine. From our early tests, GPT-5.6 raises both the quality and speed of what Make produces on a first pass. Clean UI, responsive layouts, high-fidelity interactions  -  all from a prompt.</p>
+
+      <div class="key-points">
+        <p><strong>Self-healing builds.</strong> When a build hits an error, GPT-5.6 investigates and fixes itself instead of stopping. Less back-and-forth to reach a working prototype.</p>
+        <p><strong>Stock tracking app eval.</strong> One prompt produced an interactive dashboard with sample prices, performance figures, keyboard shortcuts, and search  -  all in a single pass with higher token efficiency.</p>
+        <p><strong>Available on all plans.</strong> Just open the model picker in Figma Make and choose GPT-5.6. No extra integration needed.</p>
+      </div>
+
+      <p>The Figma blog ran a demo with a stock-picking app in a dark gothic aesthetic  -  dense data layouts, amber-on-black sparklines, modular grids. Single prompt, working prototype, no iteration. That's the bar GPT-5.6 sets for 0-to-1 prototyping.</p>
+
+      <a class="source-link" href="https://www.figma.com/blog/gpt-5-6-is-now-available-in-figma-make/" target="_blank">Figma Blog</a>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="container"></div></div>
+
+  <section class="feature-band">
+    <div class="container">
+      <h2>VS Code 1.128 Ships with Agent-First Features</h2>
+      <p class="date-tag">Jul 8, 2026</p>
+      <p>VS Code 1.128 landed with a focus on agentic workflows. The headline: <strong>Copilot Vision goes GA</strong>  -  attach images and PDFs to chat by pasting, dragging, or dropping. No more describing UI bugs in words when you can just drop a screenshot.</p>
+
+      <div class="key-points">
+        <p><strong>Multi-chat Claude sessions.</strong> Run several related chats in one Claude agent session. Compare approaches, branch from earlier turns, run work in parallel  -  each chat keeps its own history, title, and model selection.</p>
+        <p><strong>Agentic browser tools GA.</strong> Agents can now navigate pages, inspect content, capture screenshots, and validate web apps directly in VS Code. Enabled by default.</p>
+        <p><strong>OS-level keyboard shortcuts.</strong> Trigger VS Code commands with keybindings that work even when VS Code isn't focused. Massively underrated productivity upgrade.</p>
+        <p><strong>Cost visibility.</strong> See total session credit usage, subagent breakdowns, and dashboard-level tracking. Enterprise teams can finally audit what their agents are spending.</p>
+      </div>
+
+      <p>The GitHub Copilot June recap (published alongside) adds model provider discovery from the Marketplace  -  find extensions that contribute models without leaving the editor. Kimi K2.7 also landed for Copilot Business and Enterprise subscribers on July 7.</p>
+
+      <a class="source-link" href="https://code.visualstudio.com/updates" target="_blank">VS Code Release Notes</a>
+      &nbsp;&nbsp;
+      <a class="source-link" href="https://github.blog/changelog/2026-07-08-github-copilot-in-visual-studio-code-june-2026-releases/" target="_blank">GitHub Changelog</a>
+      &nbsp;&nbsp;
+      <a class="source-link" href="https://github.blog/changelog/2026-07-07-kimi-k2-7-now-available-for-copilot-business-and-enterprise" target="_blank">Kimi K2.7 on Copilot</a>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="container"></div></div>
+
+  <section class="feature-band">
+    <div class="container">
+      <h2>GPT-5.6 Sol, Terra, Luna: Three-Tier Pricing War</h2>
+      <p class="date-tag">Jul 9, 2026</p>
+      <p>OpenAI released GPT-5.6 as a product line  -  not a single model. Three tiers named after celestial bodies, priced to undercut Anthropic at every level. The pricing is the announcement.</p>
+
+      <div class="key-points">
+        <p><strong>Sol ($5/$30 per M tokens)</strong>  -  flagship. Scores within 1 point of Claude Fable 5 on the Artificial Analysis Intelligence Index, in 61% less time, at roughly half the cost.</p>
+        <p><strong>Terra ($2.50/$15)</strong>  -  mid-tier, undercuts everything Anthropic sells.</p>
+        <p><strong>Luna ($1/$6)</strong>  -  budget tier for high-volume, low-stakes tasks.</p>
+        <p><strong>Features borrowed from Anthropic.</strong> Effort dial that goes past "xhigh" to "max", an "ultra" mode that fans out four parallel subagents (ultracode rebranded), explicit prompt-cache breakpoints.</p>
+        <p><strong>The catch.</strong> SWE-bench Pro: Fable 5 scores 80.0, Sol scores 64.6  -  landed within rounding error of Grok 4.5 (64.7). The crown didn't change heads. It got repriced.</p>
+      </div>
+
+      <p>Free users get Terra. Sol, max, and ultra ladder up through paid plans. Every latency and cost figure is OpenAI's own estimate of production behavior ("simulated offline"), not a measurement. The fine print matters.</p>
+
+      <a class="source-link" href="https://openai.com/index/gpt-5-6/" target="_blank">OpenAI GPT-5.6</a>
+      &nbsp;&nbsp;
+      <a class="source-link" href="https://paddo.dev/blog/gpt-5-6-sol-rate-limit-reset/" target="_blank">Paddo.dev Analysis</a>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="container"></div></div>
+
+  <section class="feature-band">
+    <div class="container">
+      <h2>Anthropic Counterpunches: Fable 5 Extended, Limits Reset</h2>
+      <p class="date-tag">Jul 10  -  12, 2026</p>
+      <p>At 10:30 AM Pacific on Thursday, OpenAI posted GPT-5.6 rollout. At 11:01 AM  -  thirty-one minutes later  -  Anthropic's developer account posted exactly one sentence: "We've reset 5-hour and weekly rate limits for all users." No blog post. No changelog. Five million views in half a day.</p>
+
+      <p>Three days later (July 12), Anthropic doubled down: Fable 5 promotional access extended through <strong>July 19, 11:59 PM PT</strong>, with 50% higher Claude Code weekly limits. The extension came after the original July 7 cutoff and the subsequent July 10 rate-limit reset.</p>
+
+      <div class="key-points">
+        <p><strong>Fable 5 stays.</strong> Pro, Max, Team, and Enterprise users can use Fable 5 for up to 50% of their weekly usage limit through July 19.</p>
+        <p><strong>Rate limits reset globally.</strong> Every user got their 5-hour and weekly limits restored  -  a direct response to the GPT-5.6 migration wave.</p>
+        <p><strong>Polymarket was wrong.</strong> Prediction markets priced 25% chance of extension. Anthropic extended anyway  -  the access whiplash problem continues.</p>
+      </div>
+
+      <p>The timing is everything. OpenAI launches GPT-5.6 at half Fable 5's price. Anthropic responds in 31 minutes with a rate-limit reset, then extends Fable 5 access a second time. This is the AI model economy in real-time  -  every product decision in this space is now measured against a competitor's timeline.</p>
+
+      <a class="source-link" href="https://paddo.dev/blog/gpt-5-6-sol-rate-limit-reset/" target="_blank">Paddo.dev: Stop the Bleed</a>
+      &nbsp;&nbsp;
+      <a class="source-link" href="https://www.digitalapplied.com/blog/claude-fable-5-extended-july-19-access-uncertainty-2026" target="_blank">Digital Applied Analysis</a>
+      &nbsp;&nbsp;
+      <a class="source-link" href="https://explainx.ai/blog/fable-5-extended-july-19-2026-anthropic-announcement" target="_blank">Explainx.ai</a>
+    </div>
+  </section>
+
+  <div class="section-divider"><div class="container"></div></div>
+
+  <section class="feature-band">
+    <div class="container">
+      <h2>Signal vs Noise</h2>
+      <p>This week was dominated by the GPT-5.6 / Fable 5 price war  -  it affects every tool chain that uses foundation models underneath. For designers and product builders, the Figma Make upgrade is the most directly relevant: GPT-5.6 raises the floor on what a single-prompt prototype looks like.</p>
+      <p>VS Code 1.128's agent-first features (multi-chat Claude sessions, Copilot Vision GA, agentic browser tools) signal where Microsoft is betting  -  the editor becomes an agent orchestration layer, not just a text buffer.</p>
+      <p>The signal to watch next week: does Anthropic extend Fable 5 again past July 19, or does it finally go pay-per-token? Either way, the pricing dynamics shift permanently.</p>
+    </div>
+  </section>
+
+  <footer class="footer-chapter">
+    <p>Weekly Design/Tooling Scan &ndash; Agent Tina &middot; SuperOps PD</p>
+  </footer>
+
+</body>
+</html>
