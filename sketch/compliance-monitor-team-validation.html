@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compliance Monitor | Team Validation Deck</title>
+<style>
+/* === Reset & Base === */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory;font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;color:#1a1a1a;background:#f4f5f6;line-height:1.5}
+/* === Slides === */
+.slide{scroll-snap-align:start;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding:3rem 4rem;position:relative;background:#fff;border-bottom:1px solid #e8e9ea}
+.slide-inner{max-width:1100px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center}
+/* === Nav Rail === */
+.nav-rail{position:fixed;right:1rem;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:6px;padding:0.5rem}
+.nav-rail a{display:block;width:10px;height:10px;border-radius:50%;background:#c8c9cb;transition:background 0.15s;text-decoration:none;position:relative}
+.nav-rail a:hover,.nav-rail a:focus-visible{background:#0066CC;outline:2px solid #0066CC;outline-offset:3px}
+.nav-rail a:hover::after,.nav-rail a:focus-visible::after{content:attr(aria-label);position:absolute;right:18px;top:-4px;white-space:nowrap;background:#1a1a1a;color:#fff;font-size:0.65rem;padding:2px 8px;border-radius:4px;font-weight:500}
+.nav-rail a.s-active{background:#0066CC}
+/* === Typography === */
+h1{font-size:2.6rem;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:1rem}
+h2{font-size:1.6rem;font-weight:600;letter-spacing:-0.02em;line-height:1.2;margin-bottom:0.75rem}
+h3{font-size:1.15rem;font-weight:600;line-height:1.3;margin-bottom:0.5rem}
+p{font-size:0.95rem;color:#444;max-width:70ch;margin-bottom:0.75rem}
+p:last-child{margin-bottom:0}
+.label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;color:#888;margin-bottom:0.5rem;display:block}
+/* === Status Tags === */
+.status-tag{display:inline-block;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;padding:3px 10px;border-radius:100px;margin-bottom:1rem}
+.status-discovery{background:#e8f0fe;color:#0066CC}
+.status-stop{background:#fee8e8;color:#c62828}
+.status-pilot{background:#e8f5e9;color:#2e7d32}
+.status-caution{background:#fff8e1;color:#f57f17}
+/* === Evidence Legend === */
+.evidence-legend{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:1rem;padding:0.4rem 1rem;background:rgba(255,255,255,0.92);border:1px solid #e0e1e2;border-radius:100px;font-size:0.65rem;font-weight:500;color:#666;backdrop-filter:blur(6px)}
+.evidence-legend span{display:flex;align-items:center;gap:5px}
+.evidence-dot{display:inline-block;width:8px;height:8px;border-radius:50%}
+.dot-verified{background:#2e7d32}
+.dot-directional{background:#f57f17}
+.dot-hypothesis{background:#0066CC}
+.dot-unverified{background:#bbb}
+/* === Slide Number === */
+.slide-number{position:absolute;bottom:1.5rem;right:2rem;font-size:0.7rem;color:#bbb;font-weight:500;letter-spacing:0.05em}
+/* === Grid & Layout Helpers === */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+.two-col-wide-left{display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem;align-items:start}
+.two-col-wide-right{display:grid;grid-template-columns:1fr 1.4fr;gap:2.5rem;align-items:start}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;align-items:start}
+.stack{display:flex;flex-direction:column;gap:0.75rem}
+/* === Cards === */
+.card{border-radius:16px;background:#f8f9fa;padding:1.25rem;border:1px solid #eee}
+.card-blue{background:#e8f0fe;border-color:#c8dafc}
+.card-green{background:#e8f5e9;border-color:#c8e6c9}
+.card-red{background:#fee8e8;border-color:#fcc;border-color:#ffcdd2}
+.card-amber{background:#fff8e1;border-color:#ffe082}
+.card p{font-size:0.85rem;margin-bottom:0.4rem}
+.card p:last-child{margin-bottom:0}
+.card ul{list-style:none;padding:0}
+.card li{font-size:0.82rem;color:#444;padding:0.25rem 0;padding-left:1.1rem;position:relative;border-bottom:1px solid #f0f0f0}
+.card li:last-child{border-bottom:none}
+.card li::before{content:"";position:absolute;left:0;top:0.55rem;width:5px;height:5px;border-radius:50%;background:#bbb}
+.card-blue li::before{background:#0066CC}
+/* === Chain / Flow Diagram === */
+.chain{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;padding:1.5rem 0}
+.chain-step{background:#f8f9fa;border:1px solid #e0e1e2;border-radius:12px;padding:0.5rem 1rem;font-size:0.8rem;font-weight:500;color:#444}
+.chain-arrow{font-size:1.2rem;color:#bbb;font-weight:300}
+.chain-step.highlight{background:#e8f0fe;border-color:#0066CC;color:#0066CC}
+.chain-step.done{background:#e8f5e9;border-color:#c8e6c9;color:#2e7d32}
+.chain-step.broken{background:#fee8e8;border-color:#ffcdd2;color:#c62828}
+/* === Phase Timeline === */
+.timeline{position:relative;padding-left:2rem;margin:1rem 0}
+.timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:#e0e1e2}
+.timeline-item{position:relative;margin-bottom:1.25rem}
+.timeline-item:last-child{margin-bottom:0}
+.timeline-item::before{content:"";position:absolute;left:-1.65rem;top:0.35rem;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #0066CC}
+.timeline-item .week{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:#0066CC;font-weight:600}
+.timeline-item p{font-size:0.85rem;margin-bottom:0.2rem}
+.timeline-item .artifact{font-size:0.75rem;color:#888;font-style:italic}
+/* === Decision Table === */
+.gate-table{width:100%;border-collapse:separate;border-spacing:0;font-size:0.82rem;margin:0.75rem 0}
+.gate-table th{text-align:left;padding:0.5rem 0.75rem;font-weight:600;color:#555;text-transform:uppercase;font-size:0.65rem;letter-spacing:0.06em;border-bottom:2px solid #e0e1e2}
+.gate-table td{padding:0.5rem 0.75rem;border-bottom:1px solid #eee;vertical-align:top;color:#444}
+.gate-table tr:last-child td{border-bottom:none}
+.gate-table .gate-go{color:#2e7d32;font-weight:600}
+.gate-table .gate-stop{color:#c62828;font-weight:600}
+.gate-table .gate-narrow{color:#f57f17;font-weight:600}
+.gate-table .gate-partner{color:#0066CC;font-weight:600}
+/* === Checklist === */
+.checklist{list-style:none;padding:0}
+.checklist li{font-size:0.85rem;padding:0.3rem 0;padding-left:1.5rem;position:relative;color:#444}
+.checklist li::before{content:"";position:absolute;left:0;top:0.55rem;width:10px;height:10px;border:2px solid #bbb;border-radius:3px}
+.checklist li.done{color:#1a1a1a}
+.checklist li.done::before{background:#2e7d32;border-color:#2e7d32}
+/* === Source Appendix === */
+.source-list{list-style:none;padding:0;columns:2;column-gap:2rem}
+.source-list li{break-inside:avoid;font-size:0.78rem;padding:0.3rem 0;color:#555;border-bottom:1px solid #f0f0f0}
+.source-list li a{color:#0066CC;text-decoration:none}
+.source-list li a:hover{text-decoration:underline}
+/* === H1 Variations === */
+.h1-sm{font-size:2rem}
+.h1-hero{font-size:3rem;letter-spacing:-0.04em}
+/* === Utility === */
+.mt-auto{margin-top:auto}
+.mb-0{margin-bottom:0}
+.mt-1{margin-top:0.5rem}
+.mt-2{margin-top:1rem}
+.mt-3{margin-top:1.5rem}
+.gap-1{gap:0.5rem}
+.gap-2{gap:1rem}
+.flex{display:flex}
+.flex-wrap{flex-wrap:wrap}
+.items-center{align-items:center}
+/* === Reduced Motion === */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+/* === Focus Visible === */
+:focus-visible{outline:2px solid #0066CC;outline-offset:3px;border-radius:4px}
+/* === Print === */
+@media print{
+  @page{size:landscape;margin:0.5in}
+  html{scroll-snap-type:none}
+  body{background:#fff;font-size:11pt}
+  .slide{min-height:auto;height:100vh;height:100svh;page-break-after:always;break-after:page;padding:1.5in 0.75in 0.75in;border:none;scroll-snap-align:none;display:flex;flex-direction:column;justify-content:center}
+  .slide-inner{max-width:none}
+  .nav-rail,.evidence-legend{display:none}
+  .slide-number{bottom:0.5rem;right:0.75in}
+  .two-col,.two-col-wide-left,.two-col-wide-right{gap:1rem}
+  .three-col{gap:0.75rem}
+  .card{padding:0.75rem;border:1px solid #ddd;background:#fafafa}
+  h1{font-size:2rem}
+  .h1-hero{font-size:2.2rem}
+  .source-list{columns:3}
+  .timeline-item .artifact{color:#666}
+}
+/* === Responsive === */
+@media(max-width:900px){
+  .slide{padding:2rem 1.5rem}
+  .two-col,.two-col-wide-left,.two-col-wide-right,.three-col{grid-template-columns:1fr;gap:1rem}
+  h1{font-size:1.8rem}
+  .h1-hero{font-size:2rem}
+  .chain{flex-direction:column;align-items:flex-start}
+  .chain-arrow{transform:rotate(90deg)}
+  .nav-rail{right:0.5rem}
+  .nav-rail a{width:8px;height:8px}
+  .evidence-legend{gap:0.5rem;padding:0.3rem 0.75rem;font-size:0.6rem;flex-wrap:wrap;justify-content:center;bottom:0.5rem;border-radius:12px}
+  .source-list{columns:1}
+}
+@media(max-width:600px){
+  .slide{padding:1.5rem 1rem}
+  h1{font-size:1.5rem}
+  h2{font-size:1.2rem}
+  .slide-number{bottom:0.75rem;right:1rem}
+  .gate-table{font-size:0.72rem}
+  .gate-table th,.gate-table td{padding:0.3rem 0.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Evidence Legend -->
+<div class="evidence-legend" aria-label="Evidence status key">
+  <span><span class="evidence-dot dot-verified"></span> Verified public capability</span>
+  <span><span class="evidence-dot dot-directional"></span> Directional evidence</span>
+  <span><span class="evidence-dot dot-hypothesis"></span> Hypothesis</span>
+  <span><span class="evidence-dot dot-unverified"></span> Not yet verified</span>
+</div>
+
+<!-- Nav Rail -->
+<nav class="nav-rail" aria-label="Slide navigation">
+  <a href="#slide-1" aria-label="Title"></a>
+  <a href="#slide-2" aria-label="Decision"></a>
+  <a href="#slide-3" aria-label="Problem"></a>
+  <a href="#slide-4" aria-label="Wedge"></a>
+  <a href="#slide-5" aria-label="Advantage"></a>
+  <a href="#slide-6" aria-label="Competition"></a>
+  <a href="#slide-7" aria-label="Beachhead"></a>
+  <a href="#slide-8" aria-label="Scope"></a>
+  <a href="#slide-9" aria-label="Trust"></a>
+  <a href="#slide-10" aria-label="Flow"></a>
+  <a href="#slide-11" aria-label="Hypotheses"></a>
+  <a href="#slide-12" aria-label="Plan"></a>
+  <a href="#slide-13" aria-label="Gates"></a>
+  <a href="#slide-14" aria-label="Decision"></a>
+  <a href="#appendix" aria-label="Sources"></a>
+</nav>
+
+<!-- === SLIDE 1: Title === -->
+<section class="slide" id="slide-1">
+  <div class="slide-inner">
+    <span class="status-tag status-discovery">Discovery hypothesis &middot; Not an approved product</span>
+    <h1 class="h1-hero">Compliance Monitor</h1>
+    <p style="font-size:1.15rem;color:#555;max-width:55ch;margin-bottom:2rem">Team validation deck &middot; July 2026</p>
+    <div class="two-col" style="margin-top:1rem">
+      <div>
+        <p style="font-size:0.85rem;color:#666"><strong>Wedge</strong><br>Cross-source technical evidence, exception governance, and PSA remediation for MSPs.</p>
+      </div>
+      <div>
+        <p style="font-size:0.85rem;color:#666"><strong>Decision sought</strong><br>Approve a six-week discovery and design-partner phase. Do not approve a build.</p>
+      </div>
+    </div>
+    <div style="margin-top:auto;padding-top:2rem;border-top:1px solid #eee">
+      <p style="font-size:0.75rem;color:#999">Internal use &middot; SuperOps product &amp; strategy team</p>
+    </div>
+  </div>
+  <span class="slide-number">1 / 15</span>
+</section>
+
+<!-- === SLIDE 2: Decision === -->
+<section class="slide" id="slide-2">
+  <div class="slide-inner">
+    <span class="label">Decision</span>
+    <h1 class="h1-sm">Pursue discovery. Do not approve a build yet.</h1>
+    <div class="two-col" style="margin-top:1.5rem">
+      <div>
+        <div class="card card-blue">
+          <p><strong>This is not</strong></p>
+          <ul>
+            <li>A 12-week MVP commitment</li>
+            <li>A product approval</li>
+            <li>An engineering resource allocation</li>
+            <li>A revenue or pricing plan</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <p><strong>This is</strong></p>
+          <ul>
+            <li>Six weeks of directed research</li>
+            <li>Internal capability audit</li>
+            <li>Design-partner recruitment and real-tenant pilot</li>
+            <li>Evidence, workflow, and legal security review</li>
+            <li>Go / narrow / partner / stop recommendation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:1.5rem;font-size:0.85rem;color:#666;border-left:3px solid #0066CC;padding-left:1rem">The opportunity is credible. The market is not empty. Validate with real tenants before committing engineering resources.</p>
+  </div>
+  <span class="slide-number">2 / 15</span>
+</section>
+
+<!-- === SLIDE 3: Problem === -->
+<section class="slide" id="slide-3">
+  <div class="slide-inner">
+    <span class="label">Problem</span>
+    <h1 class="h1-sm">The broken operating chain</h1>
+    <p>MSPs already operate technical safeguards for clients. What they lack is a reliable chain from signal to proof.</p>
+    <div class="chain">
+      <span class="chain-step broken">Source data</span>
+      <span class="chain-arrow">&rarr;</span>
+      <span class="chain-step broken">Versioned test</span>
+      <span class="chain-arrow">&rarr;</span>
+      <span class="chain-step broken">Evidence</span>
+      <span class="chain-arrow">&rarr;</span>
+      <span class="chain-step broken">Exception</span>
+      <span class="chain-arrow">&rarr;</span>
+      <span class="chain-step broken">Owner</span>
+      <span class="chain-arrow">&rarr;</span>
+      <span class="chain-step broken">Ticket</span>
+      <span class="chain-arrow">&rarr;</span>
+      <span class="chain-step broken">Remediation</span>
+      <span class="chain-arrow">&rarr;</span>
+      <span class="chain-step broken">Client report</span>
+    </div>
+    <div class="two-col" style="margin-top:1.5rem">
+      <div class="stack">
+        <h3>Four costs of the broken chain</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+          <div class="card"><p><strong>Manual collection</strong><br>Evidence gathered before each review. No continuous freshness.</p></div>
+          <div class="card"><p><strong>Weak custody</strong><br>Screenshots and mutable rows. No provenance or versioning.</p></div>
+          <div class="card"><p><strong>Disconnected work</strong><br>Findings in one system, tickets in another, remediation in a third.</p></div>
+          <div class="card"><p><strong>Poor client visibility</strong><br>No recurring, attributable posture report linking work to evidence.</p></div>
+        </div>
+      </div>
+      <div class="stack">
+        <h3>Community evidence</h3>
+        <div class="card card-amber">
+          <p style="font-size:0.8rem"><strong>RMM vs. vulnerability scan mismatch</strong><br>A scanner showed missing patches while the RMM reported the same machines as current (r/msp, 2025-03).<br><br><strong>PSA lacks compliance visibility</strong><br>A ConnectWise user wanted a cohesive place to manage client cybersecurity (r/msp, 2019).<br><br><strong>Exception workflow is real work</strong><br>Practitioners recommend signed acceptable-risk waivers with executive approval (r/msp, 2025-03).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">3 / 15</span>
+</section>
+
+<!-- === SLIDE 4: Wedge === -->
+<section class="slide" id="slide-4">
+  <div class="slide-inner">
+    <span class="label">Wedge</span>
+    <h1 class="h1-sm">Not another dashboard</h1>
+    <div class="two-col-wide-left" style="margin-top:1.5rem">
+      <div>
+        <div class="card card-blue" style="margin-bottom:1rem">
+          <p style="font-size:1rem;font-weight:500;color:#1a1a1a;margin-bottom:0.5rem">What we build</p>
+          <p style="font-size:0.95rem">Turn endpoint and Microsoft 365 signals into attributable evidence, governed exceptions, and PSA remediation, without leaving SuperOps.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+          <div class="card">
+            <p><strong>Not</strong></p>
+            <ul>
+              <li>Cheap Vanta</li>
+              <li>Another patch dashboard</li>
+              <li>Generic RMM monitoring</li>
+              <li>Compliance score</li>
+              <li>SIEM or vuln scanner</li>
+            </ul>
+          </div>
+          <div class="card">
+            <p><strong>Is</strong></p>
+            <ul>
+              <li>Cross-source evidence</li>
+              <li>Exception governance</li>
+              <li>PSA remediation workflow</li>
+              <li>Client-ready reporting</li>
+              <li>Framework-mapped checks</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card card-amber">
+          <p><strong>Why the wedge works</strong></p>
+          <ul>
+            <li>SuperOps already has endpoint telemetry, patch, policy, asset, and security integrations</li>
+            <li>Microsoft 365 is common across the target customer base</li>
+            <li>Findings are understandable and remediable by MSP staff</li>
+            <li>PSA integration makes remediation accountability stronger than a standalone dashboard</li>
+          </ul>
+        </div>
+        <div class="card" style="margin-top:0.75rem">
+          <p><strong>Why it is not automatic</strong></p>
+          <p style="font-size:0.8rem">Basic endpoint monitoring is not the moat. Compliance interpretation, scoping, exceptions, and evidence review still require accountable human judgment. The product proposes fewer manual collection and coordination hours, not zero headcount.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">4 / 15</span>
+</section>
+
+<!-- === SLIDE 5: SuperOps Advantage === -->
+<section class="slide" id="slide-5">
+  <div class="slide-inner">
+    <span class="label">Position</span>
+    <h1 class="h1-sm">Why SuperOps may have an advantage</h1>
+    <p style="margin-bottom:1.5rem">These are hypotheses until real-tenant pilot data proves time saved, accuracy, evidence usefulness, and willingness to pay.</p>
+    <div class="two-col" style="margin-top:0.5rem">
+      <div class="stack">
+        <div class="card card-blue"><p><strong>Distribution</strong><br>Existing MSP relationship and client hierarchy.</p></div>
+        <div class="card"><p><strong>Data</strong><br>Endpoint, patch, policy, asset, MDM, and security-integration telemetry already in the platform.</p></div>
+        <div class="card"><p><strong>Workflow</strong><br>Failed check can become owned PSA work with remediation and verification in the same system.</p></div>
+        <div class="card"><p><strong>Reporting</strong><br>Posture changes connected to work performed during recurring client reviews.</p></div>
+      </div>
+      <div>
+        <div class="card card-amber">
+          <p><strong>Native-overlap caveat</strong></p>
+          <ul>
+            <li>SuperOps already ships patch compliance, policy management, endpoint monitoring, reporting, and MDM with FileVault enforcement</li>
+            <li>AI Agent Marketplace and Sophos integration cover remediation automation and security visibility</li>
+            <li>None of these alone create a compliance product</li>
+            <li>Evidence provenance, framework mapping, exception lifecycle, and cross-source conflict handling are not verified as shipped</li>
+          </ul>
+        </div>
+        <p style="font-size:0.75rem;color:#888;margin-top:0.75rem">Internal API and telemetry audit is required for every candidate check before pilot design.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">5 / 15</span>
+</section>
+
+<!-- === SLIDE 6: Competition === -->
+<section class="slide" id="slide-6">
+  <div class="slide-inner">
+    <span class="label">Market</span>
+    <h1 class="h1-sm">Crowded category. Execution depth, not feature parity.</h1>
+    <p style="margin-bottom:1rem">Do not claim competitors lack multi-tenancy, continuous monitoring, automated evidence, or MSP programs.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+      <div class="card card-blue">
+        <p><strong>Vanta</strong></p>
+        <p style="font-size:0.8rem">Service-provider program, partner console, integrations, risk and audit workflows.</p>
+        <p style="font-size:0.8rem;color:#0066CC;font-weight:500">Our test: deeper RMM and PSA execution inside an existing MSP stack.</p>
+      </div>
+      <div class="card">
+        <p><strong>Drata &amp; Secureframe</strong></p>
+        <p style="font-size:0.8rem">Compliance automation, continuous monitoring, integrations, partner ecosystems.</p>
+        <p style="font-size:0.8rem;color:#0066CC;font-weight:500">Our test: endpoint operations and ticket remediation in SuperOps.</p>
+      </div>
+      <div class="card">
+        <p><strong>Apptega</strong></p>
+        <p style="font-size:0.8rem">Multi-tenant provider platform, cross-mapped frameworks, evidence automation, continuous scoring.</p>
+        <p style="font-size:0.8rem;color:#0066CC;font-weight:500">Our test: simpler technical-control service for SuperOps-native MSPs.</p>
+      </div>
+      <div class="card">
+        <p><strong>Kaseya Compliance Manager GRC</strong></p>
+        <p style="font-size:0.8rem">MSP-oriented automated collection, endpoint monitoring, frameworks, remediation guidance, evidence and reports.</p>
+        <p style="font-size:0.8rem;color:#0066CC;font-weight:500">Our test: deliberately narrower service with deeper SuperOps workflow.</p>
+      </div>
+      <div class="card">
+        <p><strong>Manual spreadsheets</strong></p>
+        <p style="font-size:0.8rem">Flexible, cheap to start, familiar to every operator.</p>
+        <p style="font-size:0.8rem;color:#0066CC;font-weight:500">Our test: repeatability, provenance, freshness, ownership, and client reporting.</p>
+      </div>
+    </div>
+    <p style="margin-top:1rem;font-size:0.8rem;color:#888;border-top:1px solid #eee;padding-top:0.75rem">Previously retired claims: "Vanta has no MSP multi-tenant view," "Vanta is audit prep, we are continuous," "Apptega is manual evidence upload," "Nobody owns this white space." These are incorrect. Do not use them.</p>
+  </div>
+  <span class="slide-number">6 / 15</span>
+</section>
+
+<!-- === SLIDE 7: Beachhead === -->
+<section class="slide" id="slide-7">
+  <div class="slide-inner">
+    <span class="label">Beachhead</span>
+    <h1 class="h1-sm">Microsoft 365 plus endpoint technical control monitoring</h1>
+    <p>10 to 15 high-confidence checks with explicit evidence states.</p>
+    <div class="two-col" style="margin-top:1rem">
+      <div>
+        <div class="card card-blue">
+          <p><strong>Candidate checks (not final)</strong></p>
+          <ul>
+            <li>Privileged account and MFA posture</li>
+            <li>Stale or risky accounts</li>
+            <li>Device encryption posture</li>
+            <li>Endpoint protection state</li>
+            <li>Firewall state</li>
+            <li>Patch and unsupported OS posture</li>
+            <li>Local administrator posture (where observable)</li>
+            <li>Alert acknowledgement tracking</li>
+            <li>Timestamped evidence for each check</li>
+            <li>Cross-source conflict handling</li>
+            <li>Accepted-risk records with approver, rationale, scope, expiry</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card card-amber">
+          <p><strong>Framework language we use</strong></p>
+          <ul>
+            <li>"Mapped to relevant SOC 2 Trust Services Criteria"</li>
+            <li>"Supports evidence collection for selected technical controls"</li>
+            <li>"Continuous technical control visibility"</li>
+            <li>"Audit-readiness support"</li>
+          </ul>
+        </div>
+        <div class="card card-red">
+          <p><strong>Framework language we do not use</strong></p>
+          <ul>
+            <li>"SOC 2 compliant"</li>
+            <li>"Stays certified"</li>
+            <li>"A control is broken"</li>
+            <li>"Replaces a compliance officer"</li>
+            <li>"Complete evidence collection"</li>
+            <li>"Universal compliance score"</li>
+          </ul>
+        </div>
+        <p style="font-size:0.78rem;color:#888;margin-top:0.5rem">SOC 2 technical-support evidence is not proof of compliance. A SOC examination is performed by an independent CPA firm. Technical telemetry cannot independently establish organizational compliance.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">7 / 15</span>
+</section>
+
+<!-- === SLIDE 8: Scope === -->
+<section class="slide" id="slide-8">
+  <div class="slide-inner">
+    <span class="label">Scope</span>
+    <h1 class="h1-sm">First pilot: what is in and out</h1>
+    <div class="two-col" style="margin-top:1.5rem">
+      <div>
+        <div class="card card-green">
+          <p><strong>In</strong></p>
+          <ul>
+            <li>Multi-client MSP console from first usable pilot</li>
+            <li>Client and tenant scoping</li>
+            <li>Existing SuperOps RMM, patch, policy, asset, and security-integration telemetry</li>
+            <li>Microsoft 365 integration with documented least-privilege permissions</li>
+            <li>10 to 15 high-confidence technical checks</li>
+            <li>Evidence provenance and freshness</li>
+            <li>Findings, exceptions, ownership, and PSA ticket linkage</li>
+            <li>Cross-source conflict handling and insufficient-evidence states</li>
+            <li>Accepted-risk approval, expiry, renewal, and audit history</li>
+            <li>Weekly client posture report</li>
+            <li>Audit and activity history</li>
+            <li>Role-based access for MSP operators</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="card card-red">
+          <p><strong>Out</strong></p>
+          <ul>
+            <li>Full SOC 2 readiness</li>
+            <li>HIPAA compliance claims</li>
+            <li>Policy generation</li>
+            <li>Auditor portal</li>
+            <li>Automated remediation</li>
+            <li>AWS and GitHub integrations</li>
+            <li>Arbitrary custom frameworks</li>
+            <li>AI-generated control interpretation</li>
+            <li>Single universal compliance score</li>
+            <li>White-label end-client portal</li>
+          </ul>
+        </div>
+        <p style="font-size:0.78rem;color:#888;margin-top:0.75rem">The product is not a certification or attestation provider. It is not an auditor. It is not a complete GRC suite. It is not a promise to replace compliance headcount.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">8 / 15</span>
+</section>
+
+<!-- === SLIDE 9: Evidence Trust === -->
+<section class="slide" id="slide-9">
+  <div class="slide-inner">
+    <span class="label">Trust model</span>
+    <h1 class="h1-sm">Evidence before dashboards</h1>
+    <p>A compliance product fails if its evidence cannot be trusted. Provenance and freshness are core product behavior, not optional features.</p>
+    <h3 style="margin-top:1rem;font-size:0.85rem;color:#555">Every evidence record includes</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin:0.5rem 0 1rem">
+      <div class="card"><p style="font-size:0.78rem">Tenant and client identity</p></div>
+      <div class="card"><p style="font-size:0.78rem">Source system and source object</p></div>
+      <div class="card"><p style="font-size:0.78rem">Collection and evaluation timestamps</p></div>
+      <div class="card"><p style="font-size:0.78rem">Data freshness and collection status</p></div>
+      <div class="card"><p style="font-size:0.78rem">Check ID and version</p></div>
+      <div class="card"><p style="font-size:0.78rem">Result and reason</p></div>
+      <div class="card"><p style="font-size:0.78rem">Actor or service identity</p></div>
+      <div class="card"><p style="font-size:0.78rem">Chain-of-custody metadata</p></div>
+      <div class="card"><p style="font-size:0.78rem">Link to exception or remediation ticket</p></div>
+    </div>
+    <div class="two-col" style="margin-top:0.5rem">
+      <div>
+        <p><strong>Result states</strong><br>Do not collapse everything into pass or fail.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-top:0.5rem">
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#e8f5e9;border-radius:6px;color:#2e7d32">Pass</span>
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#fee8e8;border-radius:6px;color:#c62828">Fail</span>
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#f5f5f5;border-radius:6px;color:#666">Not applicable</span>
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#f5f5f5;border-radius:6px;color:#666">Not configured</span>
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#fff8e1;border-radius:6px;color:#f57f17">Insufficient evidence</span>
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#fee8e8;border-radius:6px;color:#c62828">Collection error</span>
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#fff8e1;border-radius:6px;color:#f57f17">Stale evidence</span>
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#e8f0fe;border-radius:6px;color:#0066CC">Accepted exception</span>
+          <span style="font-size:0.78rem;padding:0.3rem 0.6rem;background:#fff8e1;border-radius:6px;color:#f57f17">Awaiting human review</span>
+        </div>
+      </div>
+      <div>
+        <div class="card card-amber">
+          <p><strong>Critical design rules</strong></p>
+          <ul>
+            <li>Never let one green source silently override a conflicting result</li>
+            <li>Every mapping is versioned and reviewable</li>
+            <li>Product copy states whether a result is direct evidence, supporting evidence, or an inferred signal</li>
+            <li>Mapping changes must not silently rewrite historical results</li>
+            <li>Customer-specific applicability must be explicit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">9 / 15</span>
+</section>
+
+<!-- === SLIDE 10: Operator Flow === -->
+<section class="slide" id="slide-10">
+  <div class="slide-inner">
+    <span class="label">Operating model</span>
+    <h1 class="h1-sm">End-to-end operator flow</h1>
+    <p>From client authorization to recurring review. All inside the SuperOps workflow.</p>
+    <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:0.5rem;margin:1.5rem 0;align-items:start">
+      <div class="card" style="text-align:center;padding:0.75rem 0.4rem"><p style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem">1. Scope</p><p style="font-size:0.65rem;color:#888">Select client, systems, service package, applicable checks</p></div>
+      <div style="display:flex;align-items:center;justify-content:center;padding-top:0.75rem"><span style="color:#ccc;font-size:1.2rem">&rarr;</span></div>
+      <div class="card card-blue" style="text-align:center;padding:0.75rem 0.4rem"><p style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem">2. Authorize</p><p style="font-size:0.65rem;color:#888">Client grants least-privilege M365 access, confirms scope</p></div>
+      <div style="display:flex;align-items:center;justify-content:center;padding-top:0.75rem"><span style="color:#ccc;font-size:1.2rem">&rarr;</span></div>
+      <div class="card" style="text-align:center;padding:0.75rem 0.4rem"><p style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem">3. Evaluate</p><p style="font-size:0.65rem;color:#888">Versioned technical tests against normalized data</p></div>
+      <div style="display:flex;align-items:center;justify-content:center;padding-top:0.75rem"><span style="color:#ccc;font-size:1.2rem">&rarr;</span></div>
+      <div class="card" style="text-align:center;padding:0.75rem 0.4rem"><p style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem">4. Explain</p><p style="font-size:0.65rem;color:#888">Result shows source, timestamp, logic version, mapped criteria, limitations</p></div>
+      <div style="display:flex;align-items:center;justify-content:center;padding-top:0.75rem"><span style="color:#ccc;font-size:1.2rem">&rarr;</span></div>
+      <div class="card card-amber" style="text-align:center;padding:0.75rem 0.4rem"><p style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem">5. Triage</p><p style="font-size:0.65rem;color:#888">Exceptions assigned owner, severity, due date, rationale, PSA ticket</p></div>
+      <div style="display:flex;align-items:center;justify-content:center;padding-top:0.75rem"><span style="color:#ccc;font-size:1.2rem">&rarr;</span></div>
+      <div class="card card-green" style="text-align:center;padding:0.75rem 0.4rem"><p style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem">6. Remediate</p><p style="font-size:0.65rem;color:#888">Technician follows guidance, records action, reruns check</p></div>
+      <div style="display:flex;align-items:center;justify-content:center;padding-top:0.75rem"><span style="color:#ccc;font-size:1.2rem">&rarr;</span></div>
+      <div class="card" style="text-align:center;padding:0.75rem 0.4rem"><p style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem">7. Report</p><p style="font-size:0.65rem;color:#888">Posture, open exceptions, aging, evidence freshness, completed work</p></div>
+      <div style="display:flex;align-items:center;justify-content:center;padding-top:0.75rem"><span style="color:#ccc;font-size:1.2rem">&rarr;</span></div>
+      <div class="card" style="text-align:center;padding:0.75rem 0.4rem"><p style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem">8. Review</p><p style="font-size:0.65rem;color:#888">Accountable human reviews suppressions, accepted risks, applicability</p></div>
+    </div>
+    <div class="two-col" style="margin-top:0.5rem;border-top:1px solid #eee;padding-top:1rem">
+      <div>
+        <p style="font-size:0.82rem"><strong>Key principle</strong><br>Automation proposes and records. Authorized people approve scope, applicability, and risk acceptance. A general help-desk technician is not the initial operator.</p>
+      </div>
+      <div>
+        <p style="font-size:0.82rem"><strong>PSA is the execution moat</strong><br>Findings must become real work, not another alert feed. The operating chain lives inside SuperOps, not across disconnected tools.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">10 / 15</span>
+</section>
+
+<!-- === SLIDE 11: Hypotheses vs Facts === -->
+<section class="slide" id="slide-11">
+  <div class="slide-inner">
+    <span class="label">Evidence status</span>
+    <h1 class="h1-sm">Hypotheses versus facts</h1>
+    <p>Public forum evidence is directional, not proof of demand or willingness to pay.</p>
+    <table class="gate-table" style="margin-top:1rem">
+      <thead>
+        <tr><th style="width:35%">Claim</th><th style="width:12%">Status</th><th style="width:53%">Basis</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SuperOps ships patch management with compliance visibility</td>
+          <td><span style="display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600">Verified</span></td>
+          <td>Public documentation confirms patch policies, asset patch status, and compliance reporting.</td>
+        </tr>
+        <tr>
+          <td>SuperOps ships policy management and endpoint monitoring</td>
+          <td><span style="display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600">Verified</span></td>
+          <td>Help Center documents policies, custom monitors, asset inventory, and technician scripts.</td>
+        </tr>
+        <tr>
+          <td>MSPs report workflow pain with compliance evidence and reporting</td>
+          <td><span style="display:inline-block;background:#fff8e1;color:#f57f17;font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600">Directional</span></td>
+          <td>Community posts describe fragmented tools, manual collection, and the desire for consolidated visibility. Not a representative market sample.</td>
+        </tr>
+        <tr>
+          <td>SuperOps can reduce recurring compliance service hours</td>
+          <td><span style="display:inline-block;background:#e8f0fe;color:#0066CC;font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600">Hypothesis</span></td>
+          <td>No real-tenant pilot data exists. Must measure baseline hours during pilot.</td>
+        </tr>
+        <tr>
+          <td>MSPs will pay for a SuperOps compliance module</td>
+          <td><span style="display:inline-block;background:#e8f0fe;color:#0066CC;font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600">Hypothesis</span></td>
+          <td>Pricing is not validated. Must test packaging and willingness to pay during design-partner phase.</td>
+        </tr>
+        <tr>
+          <td>Microsoft 365 tenant data is available and contractually usable</td>
+          <td><span style="display:inline-block;background:#e0e0e0;color:#555;font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600">Not verified</span></td>
+          <td>Entra ID integration concerns SuperOps users and technicians. Cross-tenant posture ingestion is a proposed gap requiring API and consent validation.</td>
+        </tr>
+        <tr>
+          <td>Evidence model is accepted by auditors or compliance advisors</td>
+          <td><span style="display:inline-block;background:#e0e0e0;color:#555;font-size:0.65rem;padding:2px 8px;border-radius:100px;font-weight:600">Not verified</span></td>
+          <td>Must be reviewed by at least 2 independent auditors or compliance advisors during discovery.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem;color:#888;margin-top:0.75rem;border-top:1px solid #eee;padding-top:0.75rem">Public SuperOps documentation establishes shipped capabilities, not verified implementation behavior. Internal API and telemetry audits remain required.</p>
+  </div>
+  <span class="slide-number">11 / 15</span>
+</section>
+
+<!-- === SLIDE 12: Six-Week Plan === -->
+<section class="slide" id="slide-12">
+  <div class="slide-inner">
+    <span class="label">Plan</span>
+    <h1 class="h1-sm">Six-week validation plan</h1>
+    <p>Concrete weekly phases. Artifacts at each gate. No engineering build commitment until evidence, security, workflow, and paid-pilot gates pass.</p>
+    <div class="timeline" style="margin-top:1rem">
+      <div class="timeline-item">
+        <span class="week">Week 1 &middot; Foundation</span>
+        <p>Inventory exact RMM data SuperOps already has: freshness, tenant identity, history. Confirm whether internal or beta capabilities cover framework mapping, evidence provenance, accepted-risk workflow, or GRC export. Draft per-check Microsoft Graph permission matrix.</p>
+        <span class="artifact">Artifact: Data availability audit + permission matrix</span>
+      </div>
+      <div class="timeline-item">
+        <span class="week">Week 2 &middot; Artifacts &amp; demand test</span>
+        <p>Obtain or synthesize 5 representative workflow artifacts: evidence request, posture report, remediation queue, accepted-risk record, source-conflict example. Publish one-page concept and sample evidence packet with opt-in pilot CTA. Recruit three qualified MSPs with active client triggers.</p>
+        <span class="artifact">Artifact: 5 artifacts + concept page + opt-in landing</span>
+      </div>
+      <div class="timeline-item">
+        <span class="week">Week 3 &middot; Service blueprint</span>
+        <p>Create service blueprint from client authorization through recurring review. Define evidence schema and chain-of-custody requirements. Define result states, control model objects, and multi-tenant RBAC. Draft finding-to-PSA-ticket workflow and closure verification.</p>
+        <span class="artifact">Artifact: Service blueprint + evidence schema + RBAC model</span>
+      </div>
+      <div class="timeline-item">
+        <span class="week">Week 4 &middot; External review</span>
+        <p>Review evidence expectations with 2 independent auditors or compliance advisors. Review product claims, liability language, data processing, and retention with legal and security. Review Microsoft Graph permission model with security. Test workflow with clickable concept and instrumented task completion sample.</p>
+        <span class="artifact">Artifact: External review summaries + legal/security memo</span>
+      </div>
+      <div class="timeline-item">
+        <span class="week">Week 5 &middot; Design partners</span>
+        <p>Secure three real design partners willing to connect real tenants and endpoints, review findings weekly, provide false-positive feedback, and test paid or contract-backed pilot. Capture baseline hours, handoffs, tools, delays, and error modes for each.</p>
+        <span class="artifact">Artifact: Signed design-partner agreements + baseline metrics</span>
+      </div>
+      <div class="timeline-item">
+        <span class="week">Week 6 &middot; Recommendation</span>
+        <p>Produce paid pilot proposition with scope, operator commitment, pricing hypothesis, and success criteria. Document go / narrow / partner / stop recommendation with evidence. Present to leadership with named validation gates and explicit stop conditions.</p>
+        <span class="artifact">Artifact: Validation report + pilot proposition + decision memo</span>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">12 / 15</span>
+</section>
+
+<!-- === SLIDE 13: Gates === -->
+<section class="slide" id="slide-13">
+  <div class="slide-inner">
+    <span class="label">Governance</span>
+    <h1 class="h1-sm">Go / narrow / partner / stop gates</h1>
+    <p style="margin-bottom:1rem">Engineering commitment requires passing all four gates. Each gate has measurable success and kill criteria.</p>
+    <table class="gate-table">
+      <thead>
+        <tr><th>Gate</th><th>Success criteria</th><th>Kill or narrow</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="gate-go">A. Problem</span></td>
+          <td>Dated public evidence log, 5 workflow artifacts, one-page concept with opt-in, 3 qualified MSPs with active triggers request pilot</td>
+          <td>No MSPs with real triggers surface within 4 weeks of publication; only generic interest</td>
+        </tr>
+        <tr>
+          <td><span class="gate-go">B. Solution</span></td>
+          <td>Clickable workflow tested with operators, 10-15 candidate checks reviewed for usefulness and data availability, evidence schema reviewed by 2+ auditors, M365 permission model reviewed by security</td>
+          <td>Data unavailable for key checks; permission model too broad; evidence schema rejected by advisors</td>
+        </tr>
+        <tr>
+          <td><span class="gate-go">C. Paid pilot</span></td>
+          <td>3 design partners with real tenants and endpoints, weekly operator review, contract-backed or paid pilot intent, explicit accuracy and evidence acceptance criteria</td>
+          <td>Fewer than 3 partners commit; no paid or contract-backed interest; false positives unacceptable</td>
+        </tr>
+        <tr>
+          <td><span class="gate-go">D. Build</span></td>
+          <td>Trustworthy source data, manageable false positives, measurable manual-hours reduction, consistent PSA workflow adoption, buyer willingness to pay, acceptable legal and security posture</td>
+          <td>Evidence cannot be trusted; false positives destroy operator confidence; PSA workflow not adopted; buyers will not pay; legal or security position unacceptable</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="two-col" style="margin-top:1rem;border-top:1px solid #eee;padding-top:1rem">
+      <div>
+        <p style="font-size:0.82rem"><strong>Stop conditions (any gate)</strong></p>
+        <ul style="list-style:none;padding:0;font-size:0.82rem;color:#444">
+          <li style="padding:0.2rem 0">If evidence cannot be trusted, stop or partner.</li>
+          <li style="padding:0.2rem 0">If false positives destroy operator confidence, stop or narrow.</li>
+          <li style="padding:0.2rem 0">If PSA workflow is not adopted by operators, stop or narrow.</li>
+          <li style="padding:0.2rem 0">If buyers will not pay, stop or partner with existing GRC provider.</li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:0.82rem;color:#666">No engineering estimate, attach-rate forecast, ARR forecast, feature count, framework count, or market-size claim should be used for leadership approval until it has a source and an explicit assumption model.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">13 / 15</span>
+</section>
+
+<!-- === SLIDE 14: Workshop === -->
+<section class="slide" id="slide-14">
+  <div class="slide-inner">
+    <span class="label">Workshop</span>
+    <h1 class="h1-sm">Team decision workshop</h1>
+    <p>We need specific decisions, not general direction. Each item has a recommended choice and challenge questions.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0">
+      <div class="card card-blue">
+        <p><strong>First ICP and vertical</strong></p>
+        <p style="font-size:0.8rem">MSPs already delivering security or vCISO services to 20-250 employee organizations with a real compliance trigger: enterprise deal, audit, cyber insurance renewal, customer questionnaire, or regulated contract.</p>
+        <p style="font-size:0.75rem;color:#0066CC;margin-top:0.3rem"><em>Challenge: How do we find these MSPs without an interview-heavy program?</em></p>
+      </div>
+      <div class="card">
+        <p><strong>First paid service package</strong></p>
+        <p style="font-size:0.8rem">Microsoft 365 security baseline monitoring or SOC 2 technical-control support, or both. Narrower is safer initially.</p>
+        <p style="font-size:0.75rem;color:#888;margin-top:0.3rem"><em>Challenge: Which package has the clearest buyer intent in our customer base?</em></p>
+      </div>
+      <div class="card">
+        <p><strong>Buyer vs. daily operator</strong></p>
+        <p style="font-size:0.8rem">Economic buyer is MSP owner or security practice leader. Daily operator is vCISO, compliance lead, or senior technician. General help-desk technician is not the initial operator.</p>
+        <p style="font-size:0.75rem;color:#888;margin-top:0.3rem"><em>Challenge: Does our sales motion reach the economic buyer or the technician buyer?</em></p>
+      </div>
+      <div class="card">
+        <p><strong>Definition of trustworthy evidence</strong></p>
+        <p style="font-size:0.8rem">Evidence must include source, tenant, timestamps, freshness, check version, result reason, actor, and ticket/exception linkage. Immutable raw data where permitted.</p>
+        <p style="font-size:0.75rem;color:#888;margin-top:0.3rem"><em>Challenge: Will clients and their auditors accept SuperOps as an evidence source?</em></p>
+      </div>
+      <div class="card">
+        <p><strong>Mapping content owner</strong></p>
+        <p style="font-size:0.8rem">Who owns incorrect mappings and remediation guidance? Framework content ages quickly and needs accountable review.</p>
+        <p style="font-size:0.75rem;color:#888;margin-top:0.3rem"><em>Challenge: Does SuperOps have the domain expertise in-house or must it partner?</em></p>
+      </div>
+      <div class="card card-amber">
+        <p><strong>Naming &amp; brand</strong></p>
+        <p style="font-size:0.8rem">Use Compliance Monitor during discovery. Treat SuperOps Shield as unvalidated pending trademark, portfolio, and customer-language review.</p>
+        <p style="font-size:0.75rem;color:#888;margin-top:0.3rem"><em>Challenge: Does "Compliance Monitor" set the right expectation for a narrow technical-control service?</em></p>
+      </div>
+    </div>
+    <div style="border-top:1px solid #eee;padding-top:1.5rem;text-align:center">
+      <p style="font-size:1.1rem;font-weight:600;color:#1a1a1a;margin-bottom:0.5rem">Requested approval</p>
+      <div class="card card-blue" style="max-width:600px;margin:0 auto">
+        <p style="font-size:0.95rem;margin-bottom:0.3rem">Approve a six-week discovery and design-partner phase for Compliance Monitor.</p>
+        <p style="font-size:0.82rem;color:#555">No MVP commitment. No engineering resource allocation. Re-evaluate at week 6 with go / narrow / partner / stop recommendation and named validation gates.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">14 / 15</span>
+</section>
+
+<!-- === APPENDIX: Sources === -->
+<section class="slide" id="appendix" style="background:#f8f9fa">
+  <div class="slide-inner">
+    <span class="label">Appendix</span>
+    <h1 class="h1-sm" style="margin-bottom:0.5rem">Sources</h1>
+    <p style="font-size:0.82rem;margin-bottom:1rem">All sources accessed July 2026. Community posts are directional qualitative evidence, not a representative market sample. Official product pages establish public claims, not verified implementation behavior.</p>
+    <h3 style="font-size:0.8rem;margin-bottom:0.5rem;color:#555">SuperOps official sources</h3>
+    <ul class="source-list" style="margin-bottom:1rem">
+      <li><a href="https://superops.com/rmm">SuperOps RMM</a></li>
+      <li><a href="https://superops.com/psa-software">SuperOps PSA</a></li>
+      <li><a href="https://superops.com/rmm/security-management">SuperOps security management</a></li>
+      <li><a href="https://superops.com/rmm/patch-management">SuperOps patch management</a></li>
+      <li><a href="https://superops.com/rmm/it-documentation">SuperOps IT documentation</a></li>
+      <li><a href="https://superops.com/marketplace/entra-id">Entra ID marketplace integration</a></li>
+      <li><a href="https://superops.com/media-release/superops-and-sophos-empower-msps-via-new-platform-integrations">SuperOps and Sophos integration (2025-01-28)</a></li>
+      <li><a href="https://superops.com/media-release/superops-launches-agentic-ai-marketplace-with-aws">Agentic AI Marketplace (2025-08-18)</a></li>
+      <li><a href="https://superops.com/media-release/superops-unified-endpoint-management-ai-era">Unified Endpoint Management (2025-10-28)</a></li>
+      <li><a href="https://support.superops.com/en/articles/6632013-getting-started-with-asset-management">Asset management help article</a></li>
+      <li><a href="https://support.superops.com/en/articles/6632383-getting-started-with-policy-management">Policy management help article</a></li>
+      <li><a href="https://support.superops.com/en/articles/8296982-setting-up-default-and-custom-monitors">Custom monitors help article</a></li>
+      <li><a href="https://support.superops.com/en/articles/7171954-viewing-an-asset-s-patch-status">Asset patch status help article</a></li>
+      <li><a href="https://support.superops.com/en/articles/13859601-patch-management-for-linux-os-devices">Linux patch management help article</a></li>
+      <li><a href="https://support.superops.com/en/articles/7054997-using-scripts-in-superops">Technician scripts help article</a></li>
+      <li><a href="https://support.superops.com/en/articles/15842084-set-up-filevault-encryption-on-managed-mac-devices">FileVault encryption help article</a></li>
+      <li><a href="https://support.superops.com/en/articles/6642957-setting-up-technician-roles">Technician roles help article</a></li>
+    </ul>
+    <h3 style="font-size:0.8rem;margin-bottom:0.5rem;color:#555">Community sources (r/msp)</h3>
+    <ul class="source-list" style="margin-bottom:1rem">
+      <li><a href="https://www.reddit.com/r/msp/comments/148txbh/grc_tool_for_mapping_compliance_levels/">GRC tool for mapping compliance levels (2023-06-14)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/104fbpc/compliance_consulting/">Compliance consulting (2023-01-06)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/1e2m8nm/network_and_endpoint_compliance_reporting/">Network and endpoint compliance reporting (2024-07-13)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/d53s5h/cyber_security_program_management/">Cyber security program management (2019-09-16)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/vz4s4e/concerns_about_a_client_relying_on_vanta_as_their/">Vanta as source of authority concerns (2022-07-14)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/1j8bvry/question_about_galactic_advisors_automation/">Galactic Advisors automation question (2025-03-10)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/1jeaxtu/windows_patching_discrepancy_pulseway_vs/">Windows patching discrepancy (2025-03-18)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/1jrszai/msp_patching_and_vulnerability_reporting_for/">Patch and vulnerability reporting for compliance SLAs (2025-04-05)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/1jjb8sw/security_standards_and_opting_out/">Security standards and opting out (2025-03-25)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/143vkp4/rates_for_compliance_customerw/">Rates for compliance customers (2023-06-08)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/1e1tgtj/seeking_advice_on_handling_hipaa_compliance_as_a/">HIPAA compliance advice (2024-07-12)</a></li>
+      <li><a href="https://www.reddit.com/r/msp/comments/yu0mva/handling_cui/">Handling CUI (2022-11-13)</a></li>
+    </ul>
+    <h3 style="font-size:0.8rem;margin-bottom:0.5rem;color:#555">Competitor and industry sources</h3>
+    <ul class="source-list">
+      <li><a href="https://www.vanta.com/partners/service-providers">Vanta service provider program</a></li>
+      <li><a href="https://www.apptega.com/platform">Apptega platform</a></li>
+      <li><a href="https://www.kaseya.com/products/grc-software/">Kaseya Compliance Manager GRC</a></li>
+      <li><a href="https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services">AICPA SOC suite overview</a></li>
+    </ul>
+  </div>
+  <span class="slide-number">15 / 15</span>
+</section>
+
+</body>
+</html>
