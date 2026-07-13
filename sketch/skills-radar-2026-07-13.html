@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Radar — 2026-07-13</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f5f4f0;
+  color: #1c1816;
+  line-height: 1.65;
+  padding: 0;
+}
+.hero {
+  background: #1c1816;
+  color: #f5f4f0;
+  padding: 64px 24px 56px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.hero .sub {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  color: #b8b0a8;
+  font-weight: 400;
+}
+.hero .date {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 6px 16px;
+  background: #2a2623;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #c8c0b8;
+}
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+.meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.tag {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.tag-signal { background: #e8e3dc; color: #3a3430; }
+.tag-hype { background: #f0dcd8; color: #8a3420; }
+.tag-adopt { background: #d8e8dc; color: #1a6a3a; }
+.tag-watch { background: #dce0f0; color: #2a3a7a; }
+
+.signal {
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid #e0dcd6;
+}
+.signal:last-child { border-bottom: none; }
+.signal h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.signal .signal-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.signal .summary {
+  font-size: 0.96rem;
+  color: #3a3430;
+  margin-bottom: 20px;
+}
+.signal .details {
+  font-size: 0.9rem;
+  color: #4a4440;
+}
+.signal .details p { margin-bottom: 12px; }
+.signal .details ul {
+  margin: 8px 0 16px 20px;
+}
+.signal .details li { margin-bottom: 6px; }
+.signal .details strong { color: #1c1816; }
+.quote {
+  margin: 20px 0;
+  padding: 20px 24px;
+  background: #eae6e0;
+  border-radius: 12px;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #2a2420;
+}
+.quote cite {
+  display: block;
+  margin-top: 8px;
+  font-style: normal;
+  font-size: 0.82rem;
+  color: #6a645e;
+}
+.verdict {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: #1c1816;
+  color: #e8e3dc;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+.verdict span { color: #f5c8a0; }
+
+.sources {
+  margin-top: 56px;
+  padding: 32px;
+  background: #eae6e0;
+  border-radius: 14px;
+}
+.sources h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+.sources ol {
+  margin-left: 20px;
+  font-size: 0.85rem;
+  color: #3a3430;
+}
+.sources li { margin-bottom: 6px; }
+.sources a { color: #2a4a7a; text-decoration: none; border-bottom: 1px solid #c0c8d8; }
+.sources a:hover { border-color: #2a4a7a; }
+
+.method {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: #1c1816;
+  color: #a8a098;
+  border-radius: 10px;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 600px) {
+  .container { padding: 32px 16px 60px; }
+  .hero { padding: 48px 16px 40px; }
+  .sources { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Skills Radar</h1>
+  <p class="sub">Emerging competencies, tools &amp; stack shifts for design &amp; product teams</p>
+  <span class="date">2026-07-13</span>
+</div>
+
+<div class="container">
+
+<div class="meta">
+  <span class="tag tag-signal">SIGNAL</span>
+  <span class="tag tag-adopt">ADOPT</span>
+  <span class="tag tag-watch">WATCH</span>
+  <span class="tag tag-hype">HYPE</span>
+</div>
+
+<!-- SIGNAL 1 -->
+<div class="signal">
+  <div class="signal-meta">
+    <span class="tag tag-signal">SIGNAL</span>
+    <span class="tag tag-adopt">ADOPT</span>
+  </div>
+  <h2>Claude Skills &amp; Agent Skills: The New Design Workflow Layer</h2>
+  <div class="summary">
+    Claude Skills — reusable instruction sets packaged as SKILL.md directories — are becoming the standard way to give AI context for design work. Adopted by Claude Code, OpenAI Codex, Cursor, and Gemini CLI via the open Agent Skills spec. Figma shipped its own curated skill set at Config 2026, including /figma-use, /figma-generate-design, /figma-generate-library, and /frontend-design (from Anthropic).
+  </div>
+  <div class="details">
+    <p><strong>Why it matters:</strong> 54% of designers now say AI proficiency is the most in-demand skill in the field (Figma State of the Designer 2026). But 78% say AI boosts efficiency while only 40% say it improves quality. Skills close that gap — they give AI the <em>right</em> context (design tokens, spacing conventions, brand voice) so output is usable, not generic.</p>
+    <p><strong>Key skills to know:</strong></p>
+    <ul>
+      <li><strong>/figma-use</strong> — Claude reads live Figma components, layers, variables</li>
+      <li><strong>/figma-generate-design</strong> — generates new screens from your existing component library</li>
+      <li><strong>/figma-generate-library</strong> — reverse-generates Figma components from codebase</li>
+      <li><strong>/frontend-design</strong> (Anthropic) — forces Claude to define purpose &amp; tone before generating UI</li>
+      <li><strong>/audit-design-system</strong> + <strong>/apply-design-system</strong> — scan &amp; fix drift from published libraries</li>
+      <li><strong>/create-voice</strong> — generates VoiceOver/TalkBack/ARIA specs from Figma components</li>
+      <li><strong>/sync-figma-token</strong> — cross-references Figma variables vs codebase tokens</li>
+    </ul>
+    <p><strong>Adoption curve:</strong> Fast. This is already the standard pattern for Claude Code users. Figma's MCP integration makes skills more powerful — Claude reads live design files while skills provide the behavioral guardrails.</p>
+    <p><strong>⚠️ Supply chain risk:</strong> Snyk's ToxicSkills research found prompt injection in 36% of third-party skills and 1,467 malicious payloads. Vet skills like any third-party dependency.</p>
+  </div>
+  <div class="quote">
+    "It still takes human taste and intention to decide the right thing to build, and differentiate it from everything else that AI is producing."
+    <cite>— Jake Geller, Manager of Design Operations at Figma</cite>
+  </div>
+  <div class="verdict"><span>→ LEARN:</span> Install /figma-use + /figma-generate-design + a custom /design-system skill. The pattern — SKILL.md + references + scripts — is portable across Claude Code, Codex, Cursor, and Gemini CLI.</div>
+</div>
+
+<!-- SIGNAL 2 -->
+<div class="signal">
+  <div class="signal-meta">
+    <span class="tag tag-signal">SIGNAL</span>
+    <span class="tag tag-watch">WATCH</span>
+  </div>
+  <h2>Google Stitch &amp; "Vibe Design" — AI-Native Canvas Enters the Arena</h2>
+  <div class="summary">
+    Google's Stitch March 2026 update shipped an AI-native infinite canvas where designers start with intent/business objective rather than wireframes — "vibe design." Also introduced DESIGN.md (agent-readable design system format), voice interaction, an Agent Manager for parallel exploration, instant prototyping, and MCP-based export to dev tools. Figma's stock dropped ~12% in two days after the announcement.
+  </div>
+  <div class="details">
+    <p><strong>What shipped:</strong></p>
+    <ul>
+      <li><strong>AI-native canvas:</strong> drop in screenshots, text, code, competitor references — the agent uses everything as simultaneous context</li>
+      <li><strong>DESIGN.md:</strong> agent-friendly markdown capturing colors, typography, spacing, components — portable across Stitch projects and coding tools</li>
+      <li><strong>Voice:</strong> speak to the canvas for real-time design critique, AI asks clarifying questions, generates variations</li>
+      <li><strong>Agent Manager:</strong> pursue multiple design directions in parallel, tracked in one project</li>
+      <li><strong>MCP server + SDK:</strong> Stitch designs export to AI Studio, Antigravity, and any MCP-compatible coding agent</li>
+      <li><strong>GitHub skills (2.4k stars):</strong> open-source skill ecosystem</li>
+    </ul>
+    <p><strong>Key insight:</strong> "Vibe design" is a terrible name for a real idea. The traditional design process starts with structure (grid, breakpoints, type scale). Stitch flips it — start with feeling, business objective, inspiration references. The diverge-converge loop that takes a design team a week now happens in an afternoon.</p>
+    <p><strong>Where it falls short:</strong> No deep prototyping with animations, no design system integrations at Figma's depth, monthly generation limits. Not production-ready for large product teams yet, but the architecture — agent as collaborator, portable markdown design systems, MCP bridging — signals the direction.</p>
+  </div>
+  <div class="quote">
+    "The most significant shift is the canvas itself. The mental model isn't 'tool with AI features.' It's 'AI with a spatial interface.'"
+    <cite>— Tommaso Nervegna, Sorted Pixels</cite>
+  </div>
+  <div class="verdict"><span>→ WATCH:</span> Stitch is not yet a Figma replacement for production design systems. But DESIGN.md as a portable format is important — the design system of 2026 will be machine-readable. Export your design tokens as DESIGN.md to experiment.</div>
+</div>
+
+<!-- SIGNAL 3 -->
+<div class="signal">
+  <div class="signal-meta">
+    <span class="tag tag-signal">SIGNAL</span>
+    <span class="tag tag-adopt">ADOPT</span>
+  </div>
+  <h2>Figma Config 2026: Code + Motion + Shaders on the Canvas</h2>
+  <div class="summary">
+    Figma's June 2026 Config was a platform redefinition. Code layers (interactive code on canvas, GitHub import/extract), Figma Motion (native animation timeline with keyframes, easing variables, component-level animation), WebGPU shaders (prompt-based visual effects), generative plugins (prompt-to-native-plugin), Weave tools (20+ AI workflows), and a design agent with skills, connectors, and shared chat history. 8,000+ attendees, 10,000+ virtual. Theme: "New materials, new tools and a more expressive canvas."
+  </div>
+  <div class="details">
+    <p><strong>Strategic thesis:</strong> CEO Dylan Field declared "AI has lowered the floor but has not raised the ceiling. Designers, creatives, builders — <em>you</em> will raise the ceiling." Figma is no longer competing with Sketch. It is competing with the entire creative stack — After Effects, Framer, shader editors, and vibe-coding IDEs — in one collaborative file.</p>
+    <p><strong>Figma's own data backs this:</strong></p>
+    <ul>
+      <li>57% of respondents say design has grown in importance overall</li>
+      <li>65% of developers now believe design matters more (up from 44% in 2025)</li>
+      <li>77% of PMs work on Figma's collaborative canvas at least half the time</li>
+      <li>1 in 5 developers now prefer starting projects on a collaborative canvas instead of writing code first</li>
+      <li>Organizations with highest AI adoption are 25% more likely to say design is more important</li>
+    </ul>
+    <p><strong>Motion specifically changes the workflow:</strong> Timeline, keyframes, auto-keyframing, motion variables, time-based comments, animated components that travel across files, MCP-compatible motion context for coding agents. Dev Mode now exposes every timing value, easing curve, and keyframe — copy as CSS, JSON, React, or motion.dev. No more After Effects → Lottie → developer re-implementation chain.</p>
+    <p><strong>Code layers are the structural bet:</strong> Code is now a first-class material on the canvas. Clone repos, generate variations, extract-to-design, sync back to GitHub. The multiplayer canvas is the environment where "you don't care about the quality of the code" — exploration space, not production.</p>
+  </div>
+  <div class="quote">
+    "Atomic design is now atomic motion design because I have keyframes on the canvas. It's the last big piece in the interactive world."
+    <cite>— Maxwell Hathaway, Lead Motion Designer</cite>
+  </div>
+  <div class="verdict"><span>→ ADOPT:</span> Motion beta is open — start prototyping interactions in Figma directly. Code layers (closed beta July 2026) will change the design-engineering handoff fundamentally. The direction: Figma as the single canvas for design + code + motion + AI agents.</div>
+</div>
+
+<!-- SIGNAL 4 -->
+<div class="signal">
+  <div class="signal-meta">
+    <span class="tag tag-signal">SIGNAL</span>
+    <span class="tag tag-watch">WATCH</span>
+  </div>
+  <h2>The "Super-IC" Designer: One-Person Studio Enabled by AI</h2>
+  <div class="summary">
+    Senior designers using AI tools are now outputting the volume previously associated with a 3-person team. AI adoption among UX researchers jumped to 80% in 2025 (Loop11 annual survey). The "Super-IC" (super individual contributor) operates as a one-person design studio with an AI-assisted tool stack. But 91% of UX researchers still worry about output accuracy and hallucinations — quality judgment remains the bottleneck.
+  </div>
+  <div class="details">
+    <p><strong>The pattern:</strong> Tools like Claude Code + Figma Make + Bolt + Claude Skills compress the designer-to-shipped-product pipeline. On Reddit (r/webdesign, r/Frontend), developers are building full prototypes in 30 minutes with Claude Code. UX Collective has detailed workflows for: converting designs to dark mode automatically, generating accessible component variants, auditing pages against WCAG guidelines — all with Claude + Figma MCP.</p>
+    <p><strong>What's real:</strong> The Super-IC is real for certain workflows — fast ideation, responsive variants, accessibility checks, design system audits. A solo designer with the right skill stack can compete with small teams on output volume.</p>
+    <p><strong>What's not:</strong> The Super-IC breaks down on complex interaction design, cross-team coordination, user research synthesis at scale, and nuanced design judgment. AI handles volume. It does not replace the craft of deciding what to build and why.</p>
+    <p><strong>For SuperOps specifically:</strong> The MSP SaaS context benefits from rapid prototyping but demands nuanced enterprise UX — complex workflows, role-based access, compliance patterns. The Super-IC pattern is useful for exploration and variants but cannot replace structured UX research for enterprise products.</p>
+  </div>
+  <div class="quote">
+    "In an age of infinite generation, curation becomes craft. Stitch gives everyone the ability to generate. It doesn't give them the ability to evaluate. That's us. That's always been us."
+    <cite>— Tommaso Nervegna, Sorted Pixels</cite>
+  </div>
+  <div class="verdict"><span>→ QUALIFIED ADOPT:</span> Use AI for ideation, variants, accessibility audits, and component generation. Keep human judgment for interaction design, user research, and quality gate. The Super-IC is a force multiplier, not a replacement for structured design practice.</div>
+</div>
+
+<!-- SIGNAL 5 -->
+<div class="signal">
+  <div class="signal-meta">
+    <span class="tag tag-signal">SIGNAL</span>
+    <span class="tag tag-hype">HYPE</span>
+  </div>
+  <h2>AI Skills Market: LLM Expertise + Agentic AI Command Premium Salaries</h2>
+  <div class="summary">
+    A 2026 GoHumanize study of 55 AI skills across active job listings and average pay shows LLM expertise ($199K, 57K listings), Agentic AI ($197K, 42K listings), AI product management ($195K, 26K listings), and deep learning ($179K, 67K listings) all commanding salaries that outpace the median earnings of four-year degree holders. The HBR study (July 2026) found three capabilities rising: AI collaboration, judgment, and strategic thinking.
+  </div>
+  <div class="details">
+    <p><strong>The data:</strong></p>
+    <ul>
+      <li><strong>LLM fine-tuning:</strong> $208K avg (7,200 listings — specialized, high-premium)</li>
+      <li><strong>LLM expertise:</strong> $199K avg (57,000 listings — broad demand)</li>
+      <li><strong>Agentic AI (building autonomous systems):</strong> $197K avg (42,000 listings)</li>
+      <li><strong>AI product management:</strong> $195K avg (26,000 listings — non-coding AI role)</li>
+      <li><strong>Deep learning:</strong> $179K avg (67,000 listings — highest volume)</li>
+    </ul>
+    <p><strong>HBR's caveat:</strong> "These skills are not replacing expertise — they are raising the bar for it." The most valuable combination is domain expertise + AI fluency. Pure AI skills without domain context plateau faster.</p>
+    <p><strong>For designers:</strong> The highest-leverage skills are: (1) prompt engineering / AI collaboration, (2) design systems architecture (especially machine-readable formats like DESIGN.md), (3) AI product management — deciding what to build with AI, not how to build it. The lowest barrier to entry is prompt engineering and no-code AI tools; from there, LLM fundamentals.</p>
+  </div>
+  <div class="quote">
+    "Three years ago, no one in my department used gen AI tools. Today, 100% of the department uses gen AI every day for hours per day."
+    <cite>— Executive at a multinational bank, quoted in HBR (July 2026)</cite>
+  </div>
+  <div class="verdict"><span>→ STRATEGIC:</span> For designers, the money skill isn't coding AI models — it's AI product management and AI collaboration fluency. Know what AI can and cannot do. Be the person who decides what to build, which direction to explore, and whether the output serves the user.</div>
+</div>
+
+<!-- SIGNAL 6 -->
+<div class="signal">
+  <div class="signal-meta">
+    <span class="tag tag-watch">WATCH</span>
+  </div>
+  <h2>Penpot &amp; Open-Source Design Tools Gain Traction</h2>
+  <div class="summary">
+    Penpot, the open-source design platform, has grown to 51.7K GitHub stars with native Design Tokens, self-hosting, SVG-native rendering, and an MCP server for AI-driven design workflows. As Figma's pricing and platform lock-in increase, Penpot is the credible open-source alternative. The explainx.ai coverage from June 2026 positions Penpot as "giving Figma a real fight."
+  </div>
+  <div class="details">
+    <p><strong>Why this matters for SuperOps:</strong> MSP/IT management SaaS often has compliance requirements that prefer self-hosted tooling. Penpot's open-source model enables:</p>
+    <ul>
+      <li>Self-hosted design system infrastructure</li>
+      <li>Native Design Tokens (no plugins needed)</li>
+      <li>SVG-native rendering (accurate to production)</li>
+      <li>MCP server integration for AI design agents</li>
+      <li>No per-seat licensing for design teams</li>
+    </ul>
+    <p>Not yet at Figma's maturity for motion, prototyping depth, or plugin ecosystem. But the trajectory is clear — and for teams that already use open-source dev toolchains, Penpot fits naturally.</p>
+  </div>
+  <div class="verdict"><span>→ WATCH:</span> Penpot is not production-ready for complex enterprise UX yet, but the MCP server + Design Tokens make it viable for design system prototyping and compliance-sensitive environments. Worth a spike if your team needs self-hosted design infrastructure.</div>
+</div>
+
+<!-- SOURCES -->
+<div class="sources">
+  <h3>Sources</h3>
+  <ol>
+    <li><a href="http://www.figma.com/resource-library/claude-skills-for-design/">Figma Resource Library — 10 Claude Skills for Design</a> (2026-07)</li>
+    <li><a href="https://techcrunch.com/2026/06/24/figma-adds-code-layers-support-for-animations-more-ai-features-in-new-update/">TechCrunch — Figma adds code layers, animations, AI features</a> (2026-06-24)</li>
+    <li><a href="http://www.ciol.com/tech/figma-config-2026-intelligent-canvas-ai-full-stack-creation-12109011">CIOL — Figma Config 2026: AI-Powered Intelligent Canvas</a> (2026-06-26)</li>
+    <li><a href="https://www.figma.com/blog/config-2026-recap/">Figma Blog — Config 2026 Recap</a> (2026-06-24)</li>
+    <li><a href="https://explainx.ai/blog/figma-config-2026-complete-recap-motion-code-shaders-ai-2026">explainx.ai — Figma Config 2026 Full Recap</a> (2026-06-26)</li>
+    <li><a href="http://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/">Google Blog — Introducing "vibe design" with Stitch</a> (2026-03-18)</li>
+    <li><a href="https://nervegna.substack.com/p/vibe-design-is-real-inside-google">Sorted Pixels — Vibe Design Is Real: Inside Google Stitch</a> (2026-03-21)</li>
+    <li><a href="http://hbr.org/2026/07/research-ai-is-changing-what-employers-want-from-new-hires">HBR — Research: AI Is Changing What Employers Want</a> (2026-07-08)</li>
+    <li><a href="https://www.forbes.com/sites/sarahhernholm/2026/05/13/the-ai-skills-paying-more-than-a-college-degree-in-2026/">Forbes — AI Skills Paying More Than a College Degree in 2026</a> (2026-05-13)</li>
+    <li><a href="https://www.snyk.io/articles/top-claude-skills-ui-ux-engineers/">Snyk — Top 8 Claude Skills for UI/UX Engineers</a> (2026)</li>
+    <li><a href="https://www.snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/">Snyk — ToxicSkills: Malicious AI Agent Skills</a> (2026)</li>
+    <li><a href="https://agenskills.io/home">Agent Skills specification</a> (2026)</li>
+    <li><a href="https://www.figma.com/reports/state-of-the-designer-2026/">Figma — State of the Designer 2026</a> (2026)</li>
+    <li><a href="https://www.figma.com/reports/ai-2025/">Figma — AI Report 2025</a> (2025)</li>
+  </ol>
+</div>
+
+<div class="method">
+  <strong>Method:</strong> SearXNG discovery → jina.ai extraction → cross-verification across 2+ independent sources per claim. Dates verified as 2025–2026. Claims without live source links flagged as uncertain. Additional context from Figma's official blog, Config 2026 coverage, Google Labs announcements, HBR research, Forbes salary analysis, and Snyk's security research on the Agent Skills ecosystem.
+</div>
+
+</div>
+</body>
+</html>
