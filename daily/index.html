@@ -26,22 +26,14 @@
         .map(a => ({name: a.textContent, href: a.getAttribute('href')}))
         .sort((a,b) => b.name.localeCompare(a.name));
       
+      const format = (f) => {
+        const m = f.name.match(/tweets-(\d{4}-\d{2}-\d{2})\.html/);
+        if (m) return `<li>🐦 <a href="${f.href}">${m[1]}</a></li>`;
+        return `<li><a href="${f.href}">${f.name.replace('.html','')}</a></li>`;
+      };
+      
       document.getElementById('file-list').innerHTML = files.length 
-        ? '<ul>' + files.map(f => `<li><a href="${f.href}">${f.name.replace('.html','')}</a></li>`).join('') + '<li><a href="tweets-2026-06-07.html">🐦 2026-06-07 — 8 tweets</a></li>
-<li><a href="tweets-2026-06-07.html">🐦 2026-06-07 — 8 tweets</a></li>
-<li><a href="tweets-2026-06-07.html">🐦 2026-06-07 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-07.html">🐦 2026-06-07 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-08.html">🐦 2026-06-08 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-08.html">🐦 2026-06-08 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-08.html">🐦 2026-06-08 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-08.html">🐦 2026-06-08 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-08.html">🐦 2026-06-08 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-08.html">🐦 2026-06-08 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-09.html">🐦 2026-06-09 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-09.html">🐦 2026-06-09 · 8 tweets</a></li>
-<li><a href="tweets-2026-06-16.html">🐦 2026-06-16 · 4 tweets</a></li>
-<li><a href="tweets-2026-06-15.html">🐦 2026-06-15 · 8 tweets</a></li>
-</ul>'
+        ? '<ul>' + files.map(format).join('') + '</ul>'
         : '<p class="empty">No entries yet.</p>';
     })();
   </script>
