@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Health — 2026-07-19</title>
+<style>
+  :root {
+    --bg: #0f0f13;
+    --surface: #1a1a24;
+    --surface2: #252533;
+    --text: #e8e8ed;
+    --text2: #9e9eb0;
+    --accent: #f97316;
+    --accent-dim: rgba(249, 115, 22, 0.15);
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --radius: 12px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  [data-theme="light"] {
+    --bg: #f8f8fa;
+    --surface: #ffffff;
+    --surface2: #f0f0f5;
+    --text: #1a1a2e;
+    --text2: #6b6b80;
+    --accent: #ea580c;
+    --accent-dim: rgba(234, 88, 12, 0.08);
+    --green: #16a34a;
+    --yellow: #ca8a04;
+    --red: #dc2626;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1.5rem;
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--surface2);
+    color: var(--text2);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+  .theme-toggle:hover { background: var(--surface2); color: var(--text); }
+
+  header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--surface2);
+  }
+  header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  header .sub {
+    color: var(--text2);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+  header .score-hero {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  header .score-hero .num {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  header .score-hero .label {
+    font-size: 1rem;
+    color: var(--text2);
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem;
+    color: var(--text);
+  }
+
+  .gauge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .gauge {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    border: 1px solid var(--surface2);
+  }
+  .gauge .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text2);
+    margin-bottom: 0.5rem;
+  }
+  .gauge .ring {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto 0.5rem;
+  }
+  .gauge .ring svg {
+    transform: rotate(-90deg);
+    width: 64px;
+    height: 64px;
+  }
+  .gauge .ring .bg-circle { fill: none; stroke: var(--surface2); stroke-width: 6; }
+  .gauge .ring .fill-circle { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+  .gauge .ring .center-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .gauge .desc { font-size: 0.85rem; color: var(--text2); text-align: center; }
+
+  .issue-list { margin-bottom: 2rem; }
+  .issue {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--surface2);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .issue .badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .issue .badge.immediate { background: var(--accent-dim); color: var(--accent); }
+  .issue .badge.structural { background: rgba(234, 179, 8, 0.12); color: var(--yellow); }
+  .issue .badge.cold { background: rgba(59, 130, 246, 0.12); color: #60a5fa; }
+  .issue .content h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .issue .content p { font-size: 0.85rem; color: var(--text2); line-height: 1.5; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--surface2);
+    padding: 0.85rem 1rem;
+  }
+  .stat-card .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text2); }
+  .stat-card .value { font-size: 1.15rem; font-weight: 700; margin-top: 0.15rem; }
+  .stat-card .value .sub { font-size: 0.75rem; font-weight: 400; color: var(--text2); margin-left: 0.35rem; }
+
+  blockquote {
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text2);
+    font-style: normal;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--surface2);
+    font-size: 0.8rem;
+    color: var(--text2);
+    text-align: center;
+  }
+  footer span { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    header h1 { font-size: 1.35rem; }
+    header .score-hero .num { font-size: 2.25rem; }
+    .gauge-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle</button>
+
+<header>
+  <div class="score-hero">
+    <span class="num" style="color:var(--yellow)">6</span>
+    <span class="label">/ 10</span>
+  </div>
+  <h1>Vault Health</h1>
+  <div class="sub">Weekly scan · Sunday, 19 July 2026 · W29</div>
+</header>
+
+<!-- Assessment Quote -->
+<blockquote>
+  Intake pipeline is alive — raw files arriving daily, overnight logs consistent, Index recently updated. But the synthesis layer is dead: 0 files in synthesis/ means overnight analysis never graduates to wiki knowledge. Processed archive is 4+ weeks stale (weekly-W23 in mid-July). The vault is ingesting but not digesting.
+  <cite>— Agent Tina · Hermes + Local Assessment</cite>
+</blockquote>
+
+<div class="section-title">Health Gauges</div>
+<div class="gauge-grid">
+  <div class="gauge">
+    <div class="label">Index Freshness</div>
+    <div class="ring">
+      <svg viewBox="0 0 64 64">
+        <circle class="bg-circle" cx="32" cy="32" r="26"/>
+        <circle class="fill-circle" cx="32" cy="32" r="26" stroke="var(--green)" stroke-dasharray="163.36" stroke-dashoffset="8.17"/>
+      </svg>
+      <div class="center-text" style="color:var(--green)">95%</div>
+    </div>
+    <div class="desc">Modified today · 29 links</div>
+  </div>
+  <div class="gauge">
+    <div class="label">Raw Processed %</div>
+    <div class="ring">
+      <svg viewBox="0 0 64 64">
+        <circle class="bg-circle" cx="32" cy="32" r="26"/>
+        <circle class="fill-circle" cx="32" cy="32" r="26" stroke="var(--yellow)" stroke-dasharray="163.36" stroke-dashoffset="73.51"/>
+      </svg>
+      <div class="center-text" style="color:var(--yellow)">55%</div>
+    </div>
+    <div class="desc">5 raw · 11 processed</div>
+  </div>
+  <div class="gauge">
+    <div class="label">Wiki Density</div>
+    <div class="ring">
+      <svg viewBox="0 0 64 64">
+        <circle class="bg-circle" cx="32" cy="32" r="26"/>
+        <circle class="fill-circle" cx="32" cy="32" r="26" stroke="var(--green)" stroke-dasharray="163.36" stroke-dashoffset="16.34"/>
+      </svg>
+      <div class="center-text" style="color:var(--green)">90%</div>
+    </div>
+    <div class="desc">64 files · 5 MOCs · 4 subdirs</div>
+  </div>
+  <div class="gauge">
+    <div class="label">Synthesis Pipeline</div>
+    <div class="ring">
+      <svg viewBox="0 0 64 64">
+        <circle class="bg-circle" cx="32" cy="32" r="26"/>
+        <circle class="fill-circle" cx="32" cy="32" r="26" stroke="var(--red)" stroke-dasharray="163.36" stroke-dashoffset="163.36"/>
+      </svg>
+      <div class="center-text" style="color:var(--red)">0%</div>
+    </div>
+    <div class="desc">0 synthesis files</div>
+  </div>
+</div>
+
+<div class="section-title">⛔ Issues</div>
+<div class="issue-list">
+
+  <div class="issue">
+    <span class="badge immediate">IMMEDIATE</span>
+    <div class="content">
+      <h3>Synthesis pipeline is dead</h3>
+      <p><strong>synthesis/</strong> is empty — 0 files. Overnight logs (33 files, 981 lines) are accumulating without being synthesized into wiki entries. This is the core vault-to-knowledge conversion gap. Without synthesis, overnight analysis rots in place.</p>
+    </div>
+  </div>
+
+  <div class="issue">
+    <span class="badge structural">STRUCTURAL</span>
+    <div class="content">
+      <h3>Processed archive is 4+ weeks stale</h3>
+      <p>Only 11 files in <strong>processed/</strong>, newest from W23 (early June). We're in W29. Items completed and archived aren't being moved to long-term storage. Raw→processed→wiki cycle has a post-processing bottleneck.</p>
+    </div>
+  </div>
+
+  <div class="issue">
+    <span class="badge cold">COLD STORAGE</span>
+    <div class="content">
+      <h3>Raw intake backlog (5 files)</h3>
+      <p>5 files sitting in <strong>raw/</strong>, including fresh ones from today. The intake pipeline works (files arrive), but throughput to processed/ and wiki/ needs to increase to prevent rot.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-title">Raw Stats</div>
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="label">Raw files</div>
+    <div class="value">5 <span class="sub">newest Jul 19</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Wiki files</div>
+    <div class="value">64 <span class="sub">+5 MOCs</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Overnight logs</div>
+    <div class="value">33 <span class="sub">981 lines</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Processed archive</div>
+    <div class="value">11 <span class="sub">stale W23</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Index</div>
+    <div class="value">118 lines <span class="sub">29 links</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Synthesis</div>
+    <div class="value" style="color:var(--red)">0 <span class="sub">⚠️</span></div>
+  </div>
+</div>
+
+<div class="section-title">Wiki Structure</div>
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="label">Maps of Content</div>
+    <div class="value">5</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Wiki subdirectories</div>
+    <div class="value">4 <span class="sub">design, ios, finance, agent-tina</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">finance/</div>
+    <div class="value">13 files</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">agent-tina/</div>
+    <div class="value">8 files</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">ios/</div>
+    <div class="value">3 files</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">design/</div>
+    <div class="value">1 file</div>
+  </div>
+</div>
+
+<footer>
+  Agent Tina · Hermes + LFM2.5-1.2B · <span>This is the Way</span>
+</footer>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+}
+// Auto-detect system preference
+if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+  document.documentElement.dataset.theme = 'light';
+}
+</script>
+</body>
+</html>
