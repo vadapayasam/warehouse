@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Radar — 2026 Designer Stack Evolution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #111111;
+  --secondary: #F1F1F1;
+  --surface: #FFFFFF;
+  --text: #111827;
+  --text-muted: #6B7280;
+  --accent: #3B82F6;
+  --accent-light: #EFF6FF;
+  --success: #16A34A;
+  --warning: #D97706;
+  --danger: #DC2626;
+  --border: #E5E7EB;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Inter, system-ui, -apple-system, sans-serif; color: var(--text); background: var(--secondary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
+.hero { background: var(--primary); color: white; padding: 64px 0 48px; }
+.hero h1 { font-family: Gelasio, Georgia, serif; font-size: 40px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+.hero .subtitle { font-size: 18px; color: #9CA3AF; margin-bottom: 8px; }
+.hero .meta { font-size: 14px; color: #6B7280; }
+.hero .badge { display: inline-block; background: var(--accent); color: white; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px; margin-top: 16px; }
+
+/* Sections */
+.section { background: var(--surface); border-radius: 12px; padding: 40px; margin: 32px 0; box-shadow: var(--shadow); }
+.section h2 { font-family: Gelasio, Georgia, serif; font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.section .lede { font-size: 16px; color: var(--text-muted); margin-bottom: 24px; }
+.tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; margin-bottom: 16px; }
+.tag-hot { background: #FEE2E2; color: #991B1B; }
+.tag-trend { background: #DBEAFE; color: #1E40AF; }
+.tag-early { background: #FEF3C7; color: #92400E; }
+
+/* Finding cards */
+.finding { border-left: 3px solid var(--accent); padding: 0 0 0 20px; margin-bottom: 28px; }
+.finding:last-child { margin-bottom: 0; }
+.finding h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+.finding .evidence { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+.finding ul { list-style: none; padding: 0; }
+.finding ul li { font-size: 14px; padding: 4px 0 4px 16px; position: relative; }
+.finding ul li::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
+.finding .data-point { display: inline-block; background: var(--accent-light); color: var(--accent); font-weight: 600; font-size: 13px; padding: 2px 8px; border-radius: 4px; margin: 2px 0; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+thead th { background: var(--primary); color: white; padding: 10px 12px; text-align: left; font-weight: 600; font-size: 13px; }
+tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--secondary); }
+
+/* Mini table variant */
+.mini-table td:first-child { font-weight: 600; white-space: nowrap; }
+
+/* Verdict box */
+.verdict { background: var(--accent-light); border-radius: 8px; padding: 20px; margin: 16px 0; }
+.verdict h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.verdict p { font-size: 14px; color: var(--text-muted); }
+
+/* Sources */
+.sources { background: var(--surface); border-radius: 12px; padding: 40px; margin: 32px 0; box-shadow: var(--shadow); }
+.sources h2 { font-family: Gelasio, Georgia, serif; font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+.sources ol { font-size: 13px; color: var(--text-muted); padding-left: 20px; }
+.sources ol li { padding: 6px 0; }
+.sources ol li a { color: var(--accent); text-decoration: none; word-break: break-all; }
+.sources ol li a:hover { text-decoration: underline; }
+
+.method { background: var(--surface); border-radius: 12px; padding: 24px 40px; margin: 32px 0; box-shadow: var(--shadow); font-size: 13px; color: var(--text-muted); }
+.method strong { color: var(--text); }
+
+@media (max-width: 640px) {
+  .hero { padding: 40px 0 32px; }
+  .hero h1 { font-size: 28px; }
+  .section, .sources { padding: 24px; }
+  table { font-size: 12px; }
+  thead th, tbody td { padding: 8px 6px; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <p class="subtitle">⏤ Skills Radar</p>
+    <h1>Designer Stack Evolution in 2026</h1>
+    <p class="meta">July 20, 2026 · 13 sources · Emerging competencies, tools &amp; workflows shaping SuperOps–relevant product design</p>
+    <span class="badge">✧ AI-assisted design · Generative UI · Design engineering · Agentic workflows · Figma ecosystem</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- FINDING 1 -->
+  <section class="section">
+    <span class="tag tag-hot">★ CRITICAL</span>
+    <h2>Figma Becomes a Code Canvas</h2>
+    <p class="lede">Config 2026 redrew the line between design and development. Figma now ships code layers, native motion, AI skills, and two-way GitHub sync.</p>
+
+    <div class="finding">
+      <h3>Code Layers on the Canvas</h3>
+      <p class="evidence">Figma launched Code Layers at Config 2026 (June 24) — executable React code living directly inside the design canvas. Teams can clone repos, extract flows from code, test interactive elements, and push changes as GitHub PRs without leaving Figma. Backed by custom React with npm package support including motion libraries and 3D frameworks. [1][2][4]</p>
+      <ul>
+        <li>Converts components to code layers via AI chat or direct editing in Figma's code composer</li>
+        <li>Figma Make now connects to any Git provider — upstream sync, branch-and-PR workflows, enterprise CI/CD gates [4]</li>
+        <li>Figma's Chief Product Officer Yuhki Yamashita: "Design and code are no longer a trade-off" [2]</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <h3>Native Motion &amp; AI Shader Effects</h3>
+      <p class="evidence">Native animation timeline, 3D transforms, and AI-generated shader fills — designers can preview animations directly in design files without external tools. Figma Weave (acquired Weavy Oct 2025) now integrates node-based AI workflows for imagery, video, audio, and 3D effects. [1][2]</p>
+    </div>
+
+    <div class="finding">
+      <h3>AI Agent + Custom Skills Engine</h3>
+      <p class="evidence">Figma's native AI agent (GA as of May 2026) generates designs, edits existing files, and automates tasks via natural language. Users create repeatable "Skills" that encode team expertise — shared as discoverable assets. Multiplayer AI: agent conversations visible to the team by default. Connects to Notion, Granola, Excel, GitHub. Prompt-based custom plugin creation. [1][3][2]</p>
+    </div>
+
+    <div class="verdict">
+      <h4>SuperOps Relevance ★</h4>
+      <p>Code Layers + Figma Make two-way GitHub sync directly addresses the design-to-dev handoff friction in SaaS product teams. If SuperOps ships frontend regularly, this capability collapses a multi-day handoff cycle into real-time collaboration. Watch: Figma Make pricing ($16–90/seat/mo) and whether teams actually adopt code layers as a collaboration surface vs. continuing separate silos.</p>
+    </div>
+  </section>
+
+  <!-- FINDING 2 -->
+  <section class="section">
+    <span class="tag tag-hot">★ CRITICAL</span>
+    <h2>Agentic AI Workflows Hit the Design Stack</h2>
+    <p class="lede">Three distinct platforms now compete for the visual layer of software — Figma Make (design-first), Lovable (code-first full-stack), Claude Design (AI-native). The winner determines which skills are worth investing in.</p>
+
+    <div class="finding">
+      <h3>The Three-Lane Landscape</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Play</th>
+            <th>Pricing</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Figma Make</strong></td>
+            <td>Design-first enterprise — design system adherence, Git governance, multi-model AI (Claude 3.6 Sonnet + Opus + Gemini)</td>
+            <td>$16–90/seat/mo</td>
+            <td>Established product teams with mature design systems &amp; GitHub architecture</td>
+          </tr>
+          <tr>
+            <td><strong>Lovable</strong></td>
+            <td>Code-first production — full-stack app builder, Supabase backend, strict two-way GitHub sync</td>
+            <td>$25–50/mo</td>
+            <td>Solo devs, lean startups, greenfield projects</td>
+          </tr>
+          <tr>
+            <td><strong>Claude Design</strong></td>
+            <td>AI-native prototyping — reads codebases to extract design systems, generates interactive prototypes from prompts, hands off to Claude Code</td>
+            <td>$20–200/mo (Pro/Max)</td>
+            <td>PMs &amp; engineers needing rapid UI wireframing</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Figma's Q1 2026 revenue: $333M (46% YoY growth), 139% net dollar retention [1]</li>
+        <li>But FIG stock crashed 81% from IPO peak — investors question whether traditional design software can defend against AI-native competitors [4]</li>
+        <li>Claude Design (Anthropic) entered the space in April 2026 — Mike Krieger (Figma CPO/co-founder) resigned from Figma's board [VCBeat]</li>
+      </ul>
+    </div>
+
+    <div class="verdict">
+      <h4>SuperOps Relevance ★</h4>
+      <p>The fragmentation means design tooling choice directly impacts hiring. Teams betting on Figma Make need designers who understand Git, design systems, and React. Teams on Lovable need full-stack builders. Teams on Claude Design need strong prompting + design judgment. All three paths converge on the same meta-skill: the ability to operate <em>across</em> design and code. "Design engineers" are no longer a niche — they're the new baseline.</p>
+    </div>
+  </section>
+
+  <!-- FINDING 3 -->
+  <section class="section">
+    <span class="tag tag-trend">HIGH SIGNAL</span>
+    <h2>Generative UI &amp; Self-Auditing Design Systems</h2>
+    <p class="lede">Interfaces that assemble in real-time based on user behavior, plus AI design lint that catches token drift before it ships — moving from experimental to standard practice.</p>
+
+    <div class="finding">
+      <h3>Generative UI Is Production-Ready</h3>
+      <p class="evidence">73% of designers identify AI collaboration as their highest-impact workflow shift (Figma State of the Designer 2026). Generative UI delivers personalized layouts from a single codebase: first-time visitors see different layouts than returning users, while the component library stays consistent. [5][6]</p>
+      <ul>
+        <li><span class="data-point">47% faster redesign cycles</span> across AI-assisted workflows [6]</li>
+        <li><span class="data-point">30% higher engagement</span> from generative-UI-powered adaptive layouts [6]</li>
+        <li><span class="data-point">20–30% conversion lifts</span> from dynamic, user-intent-based interfaces [6]</li>
+        <li>Tools: Galileo AI (concept exploration), Framer AI (published sites, fast), Builder.io Visual Copilot (Figma→React/Vue code) [5]</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <h3>AI Design Systems That Self-Audit</h3>
+      <p class="evidence">Figma's AI layer now includes design lint that flags token drift, spacing violations, color mismatches, and typographic inconsistencies in real time. One studio tracked design QA time dropping from 4.5 hours per sprint to under 40 minutes after implementing AI design lint. [5]</p>
+      <ul>
+        <li>Real-time accessibility AI checks contrast ratios, reading order, focus states, plain-language scores — WCAG caught in design, not development [5]</li>
+        <li>42% of design studios now use AI tools in daily workflow (Figma 2026 Design Census) [5]</li>
+        <li>72% of designers use generative AI; 91% say it improves output quality, not just speed [7]</li>
+      </ul>
+    </div>
+
+    <div class="verdict">
+      <h4>SuperOps Relevance ★</h4>
+      <p>For a SaaS building ITSM/MSP products, design system drift is a real tax — every sprint wasted fixing mismatched components is a sprint not spent on user-facing features. AI-powered design lint and generative UI components are directly applicable. The principle: invest in the design system <em>before</em> the AI layer, or the AI just scales inconsistency.</p>
+    </div>
+  </section>
+
+  <!-- FINDING 4 -->
+  <section class="section">
+    <span class="tag tag-trend">HIGH SIGNAL</span>
+    <h2>The Claude Skills Ecosystem Matures</h2>
+    <p class="lede">The Agent Skills specification is now cross-platform (Claude Code, Codex, Cursor, Gemini CLI). Skills are becoming the standard mechanism for encoding design knowledge into AI-assisted workflows.</p>
+
+    <div class="finding">
+      <h3>Top Design Skills by Adoption</h3>
+      <table class="mini-table">
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Stars</th>
+            <th>Focus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Anthropic Frontend Design</td>
+            <td>65,847</td>
+            <td>Breaks AI "slop" — distinctive typography, bold color, unexpected layouts. Bans Inter/Roboto/Space Grotesk. [8]</td>
+          </tr>
+          <tr>
+            <td>UI/UX Pro Max</td>
+            <td>29,636</td>
+            <td>50 styles, 97 palettes, 9 tech stacks — design intelligence for AI agents [8]</td>
+          </tr>
+          <tr>
+            <td>Vercel Web Design Guidelines</td>
+            <td>19,487</td>
+            <td>100+ rules covering accessibility, UX, performance — acts as a linter for UI/UX quality [8]</td>
+          </tr>
+          <tr>
+            <td>Vercel React Best Practices</td>
+            <td>19,487</td>
+            <td>57 performance rules across 8 categories, prioritized by impact [8]</td>
+          </tr>
+          <tr>
+            <td>AccessLint</td>
+            <td>8</td>
+            <td>WCAG 2.1 accessibility auditing, contrast checking, refactoring [8]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="finding">
+      <h3>Security Watch — ToxicSkills</h3>
+      <p class="evidence">Snyk's ToxicSkills research found prompt injection in 36% of skills tested and 1,467 malicious payloads across the ecosystem. The Agent Skills ecosystem is new and growing fast — treat every skill as third-party code. [8]</p>
+    </div>
+
+    <div class="verdict">
+      <h4>SuperOps Relevance ★</h4>
+      <p>If SuperOps uses Claude Code or plans to adopt agentic coding workflows, the skills ecosystem is the fastest way to encode design standards into the AI's output. Anthropic Frontend Design + Vercel Web Design Guidelines would be the recommended starter stack for any product team shipping frontend code through AI.</p>
+    </div>
+  </section>
+
+  <!-- FINDING 5 -->
+  <section class="section">
+    <span class="tag tag-early">WATCH</span>
+    <h2>Organizational Redesign for Agentic AI</h2>
+    <p class="lede">The bottleneck is not AI capability — it's organizational readiness. "Agentic Business Transformation" (ABT) is emerging as a framework for rewiring companies around AI agents.</p>
+
+    <div class="finding">
+      <h3>The Readiness Gap</h3>
+      <ul>
+        <li><span class="data-point">85%</span> of organizations want to be agentic within 3 years [9]</li>
+        <li><span class="data-point">76%</span> say current operations and infrastructure can't support it [9]</li>
+        <li>AI agents could accelerate business processes by <span class="data-point">30–50%</span> and reduce low-value work time by <span class="data-point">25–40%</span> when deployed at scale [9]</li>
+        <li>McKinsey: 75% of current jobs will require redesign, upskilling, or redeployment by 2030 [9]</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <h3>ABT Framework (Ema + HFS Research)</h3>
+      <p class="evidence">Three pillars: (1) technology stack — pivot from linear processes to AI agents as "connective tissue" across systems; (2) workforce redesign — managers shift from execution to managing hybrid human-AI teams, with new challenges around trust, explainability, and psychological safety; (3) outcome-based metrics — activity metrics become meaningless when AI handles 1,000 interactions in the time a human handles 10. [9]</p>
+      <ul>
+        <li>One Ema customer tripled measured ROI from agentic AI by switching from cost-per-query metrics to outcome metrics like "percentage of contracts reviewed without human escalation" [9]</li>
+        <li>PwC's CTO: "Layering AI agents onto existing operations is like adding sticky tape to a breaking operating model" [9]</li>
+      </ul>
+    </div>
+
+    <div class="verdict">
+      <h4>SuperOps Relevance ★</h4>
+      <p>For a product company building agentic AI features for MSPs, the ABT framework is directly applicable — it tells you what your customers are struggling with. The readiness gap (85% want it, 76% can't support it) is the market opportunity. Outcome metrics, not activity metrics, should drive how SuperOps positions agentic features to buyers.</p>
+    </div>
+  </section>
+
+  <!-- FINDING 6: Web Design Trends -->
+  <section class="section">
+    <span class="tag tag-trend">SIGNAL</span>
+    <h2>Web Design Trends 2026 — What's Real, What's Hype</h2>
+    <p class="lede">Figma's annual trend report + independent sources converge on a clear set of design directions that are moving from "experimental" to "baseline."</p>
+
+    <div class="finding">
+      <h3>13 Visual Trends (Figma)</h3>
+      <ul>
+        <li><strong>3D &amp; immersive:</strong> WebGL, AR previews, interactive models — brands like Nike, IKEA shipping this now [7]</li>
+        <li><strong>Experimental navigation:</strong> Radial menus, hidden drawers, nonlinear journeys — tools: Figma Make, Locomotive, Google Arts &amp; Culture [7]</li>
+        <li><strong>Vibrant palettes:</strong> Y2K nostalgia, "dopamine design," neon gradients replacing minimalism — Lush, Headspace, Starface [7]</li>
+        <li><strong>Bold typography:</strong> Custom fonts, oversized headlines, kinetic lettering — Glossier, Samsung [7]</li>
+        <li><strong>Dark mode standard:</strong> 68% of iOS users enable it by default. Not optional anymore [5][7]</li>
+        <li><strong>Motion design:</strong> Scroll-based narratives, micro-animations — Figma's native animation timeline eliminates the "design→export to After Effects→re-import" step [7]</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <h3>AI-Specific Trends</h3>
+      <ul>
+        <li><strong>Agentic chatbots:</strong> 51% of Figma users building AI products are building agents (up from 21% last year) [7]</li>
+        <li><strong>Voice-activated interfaces:</strong> Walmart, Domino's, Nike, ASOS, Sephora shipping voice navigation [7]</li>
+        <li><strong>Progressive lead nurturing:</strong> AI tailors form questions, follow-ups based on each user interaction [7]</li>
+        <li><strong>Sustainable web design:</strong> Leaner code, optimized images, accessibility-first — dark patterns are anti-patterns now [7]</li>
+      </ul>
+    </div>
+
+    <div class="verdict">
+      <h4>SuperOps Relevance ★</h4>
+      <p>For SuperOps' own product UI, the signal is clear: dark mode is a requirement, not a feature. 3D and spatial design are still early for enterprise SaaS but worth watching. The AI chatbot trend directly maps to SuperOps' agent roadmap — 51% of Figma users building agents signals massive demand for agentic UX patterns.</p>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <section class="sources">
+    <h2>Sources</h2>
+    <ol>
+      <li>[1] Figma Config 2026 — Code Layers, AI Skills, Plugins — <a href="http://thenextweb.com/news/figma-config-code-layers-ai-skills-plugins-animations" target="_blank" rel="noopener">The Next Web (June 24, 2026)</a></li>
+      <li>[2] Config 2026 — AI blurs lines as Figma brings code, motion, agent workflows into design canvas — <a href="http://diginomica.com/config-2026-ai-blurs-lines-figma-code-motion-agent-workflows-design-canvas" target="_blank" rel="noopener">Diginomica (June 29, 2026)</a></li>
+      <li>[3] Figma adds AI assistant to collaborative canvas — <a href="http://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/" target="_blank" rel="noopener">TechCrunch (May 20, 2026)</a></li>
+      <li>[4] Figma Make's two-way GitHub integration — designs into live production code with governance — <a href="http://venturebeat.com/technology/are-designers-the-new-swes-figma-makes-new-two-way-github-integration-turns-designs-into-live-production-code-with-built-in-governance" target="_blank" rel="noopener">VentureBeat (May 28, 2026)</a></li>
+      <li>[5] Best AI-Powered UI/UX Design Technologies in 2026 — <a href="http://www.technology.org/2026/05/18/best-ai-powered-ui-ux-design-technologies-in-2026-how-to-choose-the-right-product-design-company/" target="_blank" rel="noopener">Technology.org (May 18, 2026)</a></li>
+      <li>[6] Generative UI and AI Design Systems Redefining Website Redesign Services in 2026 — <a href="http://signalscv.com/2026/04/phenomenon-studio-how-generative-ui-and-ai-design-systems-are-redefining-website-redesign-services-in-2026/" target="_blank" rel="noopener">SignalsCV (Apr 17, 2026)</a></li>
+      <li>[7] Top Web Design Trends for 2026 — <a href="http://www.figma.com/resource-library/web-design-trends/" target="_blank" rel="noopener">Figma Resource Library</a></li>
+      <li>[8] Top 8 Claude Skills for UI/UX Engineers — <a href="http://snyk.io/articles/top-claude-skills-ui-ux-engineers/" target="_blank" rel="noopener">Snyk (Mar 2, 2026)</a></li>
+      <li>[9] Rethinking organizational design in the age of agentic AI — <a href="http://www.technologyreview.com/2026/05/26/1137584/rethinking-organizational-design-in-the-age-of-agentic-ai/" target="_blank" rel="noopener">MIT Technology Review (May 26, 2026)</a></li>
+      <li>[10] The 10 Hottest Agentic AI Agents, Tools and Products of 2026 (So Far) — <a href="http://www.crn.com/news/ai/2026/10-hottest-agentic-ai-agents-tools-and-products-of-2026-so-far" target="_blank" rel="noopener">CRN (June 29, 2026)</a></li>
+      <li>[11] Figma adds an AI assistant to its canvas — <a href="http://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/" target="_blank" rel="noopener">TechCrunch (May 20, 2026)</a></li>
+      <li>[12] 26 Best AI Tools for Website Design [2026] — <a href="http://officechai.com/learn/ai-tools-for-website-design/" target="_blank" rel="noopener">OfficeChai (July 19, 2026)</a></li>
+      <li>[13] The AI Revolution in Content Creation: Trends Shaping 2026 — <a href="http://gritdaily.com/ai-revolution-content-creation-trends-shaping-2026/" target="_blank" rel="noopener">Grit Daily (July 8, 2026)</a></li>
+    </ol>
+  </section>
+
+  <section class="method">
+    <strong>Method:</strong> SearXNG discovery (localhost:8080, 5 queries × up to 96 results each) → jina.ai extraction (13 full articles deep-read) → cross-verification (each claim backed by ≥2 independent sources). Claims without live source links are flagged as uncertain. Sources span June–July 2026 unless otherwise noted.
+  </section>
+
+</main>
+</body>
+</html>
