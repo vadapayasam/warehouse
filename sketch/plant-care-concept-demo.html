@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprout — Plant Care</title>
+    <style>
+        /* ============================================
+           CONCEPT ENGINE: Plant Care App
+           Domain: gardening
+           Core emotion: nurturing, growth, calm
+           Metaphor: terracotta pot on greenhouse shelf
+           Material: clay, soil, leaf veins, morning dew
+           Motion: growth spurt, water absorb, leaf flutter
+           ============================================ */
+
+        /* Material Library: Terracotta + Paper + Leaf */
+        :root {
+            /* Terracotta base — warm, earthy, not pure RGB */
+            --terracotta-50: #faf6f2;
+            --terracotta-100: #f0e6dc;
+            --terracotta-200: #e0cfc0;
+            --terracotta-300: #c9a88a;
+            --terracotta-400: #b08d6b;
+            --terracotta-500: #9a7555;
+            --terracotta-600: #7d5c42;
+            --terracotta-700: #5f4532;
+            --terracotta-800: #422f22;
+            --terracotta-900: #2a1d15;
+
+            /* Leaf green — organic, varied */
+            --leaf-50: #f2f7f0;
+            --leaf-100: #e0eddb;
+            --leaf-200: #c2dcb8;
+            --leaf-300: #9bc48e;
+            --leaf-400: #74ab66;
+            --leaf-500: #549148;
+            --leaf-600: #3f7537;
+            --leaf-700: #325c2d;
+            --leaf-800: #294725;
+            --leaf-900: #1f331c;
+
+            /* Soil brown */
+            --soil-50: #f7f4f0;
+            --soil-100: #e8e0d5;
+            --soil-200: #d4c5b0;
+            --soil-300: #b8a185;
+            --soil-400: #9c7f5f;
+            --soil-500: #806044;
+            --soil-600: #664b35;
+            --soil-700: #4d3928;
+            --soil-800: #35281c;
+            --soil-900: #221a12;
+
+            /* Paper — warm white for cards */
+            --paper: #faf8f4;
+            --paper-warm: #f5f0e8;
+            --paper-aged: #ebe4d8;
+
+            /* Semantic */
+            --water: #4a90b8;
+            --water-light: #7ab8d4;
+            --sun: #d4a574;
+            --danger: #b85c5c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--terracotta-50);
+            color: var(--terracotta-900);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============================================
+           REDUCTION ENGINE: Minimal containers
+           - No cards inside cards
+           - Typography + whitespace = hierarchy
+           - Hairline dividers only when needed
+           - Content floats on canvas
+           ============================================ */
+
+        .app {
+            max-width: 420px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--terracotta-50);
+        }
+
+        /* Header — reduced to typography + spacing */
+        .header {
+            padding: 24px 20px 16px;
+            /* No card, no border, no background */
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--terracotta-900);
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 15px;
+            color: var(--terracotta-500);
+            margin-top: 2px;
+        }
+
+        /* Section header — typographic only */
+        .section-header {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--terracotta-400);
+            padding: 24px 20px 8px;
+        }
+
+        /* ============================================
+           PLANT CARD — The core component
+           Concept: Terracotta pot with plant
+           Material: Clay texture, soil surface, leaf accent
+           Motion: Growth spurt on appear, water absorb on action
+           Reduction: No outer card, pot shape IS the container
+           ============================================ */
+
+        .plant-list {
+            padding: 0 20px;
+        }
+
+        .plant-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 0;
+            /* No card border, no background, no shadow */
+            /* Separation comes from spacing + hairline */
+            border-bottom: 1px solid var(--terracotta-100);
+            /* Subtle grow-in animation */
+            animation: growIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .plant-item:nth-child(1) { animation-delay: 0.05s; }
+        .plant-item:nth-child(2) { animation-delay: 0.1s; }
+        .plant-item:nth-child(3) { animation-delay: 0.15s; }
+        .plant-item:nth-child(4) { animation-delay: 0.2s; }
+        .plant-item:nth-child(5) { animation-delay: 0.25s; }
+
+        @keyframes growIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Plant avatar — terracotta pot shape */
+        .plant-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px 12px 16px 16px; /* Pot shape — wider top */
+            background: linear-gradient(135deg, var(--terracotta-200), var(--terracotta-300));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            position: relative;
+            /* Clay texture via subtle noise */
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -2px 4px rgba(0,0,0,0.08),
+                0 2px 4px rgba(0,0,0,0.06);
+            flex-shrink: 0;
+        }
+
+        /* Soil top on the pot */
+        .plant-avatar::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            right: 6px;
+            height: 8px;
+            background: var(--soil-300);
+            border-radius: 4px;
+            opacity: 0.6;
+        }
+
+        /* Plant info — typographic hierarchy only */
+        .plant-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .plant-name {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--terracotta-900);
+            letter-spacing: -0.2px;
+        }
+
+        .plant-meta {
+            font-size: 14px;
+            color: var(--terracotta-500);
+            margin-top: 1px;
+        }
+
+        /* Water status — leaf accent */
+        .plant-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            /* No heavy container — subtle tint only */
+        }
+
+        .plant-status.needs-water {
+            background: var(--water);
+            color: white;
+        }
+
+        .plant-status.thriving {
+            background: var(--leaf-100);
+            color: var(--leaf-700);
+        }
+
+        .plant-status.warning {
+            background: var(--sun);
+            color: var(--terracotta-800);
+        }
+
+        /* ============================================
+           WATER ACTION — Motion Vocabulary
+           Water absorb: fills from bottom with wave
+           ============================================ */
+
+        .water-button {
+            position: relative;
+            overflow: hidden;
+            background: var(--water);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 24px 20px;
+            width: calc(100% - 40px);
+            /* Water absorb effect */
+            transition: transform 0.2s;
+        }
+
+        .water-button:active {
+            transform: scale(0.97);
+        }
+
+        .water-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0%;
+            background: var(--water-light);
+            transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .water-button.watering .water-fill {
+            height: 100%;
+        }
+
+        .water-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================
+           EMPTY STATE — Invitation, not void
+           Concept: Empty shelf with single pot
+           ============================================ */
+
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            /* No card, no border — content floats */
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            /* Gentle bobbing — leaf flutter motion */
+            animation: leafBob 3s ease-in-out infinite;
+        }
+
+        @keyframes leafBob {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-4px) rotate(1deg); }
+            75% { transform: translateY(2px) rotate(-1deg); }
+        }
+
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--terracotta-700);
+            margin-bottom: 8px;
+        }
+
+        .empty-subtitle {
+            font-size: 15px;
+            color: var(--terracotta-400);
+        }
+
+        /* ============================================
+           SUCCESS STATE — Ceremony
+           Motion: Stamp press + leaf unfurl
+           ============================================ */
+
+        .success-toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: var(--leaf-500);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 600;
+            /* Stamp press animation */
+            animation: stampIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            box-shadow: 0 4px 12px rgba(84, 145, 72, 0.3);
+        }
+
+        @keyframes stampIn {
+            0% { transform: translateX(-50%) scale(0); }
+            60% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        .success-toast.hide {
+            animation: fadeOut 0.3s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ============================================
+           DETAIL VIEW — Bottom sheet concept
+           Material: Paper with deckle edge
+           Motion: Paper lift on appear
+           ============================================ */
+
+        .detail-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(42, 29, 21, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .detail-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .detail-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 420px;
+            margin: 0 auto;
+            background: var(--paper);
+            border-radius: 20px 20px 0 0;
+            /* Paper material with subtle texture */
+            box-shadow: 
+                0 -4px 20px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .detail-sheet.active {
+            transform: translateY(0);
+        }
+
+        /* Paper grain texture overlay */
+        .detail-sheet::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .detail-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--terracotta-100);
+        }
+
+        .detail-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px 16px 20px 20px;
+            background: linear-gradient(135deg, var(--terracotta-200), var(--terracotta-300));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 12px;
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -2px 4px rgba(0,0,0,0.08);
+        }
+
+        .detail-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--terracotta-900);
+        }
+
+        .detail-species {
+            font-size: 15px;
+            color: var(--terracotta-500);
+            font-style: italic;
+        }
+
+        /* Care schedule — reduced structure */
+        .care-section {
+            padding: 20px;
+        }
+
+        .care-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--terracotta-400);
+            margin-bottom: 16px;
+        }
+
+        .care-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            /* Hairline divider only */
+            border-bottom: 1px solid var(--terracotta-100);
+        }
+
+        .care-item:last-child {
+            border-bottom: none;
+        }
+
+        .care-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .care-icon.water { background: var(--water-light); }
+        .care-icon.sun { background: var(--sun); }
+        .care-icon.soil { background: var(--soil-200); }
+        .care-icon.temp { background: var(--leaf-200); }
+
+        .care-info {
+            flex: 1;
+        }
+
+        .care-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--terracotta-900);
+        }
+
+        .care-value {
+            font-size: 14px;
+            color: var(--terracotta-500);
+        }
+
+        /* Last watered — typographic only */
+        .last-watered {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: var(--terracotta-400);
+            text-align: center;
+        }
+
+        /* Close button — minimal */
+        .close-button {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--terracotta-100);
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--terracotta-600);
+        }
+
+        /* ============================================
+           NAVIGATION — Tab bar, reduced
+           ============================================ */
+
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 420px;
+            margin: 0 auto;
+            background: var(--paper);
+            /* No border, no shadow — hairline only */
+            border-top: 1px solid var(--terracotta-100);
+            padding: 8px 20px 24px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            /* No background by default */
+            transition: background 0.2s;
+        }
+
+        .tab-item.active {
+            color: var(--leaf-600);
+        }
+
+        .tab-item.active .tab-icon {
+            transform: scale(1.1);
+        }
+
+        .tab-icon {
+            font-size: 22px;
+            transition: transform 0.2s;
+        }
+
+        .tab-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--terracotta-400);
+        }
+
+        .tab-item.active .tab-label {
+            color: var(--leaf-600);
+        }
+
+        /* Content padding for tab bar */
+        .content {
+            padding-bottom: 100px;
+        }
+
+        /* ============================================
+           DEMO CONTROLS — Show the system working
+           ============================================ */
+
+        .demo-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--paper);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 200px;
+            font-size: 12px;
+        }
+
+        .demo-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--terracotta-900);
+        }
+
+        .demo-btn {
+            display: block;
+            width: 100%;
+            padding: 8px 12px;
+            margin: 4px 0;
+            border: 1px solid var(--terracotta-200);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .demo-btn:hover {
+            background: var(--terracotta-50);
+        }
+
+        .demo-note {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--terracotta-100);
+            color: var(--terracotta-500);
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .demo-controls {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Demo Controls -->
+        <div class="demo-controls">
+            <div class="demo-title">🌿 Engine Demo</div>
+            <button class="demo-btn" onclick="toggleReduction()">Toggle Reduction</button>
+            <button class="demo-btn" onclick="toggleMaterial()">Toggle Material</button>
+            <button class="demo-btn" onclick="showWatering()">Water All Plants</button>
+            <button class="demo-btn" onclick="showEmpty()">Empty State</button>
+            <div class="demo-note">
+                This demo shows the ios-design-taste engines working: Concept, Material, Motion, Reduction.
+            </div>
+        </div>
+
+        <!-- Header — Reduced: no card, no border, typography only -->
+        <div class="header">
+            <div class="header-title">Sprout</div>
+            <div class="header-subtitle">Your greenhouse</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content" id="content">
+            <!-- Section header — typographic only -->
+            <div class="section-header">Needs Attention</div>
+            
+            <!-- Plant list — Reduced: no cards, hairline dividers, spacing -->
+            <div class="plant-list" id="plant-list">
+                <div class="plant-item" onclick="showDetail('Fiddle Leaf Fig', 'Ficus lyrata', '🌿')">
+                    <div class="plant-avatar">🌿</div>
+                    <div class="plant-info">
+                        <div class="plant-name">Fiddle Leaf Fig</div>
+                        <div class="plant-meta">Water in 2 days</div>
+                    </div>
+                    <div class="plant-status thriving">Thriving</div>
+                </div>
+
+                <div class="plant-item" onclick="showDetail('Monstera', 'Monstera deliciosa', '🪴')">
+                    <div class="plant-avatar">🪴</div>
+                    <div class="plant-info">
+                        <div class="plant-name">Monstera</div>
+                        <div class="plant-meta">Water today</div>
+                    </div>
+                    <div class="plant-status needs-water">Needs Water</div>
+                </div>
+
+                <div class="plant-item" onclick="showDetail('Snake Plant', 'Sansevieria', '🌱')">
+                    <div class="plant-avatar">🌱</div>
+                    <div class="plant-info">
+                        <div class="plant-name">Snake Plant</div>
+                        <div class="plant-meta">Water in 5 days</div>
+                    </div>
+                    <div class="plant-status thriving">Thriving</div>
+                </div>
+            </div>
+
+            <div class="section-header">Recently Watered</div>
+            
+            <div class="plant-list">
+                <div class="plant-item" onclick="showDetail('Pothos', 'Epipremnum aureum', '🍃')">
+                    <div class="plant-avatar">🍃</div>
+                    <div class="plant-info">
+                        <div class="plant-name">Pothos</div>
+                        <div class="plant-meta">Watered yesterday</div>
+                    </div>
+                    <div class="plant-status thriving">Thriving</div>
+                </div>
+
+                <div class="plant-item" onclick="showDetail('Peace Lily', 'Spathiphyllum', '🌸')">
+                    <div class="plant-avatar">🌸</div>
+                    <div class="plant-info">
+                        <div class="plant-name">Peace Lily</div>
+                        <div class="plant-meta">Watered 2 days ago</div>
+                    </div>
+                    <div class="plant-status warning">Low Light</div>
+                </div>
+            </div>
+
+            <!-- Water button — Motion: water absorb -->
+            <button class="water-button" id="water-btn" onclick="startWatering()">
+                <div class="water-fill"></div>
+                <span class="water-text">💧 Water All Plants</span>
+            </button>
+        </div>
+
+        <!-- Empty state — hidden by default -->
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <div class="empty-icon">🪴</div>
+            <div class="empty-title">No plants yet</div>
+            <div class="empty-subtitle">Add your first plant to start your greenhouse</div>
+        </div>
+
+        <!-- Tab bar — Reduced: hairline only, no shadow -->
+        <div class="tab-bar">
+            <div class="tab-item active">
+                <div class="tab-icon">🌿</div>
+                <div class="tab-label">Plants</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon">📅</div>
+                <div class="tab-label">Schedule</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon">📷</div>
+                <div class="tab-label">Identify</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon">⚙️</div>
+                <div class="tab-label">Settings</div>
+            </div>
+        </div>
+
+        <!-- Detail overlay -->
+        <div class="detail-overlay" id="detail-overlay" onclick="hideDetail()"></div>
+        
+        <!-- Detail sheet — Paper material, bottom sheet -->
+        <div class="detail-sheet" id="detail-sheet">
+            <button class="close-button" onclick="hideDetail()">×</button>
+            <div class="detail-header">
+                <div class="detail-avatar" id="detail-avatar">🌿</div>
+                <div class="detail-name" id="detail-name">Fiddle Leaf Fig</div>
+                <div class="detail-species" id="detail-species">Ficus lyrata</div>
+            </div>
+            <div class="care-section">
+                <div class="care-title">Care Schedule</div>
+                <div class="care-item">
+                    <div class="care-icon water">💧</div>
+                    <div class="care-info">
+                        <div class="care-label">Water</div>
+                        <div class="care-value">Every 7 days</div>
+                    </div>
+                </div>
+                <div class="care-item">
+                    <div class="care-icon sun">☀️</div>
+                    <div class="care-info">
+                        <div class="care-label">Light</div>
+                        <div class="care-value">Bright indirect</div>
+                    </div>
+                </div>
+                <div class="care-item">
+                    <div class="care-icon soil">🪨</div>
+                    <div class="care-info">
+                        <div class="care-label">Soil</div>
+                        <div class="care-value">Well-draining</div>
+                    </div>
+                </div>
+                <div class="care-item">
+                    <div class="care-icon temp">🌡️</div>
+                    <div class="care-info">
+                        <div class="care-label">Temperature</div>
+                        <div class="care-value">65–75°F</div>
+                    </div>
+                </div>
+            </div>
+            <div class="last-watered">
+                Last watered: March 15, 2024
+            </div>
+        </div>
+
+        <!-- Success toast -->
+        <div class="success-toast" id="success-toast" style="display: none;">
+            ✓ All plants watered
+        </div>
+    </div>
+
+    <script>
+        // Motion: Water absorb animation
+        function startWatering() {
+            const btn = document.getElementById('water-btn');
+            btn.classList.add('watering');
+            
+            setTimeout(() => {
+                btn.classList.remove('watering');
+                showSuccess();
+            }, 1500);
+        }
+
+        // Motion: Stamp press success
+        function showSuccess() {
+            const toast = document.getElementById('success-toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                    toast.classList.remove('hide');
+                }, 300);
+            }, 2000);
+        }
+
+        // Motion: Paper lift detail sheet
+        function showDetail(name, species, emoji) {
+            document.getElementById('detail-name').textContent = name;
+            document.getElementById('detail-species').textContent = species;
+            document.getElementById('detail-avatar').textContent = emoji;
+            document.getElementById('detail-overlay').classList.add('active');
+            document.getElementById('detail-sheet').classList.add('active');
+        }
+
+        function hideDetail() {
+            document.getElementById('detail-overlay').classList.remove('active');
+            document.getElementById('detail-sheet').classList.remove('active');
+        }
+
+        // Demo: Toggle reduction (show what cards would look like)
+        function toggleReduction() {
+            const items = document.querySelectorAll('.plant-item');
+            const isReduced = items[0].style.background === 'white';
+            
+            items.forEach(item => {
+                if (isReduced) {
+                    // Back to reduced
+                    item.style.background = '';
+                    item.style.borderRadius = '';
+                    item.style.padding = '';
+                    item.style.margin = '';
+                    item.style.boxShadow = '';
+                    item.style.border = '';
+                } else {
+                    // Add cards (anti-pattern)
+                    item.style.background = 'white';
+                    item.style.borderRadius = '12px';
+                    item.style.padding = '14px';
+                    item.style.margin = '8px 0';
+                    item.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                    item.style.border = '1px solid var(--terracotta-100)';
+                }
+            });
+        }
+
+        // Demo: Toggle material (show flat vs textured)
+        function toggleMaterial() {
+            const avatars = document.querySelectorAll('.plant-avatar');
+            const isTextured = avatars[0].style.background.includes('gradient');
+            
+            avatars.forEach(avatar => {
+                if (isTextured) {
+                    avatar.style.background = 'var(--terracotta-300)';
+                    avatar.style.boxShadow = 'none';
+                } else {
+                    avatar.style.background = 'linear-gradient(135deg, var(--terracotta-200), var(--terracotta-300))';
+                    avatar.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06)';
+                }
+            });
+        }
+
+        // Demo: Show empty state
+        function showEmpty() {
+            const content = document.getElementById('content');
+            const empty = document.getElementById('empty-state');
+            const isEmpty = empty.style.display === 'block';
+            
+            if (isEmpty) {
+                content.style.display = 'block';
+                empty.style.display = 'none';
+            } else {
+                content.style.display = 'none';
+                empty.style.display = 'block';
+            }
+        }
+
+        // Keyboard: Escape closes detail
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') hideDetail();
+        });
+    </script>
+</body>
+</html>
