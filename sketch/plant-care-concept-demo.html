@@ -633,9 +633,34 @@
             line-height: 1.4;
         }
 
-        /* Responsive */
+        /* Responsive — mobile gets compact floating controls */
         @media (max-width: 480px) {
             .demo-controls {
+                top: auto;
+                bottom: 100px;
+                right: 12px;
+                left: 12px;
+                max-width: none;
+                padding: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+                font-size: 11px;
+            }
+            .demo-title {
+                width: 100%;
+                margin-bottom: 4px;
+                font-size: 11px;
+            }
+            .demo-btn {
+                width: auto;
+                flex: 1 1 45%;
+                margin: 0;
+                padding: 8px 8px;
+                font-size: 11px;
+                text-align: center;
+            }
+            .demo-note {
                 display: none;
             }
         }
