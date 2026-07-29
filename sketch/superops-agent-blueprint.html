@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SuperOps Agent Blueprint  -  From ITSM Research to Build Patterns</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #fafbfc;
+    --bg-card: #ffffff;
+    --bg-subtle: #f5f5f7;
+    --bg-muted: #eef2f6;
+    --border: #e2e4e9;
+    --border-hover: #c1c5cd;
+    --ring: #0066ff;
+    --fg: #11181c;
+    --fg-secondary: #687076;
+    --fg-muted: #889096;
+    --accent: #0066ff;
+    --accent-soft: #e8f0fe;
+    --accent-hover: #0052cc;
+    --green: #30a46c;
+    --green-soft: #e6f7ee;
+    --orange: #e54d2e;
+    --orange-soft: #fef0ee;
+    --purple: #6e56cf;
+    --purple-soft: #f0edfc;
+    --amber: #f5a623;
+    --amber-soft: #fef9e7;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --font: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 1px 4px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,.08);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font); background: var(--bg); color: var(--fg);
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #0b1120 0%, #111827 100%);
+    color: #fff; padding: 60px 0 48px; border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  header .label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .06em; color: rgba(255,255,255,.5);
+    background: rgba(255,255,255,.06); border-radius: 100px;
+    padding: 4px 12px; margin-bottom: 16px;
+  }
+  header h1 { font-size: clamp(32px,5vw,48px); font-weight: 700; line-height: 1.1; letter-spacing: -.03em; margin-bottom: 12px; }
+  header p { font-size: 17px; color: rgba(255,255,255,.65); max-width: 680px; line-height: 1.6; }
+  header .meta { margin-top: 20px; display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: rgba(255,255,255,.4); }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,.88); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .container { display: flex; gap: 4px; padding: 0 20px; overflow-x: auto; }
+  nav a {
+    display: inline-block; padding: 12px 14px; font-size: 13px; font-weight: 500;
+    color: var(--fg-secondary); text-decoration: none; white-space: nowrap;
+    border-bottom: 2px solid transparent; transition: all .15s;
+  }
+  nav a:hover, nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Sections */
+  section { padding: 48px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  .section-header { margin-bottom: 28px; }
+  .section-header .eyebrow { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 6px; }
+  .section-header h2 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; }
+  .section-header p { font-size: 15px; color: var(--fg-secondary); margin-top: 6px; }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 24px; margin-bottom: 16px; transition: box-shadow .2s;
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+  .card-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+  .card-icon {
+    width: 40px; height: 40px; border-radius: var(--radius); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .card h3 { font-size: 17px; font-weight: 600; }
+  .card .subtitle { font-size: 13px; color: var(--fg-secondary); }
+  .card p { font-size: 14px; color: var(--fg-secondary); line-height: 1.6; }
+  .card .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 10px; }
+  .tag {
+    display: inline-flex; font-size: 12px; font-weight: 500; padding: 2px 8px;
+    border-radius: 4px; background: var(--bg-subtle); color: var(--fg-secondary); border: 1px solid var(--border);
+  }
+  .tag.blue { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+  .tag.green { background: var(--green-soft); color: var(--green); border-color: transparent; }
+  .tag.purple { background: var(--purple-soft); color: var(--purple); border-color: transparent; }
+  .tag.orange { background: var(--orange-soft); color: var(--orange); border-color: transparent; }
+  .tag.amber { background: var(--amber-soft); color: var(--amber); border-color: transparent; }
+
+  /* Grid layouts */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media(max-width:720px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--fg-muted); padding: 10px 12px; border-bottom: 2px solid var(--border); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--fg-secondary); }
+  tr:hover td { background: var(--bg-subtle); }
+
+  /* Agent cards */
+  .agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:720px) { .agent-grid { grid-template-columns: 1fr; } }
+  .agent-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 20px; position: relative; overflow: hidden;
+  }
+  .agent-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .agent-card.blue::before { background: var(--accent); }
+  .agent-card.green::before { background: var(--green); }
+  .agent-card.orange::before { background: var(--orange); }
+  .agent-card.purple::before { background: var(--purple); }
+  .agent-card.amber::before { background: var(--amber); }
+  .agent-card h4 { font-size: 15px; font-weight: 600; margin-top: 6px; }
+  .agent-card .company { font-size: 12px; color: var(--fg-muted); margin-bottom: 8px; }
+  .agent-card p { font-size: 13px; color: var(--fg-secondary); line-height: 1.5; }
+
+  /* Mockup */
+  .mockup-container {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    overflow: hidden; margin-bottom: 24px; box-shadow: var(--shadow-md);
+  }
+  .mockup-header {
+    display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+    background: var(--bg-subtle); border-bottom: 1px solid var(--border);
+  }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-dot:nth-child(1) { background: #e54d2e; }
+  .mockup-dot:nth-child(2) { background: #f5a623; }
+  .mockup-dot:nth-child(3) { background: #30a46c; }
+  .mockup-title { font-size: 12px; color: var(--fg-muted); margin-left: 8px; font-family: var(--font-mono); }
+  .mockup-body { padding: 24px; }
+
+  .sidebar-layout { display: grid; grid-template-columns: 220px 1fr; min-height: 400px; }
+  .sidebar { background: var(--bg-subtle); padding: 16px; border-right: 1px solid var(--border); }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; font-size: 13px; color: var(--fg-secondary); margin-bottom: 2px; cursor: default; }
+  .sidebar-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+  .main-panel { padding: 20px; }
+  .mock-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--fg-muted); margin-bottom: 8px; }
+  .mock-input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; font-family: var(--font); margin-bottom: 12px; }
+  .mock-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .mock-btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+    border-radius: 6px; font-size: 14px; font-weight: 500; border: none; cursor: default;
+    font-family: var(--font);
+  }
+  .mock-btn.primary { background: var(--accent); color: #fff; }
+  .mock-btn.secondary { background: var(--bg-card); color: var(--fg); border: 1px solid var(--border); }
+  .mock-btn.sm { padding: 4px 10px; font-size: 12px; }
+  .mock-badge {
+    display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px;
+    border-radius: 100px; font-size: 12px; font-weight: 500;
+  }
+  .mock-badge.green { background: var(--green-soft); color: var(--green); }
+  .mock-badge.amber { background: var(--amber-soft); color: var(--amber); }
+  .mock-badge.blue { background: var(--accent-soft); color: var(--accent); }
+  .mock-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .mock-row:last-child { border-bottom: none; }
+  .mock-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-muted); flex-shrink: 0; }
+  .mock-avatar.blue-bg { background: var(--accent-soft); }
+  .mock-avatar.green-bg { background: var(--green-soft); }
+  .mock-avatar.purple-bg { background: var(--purple-soft); }
+
+  /* Code blocks */
+  pre {
+    background: #0b1120; color: #e2e4e9; padding: 20px; border-radius: var(--radius-lg);
+    overflow-x: auto; font-size: 13px; line-height: 1.6; margin: 16px 0;
+    font-family: var(--font-mono);
+  }
+  code { font-family: var(--font-mono); font-size: 13px; background: var(--bg-subtle); padding: 2px 6px; border-radius: 4px; }
+  pre code { background: transparent; padding: 0; }
+
+  /* Steps */
+  .step { display: flex; gap: 16px; margin-bottom: 20px; }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--accent);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; flex-shrink: 0;
+  }
+  .step h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .step p { font-size: 14px; color: var(--fg-secondary); }
+
+  /* Footer */
+  footer {
+    background: #0b1120; color: rgba(255,255,255,.5); padding: 40px 0; text-align: center; font-size: 13px;
+  }
+  footer a { color: rgba(255,255,255,.7); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="label"><span>Research + Blueprint</span></div>
+    <h1>SuperOps Agent Blueprint</h1>
+    <p>Everything we learned from 10 weeks of ITSM/MSP agentic AI research, synthesized into build-ready patterns for SuperOps. Product knowledge from support docs, competitive analysis across 12 vendors, and UI mockups for agent interfaces.</p>
+    <div class="meta">
+      <span>July 29, 2026</span>
+      <span>Based on 12 research issues</span>
+      <span>12 vendors analyzed</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="container">
+    <a href="#summary">Summary</a>
+    <a href="#vendors">Vendors</a>
+    <a href="#monica">Monica AI</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#patterns">Build Patterns</a>
+    <a href="#mockups">UI Mockups</a>
+  </div>
+</nav>
+
+<!-- SECTION 1: Research Summary -->
+<section id="summary">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Batch 1</div>
+      <h2>What We Found Across 12 Vendors</h2>
+      <p>10 weeks of ITSM/MSP agentic AI research distilled into one view. Every vendor has an AI story  -  the patterns are what matter.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--accent-soft);">1</div>
+          <div><h3>Vendors Analyzed</h3><div class="subtitle">10 ITSM + 2 generic</div></div>
+        </div>
+        <p>ServiceNow, Atera, Freshworks, HaloPSA, PagerDuty, ConnectWise, Dynatrace, New Relic, NinjaOne, Kaseya, Atomicwork, BMC Helix</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--green-soft);">2</div>
+          <div><h3>AI Agent Types</h3><div class="subtitle">5 categories emerged</div></div>
+        </div>
+        <p>Ticket Resolution, Knowledge Management, Ops/Observability, Code/Script Gen, Custom Agent Builders</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--purple-soft);">3</div>
+          <div><h3>Pricing Models</h3><div class="subtitle">3 patterns dominate</div></div>
+        </div>
+        <p>Consumption ($1/resolution), Per-user add-on ($150-500/mo), Per-technicain tier ($0-35/mo)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: Vendors & Their Agents -->
+<section id="vendors">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Batch 1 · Deep Dive</div>
+      <h2>Every Vendor's AI Agent Fleet</h2>
+      <p>What each vendor built, what the agents do, and what SuperOps can learn from each approach.</p>
+    </div>
+
+    <div class="agent-grid">
+
+      <div class="agent-card blue">
+        <h4>Service Collaborator</h4>
+        <div class="company">ServiceNow · Now Assist</div>
+        <p>Agentic chat for tickets, incident summaries, auto-email responses, MIR generation. Handles questions about incidents, change requests, KB articles.</p>
+        <div class="tags"><span class="tag blue">Ticket Resolution</span><span class="tag blue">Conversational</span></div>
+      </div>
+
+      <div class="agent-card green">
+        <h4>Ops Swarmer</h4>
+        <div class="company">ServiceNow · Now Assist</div>
+        <p>Teams-native collaboration agent. Incident summaries, participant timelines, on-call recommendations, AIOps situation integration.</p>
+        <div class="tags"><span class="tag green">Collaboration</span><span class="tag green">AIOps</span></div>
+      </div>
+
+      <div class="agent-card orange">
+        <h4>Ticket Resolver</h4>
+        <div class="company">BMC Helix · HelixGPT</div>
+        <p>Autonomous ticket management agent. Configurable auto-resolution, incident management through natural language. Part of 5-agent HelixGPT fleet.</p>
+        <div class="tags"><span class="tag orange">Auto-Resolution</span></div>
+      </div>
+
+      <div class="agent-card purple">
+        <h4>AI Copilot</h4>
+        <div class="company">Atera</div>
+        <p>Technician-facing assistant. Script generation from plain text, remote session summaries, device troubleshooting, auto KB from tickets. 25-35% ticket reduction.</p>
+        <div class="tags"><span class="tag purple">Script Gen</span><span class="tag purple">KB Auto</span></div>
+      </div>
+
+      <div class="agent-card amber">
+        <h4>Freddy AI Agent</h4>
+        <div class="company">Freshworks</div>
+        <p>Autonomous resolution agent. 80% auto-resolution rate, 60+ languages, vertical agents (Shopify, Stripe, FedEx). Takes action: refunds, order updates, rescheduling.</p>
+        <div class="tags"><span class="tag amber">Auto-Resolution</span><span class="tag amber">Vertical</span></div>
+      </div>
+
+      <div class="agent-card blue">
+        <h4>SRE Agent</h4>
+        <div class="company">PagerDuty · Advance</div>
+        <p>Virtual first responder. MCP-based multi-agent protocol. Triage, diagnostics, runbook automation. $415/mo flat add-on. Ops-native, not MSP-native.</p>
+        <div class="tags"><span class="tag blue">SRE</span><span class="tag blue">MCP</span></div>
+      </div>
+
+      <div class="agent-card green">
+        <h4>Copilot (9 Agents)</h4>
+        <div class="company">ConnectWise</div>
+        <p>9 PSA/RMM/Security agents. ~30% self-resolved ticket rate. $150-500/mo per license tiered. PSA/RMM/Security domains covered.</p>
+        <div class="tags"><span class="tag green">PSA</span><span class="tag green">RMM</span></div>
+      </div>
+
+      <div class="agent-card orange">
+        <h4>AI Co-Pilot</h4>
+        <div class="company">NinjaOne</div>
+        <p>First genuinely MSP-native AI agent. Built-in PSA handoffs, multi-tenancy. Per-tech tiered pricing ($0/$20/$35). Native RMM context.</p>
+        <div class="tags"><span class="tag orange">MSP-Native</span><span class="tag orange">Multi-Tenant</span></div>
+      </div>
+
+      <div class="agent-card purple">
+        <h4>AI Coworker</h4>
+        <div class="company">Atomicwork</div>
+        <p>Custom multi-agent framework with governance model. Credit-based consumption at $25K/yr. Agent Builder for custom workflows. Mid-market focus.</p>
+        <div class="tags"><span class="tag purple">Agent Builder</span><span class="tag purple">Governance</span></div>
+      </div>
+
+      <div class="agent-card amber">
+        <h4>Knowledge Curator</h4>
+        <div class="company">BMC Helix · HelixGPT</div>
+        <p>Auto-creates knowledge articles from incident resolutions. Runs without navigating away from the ticket. ComAround-powered KM integration.</p>
+        <div class="tags"><span class="tag amber">KB Automation</span></div>
+      </div>
+
+    </div>
+
+    <!-- Comparison Table -->
+    <div class="card" style="margin-top:24px;">
+      <h3 style="margin-bottom:12px;">Vendor AI Maturity Matrix</h3>
+      <table>
+        <tr><th>Vendor</th><th>AI Level</th><th>Pricing</th><th>Key Gap</th></tr>
+        <tr><td><strong>ServiceNow</strong></td><td>300+ AI Skills, Agents</td><td>Enterprise + consumption</td><td>Overkill + overpriced for MSPs</td></tr>
+        <tr><td><strong>Atera</strong></td><td>Copilot (assist)</td><td>PSA + add-on</td><td>No end-user self-resolution</td></tr>
+        <tr><td><strong>Freshworks</strong></td><td>Autonomous agents</td><td>CSM-tier bundled</td><td>Enterprise CSM, not MSP-native</td></tr>
+        <tr><td><strong>NinjaOne</strong></td><td>Co-Pilot (MSP-native)</td><td>$0/$20/$35 per tech</td><td>Limited to NinjaOne ecosystem</td></tr>
+        <tr><td><strong>Atomicwork</strong></td><td>Custom agent framework</td><td>$25K/yr consumption</td><td>Mid-market, not MSP-specific</td></tr>
+        <tr><td><strong>BMC Helix</strong></td><td>5-agent fleet + Builder</td><td>~$115/user/mo</td><td>Enterprise pricing, no MSP focus</td></tr>
+        <tr><td><strong>ConnectWise</strong></td><td>9 PSA/RMM/Sec agents</td><td>$150-500/mo per license</td><td>Closed ecosystem</td></tr>
+        <tr><td><strong>SuperOps</strong></td><td>3-tier (Assist/Ask/Auto)</td><td>$1.50-2.50/device</td><td>Marketplace still early, needs depth</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: Monica AI -->
+<section id="monica">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Batch 2 · SuperOps Context</div>
+      <h2>Monica AI  -  SuperOps's Current Stack</h2>
+      <p>Based on product documentation, support articles, and the SuperOps design process vault.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--accent-soft);">A</div>
+          <div><h3>AI-Powered Assistance</h3><div class="subtitle">Level 1: Augment humans</div></div>
+        </div>
+        <p>Smart Worklogs, Ticket Summarization, Efficiency Reports, AI Script Generator. Human-in-the-loop, ML-assisted.</p>
+        <div class="tags"><span class="tag blue">Live</span><span class="tag">Smart Worklogs</span><span class="tag">Summaries</span></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--green-soft);">B</div>
+          <div><h3>Ask Monica</h3><div class="subtitle">Level 2: Conversational AI</div></div>
+        </div>
+        <p>AI Ticket Deflection, Recommended Solutions, Similar Tickets, Patch Summary & Community Sentiment. NLP-powered Q&A.</p>
+        <div class="tags"><span class="tag green">Live</span><span class="tag">Deflection</span><span class="tag">Patch Intel</span></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--orange-soft);">C</div>
+          <div><h3>Autonomous Agents</h3><div class="subtitle">Level 3: Self-operating</div></div>
+        </div>
+        <p>AI Patch Manager (discover, analyze, deploy), AI Dispatcher Workforce (auto-assign), Pathfinder AI (coming soon). Full autonomy with guardrails.</p>
+        <div class="tags"><span class="tag orange">Patch Manager</span><span class="tag orange">Dispatcher</span><span class="tag amber">Pathfinder</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3 style="margin-bottom:8px;">Product Knowledge  -  Key Entities (from SuperOps documentation)</h3>
+      <table>
+        <tr><th>Entity</th><th>Description</th><th>AI Opportunity</th></tr>
+        <tr><td><strong>Ticket</strong></td><td>Core work unit. Created via email, portal, alert, API.</td><td>Auto-triage, resolution, deflection</td></tr>
+        <tr><td><strong>Client/Site</strong></td><td>Multi-tenant organizational hierarchy.</td><td>Context-aware AI per client</td></tr>
+        <tr><td><strong>Asset</strong></td><td>Managed endpoint (Win/Mac/Linux, mobile).</td><td>Auto-remediation, patch decisions</td></tr>
+        <tr><td><strong>Policy</strong></td><td>Configuration rules for patches, alerts, automations.</td><td>AI-suggested policy optimization</td></tr>
+        <tr><td><strong>Alert</strong></td><td>Monitoring-triggered event from RMM.</td><td>Auto-create ticket, auto-remediate</td></tr>
+        <tr><td><strong>SLA</strong></td><td>Service level agreement per client/plan.</td><td>AI predicts SLA breach, suggests action</td></tr>
+        <tr><td><strong>Contract</strong></td><td>Billing agreement with recurring rules.</td><td>AI usage analysis, upsell detection</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: Architecture Patterns -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Batch 3</div>
+      <h2>How to Build Agents  -  Architecture Patterns</h2>
+      <p>Across all 12 vendors, 5 distinct agent architecture patterns emerged. Here's how they work and what SuperOps should build.</p>
+    </div>
+
+    <div class="card">
+      <h3>The 5 Agent Patterns</h3>
+      <div style="margin-top:12px;">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <h4>Copilot / Assist Pattern</h4>
+            <p>AI suggests, human decides. Best for: ticket summarization, script generation, KB search. Lowest risk, fastest to ship. Used by: Atera, ServiceNow Now Assist, ConnectWise Copilot.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <h4>Conversational Agent Pattern</h4>
+            <p>Natural language interface over existing workflows. Best for: ticket deflection, KB Q&A, patch intelligence. Used by: Freshworks Freddy, SuperOps Ask Monica, BMC Helix Service Collaborator.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <h4>Autonomous Resolution Pattern</h4>
+            <p>Agent owns the full resolution lifecycle. Best for: common ticket types, password resets, software installs. Used by: Freshworks Freddy (80% auto-resolve), BMC Ticket Resolver.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div>
+            <h4>Agent Builder / Marketplace Pattern</h4>
+            <p>Let users and partners create custom agents. Best for: ecosystem play, differentiated use cases. Used by: BMC Helix Agent Builder, Atomicwork, SuperOps Marketplace + AWS.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div>
+            <h4>Multi-Agent Orchestration Pattern</h4>
+            <p>Coordinated fleet of specialized agents. Best for: complex cross-domain workflows. Used by: ServiceNow (300+ skills, LEAP), BMC Helix (5-agent fleet), ConnectWise (9 agents).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="background:#0b1120;color:#e2e4e9;">
+      <h3 style="color:#fff;">Recommended Architecture: Agent Bus</h3>
+      <pre style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);margin:12px 0 0;">
+┌─────────────────────────────────────────────────┐
+│                  USER LAYER                       │
+│  Portal  ·  Email  ·  Slack/Teams  ·  API  ·  AI  │
+└────────────────────┬────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────┐
+│              AGENT BUS (Orchestrator)             │
+│  ┌──────────┐  ┌──────────┐  ┌────────────────┐ │
+│  │  Router  │→│  Context  │→│  Policy Engine  │ │
+│  │  (intent)│  │  (memory) │  │  (guardrails)   │ │
+│  └──────────┘  └──────────┘  └────────────────┘ │
+└────────────────────┬────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────┐
+│               AGENT FLEET                         │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐         │
+│  │  Ticket  │ │   Patch  │ │  Script  │   ...    │
+│  │  Agent   │ │  Manager │ │   Gen    │         │
+│  └──────────┘ └──────────┘ └──────────┘         │
+└────────────────────┬────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────┐
+│           PLATFORM LAYER                          │
+│  PSA · RMM · Billing · KM · Marketplace          │
+└─────────────────────────────────────────────────┘</pre>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: Build Patterns -->
+<section id="patterns">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Batch 3 · Implementation</div>
+      <h2>What to Build  -  Agent Implementation Plan</h2>
+      <p>Prioritized by competitive gap analysis. SuperOps's per-endpoint pricing is a structural advantage  -  agents should reinforce it.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card" style="border-top:3px solid var(--accent);">
+        <span class="mock-badge blue">Priority 1</span>
+        <h3 style="margin-top:8px;">Auto-Ticket Resolution Agent</h3>
+        <p style="margin-top:4px;">Freshworks Freddy resolves 80% autonomously. Atera is assist-only. SuperOps has the MSP trust + per-device pricing to own this gap.</p>
+        <div class="tags" style="margin-top:8px;">
+          <span class="tag blue">Autonomous</span>
+          <span class="tag green">High Impact</span>
+        </div>
+        <pre style="margin-top:12px;font-size:12px;">
+Goal: Resolve common tickets without human touch
+Trigger: Email/Portal ticket creation
+Flow:
+  1. Intent classification (password reset, software request, info inquiry)
+  2. KB matching + solution retrieval
+  3. Confidence check (>85% auto-resolve, else human queue)
+  4. Resolution + notification + feedback loop
+Metrics: Resolution rate, handle time reduction, user satisfaction</pre>
+      </div>
+
+      <div class="card" style="border-top:3px solid var(--green);">
+        <span class="mock-badge green">Priority 2</span>
+        <h3 style="margin-top:8px;">AI Patch Manager (Enhance Monica)</h3>
+        <p style="margin-top:4px;">SuperOps already has AI Patch Manager in Level 3. Extend it: auto-discover, analyze severity, deploy with rollback, report compliance.</p>
+        <div class="tags" style="margin-top:8px;">
+          <span class="tag green">Existing</span>
+          <span class="tag blue">Deepen</span>
+        </div>
+        <pre style="margin-top:12px;font-size:12px;">
+Capabilities to add:
+  - Vulnerability severity ranking (CVSS + community sentiment)
+  - Test group deployment before broad rollout
+  - Auto-rollback on failure detection
+  - Compliance report generation
+  - Patch window scheduling per client policy
+Differentiator: Multi-tenant patch orchestration</pre>
+      </div>
+
+      <div class="card" style="border-top:3px solid var(--orange);">
+        <span class="mock-badge amber">Priority 3</span>
+        <h3 style="margin-top:8px;">Intelligent Dispatcher</h3>
+        <p style="margin-top:4px;">BMC Ops Swarmer recommends team members. ServiceNow routes by skill. SuperOps should auto-assign tickets based on technician skill, load, and SLA risk.</p>
+        <div class="tags" style="margin-top:8px;">
+          <span class="tag orange">Workforce</span>
+          <span class="tag">AI Routing</span>
+        </div>
+        <pre style="margin-top:12px;font-size:12px;">
+Inputs: Ticket type, client, urgency, technician skills, current load
+Output: Ranked assignment recommendation + SLA prediction
+Pattern: Collaborative filtering + rules override
+Integration: PSA dispatch queue, mobile notification</pre>
+      </div>
+
+      <div class="card" style="border-top:3px solid var(--purple);">
+        <span class="mock-badge purple">Priority 4</span>
+        <h3 style="margin-top:8px;">Custom Agent Builder</h3>
+        <p style="margin-top:4px;">BMC Helix and Atomicwork have no-code agent builders. SuperOps Marketplace needs this: let MSPs build custom agents per client workflow.</p>
+        <div class="tags" style="margin-top:8px;">
+          <span class="tag purple">Marketplace</span>
+          <span class="tag">Platform Play</span>
+        </div>
+        <pre style="margin-top:12px;font-size:12px;">
+Builder Spec:
+  - Trigger selection (ticket created, alert fired, schedule)
+  - Action sequence (KB lookup, script run, ticket update, notify)
+  - Condition logic (IF/AND/OR thresholds)
+  - Test mode with dry-run
+  - Publish to Marketplace (private or public)
+Monetization: Free builder, paid publishing, rev share</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: UI Mockups -->
+<section id="mockups">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Batch 4</div>
+      <h2>UI Mockups  -  shadcn-Style Agent Interfaces</h2>
+      <p>Based on SuperOps design system (navy + orange accent, Inter font, 8px grid). Interactive mockups showing the 4 priority agents.</p>
+    </div>
+
+    <!-- Mockup 1: Agent Dashboard -->
+    <h3 style="margin-bottom:12px;">Agent Fleet Dashboard</h3>
+    <div class="mockup-container">
+      <div class="mockup-header">
+        <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+        <span class="mockup-title">SuperOps · Agent Dashboard</span>
+      </div>
+      <div class="mockup-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--fg-muted);">Agent Fleet</div>
+            <div style="font-size:20px;font-weight:700;">4 Active Agents</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <span class="mock-btn secondary sm">Configure</span>
+            <span class="mock-btn primary sm">+ New Agent</span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <div style="font-size:13px;font-weight:600;">Ticket Resolver</div>
+                <span class="mock-badge green">Active</span>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:20px;font-weight:700;">847</div>
+                <div style="font-size:12px;color:var(--fg-muted);">resolved this week</div>
+              </div>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="font-size:12px;color:var(--fg-secondary);">78% auto-resolution rate</div>
+              <div style="height:6px;background:var(--bg-muted);border-radius:4px;margin-top:4px;">
+                <div style="width:78%;height:100%;background:var(--green);border-radius:4px;"></div>
+              </div>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <div style="font-size:13px;font-weight:600;">Patch Manager</div>
+                <span class="mock-badge amber">Reviewing 12</span>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:20px;font-weight:700;">3</div>
+                <div style="font-size:12px;color:var(--fg-muted);">pending approval</div>
+              </div>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="font-size:12px;color:var(--fg-secondary);">3 critical vulns found</div>
+              <div style="height:6px;background:var(--bg-muted);border-radius:4px;margin-top:4px;">
+                <div style="width:92%;height:100%;background:var(--amber);border-radius:4px;"></div>
+              </div>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <div style="font-size:13px;font-weight:600;">Dispatcher</div>
+                <span class="mock-badge blue">Auto-routing</span>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:20px;font-weight:700;">142</div>
+                <div style="font-size:12px;color:var(--fg-muted);">tickets assigned</div>
+              </div>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="font-size:12px;color:var(--fg-secondary);">4 SLA-at-risk rerouted</div>
+              <div style="height:6px;background:var(--bg-muted);border-radius:4px;margin-top:4px;">
+                <div style="width:96%;height:100%;background:var(--accent);border-radius:4px;"></div>
+              </div>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <div style="font-size:13px;font-weight:600;">KB Curator</div>
+                <span class="mock-badge green">Active</span>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:20px;font-weight:700;">23</div>
+                <div style="font-size:12px;color:var(--fg-muted);">articles created</div>
+              </div>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="font-size:12px;color:var(--fg-secondary);">62% acceptance rate</div>
+              <div style="height:6px;background:var(--bg-muted);border-radius:4px;margin-top:4px;">
+                <div style="width:62%;height:100%;background:var(--green);border-radius:4px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup 2: Ticket Resolver Detail -->
+    <h3 style="margin-bottom:12px;margin-top:24px;">Ticket Resolution Agent  -  Detail View</h3>
+    <div class="mockup-container">
+      <div class="mockup-header">
+        <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+        <span class="mockup-title">Ticket Resolver · Agent Playground</span>
+      </div>
+      <div class="mockup-body">
+        <div class="sidebar-layout">
+          <div class="sidebar">
+            <div style="font-size:12px;font-weight:600;color:var(--fg-muted);margin-bottom:8px;">Settings</div>
+            <div class="sidebar-item active">Resolution Rules</div>
+            <div class="sidebar-item">Auto-Response</div>
+            <div class="sidebar-item">Escalation Path</div>
+            <div class="sidebar-item">Confidence Threshold</div>
+            <div class="sidebar-item">Feedback Loop</div>
+            <div style="margin-top:16px;">
+              <div class="mock-label">Auto-Resolution Rate</div>
+              <div style="font-size:24px;font-weight:700;">78%</div>
+              <div style="font-size:12px;color:var(--fg-muted);">Target: 85%</div>
+            </div>
+          </div>
+          <div class="main-panel">
+            <div class="mock-label">Resolution Rules</div>
+            <div class="mock-row">
+              <span class="mock-badge green">Active</span>
+              <span>Password Reset Request</span>
+              <span style="margin-left:auto;font-size:12px;color:var(--fg-muted);">Auto-resolve · 95% confidence</span>
+            </div>
+            <div class="mock-row">
+              <span class="mock-badge green">Active</span>
+              <span>Software Installation Request</span>
+              <span style="margin-left:auto;font-size:12px;color:var(--fg-muted);">Auto-resolve · 88% confidence</span>
+            </div>
+            <div class="mock-row">
+              <span class="mock-badge amber">Reviewing</span>
+              <span>VPN Access Issue</span>
+              <span style="margin-left:auto;font-size:12px;color:var(--fg-muted);">Needs KB update · 72% confidence</span>
+            </div>
+            <div class="mock-row">
+              <span class="mock-badge amber">Draft</span>
+              <span>Hardware Replacement Request</span>
+              <span style="margin-left:auto;font-size:12px;color:var(--fg-muted);">Requires approval workflow</span>
+            </div>
+            <div style="margin-top:16px;">
+              <div class="mock-label">Test a Ticket</div>
+              <div style="display:flex;gap:8px;">
+                <input class="mock-input" style="flex:1;" placeholder="Paste ticket description to test resolution..." value="User needs access to shared drive for project X">
+                <span class="mock-btn primary">Test</span>
+              </div>
+              <div style="margin-top:12px;padding:12px;background:var(--green-soft);border-radius:8px;border:1px solid var(--green);">
+                <div style="font-size:13px;font-weight:600;color:var(--green);">Resolution Found (92% confidence)</div>
+                <div style="font-size:13px;color:var(--fg-secondary);margin-top:4px;">
+                  Similar ticket #28491 resolved by KB article "Shared Drive Access Setup". Auto-approve group membership via IT policy. Estimated resolution: 2 min.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup 3: Agent Builder -->
+    <h3 style="margin-bottom:12px;margin-top:24px;">Custom Agent Builder  -  No-Code Workflow</h3>
+    <div class="mockup-container">
+      <div class="mockup-header">
+        <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+        <span class="mockup-title">Agent Builder · New Agent</span>
+      </div>
+      <div class="mockup-body">
+        <div class="grid-2" style="margin-bottom:16px;">
+          <div>
+            <div class="mock-label">Agent Name</div>
+            <input class="mock-input" value="New Device Onboarding Agent">
+          </div>
+          <div>
+            <div class="mock-label">Trigger</div>
+            <input class="mock-input" value="Ticket created with category: Onboarding">
+          </div>
+        </div>
+        <div class="mock-label">Workflow Steps</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:12px;background:var(--accent-soft);">
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;">1</span>
+            <span style="flex:1;font-size:14px;">Check if user exists in Active Directory</span>
+            <span class="mock-btn secondary sm">Edit</span>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:12px;">
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;">2</span>
+            <span style="flex:1;font-size:14px;">Create email account + distribution group</span>
+            <span class="mock-btn secondary sm">Edit</span>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:12px;">
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;">3</span>
+            <span style="flex:1;font-size:14px;">Assign default policies (AV, VPN, patch group)</span>
+            <span class="mock-btn secondary sm">Edit</span>
+          </div>
+          <div style="padding:12px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:12px;">
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;">4</span>
+            <span style="flex:1;font-size:14px;">Send welcome email with instructions</span>
+            <span class="mock-btn secondary sm">Edit</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <span class="mock-btn secondary">+ Add Step</span>
+          <span class="mock-btn primary">Save & Activate</span>
+          <span class="mock-btn secondary">Test in Sandbox</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup 4: Patch Manager -->
+    <h3 style="margin-bottom:12px;margin-top:24px;">AI Patch Manager  -  Intel Dashboard</h3>
+    <div class="mockup-container">
+      <div class="mockup-header">
+        <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+        <span class="mockup-title">Patch Manager · Monica AI</span>
+      </div>
+      <div class="mockup-body">
+        <div style="display:flex;gap:16px;margin-bottom:16px;">
+          <div style="flex:1;text-align:center;padding:12px;border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:11px;color:var(--fg-muted);text-transform:uppercase;letter-spacing:.04em;">Critical Vulns</div>
+            <div style="font-size:28px;font-weight:700;color:var(--orange);">3</div>
+            <div style="font-size:12px;color:var(--fg-secondary);">CVSS 9+</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:12px;border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:11px;color:var(--fg-muted);text-transform:uppercase;letter-spacing:.04em;">Endpoints Affected</div>
+            <div style="font-size:28px;font-weight:700;">1,247</div>
+            <div style="font-size:12px;color:var(--fg-secondary);">across 18 clients</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:12px;border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:11px;color:var(--fg-muted);text-transform:uppercase;letter-spacing:.04em;">Patch Compliance</div>
+            <div style="font-size:28px;font-weight:700;color:var(--green);">94%</div>
+            <div style="font-size:12px;color:var(--fg-secondary);">+2% from last week</div>
+          </div>
+        </div>
+
+        <div class="mock-label">Critical Patches Awaiting Decision</div>
+        <div class="mock-row">
+          <div style="display:flex;align-items:center;gap:8px;flex:1;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--orange);"></span>
+            <span style="font-size:14px;">CVE-2026-3847  -  Windows Kernel RCE</span>
+          </div>
+          <span class="mock-badge amber">CVSS 9.8</span>
+          <span style="font-size:12px;color:var(--fg-muted);">847 endpoints</span>
+          <span style="font-size:12px;color:var(--fg-muted);">Monica: Deploy tonight</span>
+        </div>
+        <div class="mock-row">
+          <div style="display:flex;align-items:center;gap:8px;flex:1;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--orange);"></span>
+            <span style="font-size:14px;">CVE-2026-2912  -  macOS Safari UXSS</span>
+          </div>
+          <span class="mock-badge amber">CVSS 9.2</span>
+          <span style="font-size:12px;color:var(--fg-muted);">312 endpoints</span>
+          <span style="font-size:12px;color:var(--fg-muted);">Monica: Test group first</span>
+        </div>
+        <div class="mock-row">
+          <div style="display:flex;align-items:center;gap:8px;flex:1;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--amber);"></span>
+            <span style="font-size:14px;">CVE-2026-1543  -  Linux Kernel PrivEsc</span>
+          </div>
+          <span class="mock-badge blue">CVSS 7.8</span>
+          <span style="font-size:12px;color:var(--fg-muted);">88 endpoints</span>
+          <span style="font-size:12px;color:var(--fg-muted);">Monica: Schedule with client</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>Curated by Agent Tina (Hermes) for SuperOps product intelligence</p>
+    <p style="margin-top:4px;">Research sources: 12 weekly ITSM issues · SuperOps support docs · Vendor documentation</p>
+    <p style="margin-top:4px;"><a href="saas-agentic-weekly-index.html">Weekly Archive</a> · <a href="superops-design-process.html">Design Process</a> · <a href="superops-ai-ticket-ux-review.html">AI Ticket UX Review</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
