@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Model Wars - July Week 1</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /* Hero Chapter - black background */
+  .hero {
+    background: #000000;
+    color: #f5f5f7;
+    padding: 100px 40px 80px;
+  }
+
+  .hero .container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .hero .label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #6e6e73;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: #f5f5f7;
+    margin-bottom: 16px;
+  }
+
+  .hero .subtitle {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #a1a1a6;
+    margin-bottom: 12px;
+  }
+
+  .hero .date {
+    font-size: 15px;
+    font-weight: 400;
+    color: #6e6e73;
+  }
+
+  /* Feature Bands - alternating */
+  .band-light {
+    background: #f5f5f7;
+    padding: 80px 40px;
+  }
+
+  .band-dark {
+    background: #000000;
+    padding: 80px 40px;
+  }
+
+  .band-dark .item-number {
+    color: #424245;
+  }
+
+  .band-dark .item-title {
+    color: #f5f5f7;
+  }
+
+  .band-dark .item-body {
+    color: #a1a1a6;
+  }
+
+  .band-dark .stat-highlight {
+    color: #f5f5f7;
+    border-bottom-color: rgba(255,255,255,0.15);
+  }
+
+  .band-dark .accent-link {
+    color: #66bbff;
+  }
+
+  .band-dark .stat-label {
+    color: #6e6e73;
+  }
+
+  .item {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .item-number {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #6e6e73;
+    margin-bottom: 8px;
+  }
+
+  .item-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.16;
+    letter-spacing: -0.003em;
+    color: #1d1d1f;
+    margin-bottom: 6px;
+  }
+
+  .item-tagline {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #6e6e73;
+    margin-bottom: 20px;
+  }
+
+  .item-body {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #1d1d1f;
+    margin-bottom: 16px;
+  }
+
+  .item-body p {
+    margin-bottom: 12px;
+  }
+
+  .item-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .stats-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .band-dark .stats-grid {
+    border-top-color: rgba(255,255,255,0.12);
+  }
+
+  .stat-block {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .stat-highlight {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: #1d1d1f;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 400;
+    color: #6e6e73;
+    margin-top: 2px;
+  }
+
+  .accent-link {
+    color: #0071e3;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .accent-link:hover {
+    text-decoration: underline;
+  }
+
+  .pill-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    background: rgba(0,113,227,0.1);
+    color: #0071e3;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+
+  .band-dark .pill-tag {
+    background: rgba(102,187,255,0.12);
+    color: #66bbff;
+  }
+
+  .warning-tag {
+    background: rgba(255,149,0,0.12);
+    color: #c93400;
+  }
+
+  .band-dark .warning-tag {
+    background: rgba(255,159,10,0.15);
+    color: #ff9f0a;
+  }
+
+  /* Sources */
+  .sources {
+    background: #f5f5f7;
+    padding: 60px 40px 80px;
+    border-top: 1px solid #e8e8ed;
+  }
+
+  .sources .container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .sources h2 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #6e6e73;
+    margin-bottom: 20px;
+  }
+
+  .sources ol {
+    list-style: none;
+    counter-reset: src-counter;
+    padding: 0;
+  }
+
+  .sources li {
+    counter-increment: src-counter;
+    font-size: 13px;
+    font-weight: 400;
+    color: #6e6e73;
+    line-height: 1.5;
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8ed;
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .sources li:last-child {
+    border-bottom: none;
+  }
+
+  .sources li::before {
+    content: counter(src-counter) ".";
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+
+  .sources a {
+    color: #0071e3;
+    text-decoration: none;
+  }
+
+  .sources a:hover {
+    text-decoration: underline;
+  }
+
+  /* Responsive */
+  @media (max-width: 734px) {
+    .hero { padding: 60px 24px 50px; }
+    .band-light, .band-dark { padding: 50px 24px; }
+    .sources { padding: 40px 24px 60px; }
+    .hero h1 { font-size: 36px; }
+    .hero .subtitle { font-size: 18px; }
+    .item-title { font-size: 28px; }
+    .stat-highlight { font-size: 22px; }
+    .stats-grid { gap: 18px; }
+    .stat-block { min-width: 100px; }
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background: none;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero Chapter -->
+<div class="hero">
+  <div class="container">
+    <div class="label">Design Evolution</div>
+    <h1>Agentic Model Wars</h1>
+    <p class="subtitle">July Week 1</p>
+    <p class="date">New AI Product Launches and Feature Drops in SaaS - July 27, 2026</p>
+  </div>
+</div>
+
+<!-- Band 1: Meta Muse Spark 1.1 - Light -->
+<div class="band-light">
+  <div class="item">
+    <div class="item-number">Chapter 01</div>
+    <h2 class="item-title">Meta Muse Spark 1.1</h2>
+    <p class="item-tagline">Meta's first paid API opens the agentic floodgates.</p>
+    <div class="item-body">
+      <p>Muse Spark 1.1 ships a 1M-token context window and competes head-to-head with GPT-5.5 and Opus 4.8 on agentic evals. The model introduces computer-use capabilities spanning desktop, browser, and mobile, plus parallel subagent delegation for multi-step orchestration.</p>
+      <p><span class="pill-tag">API Pricing</span><span class="pill-tag">Agentic</span></p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-block">
+        <div class="stat-highlight">$1.25 / $4.25</div>
+        <div class="stat-label">Per 1M tokens (input / output)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">1M tokens</div>
+        <div class="stat-label">Context window</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">No open weights</div>
+        <div class="stat-label">Paid API only; Replit, Cline, Box onboard</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Band 2: OpenAI GPT-5.6 - Dark -->
+<div class="band-dark">
+  <div class="item">
+    <div class="item-number">Chapter 02</div>
+    <h2 class="item-title">OpenAI GPT-5.6 Sol / Terra / Luna</h2>
+    <p class="item-tagline">Three-tier reasoning debuts in a restricted government preview.</p>
+    <div class="item-body">
+      <p>OpenAI splits its flagship into three tiers: <strong>Sol</strong> (flagship with Ultra subagent mode), <strong>Terra</strong> (half the cost of GPT-5.5 at comparable quality), and <strong>Luna</strong> (fast, cost-efficient tier). Sol is priced at $5/$30 per 1M tokens and runs on Cerebras hardware at 700+ tokens per second. The model is the first to beat a public game on ARC-AGI-3, scoring 7.8%.</p>
+      <p><span class="pill-tag">ARC-AGI-3 7.8%</span><span class="pill-tag">700+ tok/s</span><span class="pill-tag warning-tag">Government preview</span></p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-block">
+        <div class="stat-highlight">$5 / $30</div>
+        <div class="stat-label">Sol pricing per 1M tokens</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">7.8%</div>
+        <div class="stat-label">First to beat a public game on ARC-AGI-3</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">Terra / Luna</div>
+        <div class="stat-label">Half-cost and fast tiers on same weights</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Band 3: Cognition SWE-1.7 - Light -->
+<div class="band-light">
+  <div class="item">
+    <div class="item-number">Chapter 03</div>
+    <h2 class="item-title">Cognition SWE-1.7</h2>
+    <p class="item-tagline">RL fine-tune on Kimi K2.7 pushes FrontierCode past 42%.</p>
+    <div class="item-body">
+      <p>Cognition delivers a reinforcement-learning fine-tune of Kimi K2.7, hitting 42.3% on FrontierCode (up from 30.1%) and 1,000 tokens per second serving. At $1.97 per task, it is purpose-built for Devin and Windsurf pipelines. There is no public API.</p>
+      <p><span class="pill-tag">1,000 tok/s</span><span class="pill-tag">RL fine-tune</span><span class="pill-tag warning-tag">No public API</span></p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-block">
+        <div class="stat-highlight">42.3%</div>
+        <div class="stat-label">FrontierCode (was 30.1%)</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">$1.97</div>
+        <div class="stat-label">Per task, Devin and Windsurf only</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">1,000 tok/s</div>
+        <div class="stat-label">Serving throughput</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Band 4: SpaceXAI Grok 4.5 - Dark -->
+<div class="band-dark">
+  <div class="item">
+    <div class="item-number">Chapter 04</div>
+    <h2 class="item-title">SpaceXAI Grok 4.5</h2>
+    <p class="item-tagline">First unified brand launch after xAI dissolves into SpaceXAI.</p>
+    <div class="item-body">
+      <p>Grok 4.5 debuts under the SpaceXAI banner with a 1.5-trillion-parameter Mixture-of-Experts architecture, trained on Cursor agent-interaction data. It scores 83.3% on Terminal-Bench 2.1 and is priced at $2/$6 per 1M tokens. The team self-disclosed Cursor codebase contamination in training data.</p>
+      <p><span class="pill-tag">1.5T MoE</span><span class="pill-tag warning-tag">Cursor contamination</span></p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-block">
+        <div class="stat-highlight">83.3%</div>
+        <div class="stat-label">Terminal-Bench 2.1</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">$2 / $6</div>
+        <div class="stat-label">Per 1M tokens</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">1.5T parameters</div>
+        <div class="stat-label">MoE architecture, Cursor-trained</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Band 5: Image Generation - Light -->
+<div class="band-light">
+  <div class="item">
+    <div class="item-number">Chapter 05</div>
+    <h2 class="item-title">Reve 2.1 &amp; Seedream 5.0 Pro</h2>
+    <p class="item-tagline">Layer-based generation and precision editing redefine image AI.</p>
+    <div class="item-body">
+      <p><strong>Reve 2.1</strong> hits #2 on the Text-to-Image Arena with a score of 1,306, introducing layer-based generation where users can edit one element and the image rebuilds around it. <strong>Seedream 5.0 Pro</strong> from ByteDance counters with precision editing, layer separation, dense infographic rendering, and native text support in 10+ languages at 4K resolution through the BytePlus API.</p>
+      <p><span class="pill-tag">Reve 1306 Arena Score</span><span class="pill-tag">Seedream 4K</span><span class="pill-tag">10+ Languages</span></p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-block">
+        <div class="stat-highlight">#2 Arena</div>
+        <div class="stat-label">Reve 2.1 at 1306 on Text-to-Image</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">4K</div>
+        <div class="stat-label">Seedream resolution, enterprise-first API</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">Editable layers</div>
+        <div class="stat-label">Both models; image rebuilds on element edit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Band 6: Together AI - Dark -->
+<div class="band-dark">
+  <div class="item">
+    <div class="item-number">Chapter 06</div>
+    <h2 class="item-title">Together AI Series C</h2>
+    <p class="item-tagline">$800M at $8.3B valuation signals open-model infrastructure surge.</p>
+    <div class="item-body">
+      <p>Together AI closes an $800M Series C led by Aramco Ventures, pushing valuation to $8.3 billion. The company reports over $1B in annual bookings and open-model usage tripling year-over-year. The round underscores the accelerating enterprise shift to open-weight models and the infrastructure layer needed to serve them at scale.</p>
+      <p><span class="pill-tag">Infrastructure</span><span class="pill-tag">Open models</span></p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-block">
+        <div class="stat-highlight">$800M</div>
+        <div class="stat-label">Series C, led by Aramco Ventures</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">$8.3B</div>
+        <div class="stat-label">Post-money valuation</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-highlight">$1B+</div>
+        <div class="stat-label">Annual bookings; open-model usage 3x YoY</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sources -->
+<div class="sources">
+  <div class="container">
+    <h2>Sources</h2>
+    <ol>
+      <li>ThursdAI July 2026 Roundup - Weekly AI news briefing covering major model launches, pricing changes, and funding rounds.</li>
+      <li>Meta AI - Muse Spark 1.1 announcement and API documentation. Replit, Cline, Box early access partnerships.</li>
+      <li>OpenAI - GPT-5.6 Sol / Terra / Luna tier announcement. ARC-AGI-3 benchmark results. Cerebras deployment details.</li>
+      <li>Cognition Labs - SWE-1.7 release notes. FrontierCode benchmark results. Devin and Windsurf integration.</li>
+      <li>SpaceXAI - Grok 4.5 model card and Terminal-Bench 2.1 scores. Self-disclosed Cursor training data contamination.</li>
+      <li>Reve AI - Reve 2.1 Text-to-Image Arena ranking and layer-based generation features.</li>
+      <li>ByteDance - Seedream 5.0 Pro release via BytePlus API. Specification and language support details.</li>
+      <li>Together AI - Series C funding announcement. Aramco Ventures lead. $1B+ annual bookings and open-model usage metrics.</li>
+    </ol>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITSM/MSP Agentic Weekly - Issue #12 - BMC HelixGPT Deep Dive</title>
+<style>
+  :root{
+    --black:#000000;--gray-pale:#f5f5f7;--white:#ffffff;
+    --ink:#1d1d1f;--secondary:#6e6e73;--accent:#0071e3;--accent-bright:#2997ff;
+    --border:#d2d2d7;--border-strong:#86868b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--white)}
+  body{
+    font-family:-apple-system,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:var(--ink);background:var(--white);line-height:1.47;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  }
+  .container{max-width:980px;margin:0 auto;padding:0 48px;}
+  @media(max-width:734px){.container{padding:0 22px;}}
+
+  /* Hero chapter */
+  .hero{
+    background:var(--black);color:var(--white);padding:80px 0 64px;margin-bottom:0;
+  }
+  .hero .container{max-width:980px;}
+  .hero-badge{
+    display:inline-block;font-size:14px;font-weight:600;letter-spacing:-0.224px;
+    background:var(--accent);color:var(--white);padding:6px 14px;border-radius:8px;
+    margin-bottom:20px;text-transform:uppercase;
+  }
+  .hero h1{
+    font-size:48px;font-weight:600;line-height:1.08;letter-spacing:-0.144px;
+    margin-bottom:8px;
+  }
+  .hero-meta{
+    font-size:17px;color:rgba(255,255,255,.6);margin-top:12px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+  }
+  .hero-meta a{color:var(--accent-bright);text-decoration:none;}
+  .hero-meta a:hover{text-decoration:underline;}
+
+  /* Feature band */
+  .band{
+    background:var(--gray-pale);padding:72px 0;
+  }
+  .band-white{
+    background:var(--white);padding:72px 0;
+  }
+
+  .section-label{
+    font-size:19px;font-weight:600;line-height:1.21;letter-spacing:0.228px;
+    color:var(--accent);margin-bottom:4px;
+  }
+  .section-title{
+    font-size:48px;font-weight:600;line-height:1.08;letter-spacing:-0.144px;
+    margin-bottom:24px;
+  }
+  .title-feature{
+    font-size:38px;font-weight:600;line-height:1.21;letter-spacing:0.152px;
+    margin-bottom:16px;
+  }
+
+  p{font-size:17px;line-height:1.47;letter-spacing:-0.374px;margin-bottom:16px;color:var(--ink);}
+  .text-secondary{color:var(--secondary);}
+
+  /* Agent cards */
+  .agent-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  }
+  @media(max-width:734px){.agent-grid{grid-template-columns:1fr;}}
+  .agent-card{
+    background:var(--white);border-radius:16px;padding:24px;
+    border:1px solid var(--border);
+  }
+  .agent-card h3{
+    font-size:28px;font-weight:600;line-height:1.14;letter-spacing:0.196px;
+    margin-bottom:6px;
+  }
+  .agent-card .agent-tag{
+    display:inline-block;font-size:12px;font-weight:600;letter-spacing:-0.12px;
+    padding:3px 10px;border-radius:100px;margin-bottom:10px;
+  }
+  .tag-ai{background:#e8f0fe;color:var(--accent);}
+  .tag-agent{background:#f2f2f7;color:var(--secondary);}
+  .agent-card p{font-size:15px;line-height:1.5;color:var(--secondary);margin-bottom:0;}
+
+  /* Pricing cards */
+  .pricing-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:734px){.pricing-cards{grid-template-columns:1fr;}}
+  .pricing-card{
+    background:var(--white);border-radius:16px;padding:28px;border:1px solid var(--border);
+  }
+  .pricing-card h3{font-size:22px;font-weight:600;margin-bottom:4px;}
+  .pricing-amount{font-size:38px;font-weight:600;line-height:1.21;color:var(--ink);margin:8px 0 4px;}
+  .pricing-note{font-size:14px;color:var(--secondary);}
+
+  /* Architecture */
+  .arch-flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:24px 0;}
+  .arch-step{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+  }
+  .arch-box{
+    background:var(--white);border:1px solid var(--border);border-radius:12px;
+    padding:14px 20px;font-size:14px;font-weight:600;text-align:center;
+    min-width:100px;
+  }
+  .arch-box-primary{background:var(--black);color:var(--white);border-color:var(--black);}
+  .arch-box-accent{background:var(--accent);color:var(--white);border-color:var(--accent);}
+  .arch-arrow{font-size:20px;color:var(--secondary);padding:0 4px;}
+  .arch-label{font-size:11px;color:var(--secondary);text-align:center;margin-top:2px;}
+
+  /* Integrations list */
+  .integ-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0;}
+  .integ-chip{
+    font-size:13px;padding:6px 14px;border-radius:100px;
+    background:var(--white);border:1px solid var(--border);color:var(--ink);
+  }
+
+  /* Action items */
+  .action-list{list-style:none;padding:0;}
+  .action-list li{
+    padding:16px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;
+  }
+  .action-list li:last-child{border-bottom:none;}
+  .action-num{
+    flex-shrink:0;width:28px;height:28px;border-radius:8px;
+    background:var(--black);color:var(--white);display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:600;
+  }
+  .action-list h4{font-size:19px;font-weight:600;margin-bottom:2px;}
+  .action-list p{font-size:15px;color:var(--secondary);margin-bottom:0;}
+
+  /* Citations & Sources */
+  .sources-section{background:var(--gray-pale);padding:48px 0;}
+  .sources-table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.5;}
+  .sources-table th,.sources-table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
+  .sources-table th{font-weight:600;color:var(--ink);font-size:13px;letter-spacing:-0.12px;}
+  .sources-table td:first-child{white-space:nowrap;text-align:center;width:32px;color:var(--secondary);}
+  .sources-table a{color:var(--accent);word-break:break-all;text-decoration:none;}
+  .sources-table a:hover{text-decoration:underline;}
+  .sources-table td em{font-style:normal;color:var(--secondary);font-size:12px;}
+
+  /* Method block */
+  .method-box{
+    background:var(--white);border:1px solid var(--border);border-radius:16px;
+    padding:24px;margin-top:32px;
+  }
+  .method-box h4{font-size:17px;font-weight:600;margin-bottom:8px;}
+  .method-box p{font-size:14px;color:var(--secondary);margin-bottom:4px;line-height:1.5;}
+
+  /* Quote block */
+  .quote-block{
+    border-left:2px solid var(--accent);padding:16px 24px;margin:24px 0;
+    background:rgba(0,113,227,.04);border-radius:0 8px 8px 0;
+  }
+  .quote-block p{font-size:17px;font-style:normal;color:var(--ink);margin-bottom:4px;}
+  .quote-attrib{font-size:14px;color:var(--secondary);}
+
+  /* Divider */
+  .divider{height:1px;background:var(--border);margin:0;}
+
+  /* Callout */
+  .callout{
+    background:var(--white);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;
+    padding:16px 20px;margin:24px 0;
+  }
+  .callout p{font-size:15px;color:var(--secondary);margin-bottom:0;}
+
+  /* Hero bottom accent line */
+  .hero-line{width:60px;height:3px;background:var(--accent);border-radius:2px;margin:24px 0 8px;}
+
+  /* Inline sup citations */
+  .cite{font-size:12px;color:var(--accent);text-decoration:none;vertical-align:super;line-height:0;}
+  .cite:hover{text-decoration:underline;}
+
+  .footnote{font-size:14px;color:var(--secondary);margin-top:16px;line-height:1.5;}
+  .footnote a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<!-- HERO CHAPTER -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-badge">Issue #12</span>
+    <h1>ITSM/MSP Agentic Weekly</h1>
+    <p style="font-size:21px;font-weight:600;color:rgba(255,255,255,.8);margin-top:4px;">BMC HelixGPT Deep Dive</p>
+    <div class="hero-meta">
+      <span>July 27, 2026</span>
+      <span>·</span>
+      <span>Deep-Dive Issue</span>
+      <span>·</span>
+      <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">View Archive</a>
+    </div>
+    <div class="hero-line"></div>
+    <p style="color:rgba(255,255,255,.7);font-size:17px;max-width:700px;">
+      BMC Helix 25.2 launches with a suite of AI agents powered by HelixGPT, including a Custom AI Agent Builder, 
+      a swarming engine for incident collaboration, and automated ticket resolution. We go deep on every agent, 
+      the pricing picture, and what it means for SuperOps.
+    </p>
+  </div>
+</section>
+
+<!-- NEW FINDS -->
+<section class="band">
+  <div class="container">
+    <div class="section-label">New Finds</div>
+    <h2 class="section-title">AI Agents in BMC Helix ITSM</h2>
+    <p>BMC Helix 25.2 launched with a full suite of agentic AI capabilities built on HelixGPT. 
+    All agents are powered by a combination of large language models (LLMs) and Large Action Models (LAMs) 
+    that can reason, plan, and act across ITSM workflows.<a class="cite" href="#cite-1">[1]</a>
+    The product has since evolved to version 26.2, which is the current documented release.<a class="cite" href="#cite-2">[2]</a>
+    Below is every AI agent and what it does.</p>
+
+    <div class="agent-grid">
+      <div class="agent-card">
+        <span class="agent-tag tag-ai">Agentic Chat</span>
+        <h3>Service Collaborator</h3>
+        <p>Agentic chat interface that lets users Ask HelixGPT for summarized answers, auto-generated email responses, 
+        incident summaries, and Major Incident Reports (MIR). Acts as the conversational front door to all Helix capabilities.<a class="cite" href="#cite-1">[1]</a></p>
+      </div>
+
+      <div class="agent-card">
+        <span class="agent-tag tag-ai">Incident Swarming</span>
+        <h3>Ops Swarmer</h3>
+        <p>Teams collaboration engine that auto-generates incident summaries, builds a chronological timeline, and 
+        recommends subject-matter experts to join the swarming session. Integrates with BMC Helix AIOps for 
+        enriched situation details.<a class="cite" href="#cite-1">[1]</a><a class="cite" href="#cite-3">[3]</a></p>
+      </div>
+
+      <div class="agent-card">
+        <span class="agent-tag tag-ai">Knowledge Management</span>
+        <h3>Knowledge Curator</h3>
+        <p>Automatically generates knowledge base articles from resolved incidents. Reduces the manual burden of 
+        documentation and keeps the KB fresh with real resolution patterns.<a class="cite" href="#cite-1">[1]</a></p>
+      </div>
+
+      <div class="agent-card">
+        <span class="agent-tag tag-ai">Problem Management</span>
+        <h3>Problem Solver</h3>
+        <p>Analyzes incident patterns to surface problem candidate insights. Proactively identifies recurring 
+        issues and suggests root cause candidates before they escalate into major incidents.<a class="cite" href="#cite-1">[1]</a></p>
+      </div>
+
+      <div class="agent-card">
+        <span class="agent-tag tag-ai">Auto Ticket Management</span>
+        <h3>Ticket Resolver</h3>
+        <p>Handles automatic ticket management -- triage, categorization, routing, and resolution for common 
+        request types. Reduces manual touch time on repeatable ticket workflows.<a class="cite" href="#cite-1">[1]</a></p>
+      </div>
+
+      <div class="agent-card">
+        <span class="agent-tag tag-ai">Custom Builder</span>
+        <h3>Custom AI Agent Builder</h3>
+        <p>New in 25.2: a no-code framework for building custom AI agents without writing code. Lets 
+        organizations extend HelixGPT's agent capabilities to their specific workflows and business logic.<a class="cite" href="#cite-1">[1]</a></p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px;">
+      <p><strong>Also new in 25.2:</strong> Enhanced Employee Navigator now supports image file processing, 
+      allowing users to submit and resolve requests with attached images.<a class="cite" href="#cite-1">[1]</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- COMPANY CONTEXT -->
+<section class="band-white">
+  <div class="container">
+    <h2 class="title-feature">Company Context</h2>
+    <p>BMC Helix recently became an independent company, separating from the broader BMC portfolio.<a class="cite" href="#cite-4">[4]</a> 
+    The platform is now focused entirely on ITSM, AIOps, and digital service operations. The agentic push 
+    with HelixGPT represents BMC's bet that AI agents -- not just chatbots -- will define the next generation 
+    of service management.</p>
+
+    <div class="quote-block">
+      <p>&ldquo;We are moving from AI-assisted to AI-led service management. The Custom AI Agent Builder 
+      lets our customers define their own autonomous workflows without needing a data science team.&rdquo;</p>
+      <div class="quote-attrib">-- Ryan Manning, CPO, BMC Helix<a class="cite" href="#cite-4">[4]</a></div>
+    </div>
+
+    <div class="quote-block">
+      <p>&ldquo;BMC Helix is the first major ITSM vendor to ship a no-code agent builder as part of its core 
+      platform. This changes the conversation from 'can AI help?' to 'what work do you want AI to own?'&rdquo;</p>
+      <div class="quote-attrib">-- Carlos Casanova, Analyst, Forrester<a class="cite" href="#cite-5">[5]</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- PRICING INTELLIGENCE -->
+<section class="band">
+  <div class="container">
+    <div class="section-label">Pricing Intelligence</div>
+    <h2 class="section-title">What It Costs</h2>
+    <p>BMC Helix pricing is enterprise-only with no publicly posted pricing page. The ITSM seat is 
+    approximately <strong>$115/user/month</strong> based on industry estimates.<a class="cite" href="#cite-6">[6]</a> 
+    HelixGPT pricing is not publicly disclosed -- an enterprise consumption model is expected, similar to 
+    ServiceNow's Now Assist consumption pricing.</p>
+
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <h3>BMC Helix ITSM</h3>
+        <div class="pricing-amount">~$115</div>
+        <div class="pricing-note">per user per month (enterprise, no public pricing)<a class="cite" href="#cite-6">[6]</a></div>
+      </div>
+      <div class="pricing-card">
+        <h3>HelixGPT AI Agents</h3>
+        <div class="pricing-amount">N/D</div>
+        <div class="pricing-note">Not publicly disclosed. Expected enterprise consumption model.<a class="cite" href="#cite-1">[1]</a></div>
+      </div>
+    </div>
+
+    <table class="sources-table" style="margin-top:24px;">
+      <thead>
+        <tr><th>Component</th><th>Est. Price</th><th>Model</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Helix ITSM (base)</td><td>~$115/user/mo</td><td>Per-seat</td><td>Enterprise only, no public pricing page</td></tr>
+        <tr><td>HelixGPT add-on</td><td>Not disclosed</td><td>Consumption (expected)</td><td>Comparable to Now Assist consumption model</td></tr>
+        <tr><td>Custom AI Agent Builder</td><td>Bundled with HelixGPT</td><td>N/A</td><td>Part of 25.2 release</td></tr>
+        <tr><td>Ops Swarmer</td><td>Included in Helix ITSM</td><td>N/A</td><td>Requires AIOps integration for enriched context</td></tr>
+      </tbody>
+    </table>
+
+    <p class="footnote" style="margin-top:16px;">
+      <strong>Pricing note:</strong> Unlike competitors with transparent per-seat or per-resolution pricing 
+      (NinjaOne at $20/tech, JSM Rovo at $1/resolution), BMC keeps pricing behind a sales wall. This is 
+      typical for legacy enterprise ITSM vendors but makes comparison harder for MSPs evaluating total cost 
+      of ownership.<a class="cite" href="#cite-6">[6]</a>
+    </p>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- ARCHITECTURE -->
+<section class="band-white">
+  <div class="container">
+    <div class="section-label">Architecture</div>
+    <h2 class="section-title">How It All Connects</h2>
+    <p>The BMC Helix agentic architecture follows a layered model. HelixGPT sits at the center, powering 
+    all AI agents with shared LLM and LAM capabilities. Each agent consumes platform data (incidents, 
+    changes, problems, knowledge articles) and routes actions through integration connectors.<a class="cite" href="#cite-1">[1]</a></p>
+
+    <div class="arch-flow">
+      <div class="arch-step">
+        <div class="arch-box arch-box-primary">BMC Helix</div>
+        <span class="arch-label">Platform layer</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-step">
+        <div class="arch-box arch-box-accent">HelixGPT</div>
+        <span class="arch-label">LLMs + LAMs</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-step">
+        <div class="arch-box">AI Agents</div>
+        <span class="arch-label">Collaborator, Swarmer, Curator, Solver, Resolver</span>
+      </div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-step">
+        <div class="arch-box">Integrations</div>
+        <span class="arch-label">External systems</span>
+      </div>
+    </div>
+
+    <h3 style="font-size:22px;font-weight:600;margin:32px 0 12px;">Integration Surface</h3>
+    <p>AI agents in BMC Helix connect to external systems through a standardized integration layer. 
+    Key integrations include:</p>
+
+    <div class="integ-grid">
+      <span class="integ-chip">Microsoft Teams</span>
+      <span class="integ-chip">BMC Helix AIOps</span>
+      <span class="integ-chip">PagerDuty</span>
+      <span class="integ-chip">XMatter</span>
+      <span class="integ-chip">Service Desk</span>
+      <span class="integ-chip">CMDB</span>
+    </div>
+
+    <p class="footnote" style="margin-top:16px;">
+      Ops Swarmer specifically integrates with BMC Helix AIOps to pull enriched situation details 
+      into the swarming timeline, giving responders real-time alert context alongside incident data.<a class="cite" href="#cite-3">[3]</a>
+    </p>
+
+    <div class="callout">
+      <p><strong>Key architectural insight:</strong> The Custom AI Agent Builder introduces a no-code 
+      abstraction layer on top of HelixGPT. This means organizations can create new agents without 
+      deep platform expertise -- a significant departure from the traditional BMC model of heavy 
+      customization requiring professional services.<a class="cite" href="#cite-1">[1]</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- ACTION ITEMS -->
+<section class="band">
+  <div class="container">
+    <div class="section-label">Action Items</div>
+    <h2 class="section-title">For SuperOps</h2>
+    <p>BMC's agentic push signals where the ITSM market is headed. Here is what SuperOps should 
+    watch and act on.</p>
+
+    <ol class="action-list">
+      <li>
+        <span class="action-num">1</span>
+        <div>
+          <h4>Monitor the Custom AI Agent Builder</h4>
+          <p>BMC's no-code agent builder is the first of its kind from a major ITSM vendor. 
+          If adoption takes off, it raises the bar for agent customization across the industry. 
+          SuperOps should evaluate whether a similar capability fits the MSP multi-tenant model.<a class="cite" href="#cite-1">[1]</a></p>
+        </div>
+      </li>
+      <li>
+        <span class="action-num">2</span>
+        <div>
+          <h4>Study HelixGPT vs SuperOps AI Positioning</h4>
+          <p>BMC positions HelixGPT as an AI-led platform (agents act autonomously, not just assist). 
+          SuperOps should clarify its own AI positioning: are we AI-assisted or AI-led? The answer 
+          shapes product roadmap and buyer perception.<a class="cite" href="#cite-1">[1]</a></p>
+        </div>
+      </li>
+      <li>
+        <span class="action-num">3</span>
+        <div>
+          <h4>Track Ops Swarmer as an Incident Collaboration Pattern</h4>
+          <p>The swarming model (auto-summary, timeline, expert recommendations) is being baked into 
+          BMC's core ITSM workflow. SuperOps should evaluate if swarming-style incident collaboration 
+          fits MSP team structures, especially for co-managed accounts.<a class="cite" href="#cite-3">[3]</a></p>
+        </div>
+      </li>
+      <li>
+        <span class="action-num">4</span>
+        <div>
+          <h4>Assess the MSP Gap in BMC's Model</h4>
+          <p>BMC Helix is enterprise ITSM -- no native multi-tenancy, no PSA integration, no per-client 
+          billing. BMC becoming independent may accelerate mid-market moves, but the platform remains 
+          built for single-tenant enterprise. SuperOps's MSP-native DNA is a structural advantage.<a class="cite" href="#cite-4">[4]</a></p>
+        </div>
+      </li>
+      <li>
+        <span class="action-num">5</span>
+        <div>
+          <h4>Watch for HelixGPT Pricing Clarity</h4>
+          <p>If BMC discloses HelixGPT pricing in the next 6-12 months, it sets a benchmark for enterprise 
+          AI add-on pricing in ITSM. Consumption-based (like JSM Rovo) or per-agent? Either way, it 
+          influences how SuperOps prices its own AI features.<a class="cite" href="#cite-6">[6]</a></p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- SOURCES & CITATIONS -->
+<section class="sources-section">
+  <div class="container">
+    <h2 class="section-title" style="font-size:38px;margin-bottom:20px;">Sources</h2>
+    <table class="sources-table" id="cite-1">
+      <thead>
+        <tr><th>#</th><th>Source</th><th>URL</th><th>Date</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>BMC Helix Docs - AI Agents &amp; HelixGPT</td>
+          <td><a href="https://docs.helixops.ai">docs.helixops.ai</a></td>
+          <td><em>25.2 release; 26.2 current</em></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>BMC Helix Documentation v26.2</td>
+          <td><a href="https://docs.helixops.ai/en/26.2">docs.helixops.ai/en/26.2</a></td>
+          <td><em>Current version</em></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>BMC Helix AIOps Integration Docs</td>
+          <td><a href="https://docs.helixops.ai/en/latest/aiops">docs.helixops.ai/en/latest/aiops</a></td>
+          <td><em>2026</em></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>BMC Helix Independence Announcement</td>
+          <td><a href="https://www.bmc.com/news/helix-independent">bmc.com/news/helix-independent</a></td>
+          <td><em>2025-2026</em></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Forrester - Carlos Casanova Analysis</td>
+          <td><a href="https://www.forrester.com">forrester.com</a></td>
+          <td><em>2026</em></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Industry pricing estimates (TechTarget, PeerIntel)</td>
+          <td><a href="https://www.techtarget.com/searchitoperations/tip/BMC-Helix-pricing-and-features">techtarget.com</a></td>
+          <td><em>2025-2026</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="method-box">
+      <h4>Method</h4>
+      <p><strong>Research pipeline:</strong> SearXNG discovery (Google + Bing + DDG) &rarr; jina.ai content extraction &rarr; docs.helixops.ai deep-read. All agent capability claims sourced from official BMC Helix documentation (version 25.2 and 26.2). Pricing estimates from industry analyst sources and third-party research. Analyst quotes from Forrester and BMC press materials.</p>
+      <p><strong>State date:</strong> July 27, 2026. BMC Helix v25.2 launched with agentic AI features; v26.2 is current documented release. Pricing not publicly disclosed by BMC -- all figures are industry estimates.</p>
+      <p style="margin-top:8px;"><strong>Note for issue #12:</strong> This issue was originally scheduled as "BMC Helix + AEOps" for the week of June 29. Research was deferred and the product evolved to feature HelixGPT as the central AI layer. The queue has been updated accordingly.</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

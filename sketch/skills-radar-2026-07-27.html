@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designer Skills Radar &middot; July Week 4</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    color: #1d1d1f;
+    background: #ffffff;
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  @media (max-width: 734px) {
+    .container { padding: 0 22px; }
+  }
+
+  /* ---- Section background alternation ---- */
+  .section-black {
+    background: #000000;
+    color: #f5f5f7;
+  }
+  .section-black .section-title,
+  .section-black h2,
+  .section-black h3 { color: #f5f5f7; }
+  .section-black .desc { color: #a1a1a6; }
+  .section-black .stat-value { color: #ffffff; }
+  .section-black .stat-label { color: #a1a1a6; }
+  .section-black .tag { background: rgba(255,255,255,0.12); color: #f5f5f7; }
+  .section-black .pill-blue { background: #0071e3; color: #ffffff; }
+  .section-black .source-ref { color: #2997ff; }
+  .section-black hr { border-color: rgba(255,255,255,0.15); }
+
+  .section-light {
+    background: #f5f5f7;
+    color: #1d1d1f;
+  }
+  .section-light .section-title,
+  .section-light h2,
+  .section-light h3 { color: #1d1d1f; }
+  .section-light .desc { color: #6e6e73; }
+  .section-light .stat-value { color: #1d1d1f; }
+  .section-light .stat-label { color: #6e6e73; }
+  .section-light .tag { background: rgba(0,0,0,0.06); color: #6e6e73; }
+  .section-light .pill-blue { background: #0071e3; color: #ffffff; }
+  .section-light .source-ref { color: #0066cc; }
+  .section-light hr { border-color: #d2d2d7; }
+
+  /* ---- Section ---- */
+  section { padding: 80px 0; }
+  @media (max-width: 734px) { section { padding: 56px 0; } }
+
+  /* ---- Typography ---- */
+  h1 {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.07;
+    letter-spacing: -0.28px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 734px) { h1 { font-size: 40px; letter-spacing: -0.144px; } }
+
+  .subtitle {
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.38;
+    letter-spacing: 0.231px;
+    margin-bottom: 6px;
+  }
+
+  .meta {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.29;
+    letter-spacing: -0.224px;
+    color: #6e6e73;
+  }
+  .section-black .meta { color: #a1a1a6; }
+
+  h2 {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.21;
+    letter-spacing: 0.152px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 734px) { h2 { font-size: 28px; } }
+
+  h3 {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.17;
+    letter-spacing: 0.216px;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.29;
+    letter-spacing: -0.224px;
+    text-transform: uppercase;
+    color: #6e6e73;
+    margin-bottom: 20px;
+  }
+
+  .desc {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    margin-bottom: 24px;
+  }
+
+  p { margin-bottom: 16px; }
+  p:last-child { margin-bottom: 0; }
+
+  hr {
+    border: none;
+    border-top: 1px solid;
+    margin: 40px 0;
+  }
+
+  /* ---- Stats row ---- */
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin: 24px 0 32px;
+  }
+  .stat-item { min-width: 120px; }
+  .stat-value {
+    font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.13;
+    letter-spacing: 0.128px;
+  }
+  .stat-label {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.29;
+    margin-top: 2px;
+  }
+
+  /* ---- Tags / pills ---- */
+  .tag {
+    display: inline-block;
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+  .pill-blue {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+
+  /* ---- Source refs ---- */
+  .source-ref {
+    font-size: 12px;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: super;
+    line-height: 0;
+  }
+
+  /* ---- Finding card (within band) ---- */
+  .finding { margin-bottom: 32px; }
+  .finding:last-child { margin-bottom: 0; }
+
+  /* ---- Lists ---- */
+  ul { margin: 12px 0 16px; padding-left: 20px; }
+  li { margin-bottom: 6px; line-height: 1.47; }
+  li:last-child { margin-bottom: 0; }
+
+  /* ---- Sources block ---- */
+  .source-list { list-style: none; padding: 0; }
+  .source-list li {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.224px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .section-light .source-list li { border-bottom-color: #d2d2d7; }
+  .source-list li:last-child { border-bottom: none; }
+  .source-num {
+    display: inline-block;
+    width: 24px;
+    font-weight: 600;
+  }
+
+  /* ---- Method block ---- */
+  .method-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  .method-item {
+    flex: 1 1 200px;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 12px;
+  }
+  .section-black .method-item { background: #1d1d1f; }
+  .method-item-label {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.33;
+    letter-spacing: -0.12px;
+    text-transform: uppercase;
+    color: #6e6e73;
+    margin-bottom: 4px;
+  }
+  .method-item-value {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.33;
+    color: #1d1d1f;
+  }
+  .section-black .method-item-value { color: #f5f5f7; }
+
+  /* ---- Footer ---- */
+  .footer-note {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.33;
+    letter-spacing: -0.12px;
+    color: #6e6e73;
+    padding: 32px 0 48px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO: Black ==================== -->
+<section class="section-black" style="padding-bottom:40px;">
+  <div class="container">
+    <p class="section-title">Weekly Radar</p>
+    <h1>Designer Skills Radar</h1>
+    <p class="subtitle" style="color:#a1a1a6;">July Week 4 &middot; 2026</p>
+    <p class="desc" style="margin-top:24px; max-width:680px;">
+      A weekly scan of AI model rankings, design tool evolution, and the skills that matter most for designers navigating a rapidly shifting landscape.
+    </p>
+    <p class="meta">Published July 27, 2026 &middot; 6 key findings</p>
+  </div>
+</section>
+
+<!-- ==================== FINDING 1: Light ==================== -->
+<section class="section-light">
+  <div class="container">
+    <p class="section-title">Finding 1 of 6</p>
+    <h2>Claude Fable 5 Retakes the Coding Crown</h2>
+    <p class="desc">
+      After export controls were lifted on July 1, Anthropic's Claude Fable 5 returned to the top of the coding leaderboard with an <strong>80.3% SWE-bench Pro</strong> score. Alongside it, Claude Sonnet 5 outperformed GPT-5.5 on all six major benchmarks at a fraction of the price.
+    </p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-value">80.3%</div>
+        <div class="stat-label">SWE-bench Pro</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">$10 / $50</div>
+        <div class="stat-label">Per million tokens (input/output)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">6 / 6</div>
+        <div class="stat-label">Benchmarks where Sonnet 5 beats GPT-5.5</div>
+      </div>
+    </div>
+
+    <p class="desc" style="margin-bottom:0;">
+      <span class="tag">Designer takeaway</span>
+      Fable 5's coding capability means designers can now use it for complex front-end prototyping and interactive component generation. Sonnet 5 at $2/$10 intro pricing is the most cost-effective daily driver for design code tasks.
+    </p>
+  </div>
+</section>
+
+<!-- ==================== FINDING 2: Black ==================== -->
+<section class="section-black">
+  <div class="container">
+    <p class="section-title">Finding 2 of 6</p>
+    <h2>UI/UX Design Trends 2026 Go Deeper</h2>
+    <p class="desc" style="max-width:720px;">
+      This year's design trends are not surface-level aesthetics. AI collaboration tools, calm interfaces, narrative UX, spatial design, and ethical regulation are becoming standard practice.
+    </p>
+
+    <div class="finding">
+      <h3>AI Design Tools Reach Production Quality</h3>
+      <p class="desc">
+        <strong>Seedream 5.0 Pro</strong> now offers proper layer separation and 4K rendering, making AI-generated visuals truly editable. <strong>Reve 2.1</strong> introduces editable layers that let designers tweak AI outputs without regenerating from scratch. These tools are closing the gap between exploration and production.
+      </p>
+      <p>
+        <span class="pill-blue">Seedream 5.0 Pro</span>
+        <span class="pill-blue">Reve 2.1</span>
+        <span class="tag">Layer separation</span>
+        <span class="tag">4K rendering</span>
+        <span class="tag">Editable layers</span>
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>Calm Interfaces and Narrative UX</h3>
+      <p class="desc" style="margin-bottom:0;">
+        The backlash against noisy, attention-extractive design continues. Calm technology principles (minimal notifications, user-paced interactions, glanceable information) are moving from niche to mainstream. Narrative UX (linear storytelling interfaces for onboarding and product tours) is emerging as a distinct practice area.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FINDING 3: Light ==================== -->
+<section class="section-light">
+  <div class="container">
+    <p class="section-title">Finding 3 of 6</p>
+    <h2>The AI Model Landscape Widens</h2>
+    <p class="desc">
+      Three major developments reshape what's possible for designers who use AI tools directly.
+    </p>
+
+    <div class="finding">
+      <h3>GPT-5.6 Sol/Terra/Luna</h3>
+      <p class="desc">
+        OpenAI's tiered GPT-5.6 family is in restricted government preview. While not publicly available, its architecture signals the direction of future creative AI capabilities. Meanwhile, <strong>ChatGPT Images 2.0</strong> is the current best tool for text-in-image generation and infographic creation. <strong>Grok Aurora</strong> leads for stylized and abstract visual content.
+      </p>
+      <p>
+        <span class="tag">GPT-5.6 Sol (flagship)</span>
+        <span class="tag">ChatGPT Images 2.0</span>
+        <span class="tag">Grok Aurora</span>
+        <span class="tag">Best for infographics</span>
+        <span class="tag">Best for stylized</span>
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>Gemini 3.1 Pro Leads Research</h3>
+      <p class="desc" style="margin-bottom:0;">
+        <strong>94.3% on GPQA Diamond</strong> and a <strong>1 million token context window</strong> make Gemini 3.1 Pro the go-to model for academic and scientific research. For designers doing deep domain research (user studies, competitive analysis, scientific visualization), this is the model to reach for.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FINDING 4: Black ==================== -->
+<section class="section-black">
+  <div class="container">
+    <p class="section-title">Finding 4 of 6</p>
+    <h2>Video Generation Hits Its Stride</h2>
+    <p class="desc">
+      Three platforms define the video generation landscape, each serving a different creative need.
+    </p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-value">Veo 3.1</div>
+        <div class="stat-label">Best overall: native audio, 1080p, physics</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">Kling 3.5</div>
+        <div class="stat-label">Best value: cost-conscious creators</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">Runway Gen-4</div>
+        <div class="stat-label">Best for filmmakers: precision camera controls</div>
+      </div>
+    </div>
+
+    <p class="desc" style="margin-bottom:0;">
+      <span class="tag">Designer takeaway</span>
+      Video prototyping is now accessible to any designer. Use Veo 3.1 for polished motion mockups, Kling 3.5 for iterative exploration, and Runway Gen-4 when you need frame-level camera choreography.
+    </p>
+  </div>
+</section>
+
+<!-- ==================== FINDING 5: Light ==================== -->
+<section class="section-light">
+  <div class="container">
+    <p class="section-title">Finding 5 of 6</p>
+    <h2>Open-Weight Models Match the Best</h2>
+    <p class="desc">
+      The cost-performance gap is closing fast. Open-weight models now rival proprietary frontier models on key benchmarks at a fraction of the operating cost.
+    </p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-value">80.6%</div>
+        <div class="stat-label">DeepSeek V4 &middot; SWE-bench Verified</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">80.5%</div>
+        <div class="stat-label">MiniMax M3 &middot; SWE-bench Verified</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">80.2%</div>
+        <div class="stat-label">Kimi K2.7 &middot; SWE-bench Verified</div>
+      </div>
+    </div>
+
+    <p class="desc" style="margin-bottom:0;">
+      <span class="tag">Designer takeaway</span>
+      These models can be self-hosted or accessed via low-cost APIs. For design teams running code generation, asset pipelines, or automated design-to-code workflows, open-weight models offer a viable path to production without vendor lock-in.
+    </p>
+  </div>
+</section>
+
+<!-- ==================== FINDING 6: Black ==================== -->
+<section class="section-black">
+  <div class="container">
+    <p class="section-title">Finding 6 of 6</p>
+    <h2>Essential Designer Skills for 2026</h2>
+    <p class="desc" style="max-width:720px;">
+      The convergence of AI tools, new interaction paradigms, and shifting platform economics demands a broader skill set from designers. Here are the five capabilities that matter most right now.
+    </p>
+
+    <div class="finding">
+      <h3>1. AI Prompt Engineering for Design Tools</h3>
+      <p class="desc">
+        Knowing how to craft prompts for Seedream, Reve, Midjourney, DALL-E, and video generators is now a core design skill. This is not just typing words, it is structured prompt architecture: understanding token budgets, negative prompts, style references, and layer control keywords.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>2. Agentic UX Patterns</h3>
+      <p class="desc">
+        As AI agents become user-facing (auto-form fillers, research assistants, coding copilots), designers need to craft interfaces that explain what an agent is doing, let users intervene, and build trust. The "agentic UX" pattern library is still being written.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>3. No-Code AI Agent Building</h3>
+      <p class="desc">
+        Platforms like Custom GPTs, Claude Projects, and emerging no-code agent builders let designers prototype AI-powered experiences without engineering support. Understanding chain-of-thought prompting, knowledge base retrieval, and tool integration is the new prototyping fluency.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>4. Model Capability and Cost Literacy</h3>
+      <p class="desc">
+        Designers now make purchasing and architecture decisions. Knowing which model is best for which task (coding vs. research vs. image generation vs. video) and what each costs per token or per call directly affects project budgets and timelines.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h3>5. Data Visualization Design</h3>
+      <p class="desc" style="margin-bottom:0;">
+        With AI generating vast amounts of structured data, the ability to design clear, accessible, and insightful data visualizations is increasingly valuable. This spans dashboard design, infographic layout, and interactive chart interfaces for non-technical users.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== METHOD: Light ==================== -->
+<section class="section-light">
+  <div class="container">
+    <p class="section-title">Method</p>
+    <h2>How This Radar Is Compiled</h2>
+    <p class="desc" style="max-width:680px;">
+      Each weekly edition scans AI model leaderboards, product announcements, design industry publications, and benchmark results. Findings are rated by direct relevance to practicing designers and design teams.
+    </p>
+
+    <div class="method-grid">
+      <div class="method-item">
+        <div class="method-item-label">Data Sources</div>
+        <div class="method-item-value">SWE-bench, GPQA Diamond, company blogs, product docs</div>
+      </div>
+      <div class="method-item">
+        <div class="method-item-label">Selection Criteria</div>
+        <div class="method-item-value">Direct impact on design workflows, tools, or skills</div>
+      </div>
+      <div class="method-item">
+        <div class="method-item-label">Frequency</div>
+        <div class="method-item-value">Weekly, every Monday</div>
+      </div>
+      <div class="method-item">
+        <div class="method-item-label">Format</div>
+        <div class="method-item-value">6 key findings + citations + designer takeaway per finding</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SOURCES: Black ==================== -->
+<section class="section-black">
+  <div class="container">
+    <p class="section-title">Sources</p>
+    <h2>Citations and References</h2>
+    <p class="desc" style="max-width:680px;">
+      The following sources informed this edition of the Designer Skills Radar. All data and announcements are from July 2026.
+    </p>
+    <hr>
+    <ol class="source-list">
+      <li><span class="source-num">1.</span> Anthropic -- Claude Fable 5 Launch and Benchmark Results (July 1, 2026)</li>
+      <li><span class="source-num">2.</span> SWE-bench Pro Leaderboard -- July 2026 Edition</li>
+      <li><span class="source-num">3.</span> OpenAI -- GPT-5.6 Sol/Terra/Luna Technical Preview Documentation</li>
+      <li><span class="source-num">4.</span> Google DeepMind -- Gemini 3.1 Pro Release Notes and GPQA Diamond Score</li>
+      <li><span class="source-num">5.</span> Seedream 5.0 Pro -- Product Features and Layer Separation Capabilities</li>
+      <li><span class="source-num">6.</span> Reve 2.1 -- Editable Layers Release Notes</li>
+      <li><span class="source-num">7.</span> Google DeepMind -- Veo 3.1 Video Generation Announcement</li>
+      <li><span class="source-num">8.</span> Kling 3.5 -- Product Documentation and Pricing</li>
+      <li><span class="source-num">9.</span> Runway -- Gen-4 Filmmaker Features and Camera Controls</li>
+      <li><span class="source-num">10.</span> DeepSeek V4 -- Technical Report and SWE-bench Verified Score</li>
+      <li><span class="source-num">11.</span> MiniMax -- M3 Model Card and Evaluation Results</li>
+      <li><span class="source-num">12.</span> Moonshot AI -- Kimi K2.7 Documentation and Benchmarks</li>
+      <li><span class="source-num">13.</span> Design Industry Trends 2026 -- Multiple Industry Analyses</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<section style="background:#f5f5f7; padding:0;">
+  <div class="container">
+    <p class="footer-note">
+      Designer Skills Radar &middot; July Week 4, 2026 &middot; Compiled from publicly available sources.
+    </p>
+  </div>
+</section>
+
+</body>
+</html>
