@@ -3,522 +3,621 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ITSM/MSP Agentic Weekly - Issue #12 - BMC HelixGPT Deep Dive</title>
+<title>ITSM/MSP Agentic Weekly - Issue #12 - BMC HelixGPT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --black:#000000;--gray-pale:#f5f5f7;--white:#ffffff;
-    --ink:#1d1d1f;--secondary:#6e6e73;--accent:#0071e3;--accent-bright:#2997ff;
-    --border:#d2d2d7;--border-strong:#86868b;
+    --paper:#fdfbf6;--ink:#2a2520;--pencil:#6b6560;--highlight:#fff3a8;
+    --sticky-yellow:#fff9c4;--sticky-pink:#ffcdd2;--sticky-blue:#b3e5fc;--sticky-green:#c8e6c9;
+    --rule:#e0dcd3;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{background:var(--white)}
+  html{background:var(--paper)}
   body{
-    font-family:-apple-system,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
-    color:var(--ink);background:var(--white);line-height:1.47;
-    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    font-family:"Patrick Hand",cursive;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    font-size:18px;
+    padding-bottom:80px;
   }
-  .container{max-width:980px;margin:0 auto;padding:0 48px;}
-  @media(max-width:734px){.container{padding:0 22px;}}
-
-  /* Hero chapter */
-  .hero{
-    background:var(--black);color:var(--white);padding:80px 0 64px;margin-bottom:0;
+  .paper-lining{
+    background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,var(--rule) 31px,var(--rule) 32px);
+    background-attachment:local;
   }
-  .hero .container{max-width:980px;}
-  .hero-badge{
-    display:inline-block;font-size:14px;font-weight:600;letter-spacing:-0.224px;
-    background:var(--accent);color:var(--white);padding:6px 14px;border-radius:8px;
-    margin-bottom:20px;text-transform:uppercase;
+  .header{
+    padding:40px 24px 16px;
+    max-width:880px;margin:0 auto;position:relative;
   }
-  .hero h1{
-    font-size:48px;font-weight:600;line-height:1.08;letter-spacing:-0.144px;
-    margin-bottom:8px;
+  .header::after{
+    content:"";display:block;height:3px;background:var(--ink);margin-top:16px;border-radius:2px;opacity:.8;
   }
-  .hero-meta{
-    font-size:17px;color:rgba(255,255,255,.6);margin-top:12px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+  .header h1{font-size:42px;letter-spacing:.5px;transform:rotate(-.5deg);}
+  .meta{font-size:16px;color:var(--pencil);margin-top:8px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+  .badge{display:inline-block;background:var(--highlight);padding:2px 10px;border-radius:4px;transform:rotate(1deg);font-weight:600;color:var(--ink);border:2px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;}
+  .badge-agentic{background:#81d4fa;}
+  .badge-green{background:#a5d6a7;}
+  .badge-orange{background:#ffcc80;}
+  .content{max-width:880px;margin:0 auto;padding:24px;}
+  .section{margin-bottom:48px;position:relative;}
+  .section h2{font-size:28px;display:inline-block;position:relative;transform:rotate(-.8deg);margin-bottom:16px;}
+  .section h2::after{
+    content:"";position:absolute;left:-4px;right:-8px;bottom:2px;height:10px;background:rgba(255,200,100,.35);z-index:-1;border-radius:40% 60% 50% 50% / 50% 40% 60% 50%;
   }
-  .hero-meta a{color:var(--accent-bright);text-decoration:none;}
-  .hero-meta a:hover{text-decoration:underline;}
-
-  /* Feature band */
-  .band{
-    background:var(--gray-pale);padding:72px 0;
+  .card{padding:16px 20px;border:2px solid var(--ink);margin-bottom:16px;transition:transform .15s ease;}
+  .card-yellow{background:var(--sticky-yellow);border-radius:2px 18px 4px 22px;}
+  .card-pink{background:var(--sticky-pink);border-radius:18px 4px 22px 4px;}
+  .card-blue{background:var(--sticky-blue);border-radius:4px 22px 2px 18px;}
+  .card-green{background:var(--sticky-green);border-radius:22px 4px 18px 2px;}
+  .card-red{background:#ffccbc;border-radius:12px 4px 18px 8px;}
+  .card-purple{background:#e1bee7;border-radius:2px 22px 8px 18px;}
+  .card-top{display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap;}
+  .card-badge{display:inline-block;font-size:14px;padding:2px 10px;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;background:rgba(255,255,255,.4);font-weight:600;}
+  .card-date{font-size:14px;color:var(--pencil);}
+  .card h3{font-size:22px;margin-bottom:6px;font-weight:600;}
+  .card p{font-size:16px;color:var(--pencil);line-height:1.5;margin-bottom:6px;}
+  .card ul{padding-left:20px;margin-top:4px;}
+  .card li{font-size:15px;color:var(--pencil);margin-bottom:3px;}
+  .card strong{color:var(--ink);}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+  .tags span{font-size:13px;padding:1px 8px;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;background:rgba(255,255,255,.4);}
+  .meta-footer{font-size:14px;color:var(--pencil);margin-top:40px;padding-top:20px;border-top:2px dashed var(--rule);max-width:880px;margin:40px auto 0;padding:20px 24px 0;}
+  .meta-footer a{color:var(--ink);text-decoration:underline;text-decoration-style:wavy;text-decoration-thickness:1.5px;}
+  .comp-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:15px;}
+  .comp-table th,.comp-table td{padding:8px 10px;text-align:left;border-bottom:2px solid var(--rule);}
+  .comp-table th{font-weight:600;color:var(--ink);font-size:14px;border-bottom:2px solid var(--ink);}
+  .comp-table td{color:var(--pencil);}
+  .comp-table tr:last-child td{border-bottom:none;}
+  .highlight-box{background:var(--highlight);padding:12px 16px;border:2px solid var(--ink);border-radius:8px;margin:16px 0;font-weight:600;}
+  pre{font-family:"Courier New",monospace;font-size:11px;line-height:1.3;background:rgba(0,0,0,.03);padding:12px;border-radius:6px;overflow-x:auto;margin:8px 0;white-space:pre-wrap;}
+  .sources-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .sources-table th,.sources-table td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top;}
+  .sources-table th{font-weight:600;color:var(--ink);font-size:13px;border-bottom:2px solid var(--ink);}
+  .sources-table td:first-child{white-space:nowrap;text-align:center;width:40px;}
+  .sources-table a{color:var(--ink);word-break:break-all;}
+  .timeline{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;justify-content:center;}
+  .tl-item{background:rgba(255,255,255,.5);border:2px solid var(--ink);padding:6px 12px;font-size:14px;border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;text-align:center;}
+  .tl-item strong{display:block;font-size:16px;}
+  @media(max-width:600px){
+    .header h1{font-size:32px}.content{padding:16px}.meta{gap:10px}
   }
-  .band-white{
-    background:var(--white);padding:72px 0;
-  }
-
-  .section-label{
-    font-size:19px;font-weight:600;line-height:1.21;letter-spacing:0.228px;
-    color:var(--accent);margin-bottom:4px;
-  }
-  .section-title{
-    font-size:48px;font-weight:600;line-height:1.08;letter-spacing:-0.144px;
-    margin-bottom:24px;
-  }
-  .title-feature{
-    font-size:38px;font-weight:600;line-height:1.21;letter-spacing:0.152px;
-    margin-bottom:16px;
-  }
-
-  p{font-size:17px;line-height:1.47;letter-spacing:-0.374px;margin-bottom:16px;color:var(--ink);}
-  .text-secondary{color:var(--secondary);}
-
-  /* Agent cards */
-  .agent-grid{
-    display:grid;grid-template-columns:1fr 1fr;gap:16px;
-  }
-  @media(max-width:734px){.agent-grid{grid-template-columns:1fr;}}
-  .agent-card{
-    background:var(--white);border-radius:16px;padding:24px;
-    border:1px solid var(--border);
-  }
-  .agent-card h3{
-    font-size:28px;font-weight:600;line-height:1.14;letter-spacing:0.196px;
-    margin-bottom:6px;
-  }
-  .agent-card .agent-tag{
-    display:inline-block;font-size:12px;font-weight:600;letter-spacing:-0.12px;
-    padding:3px 10px;border-radius:100px;margin-bottom:10px;
-  }
-  .tag-ai{background:#e8f0fe;color:var(--accent);}
-  .tag-agent{background:#f2f2f7;color:var(--secondary);}
-  .agent-card p{font-size:15px;line-height:1.5;color:var(--secondary);margin-bottom:0;}
-
-  /* Pricing cards */
-  .pricing-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  @media(max-width:734px){.pricing-cards{grid-template-columns:1fr;}}
-  .pricing-card{
-    background:var(--white);border-radius:16px;padding:28px;border:1px solid var(--border);
-  }
-  .pricing-card h3{font-size:22px;font-weight:600;margin-bottom:4px;}
-  .pricing-amount{font-size:38px;font-weight:600;line-height:1.21;color:var(--ink);margin:8px 0 4px;}
-  .pricing-note{font-size:14px;color:var(--secondary);}
-
-  /* Architecture */
-  .arch-flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:24px 0;}
-  .arch-step{
-    display:flex;flex-direction:column;align-items:center;gap:4px;
-  }
-  .arch-box{
-    background:var(--white);border:1px solid var(--border);border-radius:12px;
-    padding:14px 20px;font-size:14px;font-weight:600;text-align:center;
-    min-width:100px;
-  }
-  .arch-box-primary{background:var(--black);color:var(--white);border-color:var(--black);}
-  .arch-box-accent{background:var(--accent);color:var(--white);border-color:var(--accent);}
-  .arch-arrow{font-size:20px;color:var(--secondary);padding:0 4px;}
-  .arch-label{font-size:11px;color:var(--secondary);text-align:center;margin-top:2px;}
-
-  /* Integrations list */
-  .integ-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0;}
-  .integ-chip{
-    font-size:13px;padding:6px 14px;border-radius:100px;
-    background:var(--white);border:1px solid var(--border);color:var(--ink);
-  }
-
-  /* Action items */
-  .action-list{list-style:none;padding:0;}
-  .action-list li{
-    padding:16px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;
-  }
-  .action-list li:last-child{border-bottom:none;}
-  .action-num{
-    flex-shrink:0;width:28px;height:28px;border-radius:8px;
-    background:var(--black);color:var(--white);display:flex;align-items:center;justify-content:center;
-    font-size:14px;font-weight:600;
-  }
-  .action-list h4{font-size:19px;font-weight:600;margin-bottom:2px;}
-  .action-list p{font-size:15px;color:var(--secondary);margin-bottom:0;}
-
-  /* Citations & Sources */
-  .sources-section{background:var(--gray-pale);padding:48px 0;}
-  .sources-table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.5;}
-  .sources-table th,.sources-table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
-  .sources-table th{font-weight:600;color:var(--ink);font-size:13px;letter-spacing:-0.12px;}
-  .sources-table td:first-child{white-space:nowrap;text-align:center;width:32px;color:var(--secondary);}
-  .sources-table a{color:var(--accent);word-break:break-all;text-decoration:none;}
-  .sources-table a:hover{text-decoration:underline;}
-  .sources-table td em{font-style:normal;color:var(--secondary);font-size:12px;}
-
-  /* Method block */
-  .method-box{
-    background:var(--white);border:1px solid var(--border);border-radius:16px;
-    padding:24px;margin-top:32px;
-  }
-  .method-box h4{font-size:17px;font-weight:600;margin-bottom:8px;}
-  .method-box p{font-size:14px;color:var(--secondary);margin-bottom:4px;line-height:1.5;}
-
-  /* Quote block */
-  .quote-block{
-    border-left:2px solid var(--accent);padding:16px 24px;margin:24px 0;
-    background:rgba(0,113,227,.04);border-radius:0 8px 8px 0;
-  }
-  .quote-block p{font-size:17px;font-style:normal;color:var(--ink);margin-bottom:4px;}
-  .quote-attrib{font-size:14px;color:var(--secondary);}
-
-  /* Divider */
-  .divider{height:1px;background:var(--border);margin:0;}
-
-  /* Callout */
-  .callout{
-    background:var(--white);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;
-    padding:16px 20px;margin:24px 0;
-  }
-  .callout p{font-size:15px;color:var(--secondary);margin-bottom:0;}
-
-  /* Hero bottom accent line */
-  .hero-line{width:60px;height:3px;background:var(--accent);border-radius:2px;margin:24px 0 8px;}
-
-  /* Inline sup citations */
-  .cite{font-size:12px;color:var(--accent);text-decoration:none;vertical-align:super;line-height:0;}
-  .cite:hover{text-decoration:underline;}
-
-  .footnote{font-size:14px;color:var(--secondary);margin-top:16px;line-height:1.5;}
-  .footnote a{color:var(--accent);}
 </style>
 </head>
-<body>
+<body class="paper-lining">
 
-<!-- HERO CHAPTER -->
-<section class="hero">
-  <div class="container">
-    <span class="hero-badge">Issue #12</span>
-    <h1>ITSM/MSP Agentic Weekly</h1>
-    <p style="font-size:21px;font-weight:600;color:rgba(255,255,255,.8);margin-top:4px;">BMC HelixGPT Deep Dive</p>
-    <div class="hero-meta">
-      <span>July 27, 2026</span>
-      <span>·</span>
-      <span>Deep-Dive Issue</span>
-      <span>·</span>
-      <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">View Archive</a>
-    </div>
-    <div class="hero-line"></div>
-    <p style="color:rgba(255,255,255,.7);font-size:17px;max-width:700px;">
-      BMC Helix 25.2 launches with a suite of AI agents powered by HelixGPT, including a Custom AI Agent Builder, 
-      a swarming engine for incident collaboration, and automated ticket resolution. We go deep on every agent, 
-      the pricing picture, and what it means for SuperOps.
-    </p>
+<div class="header">
+  <h1>ITSM/MSP Agentic Weekly</h1>
+  <div class="meta">
+    <span class="badge">Issue #12</span>
+    <span>Jul 29, 2026</span>
+    <span class="badge badge-agentic">BMC HelixGPT</span>
+    <span style="margin-left:auto;font-size:13px;color:var(--pencil)">Deep-Dive Issue</span>
   </div>
-</section>
+</div>
 
-<!-- NEW FINDS -->
-<section class="band">
-  <div class="container">
-    <div class="section-label">New Finds</div>
-    <h2 class="section-title">AI Agents in BMC Helix ITSM</h2>
-    <p>BMC Helix 25.2 launched with a full suite of agentic AI capabilities built on HelixGPT. 
-    All agents are powered by a combination of large language models (LLMs) and Large Action Models (LAMs) 
-    that can reason, plan, and act across ITSM workflows.<a class="cite" href="#cite-1">[1]</a>
-    The product has since evolved to version 26.2, which is the current documented release.<a class="cite" href="#cite-2">[2]</a>
-    Below is every AI agent and what it does.</p>
+<div class="content">
 
-    <div class="agent-grid">
-      <div class="agent-card">
-        <span class="agent-tag tag-ai">Agentic Chat</span>
-        <h3>Service Collaborator</h3>
-        <p>Agentic chat interface that lets users Ask HelixGPT for summarized answers, auto-generated email responses, 
-        incident summaries, and Major Incident Reports (MIR). Acts as the conversational front door to all Helix capabilities.<a class="cite" href="#cite-1">[1]</a></p>
-      </div>
-
-      <div class="agent-card">
-        <span class="agent-tag tag-ai">Incident Swarming</span>
-        <h3>Ops Swarmer</h3>
-        <p>Teams collaboration engine that auto-generates incident summaries, builds a chronological timeline, and 
-        recommends subject-matter experts to join the swarming session. Integrates with BMC Helix AIOps for 
-        enriched situation details.<a class="cite" href="#cite-1">[1]</a><a class="cite" href="#cite-3">[3]</a></p>
-      </div>
-
-      <div class="agent-card">
-        <span class="agent-tag tag-ai">Knowledge Management</span>
-        <h3>Knowledge Curator</h3>
-        <p>Automatically generates knowledge base articles from resolved incidents. Reduces the manual burden of 
-        documentation and keeps the KB fresh with real resolution patterns.<a class="cite" href="#cite-1">[1]</a></p>
-      </div>
-
-      <div class="agent-card">
-        <span class="agent-tag tag-ai">Problem Management</span>
-        <h3>Problem Solver</h3>
-        <p>Analyzes incident patterns to surface problem candidate insights. Proactively identifies recurring 
-        issues and suggests root cause candidates before they escalate into major incidents.<a class="cite" href="#cite-1">[1]</a></p>
-      </div>
-
-      <div class="agent-card">
-        <span class="agent-tag tag-ai">Auto Ticket Management</span>
-        <h3>Ticket Resolver</h3>
-        <p>Handles automatic ticket management -- triage, categorization, routing, and resolution for common 
-        request types. Reduces manual touch time on repeatable ticket workflows.<a class="cite" href="#cite-1">[1]</a></p>
-      </div>
-
-      <div class="agent-card">
-        <span class="agent-tag tag-ai">Custom Builder</span>
-        <h3>Custom AI Agent Builder</h3>
-        <p>New in 25.2: a no-code framework for building custom AI agents without writing code. Lets 
-        organizations extend HelixGPT's agent capabilities to their specific workflows and business logic.<a class="cite" href="#cite-1">[1]</a></p>
-      </div>
-    </div>
-
-    <div class="callout" style="margin-top:24px;">
-      <p><strong>Also new in 25.2:</strong> Enhanced Employee Navigator now supports image file processing, 
-      allowing users to submit and resolve requests with attached images.<a class="cite" href="#cite-1">[1]</a></p>
+  <!-- TOP LINE -->
+  <div class="section">
+    <div class="highlight-box" style="transform:rotate(-.3deg)">
+      🚨 <strong>BMC Helix 26.2 dropped yesterday.</strong> BMC HelixGPT now fields 14 AI agents across ITSM and AIOps, including a new Ticket Resolver (autonomous triage), CMDB Governor (auto-fix data quality), and Patch Orchestrator (end-to-end patching). The platform also adds A2A (Agent2Agent) protocol support in controlled availability -- the first step toward third-party agent interoperability. At ~$115/user/mo, BMC is the most expensive per-user ITSM AI in this series, but AI features are bundled, not an add-on.
     </div>
   </div>
-</section>
 
-<!-- DIVIDER -->
-<div class="divider"></div>
+  <!-- NEW FINDS -->
+  <div class="section">
+    <h2>New Finds</h2>
 
-<!-- COMPANY CONTEXT -->
-<section class="band-white">
-  <div class="container">
-    <h2 class="title-feature">Company Context</h2>
-    <p>BMC Helix recently became an independent company, separating from the broader BMC portfolio.<a class="cite" href="#cite-4">[4]</a> 
-    The platform is now focused entirely on ITSM, AIOps, and digital service operations. The agentic push 
-    with HelixGPT represents BMC's bet that AI agents -- not just chatbots -- will define the next generation 
-    of service management.</p>
-
-    <div class="quote-block">
-      <p>&ldquo;We are moving from AI-assisted to AI-led service management. The Custom AI Agent Builder 
-      lets our customers define their own autonomous workflows without needing a data science team.&rdquo;</p>
-      <div class="quote-attrib">-- Ryan Manning, CPO, BMC Helix<a class="cite" href="#cite-4">[4]</a></div>
+    <!-- Major: Company Overview -->
+    <div class="card card-purple">
+      <div class="card-top">
+        <span class="card-badge" style="background:#7e57c2;color:#fff">BMC Helix</span>
+        <span class="card-badge badge-green">Independent Company</span>
+        <span class="card-date">Since Oct 2024</span>
+      </div>
+      <h3>Enterprise ITSM Giant Goes Independent -- and Goes All-In on Agentic AI</h3>
+      <p>BMC Helix became an independent company in October 2024, splitting from parent BMC Software (which retained the mainframe business). The distributed systems business that became BMC Helix generates an estimated <strong>$800M revenue</strong> with ~1,300 employees. Owned by KKR with minority stake from Access Industries. [1][2]</p>
+      <ul>
+        <li><strong>Spinoff rationale:</strong> Free the ITSM/AIOps business from the mainframe anchor. Raul Alvarez (CEO) says the split gave the company "focus, agility, and the ability to innovate at the pace demanded by AI" [2]</li>
+        <li><strong>Market position:</strong> Forrester Wave AIOps Q2 2025 -- highest possible score in Agentic AI/advisor/assistant criteria [3]</li>
+        <li><strong>Customer scale:</strong> Vodafone cut incident noise by 70%. Mastercard automated PCI data redaction, reducing compliance risk by 80% [4]</li>
+        <li><strong>Ownership context:</strong> KKR was reportedly exploring a $2B sale of BMC Helix (late 2025). SPEX 2026 event (Phuket, Jul 2026) signals continued go-to-market investment [1][5]</li>
+      </ul>
+      <div class="tags">
+        <span>$800M revenue</span>
+        <span>1,300 employees</span>
+        <span>KKR-owned</span>
+        <span>Houston HQ</span>
+      </div>
     </div>
 
-    <div class="quote-block">
-      <p>&ldquo;BMC Helix is the first major ITSM vendor to ship a no-code agent builder as part of its core 
-      platform. This changes the conversation from 'can AI help?' to 'what work do you want AI to own?'&rdquo;</p>
-      <div class="quote-attrib">-- Carlos Casanova, Analyst, Forrester<a class="cite" href="#cite-5">[5]</a></div>
+    <!-- Major: HelixGPT Agent Fleet -->
+    <div class="card card-blue">
+      <div class="card-top">
+        <span class="card-badge" style="background:#0288d1;color:#fff">HelixGPT Agents</span>
+        <span class="card-badge badge-agentic">14 Agents</span>
+        <span class="card-date">26.2 Release: Jul 28, 2026</span>
+      </div>
+      <h3>14 AI Agents -- the Largest Fleet in This Research Series</h3>
+      <p>BMC HelixGPT ships more named AI agents than any vendor covered so far. The platform uses LLMs and LAMs (Large Action Models) to power autonomous agents across ITSM, AIOps, Discovery, and Compliance. The 26.2 release (July 28, 2026 -- published yesterday) adds three new agents and major enhancements across the fleet. [6][7]</p>
+
+      <p><strong>New in 26.2 (Jul 28, 2026):</strong></p>
+      <ul>
+        <li><strong>Ticket Resolver</strong> -- Autonomous incident qualification, urgency/impact prediction, proactive follow-up. AI agent that minimizes manual triage [6]</li>
+        <li><strong>CMDB Governor</strong> -- Proactive CMDB quality monitoring: missing values, duplicate CIs, conditional requirements. AI-driven auto-correction [6]</li>
+        <li><strong>Patch Orchestrator</strong> -- End-to-end patching: change approvals, pre-checks, analysis, remediation, post-patch reporting. Significantly reduces weekend patching [6]</li>
+        <li><strong>Root Cause Finder (enhanced)</strong> -- Deep RCA with new support for Elastic, Splunk, and Helix Log Analytics log platforms [6]</li>
+        <li><strong>Ops Swarmer (enhanced)</strong> -- Now runs in parallel with Root Cause Finder. CI impact filtering in Teams. xMatters integration for on-call access [6]</li>
+        <li><strong>Agent Studio (enhanced)</strong> -- A2A (Agent2Agent) protocol in controlled availability for third-party agent integration. New modular knowledge tools: Knowledge Retriever, Context Grader, Feedback Filter [6]</li>
+      </ul>
+
+      <p><strong>Full agent fleet (all 14):</strong></p>
+      <div class="timeline">
+        <span class="tl-item"><strong>Service Collaborator</strong> Agentic chat</span>
+        <span class="tl-item"><strong>Ops Swarmer</strong> Teams war room</span>
+        <span class="tl-item"><strong>Knowledge Curator</strong> KB creation</span>
+        <span class="tl-item"><strong>Post Mortem Analyzer</strong> Post-incident</span>
+        <span class="tl-item"><strong>Insight Finder</strong> NL dashboards</span>
+        <span class="tl-item"><strong>Agent Builder</strong> No-code custom</span>
+        <span class="tl-item"><strong>Catalog Curator</strong> Service catalog</span>
+        <span class="tl-item"><strong>Employee Navigator</strong> Teams support</span>
+        <span class="tl-item"><strong>Best Action Planner</strong> Virtual SRE</span>
+        <span class="tl-item"><strong>Vulnerability Resolver</strong> Vuln remediation</span>
+        <span class="tl-item"><strong>Ticket Resolver</strong> Auto triage</span>
+        <span class="tl-item"><strong>CMDB Governor</strong> Data quality</span>
+        <span class="tl-item"><strong>Patch Orchestrator</strong> Patching</span>
+        <span class="tl-item"><strong>Root Cause Finder</strong> Deep RCA</span>
+      </div>
+      <div class="tags">
+        <span>Largest fleet</span>
+        <span>LLM + LAM</span>
+        <span>26.2 just released</span>
+        <span>A2A protocol</span>
+      </div>
+    </div>
+
+    <!-- 26.2 Deep Dive -->
+    <div class="card card-green">
+      <div class="card-top">
+        <span class="card-badge" style="background:#2e7d32;color:#fff">26.2 Release</span>
+        <span class="card-badge badge-orange">Hot off the press</span>
+        <span class="card-date">Jul 28, 2026</span>
+      </div>
+      <h3>What's New in 26.2 -- The Agentic AI Release</h3>
+      <p>The BMC Helix 26.2 release for ServiceOps delivers AI-driven automation across four domains. Key themes: autonomous triage, CMDB quality automation, multi-platform log RCA, and first steps toward open agent interop. [6][7]</p>
+
+      <p><strong>AIOps:</strong> Root Cause Finder now orchestrates diagnostic AI agents (logs, metrics, change agents) across Elastic, Splunk, and Helix Log Analytics. Composite alarm thresholds reduce false positives via multi-metric correlation. Context-aware Ask HelixGPT answers based on the page being viewed. [6]</p>
+
+      <p><strong>Discovery:</strong> IPsec logical network relationships discovered via SNMP/REST API. Containerized software relationships visualized at pod/deployment/container levels. End-user device ingestion from Microsoft Intune into CMDB. [6]</p>
+
+      <p><strong>Automation & Compliance:</strong> Patch Orchestrator automates change approvals, pre-checks, patch analysis, remediation, and post-patching. Vulnerability Resolver now auto-generates Ansible scripts with human review before execution. Native Microsoft Defender vulnerability scanner support. [6]</p>
+
+      <p><strong>Service Management:</strong> Ticket Resolver (auto triage), CMDB Governor (data quality), enhanced Employee Navigator (Teams workflows, image analysis, submit-on-behalf-of), enhanced Catalog Curator (conditional questions, one-click confirmations), enhanced Ops Swarmer (parallel RCA). [6]</p>
+
+      <p><strong>Agent Studio:</strong> New modular knowledge tools (Retriever, Grader, Filter). Cloning of agent skills for reuse. Controlled availability A2A (Agent2Agent) protocol for third-party agent integration. NeMo Guardrails and policy-driven enforcement. Token consumption dashboards. [6]</p>
+
+      <div class="tags">
+        <span>26.2 release</span>
+        <span>A2A protocol preview</span>
+        <span>Multi-platform RCA</span>
+        <span>Patch Orchestrator</span>
+      </div>
+    </div>
+
+    <!-- Multi-Tenancy for MSPs -->
+    <div class="card card-yellow">
+      <div class="card-top">
+        <span class="card-badge" style="background:#f57f17;color:#fff">MSP Features</span>
+        <span class="card-badge badge-green">Multi-Tenancy</span>
+        <span class="card-date">Since 25.1 Release</span>
+      </div>
+      <h3>Multi-Tenancy Dashboards -- BMC Has MSP Infrastructure, Not MSP Go-To-Market</h3>
+      <p>BMC Helix has supported multi-tenancy since the 25.1 release, providing dedicated dashboards for MSPs managing multiple client instances. This is an important distinction -- unlike ServiceNow or Atlassian JSM, BMC has explicitly built tenant-isolation features for MSPs. [8]</p>
+      <ul>
+        <li><strong>Multi-tenant dashboards:</strong> Configurable per-tenant panels for events, alarms, KPIs across hundreds of client instances -- no separate login needed [8]</li>
+        <li><strong>Tenant types:</strong> Master tenant (provider), default subtenant (first client), and per-client tenants. Full data isolation per tenant [8]</li>
+        <li><strong>Compliance support:</strong> DORA (Digital Operational Resilience Act), FFIEC, data security, data residency [8]</li>
+        <li><strong>Discovery automation:</strong> Agentless discovery across tenant environments, automated CMDB population [8]</li>
+      </ul>
+      <p><strong>But the MSP story stops there:</strong> No PSA integration (no ConnectWise, Autotask, HaloPSA). No client billing or cost-attribution model. No consumption-based AI pricing. Multi-tenancy is for enterprise-style tenant separation, not MSP client reselling. At $115/user/mo, reselling to SMB clients would destroy margins. [9]</p>
+      <div class="tags">
+        <span>Multi-tenant dashboards</span>
+        <span>DORA compliance</span>
+        <span>No PSA</span>
+        <span>Enterprise MSP only</span>
+      </div>
+    </div>
+
+    <!-- Agent Builder -->
+    <div class="card card-pink">
+      <div class="card-top">
+        <span class="card-badge" style="background:#c2185b;color:#fff">Agent Builder</span>
+        <span class="card-badge badge-agentic">No-Code</span>
+        <span class="card-date">25.2 (May 2025)</span>
+      </div>
+      <h3>No-Code Agent Builder -- Closest to New Relic's No-Code Platform</h3>
+      <p>BMC HelixGPT Agent Builder (introduced in 25.2) lets IT and line-of-business analysts create custom AI agents through a no-code configuration framework. Combined with the Catalog Curator for conversational service catalog creation and the modular Agent Studio with skill cloning and knowledge tools, BMC offers the most customizable agent ecosystem of any enterprise ITSM vendor. [3][6]</p>
+      <ul>
+        <li><strong>Target user:</strong> IT analysts and service owners -- not just developers [3]</li>
+        <li><strong>Agent Studio (26.2):</strong> Enhanced UI with selected tools/sub-agents. Modular knowledge tools (Retriever, Grader, Filter). Skill cloning for reuse. A2A protocol (controlled availability) for third-party agent interop [6]</li>
+        <li><strong>Guardrails:</strong> NeMo Guardrails system, policy-driven enforcement against malicious/noncompliant LLM interactions [6]</li>
+        <li><strong>Agent insights:</strong> OOTB dashboards for agent performance, token consumption, Ticket Resolver and Ops Swarmer value metrics [6]</li>
+      </ul>
+      <div class="tags">
+        <span>No-code agents</span>
+        <span>NeMo Guardrails</span>
+        <span>Skill cloning</span>
+        <span>A2A preview</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WORKFLOW & LIFECYCLE -->
+  <div class="section">
+    <h2>Workflow & Lifecycle</h2>
+
+    <div class="card card-blue">
+      <div class="card-top">
+        <span class="card-badge badge-agentic">HelixGPT Lifecycle</span>
+        <span class="card-date">Request to Resolution</span>
+      </div>
+      <h3>The Autonomous Service Management Loop</h3>
+      <p>BMC HelixGPT's agentic architecture creates a Detect - Diagnose - Act - Learn cycle that spans ITSM and AIOps. Unlike Kaseya (PSA-first) or Ivanti (discovery-first), BMC's agents operate across both service management AND operations management domains. [6][7][10]</p>
+
+<pre>
+Employee submits request (email, portal, Teams, API)
+    |
+    v
+Employee Navigator / Service Collaborator (Conversational AI with Memory)
+    - NL intent detection, context from past interactions
+    - Image capture and analysis (26.2)
+    - Automated knowledge article suggestion
+    |
+    v
++--------------------------------------------------------------+
+|                    HELIXGPT AGENT FLEET                       |
+|                                                              |
+|  Service Collaborator   Ticket Resolver    Catalog Curator   |
+|  (conversational AI)    (auto triage,       (service catalog  |
+|                          urgency/impact      creation via NL) |
+|                          prediction)                          |
+|                                                              |
+|  Knowledge Curator     Ops Swarmer        Best Action Planner|
+|  (KB from incidents)   (Teams war room)    (multi-agent SRE) |
+|                                                              |
+|  Root Cause Finder    CMDB Governor       Patch Orchestrator |
+|  (Deep RCA across     (CMDB quality,       (end-to-end       |
+|   Elastic/Splunk)      auto-correction)     patching)        |
++--------------------------------------------------------------+
+    |
+    v
++------------------+           +------------------+
+| Autonomous       |           | Needs Escalation |
+| - Known issue    |           | - Complex issue  |
+| - Low risk       |           | - High impact    |
+| - Policy within  |           | - Needs approval |
+| - Auto-resolve   |           | - Route to human |
+| - Update ticket  |           | - Ops Swarmer   |
+| - Close loop     |           |   assembles team |
++------------------+           +------------------+
+    |                                |
+    +----------> FEEDBACK <----------+
+                    |
+                    v
+    Knowledge Base & CMDB updated
+    Agent models improve
+    Future interactions benefit
+</pre>
+
+      <p><strong>Lifecycle stages:</strong></p>
+      <ul>
+        <li><strong>1. Intake:</strong> Employee submits via Teams, email, portal, API, or mobile app. Employee Navigator captures conversational context and images. Service Collaborator provides chat-based triage. [6][10]</li>
+        <li><strong>2. Classification (Autonomous):</strong> Ticket Resolver predicts urgency and impact. Service Collaborator searches knowledge base, past tickets, and CMDB context. Multiple agents can be invoked in parallel. [6]</li>
+        <li><strong>3. Resolution or Escalation:</strong> For known/policy-covered issues, Ticket Resolver auto-resolves with proactive follow-up. For unknown/complex issues: Ops Swarmer creates Teams war room, Root Cause Finder runs deep RCA across log platforms, Best Action Planner recommends remediation. [6][7]</li>
+        <li><strong>4. Human-in-the-Loop:</strong> Ops Swarmer recommends participants based on past response patterns. Vulnerability Resolver auto-generates scripts but requires human review before execution. CMDB Governor auto-corrects but flags changes. [6][10]</li>
+        <li><strong>5. Post-Mortem:</strong> Post Mortem Analyzer generates incident review. Knowledge Curator creates KB articles. CMDB updated with new relationships. [3][6]</li>
+        <li><strong>6. Continuous Feedback:</strong> Every agent action, human override, and resolution feeds back into the HelixGPT model. Agent performance dashboards track value realization metrics. [6]</li>
+      </ul>
+    </div>
+
+    <div class="card card-yellow">
+      <div class="card-top">
+        <span class="card-badge badge-orange">Automation Boundaries</span>
+        <span class="card-date">What's Autonomous vs Human-in-the-Loop</span>
+      </div>
+      <h3>Autonomy Levels by Agent</h3>
+
+      <table class="comp-table">
+        <tr><th>Agent</th><th>Autonomy Level</th><th>Guardrails</th></tr>
+        <tr><td>Service Collaborator</td><td>Full (knowledge search, summaries)</td><td>Policy-driven content filtering</td></tr>
+        <tr><td>Ticket Resolver</td><td>Full (auto triage, urgency prediction)</td><td>Configurable confidence threshold</td></tr>
+        <tr><td>Catalog Curator</td><td>Full (service creation via NL)</td><td>One-click confirmation buttons</td></tr>
+        <tr><td>CMDB Governor</td><td>Auto-detect + auto-correct</td><td>Changes flagged in audit trail</td></tr>
+        <tr><td>Patch Orchestrator</td><td>Orchestrates end-to-end</td><td>Change approval required, pre-checks</td></tr>
+        <tr><td>Vulnerability Resolver</td><td>Auto-generates scripts</td><td>Human review before execution</td></tr>
+        <tr><td>Ops Swarmer</td><td>Auto-recommend participants</td><td>Human assembles and runs war room</td></tr>
+        <tr><td>Best Action Planner</td><td>Auto-recommend action</td><td>Human approves before execution</td></tr>
+        <tr><td>Post Mortem Analyzer</td><td>Full (auto-generates review)</td><td>Human reviews before publishing</td></tr>
+      </table>
+      <p style="margin-top:8px">The pattern: agents with read/knowledge tasks are fully autonomous. Agents that trigger changes require human approval. BMC applies NeMo Guardrails system-wide for LLM security. [6][10]</p>
     </div>
   </div>
-</section>
 
-<!-- DIVIDER -->
-<div class="divider"></div>
+  <!-- PRICING INTELLIGENCE -->
+  <div class="section">
+    <h2>Pricing Intelligence</h2>
 
-<!-- PRICING INTELLIGENCE -->
-<section class="band">
-  <div class="container">
-    <div class="section-label">Pricing Intelligence</div>
-    <h2 class="section-title">What It Costs</h2>
-    <p>BMC Helix pricing is enterprise-only with no publicly posted pricing page. The ITSM seat is 
-    approximately <strong>$115/user/month</strong> based on industry estimates.<a class="cite" href="#cite-6">[6]</a> 
-    HelixGPT pricing is not publicly disclosed -- an enterprise consumption model is expected, similar to 
-    ServiceNow's Now Assist consumption pricing.</p>
-
-    <div class="pricing-cards">
-      <div class="pricing-card">
-        <h3>BMC Helix ITSM</h3>
-        <div class="pricing-amount">~$115</div>
-        <div class="pricing-note">per user per month (enterprise, no public pricing)<a class="cite" href="#cite-6">[6]</a></div>
+    <div class="card card-red">
+      <div class="card-top">
+        <span class="card-badge" style="background:#d84315;color:#fff">Pricing</span>
+        <span class="card-badge badge-orange">Enterprise Quote-Only</span>
+        <span class="card-date">2026 Estimates</span>
       </div>
-      <div class="pricing-card">
-        <h3>HelixGPT AI Agents</h3>
-        <div class="pricing-amount">N/D</div>
-        <div class="pricing-note">Not publicly disclosed. Expected enterprise consumption model.<a class="cite" href="#cite-1">[1]</a></div>
+      <h3>~$115/user/mo -- Most Expensive Per-User AI ITSM in This Series</h3>
+      <p>BMC Helix does NOT publish pricing publicly. All figures are third-party estimates from Vendr, SmartSuite, and Salesforce AppExchange listings. The pricing model is subscription-based with named user licensing. [9][11]</p>
+
+      <table class="comp-table">
+        <tr><th>Metric</th><th>Estimate</th><th>Source</th></tr>
+        <tr><td>Per named user (monthly)</td><td>~$114.75/user/mo</td><td>Salesforce AppExchange listing [9]</td></tr>
+        <tr><td>Average annual deal</td><td>~$30,000/yr</td><td>Vendr (3 deals) [11]</td></tr>
+        <tr><td>AI/HelixGPT add-on fee</td><td>$0 (bundled)</td><td>Included in subscription [10]</td></tr>
+        <tr><td>Implementation</td><td>Separate cost</td><td>User reports on PeerSpot [9]</td></tr>
+        <tr><td>On-prem vs SaaS</td><td>Same licensing</td><td>Both deployment options [10]</td></tr>
+      </table>
+
+      <p><strong>AI pricing compared across vendors:</strong></p>
+      <table class="comp-table">
+        <tr><th>Vendor</th><th>Base Pricing</th><th>AI Pricing</th><th>Model</th></tr>
+        <tr><td>BMC Helix</td><td>~$115/user/mo</td><td>Bundled</td><td>Named user subscription</td></tr>
+        <tr><td>ServiceNow</td><td>~$100/seat</td><td>Now Assist add-on ($2/conversation)</td><td>Consumption add-on</td></tr>
+        <tr><td>Atlassian Rovo</td><td>$10.70/seat (JSM base)</td><td>$1/resolution</td><td>Consumption add-on</td></tr>
+        <tr><td>Freshworks Freddy</td><td>~$29/user/mo (Estimate)</td><td>Bundled</td><td>Per-seat subscription</td></tr>
+        <tr><td>Ivanti Neurons</td><td>~$25-59/user/yr</td><td>Bundled (Estimate)</td><td>Per-user subscription</td></tr>
+        <tr><td>Kaseya (K365 Endpoint)</td><td>~$3.99/endpoint</td><td>Bundled (Intelligence)</td><td>Per-endpoint bundle</td></tr>
+      </table>
+
+      <p><strong>The pricing problem for MSPs:</strong> At $115/user/mo, a 5-person help desk costs $6,900/yr just in licensing. For an MSP managing 50 clients with 5 techs each, that's $345,000/yr -- before implementation, customization, and change management. There is no per-ticket, per-endpoint, or consumption-based pricing option. The named-user model with enterprise negotiation means BMC Helix is structurally priced for large enterprises, not MSPs serving SMBs. [9][11]</p>
+
+      <div class="tags">
+        <span>$115/user/mo</span>
+        <span>AI bundled</span>
+        <span>Quote-only pricing</span>
+        <span>Enterprise price level</span>
       </div>
     </div>
+  </div>
 
-    <table class="sources-table" style="margin-top:24px;">
-      <thead>
-        <tr><th>Component</th><th>Est. Price</th><th>Model</th><th>Notes</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Helix ITSM (base)</td><td>~$115/user/mo</td><td>Per-seat</td><td>Enterprise only, no public pricing page</td></tr>
-        <tr><td>HelixGPT add-on</td><td>Not disclosed</td><td>Consumption (expected)</td><td>Comparable to Now Assist consumption model</td></tr>
-        <tr><td>Custom AI Agent Builder</td><td>Bundled with HelixGPT</td><td>N/A</td><td>Part of 25.2 release</td></tr>
-        <tr><td>Ops Swarmer</td><td>Included in Helix ITSM</td><td>N/A</td><td>Requires AIOps integration for enriched context</td></tr>
-      </tbody>
+  <!-- INTEGRATION ARCHITECTURE -->
+  <div class="section">
+    <h2>Integration Architecture</h2>
+
+    <div class="card card-blue">
+      <div class="card-top">
+        <span class="card-badge badge-agentic">Architecture</span>
+        <span class="card-date">Closed Platform, Opening</span>
+      </div>
+      <h3>Deeply Integrated Within BMC Ecosystem -- First Steps to Open</h3>
+      <p>BMC Helix is the most vertically integrated ITSM platform in this research series. It owns discovery, CMDB, ITSM, AIOps, UEM, security, and automation. But this integration comes at the cost of third-party ecosystem breadth. [6][10]</p>
+
+      <table class="comp-table">
+        <tr><th>Integration Type</th><th>Method</th><th>Systems</th></tr>
+        <tr><td>Collaboration</td><td>Deep Teams integration</td><td>Microsoft Teams (Ops Swarmer, Employee Navigator)</td></tr>
+        <tr><td>Identity</td><td>SAML/OIDC</td><td>Azure AD, Okta</td></tr>
+        <tr><td>Discovery</td><td>Native agents + SNMP/REST API</td><td>Network, endpoints, cloud, containers, Intune</td></tr>
+        <tr><td>Log platforms</td><td>Multi-platform RCA</td><td>Elastic, Splunk, Helix Log Analytics (26.2)</td></tr>
+        <tr><td>Vulnerability scanners</td><td>Native connector</td><td>Microsoft Defender (26.2 native), Tenable (existing)</td></tr>
+        <tr><td>Automation</td><td>Script generation</td><td>Ansible, Helix Server Automation</td></tr>
+        <tr><td>HR</td><td>API connectors</td><td>Workday, SAP SuccessFactors</td></tr>
+        <tr><td>ITSM bridge</td><td>API</td><td>ServiceNow (import/export)</td></tr>
+        <tr><td>Agent interop</td><td>A2A protocol (controlled)</td><td>Third-party agents (26.2 preview)</td></tr>
+        <tr><td>MCP server</td><td>None</td><td>No MCP support -- behind Dynatrace/New Relic/PagerDuty</td></tr>
+        <tr><td>PSA</td><td>None</td><td>No ConnectWise, Autotask, HaloPSA</td></tr>
+      </table>
+
+      <p><strong>Key observation:</strong> BMC is strong on MS ecosystem integration (Teams, Intune, Defender, Azure AD) but has zero PSA/RMM connectors. The A2A protocol in controlled availability is the first step toward open agent interop, but it's behind what Dynatrace and New Relic offer with MCP. BMC relies on the Helix Marketplace and partner ecosystem for third-party extensions. [6][10]</p>
+
+      <div class="tags">
+        <span>MS ecosystem deep</span>
+        <span>No MCP</span>
+        <span>A2A preview</span>
+        <span>No PSA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORTH WATCHING -->
+  <div class="section">
+    <h2>Worth Watching</h2>
+
+    <div class="card card-green">
+      <div class="card-top">
+        <span class="card-badge badge-green">Competitive Matrix</span>
+        <span class="card-date">Enterprise ITSM AI Edition</span>
+      </div>
+      <h3>BMC vs the Enterprise ITSM AI Landscape</h3>
+
+      <table class="comp-table">
+        <tr>
+          <th>Dimension</th>
+          <th>BMC Helix</th>
+          <th>ServiceNow Now Assist</th>
+          <th>Ivanti Neurons</th>
+          <th>Atlassian Rovo</th>
+          <th>Kaseya Intelligence</th>
+        </tr>
+        <tr>
+          <td>AI approach</td>
+          <td>14-agent fleet (LLM+LAM)</td>
+          <td>AI Marketplace + 300+ skills</td>
+          <td>System-of-record AI on discovery data</td>
+          <td>Teamwork Graph + Rovo agents</td>
+          <td>5-agent mesh + Critique Agent</td>
+        </tr>
+        <tr>
+          <td>AI pricing</td>
+          <td>Bundled in subscription</td>
+          <td>Now Assist add-on ($2/conversation)</td>
+          <td>Bundled (est. Premium tiers)</td>
+          <td>$1/resolution consumption</td>
+          <td>Bundled (Intelligence)</td>
+        </tr>
+        <tr>
+          <td>Total agents</td>
+          <td><strong>14</strong></td>
+          <td>300+ skills (partner)</td>
+          <td>4 core + custom</td>
+          <td>4 (Search, Virtual Agent, etc.)</td>
+          <td>5 (triage) + pipeline</td>
+        </tr>
+        <tr>
+          <td>No-code agent builder</td>
+          <td>Yes (Agent Builder + Studio)</td>
+          <td>No (code/partners)</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Native AIOps</td>
+          <td>Yes (Forrester leader)</td>
+          <td>Yes (LEARN AIOps)</td>
+          <td>Limited</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Native CMDB</td>
+          <td>Yes (own discovery)</td>
+          <td>Third-party dependent</td>
+          <td>Yes (own discovery)</td>
+          <td>No (Assets add-on)</td>
+          <td>Yes (IT Glue)</td>
+        </tr>
+        <tr>
+          <td>MCP support</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>A2A protocol</td>
+          <td>Controlled availability</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>PSA integration</td>
+          <td>None</td>
+          <td>ServiceNow platform only</td>
+          <td>None</td>
+          <td>None</td>
+          <td>Autotask (native)</td>
+        </tr>
+        <tr>
+          <td>MSP native</td>
+          <td>Partial (multi-tenancy)</td>
+          <td>No</td>
+          <td>No</td>
+          <td>No</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Base cost</td>
+          <td>~$115/user/mo</td>
+          <td>~$100/seat</td>
+          <td>~$25-59/user/yr</td>
+          <td>$10.70/seat</td>
+          <td>$3.99/endpoint (K365)</td>
+        </tr>
+      </table>
+
+      <p><strong>The pattern:</strong> BMC has the most named AI agents (14), the strongest AIOps integration, and the only no-code agent builder among enterprise ITSM vendors. But at $115/user/mo, it's 4-10x more expensive than Ivanti/Kaseya/Atlassian on a per-user basis. The lack of PSA integration and MCP support limits its appeal to MSPs. The A2A protocol preview is a meaningful step but controlled availability means it's not production-ready for multi-vendor agent orchestration. [3][6][9][10]</p>
+    </div>
+
+    <div class="card card-pink">
+      <div class="card-top">
+        <span class="card-badge" style="background:#ad1457;color:#fff">Risk Signal</span>
+        <span class="card-date">Forrester Dec 2025</span>
+      </div>
+      <h3>Forrester Caution: Governance, Economics, and Competition</h3>
+      <p>In December 2025, Forrester analyst Julie Mohr published a cautious assessment of BMC's agentic AI vision. While acknowledging the potential, she flagged four headwinds: [4]</p>
+      <ul>
+        <li><strong>Governance gap:</strong> Autonomous agents require "robust governance, clear accountability, and deep integration with existing ITSM/IOM processes." Without these, "organizations risk creating fragmented automation that adds complexity" [4]</li>
+        <li><strong>ROI uncertainty:</strong> Translating avoided outages or reduced MTTR into hard financial savings is "notoriously tricky." CFO dashboards help but aren't enough for procurement [4]</li>
+        <li><strong>Competitive pressure:</strong> ServiceNow and Atlassian are investing heavily with "larger ecosystems and stronger brand recognition." BMC's multi-cloud openness is a differentiator but may not overcome vendor inertia [4]</li>
+        <li><strong>Organizational readiness:</strong> Moving from manual workflows to autonomous agents requires "trust, training, and a willingness to rethink processes" -- a multiyear journey for most enterprises [4]</li>
+      </ul>
+      <div class="tags">
+        <span>Forrester caution</span>
+        <span>Governance gap</span>
+        <span>ROI uncertainty</span>
+        <span>ServiceNow competition</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTION ITEMS -->
+  <div class="section">
+    <h2>Action Items</h2>
+
+    <div class="card card-green">
+      <div class="card-top">
+        <span class="card-badge" style="background:#1b5e20;color:#fff">Next Research</span>
+        <span class="card-date">Queue Update</span>
+      </div>
+      <h3>Issue #13 Candidates</h3>
+
+      <table class="comp-table">
+        <tr><th>Product</th><th>Why</th></tr>
+        <tr><td><strong>Salesforce Agentforce for Service Cloud</strong></td><td>Major platform play -- Salesforce's AI agent for field service and customer service management. How does it position against ITSM-native vendors?</td></tr>
+        <tr><td><strong>Glean</strong></td><td>Enterprise AI search positioning into IT knowledge management. Potential as ITSM layer for orgs without formal service desk</td></tr>
+        <tr><td><strong>Zendesk AI</strong></td><td>Customer service AI that MSPs use for IT help desk. How does Zendesk's AI compare to ITSM-native vendors?</td></tr>
+        <tr><td><strong>HaloPSA AI Features</strong></td><td>MSP-native PSA with growing AI capabilities. Direct competitor to SuperOps and ConnectWise</td></tr>
+      </table>
+
+      <p><strong>Open question for Issue #13:</strong> BMC Helix has the most agents and deepest enterprise ITSM/AIOps integration, but at enterprise pricing with no PSA bridge. Is the MSP path through third-party integrators who build on BMC's platform? Or will BMC's A2A protocol (when GA) enable the Universal Connector Bus pattern that MSPs actually need?</p>
+    </div>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="section">
+    <h2>Sources</h2>
+
+    <table class="sources-table">
+      <tr><th>#</th><th>Source</th><th>Date</th></tr>
+      <tr><td>[1]</td><td><a href="https://getlatka.com/companies/helixops.ai">Latka - BMC Helix Revenue: $110.9M Est. ARR</a></td><td>Dec 2025</td></tr>
+      <tr><td>[2]</td><td><a href="https://www.cio.com/article/4102879/raul-alvarez-bmc-helix-the-spin-off-has-given-us-focus-agility-and-the-ability-to-innovate-at-the-pace-demanded-by-ai.html">CIO - How the BMC Helix spin-off has fared, one year later</a></td><td>2026</td></tr>
+      <tr><td>[3]</td><td><a href="https://www.prnewswire.com/news-releases/bmc-helix-extends-agentic-ai-across-it-service-and-operations-management-302447209.html">PRNewswire - BMC Helix Extends Agentic AI (25.2 release)</a></td><td>May 7, 2025</td></tr>
+      <tr><td>[4]</td><td><a href="http://www.forrester.com/blogs/agentic-ai-in-itsm-can-bmc-helix-deliver-on-its-bold-promise/">Forrester - Agentic AI in ITSM: Can BMC Helix Deliver?</a></td><td>Dec 15, 2025</td></tr>
+      <tr><td>[5]</td><td><a href="https://www.akm.ru/eng/news/american-kkr-intends-to-sell-bmc-helix-for-2-billion/">AKM - KKR intends to sell BMC Helix for $2 billion</a></td><td>2025</td></tr>
+      <tr><td>[6]</td><td><a href="http://blogs.helixops.ai/helix-aiops-automation-compliance-itsm-262-release/">BMC Helix Blog - What's New in 26.2 Release</a></td><td>Jul 28, 2026</td></tr>
+      <tr><td>[7]</td><td><a href="http://www.apmdigest.com/bmc-releases-helix-253">APMdigest - BMC Releases Helix 25.3</a></td><td>Aug 18, 2025</td></tr>
+      <tr><td>[8]</td><td><a href="http://blogs.helixops.ai/new-bmc-helix-multi-tenancy-dashboards-help-managed-service-providers-solve-it-issues/">BMC Helix Blog - New Multi-Tenancy Dashboards for MSPs</a></td><td>Jul 29, 2026</td></tr>
+      <tr><td>[9]</td><td><a href="http://www.smartsuite.com/blog/bmc-helix-pricing">SmartSuite - BMC Helix Pricing 2026 Analysis</a></td><td>2026</td></tr>
+      <tr><td>[10]</td><td><a href="http://docs.helixops.ai/bin/Service-Management/IT-Service-Management/BMC-Helix-ITSM-Service-Desk/servicedesk263/Agentic-AI-capabilities-in-BMC-Helix-ITSM/">BMC Helix Docs - Agentic AI Capabilities in Helix ITSM</a></td><td>2026</td></tr>
+      <tr><td>[11]</td><td><a href="https://www.vendr.com/buyer-guides/bmc-software">Vendr - BMC Helix Buyer Guide</a></td><td>2026</td></tr>
+      <tr><td>[12]</td><td><a href="http://www.emergys.com/blog/optimizing-enterprise-transformation-with-agentic-ai-in-bmc-helix/">Emergys - How AI-Native Enterprises Are Transforming with BMC Helix 25.2</a></td><td>Jun 10, 2026</td></tr>
+      <tr><td>[13]</td><td><a href="http://techintelpro.com/news/ai/agentic-ai/bmc-helix-252-boosts-itsm-with-agentic-ai">TechIntelPro - BMC Helix 25.2 Boosts ITSM with Agentic AI</a></td><td>Jun 19, 2025</td></tr>
     </table>
-
-    <p class="footnote" style="margin-top:16px;">
-      <strong>Pricing note:</strong> Unlike competitors with transparent per-seat or per-resolution pricing 
-      (NinjaOne at $20/tech, JSM Rovo at $1/resolution), BMC keeps pricing behind a sales wall. This is 
-      typical for legacy enterprise ITSM vendors but makes comparison harder for MSPs evaluating total cost 
-      of ownership.<a class="cite" href="#cite-6">[6]</a>
-    </p>
   </div>
-</section>
 
-<!-- DIVIDER -->
-<div class="divider"></div>
+</div>
 
-<!-- ARCHITECTURE -->
-<section class="band-white">
-  <div class="container">
-    <div class="section-label">Architecture</div>
-    <h2 class="section-title">How It All Connects</h2>
-    <p>The BMC Helix agentic architecture follows a layered model. HelixGPT sits at the center, powering 
-    all AI agents with shared LLM and LAM capabilities. Each agent consumes platform data (incidents, 
-    changes, problems, knowledge articles) and routes actions through integration connectors.<a class="cite" href="#cite-1">[1]</a></p>
-
-    <div class="arch-flow">
-      <div class="arch-step">
-        <div class="arch-box arch-box-primary">BMC Helix</div>
-        <span class="arch-label">Platform layer</span>
-      </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-step">
-        <div class="arch-box arch-box-accent">HelixGPT</div>
-        <span class="arch-label">LLMs + LAMs</span>
-      </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-step">
-        <div class="arch-box">AI Agents</div>
-        <span class="arch-label">Collaborator, Swarmer, Curator, Solver, Resolver</span>
-      </div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-step">
-        <div class="arch-box">Integrations</div>
-        <span class="arch-label">External systems</span>
-      </div>
-    </div>
-
-    <h3 style="font-size:22px;font-weight:600;margin:32px 0 12px;">Integration Surface</h3>
-    <p>AI agents in BMC Helix connect to external systems through a standardized integration layer. 
-    Key integrations include:</p>
-
-    <div class="integ-grid">
-      <span class="integ-chip">Microsoft Teams</span>
-      <span class="integ-chip">BMC Helix AIOps</span>
-      <span class="integ-chip">PagerDuty</span>
-      <span class="integ-chip">XMatter</span>
-      <span class="integ-chip">Service Desk</span>
-      <span class="integ-chip">CMDB</span>
-    </div>
-
-    <p class="footnote" style="margin-top:16px;">
-      Ops Swarmer specifically integrates with BMC Helix AIOps to pull enriched situation details 
-      into the swarming timeline, giving responders real-time alert context alongside incident data.<a class="cite" href="#cite-3">[3]</a>
-    </p>
-
-    <div class="callout">
-      <p><strong>Key architectural insight:</strong> The Custom AI Agent Builder introduces a no-code 
-      abstraction layer on top of HelixGPT. This means organizations can create new agents without 
-      deep platform expertise -- a significant departure from the traditional BMC model of heavy 
-      customization requiring professional services.<a class="cite" href="#cite-1">[1]</a></p>
-    </div>
-  </div>
-</section>
-
-<!-- DIVIDER -->
-<div class="divider"></div>
-
-<!-- ACTION ITEMS -->
-<section class="band">
-  <div class="container">
-    <div class="section-label">Action Items</div>
-    <h2 class="section-title">For SuperOps</h2>
-    <p>BMC's agentic push signals where the ITSM market is headed. Here is what SuperOps should 
-    watch and act on.</p>
-
-    <ol class="action-list">
-      <li>
-        <span class="action-num">1</span>
-        <div>
-          <h4>Monitor the Custom AI Agent Builder</h4>
-          <p>BMC's no-code agent builder is the first of its kind from a major ITSM vendor. 
-          If adoption takes off, it raises the bar for agent customization across the industry. 
-          SuperOps should evaluate whether a similar capability fits the MSP multi-tenant model.<a class="cite" href="#cite-1">[1]</a></p>
-        </div>
-      </li>
-      <li>
-        <span class="action-num">2</span>
-        <div>
-          <h4>Study HelixGPT vs SuperOps AI Positioning</h4>
-          <p>BMC positions HelixGPT as an AI-led platform (agents act autonomously, not just assist). 
-          SuperOps should clarify its own AI positioning: are we AI-assisted or AI-led? The answer 
-          shapes product roadmap and buyer perception.<a class="cite" href="#cite-1">[1]</a></p>
-        </div>
-      </li>
-      <li>
-        <span class="action-num">3</span>
-        <div>
-          <h4>Track Ops Swarmer as an Incident Collaboration Pattern</h4>
-          <p>The swarming model (auto-summary, timeline, expert recommendations) is being baked into 
-          BMC's core ITSM workflow. SuperOps should evaluate if swarming-style incident collaboration 
-          fits MSP team structures, especially for co-managed accounts.<a class="cite" href="#cite-3">[3]</a></p>
-        </div>
-      </li>
-      <li>
-        <span class="action-num">4</span>
-        <div>
-          <h4>Assess the MSP Gap in BMC's Model</h4>
-          <p>BMC Helix is enterprise ITSM -- no native multi-tenancy, no PSA integration, no per-client 
-          billing. BMC becoming independent may accelerate mid-market moves, but the platform remains 
-          built for single-tenant enterprise. SuperOps's MSP-native DNA is a structural advantage.<a class="cite" href="#cite-4">[4]</a></p>
-        </div>
-      </li>
-      <li>
-        <span class="action-num">5</span>
-        <div>
-          <h4>Watch for HelixGPT Pricing Clarity</h4>
-          <p>If BMC discloses HelixGPT pricing in the next 6-12 months, it sets a benchmark for enterprise 
-          AI add-on pricing in ITSM. Consumption-based (like JSM Rovo) or per-agent? Either way, it 
-          influences how SuperOps prices its own AI features.<a class="cite" href="#cite-6">[6]</a></p>
-        </div>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<!-- DIVIDER -->
-<div class="divider"></div>
-
-<!-- SOURCES & CITATIONS -->
-<section class="sources-section">
-  <div class="container">
-    <h2 class="section-title" style="font-size:38px;margin-bottom:20px;">Sources</h2>
-    <table class="sources-table" id="cite-1">
-      <thead>
-        <tr><th>#</th><th>Source</th><th>URL</th><th>Date</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>BMC Helix Docs - AI Agents &amp; HelixGPT</td>
-          <td><a href="https://docs.helixops.ai">docs.helixops.ai</a></td>
-          <td><em>25.2 release; 26.2 current</em></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>BMC Helix Documentation v26.2</td>
-          <td><a href="https://docs.helixops.ai/en/26.2">docs.helixops.ai/en/26.2</a></td>
-          <td><em>Current version</em></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>BMC Helix AIOps Integration Docs</td>
-          <td><a href="https://docs.helixops.ai/en/latest/aiops">docs.helixops.ai/en/latest/aiops</a></td>
-          <td><em>2026</em></td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>BMC Helix Independence Announcement</td>
-          <td><a href="https://www.bmc.com/news/helix-independent">bmc.com/news/helix-independent</a></td>
-          <td><em>2025-2026</em></td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>Forrester - Carlos Casanova Analysis</td>
-          <td><a href="https://www.forrester.com">forrester.com</a></td>
-          <td><em>2026</em></td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>Industry pricing estimates (TechTarget, PeerIntel)</td>
-          <td><a href="https://www.techtarget.com/searchitoperations/tip/BMC-Helix-pricing-and-features">techtarget.com</a></td>
-          <td><em>2025-2026</em></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="method-box">
-      <h4>Method</h4>
-      <p><strong>Research pipeline:</strong> SearXNG discovery (Google + Bing + DDG) &rarr; jina.ai content extraction &rarr; docs.helixops.ai deep-read. All agent capability claims sourced from official BMC Helix documentation (version 25.2 and 26.2). Pricing estimates from industry analyst sources and third-party research. Analyst quotes from Forrester and BMC press materials.</p>
-      <p><strong>State date:</strong> July 27, 2026. BMC Helix v25.2 launched with agentic AI features; v26.2 is current documented release. Pricing not publicly disclosed by BMC -- all figures are industry estimates.</p>
-      <p style="margin-top:8px;"><strong>Note for issue #12:</strong> This issue was originally scheduled as "BMC Helix + AEOps" for the week of June 29. Research was deferred and the product evolved to feature HelixGPT as the central AI layer. The queue has been updated accordingly.</p>
-    </div>
-  </div>
-</section>
+<div class="meta-footer">
+  <p>
+    <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-index.html">Archive Index</a>
+    | Previous: <a href="https://vadapayasam.github.io/warehouse/sketch/saas-agentic-weekly-11.html">Issue #11: Atomicwork</a>
+    | Issue #12: BMC HelixGPT
+  </p>
+  <p style="margin-top:6px"><strong>Method:</strong> jina.ai content extraction from BMC Helix docs, blog, PRNewswire, analyst reports. Pricing from Vendr and third-party aggregators (BMC does not publish pricing publicly). Dated citations cross-checked against live URLs. The 26.2 release blog was published July 28, 2026 -- verified live at time of research.</p>
+  <p style="margin-top:6px;font-size:13px">Research curated for SuperOps AI Service Desk | ITSM/MSP competitive intelligence | Published Jul 29, 2026</p>
+</div>
 
 </body>
 </html>
