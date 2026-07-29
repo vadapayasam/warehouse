@@ -3,160 +3,239 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agentic SaaS Weekly — Archive</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<title>ITSM/MSP Agentic Weekly - Archive</title>
 <style>
   :root{
-    --paper:#fdfbf6;--ink:#2a2520;--pencil:#6b6560;--highlight:#fff3a8;
-    --sticky-yellow:#fff9c4;--sticky-pink:#ffcdd2;--sticky-blue:#b3e5fc;--sticky-green:#c8e6c9;
-    --rule:#e0dcd3;
+    --paper:#f5f7ff;--ink:#1a1d2e;--pencil:#4a4e69;--highlight:#bae6fd;
+    --sticky-yellow:#fef9c3;--sticky-pink:#fecaca;--sticky-blue:#bfdbfe;--sticky-green:#bbf7d0;
+    --sticky-purple:#e9d5ff;--rule:#c7d2fe;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{background:var(--paper)}
-  body{font-family:"Patrick Hand",cursive;color:var(--ink);background:var(--paper);line-height:1.6;font-size:18px;padding-bottom:80px;}
-  .paper-lining{background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,var(--rule) 31px,var(--rule) 32px);background-attachment:local;}
-  .header{padding:40px 24px 16px;max-width:880px;margin:0 auto;position:relative;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:var(--ink);background:var(--paper);line-height:1.6;font-size:16px;padding-bottom:80px;
+  }
+  .header{padding:40px 24px 16px;max-width:880px;margin:0 auto;}
   .header::after{content:"";display:block;height:3px;background:var(--ink);margin-top:16px;border-radius:2px;opacity:.8;}
-  .header h1{font-size:42px;letter-spacing:.5px;transform:rotate(-.5deg);}
-  .meta{font-size:16px;color:var(--pencil);margin-top:8px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
-  .badge{display:inline-block;background:var(--highlight);padding:2px 10px;border-radius:4px;transform:rotate(1deg);font-weight:600;color:var(--ink);border:2px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;}
+  .header h1{font-size:38px;font-weight:600;letter-spacing:-.5px;color:#1d1d1f;}
+  .meta{font-size:15px;color:#6e6e73;margin-top:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .badge{display:inline-block;background:#e8e8ed;padding:3px 12px;border-radius:6px;font-weight:600;font-size:13px;color:#1d1d1f;}
   .content{max-width:880px;margin:0 auto;padding:24px;}
-  .year{margin-bottom:48px;position:relative;}
-  .year h2{font-size:28px;display:inline-block;position:relative;transform:rotate(-.8deg);margin-bottom:16px;}
-  .year h2::after{content:"";position:absolute;left:-4px;right:-8px;bottom:2px;height:10px;background:rgba(255,200,100,.35);z-index:-1;border-radius:40% 60% 50% 50% / 50% 40% 60% 50%;}
-  .issue{padding:16px 20px;border:2px solid var(--ink);margin-bottom:16px;transition:transform .15s ease;cursor:pointer;text-decoration:none;color:var(--ink);display:block;}
-  .issue:hover{transform:translateY(-3px) rotate(.5deg);}
-  .issue-yellow{background:var(--sticky-yellow);border-radius:2px 18px 4px 22px;}
-  .issue-pink{background:var(--sticky-pink);border-radius:18px 4px 22px 4px;}
-  .issue-blue{background:var(--sticky-blue);border-radius:4px 22px 2px 18px;}
-  .issue-green{background:var(--sticky-green);border-radius:22px 4px 18px 2px;}
-  .issue-top{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
-  .issue-badge{display:inline-block;font-size:15px;padding:2px 10px;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;background:rgba(255,255,255,.4);font-weight:600;}
-  .issue-date{font-size:15px;color:var(--pencil);}
-  .issue h3{font-size:22px;margin-bottom:4px;font-weight:600;}
-  .issue p{font-size:16px;color:var(--pencil);line-height:1.4;}
-  .issue-tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;}
-  .issue-tags span{font-size:13px;padding:1px 8px;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;background:rgba(255,255,255,.4);}
-  .footer{max-width:880px;margin:60px auto 0;padding:0 24px;text-align:center;color:var(--pencil);font-size:15px;}
-  .footer-line{display:inline-block;width:120px;height:2px;background:var(--ink);opacity:.3;border-radius:1px;transform:rotate(-1deg);margin-bottom:12px;}
+  .section{margin-bottom:48px;}
+  .section h2{font-size:24px;font-weight:600;margin-bottom:16px;color:#1d1d1f;padding-bottom:8px;border-bottom:1px solid #d2d2d7;}
+  .issue{display:block;padding:16px 20px;margin-bottom:12px;border:1px solid #d2d2d7;border-radius:12px;text-decoration:none;color:inherit;transition:all .15s ease;background:#ffffff;}
+  .issue:hover{border-color:#0071e3;box-shadow:0 2px 12px rgba(0,113,227,.1);transform:translateY(-1px);}
+  .issue-top{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:wrap;}
+  .issue-num{font-size:14px;font-weight:600;color:#0071e3;white-space:nowrap;}
+  .issue-date{font-size:13px;color:#6e6e73;white-space:nowrap;}
+  .issue-label{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;background:#e8e8ed;color:#6e6e73;text-transform:uppercase;letter-spacing:.5px;}
+  .issue-label.current{background:#0071e3;color:#ffffff;}
+  .issue-label.skipped{background:#fecaca;color:#991b1b;}
+  .issue h3{font-size:18px;font-weight:600;margin-bottom:4px;color:#1d1d1f;}
+  .issue p{font-size:14px;color:#6e6e73;line-height:1.4;}
+  .issue-tags{margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;}
+  .issue-tags span{font-size:12px;padding:2px 8px;border-radius:4px;background:#f5f5f7;color:#6e6e73;border:1px solid #e8e8ed;}
+  .footer{max-width:880px;margin:60px auto 0;padding:0 24px;text-align:center;color:#6e6e73;font-size:14px;border-top:1px solid #d2d2d7;padding-top:24px;}
   @media(max-width:600px){
-    .header h1{font-size:32px}.content{padding:16px}
+    .header h1{font-size:28px}.content{padding:16px}
   }
 </style>
 </head>
-<body class="paper-lining">
+<body>
 
 <div class="header">
-  <h1>Agentic SaaS Weekly</h1>
+  <h1>ITSM/MSP Agentic Weekly</h1>
   <div class="meta">
     <span class="badge">Archive</span>
-    <span>Curated research on launches, pricing, funding, and feature drops.</span>
+    <span>10 published issues covering agentic AI in ITSM/MSP</span>
   </div>
 </div>
 
 <div class="content">
 
-  <div class="year">
+  <div class="section">
     <h2>2026</h2>
 
-    <!-- Back Issue -->
-    <a href="saas-agentic-weekly-00.html" class="issue issue-green">
+    <!-- Issue #0 -->
+    <a href="saas-agentic-weekly-00.html" class="issue">
       <div class="issue-top">
-        <span class="issue-badge">Issue #0</span>
-        <span class="issue-date">April 20 — May 9, 2026</span>
-        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--pencil)">BACK ISSUE</span>
+        <span class="issue-num">Issue #0</span>
+        <span class="issue-date">Apr 20 - May 9</span>
+        <span class="issue-label">Back Issue</span>
       </div>
       <h3>Kimi K2.6, Figma Competitors, WhatPay Research</h3>
       <p>Chinese coding agent at $0.80/M tokens. Code Connect vs Copilot/v0/Storybook. WhatPay competitor screenshot analysis.</p>
       <div class="issue-tags">
-        <span>research</span>
-        <span>competitor</span>
-        <span>model launch</span>
+        <span>research</span><span>competitor</span><span>model launch</span>
       </div>
     </a>
 
-    <!-- Back Issue -->
-    <a href="saas-agentic-weekly-01.html" class="issue issue-yellow">
+    <!-- Issue #1 -->
+    <a href="saas-agentic-weekly-01.html" class="issue">
       <div class="issue-top">
-        <span class="issue-badge">Issue #1</span>
-        <span class="issue-date">May 4 — May 11, 2026</span>
-        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--pencil)">BACK ISSUE</span>
+        <span class="issue-num">Issue #1</span>
+        <span class="issue-date">May 4-11</span>
+        <span class="issue-label">Back Issue</span>
       </div>
       <h3>Linear Mobile, Cursor $100M, Zapier AI Actions GA</h3>
-      <p>Linear ships iOS. Cursor raises Series B at $2.6B. Zapier goes full natural language. Notion AI cuts price, Claude Code raises it.</p>
+      <p>Linear ships iOS. Cursor raises Series B at $2.6B. Zapier goes full natural language. Notion AI cuts price.</p>
       <div class="issue-tags">
-        <span>launch</span>
-        <span>funding</span>
-        <span>pricing</span>
-        <span>feature drop</span>
+        <span>launch</span><span>funding</span><span>pricing</span>
       </div>
     </a>
 
-    <!-- Back Issue -->
-    <a href="saas-agentic-weekly-02.html" class="issue issue-green">
+    <!-- Issue #2 - First ITSM -->
+    <a href="saas-agentic-weekly-02.html" class="issue">
       <div class="issue-top">
-        <span class="issue-badge">Issue #2</span>
-        <span class="issue-date">May 11 — May 18, 2026</span>
-        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--pencil)">BACK ISSUE</span>
+        <span class="issue-num">Issue #2</span>
+        <span class="issue-date">May 11-18</span>
+        <span class="issue-label">First ITSM Issue</span>
       </div>
       <h3>Atera Copilot, Freddy AI, ServiceNow 300+ Skills</h3>
-      <p>ITSM/MSP agentic AI deep-dive. Atera 25-35% ticket reduction, Freddy 80% resolution rate, ServiceNow LEAP AIOps, HaloPSA 50+ integrations.</p>
+      <p>ITSM/MSP agentic AI deep-dive. Atera 25-35% ticket reduction, Freddy 80% resolution rate, ServiceNow LEAP AIOps, HaloPSA 50+ integrations. Competitive matrix.</p>
       <div class="issue-tags">
-        <span>ITSM</span>
-        <span>MSP</span>
-        <span>competitive intel</span>
+        <span>ITSM</span><span>MSP</span><span>competitive intel</span>
       </div>
     </a>
 
-    <!-- Back Issue -->
-    <a href="saas-agentic-weekly-03.html" class="issue issue-blue">
+    <!-- Issue #3 -->
+    <a href="saas-agentic-weekly-03.html" class="issue">
       <div class="issue-top">
-        <span class="issue-badge">Issue #3</span>
-        <span class="issue-date">May 18 — May 25, 2026</span>
-        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--pencil)">BACK ISSUE</span>
+        <span class="issue-num">Issue #3</span>
+        <span class="issue-date">May 18-25</span>
+        <span class="issue-label">ITSM</span>
       </div>
       <h3>Jira Service Management + Rovo AI Deep Dive</h3>
       <p>Atlassian's AI platform architecture. Teamwork Graph + Rovo stack, $1/resolution pricing model, MSP gap analysis, competitive positioning.</p>
       <div class="issue-tags">
-        <span>Atlassian</span>
-        <span>Rovo</span>
-        <span>JSM</span>
-        <span>pricing intel</span>
+        <span>Atlassian</span><span>Rovo</span><span>JSM</span><span>pricing intel</span>
       </div>
     </a>
 
-    <!-- Current Issue -->
-    <a href="saas-agentic-weekly-05.html" class="issue issue-pink">
+    <!-- Issue #4 -->
+    <a href="saas-agentic-weekly-04.html" class="issue">
       <div class="issue-top">
-        <span class="issue-badge">Issue #5</span>
-        <span class="issue-date">June 1 — June 8, 2026</span>
-        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--pencil)">CURRENT</span>
-      </div>
-      <h3>ConnectWise AI + Datadog Watchdog: RMM and AIOps Converge</h3>
-      <p>ConnectWise Copilot GA with 9 AI agents (30% self-resolved), Datadog Watchdog RCA GA with AI notebooks, NinjaOne AI Co-Pilot MSP-native launch.</p>
-      <div class="issue-tags">
-        <span>ConnectWise</span>
-        <span>Datadog</span>
-        <span>NinjaOne</span>
-        <span>AIOps</span>
-      </div>
-    </a>
-
-    <!-- Back Issue -->
-    <a href="saas-agentic-weekly-04.html" class="issue issue-pink">
-      <div class="issue-top">
-        <span class="issue-badge">Issue #4</span>
-        <span class="issue-date">May 25 — June 1, 2026</span>
-        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--pencil)">BACK ISSUE</span>
+        <span class="issue-num">Issue #4</span>
+        <span class="issue-date">May 25 - Jun 1</span>
+        <span class="issue-label">ITSM</span>
       </div>
       <h3>PagerDuty + AIOps: SRE Agent Goes Autonomous</h3>
       <p>SRE Agent as virtual first responder. MCP multi-agent ecosystem. Slack-native ops. $415/mo Advance add-on. MSP gap analysis.</p>
       <div class="issue-tags">
-        <span>PagerDuty</span>
-        <span>AIOps</span>
-        <span>MCP</span>
-        <span>agentic SRE</span>
+        <span>PagerDuty</span><span>AIOps</span><span>MCP</span><span>agentic SRE</span>
+      </div>
+    </a>
+
+    <!-- Issue #5 -->
+    <a href="saas-agentic-weekly-05.html" class="issue">
+      <div class="issue-top">
+        <span class="issue-num">Issue #5</span>
+        <span class="issue-date">Jun 1-8</span>
+        <span class="issue-label">ITSM</span>
+      </div>
+      <h3>ConnectWise Copilot + Datadog Watchdog: RMM and AIOps Converge</h3>
+      <p>ConnectWise Copilot GA with 9 AI agents (30% self-resolved), Datadog Watchdog RCA GA with AI notebooks, NinjaOne AI Co-Pilot MSP-native launch.</p>
+      <div class="issue-tags">
+        <span>ConnectWise</span><span>Datadog</span><span>NinjaOne</span><span>AIOps</span>
+      </div>
+    </a>
+
+    <!-- Issue #6 -->
+    <a href="saas-agentic-weekly-06.html" class="issue">
+      <div class="issue-top">
+        <span class="issue-num">Issue #6</span>
+        <span class="issue-date">Jun 9</span>
+        <span class="issue-label">ITSM</span>
+      </div>
+      <h3>Dynatrace Davis AI: Observability Meets Agentic AI</h3>
+      <p>Davis AI copilot and causation engine. Integration with ServiceNow, PagerDuty, Jira. Real-time topology-aware RCA. Impact analysis and event correlation.</p>
+      <div class="issue-tags">
+        <span>Dynatrace</span><span>observability</span><span>AIOps</span>
+      </div>
+    </a>
+
+    <!-- Issue #7 -->
+    <a href="saas-agentic-weekly-07.html" class="issue">
+      <div class="issue-top">
+        <span class="issue-num">Issue #7</span>
+        <span class="issue-date">Jun 22</span>
+        <span class="issue-label">ITSM</span>
+      </div>
+      <h3>New Relic AI + Agentic Platform</h3>
+      <p>New Relic AI agentic capabilities. Grok integration, AI monitoring, automated incident response, observability pipeline.</p>
+      <div class="issue-tags">
+        <span>New Relic</span><span>Grok</span><span>observability</span>
+      </div>
+    </a>
+
+    <!-- Issue #8 - Skipped -->
+    <a class="issue" style="opacity:.6;cursor:default;background:#fafafa;">
+      <div class="issue-top">
+        <span class="issue-num">Issue #8</span>
+        <span class="issue-date">Jun 29</span>
+        <span class="issue-label skipped">Skipped</span>
+      </div>
+      <h3>BMC Helix + AIOps</h3>
+      <p>Not researched. Cron was stuck on Issue #6 and never advanced to #8 in time.</p>
+      <div class="issue-tags">
+        <span>never researched</span>
+      </div>
+    </a>
+
+    <!-- Issue #9 -->
+    <a href="saas-agentic-weekly-09.html" class="issue">
+      <div class="issue-top">
+        <span class="issue-num">Issue #9</span>
+        <span class="issue-date">Jul 6</span>
+        <span class="issue-label">ITSM</span>
+      </div>
+      <h3>Ivanti Neurons Agentic AI</h3>
+      <p>Ivanti Neurons AI agents for ITSM. Automated patch management, service desk automation, zero-touch deployment. Healthcare and education vertical focus.</p>
+      <div class="issue-tags">
+        <span>Ivanti</span><span>Neurons</span><span>patch mgmt</span>
+      </div>
+    </a>
+
+    <!-- Issue #10 -->
+    <a href="saas-agentic-weekly-10.html" class="issue">
+      <div class="issue-top">
+        <span class="issue-num">Issue #10</span>
+        <span class="issue-date">Jul 13</span>
+        <span class="issue-label">ITSM</span>
+      </div>
+      <h3>Kaseya + Datto AI: MSP Automation at Scale</h3>
+      <p>Kaseya 365 endpoint pricing strategy, Datto RMM AI automation, IT Complete platform integration. MSP consolidation play. Competitive analysis vs NinjaOne, ConnectWise.</p>
+      <div class="issue-tags">
+        <span>Kaseya</span><span>Datto</span><span>RMM</span><span>MSP consolidation</span>
+      </div>
+    </a>
+
+    <!-- Issue #11 -->
+    <a href="saas-agentic-weekly-11.html" class="issue">
+      <div class="issue-top">
+        <span class="issue-num">Issue #11</span>
+        <span class="issue-date">Jul 20</span>
+        <span class="issue-label">ITSM</span>
+      </div>
+      <h3>Atomicwork: AI-Native ITSM for the Mid-Market</h3>
+      <p>Atomicwork custom multi-agent framework, AI Coworker governance model, Okta Ventures investment. Credit-based consumption pricing at $25K/yr. Competitive comparison vs ServiceNow/Freshservice/JSM/Zendesk.</p>
+      <div class="issue-tags">
+        <span>Atomicwork</span><span>AI-native</span><span>mid-market</span>
+      </div>
+    </a>
+
+    <!-- Issue #12 - Current -->
+    <a href="saas-agentic-weekly-12.html" class="issue">
+      <div class="issue-top">
+        <span class="issue-num">Issue #12</span>
+        <span class="issue-date">Jul 27</span>
+        <span class="issue-label current">Current</span>
+      </div>
+      <h3>BMC HelixGPT: Enterprise Agentic AI Fleet</h3>
+      <p>BMC Helix 26.2 agentic AI capabilities: 5 AI agents (Service Collaborator, Ops Swarmer, Knowledge Curator, Problem Solver, Ticket Resolver). Custom Agent Builder. $115/user/mo pricing. MSP gap analysis vs ServiceNow/Atera/Freshworks.</p>
+      <div class="issue-tags">
+        <span>BMC Helix</span><span>HelixGPT</span><span>enterprise</span><span>agent fleet</span>
       </div>
     </a>
 
@@ -165,9 +244,8 @@
 </div>
 
 <div class="footer">
-  <div class="footer-line"></div>
-  <p>Curated by Hermes · thisisprabha.com/sketch</p>
-  <p style="font-size:13px;margin-top:6px">New issues every Monday</p>
+  <p>Curated by Agent Tina (Hermes) for SuperOps competitive intelligence</p>
+  <p style="font-size:13px;margin-top:4px">New issues every Monday</p>
 </div>
 
 </body>
