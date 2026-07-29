@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SuperOps AI Agents</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --page-bg: #0a0a0f;
+    --card-bg: rgba(255,255,255,.04);
+    --card-border: rgba(255,255,255,.06);
+    --card-hover: rgba(255,255,255,.08);
+    --surface-raised: rgba(255,255,255,.08);
+    --surface-overlay: rgba(0,0,0,.6);
+    --text-primary: #f0f0f4;
+    --text-secondary: rgba(255,255,255,.55);
+    --text-tertiary: rgba(255,255,255,.3);
+    --accent: #5e9cff;
+    --accent-dim: rgba(94,156,255,.2);
+    --green: #4cd964;
+    --green-dim: rgba(76,217,100,.15);
+    --amber: #ff9f0a;
+    --amber-dim: rgba(255,159,10,.15);
+    --red: #ff453a;
+    --red-dim: rgba(255,69,58,.12);
+    --purple: #bf5af2;
+    --purple-dim: rgba(191,90,242,.15);
+    --orange: #ff9f0a;
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    --font-mono: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+  }
+  html { height: 100%; background: var(--page-bg); }
+  body {
+    font-family: var(--font); background: var(--page-bg); color: var(--text-primary);
+    height: 100%; display: flex; flex-direction: column;
+    -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+
+  /* ===== STATUS BAR ===== */
+  .status-bar {
+    display: flex; align-items: center; gap: 6px; padding: 8px 16px 4px;
+    font-size: 12px; color: var(--text-tertiary); flex-shrink: 0;
+    letter-spacing: .02em;
+  }
+  .status-bar .time { font-weight: 600; color: var(--text-primary); }
+  .status-bar .spacer { flex: 1; }
+  .status-bar .icon { font-size: 11px; }
+
+  /* ===== TOP BAR ===== */
+  .topbar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 16px 12px; flex-shrink: 0; position: relative;
+  }
+  .topbar::after {
+    content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
+    height: 1px; background: var(--card-border);
+  }
+  .topbar .brand { font-weight: 700; font-size: 20px; letter-spacing: -.02em; font-family: var(--font-display); }
+  .topbar .brand span { color: var(--accent); }
+  .topbar .chevron { color: var(--text-tertiary); margin: 0 4px; font-size: 14px; }
+  .topbar .nav-label { font-size: 15px; color: var(--text-secondary); font-weight: 500; }
+  .topbar .spacer { flex: 1; }
+  .topbar .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  .topbar .status-text { font-size: 12px; color: var(--green); font-weight: 500; }
+
+  /* ===== LAYOUT ===== */
+  .layout { display: flex; flex: 1; overflow: hidden; padding: 0 12px 12px; gap: 12px; }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    width: 200px; flex-shrink: 0; padding: 8px 0;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    border-radius: var(--radius); cursor: pointer; font-size: 13px; font-weight: 500;
+    color: var(--text-secondary); transition: all .2s; border: none; background: none;
+    font-family: var(--font); text-align: left; width: 100%;
+  }
+  .nav-item:hover { background: var(--card-bg); color: var(--text-primary); }
+  .nav-item.active { background: var(--accent-dim); color: var(--accent); }
+  .nav-item .icon { width: 20px; font-size: 15px; text-align: center; }
+  .nav-item .badge {
+    margin-left: auto; font-size: 11px; padding: 1px 7px; border-radius: 100px;
+    background: var(--red-dim); color: var(--red); font-weight: 600;
+  }
+  .sidebar-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-tertiary); padding: 12px 12px 6px; }
+
+  /* ===== MAIN CONTENT ===== */
+  .content { flex: 1; overflow-y: auto; padding: 0 0 4px; }
+  .content::-webkit-scrollbar { width: 4px; }
+  .content::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 4px; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ===== SECTION HEADER ===== */
+  .section-header { padding: 4px 0 16px; }
+  .section-header h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; font-family: var(--font-display); }
+  .section-header p { font-size: 13px; color: var(--text-tertiary); margin-top: 2px; }
+
+  /* ===== STAT ROW ===== */
+  .stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 20px; }
+  @media(max-width:800px) { .stat-row { grid-template-columns: repeat(2,1fr); } }
+  .stat {
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+    padding: 16px; position: relative; overflow: hidden;
+  }
+  .stat::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  }
+  .stat.green::before { background: var(--green); }
+  .stat.amber::before { background: var(--amber); }
+  .stat.blue::before { background: var(--accent); }
+  .stat.purple::before { background: var(--purple); }
+  .stat .value { font-size: 26px; font-weight: 700; font-family: var(--font-display); letter-spacing: -.02em; }
+  .stat .value.green { color: var(--green); }
+  .stat .value.amber { color: var(--amber); }
+  .stat .value.blue { color: var(--accent); }
+  .stat .value.purple { color: var(--purple); }
+  .stat .label { font-size: 12px; color: var(--text-tertiary); margin-top: 1px; }
+  .stat .delta { font-size: 11px; margin-top: 4px; font-weight: 500; }
+  .stat .delta.up { color: var(--green); }
+  .stat .delta.down { color: var(--red); }
+
+  /* ===== AGENT GRID ===== */
+  .agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:640px) { .agent-grid { grid-template-columns: 1fr; } }
+  .agent {
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+    padding: 16px; position: relative; overflow: hidden; transition: all .2s;
+  }
+  .agent:hover { background: var(--card-hover); }
+  .agent .bar {
+    position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+  }
+  .agent .bar.blue { background: var(--accent); }
+  .agent .bar.orange { background: var(--orange); }
+  .agent .bar.green { background: var(--green); }
+  .agent .bar.purple { background: var(--purple); }
+  .agent-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .agent-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .agent-dot.on { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .agent-name { font-size: 14px; font-weight: 600; }
+  .agent-desc { font-size: 11px; color: var(--text-tertiary); }
+  .agent-stats { display: flex; gap: 16px; font-size: 12px; margin-top: 8px; }
+  .agent-stats .num { font-weight: 600; color: var(--text-primary); }
+  .agent-progress { margin-top: 10px; }
+  .agent-progress .track { height: 3px; background: rgba(255,255,255,.06); border-radius: 4px; overflow: hidden; }
+  .agent-progress .fill { height: 100%; border-radius: 4px; transition: width .6s; }
+  .agent-progress .fill.green { background: var(--green); }
+  .agent-progress .fill.blue { background: var(--accent); }
+  .agent-progress .fill.amber { background: var(--amber); }
+  .agent-progress .label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-tertiary); margin-top: 3px; }
+
+  /* ===== TICKET RESOLVER ===== */
+  .ticket-form { display: flex; gap: 8px; margin-bottom: 12px; }
+  .ticket-form select, .ticket-form textarea {
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);
+    color: var(--text-primary); font-family: var(--font); font-size: 13px; padding: 8px 12px;
+    outline: none; transition: all .2s;
+  }
+  .ticket-form select { width: 180px; flex-shrink: 0; }
+  .ticket-form textarea { flex: 1; resize: vertical; min-height: 60px; }
+  .ticket-form select:focus, .ticket-form textarea:focus { border-color: var(--accent); }
+
+  .chat-log { max-height: 320px; overflow-y: auto; margin-bottom: 8px; }
+  .chat-step {
+    display: flex; gap: 8px; padding: 6px 0; align-items: flex-start;
+    border-bottom: 1px solid rgba(255,255,255,.03);
+  }
+  .chat-step .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .chat-step .dot.info { background: var(--accent); }
+  .chat-step .dot.success { background: var(--green); }
+  .chat-step .dot.warn { background: var(--amber); }
+  .chat-step .msg { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  .chat-step .time { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 500;
+    border: none; cursor: pointer; font-family: var(--font); transition: all .2s;
+    background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--card-border);
+  }
+  .btn:hover { background: var(--card-hover); }
+  .btn-primary { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn-primary:hover { background: #4d8eff; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .btn-group { display: flex; gap: 6px; margin-top: 8px; }
+
+  /* ===== PATCH TABLE ===== */
+  .patch-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .patch-table th {
+    text-align: left; font-weight: 600; font-size: 10px; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--text-tertiary); padding: 6px 8px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .patch-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,.03); color: var(--text-secondary); }
+  .patch-table tr:hover td { background: var(--card-bg); }
+  .patch-table .cve { font-family: var(--font-mono); font-size: 11px; color: var(--text-primary); }
+  .chip {
+    display: inline-flex; padding: 2px 8px; border-radius: 100px; font-size: 11px; font-weight: 500;
+  }
+  .chip.red { background: var(--red-dim); color: var(--red); }
+  .chip.amber { background: var(--amber-dim); color: var(--amber); }
+  .chip.green { background: var(--green-dim); color: var(--green); }
+  .chip.blue { background: var(--accent-dim); color: var(--accent); }
+
+  /* ===== BUILDER ===== */
+  .builder-input { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  @media(max-width:640px) { .builder-input { grid-template-columns: 1fr; } }
+  .field { }
+  .field label { font-size: 12px; font-weight: 500; color: var(--text-secondary); display: block; margin-bottom: 4px; }
+  .field input, .field textarea, .field select {
+    width: 100%; background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: var(--radius); color: var(--text-primary); font-family: var(--font);
+    font-size: 13px; padding: 8px 10px; outline: none;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
+  .field textarea { min-height: 70px; resize: vertical; }
+
+  .step-list { margin-top: 8px; }
+  .step-card {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: var(--radius); margin-bottom: 6px; transition: all .2s;
+  }
+  .step-card:hover { border-color: rgba(255,255,255,.1); }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 11px; font-weight: 600; color: #fff; flex-shrink: 0;
+  }
+  .step-card .name { font-size: 13px; font-weight: 500; flex: 1; }
+  .step-card .desc { font-size: 11px; color: var(--text-tertiary); }
+
+  /* ===== MONITOR LOG ===== */
+  .log-area { max-height: 420px; overflow-y: auto; }
+  .log-line {
+    display: flex; gap: 8px; padding: 5px 0; font-family: var(--font-mono); font-size: 11px;
+    border-bottom: 1px solid rgba(255,255,255,.03); color: var(--text-secondary);
+  }
+  .log-line .t { color: var(--text-tertiary); }
+  .log-line .lvl { font-weight: 600; }
+  .log-line .lvl.info { color: var(--accent); }
+  .log-line .lvl.success { color: var(--green); }
+  .log-line .lvl.warn { color: var(--amber); }
+
+  /* ===== COMPLIANCE ===== */
+  .compliance { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+  @media(max-width:640px) { .compliance { grid-template-columns: 1fr; } }
+  .comp-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .comp-item .name { color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+  .comp-item .track { flex: 1; height: 4px; background: rgba(255,255,255,.06); border-radius: 4px; overflow: hidden; }
+  .comp-item .track .fill { height: 100%; border-radius: 4px; }
+  .comp-item .pct { font-weight: 600; width: 36px; text-align: right; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    padding: 10px 20px; border-radius: var(--radius-xl); color: #fff; font-size: 13px; font-weight: 500;
+    box-shadow: 0 8px 32px rgba(0,0,0,.5); transition: all .35s cubic-bezier(.4,0,.2,1);
+    pointer-events: none; opacity: 0; z-index: 1000; backdrop-filter: blur(20px);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: rgba(76,217,100,.9); }
+  .toast.info { background: rgba(94,156,255,.9); }
+  .toast.warn { background: rgba(255,159,10,.9); }
+</style>
+</head>
+<body>
+
+<!-- Status Bar -->
+<div class="status-bar">
+  <span class="time">9:47</span>
+  <span class="spacer"></span>
+  <span class="icon">&#9679;</span>
+</div>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="brand"><span>SuperOps</span> AI</div>
+  <span class="chevron">&#8963;</span>
+  <span class="nav-label" id="page-title">Dashboard</span>
+  <span class="spacer"></span>
+  <span class="status-dot"></span>
+  <span class="status-text">4 agents online</span>
+</div>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="nav-item active" data-page="dashboard" data-title="Dashboard" onclick="switchPage('dashboard')">
+      <span class="icon">&#9632;</span> Dashboard
+    </div>
+    <div class="nav-item" data-page="tickets" data-title="Ticket Resolver" onclick="switchPage('tickets')">
+      <span class="icon">&#9993;</span> Tickets
+      <span class="badge">3</span>
+    </div>
+    <div class="nav-item" data-page="patches" data-title="Patch Manager" onclick="switchPage('patches')">
+      <span class="icon">&#9881;</span> Patches
+      <span class="badge">2</span>
+    </div>
+    <div class="nav-item" data-page="builder" data-title="Agent Builder" onclick="switchPage('builder')">
+      <span class="icon">&#43;</span> Builder
+    </div>
+    <div class="nav-item" data-page="monitor" data-title="Monitor" onclick="switchPage('monitor')">
+      <span class="icon">&#9776;</span> Monitor
+    </div>
+    <div style="margin-top:auto;padding:8px 12px;">
+      <div style="font-size:11px;color:var(--text-tertiary);">v0.2 prototype</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- ===== DASHBOARD ===== -->
+    <div id="p-dashboard" class="page active">
+      <div class="section-header">
+        <h1>Dashboard</h1>
+        <p>4 agents running across 18 clients</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat green"><div class="value green">847</div><div class="label">Tickets resolved</div><div class="delta up">+12% this week</div></div>
+        <div class="stat amber"><div class="value amber">94.2%</div><div class="label">Patch compliance</div><div class="delta up">+2% vs last month</div></div>
+        <div class="stat blue"><div class="value blue">4,712</div><div class="label">Tickets routed</div><div class="delta up">99.8% accuracy</div></div>
+        <div class="stat purple"><div class="value purple">186</div><div class="label">KB articles</div><div class="delta up">84% acceptance</div></div>
+      </div>
+
+      <div class="agent-grid">
+        <div class="agent">
+          <div class="bar blue"></div>
+          <div class="agent-head"><span class="agent-dot on"></span><span class="agent-name">Ticket Resolver</span><span style="margin-left:auto;font-size:11px;color:var(--text-tertiary);">2.4m avg</span></div>
+          <div class="agent-desc">Autonomous resolution agent</div>
+          <div class="agent-stats"><span>Confidence <span class="num" style="color:var(--accent);">92%</span></span></div>
+          <div class="agent-progress"><div class="track"><div class="fill green" style="width:78%"></div></div><div class="label"><span>78% rate</span></div></div>
+        </div>
+        <div class="agent">
+          <div class="bar orange"></div>
+          <div class="agent-head"><span class="agent-dot on"></span><span class="agent-name">Patch Manager</span><span style="margin-left:auto;font-size:11px;color:var(--text-tertiary);">3 critical</span></div>
+          <div class="agent-desc">Intelligent patch orchestration</div>
+          <div class="agent-stats"><span>Endpoints <span class="num">1,247</span></span></div>
+          <div class="agent-progress"><div class="track"><div class="fill green" style="width:94%"></div></div><div class="label"><span>94% across 18 clients</span></div></div>
+        </div>
+        <div class="agent">
+          <div class="bar green"></div>
+          <div class="agent-head"><span class="agent-dot on"></span><span class="agent-name">Dispatcher</span><span style="margin-left:auto;font-size:11px;color:var(--text-tertiary);">142 today</span></div>
+          <div class="agent-desc">AI-powered ticket routing</div>
+          <div class="agent-stats"><span>SLA saved <span class="num" style="color:var(--green);">4</span></span></div>
+          <div class="agent-progress"><div class="track"><div class="fill blue" style="width:96%"></div></div><div class="label"><span>96% accuracy</span></div></div>
+        </div>
+        <div class="agent">
+          <div class="bar purple"></div>
+          <div class="agent-head"><span class="agent-dot on"></span><span class="agent-name">KB Curator</span><span style="margin-left:auto;font-size:11px;color:var(--text-tertiary);">23 created</span></div>
+          <div class="agent-desc">Auto-generates knowledge articles</div>
+          <div class="agent-stats"><span>Acceptance <span class="num" style="color:var(--amber);">62%</span></span></div>
+          <div class="agent-progress"><div class="track"><div class="fill amber" style="width:62%"></div></div><div class="label"><span>Needs improvement</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TICKETS ===== -->
+    <div id="p-tickets" class="page">
+      <div class="section-header">
+        <h1>Ticket Resolver</h1>
+        <p>Test autonomous ticket resolution</p>
+      </div>
+      <div class="ticket-form">
+        <select id="tkt-type">
+          <option value="password">Password Reset</option>
+          <option value="software">Software Install</option>
+          <option value="vpn">VPN Access Issue</option>
+          <option value="hardware">Hardware Request</option>
+        </select>
+        <textarea id="tkt-desc" placeholder="Describe the issue...">User forgot their password and needs access to the accounting system urgently.</textarea>
+      </div>
+      <div class="btn-group"><button class="btn btn-primary" onclick="resolveTicket()">Run Agent</button></div>
+      <div id="tkt-result" style="margin-top:8px;"></div>
+      <div id="tkt-chat" class="chat-log" style="margin-top:8px;display:none;"></div>
+    </div>
+
+    <!-- ===== PATCHES ===== -->
+    <div id="p-patches" class="page">
+      <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;">
+        <div><h1>Patch Manager</h1><p>Monica-powered patch intelligence</p></div>
+        <button class="btn btn-sm" onclick="simPatchScan()">Scan</button>
+      </div>
+      <div class="stat-row">
+        <div class="stat amber"><div class="value amber">3</div><div class="label">Critical vulns</div></div>
+        <div class="stat blue"><div class="value blue">1,247</div><div class="label">Endpoints</div></div>
+        <div class="stat green"><div class="value green">94.2%</div><div class="label">Compliance</div></div>
+        <div class="stat purple"><div class="value purple">12</div><div class="label">Pending</div></div>
+      </div>
+      <table class="patch-table">
+        <tr><th>CVE</th><th>Severity</th><th>Affected</th><th>Recommendation</th><th></th></tr>
+        <tr><td class="cve">CVE-2026-3847</td><td><span class="chip red">9.8 Critical</span></td><td>847 endpoints</td><td style="font-size:11px;">Deploy tonight. Zero-day in the wild.</td><td><button class="btn btn-sm btn-primary" onclick="showToast('Deployment scheduled','success')">Deploy</button></td></tr>
+        <tr><td class="cve">CVE-2026-2912</td><td><span class="chip red">9.2 Critical</span></td><td>312 endpoints</td><td style="font-size:11px;">Test group first. 3 flagged for compat risk.</td><td><button class="btn btn-sm" onclick="showToast('Test group started','info')">Test</button></td></tr>
+        <tr><td class="cve">CVE-2026-1543</td><td><span class="chip amber">7.8 High</span></td><td>88 endpoints</td><td style="font-size:11px;">Schedule with client for maintenance window.</td><td><button class="btn btn-sm" onclick="showToast('Client notified','info')">Request</button></td></tr>
+      </table>
+      <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin:16px 0 4px;">Client Compliance</div>
+      <div class="compliance" id="compliance"></div>
+    </div>
+
+    <!-- ===== BUILDER ===== -->
+    <div id="p-builder" class="page">
+      <div class="section-header">
+        <h1>Agent Builder</h1>
+        <p>No-code workflow builder</p>
+      </div>
+      <div class="builder-input">
+        <div class="field"><label>Name</label><input id="agt-name" value="Device Onboarding Agent"></div>
+        <div class="field"><label>Trigger</label><select id="agt-trigger"><option>Onboarding ticket created</option><option>New endpoint detected</option><option>Weekly schedule</option></select></div>
+        <div class="field" style="grid-column:1/-1;"><label>Description</label><textarea id="agt-desc">Automates device onboarding: AD account, policies, software, welcome email.</textarea></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;font-weight:500;color:var(--text-secondary);">Workflow</span>
+        <button class="btn btn-sm" onclick="addStep()">+ Step</button>
+      </div>
+      <div class="step-list" id="steps">
+        <div class="step-card"><div class="step-num" style="background:var(--accent);">1</div><div class="name">Check AD for user</div><div class="desc">Verify or create account</div><button class="btn btn-sm" onclick="this.closest('.step-card').remove()">Remove</button></div>
+        <div class="step-card"><div class="step-num" style="background:var(--green);">2</div><div class="name">Create email + groups</div><div class="desc">Exchange and Teams groups</div><button class="btn btn-sm" onclick="this.closest('.step-card').remove()">Remove</button></div>
+        <div class="step-card"><div class="step-num" style="background:var(--orange);">3</div><div class="name">Assign security policies</div><div class="desc">AV, VPN, patch group</div><button class="btn btn-sm" onclick="this.closest('.step-card').remove()">Remove</button></div>
+        <div class="step-card"><div class="step-num" style="background:var(--purple);">4</div><div class="name">Send welcome email</div><div class="desc">Login details + next steps</div><button class="btn btn-sm" onclick="this.closest('.step-card').remove()">Remove</button></div>
+      </div>
+      <div class="btn-group"><button class="btn btn-primary" onclick="pubAgent()">Activate</button><button class="btn" onclick="showToast('Dry-run: 4/4 steps valid','success')">Test</button></div>
+    </div>
+
+    <!-- ===== MONITOR ===== -->
+    <div id="p-monitor" class="page">
+      <div class="section-header">
+        <h1>Monitor</h1>
+        <p>Live agent activity</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat green"><div class="value green" style="font-size:20px;">4/4</div><div class="label">Online</div></div>
+        <div class="stat blue"><div class="value blue" style="font-size:20px;">0.4s</div><div class="label">Avg response</div></div>
+        <div class="stat purple"><div class="value purple" style="font-size:20px;">99.97%</div><div class="label">Uptime</div></div>
+        <div class="stat amber"><div class="value amber" style="font-size:20px;">847</div><div class="label">Resolved today</div></div>
+      </div>
+      <div class="log-area" id="log"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// Navigation
+function switchPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('p-' + id).classList.add('active');
+  document.querySelector(`.nav-item[data-page="${id}"]`).classList.add('active');
+  document.getElementById('page-title').textContent = document.querySelector(`.nav-item[data-page="${id}"]`).dataset.title || id;
+}
+
+// Toast
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type;
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Ticket resolver
+const resolutions = {
+  password: { steps: [
+    'Verifying identity against AD', 'User: Priya K. confirmed', 'Initiating secure password reset',
+    'Reset successful. Temp password generated.', 'Sent to recovery email', 'Confidence: 96%', 'Done in 1.8m'
+  ], msg: 'Password reset completed. User notified.', type: 'success' },
+  software: { steps: [
+    'Checking license pool', 'License available (2/5 seats)', 'Starting deployment to WIN-042',
+    'Installation in progress...', 'Confirmed installed', 'Confidence: 91%', 'Done in 3.2m'
+  ], msg: 'Software deployed. License deducted.', type: 'success' },
+  vpn: { steps: [
+    'Checking VPN gateway', 'Gateway: ONLINE. Cert: EXPIRED', 'Renewing certificate via PKI',
+    'New cert pushed to endpoint', 'Connection test: PASS', 'Confidence: 78%', 'Done in 2.1m'
+  ], msg: 'VPN cert renewed. Connection restored. Low confidence.', type: 'info' },
+  hardware: { steps: [
+    'Approval criteria matched', 'Requires manager sign-off', 'Routing to Sarah Chen (IT Mgr)',
+    'Agent paused. Waiting...', 'Cannot auto-resolve this type', 'Escalating to human'
+  ], msg: 'Needs approval. Routed to Sarah Chen.', type: 'warn' }
+};
+
+function resolveTicket() {
+  const type = document.getElementById('tkt-type').value;
+  const desc = document.getElementById('tkt-desc').value.trim();
+  const chat = document.getElementById('tkt-chat');
+  const result = document.getElementById('tkt-result');
+  if (!desc) { showToast('Describe the issue', 'warn'); return; }
+
+  chat.style.display = 'block'; chat.innerHTML = '';
+  const r = resolutions[type];
+  const colors = { info:'var(--accent)', success:'var(--green)', warn:'var(--amber)' };
+
+  result.innerHTML = `<div style="font-size:12px;color:var(--text-tertiary);margin-bottom:4px;">Analyzing: "${desc.substring(0,60)}..."</div>`;
+
+  let i = 0;
+  function next() {
+    if (i >= r.steps.length) {
+      const isSuccess = r.type === 'success';
+      result.innerHTML += `<div style="margin-top:8px;padding:10px;background:${isSuccess ? 'var(--green-dim)' : r.type === 'warn' ? 'var(--amber-dim)' : 'var(--accent-dim)'};border-radius:var(--radius);font-size:12px;border-left:3px solid ${colors[r.type]};">
+        <span style="font-weight:600;color:${colors[r.type]}">${isSuccess ? 'Resolved' : r.type === 'warn' ? 'Escalated' : 'Action needed'}</span>
+        <span style="color:var(--text-secondary);margin-left:4px">${r.msg}</span></div>`;
+      showToast(r.msg, r.type);
+      return;
+    }
+    const step = document.createElement('div');
+    step.className = 'chat-step';
+    const isResolved = i >= r.steps.length - 2;
+    step.innerHTML = `<span class="dot ${isResolved ? 'success' : 'info'}"></span>
+      <span class="msg">${r.steps[i]}</span>
+      <span class="time">${String(i+1).padStart(2,'0')}s</span>`;
+    chat.appendChild(step);
+    chat.scrollTop = chat.scrollHeight;
+    i++;
+    setTimeout(next, i < r.steps.length - 1 ? 350 : 500);
+  }
+  next();
+}
+
+// Patch
+function renderCompliance() {
+  const data = [
+    {n:'Acme Corp', p:98},{n:'Globex Inc', p:96},{n:'Initech', p:91},
+    {n:'Umbrella Co', p:87},{n:'Hooli', p:99},{n:'Stark Ind', p:94},
+    {n:'Cyberdyne', p:82},{n:'Wonka Ind', p:97}
+  ];
+  const el = document.getElementById('compliance');
+  el.innerHTML = data.map(c => {
+    const color = c.p >= 95 ? 'var(--green)' : c.p >= 85 ? 'var(--amber)' : 'var(--red)';
+    return `<div class="comp-item"><span class="name">${c.n}</span>
+      <div class="track"><div class="fill" style="width:${c.p}%;background:${color}"></div></div>
+      <span class="pct" style="color:${color}">${c.p}%</span></div>`;
+  }).join('');
+}
+
+function simPatchScan() {
+  showToast('Scanning 1,247 endpoints...', 'info');
+  setTimeout(() => showToast('3 new critical vulns found', 'warn'), 1500);
+}
+
+// Builder
+function addStep() {
+  const list = document.getElementById('steps');
+  const n = list.children.length + 1;
+  const colors = ['var(--accent)','var(--green)','var(--orange)','var(--purple)','var(--amber)'];
+  const el = document.createElement('div');
+  el.className = 'step-card';
+  el.innerHTML = `<div class="step-num" style="background:${colors[(n-1)%5]}">${n}</div>
+    <div class="name">Step ${n}</div><div class="desc">Describe action</div>
+    <button class="btn btn-sm" onclick="this.closest('.step-card').remove()">Remove</button>`;
+  list.appendChild(el);
+}
+
+function pubAgent() {
+  const name = document.getElementById('agt-name').value;
+  showToast('"' + name + '" activated', 'success');
+}
+
+// Init
+renderCompliance();
+const logs = [
+  '09:47:23 Ticket #28491 auto-resolved (password reset, 1.8m)',
+  '09:45:12 Scanning 1,247 endpoints for CVE-2026-3847',
+  '09:42:05 KB article "VPN Certificate Renewal" created',
+  '09:38:44 Ticket #28492 routed to Rahul K. (94% skill match)',
+  '09:35:18 Ticket #28487 auto-resolved (software install, 2.1m)',
+  '09:32:00 Compliance report generated for 18 clients',
+  '09:28:15 Ticket #28486 flagged: Low confidence (68%)',
+  '09:25:42 SLA-at-risk ticket #28485 re-routed to senior tech',
+  '09:22:30 KB Curator: 3 new article suggestions ready',
+  '09:18:55 Ticket #28484 auto-resolved (VPN access, 2.3m)'
+];
+document.getElementById('log').innerHTML = logs.map(l => {
+  const lvl = l.includes('resolved') || l.includes('created') || l.includes('report') ? 'success' : 'info';
+  return `<div class="log-line"><span class="t">${l.substring(0,8)}</span><span class="lvl ${lvl}">${lvl === 'success' ? 'OK' : '..'}</span><span>${l.substring(9)}</span></div>`;
+}).join('');
+
+showToast('4 agents online', 'success');
+</script>
+</body>
+</html>
