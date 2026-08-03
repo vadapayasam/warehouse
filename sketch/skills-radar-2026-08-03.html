@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Designer Skills Radar · Aug 2026</title>
+  <style>
+:root{
+  --bg:#f8f5f0;
+  --card:#fffdf9;
+  --ink:#1c1917;
+  --muted:#6b6560;
+  --accent:#2563eb;
+  --accent-soft:#e8eefc;
+  --border:#e5dfd5;
+  --adopt:#166534;
+  --adopt-bg:#e7f4ec;
+  --watch:#92400e;
+  --watch-bg:#fdf0dc;
+  --learn:#1e3a8a;
+  --learn-bg:#e8eefc;
+  --hype:#9f1239;
+  --hype-bg:#fbe7ee;
+  --radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{
+  min-height:100%;
+  background:var(--bg);
+  color:var(--ink);
+  font:17px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;align-items:center;
+}
+.wrap{max-width:860px;width:100%;padding:48px 20px 32px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.back{display:inline-block;margin-bottom:24px;color:var(--muted);font-size:14px}
+header{padding-bottom:24px;border-bottom:1px solid var(--border)}
+h1{font-size:34px;line-height:1.1;letter-spacing:-0.025em;font-weight:800;color:var(--ink)}
+.meta{color:var(--muted);font-size:14px;margin-top:8px}
+.lede{margin-top:16px;font-size:18px;color:#3d3833;max-width:640px}
+h2{
+  font-size:22px;line-height:1.15;letter-spacing:-0.015em;font-weight:700;
+  margin:40px 0 16px;padding-top:20px;border-top:1px solid var(--border);
+}
+h3{font-size:17px;font-weight:700;margin:20px 0 8px}
+p{margin:10px 0}
+ul,ol{margin:10px 0;padding-left:22px}
+li{margin:6px 0}
+strong{font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.card h3{font-size:15px;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;margin:2px 4px 2px 0}
+.tag.adopt{background:var(--adopt-bg);color:var(--adopt)}
+.tag.watch{background:var(--watch-bg);color:var(--watch)}
+.tag.learn{background:var(--learn-bg);color:var(--learn)}
+.tag.hype{background:var(--hype-bg);color:var(--hype)}
+.find{margin:14px 0;padding:16px 18px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px}
+.find .k{font-weight:800;font-size:15px;letter-spacing:-0.01em}
+.find .s{font-size:14px;color:var(--muted);margin-top:6px}
+.callout{background:var(--accent-soft);border:1px solid #cddbf7;border-radius:var(--radius);padding:18px;margin:20px 0}
+.callout h3{color:var(--accent);margin-top:0}
+.sources{margin:8px 0 4px;padding-left:22px}
+.sources li{margin:8px 0;font-size:14px;color:#44403b;word-break:break-word}
+.flag{font-size:13px;color:#9f1239;font-weight:600}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}
+.method{font-size:13px;color:var(--muted);background:var(--card);border:1px dashed var(--border);border-radius:8px;padding:12px 14px;margin:16px 0}
+@media(max-width:600px){h1{font-size:27px}.wrap{padding:32px 16px 24px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Back to sketches</a>
+
+  <header>
+    <h1>Designer Skills Radar · August 2026</h1>
+    <p class="meta">Skills &amp; tools radar · 2026-08-03 · for SuperOps product design</p>
+    <p class="lede">The canvas went agent-native. Competence became a commodity. And enterprise software started hiring autonomous workers. Here is what to learn, what to skip, and what is hype.</p>
+  </header>
+
+  <main>
+
+    <div class="method">
+      <strong>Design Read:</strong> bento signal-board, warm editorial-lite, spec foundation #f8f5f0 + accent #2563eb, Apple type stack. Divergence: charcoal display type for editorial impact.
+    </div>
+
+    <h2>TL;DR</h2>
+    <p>Four shifts define the second half of 2026:</p>
+    <ol>
+      <li><strong>Design agents shipped and went general availability.</strong> Figma's built-in agent, code on the canvas, and markdown "skills" that encode team standards are now real, shipped workflows, not demos [1][2][4][5].</li>
+      <li><strong>The first draft is the battleground.</strong> Claude Design, OpenAI image models, and Canva are fighting for the messy beginning of design work. Figma's answer is absorbing code instead of being replaced by it [6][7][9].</li>
+      <li><strong>Competence is commoditizing; judgment is the skill to sell.</strong> Market data from 2.26 million freelance contracts shows clients now weight price over credentials in AI-exposed work. The durable skill is deciding what deserves to survive [8][9][10].</li>
+      <li><strong>Autonomous AI workforces are entering ITSM.</strong> ServiceNow ships its L1 Service Desk AI specialist, Workday pushes Sana into ITSM, and the design question becomes how humans oversee agents [12][13][14].</li>
+    </ol>
+
+    <h2>Signal Map</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot" style="background:var(--adopt)"></span>Adopt</h3>
+        <ul>
+          <li>Figma Design Agent (GA) [2]</li>
+          <li>Figma MCP server + <code>use_figma</code> [1]</li>
+          <li>Skill authoring in markdown [1][4]</li>
+          <li>Design system governance for agents [3]</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--watch)"></span>Watch</h3>
+        <ul>
+          <li>Claude Design (research preview) [7][8]</li>
+          <li>Code Layers adoption [4][5]</li>
+          <li>Prompt-built custom plugins [5]</li>
+          <li>Figma Motion timeline [4][5]</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--learn)"></span>Learn</h3>
+        <ul>
+          <li>Agent-skill authoring [1]</li>
+          <li>Judgment &amp; curation as craft [8][9]</li>
+          <li>Code-on-canvas workflows [4][5]</li>
+          <li>Agent oversight UX (ITSM) [12][14]</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--hype)"></span>Hype</h3>
+        <ul>
+          <li>"AI replaces designers" [9][11]</li>
+          <li>Figma is dying (stock ≠ tool) [5][6]</li>
+          <li>Raw prompt craft as a career skill [1]</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>1. The Canvas Went Agent-Native</h2>
+    <div class="find">
+      <p class="k">What happened</p>
+      <p>Figma opened its canvas to third-party agents in March 2026 via the <code>use_figma</code> tool in its MCP server, with skills (markdown instruction files) steering agent behavior [1]. Two months later the built-in Figma Design Agent launched on the canvas and left rail, fine-tuned for editing Figma files with deep design system context [2]. At Config 2026 (June) it went further: Code Layers bring executable React code onto the canvas, Motion adds a native animation timeline, shaders arrive as generative fills, and users can build custom plugins from a text prompt [4][5].</p>
+      <p class="s">Signal: agents are no longer external wrappers around Figma. The design system is now the context model for agents, and skills turn team conventions into rules agents follow [1][2][4]. Figma reports 51% of its users working on AI products are building agents, up from 21% a year earlier [3].</p>
+    </div>
+    <div class="find">
+      <p class="k">What it means for you</p>
+      <p>Skill authoring is the new design-doc craft. Writing a markdown skill that encodes your spacing system, token rules, and review standards is becoming more valuable than hand-documenting components. The Figma community already ships skills for library generation, accessibility specs, token sync with drift detection, and design system application [1].</p>
+      <p class="s">Learn: author at least one usable skill. Skip: rebuilding prompts from scratch per task; skills are the reusable layer [1][4].</p>
+    </div>
+
+    <h2>2. The First Draft Is the Battleground</h2>
+    <div class="find">
+      <p class="k">What happened</p>
+      <p>Anthropic launched Claude Design (Apr 17, 2026), an Anthropic Labs product powered by Claude Opus 4.7 that turns prompts into prototypes, slides, and one-pagers, builds a team design system by reading your codebase, exports to Canva/PDF/PPTX/HTML, and hands off to Claude Code [7][8]. OpenAI pushed image generation toward practical design with better text rendering, editing, and layout control; Adobe countered with Firefly AI Assistant spanning its apps [9]. Early users report dramatic compression: a page that took 20+ prompts in other tools took 2 in Claude Design [8].</p>
+      <p class="s">Signal: the fight is over who creates the first draft, and who controls what happens next [9]. Figma's strategic answer is that the canvas should absorb code rather than be routed around by text-to-UI tools [5]. Figma's Q1 revenue grew 46% YoY to $333M with 139% net dollar retention, yet the stock sits ~79% below its IPO as investors price in AI-native competition [5].</p>
+    </div>
+    <div class="find">
+      <p class="k">What it means for you</p>
+      <p>Prototype velocity is now a commodity. The differentiator is the design system that constrains AI output, and the taste that picks among generated directions. Forbes puts it plainly: when anyone can make six polished mockups in a snap, the real skill shifts to choosing what deserves to survive [9].</p>
+      <p class="s">Watch: whether Claude Design moves from research preview to real team workflow, and whether Canva's Claude integration becomes the default idea-to-editable-design bridge [7][9].</p>
+    </div>
+
+    <h2>3. Competence Is a Commodity. Judgment Is Not.</h2>
+    <div class="find">
+      <p class="k">The data</p>
+      <p>A UCLA Anderson study (Siddiq &amp; Zhang, SSRN 2026) analyzed 2.26 million Upwork contracts across 21 quarters from 49,610 freelancers. In AI-exposed categories, clients now weight human capital signals 7.8% less and price 1.1% more when hiring; the demand premium for highly skilled workers is shrinking [8][10]. Jakob Nielsen reads the same evidence: AI is a forklift for the mind, narrowing skill gaps by lifting the weakest performers most [10].</p>
+      <p class="s">Signal: credentials and reputation carry less weight where AI can do the work. Nielsen's argument, labeled speculation: agentic AI will reverse the equalization and widen gaps again, this time around deciding what to build and selecting the best AI output [10].</p>
+    </div>
+    <div class="find">
+      <p class="k">What it means for you</p>
+      <p>Figma's State of the Designer 2026 (906 designers surveyed) supports the adaptation story: 72% now use generative AI tools and nearly all increased usage. Among those who leaned in, 91% say it improves quality and 89% say it makes them faster. Designers who increased AI usage are 25% more likely to report rising job satisfaction, while 40% of flat users say their job is getting worse [11].</p>
+      <p class="s"><span class="flag">Note:</span> a secondary source claims "91% of designers use generative AI weekly, up from 54%" for the same report [15]; this conflicts with the primary reading above and is flagged as uncertain.</p>
+    </div>
+
+    <h2>4. Autonomous AI Workforces Are Entering ITSM</h2>
+    <div class="find">
+      <p class="k">What happened</p>
+      <p>ServiceNow will ship the first member of its Autonomous Workforce next quarter: a Level 1 Service Desk AI specialist that autonomously diagnoses and resolves password resets, access provisioning, and network troubleshooting. ServiceNow says its internal deployment handles over 90% of employee requests at nearly twice human speed, with governance via its AI Control Tower and deterministic workflow orchestration [12]. Workday is extending Sana AI to ITSM after HR and finance [13]. The wider pattern is agentic pyramids: micro-agents, MCP tool layers with least privilege, and orchestrators that escalate to humans [14].</p>
+      <p class="s">Signal: analyst Sanchit Vir Gogia frames 2026 as the shift from copilot interfaces to governed execution inside production workflows: "AI is being structured as a delegated participant in defined job roles. That changes accountability" [12].</p>
+    </div>
+    <div class="find">
+      <p class="k">What it means for SuperOps</p>
+      <p>This is the design surface where a product designer at an ITSM SaaS makes the biggest dent:</p>
+      <ul>
+        <li><strong>Agent oversight UX:</strong> admin views for scoping what agents can do, watching them work, and escalating failures. ServiceNow's own control tower is the reference model [12][14].</li>
+        <li><strong>Human-in-the-loop escalation:</strong> clean L1-to-L2 handoff patterns with full context, not a ticket dump [12].</li>
+        <li><strong>Transparency by default:</strong> agent conversation and decision trails visible to teams, the same pattern Figma shipped for its agent [4][12].</li>
+        <li><strong>AI credits and pricing UX:</strong> analysts warn AI credits break budget predictability; the pricing model itself is a design problem [12].</li>
+      </ul>
+      <p class="s">The common thread: designing for trust in autonomous systems is the emerging design competency, and ITSM is where it ships first [12][14].</p>
+    </div>
+
+    <h2>What to Learn, What to Skip</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot" style="background:var(--learn)"></span>Learn</h3>
+        <ul>
+          <li>Agent skill authoring (markdown skills for design agents) [1]</li>
+          <li>MCP fluency: what agents can read and write in your tools [1][14]</li>
+          <li>Code-on-canvas / design-to-code round trips [4][5]</li>
+          <li>Judgment: direction generation, curation, taste [8][9]</li>
+          <li>Agent governance and oversight UX [12][14]</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--hype)"></span>Skip</h3>
+        <ul>
+          <li>Raw prompt engineering as a standalone skill; skills and systems absorb it [1]</li>
+          <li>Deep plugin API development as a primary craft; prompt-built plugins lower the bar [5]</li>
+          <li>Hand-off doc production; code on the canvas collapses that step [4][5]</li>
+          <li>Panic about "AI replacing designers"; the data shows separation, not replacement [9][11]</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>Bottom line</h3>
+      <p>The design stack has shifted from tools to agents. The designers who win 2027 are the ones who encode their standards as agent-readable skills, treat the first draft as a negotiation with an AI, and sell judgment when competence goes for commodity prices. For SuperOps specifically, the autonomous-workforce shift means agent oversight and trust design are no longer speculative; they are the next admin experience.</p>
+    </div>
+
+    <h2>Sources</h2>
+    <ol class="sources">
+      <li>[1] Figma Blog, "Agents, Meet the Figma Canvas" (Mar 24, 2026) · <a href="https://www.figma.com/blog/the-figma-canvas-is-now-open-to-agents/">figma.com/blog/the-figma-canvas-is-now-open-to-agents</a></li>
+      <li>[2] Figma Blog, "The Figma Design Agent is Here" (May 20, 2026) · <a href="https://www.figma.com/blog/the-figma-agent-is-here/">figma.com/blog/the-figma-agent-is-here</a></li>
+      <li>[3] Figma Resource Library, "What Is an Agentic Framework?" (2026) · <a href="https://www.figma.com/resource-library/agentic-framework/">figma.com/resource-library/agentic-framework</a></li>
+      <li>[4] diginomica, "Config 2026: AI blurs the lines as Figma brings code, motion and agent workflows into its design canvas" (Jun 2026) · <a href="https://diginomica.com/config-2026-ai-blurs-lines-figma-code-motion-agent-workflows-design-canvas">diginomica.com/config-2026</a></li>
+      <li>[5] The Next Web, "Figma adds code layers to the canvas and lets users build custom AI plugins at Config 2026" (Jun 24, 2026) · <a href="https://thenextweb.com/news/figma-config-code-layers-ai-skills-plugins-animations">thenextweb.com</a></li>
+      <li>[6] Figma Blog, "The Future of Design Is Code and Canvas" (2026) · <a href="https://www.figma.com/blog/the-future-of-design-is-code-and-canvas/">figma.com/blog</a></li>
+      <li>[7] Anthropic, "Introducing Claude Design by Anthropic Labs" (Apr 17, 2026) · <a href="https://www.anthropic.com/news/claude-design-anthropic-labs">anthropic.com/news/claude-design-anthropic-labs</a></li>
+      <li>[8] The AI Track, "Anthropic Launches Claude Design for AI Prototypes" (Apr 2026) · <a href="https://theaitrack.com/anthropic-claude-design-ai-prototypes/">theaitrack.com</a></li>
+      <li>[9] Forbes (Ron Schmelzer), "AI Is Coming For The Design Stack" (Apr 23, 2026) · <a href="https://www.forbes.com/sites/ronschmelzer/2026/04/23/ai-is-coming-for-the-design-stack/">forbes.com</a></li>
+      <li>[10] Jakob Nielsen, "AI Turns Competence into a Commodity: Evidence from 2.26 Million Freelance Contracts" (Jul 22, 2026) · <a href="https://jakobnielsenphd.substack.com/p/ai-skills-gap">jakobnielsenphd.substack.com</a></li>
+      <li>[11] UX Playbook, "Figma 2026 Design Report: 5 Things Every UX Designer Should Know" (Mar 2, 2026) · <a href="https://uxplaybook.org/articles/figma-2026-design-report-key-findings">uxplaybook.org</a></li>
+      <li>[12] CIO, "ServiceNow plans automation of L1 Service Desk roles, promises more AI 'specialists' to come" (Feb 26, 2026) · <a href="https://www.cio.com/article/4138035/servicenow-plans-automation-of-l1-service-desk-roles-promises-more-ai-specialists-to-come.html">cio.com</a></li>
+      <li>[13] CIO, "Workday extends Sana AI to ITSM after HR, finance" (2026) · <a href="https://www.cio.com/article/4176376/workday-extends-sana-ai-to-itsm-after-hr-finance.html">cio.com</a></li>
+      <li>[14] CIO (Ilia Badeev), "Taming AI agents: The autonomous workforce of 2026" (Sep 30, 2025, published 2025) · <a href="https://www.cio.com/article/4064998/taming-ai-agents-the-autonomous-workforce-of-2026.html">cio.com</a></li>
+      <li>[15] Memeburn, "Best AI Design Tools in 2026: Tested and Ranked by Use Case" (Jul 6, 2026) · <a href="https://memeburn.com/best-ai-design-tools/">memeburn.com</a> <span class="flag">(91% weekly-usage figure conflicts with primary reading of the same report; uncertain)</span></li>
+    </ol>
+
+    <h2>Method</h2>
+    <div class="method">
+      Method: SearXNG discovery → jina.ai extraction → cross-verification. Claims without live source links are flagged as uncertain.
+    </div>
+
+  </main>
+
+  <footer>
+    Designer Skills Radar · generated by Agent Tina · 2026-08-03
+  </footer>
+</div>
+</body>
+</html>
