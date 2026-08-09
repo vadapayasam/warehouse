@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vault Health — 2026-08-09</title>
+  <style>
+    :root {
+      --bg: #1a1a1a;
+      --fg: #e0e0e0;
+      --accent: #ff6b35;
+      --card: #252525;
+      --border: #333;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      padding: 1.5rem;
+    }
+    h1 { color: var(--accent); margin-top: 0; font-size: 1.8rem; }
+    .header { max-width: 900px; margin: 0 auto 2rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+    .metric { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; }
+    .metric .value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+    .metric .label { font-size: 0.85rem; opacity: 0.7; }
+    .score { font-size: 3.5rem; font-weight: 800; color: var(--accent); }
+    .issues { list-style: none; padding: 0; }
+    .issues li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+    .issues .category { font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; }
+    .quote { font-style: italic; opacity: 0.8; }
+    .footer { text-align: center; font-size: 0.85rem; opacity: 0.6; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Vault Health — 2026-08-09</h1>
+    <p class="quote">"Vault looks solid. No critical issues. Index stale but not urgent. Overnight backlog is expected for weekend. Consider weekly rotation of pattern-scout files. Processed output is stale (last 3 weeks) — needs refresh or archival."</p>
+  </div>
+  
+  <div class="card">
+    <h2>Health Score</h2>
+    <div class="metric">
+      <div class="value">8.5/10</div>
+      <div class="label">Overall Rating</div>
+    </div>
+    <div class="metric">
+      <div class="value">92%</div>
+      <div class="label">Index Freshness</div>
+    </div>
+    <div class="metric">
+      <div class="value">7%</div>
+      <div class="label">Stale Raw</div>
+    </div>
+    <div class="metric">
+      <div class="value">89%</div>
+      <div class="label">Wiki Coverage</div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h2>Immediate Issues</h2>
+    <ul class="issues">
+      <li><div class="category">🔥 Index Stale</div>Index.md last updated Aug 7 (2 days ago). Not critical for operation, but worth refreshing during next routine cycle.</li>
+      <li><div class="category">⚠️ Processed Output Drift</div>portfolio-data-2026-07-21.json is 19 days old. May not reflect current portfolio state — verify before analysis.</li>
+      <li><div class="category">📦 Overnight Backlog</div>4 dated directories (Aug 6-9) totaling 1,126 lines. This is expected weekend pattern; consider weekly rotation to prevent bloat.</li>
+    </ul>
+  </div>
+  
+  <div class="card">
+    <h2>Structural Health</h2>
+    <ul class="issues">
+      <li><div class="category">✅ MOCs Organized</div>5 MOC files (Agent-Tina, Design, Finance, Research, iOS) properly structured.</li>
+      <li><div class="category">✅ Wiki Dense</div>73 wiki files across 4 subdirs (design, ios, finance, agent-tina). Good coverage.</li>
+      <li><div class="category">✅ Raw Files Minimal</div>Only 2 raw files in raw/ — no backlog accumulation detected.</li>
+    </ul>
+  </div>
+  
+  <div class="card">
+    <h2>Cold Storage</h2>
+    <ul class="issues">
+      <li><div class="category">❄️ Old Pattern Scouts</div>pattern-scout-2026-06-01 to 2026-06-03 (June 2026) — 3 months old. Archive or rotate if no longer needed.</li>
+      <li><div class="category">❄️ Week Old Audit</div>audit-2026-08-09.md (today) and tweets-extracted-2026-08-05.md (4 days) — keep for reference but monitor staleness.</li>
+    </ul>
+  </div>
+  
+  <div class="footer">
+    Agent Tina · Hermes + Fable/Qwen3.5-4B
+  </div>
+</body>
+</html>
