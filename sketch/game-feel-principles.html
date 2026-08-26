@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Feel - Seven Principles That Make Controls Come Alive</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #1d1d1f;
+    --ink-light: #6e6e73;
+    --canvas-dark: #000000;
+    --canvas-mid: #0a0a0c;
+    --canvas-light: #f5f5f7;
+    --canvas-white: #ffffff;
+    --accent: #0071e3;
+    --accent-glow: #2997ff;
+    --accent-hot: #ff6b35;
+    --accent-juice: #00d4aa;
+    --border: #d2d2d7;
+    --border-dark: #2a2a2c;
+    --shadow: rgba(0,0,0,0.22);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--canvas-dark);
+    color: var(--canvas-light);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--canvas-dark);
+    padding: 100px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,113,227,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Helvetica, Arial, sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--canvas-white);
+    margin-bottom: 20px;
+    max-width: 720px;
+  }
+
+  .hero-sub {
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #a1a1a6;
+    max-width: 580px;
+    margin-bottom: 16px;
+  }
+
+  .hero-meta {
+    font-size: 14px;
+    color: var(--ink-light);
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  /* Section bands */
+  .band-dark {
+    background: var(--canvas-dark);
+    padding: 80px 0;
+  }
+
+  .band-mid {
+    background: var(--canvas-mid);
+    padding: 80px 0;
+    border-top: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border-dark);
+  }
+
+  .band-light {
+    background: var(--canvas-light);
+    padding: 80px 0;
+    color: var(--ink);
+  }
+
+  .band-light h2,
+  .band-light h3,
+  .band-light .section-label {
+    color: var(--ink);
+  }
+
+  .band-light p,
+  .band-light .principle-desc {
+    color: #424245;
+  }
+
+  /* Section headers */
+  .section-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Helvetica, Arial, sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: #a1a1a6;
+    max-width: 640px;
+    margin-bottom: 16px;
+  }
+
+  /* Three pillars */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .pillar {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-dark);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .pillar:hover {
+    border-color: rgba(0,113,227,0.3);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .pillar-number {
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .pillar h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--canvas-white);
+  }
+
+  .pillar p {
+    font-size: 15px;
+    color: #86868b;
+    margin-bottom: 0;
+  }
+
+  /* Principles list */
+  .principles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .principle-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    align-items: start;
+    padding: 24px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-dark);
+    border-radius: 14px;
+    transition: background 0.25s;
+  }
+
+  .principle-item:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .principle-num {
+    font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,113,227,0.1);
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .principle-content h3 {
+    font-size: 19px;
+    margin-bottom: 6px;
+    color: var(--canvas-white);
+  }
+
+  .principle-desc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #86868b;
+    margin-bottom: 0;
+  }
+
+  .principle-highlight {
+    color: var(--accent-glow);
+    font-weight: 500;
+  }
+
+  /* Interactive demos */
+  .demo-stage {
+    background: var(--canvas-mid);
+    border: 1px solid var(--border-dark);
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .demo-stage-light {
+    background: var(--canvas-white);
+    border: 1px solid var(--border);
+  }
+
+  .demo-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--canvas-white);
+    margin-bottom: 8px;
+  }
+
+  .demo-stage-light .demo-title {
+    color: var(--ink);
+  }
+
+  .demo-caption {
+    font-size: 14px;
+    color: var(--ink-light);
+    margin-bottom: 28px;
+  }
+
+  .demo-stage-light .demo-caption {
+    color: var(--ink-light);
+  }
+
+  /* Latency demo */
+  .latency-arena {
+    height: 200px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    cursor: crosshair;
+  }
+
+  .latency-target {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: none;
+    box-shadow: 0 0 20px rgba(0,113,227,0.4);
+  }
+
+  .latency-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .latency-controls label {
+    font-size: 14px;
+    color: #a1a1a6;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+  }
+
+  .latency-slider {
+    flex: 1;
+    min-width: 200px;
+    accent-color: var(--accent);
+  }
+
+  .latency-value {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 14px;
+    color: var(--accent-glow);
+    min-width: 60px;
+  }
+
+  /* Easing demo */
+  .easing-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+  }
+
+  .easing-label {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 13px;
+    color: var(--ink-light);
+    width: 100px;
+    flex-shrink: 0;
+  }
+
+  .easing-track {
+    flex: 1;
+    height: 44px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .easing-ball {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+  }
+
+  .ball-linear { background: #ff6b6b; }
+  .ball-ease { background: var(--accent); }
+  .ball-spring { background: var(--accent-juice); }
+
+  .easing-row.running .ball-linear {
+    animation: moveLinear 1.2s linear forwards;
+  }
+  .easing-row.running .ball-ease {
+    animation: moveEase 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .easing-row.running .ball-spring {
+    animation: moveSpring 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes moveLinear {
+    to { left: calc(100% - 36px); }
+  }
+  @keyframes moveEase {
+    to { left: calc(100% - 36px); }
+  }
+  @keyframes moveSpring {
+    to { left: calc(100% - 36px); }
+  }
+
+  /* Juice button */
+  .juice-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 40px;
+  }
+
+  .juice-btn {
+    padding: 16px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.1s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+
+  .juice-btn:hover {
+    box-shadow: 0 0 30px rgba(0,113,227,0.3);
+  }
+
+  .juice-btn:active {
+    transform: scale(0.92);
+  }
+
+  .juice-btn.flash {
+    animation: btnFlash 0.3s ease;
+  }
+
+  @keyframes btnFlash {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.6); }
+  }
+
+  .particle-canvas {
+    width: 100%;
+    height: 160px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.2);
+  }
+
+  /* Shake demo */
+  .shake-box {
+    width: 140px;
+    height: 140px;
+    background: linear-gradient(135deg, var(--accent-hot), #ff8c42);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.1s;
+    user-select: none;
+  }
+
+  .shake-box.shaking {
+    animation: shake 0.4s ease-in-out;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translate(0, 0); }
+    15% { transform: translate(-6px, 4px); }
+    30% { transform: translate(6px, -4px); }
+    45% { transform: translate(-4px, -6px); }
+    60% { transform: translate(4px, 6px); }
+    75% { transform: translate(-3px, 3px); }
+  }
+
+  /* Squash demo */
+  .squash-arena {
+    height: 220px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+
+  .squash-ball {
+    width: 56px;
+    height: 56px;
+    background: var(--accent-juice);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 20px rgba(0,212,170,0.3);
+  }
+
+  .squash-ball.squashed {
+    transform: scale(1.35, 0.65);
+  }
+
+  .squash-ball.stretched {
+    transform: scale(0.75, 1.35);
+  }
+
+  /* Table */
+  .juice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    font-size: 15px;
+  }
+
+  .juice-table th,
+  .juice-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .juice-table th {
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ink-light);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .band-dark .juice-table th,
+  .band-dark .juice-table td {
+    border-bottom-color: var(--border-dark);
+    color: #a1a1a6;
+  }
+
+  .band-dark .juice-table th {
+    color: var(--ink-light);
+  }
+
+  .juice-table td:first-child {
+    font-weight: 600;
+    color: var(--canvas-white);
+  }
+
+  .band-light .juice-table td:first-child {
+    color: var(--ink);
+  }
+
+  /* Footer */
+  .page-footer {
+    padding: 60px 0 40px;
+    text-align: center;
+    border-top: 1px solid var(--border-dark);
+  }
+
+  .page-footer p {
+    font-size: 14px;
+    color: var(--ink-light);
+    max-width: none;
+  }
+
+  .page-footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero { padding: 60px 0 50px; }
+    .hero h1 { font-size: 40px; }
+    .hero-sub { font-size: 18px; }
+    h2 { font-size: 30px; }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .principle-item { grid-template-columns: 40px 1fr; gap: 14px; padding: 18px; }
+    .demo-stage { padding: 24px; }
+    .easing-row { flex-direction: column; align-items: stretch; }
+    .easing-label { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-label">Design Reference</div>
+    <h1>Game Feel</h1>
+    <p class="hero-sub">The invisible craft behind controls that feel right. From Steve Swink's framework to your app's micro-interactions.</p>
+    <p class="hero-meta">Steve Swink, Game Feel (2009) · Applied to iOS and product design</p>
+  </div>
+</section>
+
+<!-- Definition -->
+<section class="band-mid">
+  <div class="container">
+    <div class="section-label">What It Is</div>
+    <h2>The tactile sense of manipulating a virtual object.</h2>
+    <p>Game feel lives in the milliseconds between input and response. It is invisible in screenshots. It cannot be described. It must be felt. The same action performed with different timing, easing, or feedback can feel magical or broken.</p>
+    <p>This page breaks Swink's framework into seven testable principles, then lets you feel them directly through interactive demos.</p>
+  </div>
+</section>
+
+<!-- Three Pillars -->
+<section class="band-dark">
+  <div class="container">
+    <div class="section-label">Foundation</div>
+    <h2>Three Pillars, In Order</h2>
+    <p>Order matters. Polish on laggy controls is paint on a broken machine.</p>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <div class="pillar-number">01</div>
+        <h3>Real-Time Control</h3>
+        <p>The avatar does what you intend, when you intend it. Input maps to output without ambiguity.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-number">02</div>
+        <h3>Simulated Space</h3>
+        <p>Believable weight, collision, and physics. The world responds as if it has substance.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-number">03</div>
+        <h3>Polish</h3>
+        <p>Feedback and exaggeration on top. Juice that amplifies without masking broken foundations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Seven Principles -->
+<section class="band-mid">
+  <div class="container">
+    <div class="section-label">The Framework</div>
+    <h2>Seven Principles</h2>
+    <p>Each principle is a lens for evaluating any interactive system. They apply to games, apps, and interfaces equally.</p>
+    <div class="principles-list">
+      <div class="principle-item">
+        <div class="principle-num">1</div>
+        <div class="principle-content">
+          <h3>Predictable Results</h3>
+          <p class="principle-desc">Same input produces the expected outcome every time. Ambiguous press timing is the main failure source. If the user cannot form a mental model of cause and effect, feel collapses.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">2</div>
+        <div class="principle-content">
+          <h3>Instantaneous Response</h3>
+          <p class="principle-desc">A visible result within <span class="principle-highlight">70 to 100 ms</span>. Past 100 ms the brain registers sluggishness. This is the hard threshold that separates crisp from muddy.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">3</div>
+        <div class="principle-content">
+          <h3>Easy but Deep</h3>
+          <p class="principle-desc">Low skill floor, high ceiling. Standard mappings win because they let users focus on mastery instead of learning. The best controls feel obvious on minute one and still reward expertise at hour one hundred.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">4</div>
+        <div class="principle-content">
+          <h3>Novelty</h3>
+          <p class="principle-desc">Subtle variation keeps repeated actions fresh. The enemy is identical linear animation every time. A button that wiggles slightly differently on each tap stays alive.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">5</div>
+        <div class="principle-content">
+          <h3>Appealing Response</h3>
+          <p class="principle-desc">Fun even in an empty space with no context. Invest in failure states. A jump that feels good when you miss the platform is better than one that only feels good when you succeed.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">6</div>
+        <div class="principle-content">
+          <h3>Organic Motion</h3>
+          <p class="principle-desc">Curved arcs, simulation-driven movement using velocity and forces. Never set position per frame. Easing curves and spring physics make motion feel alive instead of robotic.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">7</div>
+        <div class="principle-content">
+          <h3>Harmony</h3>
+          <p class="principle-desc">Every element supports one physical reality. Metrics stay consistent. If one button bounces and another snaps, the world fractures. Coherence across the entire surface matters more than any single interaction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive Demo: Latency -->
+<section class="band-dark">
+  <div class="container">
+    <div class="section-label">Feel It</div>
+    <h2>Latency Test</h2>
+    <p>Move your mouse or drag your finger across the arena. The blue square follows with a delay you control. Feel where it breaks.</p>
+
+    <div class="demo-stage">
+      <div class="demo-title">Input Delay Simulator</div>
+      <div class="demo-caption">Notice how 0 ms feels instant, 50 ms feels normal, and 150+ ms feels broken.</div>
+      <div class="latency-arena" id="latencyArena">
+        <div class="latency-target" id="latencyTarget"></div>
+      </div>
+      <div class="latency-controls">
+        <label>Delay</label>
+        <input type="range" class="latency-slider" id="latencySlider" min="0" max="250" value="0">
+        <span class="latency-value" id="latencyValue">0 ms</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive Demo: Easing -->
+<section class="band-mid">
+  <div class="container">
+    <h2>Easing Playground</h2>
+    <p>Three balls, same duration, different curves. Click Run to compare. Linear feels mechanical. Ease-out feels natural. Spring feels alive.</p>
+
+    <div class="demo-stage">
+      <div class="demo-title">Motion Curves</div>
+      <div class="demo-caption">1.2 seconds each. The difference is the math behind the movement.</div>
+
+      <div class="easing-row" id="easeRow1">
+        <div class="easing-label">linear</div>
+        <div class="easing-track">
+          <div class="easing-ball ball-linear"></div>
+        </div>
+      </div>
+      <div class="easing-row" id="easeRow2">
+        <div class="easing-label">ease-out</div>
+        <div class="easing-track">
+          <div class="easing-ball ball-ease"></div>
+        </div>
+      </div>
+      <div class="easing-row" id="easeRow3">
+        <div class="easing-label">spring</div>
+        <div class="easing-track">
+          <div class="easing-ball ball-spring"></div>
+        </div>
+      </div>
+
+      <button class="juice-btn" onclick="runEasing()" style="margin-top: 12px;">Run</button>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive Demo: Squash & Stretch + Shake -->
+<section class="band-dark">
+  <div class="container">
+    <h2>Juice Lab</h2>
+    <p>Click each element. These are the techniques that turn a functional interaction into a satisfying one.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 40px;">
+      <div class="demo-stage">
+        <div class="demo-title">Squash & Stretch</div>
+        <div class="demo-caption">Click the ball. Compression and stretch sell weight and impact.</div>
+        <div class="squash-arena">
+          <div class="squash-ball" id="squashBall"></div>
+        </div>
+      </div>
+
+      <div class="demo-stage">
+        <div class="demo-title">Screen Shake</div>
+        <div class="demo-caption">Click the box. A few pixels of displacement confirm impact.</div>
+        <div style="display: flex; justify-content: center; padding: 20px;">
+          <div class="shake-box" id="shakeBox">Tap Me</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-stage" style="margin-top: 24px;">
+      <div class="demo-title">Particle Burst</div>
+      <div class="demo-caption">Click the button. Every heavy action deserves a celebration.</div>
+      <div class="juice-zone">
+        <button class="juice-btn" id="particleBtn">Trigger Burst</button>
+        <canvas class="particle-canvas" id="particleCanvas" width="800" height="160"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Juice Techniques Table -->
+<section class="band-light">
+  <div class="container">
+    <div class="section-label">Techniques</div>
+    <h2>Juice Toolkit</h2>
+    <p>Reusable techniques from game development that apply directly to app and product design.</p>
+
+    <table class="juice-table">
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th>What It Does</th>
+          <th>App Equivalent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Coyote Time</td>
+          <td>Allow an action a few frames after validity ends. 150 ms grace window.</td>
+          <td>Pull-to-refresh that still triggers if released slightly late</td>
+        </tr>
+        <tr>
+          <td>Input Buffering</td>
+          <td>Remember a press and fire when valid.</td>
+          <td>Button that queues while animation completes</td>
+        </tr>
+        <tr>
+          <td>Hit-Stop</td>
+          <td>Freeze for 40 to 80 ms on heavy impact.</td>
+          <td>Success state that holds for a beat before dismissing</td>
+        </tr>
+        <tr>
+          <td>Screen Shake</td>
+          <td>Few pixels, settles fast, needs a disable option.</td>
+          <td>Subtle vibration on error or completion</td>
+        </tr>
+        <tr>
+          <td>Squash & Stretch</td>
+          <td>Compress on land, stretch on leap. Biggest liveliness win.</td>
+          <td>Button press depth, toggle spring animation</td>
+        </tr>
+        <tr>
+          <td>Particles / Flashes</td>
+          <td>Burst and flash confirm contact.</td>
+          <td>Confetti on achievement, glow on focus</td>
+        </tr>
+        <tr>
+          <td>Easing</td>
+          <td>Never linear motion. Springs everywhere.</td>
+          <td>All transitions, all the time</td>
+        </tr>
+        <tr>
+          <td>Sound</td>
+          <td>Half the weight. Every action makes a sound.</td>
+          <td>Haptics are mobile's sound channel</td>
+        </tr>
+        <tr>
+          <td>Secondary Motion</td>
+          <td>Trails, dust. The world reacts to presence.</td>
+          <td>Scroll parallax, list insert ripple</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Application -->
+<section class="band-mid">
+  <div class="container">
+    <div class="section-label">For Product Designers</div>
+    <h2>Applying Game Feel to Apps</h2>
+    <p>Every tap answers within 100 ms: visual, sound, and haptic together. Haptics are mobile's juice channel. Pair light, medium, and heavy feedback with action weight. Ease all UI motion. No linear tweens. Squash and stretch buttons, counters, toggles.</p>
+    <p>Respect Reduce Motion. Scale down shake and flash, but keep transitions short and meaningful. The goal is not spectacle. It is clarity through feedback.</p>
+    <p style="margin-top: 24px; padding: 24px; background: rgba(0,113,227,0.08); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;">
+      <strong style="color: var(--accent-glow);">The 30-Second Feel Test</strong><br>
+      Strip your app to one action. Do it for 30 seconds with no goal. If it does not feel good naked, the feel is not there yet.
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="page-footer band-dark">
+  <div class="container">
+    <p>Source: Steve Swink, <em>Game Feel: A Game Designer's Guide to Virtual Sensation</em> (2009)</p>
+    <p style="margin-top: 8px;">Talks: <a href="https://www.youtube.com/watch?v=Fy0aCDmgnxg" target="_blank">Juice It or Lose It</a> · <a href="https://www.youtube.com/watch?v=AJdEqssNZ-U" target="_blank">The Art of Screenshake</a></p>
+  </div>
+</footer>
+
+<script>
+// Latency demo
+const arena = document.getElementById('latencyArena');
+const target = document.getElementById('latencyTarget');
+const slider = document.getElementById('latencySlider');
+const value = document.getElementById('latencyValue');
+let delay = 0;
+let targetX = 50, targetY = 50;
+let currentX = 50, currentY = 50;
+let lastMove = 0;
+
+slider.addEventListener('input', () => {
+  delay = parseInt(slider.value);
+  value.textContent = delay + ' ms';
+});
+
+arena.addEventListener('mousemove', (e) => {
+  const rect = arena.getBoundingClientRect();
+  targetX = ((e.clientX - rect.left) / rect.width) * 100;
+  targetY = ((e.clientY - rect.top) / rect.height) * 100;
+  lastMove = Date.now();
+});
+
+arena.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  const rect = arena.getBoundingClientRect();
+  const touch = e.touches[0];
+  targetX = ((touch.clientX - rect.left) / rect.width) * 100;
+  targetY = ((touch.clientY - rect.top) / rect.height) * 100;
+  lastMove = Date.now();
+});
+
+function updateLatency() {
+  const elapsed = Date.now() - lastMove;
+  if (elapsed >= delay) {
+    currentX += (targetX - currentX) * 0.3;
+    currentY += (targetY - currentY) * 0.3;
+  }
+  target.style.left = currentX + '%';
+  target.style.top = currentY + '%';
+  target.style.transform = 'translate(-50%, -50%)';
+  requestAnimationFrame(updateLatency);
+}
+updateLatency();
+
+// Easing demo
+function runEasing() {
+  ['easeRow1','easeRow2','easeRow3'].forEach(id => {
+    const row = document.getElementById(id);
+    row.classList.remove('running');
+    void row.offsetWidth;
+    row.classList.add('running');
+  });
+}
+
+// Squash demo
+const squashBall = document.getElementById('squashBall');
+squashBall.addEventListener('mousedown', () => {
+  squashBall.classList.add('squashed');
+  setTimeout(() => {
+    squashBall.classList.remove('squashed');
+    squashBall.classList.add('stretched');
+    setTimeout(() => squashBall.classList.remove('stretched'), 200);
+  }, 150);
+});
+squashBall.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  squashBall.classList.add('squashed');
+  setTimeout(() => {
+    squashBall.classList.remove('squashed');
+    squashBall.classList.add('stretched');
+    setTimeout(() => squashBall.classList.remove('stretched'), 200);
+  }, 150);
+});
+
+// Shake demo
+const shakeBox = document.getElementById('shakeBox');
+shakeBox.addEventListener('click', () => {
+  shakeBox.classList.remove('shaking');
+  void shakeBox.offsetWidth;
+  shakeBox.classList.add('shaking');
+});
+
+// Particle demo
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+const btn = document.getElementById('particleBtn');
+let particles = [];
+
+function resizeCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 2 + Math.random() * 4;
+    this.vx = Math.cos(angle) * speed;
+    this.vy = Math.sin(angle) * speed - 2;
+    this.life = 1;
+    this.decay = 0.015 + Math.random() * 0.02;
+    this.size = 3 + Math.random() * 5;
+    const colors = ['#0071e3','#2997ff','#00d4aa','#ff6b35','#ffd60a'];
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vy += 0.15;
+    this.life -= this.decay;
+  }
+  draw(ctx) {
+    ctx.globalAlpha = this.life;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+function spawnParticles() {
+  const rect = canvas.getBoundingClientRect();
+  const x = rect.width / 2;
+  const y = rect.height / 2 + 20;
+  for (let i = 0; i < 40; i++) {
+    particles.push(new Particle(x, y));
+  }
+  btn.classList.remove('flash');
+  void btn.offsetWidth;
+  btn.classList.add('flash');
+}
+
+btn.addEventListener('click', spawnParticles);
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => { p.update(); p.draw(ctx); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+</script>
+
+</body>
+</html>
