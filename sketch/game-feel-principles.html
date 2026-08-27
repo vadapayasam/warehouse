@@ -505,6 +505,80 @@
     transform: scale(0.75, 1.35);
   }
 
+  /* Aquarium demo */
+  .aquarium-band { background: var(--canvas-dark); }
+  .aquarium-stage {
+    background: var(--canvas-mid);
+    border: 1px solid var(--border-dark);
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 40px;
+  }
+  .aquarium-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 18px;
+  }
+  .aquarium-hint { font-size: 14px; color: var(--ink-light); max-width: 480px; }
+  .aquarium-toggle {
+    display: flex; border: 1px solid var(--border-dark);
+    border-radius: 10px; overflow: hidden; flex-shrink: 0;
+  }
+  .aquarium-toggle button {
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    padding: 9px 20px; background: transparent; color: #86868b;
+    border: none; cursor: pointer; transition: background .2s, color .2s;
+  }
+  .aquarium-toggle button.active { background: rgba(0,113,227,.16); color: var(--accent-glow); }
+  .tank {
+    position: relative; width: 100%; height: 340px; border-radius: 14px;
+    overflow: hidden; cursor: pointer; border: 1px solid var(--border-dark);
+    background: linear-gradient(180deg, #0a2a44 0%, #07304d 55%, #052338 100%);
+  }
+  .tank::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(120% 60% at 30% 0%, rgba(77,182,255,.14) 0%, transparent 55%);
+  }
+  .aqua-floor {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 40px;
+    background: linear-gradient(180deg, #0d2236, #0a1a2b);
+    border-top: 2px solid rgba(77,182,255,.14);
+  }
+  .seaplant {
+    position: absolute; bottom: 26px; font-size: 34px; line-height: 1;
+    user-select: none; transform-origin: 50% 100%;
+  }
+  .tank.juice .seaplant { animation: seaSway 3.2s ease-in-out infinite; animation-delay: var(--d, 0s); }
+  @keyframes seaSway {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+  }
+  .fish {
+    position: absolute; user-select: none; pointer-events: none;
+    will-change: transform; line-height: 1;
+  }
+  .bubble { position: absolute; font-size: 13px; user-select: none; pointer-events: none; }
+  .aquarium-actions { display: flex; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+  .poke-btn {
+    padding: 12px 26px; border: none; border-radius: 10px; cursor: pointer;
+    font-family: inherit; font-size: 15px; font-weight: 600; color: #fff;
+    background: linear-gradient(135deg, var(--accent-hot), #ff8c42);
+    transition: transform .1s;
+  }
+  .poke-btn:active { transform: scale(.93); }
+  .poke-btn.flash { animation: btnFlash .3s ease; }
+  .aqua-status {
+    font-size: 14px; color: var(--ink-light);
+    font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  }
+  .tank.tank-shake { animation: tankShake .4s ease; }
+  @keyframes tankShake {
+    0%, 100% { transform: translate(0,0); }
+    20% { transform: translate(-4px, 2px); }
+    40% { transform: translate(4px, -3px); }
+    60% { transform: translate(-3px, -2px); }
+    80% { transform: translate(3px, 2px); }
+  }
+
   /* Table */
   .juice-table {
     width: 100%;
@@ -861,6 +935,33 @@
 </section>
 
 <!-- Footer -->
+<!-- Silly Aquarium -->
+<section class="band-dark aquarium-band">
+  <div class="container">
+    <div class="section-label">Build It</div>
+    <h2>The Silly Aquarium</h2>
+    <p>The same five fish, two ways. Flip the juice off and they are flat, robotic, lifeless. Flip it on and easing, squash and stretch, bubbles and a little shake make the tank feel alive. Tap the tank or press Poke.</p>
+    <div class="aquarium-stage">
+      <div class="aquarium-toolbar">
+        <span class="aquarium-hint">Tap the tank or poke the fish to shove them.</span>
+        <div class="aquarium-toggle" role="group" aria-label="Game feel toggle">
+          <button id="juiceOffBtn">Juice OFF</button>
+          <button id="juiceOnBtn" class="active">Juice ON</button>
+        </div>
+      </div>
+      <div class="tank juice" id="aquariumTank">
+        <div class="aqua-floor"></div>
+        <div class="seaplant" style="left:6%; --d:0s;">🌿</div>
+        <div class="seaplant" style="left:86%; --d:-1.3s;">🪸</div>
+      </div>
+      <div class="aquarium-actions">
+        <button class="poke-btn" id="aquariumPoke">Poke!</button>
+        <span class="aqua-status" id="aquariumStatus">Juice ON. Fish got feelings.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="page-footer band-dark">
   <div class="container">
     <p>Source: Steve Swink, <em>Game Feel: A Game Designer's Guide to Virtual Sensation</em> (2009)</p>
@@ -869,45 +970,50 @@
 </footer>
 
 <script>
-// Latency demo
+// Latency demo — true input-delay follower via timestamped history
 const arena = document.getElementById('latencyArena');
 const target = document.getElementById('latencyTarget');
 const slider = document.getElementById('latencySlider');
 const value = document.getElementById('latencyValue');
 let delay = 0;
 let targetX = 50, targetY = 50;
-let currentX = 50, currentY = 50;
-let lastMove = 0;
+const history = [];
 
 slider.addEventListener('input', () => {
   delay = parseInt(slider.value);
   value.textContent = delay + ' ms';
 });
 
+function pushMove(x, y) {
+  targetX = x; targetY = y;
+  history.push({ x, y, t: performance.now() });
+  if (history.length > 500) history.shift();
+}
+
 arena.addEventListener('mousemove', (e) => {
   const rect = arena.getBoundingClientRect();
-  targetX = ((e.clientX - rect.left) / rect.width) * 100;
-  targetY = ((e.clientY - rect.top) / rect.height) * 100;
-  lastMove = Date.now();
+  pushMove(((e.clientX - rect.left) / rect.width) * 100,
+           ((e.clientY - rect.top) / rect.height) * 100);
 });
 
 arena.addEventListener('touchmove', (e) => {
   e.preventDefault();
   const rect = arena.getBoundingClientRect();
   const touch = e.touches[0];
-  targetX = ((touch.clientX - rect.left) / rect.width) * 100;
-  targetY = ((touch.clientY - rect.top) / rect.height) * 100;
-  lastMove = Date.now();
+  pushMove(((touch.clientX - rect.left) / rect.width) * 100,
+           ((touch.clientY - rect.top) / rect.height) * 100);
 });
 
 function updateLatency() {
-  const elapsed = Date.now() - lastMove;
-  if (elapsed >= delay) {
-    currentX += (targetX - currentX) * 0.3;
-    currentY += (targetY - currentY) * 0.3;
+  const now = performance.now();
+  const cutoff = now - delay;
+  // newest sample that is at least `delay` ms old = the exact delayed position
+  let sampleX = targetX, sampleY = targetY;
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (history[i].t <= cutoff) { sampleX = history[i].x; sampleY = history[i].y; break; }
   }
-  target.style.left = currentX + '%';
-  target.style.top = currentY + '%';
+  target.style.left = sampleX + '%';
+  target.style.top = sampleY + '%';
   target.style.transform = 'translate(-50%, -50%)';
   requestAnimationFrame(updateLatency);
 }
@@ -953,7 +1059,8 @@ shakeBox.addEventListener('click', () => {
 
 // Particle demo
 const canvas = document.getElementById('particleCanvas');
-const ctx = canvas.getContext('2d');
+let ctx = null;
+try { ctx = canvas.getContext('2d'); } catch (e) {}
 const btn = document.getElementById('particleBtn');
 let particles = [];
 
@@ -1010,12 +1117,135 @@ function spawnParticles() {
 btn.addEventListener('click', spawnParticles);
 
 function animateParticles() {
+  if (!ctx) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particles = particles.filter(p => p.life > 0);
   particles.forEach(p => { p.update(); p.draw(ctx); });
   requestAnimationFrame(animateParticles);
 }
 animateParticles();
+
+// ---- Silly Aquarium: game feel on/off ----
+const tankEl = document.getElementById('aquariumTank');
+const juiceOffBtn = document.getElementById('juiceOffBtn');
+const juiceOnBtn = document.getElementById('juiceOnBtn');
+const pokeBtn = document.getElementById('aquariumPoke');
+const aquaStatus = document.getElementById('aquariumStatus');
+let juiceOn = true;
+const bubbles = [];
+
+function addBubble(x, y) {
+  const b = document.createElement('div');
+  b.className = 'bubble';
+  b.textContent = Math.random() < 0.5 ? '🫧' : '•';
+  b.style.left = x + '%';
+  b.style.top = y + '%';
+  tankEl.appendChild(b);
+  bubbles.push({ el: b, x, y, life: 1, vy: 0.16 * (0.5 + Math.random() * 0.6) });
+}
+
+function updateBubbles() {
+  for (let i = bubbles.length - 1; i >= 0; i--) {
+    const b = bubbles[i];
+    b.y -= b.vy; b.life -= 0.008;
+    b.el.style.top = b.y + '%';
+    b.el.style.opacity = Math.max(0, b.life).toFixed(2);
+    if (b.y < -4 || b.life <= 0) { b.el.remove(); bubbles.splice(i, 1); }
+  }
+  if (juiceOn && Math.random() < 0.2) {
+    const f = fishes[Math.floor(Math.random() * fishes.length)];
+    addBubble(Math.min(96, Math.max(2, f.x + (Math.random() * 6 - 3))), Math.min(88, f.y + 6));
+  }
+}
+
+function setJuice(v) {
+  juiceOn = v;
+  tankEl.classList.toggle('juice', v);
+  juiceOnBtn.classList.toggle('active', v);
+  juiceOffBtn.classList.toggle('active', !v);
+  aquaStatus.textContent = v ? 'Juice ON. Fish got feelings.' : 'Juice OFF. Flat and lifeless.';
+  if (v) for (let i = 0; i < 4; i++) addBubble(50 + (Math.random() * 20 - 10), 40 + (Math.random() * 20 - 10));
+}
+juiceOnBtn.addEventListener('click', () => setJuice(true));
+juiceOffBtn.addEventListener('click', () => setJuice(false));
+
+const fishSpecs = [
+  { e: '🐠', x: 14, y: 42, speed: 2.1, bob: 5.5, amp: 9, phase: 0.0, size: 34 },
+  { e: '🐟', x: 38, y: 20, speed: 1.7, bob: 8.0, amp: 6, phase: 1.3, size: 31 },
+  { e: '🐡', x: 70, y: 58, speed: 0.9, bob: 4.0, amp: 11, phase: 2.1, size: 35 },
+  { e: '🐠', x: 86, y: 32, speed: 2.5, bob: 2.0, amp: 7, phase: 3.4, size: 29 },
+  { e: '🐟', x: 55, y: 78, speed: 1.4, bob: 11, amp: 8, phase: 0.7, size: 33 },
+];
+const fishes = fishSpecs.map((s) => {
+  const el = document.createElement('div');
+  el.className = 'fish';
+  el.style.fontSize = s.size + 'px';
+  el.textContent = s.e;
+  tankEl.appendChild(el);
+  return { el, x: s.x, y: s.y, baseY: s.y, dir: Math.random() < 0.5 ? 1 : -1,
+           speed: s.speed, bob: s.bob, amp: s.amp, phase: s.phase,
+           dirX: 1, tilt: 0, squash: 0, sx: 1, sy: 1 };
+});
+
+let aquaLast = performance.now();
+function animateAquarium(now) {
+  const dt = Math.min(0.05, (now - aquaLast) / 1000); aquaLast = now;
+  const t = now / 1000;
+  fishes.forEach((f) => {
+    if (juiceOn) {
+      // organic motion: eased speed, marine sway, tilt. squash & stretch on turns.
+      f.x += f.dir * f.speed * (1 + 0.22 * Math.sin(t * f.bob * 0.5 + f.phase)) * dt * 6;
+      f.y = f.baseY + Math.sin(t * f.bob + f.phase) * f.amp;
+      f.tilt = Math.sin(t * 1.3 + f.phase) * 5 * f.dir;
+      if (f.x > 96 || f.x < 4) { f.x = Math.max(4, Math.min(96, f.x)); f.dir *= -1; f.squash = 1; f.baseY = Math.max(14, Math.min(86, f.baseY + (Math.random() * 12 - 6))); }
+    } else {
+      // no juice: rigid, constant speed, straight line, hard instant flip.
+      f.x += f.dir * f.speed * dt * 6;
+      f.y = f.baseY;
+      f.tilt = 0;
+      if (f.x > 96 || f.x < 4) { f.x = Math.max(4, Math.min(96, f.x)); f.dir *= -1; }
+    }
+    // squash & stretch pulses back to neutral
+    if (f.squash > 0) f.squash = Math.max(0, f.squash - dt * 4);
+    const pulse = Math.sin(f.squash * Math.PI);
+    f.sx = 1 + 0.28 * pulse;
+    f.sy = 1 - 0.24 * pulse;
+    f.dirX = f.dir < 0 ? -1 : 1;
+    f.el.style.left = f.x + '%';
+    f.el.style.top = f.y + '%';
+    f.el.style.transform = `translate(-50%,-50%) scaleX(${(f.dirX * f.sx).toFixed(3)}) scaleY(${f.sy.toFixed(3)}) rotate(${f.tilt.toFixed(1)}deg)`;
+  });
+  updateBubbles();
+  requestAnimationFrame(animateAquarium);
+}
+requestAnimationFrame(animateAquarium);
+
+// Poke: feel the difference
+pokeBtn.addEventListener('click', () => {
+  if (juiceOn) {
+    fishes.forEach((f) => { f.dir *= (Math.random() < 0.5 ? -1 : 1); f.squash = 1; f.baseY = Math.max(14, Math.min(86, f.baseY + (Math.random() * 18 - 9))); });
+    tankEl.classList.remove('tank-shake'); void tankEl.offsetWidth; tankEl.classList.add('tank-shake');
+    pokeBtn.classList.remove('flash'); void pokeBtn.offsetWidth; pokeBtn.classList.add('flash');
+    for (let i = 0; i < 10; i++) addBubble(50 + (Math.random() * 20 - 10), 55 + (Math.random() * 16 - 8));
+    aquaStatus.textContent = 'Oof! Fish scattered and the tank shook.';
+  } else {
+    pokeBtn.classList.remove('flash'); void pokeBtn.offsetWidth; pokeBtn.classList.add('flash');
+    aquaStatus.textContent = 'Thump. Nothing. That is what no juice feels like.';
+  }
+});
+
+// Tap the tank
+tankEl.addEventListener('click', (e) => {
+  const r = tankEl.getBoundingClientRect();
+  const px = ((e.clientX - r.left) / r.width) * 100;
+  if (juiceOn) {
+    for (let i = 0; i < 6; i++) addBubble(px + (Math.random() * 8 - 4), 55 + (Math.random() * 10 - 5));
+    fishes.forEach((f) => { const d = f.x - px; if (Math.abs(d) < 34) { f.dir = d < 0 ? 1 : -1; f.squash = 1; } });
+    aquaStatus.textContent = 'Plop! Bubbles where you poked.';
+  } else {
+    aquaStatus.textContent = 'Thump. Nothing. No juice.';
+  }
+});
 </script>
 
 </body>
