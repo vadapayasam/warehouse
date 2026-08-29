@@ -1,0 +1,35 @@
+{
+  "natural_instruments": {
+    "source": "VSCO 2 Community Edition",
+    "license": "CC0-1.0",
+    "url": "https://github.com/sgossner/VSCO-2-CE",
+    "instruments": [
+      "upright_piano",
+      "cello",
+      "trumpet",
+      "marimba"
+    ]
+  },
+  "environment": {
+    "birds": {
+      "source": "Ambient Bird Sounds by isaiah658",
+      "license": "CC0-1.0",
+      "url": "https://opengameart.org/content/ambient-bird-sounds"
+    },
+    "rain": {
+      "source": "Rain (loopable) by Ylmir",
+      "license": "CC0-1.0",
+      "url": "https://opengameart.org/content/rain-loopable"
+    },
+    "wind": {
+      "source": "wind whoosh loop by SketchMan3",
+      "license": "CC0-1.0",
+      "url": "https://opengameart.org/content/wind-whoosh-loop"
+    },
+    "thunder": {
+      "source": "Original procedural synthesis in this repository",
+      "license": "CC0 dedication by project author",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  }
+}

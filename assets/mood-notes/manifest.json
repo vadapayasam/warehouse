@@ -1,6 +1,6 @@
 {
   "pack": "Mood Notes CC0",
-  "version": 1,
+  "version": 2,
   "format": {
     "container": "WAV",
     "codec": "PCM signed 16-bit little-endian",
@@ -26,6 +26,22 @@
       "url": "https://github.com/KristofferKarlAxelEkstrand/AKWF-FREE",
       "license": "CC0-1.0",
       "license_url": "https://github.com/KristofferKarlAxelEkstrand/AKWF-FREE/blob/main/LICENSE.md"
+    },
+    "OpenGameArt CC0 recordings": {
+      "license": "CC0-1.0",
+      "license_url": "https://opengameart.org/content/cc0-sound-effects",
+      "items": [
+        "birds",
+        "rain",
+        "wind"
+      ]
+    },
+    "Procedural thunder": {
+      "license": "CC0 dedication by project author",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "items": [
+        "thunder"
+      ]
     }
   },
   "instruments": [
@@ -489,6 +505,192 @@
           "derived": "single-cycle waveform synthesis"
         }
       ]
+    },
+    {
+      "id": "upright_piano",
+      "name": "Warm Upright Piano",
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "upright_piano/C4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "D4",
+          "path": "upright_piano/D4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "E4",
+          "path": "upright_piano/E4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "F4",
+          "path": "upright_piano/F4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "G4",
+          "path": "upright_piano/G4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "A4",
+          "path": "upright_piano/A4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "B4",
+          "path": "upright_piano/B4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        }
+      ]
+    },
+    {
+      "id": "cello",
+      "name": "Low Cello Pizzicato",
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "cello/C4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "D4",
+          "path": "cello/D4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "E4",
+          "path": "cello/E4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "F4",
+          "path": "cello/F4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "G4",
+          "path": "cello/G4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "A4",
+          "path": "cello/A4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "B4",
+          "path": "cello/B4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        }
+      ]
+    },
+    {
+      "id": "trumpet",
+      "name": "Soft Trumpet",
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "trumpet/C4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "D4",
+          "path": "trumpet/D4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "E4",
+          "path": "trumpet/E4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "F4",
+          "path": "trumpet/F4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "G4",
+          "path": "trumpet/G4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "A4",
+          "path": "trumpet/A4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "B4",
+          "path": "trumpet/B4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        }
+      ]
+    },
+    {
+      "id": "marimba",
+      "name": "Round Marimba",
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "marimba/C4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "D4",
+          "path": "marimba/D4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "E4",
+          "path": "marimba/E4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "F4",
+          "path": "marimba/F4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "G4",
+          "path": "marimba/G4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "A4",
+          "path": "marimba/A4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        },
+        {
+          "note": "B4",
+          "path": "marimba/B4.wav",
+          "source": "VSCO 2 CE verified sample, normalized for this pack"
+        }
+      ]
+    }
+  ],
+  "environment": [
+    {
+      "id": "rain",
+      "path": "environment/rain.wav"
+    },
+    {
+      "id": "birds",
+      "path": "environment/birds.wav"
+    },
+    {
+      "id": "wind",
+      "path": "environment/wind.wav"
+    },
+    {
+      "id": "thunder",
+      "path": "environment/thunder.wav"
     }
   ]
 }

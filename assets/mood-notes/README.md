@@ -1,6 +1,6 @@
 # Mood Notes CC0
 
-49 app-ready one-shot musical notes: 7 instruments × 7 notes.
+77 app-ready one-shot musical notes: 11 instruments x 7 notes, plus four atmosphere beds.
 
 ## Audio format
 
@@ -9,7 +9,7 @@
 - Mono
 - Notes: C4, D4, E4, F4, G4, A4, B4
 
-## Instruments and moods
+## Instruments
 
 | Folder | Instrument | Suggested moods |
 |---|---|---|
@@ -20,14 +20,22 @@
 | `xylophone` | Wooden Xylophone | funny, playful, rhythm |
 | `glockenspiel` | Zen Glockenspiel | zen, calm, sparkle |
 | `fm_synth` | Soft FM Synth Pluck | electronic, flow, zen |
+| `upright_piano` | Warm Upright Piano | mild, calm, natural |
+| `cello` | Low Cello Pizzicato | calm, zen, grounded |
+| `trumpet` | Soft Trumpet | mild, funny, bright |
+| `marimba` | Round Marimba | funny, calm, woody |
 
+## Nature and atmosphere
 
-## License
+- `environment/rain.wav` - rain bed
+- `environment/birds.wav` - bird ambience
+- `environment/wind.wav` - wind loop
+- `environment/thunder.wav` - original procedural thunder layer
 
-All source material is CC0 1.0/public domain. Attribution is not required. The included license files and `manifest.json` preserve provenance for app review and future maintenance.
+## Licensing and provenance
 
-Acoustic samples: VSCO 2 Community Edition. Electronic waveform: Adventure Kid Wave Forms (AKWF FREE).
+The VSCO 2 Community Edition and AKWF FREE sources are CC0. The bird, rain, and wind recordings are from OpenGameArt CC0 material. Thunder is generated in this repository and dedicated to CC0. See `manifest.json`, `expansion-provenance.json`, and `LICENSE-VSCO-CC0.txt` for source records.
 
 ## App use
 
-Load files by folder and note name. Choose the instrument set from mood, then choose notes using a scale-aware randomizer. Avoid fully uniform randomness: weight stepwise movement and occasional repeated notes for more musical output.
+Load musical files by folder and note name. Load atmosphere files from `environment/`. The atmosphere files are loops or scene beds, so stop them explicitly when the scene changes.
