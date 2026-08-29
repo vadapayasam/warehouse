@@ -56,7 +56,7 @@ input[type=range]{accent-color:var(--lime);width:150px}
 <button id="play">Play phrase</button>
 <button class="secondary" id="stop">Stop</button>
 </div>
-<div class="status" id="status">Loading the library…</div>
+<div class="status" id="status">Ready. Tap a mood to play.</div>
 </section>
 
 <footer class="foot">
@@ -81,54 +81,47 @@ const WEIGHTS = {
 const MOODS = Object.keys(WEIGHTS);
 const $ = id => document.getElementById(id);
 
-// ---- audio --------------------------------------------------------------
-let ctx = null, buffers = {};        // instrument -> {note -> AudioBuffer}
-const playedPhrases = new Set();     // serialised phrases, never replayed
-let isPlaying = false, stopFlag = false;
+// ---- audio (created on first gesture, never before) ---------------------
+let ctx = null;
+const decodeCache = new Map();   // url -> Promise<AudioBuffer>
 
+function ensureCtx(){
+  if(!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if(ctx.state === "suspended") ctx.resume();   // within a gesture, so it sticks
+  return ctx;
+}
 function noteURL(inst, note){ return BASE + inst + "/" + note + ".wav"; }
 
-async function loadBuffer(url){
-  const res = await fetch(url);
-  if(!res.ok) throw new Error("fetch failed: " + url + " " + res.status);
-  const arr = await res.arrayBuffer();
-  return await ctx.decodeAudioData(arr);
+async function getBuffer(inst, note){
+  const url = noteURL(inst, note);
+  if(!decodeCache.has(url)){
+    decodeCache.set(url, (async () => {
+      const c = ensureCtx();
+      const res = await fetch(url);
+      if(!res.ok) throw new Error("fetch " + url + " " + res.status);
+      const arr = await res.arrayBuffer();
+      return await c.decodeAudioData(arr);
+    })());
+  }
+  return decodeCache.get(url);
 }
 
-async function warmLibrary(){
-  ctx = new (window.AudioContext || window.webkitAudioContext)();
-  // limit parallelism so we don't hammer the CDN
-  let done = 0, total = INSTRUMENTS.length;
-  const queue = [...INSTRUMENTS];
-  async function worker(){
-    while(queue.length){
-      const inst = queue.shift();
-      try {
-        const map = {};
-        await Promise.all(SCALE.map(async n => { map[n] = await loadBuffer(noteURL(inst,n)); }));
-        buffers[inst] = map;
-      } catch(e){ console.warn(e); }
-      done++;
-      updateStatus(`Loading library… ${done}/${total}`);
-    }
-  }
-  await Promise.all([worker(), worker(), worker()]);
-  const ready = INSTRUMENTS.filter(i => buffers[i]).length;
-  updateStatus(`Ready · ${ready} instruments loaded. Pick a mood, then Play.`);
-  $("play").disabled = false;
+function warm(){
+  // prefetch everything so later phrases are instant; reuses in-flight promises
+  for(const inst of INSTRUMENTS) for(const n of SCALE) getBuffer(inst, n).catch(()=>{});
 }
+
+// ---- phrase logic -------------------------------------------------------
+const playedPhrases = new Set();
+let isPlaying = false, stopFlag = false, currentMood = "calm";
 
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
 function buildPhrase(mood, count){
   const pool = WEIGHTS[mood];
-  const insts = [];
-  for(let i=0;i<count;i++) insts.push(pick(pool));
-  const notes = [];
-  for(let i=0;i<count;i++) notes.push(pick(SCALE));
+  const insts = [], notes = [];
+  for(let i=0;i<count;i++){ insts.push(pick(pool)); notes.push(pick(SCALE)); }
   return { insts, notes, key: insts.join(",") + "|" + notes.join(",") };
 }
-
 function freshPhrase(mood, count){
   let p, guard = 0;
   do { p = buildPhrase(mood, count); guard++; }
@@ -138,45 +131,50 @@ function freshPhrase(mood, count){
 }
 
 async function playPhrase(){
-  if(!ctx) return;
-  if(ctx.state === "suspended") await ctx.resume();
+  const c = ensureCtx();
+  if(c.state === "suspended") await c.resume();
   const mood = currentMood;
   const count = parseInt($("notes").value, 10);
   const bpm = parseInt($("tempo").value, 10);
-  const beat = 60 / bpm;                 // seconds per note, no rhythm variation
+  const beat = 60 / bpm;
   const p = freshPhrase(mood, count);
+
+  // decode the exact notes we need (cached after first hit)
+  const bufs = [];
+  for(let i=0;i<count;i++){
+    try { bufs.push(await getBuffer(p.insts[i], p.notes[i])); }
+    catch(e){ console.warn(e); bufs.push(null); }
+  }
+  if(c.state === "suspended") await c.resume();
 
   isPlaying = true; stopFlag = false;
   $("play").disabled = true;
   updateStatus(`▶ ${mood} · ${count} notes · ${bpm} BPM — ${p.notes.join(" ")}`);
 
-  let t = ctx.currentTime + 0.05;
+  let t = c.currentTime + 0.06;
+  let scheduled = 0;
   for(let i=0;i<count;i++){
-    if(stopFlag) break;
-    const inst = p.insts[i], note = p.notes[i];
-    const buf = buffers[inst] && buffers[inst][note];
-    if(buf){
-      const src = ctx.createBufferSource();
-      src.buffer = buf;
-      src.connect(ctx.destination);
-      src.start(t);
-    }
-    t += beat;                            // even spacing = no rhythm
+    const b = bufs[i];
+    if(!b) continue;
+    const src = c.createBufferSource();
+    src.buffer = b;
+    src.connect(c.destination);
+    src.start(t);
+    scheduled++;
+    t += beat;
   }
-  // re-enable after the phrase finishes
-  const dur = (count * beat + 0.1) * 1000;
+  const dur = (count * beat + 0.15) * 1000;
   setTimeout(() => {
     if(!stopFlag){ isPlaying = false; $("play").disabled = false; updateStatus("Done. Play again for a new phrase — it won't repeat."); }
   }, dur);
+  if(scheduled === 0) updateStatus("Couldn't load those notes. Check your connection and retry.");
 }
 
 function updateStatus(s){ $("status").innerHTML = s; }
 function setMood(m){
   currentMood = m;
   document.querySelectorAll(".mood").forEach(b => b.classList.toggle("active", b.dataset.mood === m));
-  updateStatus(`Mood: <strong>${m}</strong>. Hit Play (or tap another mood to play).`);
 }
-let currentMood = "calm";
 
 // ---- UI -----------------------------------------------------------------
 function buildUI(){
@@ -184,17 +182,16 @@ function buildUI(){
     `<button class="mood" data-mood="${m}">${m[0].toUpperCase()+m.slice(1)}<small>${WEIGHTS[m].length} instruments</small></button>`
   ).join("");
   document.querySelectorAll(".mood").forEach(b => b.onclick = () => {
+    ensureCtx();            // create+resume inside the gesture
     setMood(b.dataset.mood);
-    if(buffers && Object.keys(buffers).length) playPhrase();
+    warm();                 // start prefetching in the background
+    playPhrase();
   });
   $("tempo").oninput = e => $("tempoValue").textContent = e.target.value;
-  $("play").onclick = playPhrase;
+  $("play").onclick = () => { ensureCtx(); warm(); playPhrase(); };
   $("stop").onclick = () => { stopFlag = true; isPlaying = false; $("play").disabled = false; updateStatus("Stopped."); };
 }
-
 buildUI();
-$("play").disabled = true;
-warmLibrary().catch(e => updateStatus("Load failed: " + e.message));
 </script>
 </body>
 </html>
