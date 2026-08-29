@@ -1,0 +1,494 @@
+{
+  "pack": "Mood Notes CC0",
+  "version": 1,
+  "format": {
+    "container": "WAV",
+    "codec": "PCM signed 16-bit little-endian",
+    "sample_rate": 44100,
+    "channels": 1
+  },
+  "scale": [
+    "C4",
+    "D4",
+    "E4",
+    "F4",
+    "G4",
+    "A4",
+    "B4"
+  ],
+  "sources": {
+    "VSCO 2 CE": {
+      "url": "https://github.com/sgossner/VSCO-2-CE",
+      "license": "CC0-1.0",
+      "license_url": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE"
+    },
+    "AKWF FREE": {
+      "url": "https://github.com/KristofferKarlAxelEkstrand/AKWF-FREE",
+      "license": "CC0-1.0",
+      "license_url": "https://github.com/KristofferKarlAxelEkstrand/AKWF-FREE/blob/main/LICENSE.md"
+    }
+  },
+  "instruments": [
+    {
+      "id": "harp",
+      "name": "Soft Harp",
+      "moods": [
+        "mild",
+        "calm",
+        "zen"
+      ],
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "harp/C4.wav",
+          "source_file": "Strings/Harp/KSHarp_C5_mf.wav",
+          "source_midi": 72,
+          "target_midi": 60,
+          "pitch_shift_semitones": -12
+        },
+        {
+          "note": "D4",
+          "path": "harp/D4.wav",
+          "source_file": "Strings/Harp/KSHarp_D4_mf.wav",
+          "source_midi": 62,
+          "target_midi": 62,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "E4",
+          "path": "harp/E4.wav",
+          "source_file": "Strings/Harp/KSHarp_E3_mf.wav",
+          "source_midi": 52,
+          "target_midi": 64,
+          "pitch_shift_semitones": 12
+        },
+        {
+          "note": "F4",
+          "path": "harp/F4.wav",
+          "source_file": "Strings/Harp/KSHarp_F4_mf.wav",
+          "source_midi": 65,
+          "target_midi": 65,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "G4",
+          "path": "harp/G4.wav",
+          "source_file": "Strings/Harp/KSHarp_G3_mf.wav",
+          "source_midi": 55,
+          "target_midi": 67,
+          "pitch_shift_semitones": 12
+        },
+        {
+          "note": "A4",
+          "path": "harp/A4.wav",
+          "source_file": "Strings/Harp/KSHarp_A4_mf.wav",
+          "source_midi": 69,
+          "target_midi": 69,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "B4",
+          "path": "harp/B4.wav",
+          "source_file": "Strings/Harp/KSHarp_B3_mf.wav",
+          "source_midi": 59,
+          "target_midi": 71,
+          "pitch_shift_semitones": 12
+        }
+      ]
+    },
+    {
+      "id": "flute",
+      "name": "Breathy Flute",
+      "moods": [
+        "calm",
+        "zen",
+        "flow"
+      ],
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "flute/C4.wav",
+          "source_file": "Woodwinds/Flute/susNV/LDFlute_susNV_C4_v1_1.wav",
+          "source_midi": 60,
+          "target_midi": 60,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "D4",
+          "path": "flute/D4.wav",
+          "source_file": "Woodwinds/Flute/susNV/LDFlute_susNV_C4_v1_1.wav",
+          "source_midi": 60,
+          "target_midi": 62,
+          "pitch_shift_semitones": 2
+        },
+        {
+          "note": "E4",
+          "path": "flute/E4.wav",
+          "source_file": "Woodwinds/Flute/susNV/LDFlute_susNV_E4_v1_1.wav",
+          "source_midi": 64,
+          "target_midi": 64,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "F4",
+          "path": "flute/F4.wav",
+          "source_file": "Woodwinds/Flute/susNV/LDFlute_susNV_E4_v1_1.wav",
+          "source_midi": 64,
+          "target_midi": 65,
+          "pitch_shift_semitones": 1
+        },
+        {
+          "note": "G4",
+          "path": "flute/G4.wav",
+          "source_file": "Woodwinds/Flute/susNV/LDFlute_susNV_A4_v1_1.wav",
+          "source_midi": 69,
+          "target_midi": 67,
+          "pitch_shift_semitones": -2
+        },
+        {
+          "note": "A4",
+          "path": "flute/A4.wav",
+          "source_file": "Woodwinds/Flute/susNV/LDFlute_susNV_A4_v1_1.wav",
+          "source_midi": 69,
+          "target_midi": 69,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "B4",
+          "path": "flute/B4.wav",
+          "source_file": "Woodwinds/Flute/susNV/LDFlute_susNV_A4_v1_1.wav",
+          "source_midi": 69,
+          "target_midi": 71,
+          "pitch_shift_semitones": 2
+        }
+      ]
+    },
+    {
+      "id": "clarinet",
+      "name": "Warm Clarinet",
+      "moods": [
+        "mild",
+        "calm"
+      ],
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "clarinet/C4.wav",
+          "source_file": "Woodwinds/Clarinet/susLong/DCClar_susLong_D4_v1_rr1_sum.wav",
+          "source_midi": 62,
+          "target_midi": 60,
+          "pitch_shift_semitones": -2
+        },
+        {
+          "note": "D4",
+          "path": "clarinet/D4.wav",
+          "source_file": "Woodwinds/Clarinet/susLong/DCClar_susLong_D4_v1_rr1_sum.wav",
+          "source_midi": 62,
+          "target_midi": 62,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "E4",
+          "path": "clarinet/E4.wav",
+          "source_file": "Woodwinds/Clarinet/susLong/DCClar_susLong_D4_v1_rr1_sum.wav",
+          "source_midi": 62,
+          "target_midi": 64,
+          "pitch_shift_semitones": 2
+        },
+        {
+          "note": "F4",
+          "path": "clarinet/F4.wav",
+          "source_file": "Woodwinds/Clarinet/susLong/DCClar_susLong_F4_v1_rr1_sum.wav",
+          "source_midi": 65,
+          "target_midi": 65,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "G4",
+          "path": "clarinet/G4.wav",
+          "source_file": "Woodwinds/Clarinet/susLong/DCClar_susLong_F4_v1_rr1_sum.wav",
+          "source_midi": 65,
+          "target_midi": 67,
+          "pitch_shift_semitones": 2
+        },
+        {
+          "note": "A4",
+          "path": "clarinet/A4.wav",
+          "source_file": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#4_v1_rr1_sum.wav",
+          "source_midi": 70,
+          "target_midi": 69,
+          "pitch_shift_semitones": -1
+        },
+        {
+          "note": "B4",
+          "path": "clarinet/B4.wav",
+          "source_file": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#4_v1_rr1_sum.wav",
+          "source_midi": 70,
+          "target_midi": 71,
+          "pitch_shift_semitones": 1
+        }
+      ]
+    },
+    {
+      "id": "violin_pizzicato",
+      "name": "Gentle Violin Pizzicato",
+      "moods": [
+        "funny",
+        "mild",
+        "playful"
+      ],
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "violin_pizzicato/C4.wav",
+          "source_file": "Strings/Solo Violin/Pizz/LLVln_Pizz_C4_p_RR1.wav",
+          "source_midi": 60,
+          "target_midi": 60,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "D4",
+          "path": "violin_pizzicato/D4.wav",
+          "source_file": "Strings/Solo Violin/Pizz/LLVln_Pizz_C4_p_RR1.wav",
+          "source_midi": 60,
+          "target_midi": 62,
+          "pitch_shift_semitones": 2
+        },
+        {
+          "note": "E4",
+          "path": "violin_pizzicato/E4.wav",
+          "source_file": "Strings/Solo Violin/Pizz/LLVln_Pizz_E4_p_RR1.wav",
+          "source_midi": 64,
+          "target_midi": 64,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "F4",
+          "path": "violin_pizzicato/F4.wav",
+          "source_file": "Strings/Solo Violin/Pizz/LLVln_Pizz_E4_p_RR1.wav",
+          "source_midi": 64,
+          "target_midi": 65,
+          "pitch_shift_semitones": 1
+        },
+        {
+          "note": "G4",
+          "path": "violin_pizzicato/G4.wav",
+          "source_file": "Strings/Solo Violin/Pizz/LLVln_Pizz_G4_p_RR1.wav",
+          "source_midi": 67,
+          "target_midi": 67,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "A4",
+          "path": "violin_pizzicato/A4.wav",
+          "source_file": "Strings/Solo Violin/Pizz/LLVln_Pizz_A4_p_RR1.wav",
+          "source_midi": 69,
+          "target_midi": 69,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "B4",
+          "path": "violin_pizzicato/B4.wav",
+          "source_file": "Strings/Solo Violin/Pizz/LLVln_Pizz_A4_p_RR1.wav",
+          "source_midi": 69,
+          "target_midi": 71,
+          "pitch_shift_semitones": 2
+        }
+      ]
+    },
+    {
+      "id": "xylophone",
+      "name": "Wooden Xylophone",
+      "moods": [
+        "funny",
+        "playful",
+        "rhythm"
+      ],
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "xylophone/C4.wav",
+          "source_file": "Percussion/Xylo/Xylo_Medium_C4_ff_01_far.wav",
+          "source_midi": 60,
+          "target_midi": 60,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "D4",
+          "path": "xylophone/D4.wav",
+          "source_file": "Percussion/Xylo/Xylo_Medium_C4_ff_01_far.wav",
+          "source_midi": 60,
+          "target_midi": 62,
+          "pitch_shift_semitones": 2
+        },
+        {
+          "note": "E4",
+          "path": "xylophone/E4.wav",
+          "source_file": "Percussion/Xylo/Xylo_Medium_G4_ff_01_far.wav",
+          "source_midi": 67,
+          "target_midi": 64,
+          "pitch_shift_semitones": -3
+        },
+        {
+          "note": "F4",
+          "path": "xylophone/F4.wav",
+          "source_file": "Percussion/Xylo/Xylo_Medium_G4_ff_01_far.wav",
+          "source_midi": 67,
+          "target_midi": 65,
+          "pitch_shift_semitones": -2
+        },
+        {
+          "note": "G4",
+          "path": "xylophone/G4.wav",
+          "source_file": "Percussion/Xylo/Xylo_Medium_G4_ff_01_far.wav",
+          "source_midi": 67,
+          "target_midi": 67,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "A4",
+          "path": "xylophone/A4.wav",
+          "source_file": "Percussion/Xylo/Xylo_Medium_G4_ff_01_far.wav",
+          "source_midi": 67,
+          "target_midi": 69,
+          "pitch_shift_semitones": 2
+        },
+        {
+          "note": "B4",
+          "path": "xylophone/B4.wav",
+          "source_file": "Percussion/Xylo/Xylo_Medium_C5_ff_01_far.wav",
+          "source_midi": 72,
+          "target_midi": 71,
+          "pitch_shift_semitones": -1
+        }
+      ]
+    },
+    {
+      "id": "glockenspiel",
+      "name": "Zen Glockenspiel",
+      "moods": [
+        "zen",
+        "calm",
+        "sparkle"
+      ],
+      "source": "VSCO 2 CE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "glockenspiel/C4.wav",
+          "source_file": "Percussion/Glock/glock_medium_C5.wav",
+          "source_midi": 72,
+          "target_midi": 60,
+          "pitch_shift_semitones": -12
+        },
+        {
+          "note": "D4",
+          "path": "glockenspiel/D4.wav",
+          "source_file": "Percussion/Glock/glock_medium_C5.wav",
+          "source_midi": 72,
+          "target_midi": 62,
+          "pitch_shift_semitones": -10
+        },
+        {
+          "note": "E4",
+          "path": "glockenspiel/E4.wav",
+          "source_file": "Percussion/Glock/glock_medium_G4.wav",
+          "source_midi": 67,
+          "target_midi": 64,
+          "pitch_shift_semitones": -3
+        },
+        {
+          "note": "F4",
+          "path": "glockenspiel/F4.wav",
+          "source_file": "Percussion/Glock/glock_medium_G4.wav",
+          "source_midi": 67,
+          "target_midi": 65,
+          "pitch_shift_semitones": -2
+        },
+        {
+          "note": "G4",
+          "path": "glockenspiel/G4.wav",
+          "source_file": "Percussion/Glock/glock_medium_G4.wav",
+          "source_midi": 67,
+          "target_midi": 67,
+          "pitch_shift_semitones": 0
+        },
+        {
+          "note": "A4",
+          "path": "glockenspiel/A4.wav",
+          "source_file": "Percussion/Glock/glock_medium_G4.wav",
+          "source_midi": 67,
+          "target_midi": 69,
+          "pitch_shift_semitones": 2
+        },
+        {
+          "note": "B4",
+          "path": "glockenspiel/B4.wav",
+          "source_file": "Percussion/Glock/glock_medium_C5.wav",
+          "source_midi": 72,
+          "target_midi": 71,
+          "pitch_shift_semitones": -1
+        }
+      ]
+    },
+    {
+      "id": "fm_synth",
+      "name": "Soft FM Synth Pluck",
+      "moods": [
+        "electronic",
+        "flow",
+        "zen"
+      ],
+      "source": "AKWF FREE",
+      "files": [
+        {
+          "note": "C4",
+          "path": "fm_synth/C4.wav",
+          "source_file": "AKWF/AKWF_fmsynth/AKWF_fmsynth_0019.wav",
+          "derived": "single-cycle waveform synthesis"
+        },
+        {
+          "note": "D4",
+          "path": "fm_synth/D4.wav",
+          "source_file": "AKWF/AKWF_fmsynth/AKWF_fmsynth_0019.wav",
+          "derived": "single-cycle waveform synthesis"
+        },
+        {
+          "note": "E4",
+          "path": "fm_synth/E4.wav",
+          "source_file": "AKWF/AKWF_fmsynth/AKWF_fmsynth_0019.wav",
+          "derived": "single-cycle waveform synthesis"
+        },
+        {
+          "note": "F4",
+          "path": "fm_synth/F4.wav",
+          "source_file": "AKWF/AKWF_fmsynth/AKWF_fmsynth_0019.wav",
+          "derived": "single-cycle waveform synthesis"
+        },
+        {
+          "note": "G4",
+          "path": "fm_synth/G4.wav",
+          "source_file": "AKWF/AKWF_fmsynth/AKWF_fmsynth_0019.wav",
+          "derived": "single-cycle waveform synthesis"
+        },
+        {
+          "note": "A4",
+          "path": "fm_synth/A4.wav",
+          "source_file": "AKWF/AKWF_fmsynth/AKWF_fmsynth_0019.wav",
+          "derived": "single-cycle waveform synthesis"
+        },
+        {
+          "note": "B4",
+          "path": "fm_synth/B4.wav",
+          "source_file": "AKWF/AKWF_fmsynth/AKWF_fmsynth_0019.wav",
+          "derived": "single-cycle waveform synthesis"
+        }
+      ]
+    }
+  ]
+}
