@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mood Notes — phrase player</title>
+<meta name="description" content="Tap a mood. Get a fast, non-repeating random note phrase from the CC0 Mood Notes library. No rhythm, never repeats a phrase.">
+<style>
+:root{--ink:#f7f7f2;--muted:#a6a79f;--bg:#11120f;--panel:#1a1c17;--line:#34372f;--lime:#d7f36a;--pink:#ff7a9e;--blue:#79c7ff;--r:16px;--shadow:0 12px 30px rgba(0,0,0,.22)}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5}
+main{max-width:760px;margin:0 auto;padding:32px 22px 64px}
+.eyebrow{font:12px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;text-transform:uppercase;color:var(--lime)}
+h1{font-size:clamp(34px,7vw,62px);line-height:.96;letter-spacing:-.05em;margin:14px 0 8px}
+h1 span{color:var(--lime)}
+.lede{color:#d6d7cf;max-width:560px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;margin:18px 0}
+.moods{display:flex;flex-wrap:wrap;gap:10px}
+.mood{flex:1 1 28%;min-width:120px;min-height:64px;border:1px solid var(--line);border-radius:12px;background:#23261f;color:var(--ink);font:700 15px/1.2 inherit;cursor:pointer;transition:transform .12s ease,filter .12s ease,border-color .12s ease}
+.mood:hover{filter:brightness(1.08)}
+.mood:active{transform:scale(.97)}
+.mood.active{border-color:var(--lime);box-shadow:0 0 0 2px rgba(215,243,106,.35) inset}
+.mood small{display:block;font:12px ui-monospace,Menlo,monospace;color:var(--muted);font-weight:400;margin-top:4px}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:6px}
+button{font:inherit;min-height:48px;border:0;border-radius:10px;padding:11px 16px;background:var(--lime);color:#15170e;font-weight:700;cursor:pointer;transition:transform .15s ease,filter .15s ease}
+button:hover{filter:brightness(1.08)}button:active{transform:scale(.97)}
+button.secondary{background:#292c24;color:var(--ink);border:1px solid #4a4d42}
+button:disabled{opacity:.5;cursor:not-allowed}
+.field{display:grid;gap:6px;min-width:140px}
+.field label{font:12px ui-monospace,Menlo,monospace;color:var(--muted)}
+input[type=range]{accent-color:var(--lime);width:150px}
+.tempo{display:flex;gap:8px;align-items:center;color:var(--muted);font:12px ui-monospace,Menlo,monospace}
+.status{margin-top:16px;color:var(--muted);min-height:22px;font:13px ui-monospace,Menlo,monospace}
+.status strong{color:var(--ink)}
+.foot{margin-top:18px;color:var(--muted);font-size:13px}
+.foot a{color:var(--blue)}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="eyebrow">Mood Notes / phrase player</div>
+<h1>A little <span>weather</span>, on tap.</h1>
+<p class="lede">Pick a mood. Get a fast, non-repeating phrase of random notes. No rhythm. No phrase ever plays twice.</p>
+</header>
+
+<section class="panel">
+<div class="moods" id="moods"></div>
+</section>
+
+<section class="panel">
+<div class="controls">
+<div class="field"><label for="notes">Notes per phrase</label>
+<select id="notes"><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option></select></div>
+<div class="field"><label for="tempo">Tempo <span id="tempoValue">84</span> BPM</label>
+<input id="tempo" type="range" min="45" max="150" value="84"></div>
+<button id="play">Play phrase</button>
+<button class="secondary" id="stop">Stop</button>
+</div>
+<div class="status" id="status">Loading the library…</div>
+</section>
+
+<footer class="foot">
+Static files, no API. Source: <a href="https://vadapayasam.github.io/warehouse/sketch/mood-notes.html">Mood Notes CC0</a> · all samples CC0.
+</footer>
+</main>
+
+<script>
+// ---- config -------------------------------------------------------------
+const BASE = "https://vadapayasam.github.io/warehouse/assets/mood-notes/";
+const SCALE = ["C4","D4","E4","F4","G4","A4","B4"];
+const INSTRUMENTS = ["harp","flute","clarinet","violin_pizzicato","xylophone",
+  "glockenspiel","fm_synth","upright_piano","cello","trumpet","marimba","harmonica"];
+const WEIGHTS = {
+  calm:       ["harp","flute","clarinet","harmonica"],
+  mild:       ["harp","clarinet","violin_pizzicato","harmonica"],
+  funny:      ["violin_pizzicato","xylophone","glockenspiel","trumpet"],
+  zen:        ["harp","flute","glockenspiel","fm_synth"],
+  electronic: ["fm_synth"],
+  flow:       ["flute","fm_synth","marimba"]
+};
+const MOODS = Object.keys(WEIGHTS);
+const $ = id => document.getElementById(id);
+
+// ---- audio --------------------------------------------------------------
+let ctx = null, buffers = {};        // instrument -> {note -> AudioBuffer}
+const playedPhrases = new Set();     // serialised phrases, never replayed
+let isPlaying = false, stopFlag = false;
+
+function noteURL(inst, note){ return BASE + inst + "/" + note + ".wav"; }
+
+async function loadBuffer(url){
+  const res = await fetch(url);
+  if(!res.ok) throw new Error("fetch failed: " + url + " " + res.status);
+  const arr = await res.arrayBuffer();
+  return await ctx.decodeAudioData(arr);
+}
+
+async function warmLibrary(){
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  // limit parallelism so we don't hammer the CDN
+  let done = 0, total = INSTRUMENTS.length;
+  const queue = [...INSTRUMENTS];
+  async function worker(){
+    while(queue.length){
+      const inst = queue.shift();
+      try {
+        const map = {};
+        await Promise.all(SCALE.map(async n => { map[n] = await loadBuffer(noteURL(inst,n)); }));
+        buffers[inst] = map;
+      } catch(e){ console.warn(e); }
+      done++;
+      updateStatus(`Loading library… ${done}/${total}`);
+    }
+  }
+  await Promise.all([worker(), worker(), worker()]);
+  const ready = INSTRUMENTS.filter(i => buffers[i]).length;
+  updateStatus(`Ready · ${ready} instruments loaded. Pick a mood, then Play.`);
+  $("play").disabled = false;
+}
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function buildPhrase(mood, count){
+  const pool = WEIGHTS[mood];
+  const insts = [];
+  for(let i=0;i<count;i++) insts.push(pick(pool));
+  const notes = [];
+  for(let i=0;i<count;i++) notes.push(pick(SCALE));
+  return { insts, notes, key: insts.join(",") + "|" + notes.join(",") };
+}
+
+function freshPhrase(mood, count){
+  let p, guard = 0;
+  do { p = buildPhrase(mood, count); guard++; }
+  while (playedPhrases.has(p.key) && guard < 50);
+  playedPhrases.add(p.key);
+  return p;
+}
+
+async function playPhrase(){
+  if(!ctx) return;
+  if(ctx.state === "suspended") await ctx.resume();
+  const mood = currentMood;
+  const count = parseInt($("notes").value, 10);
+  const bpm = parseInt($("tempo").value, 10);
+  const beat = 60 / bpm;                 // seconds per note, no rhythm variation
+  const p = freshPhrase(mood, count);
+
+  isPlaying = true; stopFlag = false;
+  $("play").disabled = true;
+  updateStatus(`▶ ${mood} · ${count} notes · ${bpm} BPM — ${p.notes.join(" ")}`);
+
+  let t = ctx.currentTime + 0.05;
+  for(let i=0;i<count;i++){
+    if(stopFlag) break;
+    const inst = p.insts[i], note = p.notes[i];
+    const buf = buffers[inst] && buffers[inst][note];
+    if(buf){
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start(t);
+    }
+    t += beat;                            // even spacing = no rhythm
+  }
+  // re-enable after the phrase finishes
+  const dur = (count * beat + 0.1) * 1000;
+  setTimeout(() => {
+    if(!stopFlag){ isPlaying = false; $("play").disabled = false; updateStatus("Done. Play again for a new phrase — it won't repeat."); }
+  }, dur);
+}
+
+function updateStatus(s){ $("status").innerHTML = s; }
+function setMood(m){
+  currentMood = m;
+  document.querySelectorAll(".mood").forEach(b => b.classList.toggle("active", b.dataset.mood === m));
+  updateStatus(`Mood: <strong>${m}</strong>. Hit Play (or tap another mood to play).`);
+}
+let currentMood = "calm";
+
+// ---- UI -----------------------------------------------------------------
+function buildUI(){
+  $("moods").innerHTML = MOODS.map(m =>
+    `<button class="mood" data-mood="${m}">${m[0].toUpperCase()+m.slice(1)}<small>${WEIGHTS[m].length} instruments</small></button>`
+  ).join("");
+  document.querySelectorAll(".mood").forEach(b => b.onclick = () => {
+    setMood(b.dataset.mood);
+    if(buffers && Object.keys(buffers).length) playPhrase();
+  });
+  $("tempo").oninput = e => $("tempoValue").textContent = e.target.value;
+  $("play").onclick = playPhrase;
+  $("stop").onclick = () => { stopFlag = true; isPlaying = false; $("play").disabled = false; updateStatus("Stopped."); };
+}
+
+buildUI();
+$("play").disabled = true;
+warmLibrary().catch(e => updateStatus("Load failed: " + e.message));
+</script>
+</body>
+</html>
