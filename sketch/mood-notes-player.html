@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mood Notes — phrase player</title>
-<meta name="description" content="Tap a mood. Get a fast, non-repeating random note phrase from the CC0 Mood Notes library. No rhythm, never repeats a phrase.">
+<meta name="description" content="Tap a mood. Get a fast, non-repeating, musical phrase from the CC0 Mood Notes library.">
 <style>
 :root{--ink:#f7f7f2;--muted:#a6a79f;--bg:#11120f;--panel:#1a1c17;--line:#34372f;--lime:#d7f36a;--pink:#ff7a9e;--blue:#79c7ff;--r:16px;--shadow:0 12px 30px rgba(0,0,0,.22)}
 *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5}
@@ -29,6 +29,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .field label{font:12px ui-monospace,Menlo,monospace;color:var(--muted)}
 input[type=range]{accent-color:var(--lime);width:150px}
 .tempo{display:flex;gap:8px;align-items:center;color:var(--muted);font:12px ui-monospace,Menlo,monospace}
+.toggle{display:flex;align-items:center;gap:8px;color:var(--muted);font:12px ui-monospace,Menlo,monospace;cursor:pointer}
+.toggle input{accent-color:var(--lime);width:16px;height:16px}
 .status{margin-top:16px;color:var(--muted);min-height:22px;font:13px ui-monospace,Menlo,monospace}
 .status strong{color:var(--ink)}
 .foot{margin-top:18px;color:var(--muted);font-size:13px}
@@ -40,7 +42,7 @@ input[type=range]{accent-color:var(--lime);width:150px}
 <header>
 <div class="eyebrow">Mood Notes / phrase player</div>
 <h1>A little <span>weather</span>, on tap.</h1>
-<p class="lede">Pick a mood. Get a fast, non-repeating phrase of random notes. No rhythm. No phrase ever plays twice.</p>
+<p class="lede">Pick a mood. Get a fast, musical, non-repeating phrase from the CC0 library. One timbre per phrase, stepwise melody, gentle reverb.</p>
 </header>
 
 <section class="panel">
@@ -53,6 +55,7 @@ input[type=range]{accent-color:var(--lime);width:150px}
 <select id="notes"><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option></select></div>
 <div class="field"><label for="tempo">Tempo <span id="tempoValue">84</span> BPM</label>
 <input id="tempo" type="range" min="45" max="150" value="84"></div>
+<label class="toggle"><input type="checkbox" id="humanize" checked> Humanize</label>
 <button id="play">Play phrase</button>
 <button class="secondary" id="stop">Stop</button>
 </div>
@@ -67,7 +70,7 @@ Static files, no API. Source: <a href="https://vadapayasam.github.io/warehouse/s
 <script>
 // ---- config -------------------------------------------------------------
 const BASE = "https://vadapayasam.github.io/warehouse/assets/mood-notes/";
-const SCALE = ["C4","D4","E4","F4","G4","A4","B4"];
+const SCALE = ["C4","D4","E4","F4","G4","A4","B4"];   // one octave, diatonic (C major)
 const INSTRUMENTS = ["harp","flute","clarinet","violin_pizzicato","xylophone",
   "glockenspiel","fm_synth","upright_piano","cello","trumpet","marimba","harmonica"];
 const WEIGHTS = {
@@ -78,55 +81,85 @@ const WEIGHTS = {
   electronic: ["fm_synth"],
   flow:       ["flute","fm_synth","marimba"]
 };
+const MOOD_TEMPO = { calm:72, mild:84, funny:112, zen:62, electronic:122, flow:96 };
 const MOODS = Object.keys(WEIGHTS);
 const $ = id => document.getElementById(id);
 
-// ---- audio (created on first gesture, never before) ---------------------
-let ctx = null;
+// ---- audio core (created on first gesture) ------------------------------
+let ctx = null, master = null, comp = null, wet = null;
 const decodeCache = new Map();   // url -> Promise<AudioBuffer>
+let activeSources = [];
 
+function buildChain(){
+  master = ctx.createGain(); master.gain.value = 0.9;
+  comp = ctx.createDynamicsCompressor();
+  comp.threshold.value = -18; comp.knee.value = 22; comp.ratio.value = 3;
+  comp.attack.value = 0.003; comp.release.value = 0.25;
+  // reverb (synthetic impulse, no external file)
+  const conv = ctx.createConvolver();
+  conv.buffer = makeIR(2.2, 2.6);
+  wet = ctx.createGain(); wet.gain.value = 0.28;
+  // dry: master -> comp -> out ; wet: master -> conv -> wet -> out
+  master.connect(comp); comp.connect(ctx.destination);
+  master.connect(conv); conv.connect(wet); wet.connect(ctx.destination);
+}
+function makeIR(seconds, decay){
+  const rate = ctx.sampleRate, len = Math.floor(rate*seconds);
+  const buf = ctx.createBuffer(2, len, rate);
+  for(let ch=0; ch<2; ch++){
+    const d = buf.getChannelData(ch);
+    for(let i=0;i<len;i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/len, decay);
+  }
+  return buf;
+}
 function ensureCtx(){
-  if(!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-  if(ctx.state === "suspended") ctx.resume();   // within a gesture, so it sticks
+  if(!ctx){ ctx = new (window.AudioContext||window.webkitAudioContext)(); buildChain(); }
+  if(ctx.state === "suspended") ctx.resume();
   return ctx;
 }
 function noteURL(inst, note){ return BASE + inst + "/" + note + ".wav"; }
-
 async function getBuffer(inst, note){
   const url = noteURL(inst, note);
   if(!decodeCache.has(url)){
     decodeCache.set(url, (async () => {
       const c = ensureCtx();
       const res = await fetch(url);
-      if(!res.ok) throw new Error("fetch " + url + " " + res.status);
+      if(!res.ok) throw new Error("fetch "+url+" "+res.status);
       const arr = await res.arrayBuffer();
       return await c.decodeAudioData(arr);
     })());
   }
   return decodeCache.get(url);
 }
+function warm(){ for(const i of INSTRUMENTS) for(const n of SCALE) getBuffer(i,n).catch(()=>{}); }
 
-function warm(){
-  // prefetch everything so later phrases are instant; reuses in-flight promises
-  for(const inst of INSTRUMENTS) for(const n of SCALE) getBuffer(inst, n).catch(()=>{});
-}
-
-// ---- phrase logic -------------------------------------------------------
+// ---- composition rules --------------------------------------------------
 const playedPhrases = new Set();
-let isPlaying = false, stopFlag = false, currentMood = "calm";
+let isPlaying=false, stopFlag=false, currentMood="calm";
 
-function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-function buildPhrase(mood, count){
-  const pool = WEIGHTS[mood];
-  const insts = [], notes = [];
-  for(let i=0;i<count;i++){ insts.push(pick(pool)); notes.push(pick(SCALE)); }
-  return { insts, notes, key: insts.join(",") + "|" + notes.join(",") };
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+
+// Rule: one timbre per phrase (coherent). Rule: stepwise melody (conjunct motion),
+// resolve the last note to a stable degree (tension/release).
+function genPhrase(mood, count){
+  const inst = pick(WEIGHTS[mood]);
+  const steps = [-2,-1,-1,1,1,2,0];          // weighted toward single steps
+  let idx = Math.floor(Math.random()*SCALE.length);
+  const seq = [idx];
+  for(let i=1;i<count;i++){
+    let s = pick(steps), nxt = idx + s;
+    if(nxt<0||nxt>SCALE.length-1) nxt = idx - s;          // bounce off the ends
+    nxt = Math.max(0, Math.min(SCALE.length-1, nxt));
+    idx = nxt; seq.push(idx);
+  }
+  seq[count-1] = (Math.random()<0.6) ? 0 : 4;            // end on C (0) or G (4)
+  return { inst, seq };
 }
 function freshPhrase(mood, count){
-  let p, guard = 0;
-  do { p = buildPhrase(mood, count); guard++; }
-  while (playedPhrases.has(p.key) && guard < 50);
-  playedPhrases.add(p.key);
+  let p, guard=0;
+  do { p = genPhrase(mood, count); guard++; }
+  while (playedPhrases.has(p.inst+"|"+p.seq.join(",")) && guard<60);
+  playedPhrases.add(p.inst+"|"+p.seq.join(","));
   return p;
 }
 
@@ -134,62 +167,69 @@ async function playPhrase(){
   const c = ensureCtx();
   if(c.state === "suspended") await c.resume();
   const mood = currentMood;
-  const count = parseInt($("notes").value, 10);
-  const bpm = parseInt($("tempo").value, 10);
-  const beat = 60 / bpm;
+  const count = parseInt($("notes").value,10);
+  const humanize = $("humanize").checked;
+  const bpm = parseInt($("tempo").value,10);
+  const beat = 60/bpm;
   const p = freshPhrase(mood, count);
 
-  // decode the exact notes we need (cached after first hit)
+  // decode exactly the notes we need
   const bufs = [];
-  for(let i=0;i<count;i++){
-    try { bufs.push(await getBuffer(p.insts[i], p.notes[i])); }
+  for(const i of p.seq){
+    try { bufs.push(await getBuffer(p.inst, SCALE[i])); }
     catch(e){ console.warn(e); bufs.push(null); }
   }
   if(c.state === "suspended") await c.resume();
 
-  isPlaying = true; stopFlag = false;
-  $("play").disabled = true;
-  updateStatus(`▶ ${mood} · ${count} notes · ${bpm} BPM — ${p.notes.join(" ")}`);
+  isPlaying=true; stopFlag=false; $("play").disabled=true;
+  updateStatus(`▶ ${mood} · ${p.inst} · ${count} notes — ${p.seq.map(i=>SCALE[i]).join(" ")}`);
 
   let t = c.currentTime + 0.06;
-  let scheduled = 0;
   for(let i=0;i<count;i++){
-    const b = bufs[i];
-    if(!b) continue;
-    const src = c.createBufferSource();
-    src.buffer = b;
-    src.connect(c.destination);
+    const b = bufs[i]; if(!b) continue;
+    const src = c.createBufferSource(); src.buffer = b;
+    const g = c.createGain();
+    const pan = c.createStereoPanner(); pan.pan.value = (Math.random()*2-1)*0.35;
+    // gentle gain envelope: tiny attack, slight release to avoid clicks
+    const peak = 0.9 * (1 + (Math.random()*2-1)*(humanize?0.15:0));
+    const atk = 0.008, rel = 0.03;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(peak, t+atk);
+    g.gain.setValueAtTime(peak, t + Math.max(atk, b.duration-rel));
+    g.gain.linearRampToValueAtTime(0, t + b.duration);
+    src.connect(g); g.connect(pan); pan.connect(master);
     src.start(t);
-    scheduled++;
-    t += beat;
+    activeSources.push(src);
+    src.onended = () => { activeSources = activeSources.filter(s=>s!==src); };
+    // humanized spacing: small +/- jitter so it breathes (no fixed groove loop)
+    const jitter = 1 + (Math.random()*2-1)*(humanize?0.06:0);
+    t += beat * jitter;
   }
-  const dur = (count * beat + 0.15) * 1000;
-  setTimeout(() => {
-    if(!stopFlag){ isPlaying = false; $("play").disabled = false; updateStatus("Done. Play again for a new phrase — it won't repeat."); }
-  }, dur);
-  if(scheduled === 0) updateStatus("Couldn't load those notes. Check your connection and retry.");
+  const dur = (count*beat + 0.4) * 1000;
+  setTimeout(()=>{ if(!stopFlag){ isPlaying=false; $("play").disabled=false; updateStatus("Done. Play again — it won't repeat."); } }, dur);
 }
 
 function updateStatus(s){ $("status").innerHTML = s; }
 function setMood(m){
   currentMood = m;
-  document.querySelectorAll(".mood").forEach(b => b.classList.toggle("active", b.dataset.mood === m));
+  document.querySelectorAll(".mood").forEach(b=>b.classList.toggle("active", b.dataset.mood===m));
+  $("tempo").value = MOOD_TEMPO[m]; $("tempoValue").textContent = MOOD_TEMPO[m];
 }
 
 // ---- UI -----------------------------------------------------------------
 function buildUI(){
-  $("moods").innerHTML = MOODS.map(m =>
-    `<button class="mood" data-mood="${m}">${m[0].toUpperCase()+m.slice(1)}<small>${WEIGHTS[m].length} instruments</small></button>`
-  ).join("");
-  document.querySelectorAll(".mood").forEach(b => b.onclick = () => {
-    ensureCtx();            // create+resume inside the gesture
-    setMood(b.dataset.mood);
-    warm();                 // start prefetching in the background
-    playPhrase();
+  $("moods").innerHTML = MOODS.map(m=>
+    `<button class="mood" data-mood="${m}">${m[0].toUpperCase()+m.slice(1)}<small>${WEIGHTS[m].length} instruments</small></button>`).join("");
+  document.querySelectorAll(".mood").forEach(b=>b.onclick=()=>{
+    ensureCtx(); setMood(b.dataset.mood); warm(); playPhrase();
   });
-  $("tempo").oninput = e => $("tempoValue").textContent = e.target.value;
-  $("play").onclick = () => { ensureCtx(); warm(); playPhrase(); };
-  $("stop").onclick = () => { stopFlag = true; isPlaying = false; $("play").disabled = false; updateStatus("Stopped."); };
+  $("tempo").oninput = e=>$("tempoValue").textContent=e.target.value;
+  $("play").onclick = ()=>{ ensureCtx(); warm(); playPhrase(); };
+  $("stop").onclick = ()=>{
+    stopFlag=true; isPlaying=false; $("play").disabled=false;
+    activeSources.forEach(s=>{ try{s.stop();}catch(e){} });
+    activeSources=[]; updateStatus("Stopped.");
+  };
 }
 buildUI();
 </script>
