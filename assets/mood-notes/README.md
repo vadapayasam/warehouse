@@ -1,6 +1,6 @@
 # Mood Notes CC0
 
-77 app-ready one-shot musical notes: 11 instruments x 7 notes, plus four atmosphere beds.
+84 app-ready one-shot musical notes: 12 instruments x 7 notes, plus four atmosphere beds and one tabla groove.
 
 ## Audio format
 
@@ -24,6 +24,7 @@
 | `cello` | Low Cello Pizzicato | calm, zen, grounded |
 | `trumpet` | Soft Trumpet | mild, funny, bright |
 | `marimba` | Round Marimba | funny, calm, woody |
+| `harmonica` | Soft Harmonica | mild, calm, warm |
 
 ## Nature and atmosphere
 
@@ -31,6 +32,7 @@
 - `environment/birds.wav` - bird ambience
 - `environment/wind.wav` - wind loop
 - `environment/thunder.wav` - original procedural thunder layer
+- `tabla/tabla_loop.wav` - gentle tabla groove loop
 
 ## Licensing and provenance
 

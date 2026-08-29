@@ -673,9 +673,31 @@
           "source": "VSCO 2 CE verified sample, normalized for this pack"
         }
       ]
+    },
+    {
+      "id": "harmonica",
+      "name": "Soft Harmonica",
+      "moods": ["mild", "calm", "warm"],
+      "source": "VCSL",
+      "files": [
+        {"note": "C4", "path": "harmonica/C4.wav", "source_file": "Harmonica-Hohner-Special20-C/Sustains/Soft/Hohner-Special20_Soft_C4.wav"},
+        {"note": "D4", "path": "harmonica/D4.wav", "source_file": "Harmonica-Hohner-Special20-C/Sustains/Soft/Hohner-Special20_Soft_C4.wav"},
+        {"note": "E4", "path": "harmonica/E4.wav", "source_file": "Harmonica-Hohner-Special20-C/Sustains/Soft/Hohner-Special20_Soft_E4.wav"},
+        {"note": "F4", "path": "harmonica/F4.wav", "source_file": "Harmonica-Hohner-Special20-C/Sustains/Soft/Hohner-Special20_Soft_E4.wav"},
+        {"note": "G4", "path": "harmonica/G4.wav", "source_file": "Harmonica-Hohner-Special20-C/Sustains/Soft/Hohner-Special20_Soft_G4.wav"},
+        {"note": "A4", "path": "harmonica/A4.wav", "source_file": "Harmonica-Hohner-Special20-C/Sustains/Soft/Hohner-Special20_Soft_E4.wav"},
+        {"note": "B4", "path": "harmonica/B4.wav", "source_file": "Harmonica-Hohner-Special20-C/Sustains/Soft/Hohner-Special20_Soft_G4.wav"}
+      ]
     }
   ],
   "environment": [
+    {
+      "id": "tabla",
+      "path": "tabla/tabla_loop.wav",
+      "source": "Tabla Loop Shuffle by c0mp0s3r",
+      "license": "CC0-1.0",
+      "url": "https://freesound.org/people/c0mp0s3r/sounds/178176/"
+    },
     {
       "id": "rain",
       "path": "environment/rain.wav"

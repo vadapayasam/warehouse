@@ -7,8 +7,15 @@
       "upright_piano",
       "cello",
       "trumpet",
-      "marimba"
+      "marimba",
+      "harmonica"
     ]
+  },
+  "tabla": {
+    "source": "Tabla Loop Shuffle by c0mp0s3r",
+    "license": "CC0-1.0",
+    "url": "https://freesound.org/people/c0mp0s3r/sounds/178176/",
+    "note": "Loop asset, not a pitched seven-note bank. Downloaded preview was converted to mono 44.1 kHz PCM WAV."
   },
   "environment": {
     "birds": {
