@@ -85,6 +85,7 @@
     $("#infoButton").addEventListener("click", () => infoDialog.showModal());
     $("#statsButton").addEventListener("click", showStats);
     $("#shareButton").addEventListener("click", shareResult);
+    $("#replayButton").addEventListener("click", startPracticeKolam);
     $("#practiceButton").addEventListener("click", startBiggerKolam);
 
     document.querySelectorAll("[data-close-dialog]").forEach((button) => {
@@ -340,6 +341,23 @@
     if (!state.hintVisible) return;
     render();
     requestAnimationFrame(animateHint);
+  }
+
+  function startPracticeKolam() {
+    completeDialog.close();
+    state.mode = "practice";
+    state.strokes = [];
+    state.current = [];
+    state.enclosed = new Set();
+    state.solved = false;
+    state.started = false;
+    state.hints = 0;
+    stopHint();
+    dailyLabel.textContent = "PRACTICE KOLAM · DRAW IT AGAIN";
+    gameMessage.textContent = "Same dots. A fresh line.";
+    state.layout = createLayout(state.level, state.width, state.height);
+    syncInterface();
+    render();
   }
 
   function startBiggerKolam() {
