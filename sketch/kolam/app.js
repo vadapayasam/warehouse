@@ -362,11 +362,7 @@
 
   function startBiggerKolam() {
     completeDialog.close();
-    const currentDots = state.level.grid.dot_count;
-    let nextIndex = state.levels.findIndex((level, index) => {
-      return index > state.levelIndex && level.grid.dot_count > currentDots;
-    });
-    if (nextIndex < 0) nextIndex = Math.min(state.levelIndex + 1, state.levels.length - 1);
+    const nextIndex = (state.levelIndex + 1) % state.levels.length;
     state.levelIndex = nextIndex;
     state.level = state.levels[nextIndex];
     state.mode = "practice";
@@ -377,8 +373,8 @@
     state.started = false;
     state.hints = 0;
     stopHint();
-    dailyLabel.textContent = "PRACTICE KOLAM · A LITTLE BIGGER";
-    gameMessage.textContent = "More dots. The same calm line.";
+    dailyLabel.textContent = "PRACTICE KOLAM · NEXT PATTERN";
+    gameMessage.textContent = "A new pattern. The same calm line.";
     state.layout = createLayout(state.level, state.width, state.height);
     syncInterface();
     render();
