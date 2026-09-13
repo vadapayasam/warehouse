@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent tooling benchmark | Warehouse</title>
+  <style>
+    :root { color-scheme: dark; --bg:#101514; --panel:#171e1c; --ink:#edf3ef; --muted:#9eada5; --line:#2a3732; --accent:#54d6b0; --soft:#203d35; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:56px 24px 80px; }
+    .kicker { color:var(--accent); font:12px/1.2 ui-monospace,SFMono-Regular,monospace; letter-spacing:.14em; text-transform:uppercase; }
+    h1 { max-width:780px; margin:18px 0 14px; font-size:clamp(42px,7vw,82px); line-height:.98; letter-spacing:-.06em; font-weight:700; }
+    h2 { margin:0 0 14px; font-size:25px; line-height:1.1; letter-spacing:-.03em; }
+    h3 { margin:0 0 7px; font-size:18px; }
+    p { max-width:66ch; margin:0 0 16px; color:var(--muted); }
+    .lede { max-width:620px; font-size:19px; }
+    .read { margin-top:30px; padding:14px 16px; border-left:2px solid var(--accent); background:var(--panel); color:var(--muted); }
+    .read strong { color:var(--ink); }
+    section { margin-top:64px; }
+    .summary { display:grid; grid-template-columns:1.3fr .7fr; gap:18px; }
+    .panel { background:var(--panel); border:1px solid var(--line); padding:24px; }
+    .verdict { border-color:var(--accent); }
+    .verdict strong { display:block; color:var(--accent); font-size:27px; line-height:1.1; margin-bottom:10px; }
+    .stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+    .stat { padding:20px; background:var(--panel); }
+    .num { display:block; color:var(--ink); font-size:32px; letter-spacing:-.05em; }
+    .label { color:var(--muted); font-size:13px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th { color:var(--muted); font:11px ui-monospace,SFMono-Regular,monospace; letter-spacing:.1em; text-align:left; text-transform:uppercase; }
+    th,td { padding:14px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+    th:first-child,td:first-child { padding-left:0; }
+    th:last-child,td:last-child { padding-right:0; }
+    td strong { color:var(--ink); }
+    .good { color:var(--accent); }
+    .note { margin-top:14px; font-size:13px; }
+    .bars { display:grid; gap:18px; }
+    .barrow { display:grid; grid-template-columns:150px 1fr 70px; gap:14px; align-items:center; }
+    .barrow span:first-child { color:var(--muted); font-size:14px; }
+    .track { height:8px; background:#26312d; }
+    .fill { height:100%; background:var(--accent); }
+    .high { width:92%; } .medium { width:58%; }
+    .workflow { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid var(--line); }
+    .step { padding:20px 18px 0 0; border-bottom:1px solid var(--line); min-height:125px; }
+    .step:not(:first-child) { padding-left:18px; border-left:1px solid var(--line); }
+    .step b { display:block; color:var(--accent); font:12px ui-monospace,SFMono-Regular,monospace; margin-bottom:16px; }
+    footer { margin-top:64px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; }
+    @media (max-width:760px) { main { padding:36px 18px 56px; } .summary,.stats { grid-template-columns:1fr; } .stats { gap:0; } .barrow { grid-template-columns:1fr 82px; gap:8px; } .barrow span:last-child { grid-column:2; grid-row:1; text-align:right; } .workflow { grid-template-columns:1fr 1fr; } .step:nth-child(3) { border-left:0; padding-left:0; } table { font-size:13px; } th,td { padding:11px 7px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">Warehouse / agent operations</div>
+    <h1>What actually gets faster?</h1>
+    <p class="lede">A small benchmark of the tools installed for agents working on this HTML archive.</p>
+    <div class="read"><strong>Design read:</strong> technical field report for an agent-operated HTML archive, dark editorial, low-motion, data-led.</div>
+  </header>
+
+  <section class="summary">
+    <div class="panel verdict"><strong>Keep the tools. Do not expect magic.</strong><p>On this repo, the absolute gains are measured in milliseconds. The bigger win is that agents get sharper commands for search, repeatable project setup, safe edits, and browser proof.</p></div>
+    <div class="panel"><h3>Test surface</h3><p>Apple Silicon Mac mini<br>523 files in repo<br>131 HTML files in sketch<br>10 runs, 2 warmups<br>Warm cache</p></div>
+  </section>
+
+  <section>
+    <h2>Measured on the warehouse</h2>
+    <p>Baseline means the native command equivalent. The tools were installed before this run, so this is not a historical snapshot.</p>
+    <div class="panel">
+      <table>
+        <thead><tr><th>Agent task</th><th>Baseline</th><th>Installed tool</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Find HTML files</strong></td><td>find<br>1.9 ms</td><td>fd<br>7.0 ms</td><td>Baseline 3.61x faster</td></tr>
+          <tr><td><strong>Search for Figma</strong></td><td>grep<br>11.7 ms</td><td>rg<br>6.8 ms</td><td class="good">rg 1.71x faster</td></tr>
+          <tr><td><strong>Find script nodes</strong></td><td>rg<br>7.0 ms</td><td>ast-grep<br>48.8 ms</td><td>rg 6.94x faster</td></tr>
+        </tbody>
+      </table>
+      <p class="note">These commands answer different questions. ast-grep pays startup cost for syntax-aware matching and safe structural edits. It is not a faster grep.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Useful to an agent, not just fast in a benchmark</h2>
+    <div class="bars">
+      <div class="barrow"><span>rg search</span><div class="track"><div class="fill high"></div></div><span class="good">High</span></div>
+      <div class="barrow"><span>ast-grep edits</span><div class="track"><div class="fill high"></div></div><span class="good">High</span></div>
+      <div class="barrow"><span>mise versions</span><div class="track"><div class="fill high"></div></div><span class="good">High</span></div>
+      <div class="barrow"><span>just commands</span><div class="track"><div class="fill high"></div></div><span class="good">High</span></div>
+      <div class="barrow"><span>Playwright proof</span><div class="track"><div class="fill high"></div></div><span class="good">High</span></div>
+      <div class="barrow"><span>fd discovery</span><div class="track"><div class="fill medium"></div></div><span>Medium</span></div>
+      <div class="barrow"><span>watchexec loops</span><div class="track"><div class="fill medium"></div></div><span>Medium</span></div>
+      <div class="barrow"><span>hyperfine checks</span><div class="track"><div class="fill medium"></div></div><span>Medium</span></div>
+      <div class="barrow"><span>Git worktrees</span><div class="track"><div class="fill high"></div></div><span class="good">High</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The useful loop</h2>
+    <div class="workflow">
+      <div class="step"><b>INPUT</b><h3>Issue</h3><p>Give the agent a bounded task and acceptance criteria.</p></div>
+      <div class="step"><b>ISOLATE</b><h3>Worktree</h3><p>Let parallel tasks edit separate copies of the repo.</p></div>
+      <div class="step"><b>PROVE</b><h3>Test</h3><p>Run just, lint, build, and Playwright checks.</p></div>
+      <div class="step"><b>HANDOFF</b><h3>Publish</h3><p>Review the diff, then open a PR or publish the HTML artifact.</p></div>
+    </div>
+  </section>
+
+  <section class="summary">
+    <div class="panel"><h2>Verdict for this repo</h2><p><strong>Keep:</strong> rg, ast-grep, mise, just, Playwright, and Git worktrees.</p><p><strong>Optional:</strong> fd. Native find is faster on this small archive.</p><p><strong>Later:</strong> benchmark on a larger product repo. That is where search and setup differences become meaningful.</p></div>
+    <div class="panel"><h2>Next test</h2><p>Run the same commands against a larger JavaScript or TypeScript codebase with cold and warm caches. Add agent task completion time, test pass rate, and screenshot review time.</p></div>
+  </section>
+
+  <footer>Method: Hyperfine 1.20.0, 10 runs, 2 warmups. Times are local wall-clock means. No claim is made about model quality or end-to-end agent speed.</footer>
+</main>
+</body>
+</html>
