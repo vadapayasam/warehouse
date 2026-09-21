@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MLX Benchmark · Weekly Shootout</title>
+<title>MLX Benchmark · Weekly Shootout + XML Follow-up</title>
 <style>
   :root {
     --bg: #0a0a0f;
@@ -313,6 +313,20 @@
   .model-tag.l8 { background: rgba(251, 191, 36, .15); color: var(--yellow); }
   .model-tag.q8 { background: rgba(52, 211, 153, .15); color: var(--green); }
   .model-tag.q4t { background: rgba(52, 211, 153, .25); color: var(--green); }
+  .model-tag.mini { background: rgba(96, 165, 250, .15); color: var(--blue); }
+  .model-tag.mini-official { background: rgba(52, 211, 153, .15); color: var(--green); }
+  .model-tag.mini-fable { background: rgba(251, 191, 36, .15); color: var(--yellow); }
+
+  /* PROTOCOL NOTE */
+  .protocol-note {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 20px 0 24px;
+  }
+  .protocol-note p { margin-bottom: 0; font-size: 13px; }
 
   /* VERDICT */
   .verdict-grid {
@@ -425,10 +439,11 @@
       <span class="badge">4 Models</span>
       <span class="badge">11 Tests</span>
       <span class="badge">Mac Mini M2 16GB</span>
+      <span class="badge">XML follow-up</span>
     </div>
     <h1>MLX <span class="highlight">Benchmark</span></h1>
     <p class="subtitle">Weekly shootout between our local MLX models. Basic utility + agentic capability, measured at the same temp and token budget.</p>
-    <p class="last-updated">Last updated: 2026-06-24 · next run: 2026-06-30</p>
+    <p class="last-updated">Last updated: 2026-09-21 · XML follow-up added</p>
   </div>
 </header>
 
@@ -557,6 +572,94 @@
     </div>
 
     <p><strong>Key takeaway:</strong> The RapidMLX tool pipeline transforms Qwen3.5-4B from inconsistent (format drift, missed tools, prose fallback) to 100% reliable tool calling. The three flags — <code>--tool-call-parser hermes</code>, <code>--enable-auto-tool-choice</code>, <code>--enable-tool-logits-bias</code> — enable native tool_calls API format, force proper tool selection, and bias generation toward structured tokens. All 5 agentic benchmarks now pass at 5/5. This is what RapidMLX's tool pipeline was designed for.</p>
+  </div>
+</section>
+
+<!-- MINICPM5 XML FOLLOW-UP -->
+<section>
+  <div class="container">
+    <div class="badge-row">
+      <span class="badge run">FOLLOW-UP</span>
+      <span class="badge">MiniCPM5</span>
+      <span class="badge">XML tool protocol</span>
+      <span class="badge">streaming parser</span>
+    </div>
+    <h2>MiniCPM5 XML Tooling</h2>
+    <p>This follow-up tests MiniCPM5 through its documented XML function-call protocol, not the plain-text JSON path used in the first comparison. The adapter streams generation and stops at the first complete <code>&lt;/function&gt;</code> boundary, then parses only that call.</p>
+
+    <div class="protocol-note">
+      <p><strong>Method correction:</strong> the first thinking benchmark kept reading after a valid XML function call and treated the model's continuation as part of the tool call. That harness error understated MiniCPM5's capability. The corrected results below separate model behavior from parser behavior and keep the official checkpoint separate from the custom Fable quant.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Model / mode</th>
+            <th>Tool selection</th>
+            <th>Arguments</th>
+            <th>Round trip</th>
+            <th>Observed latency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="model-tag mini-official">OFFICIAL</span><br>MiniCPM5-1B-MLX<br><span class="meta">thinking = ON</span></td>
+            <td><span class="pass">✅ 2/2</span><br><span class="meta">get_subscription_status + get_app_metrics</span></td>
+            <td><span class="pass">✅ 2/2 exact</span></td>
+            <td><span class="pass">✅ Passed</span><br><span class="meta">No second call</span></td>
+            <td>4.012s, 1.714s<br><span class="meta">2.863s average call</span></td>
+          </tr>
+          <tr>
+            <td><span class="model-tag mini-fable">FABLE</span><br>MiniCPM5-1B OptiQ<br><span class="meta">thinking = OFF</span></td>
+            <td><span class="pass">✅ 2/2</span><br><span class="meta">Correct function on both cases</span></td>
+            <td><span class="pass">✅ 2/2 exact</span></td>
+            <td><span class="pass">✅ Passed</span><br><span class="meta">Netflix status + renewal date</span></td>
+            <td>0.718s, 0.728s<br><span class="meta">0.723s average call</span></td>
+          </tr>
+          <tr>
+            <td><span class="model-tag mini-fable">FABLE</span><br>MiniCPM5-1B OptiQ<br><span class="meta">thinking = ON, one tool</span></td>
+            <td><span class="pass">✅ 1/1</span></td>
+            <td><span class="pass">✅ 1/1 exact</span></td>
+            <td><span class="pass">✅ Passed</span><br><span class="meta">0.974s final response</span></td>
+            <td>0.687s call</td>
+          </tr>
+          <tr>
+            <td><span class="model-tag mini-fable">FABLE</span><br>MiniCPM5-1B OptiQ<br><span class="meta">thinking = ON, two tools</span></td>
+            <td><span class="fail">❌ 0/2 reliable</span></td>
+            <td><span class="warn">Not scored</span></td>
+            <td><span class="warn">Unreliable</span></td>
+            <td>3.214s, 1.500s<br><span class="meta">Dedicated multi-tool run</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4>Official thinking XML</h4>
+        <div class="stat green">2/2</div>
+        <div class="label">The official MLX checkpoint selected both tools and produced exact arguments under documented thinking settings.</div>
+      </div>
+      <div class="card">
+        <h4>Fable no-thinking XML</h4>
+        <div class="stat blue">2/2</div>
+        <div class="label">The custom OptiQ quant is the speed option for lightweight XML tool calls when thinking is disabled.</div>
+      </div>
+      <div class="card">
+        <h4>Fable thinking multi-tool</h4>
+        <div class="stat red">0/2</div>
+        <div class="label">The parser fix works, but the quant's multiple-tool selection remains unreliable in thinking mode.</div>
+      </div>
+    </div>
+
+    <div class="winner-box">
+      <h3>Verdict: complementary, not a replacement</h3>
+      <p><strong>Qwen3.5-4B remains the general-purpose default</strong> for reasoning, coding, structured JSON, and complex assistant work. <strong>Official MiniCPM5</strong> is the better MiniCPM candidate for thinking plus XML tools. <strong>Fable OptiQ</strong> is attractive for fast, small-footprint XML calls in no-thinking mode. Do not treat the official checkpoint's result as proof that the custom Fable quant has the same thinking-mode quality.</p>
+    </div>
+
+    <p><strong>Grounding note:</strong> the official round trip completed, but its final prose invented an unsupported "active months" detail. Host-side validation must still constrain final answers to the fields returned by the tool.</p>
+    <p class="meta"><strong>Reproducibility artifacts:</strong> <code>~/Projects/model-tests/minicpm-official-thinking-multitool.json</code>, <code>minicpm-official-thinking-roundtrip.json</code>, <code>minicpm-xml-nothink.json</code>, <code>minicpm-xml-thinking-adapter.json</code>, <code>minicpm-xml-thinking-multitool.json</code>.</p>
   </div>
 </section>
 
@@ -912,6 +1015,11 @@
     <p>Every weekly benchmark run. New data gets added at the top.</p>
 
     <ul class="changelog">
+      <li>
+        <span class="date-tag">2026-09-21</span>
+        <strong>XML follow-up</strong> · Added the corrected MiniCPM5 benchmark. Official MiniCPM5 passed 2/2 thinking XML tool calls with exact arguments. Fable OptiQ passed 2/2 no-thinking XML calls and a single-tool thinking call, but remained unreliable on the dedicated two-tool thinking test. The streaming adapter now stops at the first complete <code>&lt;/function&gt;</code> boundary.
+        <br><span class="meta">Conclusion: Qwen3.5-4B remains the general-purpose default. MiniCPM5 is a complementary XML tool-agent option.</span>
+      </li>
       <li>
         <span class="date-tag">2026-06-24</span>
         <strong>Run #3a</strong> · Swapped back from Qwen3-8B-4bit to Qwen3.5-4B (MLX native). Preserved 3 tool parser flags. Re-ran all 5 agentic benchmarks. Result: <strong>5/5 across the board</strong> — JSON extraction, multi-step plan (both tools), multi-turn chain (parallel calls), self-directed selection (correct tool only), tool format (native tool_calls). Hermes parser + auto-tool-choice + logits bias transform Qwen3.5-4B from inconsistent to 100% reliable. Replaced Qwen3-8B column with Qwen3.5-4B+Tooling throughout.
