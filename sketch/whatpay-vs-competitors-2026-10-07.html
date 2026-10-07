@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="WhatPay compared with Bobby, Rocket Money, Copilot Money and Monarch Money, with product decisions for the next release.">
+<title>WhatPay vs competitors · product field guide</title>
+<style>
+:root{
+  --ink:#101214; --surface:#17191c; --surface-2:#1e2125; --line:#34383d;
+  --text:#f2f0ea; --muted:#a5a9ad; --quiet:#747a80; --accent:#ff6b4a;
+  --green:#8ed4aa; --yellow:#e4bd77; --blue:#9bb9d6; --max:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration-color:#666;text-underline-offset:3px}
+a:hover{color:var(--accent)}
+img{display:block;max-width:100%}
+.container{width:min(calc(100% - 48px),var(--max));margin:0 auto}
+.mono,.eyebrow,.status,.source,.meta,.axis-label,.shot-number{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+.masthead{padding:42px 0 56px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:72px;align-items:end}
+.eyebrow{color:var(--accent);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 18px}
+h1{font-size:clamp(42px,7vw,94px);line-height:.94;letter-spacing:-.065em;max-width:780px;margin:0;font-weight:700}
+.deck{font-size:19px;line-height:1.45;color:var(--muted);max-width:520px;margin:0}
+.meta{margin-top:25px;color:var(--quiet);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+.section-title{font-size:clamp(27px,4vw,47px);line-height:1;letter-spacing:-.045em;margin:0 0 18px;max-width:720px}
+.section-intro{color:var(--muted);font-size:17px;max-width:700px;margin:0 0 34px}
+.decision{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:48px;padding:30px 0 0}
+.decision-copy{border-left:4px solid var(--accent);padding-left:24px}
+.decision h2{font-size:clamp(28px,4vw,46px);line-height:1.02;letter-spacing:-.045em;margin:0 0 15px;max-width:800px}
+.decision p{color:var(--muted);font-size:18px;max-width:750px;margin:0}
+.decision-side{border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:14px}
+.decision-side strong{display:block;color:var(--text);font-size:28px;letter-spacing:-.04em;margin-bottom:5px}
+.status{font-size:10px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.status.work{color:var(--green)}.status.partial{color:var(--yellow)}.status.gap{color:var(--accent)}.status.hypothesis{color:var(--blue)}
+.map-wrap{position:relative;min-height:460px;border:1px solid var(--line);background:#141619;overflow:hidden}
+.map-grid{position:absolute;inset:36px 58px 52px 74px;background-image:none;border-left:1px solid #4a4e53;border-bottom:1px solid #4a4e53}
+.map-grid:before,.map-grid:after{content:"";position:absolute;pointer-events:none}
+.map-grid:before{left:0;right:0;top:25%;border-top:1px dashed #25292d}.map-grid:after{top:0;bottom:0;left:25%;border-left:1px dashed #25292d}
+.axis-label{position:absolute;color:var(--quiet);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.axis-left{left:16px;bottom:50px;transform:rotate(-90deg);transform-origin:left bottom}.axis-right{right:13px;bottom:50px;transform:rotate(90deg);transform-origin:right bottom}.axis-top{top:14px;left:74px}.axis-bottom{bottom:14px;right:58px}
+.dot{position:absolute;width:16px;height:16px;border:3px solid var(--ink);border-radius:50%;background:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.dot:after{content:attr(data-label);position:absolute;left:23px;top:-8px;white-space:nowrap;color:var(--text);font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.02em}
+.dot.whatpay{left:21%;bottom:24%}.dot.bobby{left:26%;bottom:33%;background:#c9a7db;box-shadow:0 0 0 1px #c9a7db}.dot.rocket{left:77%;top:22%;background:#a7d66f;box-shadow:0 0 0 1px #a7d66f}.dot.copilot{left:70%;top:42%;background:#92b8d3;box-shadow:0 0 0 1px #92b8d3}.dot.monarch{left:62%;top:28%;background:#e0bd8a;box-shadow:0 0 0 1px #e0bd8a}
+.map-caption{display:flex;gap:20px;flex-wrap:wrap;padding:17px 0 0;color:var(--muted);font-size:13px}.legend{display:inline-flex;align-items:center;gap:8px}.legend i{width:9px;height:9px;border-radius:50%;display:block;background:var(--accent)}.legend i.bobby{background:#c9a7db}.legend i.rocket{background:#a7d66f}.legend i.copilot{background:#92b8d3}.legend i.monarch{background:#e0bd8a}
+.table-frame{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}table{border-collapse:collapse;width:100%;min-width:980px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:17px 16px}th{font-size:11px;color:var(--quiet);text-transform:uppercase;letter-spacing:.1em;font-weight:600;background:#131518;position:sticky;top:0}td{font-size:13px;color:var(--muted);min-width:138px}td:first-child{color:var(--text);font-weight:600;min-width:170px;background:#191b1e}tr:last-child td{border-bottom:0}.whatpay-col{background:rgba(255,107,74,.07)!important}.app-name{font-size:17px;color:var(--text);letter-spacing:-.03em}.app-sub{font-size:11px;color:var(--quiet);font-weight:400;margin-top:3px}
+.readout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:18px}.readout-main,.readout-side{border-top:1px solid var(--line);padding-top:20px}.readout-main h3,.readout-side h3{font-size:28px;line-height:1.05;letter-spacing:-.04em;margin:0 0 10px}.readout-main p,.readout-side p{color:var(--muted);margin:0;max-width:680px}.readout-side{background:var(--surface);padding:20px}.readout-side h3{font-size:22px}.tag{display:inline-block;border:1px solid #4a4f54;border-radius:999px;color:var(--muted);padding:4px 9px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin:0 5px 10px 0}.tag.accent{border-color:var(--accent);color:var(--accent)}
+.pressure{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:18px}.pressure-card{background:var(--surface);padding:24px;border-top:3px solid var(--line);min-height:220px}.pressure-card.primary{border-color:var(--accent);min-height:360px}.pressure-card h3{font-size:31px;letter-spacing:-.05em;line-height:1;margin:0 0 11px}.pressure-card p{color:var(--muted);margin:0 0 22px;max-width:620px}.pressure-card ul{padding:0;margin:0;list-style:none;display:grid;gap:10px}.pressure-card li{border-top:1px solid var(--line);padding-top:10px;color:var(--muted);font-size:14px}.pressure-card li strong{color:var(--text);font-weight:600}.pressure-stack{display:grid;gap:18px}.pressure-stack .pressure-card{min-height:171px}.source{font-size:10px;color:var(--quiet);letter-spacing:.03em}.source a{color:var(--quiet)}
+.moves{display:grid;grid-template-columns:1fr 1fr;gap:0 48px;border-top:1px solid var(--line)}.move{display:grid;grid-template-columns:48px 1fr;gap:15px;border-bottom:1px solid var(--line);padding:24px 0}.move:nth-child(3){grid-column:1 / -1;max-width:610px}.move-no{font-family:ui-monospace,monospace;color:var(--accent);font-size:13px;padding-top:3px}.move h3{font-size:21px;letter-spacing:-.03em;margin:0 0 6px}.move p{color:var(--muted);margin:0;font-size:15px}.validation{margin-top:32px;padding:22px;background:#141619;border:1px solid var(--line)}.validation h3{margin:0 0 13px;font-size:18px}.validation ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 26px}.validation li{font-size:14px;color:var(--muted);padding-left:18px;position:relative}.validation li:before{content:"";position:absolute;left:0;top:.65em;width:6px;height:1px;background:var(--accent)}
+.shots{display:grid;grid-template-columns:1.25fr .85fr .85fr;gap:16px;align-items:start}.shot{margin:0}.shot img{width:100%;height:430px;object-fit:cover;object-position:top;border:1px solid var(--line);background:#202326}.shot:first-child img{height:550px}.shot figcaption{padding-top:10px;color:var(--muted);font-size:13px}.shot-number{color:var(--accent);font-size:11px;margin-right:8px}.shot-notes{margin-top:26px;border-top:1px solid var(--line)}.shot-note{display:grid;grid-template-columns:34px 1fr;gap:11px;border-bottom:1px solid var(--line);padding:13px 0}.shot-note strong{font-size:14px}.shot-note p{color:var(--muted);font-size:14px;margin:2px 0 0}
+.recommendation{background:var(--accent);color:#1b1110;padding:34px 38px;display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:35px;align-items:end}.recommendation h2{font-size:clamp(30px,5vw,57px);line-height:.98;letter-spacing:-.06em;margin:0;max-width:760px}.recommendation p{font-size:15px;margin:0}.next{border-left:1px solid rgba(27,17,16,.35);padding-left:22px}.next ol{margin:0;padding-left:20px}.next li{padding:3px 0;font-size:14px}
+.sources{display:grid;grid-template-columns:1fr 1fr;gap:26px}.sources h3{font-size:17px;margin:0 0 10px}.sources ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}.sources li{color:var(--muted);font-size:13px}.method{color:var(--quiet);font-size:12px;max-width:700px;margin-top:24px}.footer{padding:28px 0 48px;color:var(--quiet);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:800px){.container{width:min(calc(100% - 30px),var(--max))}.masthead,.decision,.readout,.pressure,.recommendation,.sources{grid-template-columns:1fr;gap:28px}.masthead{padding-top:28px}.deck{font-size:17px}.map-wrap{min-height:390px}.map-grid{inset:36px 30px 52px 52px}.axis-top{left:52px}.axis-bottom{right:30px}.shots{grid-template-columns:1fr 1fr}.shot:first-child{grid-column:1 / -1}.shot:first-child img,.shot img{height:auto;max-height:none;object-fit:contain}.moves{grid-template-columns:1fr}.move:nth-child(3){grid-column:auto;max-width:none}.validation ul{grid-template-columns:1fr}.recommendation{padding:28px 24px}.next{border-left:0;border-top:1px solid rgba(27,17,16,.35);padding:18px 0 0}}
+@media(max-width:480px){h1{font-size:48px}.section-title{font-size:33px}section{padding:52px 0}.map-wrap{min-height:340px}.map-grid{inset:32px 20px 49px 42px}.dot:after{font-size:10px;left:19px}.axis-left{left:8px}.axis-top{left:42px}.axis-bottom{right:20px}.shots{grid-template-columns:1fr}.shot:first-child{grid-column:auto}.decision-side strong{font-size:24px}}
+@media print{body{background:#fff;color:#111}.masthead,section{border-color:#bbb}.deck,.section-intro,td,p,.method,.footer,.source,.map-caption{color:#444}.map-wrap,.table-frame,.pressure-card,.readout-side,.validation{background:#fff;border-color:#bbb}.recommendation{color:#111}.map-grid{background-image:none}a{color:#111}.footer{color:#555}}
+</style>
+</head>
+<body>
+<main class="container">
+<header class="masthead">
+  <div>
+    <p class="eyebrow">WhatPay / category field guide</p>
+    <h1>Own the payment people remember too late.</h1>
+    <p class="meta">WhatPay vs Bobby, Rocket Money, Copilot Money, Monarch Money · 07 Oct 2026</p>
+  </div>
+  <p class="deck">A product comparison for the next release. WhatPay is not another all-in-one finance dashboard. Its sharper lane is the fixed payment: subscriptions, EMIs, trials and the dates attached to them.</p>
+</header>
+
+<section id="decision">
+  <div class="decision">
+    <div class="decision-copy">
+      <h2>WhatPay wins on control and fixed-payment clarity.</h2>
+      <p>It is strongest for people who want to enter their own payments, avoid bank connections, track EMIs beside subscriptions, and pay once for the full tool. It is weaker when the job is automatic discovery, cancellation, household finance, or net worth.</p>
+    </div>
+    <div class="decision-side"><strong>Recommended lane</strong>Fixed payments first. Finance platform later, if research proves the need.</div>
+  </div>
+</section>
+
+<section id="map">
+  <h2 class="section-title">The category splits in two directions.</h2>
+  <p class="section-intro">Bobby is the closest substitute. Rocket Money, Copilot and Monarch compete for the larger job of managing money, not only remembering recurring charges.</p>
+  <div class="map-wrap" role="img" aria-label="Positioning map. WhatPay and Bobby sit toward manual control and fixed-payment focus. Rocket Money, Copilot Money and Monarch Money sit toward automatic intelligence and whole-finance platforms.">
+    <div class="map-grid">
+      <span class="dot whatpay" data-label="WhatPay"></span>
+      <span class="dot bobby" data-label="Bobby"></span>
+      <span class="dot rocket" data-label="Rocket Money"></span>
+      <span class="dot copilot" data-label="Copilot"></span>
+      <span class="dot monarch" data-label="Monarch"></span>
+    </div>
+    <span class="axis-label axis-left">Manual control</span>
+    <span class="axis-label axis-right">Automatic intelligence</span>
+    <span class="axis-label axis-top">Whole-finance platform</span>
+    <span class="axis-label axis-bottom">Fixed-payment focus</span>
+  </div>
+  <div class="map-caption">
+    <span class="legend"><i></i>WhatPay</span><span class="legend"><i class="bobby"></i>Bobby</span><span class="legend"><i class="rocket"></i>Rocket Money</span><span class="legend"><i class="copilot"></i>Copilot</span><span class="legend"><i class="monarch"></i>Monarch</span>
+  </div>
+</section>
+
+<section id="comparison">
+  <h2 class="section-title">Feature breadth is not the same as product fit.</h2>
+  <p class="section-intro">The table shows the job each product is built around. “Partial” means the product touches the area without making it the centre of the experience.</p>
+  <div class="table-frame">
+    <table>
+      <thead><tr><th>Dimension</th><th class="whatpay-col"><span class="app-name">WhatPay</span><div class="app-sub">current build</div></th><th><span class="app-name">Bobby</span><div class="app-sub">closest substitute</div></th><th><span class="app-name">Rocket Money</span><div class="app-sub">cost-cutting service</div></th><th><span class="app-name">Copilot</span><div class="app-sub">personal finance</div></th><th><span class="app-name">Monarch</span><div class="app-sub">shared money home</div></th></tr></thead>
+      <tbody>
+        <tr><td>Primary job</td><td class="whatpay-col"><span class="status work">Strong</span><br>Remember fixed payments</td><td><span class="status work">Strong</span><br>Track subscriptions</td><td><span class="status work">Strong</span><br>Find and reduce costs</td><td><span class="status partial">Partial</span><br>See the whole financial picture</td><td><span class="status work">Strong</span><br>Plan household finances</td></tr>
+        <tr><td>Data model</td><td class="whatpay-col">Manual entry; local data with iCloud settings and widget sharing</td><td>Manual entry; no bank connection required</td><td>Linked accounts and automatic transaction tracking</td><td>Linked accounts with automated categorisation</td><td>Connected accounts, transactions, investments and property</td></tr>
+        <tr><td>Subscriptions</td><td class="whatpay-col"><span class="status work">Strong</span><br>Recurring payment records</td><td><span class="status work">Strong</span><br>Library plus custom entries</td><td><span class="status work">Strong</span><br>Detect, track and cancel</td><td><span class="status partial">Partial</span><br>Spots recurring charges</td><td><span class="status work">Strong</span><br>Automatic recurring detection</td></tr>
+        <tr><td>EMI fit</td><td class="whatpay-col"><span class="status work">Strong</span><br>Dedicated payment type, duration and paid count</td><td><span class="status gap">Gap</span><br>Subscription model only</td><td><span class="status partial">Partial</span><br>Debt and bills are adjacent, not EMI-first</td><td><span class="status partial">Partial</span><br>Broad finance context, no EMI-first workflow</td><td><span class="status partial">Partial</span><br>Loans are part of the wider picture</td></tr>
+        <tr><td>Reminders</td><td class="whatpay-col"><span class="status work">Strong</span><br>Due-date and trial-expiry notifications</td><td><span class="status work">Strong</span><br>Upcoming bill notifications</td><td><span class="status work">Strong</span><br>Alerts and summaries</td><td><span class="status partial">Partial</span><br>Upcoming bill visibility</td><td><span class="status partial">Partial</span><br>Recurring calendar and alerts</td></tr>
+        <tr><td>Widgets / platforms</td><td class="whatpay-col"><span class="status work">Strong</span><br>WidgetKit; iCloud settings; Apple-first</td><td><span class="status partial">Partial</span><br>iPhone-first</td><td><span class="status work">Strong</span><br>iPhone plus broader finance surface</td><td><span class="status work">Strong</span><br>iPhone, iPad, Mac and web</td><td><span class="status work">Strong</span><br>iOS, Android and web</td></tr>
+        <tr><td>Cancellation / negotiation</td><td class="whatpay-col"><span class="status gap">Gap</span><br>Reminds; does not act for the user</td><td><span class="status gap">Gap</span><br>No cancellation service</td><td><span class="status work">Strong</span><br>Cancellation and bill negotiation</td><td><span class="status gap">Gap</span><br>Visibility, not concierge action</td><td><span class="status gap">Gap</span><br>Visibility, not concierge action</td></tr>
+        <tr><td>Broader finance</td><td class="whatpay-col"><span class="status gap">Gap</span><br>No budget, investments or net worth claim</td><td><span class="status gap">Gap</span><br>Subscription scope</td><td><span class="status work">Strong</span><br>Budget, credit and net worth</td><td><span class="status work">Strong</span><br>Spending, investments and net worth</td><td><span class="status work">Strong</span><br>Budget, reports, goals and collaboration</td></tr>
+        <tr><td>Monetisation</td><td class="whatpay-col"><span class="status work">Signal</span><br>Free limit of six; one-time premium purchase</td><td>Free with in-app purchases</td><td>Free tier plus premium services</td><td>Paid subscription after trial</td><td>Paid subscription after trial</td></tr>
+        <tr><td>Product feel</td><td class="whatpay-col">Focused, manual, Apple-native</td><td>Minimal, private, lightweight</td><td>Action-oriented, service-led</td><td>Polished, automated, analytical</td><td>Comprehensive, collaborative, planning-led</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="readout">
+  <h2 class="section-title">Read the competitors by job, not by feature count.</h2>
+  <div class="readout">
+    <article class="readout-main">
+      <span class="tag accent">Closest direct substitute</span>
+      <h3>Bobby proves that manual tracking can be a product, not a compromise.</h3>
+      <p>Its pitch is simple: add the fixed costs yourself, see them at a glance, and get a due notification. WhatPay needs a sharper reason to switch: EMIs, trials, widgets, and a better first-run path. Do not copy a broad finance dashboard. Beat the small tracker at the payment moments it ignores.</p>
+    </article>
+    <aside class="readout-side">
+      <span class="status hypothesis">Opportunity</span>
+      <h3>Make “manual” feel fast.</h3>
+      <p>Templates, currency setup, one-screen date entry and useful defaults are not admin. They are the speed layer that lets WhatPay keep its privacy posture.</p>
+    </aside>
+  </div>
+  <div class="pressure" style="margin-top:44px">
+    <article class="pressure-card primary">
+      <span class="tag accent">Rocket Money</span>
+      <h3>Pressure from automation.</h3>
+      <p>Rocket Money owns the “find it and take action” story: linked accounts, recurring charge detection, cancellation, bill negotiation, budgeting, credit and net worth. It is the strongest reason a user might ask why manual entry is worth the effort.</p>
+      <ul><li><strong>Learn:</strong> explain the first value before asking for setup.</li><li><strong>Do not copy:</strong> bank linking or service-heavy cancellation before WhatPay has product-market evidence.</li></ul>
+      <p class="source">Sources: <a href="https://apps.apple.com/us/app/rocket-money-bills-budgets/id1130616675">App Store</a> · <a href="https://www.rocketmoney.com/">rocketmoney.com</a></p>
+    </article>
+    <div class="pressure-stack">
+      <article class="pressure-card">
+        <span class="tag">Copilot</span>
+        <h3>Pressure from polish.</h3>
+        <p>Copilot makes automated finance feel calm and considered across Apple devices. Its subscription detection is a supporting feature inside a much larger money view.</p>
+        <p><strong>Learn:</strong> show the whole payment rhythm, not just a list.</p>
+        <p class="source"><a href="https://www.copilot.money/">copilot.money</a></p>
+      </article>
+      <article class="pressure-card">
+        <span class="tag">Monarch</span>
+        <h3>Pressure from scope.</h3>
+        <p>Monarch turns recurring payments into one part of a shared financial home with budgets, goals, reports and collaboration.</p>
+        <p><strong>Learn:</strong> use a clear recurring calendar. <strong>Do not copy:</strong> household complexity by default.</p>
+        <p class="source"><a href="https://www.monarch.com/">monarch.com</a> · <a href="https://www.monarch.com/pricing">pricing</a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="moves">
+  <h2 class="section-title">Three moves make the wedge legible.</h2>
+  <p class="section-intro">These are product moves, not a new roadmap. Each one makes the current promise easier to understand before adding a larger finance surface.</p>
+  <div class="moves">
+    <article class="move"><div class="move-no">01</div><div><h3>Own EMI and trial clarity.</h3><p>Show payment type, remaining instalments, next date and trial expiry as first-class states. This is where WhatPay has a meaningful difference from subscription-only trackers.</p></div></article>
+    <article class="move"><div class="move-no">02</div><div><h3>Make manual entry instant.</h3><p>Lead with popular services, sensible dates, remembered currency and a clear “Add” path. The user should reach a useful list before they feel they are filling a form.</p></div></article>
+    <article class="move"><div class="move-no">03</div><div><h3>Turn one-time payment into trust.</h3><p>Make the lifetime purchase part of the product story: no recurring fee for the tracker, no bank credentials needed, and no service pretending to act on the user’s behalf.</p></div></article>
+  </div>
+  <div class="validation">
+    <h3>Validate before expanding scope.</h3>
+    <ul><li>Do users understand “EMI” in the first five seconds?</li><li>Do people prefer manual entry when setup takes under one minute?</li><li>Does the one-time purchase feel more credible after a real reminder fires?</li><li>Are widgets used as a daily glance or only during setup?</li></ul>
+  </div>
+</section>
+
+<section id="screenshots">
+  <h2 class="section-title">The App Store story should sell the moment before the charge.</h2>
+  <p class="section-intro">WhatPay already has a visual advantage: an Apple-native, colorful fixed-payment list. The screenshot set should make the job obvious without pretending to be a full finance platform.</p>
+  <div class="shots">
+    <figure class="shot"><img src="whatpay-v2-02-home.png" alt="WhatPay home screen showing tracked payments"><figcaption><span class="shot-number">01</span>Lead with the calm overview: every upcoming payment in one place.</figcaption></figure>
+    <figure class="shot"><img src="whatpay-v2-01-launch.png" alt="WhatPay onboarding launch screen"><figcaption><span class="shot-number">02</span>Frame the promise around subscriptions, EMIs and trials.</figcaption></figure>
+    <figure class="shot"><img src="whatpay-v2-03-add.png" alt="WhatPay add payment screen"><figcaption><span class="shot-number">03</span>Show how little work manual entry takes.</figcaption></figure>
+  </div>
+  <div class="shot-notes">
+    <div class="shot-note"><div class="shot-number">04</div><div><strong>Show the EMI state.</strong><p>Use remaining instalments and the next due date as the visual proof that WhatPay is more than a subscription list.</p></div></div>
+    <div class="shot-note"><div class="shot-number">05</div><div><strong>Show the widget.</strong><p>Make the value survive outside the app. A glanceable widget is a clearer differentiator than another chart.</p></div></div>
+    <div class="shot-note"><div class="shot-number">06</div><div><strong>Use direct copy.</strong><p>Recommended first screenshot line: “Know what you pay next.” Subline: “Subscriptions, EMIs and trials in one private list.”</p></div></div>
+  </div>
+</section>
+
+<section id="recommendation">
+  <div class="recommendation">
+    <div>
+      <p class="status">Recommended positioning</p>
+      <h2>WhatPay is the private, Apple-native tracker for every recurring payment that has a date.</h2>
+    </div>
+    <div class="next"><strong>Next three experiments</strong><ol><li>Test the “subscriptions, EMIs and trials” promise against “know what you pay next.”</li><li>Measure time from launch to first saved payment with templates.</li><li>Compare widget usage after a reminder versus after onboarding.</li></ol></div>
+  </div>
+</section>
+
+<section id="sources">
+  <h2 class="section-title">Sources and boundaries.</h2>
+  <div class="sources">
+    <div><h3>Public product sources</h3><ul><li><a href="https://apps.apple.com/us/app/bobby-track-subscriptions/id1059152023">Bobby · App Store listing</a></li><li><a href="https://apps.apple.com/us/app/rocket-money-bills-budgets/id1130616675">Rocket Money · App Store listing</a></li><li><a href="https://www.rocketmoney.com/">Rocket Money · official site</a></li><li><a href="https://www.copilot.money/">Copilot Money · official site</a></li><li><a href="https://www.monarch.com/">Monarch Money · official site</a></li><li><a href="https://www.monarch.com/pricing">Monarch Money · pricing</a></li></ul></div>
+    <div><h3>Method</h3><p class="method">Competitor claims are a public-site and App Store snapshot checked 07 Oct 2026. WhatPay claims are based on the current Swift build: payment model, reminders, WidgetKit, iCloud settings, templates, six-item free limit and lifetime premium product. Prices, platform support and feature sets can change. No market share, conversion or download figures are inferred here.</p></div>
+  </div>
+</section>
+
+<footer class="footer">Prepared for WhatPay product decisions · 07 Oct 2026</footer>
+</main>
+</body>
+</html>
